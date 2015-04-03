@@ -31,16 +31,11 @@
 - (void)showLoginViewController {
     if (!_loginNav) {
         LoginViewController *loginC = [[LoginViewController alloc] init];
-        _loginNav = [[UINavigationController alloc] initWithRootViewController:loginC];
+        _loginNav = [[BasicNagigationController alloc] initWithRootViewController:loginC];
         _loginNav.view.frame = self.view.bounds;
         [self.view addSubview:_loginNav.view];
         [self addChildViewController:_loginNav];
         [NavigationBarAttr setNavigationBarStyle:_loginNav];
-        UIBarButtonItem *backItem = [[UIBarButtonItem alloc] initWithTitle:@""
-                                                                     style:UIBarButtonItemStyleBordered
-                                                                    target:nil
-                                                                    action:nil];
-        loginC.navigationItem.backBarButtonItem = backItem;
     }
     if (_homeController) {
         [_homeController.view removeFromSuperview];

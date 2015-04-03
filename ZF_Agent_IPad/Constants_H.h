@@ -8,7 +8,7 @@
 
 #define kColor(r,g,b,a) [UIColor colorWithRed:r / 255.0f green:g / 255.0f blue:b / 255.0f alpha:a]
 
-#define kMainColor kColor(0, 111, 213, 1)
+#define kMainColor kColor(10, 87, 204, 1.0)
 
 #define kScreenHeight [UIScreen mainScreen].bounds.size.height
 

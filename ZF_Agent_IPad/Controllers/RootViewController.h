@@ -9,10 +9,11 @@
 #import <UIKit/UIKit.h>
 #import "HomepageViewController.h"
 #import "LoginViewController.h"
+#import "BasicNagigationController.h"
 
 @interface RootViewController : UIViewController
 
-@property (nonatomic, strong) UINavigationController *loginNav;
+@property (nonatomic, strong) BasicNagigationController *loginNav;
 
 @property(nonatomic,strong)HomepageViewController *homeController;
 

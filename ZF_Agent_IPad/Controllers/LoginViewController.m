@@ -10,6 +10,8 @@
 #import "NetworkInterface.h"
 #import "AccountTool.h"
 #import "AppDelegate.h"
+#import "FindPasswordViewController.h"
+#import "RegisterViewController.h"
 
 @interface LoginViewController ()<UITextFieldDelegate>
 @property(nonatomic,strong)UITextField *userField;
@@ -50,9 +52,7 @@
     exitImage.userInteractionEnabled = YES;
     UIButton *btnClick = [[UIButton alloc]init];
     btnClick.frame = CGRectMake(0, 0, 30, 30);
-    [btnClick addTarget:self action:@selector(exitClick) forControlEvents:UIControlEventTouchUpInside];
     [exitImage addSubview:btnClick];
-    exitImage.image = kImageName(@"exit");
     exitImage.frame = CGRectMake(15, 15, 30, 30);
     [loginView addSubview:exitImage];
     UILabel *loginLabel = [[UILabel alloc]initWithFrame:CGRectMake(loginView.frame.size.width * 0.5 - 20, 10, 50, 40)];
@@ -127,11 +127,23 @@
     UIButton *registerBtn = [[UIButton alloc]init];
     [registerBtn setTitleColor:kColor(10, 87, 204, 1.0) forState:UIControlStateNormal];
     [registerBtn setTitle:@"注册" forState:UIControlStateNormal];
-    [registerBtn addTarget:self action:@selector(registe:) forControlEvents:UIControlEventTouchUpInside];
+    [registerBtn addTarget:self action:@selector(registers:) forControlEvents:UIControlEventTouchUpInside];
     registerBtn.frame = CGRectMake(loginView.frame.size.width - 60, findPasswordBtn.frame.origin.y, 40, 20);
     [loginView addSubview:registerBtn];
     [self.view addSubview:imageV];
     [imageV addSubview:loginView];
+}
+
+-(void)registers:(UIButton *)sender
+{
+    RegisterViewController *registerV = [[RegisterViewController alloc]init];
+    [self.navigationController pushViewController:registerV animated:YES];
+}
+
+-(void)findClick:(UIButton *)sender
+{
+    FindPasswordViewController *findVC = [[FindPasswordViewController alloc]init];
+    [self.navigationController pushViewController:findVC animated:YES];
 }
 
 -(void)loginClick:(UIButton *)sender

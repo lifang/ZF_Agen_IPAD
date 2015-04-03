@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1AD7FD4C1ACE72B3009A60FC /* FindPasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AD7FD4B1ACE72B3009A60FC /* FindPasswordViewController.m */; };
+		1AD7FD4F1ACE7319009A60FC /* FindPasswordSuccessController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AD7FD4E1ACE7319009A60FC /* FindPasswordSuccessController.m */; };
+		1AD7FD521ACE7340009A60FC /* FindPasswordWithPhoneSuccessController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AD7FD511ACE7340009A60FC /* FindPasswordWithPhoneSuccessController.m */; };
+		1AD7FD551ACE7B73009A60FC /* RegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AD7FD541ACE7B73009A60FC /* RegisterViewController.m */; };
 		1AF15A8C1ACCDB8C00D5C171 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AF15A8B1ACCDB8C00D5C171 /* main.m */; };
 		1AF15A8F1ACCDB8C00D5C171 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AF15A8E1ACCDB8C00D5C171 /* AppDelegate.m */; };
 		1AF15A971ACCDB8C00D5C171 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1AF15A961ACCDB8C00D5C171 /* Images.xcassets */; };
@@ -82,6 +86,14 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1AD7FD4A1ACE72B3009A60FC /* FindPasswordViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FindPasswordViewController.h; sourceTree = "<group>"; };
+		1AD7FD4B1ACE72B3009A60FC /* FindPasswordViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FindPasswordViewController.m; sourceTree = "<group>"; };
+		1AD7FD4D1ACE7319009A60FC /* FindPasswordSuccessController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FindPasswordSuccessController.h; sourceTree = "<group>"; };
+		1AD7FD4E1ACE7319009A60FC /* FindPasswordSuccessController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FindPasswordSuccessController.m; sourceTree = "<group>"; };
+		1AD7FD501ACE7340009A60FC /* FindPasswordWithPhoneSuccessController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FindPasswordWithPhoneSuccessController.h; sourceTree = "<group>"; };
+		1AD7FD511ACE7340009A60FC /* FindPasswordWithPhoneSuccessController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FindPasswordWithPhoneSuccessController.m; sourceTree = "<group>"; };
+		1AD7FD531ACE7B73009A60FC /* RegisterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegisterViewController.h; sourceTree = "<group>"; };
+		1AD7FD541ACE7B73009A60FC /* RegisterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegisterViewController.m; sourceTree = "<group>"; };
 		1AF15A861ACCDB8C00D5C171 /* ZF_Agent_IPad.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ZF_Agent_IPad.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1AF15A8A1ACCDB8C00D5C171 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1AF15A8B1ACCDB8C00D5C171 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -542,6 +554,14 @@
 			children = (
 				1AF15B671ACD065500D5C171 /* LoginViewController.h */,
 				1AF15B681ACD065500D5C171 /* LoginViewController.m */,
+				1AD7FD4A1ACE72B3009A60FC /* FindPasswordViewController.h */,
+				1AD7FD4B1ACE72B3009A60FC /* FindPasswordViewController.m */,
+				1AD7FD4D1ACE7319009A60FC /* FindPasswordSuccessController.h */,
+				1AD7FD4E1ACE7319009A60FC /* FindPasswordSuccessController.m */,
+				1AD7FD501ACE7340009A60FC /* FindPasswordWithPhoneSuccessController.h */,
+				1AD7FD511ACE7340009A60FC /* FindPasswordWithPhoneSuccessController.m */,
+				1AD7FD531ACE7B73009A60FC /* RegisterViewController.h */,
+				1AD7FD541ACE7B73009A60FC /* RegisterViewController.m */,
 			);
 			name = Login;
 			sourceTree = "<group>";
@@ -659,12 +679,14 @@
 				1AF15B691ACD065500D5C171 /* LoginViewController.m in Sources */,
 				1AF15B0D1ACCE3BC00D5C171 /* GoodListModel.m in Sources */,
 				1AF15AF41ACCE3A400D5C171 /* UIImageView+WebCache.m in Sources */,
+				1AD7FD551ACE7B73009A60FC /* RegisterViewController.m in Sources */,
 				1AF15AEE1ACCE3A400D5C171 /* SDWebImageManager.m in Sources */,
 				1AF15AE91ACCE3A400D5C171 /* SDImageCache.m in Sources */,
 				1AF15B3A1ACCE40400D5C171 /* ImageScrollView.m in Sources */,
 				1AF15AED1ACCE3A400D5C171 /* SDWebImageDownloaderOperation.m in Sources */,
 				1AF15B451ACCEDC200D5C171 /* RootViewController.m in Sources */,
 				1AF15AF01ACCE3A400D5C171 /* UIButton+WebCache.m in Sources */,
+				1AD7FD4F1ACE7319009A60FC /* FindPasswordSuccessController.m in Sources */,
 				1AF15B641ACD048700D5C171 /* CommonViewController.m in Sources */,
 				1AF15AE81ACCE3A400D5C171 /* NSData+ImageContentType.m in Sources */,
 				1AF15B371ACCE40400D5C171 /* NavigationBarAttr.m in Sources */,
@@ -679,6 +701,7 @@
 				1AF15AC11ACCE36900D5C171 /* EncryptHelper.m in Sources */,
 				1AF15B511ACD031200D5C171 /* ZYHomeViewController.m in Sources */,
 				1AF15B6E1ACD068000D5C171 /* AccountModel.m in Sources */,
+				1AD7FD4C1ACE72B3009A60FC /* FindPasswordViewController.m in Sources */,
 				1AF15B401ACCE40400D5C171 /* TreeNodeInfo.m in Sources */,
 				1AF15B0F1ACCE3BC00D5C171 /* StockAgentModel.m in Sources */,
 				1AF15B391ACCE40400D5C171 /* TimeFormat.m in Sources */,
@@ -694,6 +717,7 @@
 				1AF15AE71ACCE3A400D5C171 /* KxMenu.m in Sources */,
 				1AF15B721ACD0A6D00D5C171 /* HomepageViewController.m in Sources */,
 				1AF15B0C1ACCE3BC00D5C171 /* TreeNodeModel.m in Sources */,
+				1AD7FD521ACE7340009A60FC /* FindPasswordWithPhoneSuccessController.m in Sources */,
 				1AF15AEA1ACCE3A400D5C171 /* SDWebImageCompat.m in Sources */,
 				1AF15AC01ACCE36900D5C171 /* NetworkRequest.m in Sources */,
 				1AF15A8C1ACCDB8C00D5C171 /* main.m in Sources */,
@@ -896,6 +920,7 @@
 				1AF15AAB1ACCDB8C00D5C171 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		1AF15AAC1ACCDB8C00D5C171 /* Build configuration list for PBXNativeTarget "ZF_Agent_IPadTests" */ = {
 			isa = XCConfigurationList;
@@ -904,6 +929,7 @@
 				1AF15AAE1ACCDB8C00D5C171 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
