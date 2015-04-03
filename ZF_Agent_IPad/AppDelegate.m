@@ -13,10 +13,26 @@
 @end
 
 @implementation AppDelegate
++ (AppDelegate *)shareAppDelegate {
+    return [UIApplication sharedApplication].delegate;
+}
 
++ (RootViewController *)shareRootViewController {
+    return [[self shareAppDelegate] rootViewController];
+}
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    // Override point for customization after application launch.
+    [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
+    self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
+    self.window.backgroundColor = [UIColor whiteColor];
+    _rootViewController = [[RootViewController alloc] init];
+    self.window.rootViewController = _rootViewController;
+    [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
+    [self.window makeKeyAndVisible];
+    _agentID = @"1";
+    _token = @"123";
+    _cityID = @"1";
+
     return YES;
 }
 

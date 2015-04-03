@@ -10,4 +10,6 @@
 
 @interface HomepageViewController : ZYCustomTabBarViewController
 
+@property (strong, nonatomic) UINavigationController *naviController;
+@property(nonatomic,strong)NSArray *array5;
 @end

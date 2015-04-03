@@ -34,8 +34,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    _nomalImageArray = [[NSArray alloc] initWithObjects:@"平板UI套件-用户版_89",@"shopping_nomal.png",@"Myinages_nomal",@"my_nomal",@"tabbar_button_notes_normal.png",nil];
-    _hightlightedImageArray = [[NSArray alloc]initWithObjects:@"home_hight",@"shoppomg_hight",@"myinages_hight",@"Myhight",@"tabbar_button_notes_selected.png",nil];
+    _nomalImageArray = [[NSArray alloc] initWithObjects:@"tabar_n1",@"tabar_n2",@"tabar_n3",@"tabar_n4",@"tabbar_button_notes_normal.png",nil];
+    _hightlightedImageArray = [[NSArray alloc]initWithObjects:@"tabar1_h",@"taba2_h",@"tabar3_h",@"tabar4_h",@"tabbar_button_notes_selected.png",nil];
     [self createui];
     _seletedIndex = 0;
 //      用self.赋值默认会调set方法

@@ -7,7 +7,18 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "HomepageViewController.h"
+#import "LoginViewController.h"
 
 @interface RootViewController : UIViewController
+
+@property (nonatomic, strong) UINavigationController *loginNav;
+
+@property(nonatomic,strong)HomepageViewController *homeController;
+
+
+- (void)showLoginViewController;
+
+- (void)showMainViewController;
 
 @end

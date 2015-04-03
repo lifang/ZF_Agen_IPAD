@@ -7,6 +7,7 @@
 //
 
 #import "RootViewController.h"
+#import "NavigationBarAttr.h"
 
 @interface RootViewController ()
 
@@ -17,6 +18,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    [self showLoginViewController];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -24,14 +26,42 @@
     // Dispose of any resources that can be recreated.
 }
 
-/*
-#pragma mark - Navigation
+#pragma mark - 登录与主界面
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+- (void)showLoginViewController {
+    if (!_loginNav) {
+        LoginViewController *loginC = [[LoginViewController alloc] init];
+        _loginNav = [[UINavigationController alloc] initWithRootViewController:loginC];
+        _loginNav.view.frame = self.view.bounds;
+        [self.view addSubview:_loginNav.view];
+        [self addChildViewController:_loginNav];
+        [NavigationBarAttr setNavigationBarStyle:_loginNav];
+        UIBarButtonItem *backItem = [[UIBarButtonItem alloc] initWithTitle:@""
+                                                                     style:UIBarButtonItemStyleBordered
+                                                                    target:nil
+                                                                    action:nil];
+        loginC.navigationItem.backBarButtonItem = backItem;
+    }
+    if (_homeController) {
+        [_homeController.view removeFromSuperview];
+        [_homeController removeFromParentViewController];
+        _homeController = nil;
+    }
+    [self.view bringSubviewToFront:_loginNav.view];
 }
-*/
 
+- (void)showMainViewController {
+    if (!_homeController) {
+        _homeController = [[HomepageViewController alloc] init];
+        _homeController.view.frame = self.view.bounds;
+        [self.view addSubview:_homeController.view];
+        [self addChildViewController:_homeController];
+    }
+    if (_loginNav) {
+        [_loginNav.view removeFromSuperview];
+        [_loginNav removeFromParentViewController];
+        _loginNav = nil;
+    }
+    [self.view bringSubviewToFront:_homeController.view];
+}
 @end

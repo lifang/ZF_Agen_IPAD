@@ -7,23 +7,23 @@
 //
 
 #import "LoginViewController.h"
-#import "FindPasswordViewController.h"
-#import "RegisterViewController.h"
 #import "NetworkInterface.h"
 #import "AccountTool.h"
+#import "AppDelegate.h"
 
 @interface LoginViewController ()<UITextFieldDelegate>
 @property(nonatomic,strong)UITextField *userField;
 @property(nonatomic,strong)UITextField *passwordField;
 @end
+#define iOS7 ([UIDevice currentDevice].systemVersion.floatValue >= 7.0&&8.0>[UIDevice currentDevice].systemVersion.floatValue )
+#define iOS8 ([UIDevice currentDevice].systemVersion.floatValue >= 8.0)
 
 @implementation LoginViewController
 
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    AppDelegate *delegate = [AppDelegate shareAppDelegate];
-    delegate.haveExit = NO;
+    self.navigationController.navigationBarHidden = YES;
 }
 
 - (void)viewDidLoad {
@@ -34,6 +34,15 @@
 
 -(void)setLoginView
 {
+    UIImageView *imageV = [[UIImageView alloc]init];
+    imageV.userInteractionEnabled = YES;
+    imageV.image = kImageName(@"login_Bg");
+    imageV.frame = CGRectMake(0, 0, kScreenWidth, kScreenHeight);
+    if (iOS7) {
+        imageV.frame = CGRectMake(0, 0, kScreenHeight, kScreenWidth);
+    }
+    [self.view addSubview:imageV];
+    
     UIView *loginView = [[UIView alloc]init];
     loginView.frame = CGRectMake(300, 140, 430, 380);
     loginView.backgroundColor = [UIColor whiteColor];
@@ -102,7 +111,7 @@
     
     UIButton *loginBtn = [[UIButton alloc]init];
     [loginBtn addTarget:self action:@selector(loginClick:) forControlEvents:UIControlEventTouchUpInside];
-    [loginBtn setBackgroundColor:kColor(241, 81, 8, 1.0)];
+    [loginBtn setBackgroundColor:kColor(10, 87, 204, 1.0)];
     [loginBtn setTitle:@"登录" forState:UIControlStateNormal];
     loginBtn.titleLabel.tintColor = [UIColor whiteColor];
     loginBtn.frame = CGRectMake(_userField.frame.origin.x, CGRectGetMaxY(_passwordField.frame) + 30, _userField.frame.size.width, userImage.frame.size.height);
@@ -110,113 +119,114 @@
     
     UIButton *findPasswordBtn = [[UIButton alloc]init];
     [findPasswordBtn setTitle:@"找回密码" forState:UIControlStateNormal];
-    [findPasswordBtn setTitleColor:[UIColor orangeColor] forState:UIControlStateNormal];
+    [findPasswordBtn setTitleColor:kColor(10, 87, 204, 1.0) forState:UIControlStateNormal];
     [findPasswordBtn addTarget:self action:@selector(findClick:) forControlEvents:UIControlEventTouchUpInside];
     findPasswordBtn.frame = CGRectMake(20, loginView.frame.size.height - 40, 80, 20);
     [loginView addSubview:findPasswordBtn];
     
     UIButton *registerBtn = [[UIButton alloc]init];
-    [registerBtn setTitleColor:[UIColor orangeColor] forState:UIControlStateNormal];
+    [registerBtn setTitleColor:kColor(10, 87, 204, 1.0) forState:UIControlStateNormal];
     [registerBtn setTitle:@"注册" forState:UIControlStateNormal];
     [registerBtn addTarget:self action:@selector(registe:) forControlEvents:UIControlEventTouchUpInside];
     registerBtn.frame = CGRectMake(loginView.frame.size.width - 60, findPasswordBtn.frame.origin.y, 40, 20);
     [loginView addSubview:registerBtn];
-    
-    [self.view addSubview:loginView];
+    [self.view addSubview:imageV];
+    [imageV addSubview:loginView];
 }
 
 -(void)loginClick:(UIButton *)sender
 {
-    if (!_userField.text || [_userField.text isEqualToString:@""] || !_passwordField.text || [_passwordField.text isEqualToString:@""]) {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示信息"
-                                                        message:@"用户名或密码不能为空!"
-                                                       delegate:nil
-                                              cancelButtonTitle:@"确定"
-                                              otherButtonTitles:nil];
-        [alert show];
-        return;
-    }
+    [[AppDelegate shareRootViewController] showMainViewController];
+//    if (!_userField.text || [_userField.text isEqualToString:@""] || !_passwordField.text || [_passwordField.text isEqualToString:@""]) {
+//        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示信息"
+//                                                        message:@"用户名或密码不能为空!"
+//                                                       delegate:nil
+//                                              cancelButtonTitle:@"确定"
+//                                              otherButtonTitles:nil];
+//        [alert show];
+//        return;
+//    }
+//    
+//    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+//    hud.labelText = @"正在登录...";
+//    [NetworkInterface loginWithUsername:_userField.text password:_passwordField.text isAlreadyEncrypt:NO finished:^(BOOL success, NSData *response) {
+//        hud.customView = [[UIImageView alloc] init];
+//        hud.mode = MBProgressHUDModeCustomView;
+//        [hud hide:YES afterDelay:0.3f];
+//        if (success) {
+//            id object = [NSJSONSerialization JSONObjectWithData:response options:NSJSONReadingMutableLeaves error:nil];
+//            NSLog(@"~~~~~%@",[[NSString alloc]initWithData:response encoding:NSUTF8StringEncoding]);
+//            if ([object isKindOfClass:[NSDictionary class]]) {
+//                [hud hide:YES];
+//                int errorCode = [[object objectForKey:@"code"] intValue];
+//                if (errorCode == RequestFail) {
+//                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示信息"
+//                                                                    message:[object objectForKey:@"message"]
+//                                                                   delegate:nil
+//                                                          cancelButtonTitle:@"确定"
+//                                                          otherButtonTitles:nil];
+//                    [alert show];
+//                }
+//                else if (errorCode == RequestSuccess) {
+////                    [self parseLoginDataWithDictionary:object];
+//                }
+//            }
+//            else {
+//                hud.labelText = kServiceReturnWrong;
+//            }
+//        }
+//        else {
+//            hud.labelText = kNetworkFailed;
+//        }
+//    }];
     
-    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
-    hud.labelText = @"正在登录...";
-    [NetworkInterface loginWithUsername:_userField.text password:_passwordField.text isAlreadyEncrypt:NO finished:^(BOOL success, NSData *response) {
-        hud.customView = [[UIImageView alloc] init];
-        hud.mode = MBProgressHUDModeCustomView;
-        [hud hide:YES afterDelay:0.3f];
-        if (success) {
-            id object = [NSJSONSerialization JSONObjectWithData:response options:NSJSONReadingMutableLeaves error:nil];
-            NSLog(@"~~~~~%@",[[NSString alloc]initWithData:response encoding:NSUTF8StringEncoding]);
-            if ([object isKindOfClass:[NSDictionary class]]) {
-                [hud hide:YES];
-                int errorCode = [[object objectForKey:@"code"] intValue];
-                if (errorCode == RequestFail) {
-                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示信息"
-                                                                    message:[object objectForKey:@"message"]
-                                                                   delegate:nil
-                                                          cancelButtonTitle:@"确定"
-                                                          otherButtonTitles:nil];
-                    [alert show];
-                }
-                else if (errorCode == RequestSuccess) {
-                    [self parseLoginDataWithDictionary:object];
-                }
-            }
-            else {
-                hud.labelText = kServiceReturnWrong;
-            }
-        }
-        else {
-            hud.labelText = kNetworkFailed;
-        }
-    }];
-    
 }
 
--(void)parseLoginDataWithDictionary:(NSDictionary *)dict
-{
-    if (![dict objectForKey:@"result"] || ![[dict objectForKey:@"result"]isKindOfClass:[NSDictionary class]
-       ]) {
-        return;
-    }
-    NSDictionary *infoDict = [dict objectForKey:@"result"];
-    NSString *token = @"123";
-    NSString *userID = [NSString stringWithFormat:@"%@",[infoDict objectForKey:@"id"]];
-    NSString *username = [NSString stringWithFormat:@"%@",[infoDict objectForKey:@"username"]];
-    AppDelegate *delegate = [AppDelegate shareAppDelegate];
-    delegate.token = token;
-    delegate.userID = userID;
-    AccountModel *account = [[AccountModel alloc]init];
-    account.username = username;
-    account.token = token;
-    account.password = _passwordField.text;
-    account.userID = userID;
-    account.token = token;
-    [AccountTool save:account];
-    if (_LoginSuccessDelegate && [_LoginSuccessDelegate respondsToSelector:@selector(LoginSuccess)]) {
-        [self.LoginSuccessDelegate LoginSuccess];
-    }
-    [self dismissViewControllerAnimated:YES completion:nil];
-}
-
--(void)exitClick
-{
-    [self dismissViewControllerAnimated:YES completion:nil];
-}
-
--(void)findClick:(UIButton *)sender
-{
-    NSLog(@"点击了找回密码！");
-    FindPasswordViewController *findV = [[FindPasswordViewController alloc]init];
-    self.navigationController.navigationBarHidden = NO;
-    [self.navigationController pushViewController:findV animated:YES];
-}
-
--(void)registe:(UIButton *)sender
-{
-    NSLog(@"点击了注册！");
-    RegisterViewController *registeVC = [[RegisterViewController alloc]init];
-    self.navigationController.navigationBarHidden = NO;
-    [self.navigationController pushViewController:registeVC animated:YES];
-}
+//-(void)parseLoginDataWithDictionary:(NSDictionary *)dict
+//{
+//    if (![dict objectForKey:@"result"] || ![[dict objectForKey:@"result"]isKindOfClass:[NSDictionary class]
+//       ]) {
+//        return;
+//    }
+//    NSDictionary *infoDict = [dict objectForKey:@"result"];
+//    NSString *token = @"123";
+//    NSString *userID = [NSString stringWithFormat:@"%@",[infoDict objectForKey:@"id"]];
+//    NSString *username = [NSString stringWithFormat:@"%@",[infoDict objectForKey:@"username"]];
+//    AppDelegate *delegate = [AppDelegate shareAppDelegate];
+//    delegate.token = token;
+//    delegate.userID = userID;
+//    AccountModel *account = [[AccountModel alloc]init];
+//    account.username = username;
+//    account.token = token;
+//    account.password = _passwordField.text;
+//    account.userID = userID;
+//    account.token = token;
+//    [AccountTool save:account];
+//    if (_LoginSuccessDelegate && [_LoginSuccessDelegate respondsToSelector:@selector(LoginSuccess)]) {
+//        [self.LoginSuccessDelegate LoginSuccess];
+//    }
+//    [self dismissViewControllerAnimated:YES completion:nil];
+//}
+//
+//-(void)exitClick
+//{
+//    [self dismissViewControllerAnimated:YES completion:nil];
+//}
+//
+//-(void)findClick:(UIButton *)sender
+//{
+//    NSLog(@"点击了找回密码！");
+//    FindPasswordViewController *findV = [[FindPasswordViewController alloc]init];
+//    self.navigationController.navigationBarHidden = NO;
+//    [self.navigationController pushViewController:findV animated:YES];
+//}
+//
+//-(void)registe:(UIButton *)sender
+//{
+//    NSLog(@"点击了注册！");
+//    RegisterViewController *registeVC = [[RegisterViewController alloc]init];
+//    self.navigationController.navigationBarHidden = NO;
+//    [self.navigationController pushViewController:registeVC animated:YES];
+//}
 
 @end
