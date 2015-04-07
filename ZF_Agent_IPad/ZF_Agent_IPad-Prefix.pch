@@ -18,3 +18,51 @@
 #import <Foundation/Foundation.h>
 #endif
 #import "Constants_H.h"
+
+
+
+
+
+
+#import <UIKit/UIKit.h>
+#import <Foundation/Foundation.h>
+#import "AppDelegate.h"
+#import "HexColor.h"
+#import "UIImageView+WebCache.h"
+#import "BaseApi.h"
+
+
+#define BackColor @"dedede"
+#define LineColor @"DEDEDE"
+#define MainColor @"29aae0"
+#define HoverMainColor @"1c95c8"
+#define IconFontWithSize(SIZE)  [UIFont fontWithName:@"iconfont" size: SIZE]
+#define FONT8 [UIFont systemFontOfSize:8]
+#define FONT9 [UIFont systemFontOfSize:9]
+#define FONT10 [UIFont systemFontOfSize:10]
+#define FONT11 [UIFont systemFontOfSize:11]
+#define FONT12 [UIFont systemFontOfSize:12]
+#define FONT12B [UIFont boldSystemFontOfSize:12]
+#define FONT13 [UIFont systemFontOfSize:13]
+#define FONT13B [UIFont boldSystemFontOfSize:13]
+#define FONT14 [UIFont systemFontOfSize:14]
+#define FONT14B [UIFont boldSystemFontOfSize:14]
+#define FONT15 [UIFont systemFontOfSize:15]
+#define FONT16 [UIFont systemFontOfSize:16]
+#define FONT17 [UIFont systemFontOfSize:17]
+#define FONT18 [UIFont systemFontOfSize:18]
+#define FONT19 [UIFont systemFontOfSize:19]
+#define FONT20 [UIFont systemFontOfSize:20]
+#define FONT21 [UIFont systemFontOfSize:21]
+#define FONT22 [UIFont systemFontOfSize:22]
+#define FONT24 [UIFont systemFontOfSize:24]
+#define FONT15B [UIFont boldSystemFontOfSize:15]
+#define FONT16B [UIFont boldSystemFontOfSize:16]
+#define FONT18B [UIFont boldSystemFontOfSize:18]
+#define FONT20B [UIFont boldSystemFontOfSize:20]
+
+/**
+ * Masonry
+ */
+#define MAS_SHORTHAND
+#import "Masonry.h"

@@ -13,6 +13,7 @@
 #import "HomeImageModel.h"
 #import "ChannelWebsiteController.h"
 #import "AppDelegate.h"
+#import "TerminalViewController.h"
 
 @interface ZYHomeViewController ()
 @property(nonatomic,strong)PollingView *pollingView;
@@ -307,6 +308,9 @@
             break;
         case 1002: {
             //终端管理
+            TerminalViewController *terminalVC = [[TerminalViewController alloc]init];
+            terminalVC.hidesBottomBarWhenPushed = YES;
+            [self.navigationController pushViewController:terminalVC animated:YES];
            
         }
             break;
