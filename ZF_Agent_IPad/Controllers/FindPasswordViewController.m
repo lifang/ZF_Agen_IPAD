@@ -334,6 +334,7 @@
 - (void)setIsMobile:(BOOL)isMobile {
     _isMobile = isMobile;
     if (_isMobile) {
+        _sendButton.titleLabel.font = [UIFont systemFontOfSize:17];
         [_sendButton setTitle:@"发送验证码" forState:UIControlStateNormal];
         _authLabel.hidden = NO;
         _makeSureBtn.hidden = NO;
@@ -346,6 +347,7 @@
         _line.hidden = NO;
     }
     else {
+        _sendButton.titleLabel.font = [UIFont systemFontOfSize:15];
         [_sendButton setTitle:@"发送重置邮箱" forState:UIControlStateNormal];
         _authLabel.hidden = YES;
         _makeSureBtn.hidden = YES;
@@ -516,7 +518,7 @@
                 //UI更新
                 _sendButton.userInteractionEnabled = YES;
                 _sendButton.frame = CGRectMake(CGRectGetMaxX(_phoneField.frame)+10, _phoneField.frame.origin.y, _phoneField.frame.size.width * 0.43, _phoneField.frame.size.height);
-                [_sendButton setBackgroundImage:kImageName(@"orange.png") forState:UIControlStateNormal];
+                [_sendButton setBackgroundColor:kMainColor];
                 [_sendButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
                 [_sendButton setTitle:@"发送验证码" forState:UIControlStateNormal];
             });
@@ -538,7 +540,5 @@
     });
     dispatch_resume(_timer);
 }
-
-
 
 @end
