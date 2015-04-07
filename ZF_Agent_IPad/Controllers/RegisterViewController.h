@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ScanImageViewController.h"
 
-@interface RegisterViewController : UIViewController
+@interface RegisterViewController : ScanImageViewController
 
 @end
