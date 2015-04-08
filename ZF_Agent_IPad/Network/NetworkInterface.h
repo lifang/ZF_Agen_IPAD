@@ -154,9 +154,20 @@ static NSString *s_modifyEmailValidate_method = @"agents/getUpdateEmailDentcode"
 //84.我的信息——修改邮箱
 static NSString *s_modifyEmail_method = @"agents/updateEmail";
 
-@interface NetworkInterface : NSObject
+//热卖
+static NSString *s_hot_method = @"index/pos_list";
 
+@interface NetworkInterface : NSObject
 /*!
+ @abstract 1.热卖
+ 
+ 
+ */
++ (void)hotget:(NSString *)tolen
+      finished:(requestDidFinished)finish;
+/*!
+
+
  @abstract 1.登录
  @param username      用户名
  @param password      密码

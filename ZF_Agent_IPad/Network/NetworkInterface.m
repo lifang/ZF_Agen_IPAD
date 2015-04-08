@@ -15,7 +15,18 @@ static NSString *HTTP_GET  = @"GET";
 @implementation NetworkInterface
 
 #pragma mark - 公用方法
-
+// 热卖
++ (void)hotget:(NSString *)tolen
+      finished:(requestDidFinished)finish
+{
+    
+    
+    NSString *urlString = [NSString stringWithFormat:@"%@/%@",kServiceURL,s_hot_method];
+    [[self class] requestWithURL:urlString
+                          params:nil
+                      httpMethod:HTTP_POST
+                        finished:finish];
+}
 + (void)requestWithURL:(NSString *)urlString
                 params:(NSMutableDictionary *)params
             httpMethod:(NSString *)method

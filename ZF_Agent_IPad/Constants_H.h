@@ -25,10 +25,12 @@
 #define kServiceURL @"http://114.215.149.242:28080/ZFAgent/api"
 
 #define kImageName(name) [UIImage imageNamed:name]
+#define NavTitle_FONTSIZE  36
 
 #define iOS7 ([UIDevice currentDevice].systemVersion.floatValue >= 7.0&&8.0>[UIDevice currentDevice].systemVersion.floatValue )
 #define iOS8 ([UIDevice currentDevice].systemVersion.floatValue >= 8.0)
-
+#define SubHead_FONT(s) [UIFont fontWithName:@"[STHeitiSC](light)" size:s]
+#define NavTitle_FONT(s) [UIFont fontWithName:@"[STHeitiSC](Medium)" size:s]
 #define kServiceReturnWrong  @"服务端数据返回错误"
 #define kNetworkFailed       @"网络连接失败"
 #define SCREEN_HEIGHT [[UIScreen mainScreen] bounds].size.height

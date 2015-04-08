@@ -14,7 +14,7 @@
 #import "ChannelWebsiteController.h"
 #import "AppDelegate.h"
 #import "TerminalViewController.h"
-
+#import "GoodListViewController.h"
 @interface ZYHomeViewController ()
 @property(nonatomic,strong)PollingView *pollingView;
 @property(nonatomic,strong)NSString *cityName;
@@ -298,11 +298,14 @@
 - (void)tarbarClicked:(UIButton *)sender {
     switch (sender.tag) {
         case 1000: {
-        
+            GoodListViewController *GoodListVC = [[GoodListViewController alloc]init];
+            GoodListVC.hidesBottomBarWhenPushed = YES;
+            [self.navigationController pushViewController:GoodListVC animated:YES];
         }
             break;
         case 1001: {
             //开通认证
+            
             
         }
             break;
