@@ -10,6 +10,8 @@
 #import "StockManagerCell.h"
 #import "NetworkInterface.h"
 #import "AppDelegate.h"
+#import "StockManagerDetailCell.h"
+#import "StockTerminalController.h"
 
 @interface StockManagerDetailController ()<UISearchBarDelegate,StockCellDelegate,UITextFieldDelegate>
 
@@ -30,6 +32,7 @@
 @property(nonatomic,strong)UIView *middleView;
 
 @property(nonatomic,strong)UIButton *searchBtn;
+
 @end
 
 @implementation StockManagerDetailController
@@ -38,6 +41,7 @@
     [super viewDidLoad];
     self.title = @"库存详情";
     _dataItem = [[NSMutableArray alloc]init];
+    [self firstLoadData];
     [self initAndLayoutUI];
 }
 
@@ -72,6 +76,7 @@
     }
     
     _searchBtn = [[UIButton alloc]init];
+    [_searchBtn addTarget:self action:@selector(searchClick) forControlEvents:UIControlEventTouchUpInside];
     [_searchBtn setBackgroundImage:kImageName(@"searchBT") forState:UIControlStateNormal];
     _searchBtn.frame = CGRectMake(50, 18, 25, 25);
     [_middleView addSubview:_searchBtn];
@@ -96,6 +101,25 @@
     lastOpenLabel.text = @"上次开通日期";
     [self setLabel:lastOpenLabel WithX:CGRectGetMaxX(allocationLabel.frame) + 50];
     
+    [self setupSearchBar];
+}
+
+-(void)searchClick
+{
+    _searchBar.hidden = NO;
+    [_searchBar becomeFirstResponder];
+}
+
+-(void)setupSearchBar
+{
+    _searchBar = [[UISearchBar alloc] init];
+    _searchBar.placeholder = @"代理商名称";
+    _searchBar.delegate = self;
+    _searchBar.showsCancelButton = YES;
+    _searchBar.backgroundColor = [UIColor blackColor];
+    _searchBar.hidden = YES;
+    _searchBar.frame = CGRectMake(0, 0, _middleView.frame.size.width, 60);
+    [_middleView addSubview:_searchBar];
 }
 
 -(void)setLabel:(UILabel *)label WithX:(CGFloat)labelX
@@ -131,7 +155,7 @@
     UILabel *second = [[UILabel alloc]init];
     second.font = mainFont;
     second.text = @"历史进货数量";
-    second.frame = CGRectMake(CGRectGetMaxX(first.frame) + 150, 0, 120, 25);
+    second.frame = CGRectMake(CGRectGetMaxX(first.frame) + 140, 0, 120, 25);
     [bottomView addSubview:second];
     
     UILabel *third = [[UILabel alloc]init];
@@ -149,7 +173,7 @@
     UILabel *fifth = [[UILabel alloc]init];
     fifth.font = mainFont;
     fifth.text = @"总库存";
-    fifth.frame = CGRectMake(CGRectGetMaxX(fourth.frame) + 50, 0, 90, 25);
+    fifth.frame = CGRectMake(CGRectGetMaxX(fourth.frame) + 60, 0, 90, 25);
     [bottomView addSubview:fifth];
     
     bottomView.frame = CGRectMake(0, 26, SCREEN_WIDTH, 24);
@@ -159,6 +183,14 @@
     [headerView addSubview:bottomView];
     self.headerView = headerView;
     self.tableView.tableHeaderView = _headerView;
+}
+
+
+#pragma mark - Set
+
+- (void)setSearchAgentName:(NSString *)searchAgentName {
+    _searchAgentName = searchAgentName;
+    [self firstLoadData];
 }
 
 #pragma mark - UITabelView
@@ -172,7 +204,7 @@
     if (section == 0) {
         return 1;
     }else{
-        return 5;
+        return _dataItem.count;
     }
 }
 
@@ -183,8 +215,9 @@
         [cell setContentWithData:_stockModel];
         return cell;
     }else{
-        UITableViewCell *cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"cweq"];
-        cell.textLabel.text = @"dassadasdasdasd";
+        StockAgentModel *model = [_dataItem objectAtIndex:indexPath.row];
+        StockManagerDetailCell *cell = [StockManagerDetailCell cellWithTableView:tableView];
+        [cell setContentWithData:model];
         return cell;
     }
 }
@@ -192,7 +225,12 @@
 //下方View
 -(UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
 {
-    return _middleView;
+    if (section == 0) {
+        return _middleView;
+    }else{
+        UIView *v = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 1, 1)];
+        return v;
+    }
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
@@ -210,6 +248,19 @@
         return hStockCellHeight;
     }else{
         return 100.f;
+    }
+}
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    if (indexPath.section == 1) {
+        StockAgentModel *model = [_dataItem objectAtIndex:indexPath.row];
+        StockTerminalController *stockVC = [[StockTerminalController alloc]init];
+        stockVC.hidesBottomBarWhenPushed = YES;
+        stockVC.stockModel = _stockModel;
+        stockVC.stockAgentModel = model;
+        [self.navigationController pushViewController:stockVC animated:YES];
     }
 }
 
@@ -353,6 +404,105 @@
             hud.labelText = kNetworkFailed;
         }
     }];
+}
+
+#pragma mark - Request
+
+- (void)firstLoadData {
+    self.page = 1;
+    [self downloadDataWithPage:self.page isMore:NO];
+}
+
+- (void)downloadDataWithPage:(int)page isMore:(BOOL)isMore {
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+    hud.labelText = @"加载中...";
+    AppDelegate *delegate = [AppDelegate shareAppDelegate];
+    [NetworkInterface getStockDetailWithAgentID:delegate.agentID token:delegate.token channelID:_stockModel.stockChannelID goodID:_stockModel.stockGoodID agentName:_searchAgentName page:page rows:kPageSize finished:^(BOOL success, NSData *response) {
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:0.3f];
+        if (success) {
+            NSLog(@"!!%@",[[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding]);
+            id object = [NSJSONSerialization JSONObjectWithData:response options:NSJSONReadingMutableLeaves error:nil];
+            if ([object isKindOfClass:[NSDictionary class]]) {
+                NSString *errorCode = [object objectForKey:@"code"];
+                if ([errorCode intValue] == RequestFail) {
+                    //返回错误代码
+                    hud.labelText = [NSString stringWithFormat:@"%@",[object objectForKey:@"message"]];
+                }
+                else if ([errorCode intValue] == RequestSuccess) {
+                    if (!isMore) {
+                        [_dataItem removeAllObjects];
+                    }
+                    id list = [[object objectForKey:@"result"] objectForKey:@"list"];
+                    if ([list isKindOfClass:[NSArray class]] && [list count] > 0) {
+                        //有数据
+                        self.page++;
+                        [hud hide:YES];
+                    }
+                    else {
+                        //无数据
+                        hud.labelText = @"没有更多数据了...";
+                    }
+                    [self parseStockDetailWithDictionary:object];
+                }
+            }
+            else {
+                //返回错误数据
+                hud.labelText = kServiceReturnWrong;
+            }
+        }
+        else {
+            hud.labelText = kNetworkFailed;
+        }
+        if (!isMore) {
+            [self refreshViewFinishedLoadingWithDirection:PullFromTop];
+        }
+        else {
+            [self refreshViewFinishedLoadingWithDirection:PullFromBottom];
+        }
+    }];
+}
+- (void)parseStockDetailWithDictionary:(NSDictionary *)dict {
+    if (![dict objectForKey:@"result"] || ![[dict objectForKey:@"result"] isKindOfClass:[NSDictionary class]]) {
+        return;
+    }
+    id agentList = [[dict objectForKey:@"result"] objectForKey:@"list"];
+    if ([agentList isKindOfClass:[NSArray class]]) {
+        for (int i = 0; i < [agentList count]; i++) {
+            id agentDict = [agentList objectAtIndex:i];
+            StockAgentModel *model = [[StockAgentModel alloc] initWithParseDictionary:agentDict];
+            [_dataItem addObject:model];
+        }
+    }
+    [self.tableView reloadData];
+}
+
+#pragma mark - 上下拉刷新重写
+
+- (void)pullDownToLoadData {
+    [self firstLoadData];
+}
+
+- (void)pullUpToLoadData {
+    [self downloadDataWithPage:self.page isMore:YES];
+}
+
+#pragma mark - UISearchBarDelegate
+
+- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar {
+    [_searchBar resignFirstResponder];
+    _searchBar.hidden = YES;
+    if (self.searchAgentName && ![self.searchAgentName isEqualToString:@""]) {
+        _searchBar.text = @"";
+        self.searchAgentName = _searchBar.text;
+    }
+}
+
+- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
+    [_searchBar resignFirstResponder];
+    _searchBar.hidden = YES;
+    self.searchAgentName = _searchBar.text;
 }
 
 @end

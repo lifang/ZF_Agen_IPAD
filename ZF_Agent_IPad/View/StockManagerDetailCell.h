@@ -11,6 +11,9 @@
 
 @interface StockManagerDetailCell : UITableViewCell
 
+//初始化方法
++(instancetype)cellWithTableView:(UITableView *)tableView;
+
 /** 下级代理商名字 */
 @property(nonatomic,strong)UILabel *stockDetailNameLabel;
 /** 配货总量 */

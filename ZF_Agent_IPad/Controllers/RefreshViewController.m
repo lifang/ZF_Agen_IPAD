@@ -27,7 +27,7 @@
 #pragma mark - UI
 
 - (void)initRefreshViewWithOffset:(CGFloat)offset {
-    _tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStyleGrouped];
+    _tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
     _tableView.translatesAutoresizingMaskIntoConstraints = NO;
     _tableView.backgroundColor = kColor(244, 243, 243, 1);
     _tableView.delegate = self;

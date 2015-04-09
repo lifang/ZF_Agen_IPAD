@@ -13,7 +13,6 @@
 -(id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
     if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
-        self.selectionStyle = UITableViewCellSelectionStyleNone;
         [self initAndLayoutUI];
     }
     return self;
@@ -301,8 +300,8 @@
 
 }
 //创建左边Label
-//topView-上方控件
-//space-距上方间距
+//leftView-左边控件
+//space-距左边间距
 - (void)setLabel:(UILabel *)label
      withLeftView:(UIView *)leftView
      middleSpace:(CGFloat)space

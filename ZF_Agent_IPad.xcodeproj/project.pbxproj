@@ -65,6 +65,19 @@
 		1A96545B1AD60D7300C39B5B /* StockManagerDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A9654591AD60D7300C39B5B /* StockManagerDetailController.m */; };
 		1A9654601AD60D8600C39B5B /* StockManagerCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A96545D1AD60D8600C39B5B /* StockManagerCell.m */; };
 		1A9654611AD60D8600C39B5B /* StockManagerDetailCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A96545F1AD60D8600C39B5B /* StockManagerDetailCell.m */; };
+		1A9654641AD61D6900C39B5B /* StockTerminalController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A9654631AD61D6900C39B5B /* StockTerminalController.m */; };
+		1A9654671AD623C400C39B5B /* StockTerminalCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A9654661AD623C400C39B5B /* StockTerminalCell.m */; };
+		1A96546B1AD6535B00C39B5B /* UserManagerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A96546A1AD6535B00C39B5B /* UserManagerController.m */; };
+		1A96546E1AD662D200C39B5B /* UserManagerCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A96546D1AD662D200C39B5B /* UserManagerCell.m */; };
+		1A9654781AD6667900C39B5B /* MessageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A9654751AD6667900C39B5B /* MessageViewController.m */; };
+		1A9654791AD6667900C39B5B /* MessageChildViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A9654771AD6667900C39B5B /* MessageChildViewController.m */; };
+		1A96547C1AD666C900C39B5B /* MessageViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A96547B1AD666C900C39B5B /* MessageViewCell.m */; };
+		1A9654841AD669ED00C39B5B /* UIImage+Extention.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A9654831AD669ED00C39B5B /* UIImage+Extention.m */; };
+		1A9654881AD66F3700C39B5B /* MineCommonController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A9654871AD66F3700C39B5B /* MineCommonController.m */; };
+		1A96548B1AD66F5100C39B5B /* ChooseView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A96548A1AD66F5100C39B5B /* ChooseView.m */; };
+		1A9654921AD66FD200C39B5B /* MyMessageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A9654911AD66FD200C39B5B /* MyMessageViewController.m */; };
+		1A9654951AD66FEF00C39B5B /* SwitchView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A9654941AD66FEF00C39B5B /* SwitchView.m */; };
+		1A9654981AD6705D00C39B5B /* BaseInformationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A9654971AD6705D00C39B5B /* BaseInformationViewController.m */; };
 		1AD7FD4C1ACE72B3009A60FC /* FindPasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AD7FD4B1ACE72B3009A60FC /* FindPasswordViewController.m */; };
 		1AD7FD4F1ACE7319009A60FC /* FindPasswordSuccessController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AD7FD4E1ACE7319009A60FC /* FindPasswordSuccessController.m */; };
 		1AD7FD521ACE7340009A60FC /* FindPasswordWithPhoneSuccessController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AD7FD511ACE7340009A60FC /* FindPasswordWithPhoneSuccessController.m */; };
@@ -260,6 +273,32 @@
 		1A96545D1AD60D8600C39B5B /* StockManagerCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StockManagerCell.m; sourceTree = "<group>"; };
 		1A96545E1AD60D8600C39B5B /* StockManagerDetailCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StockManagerDetailCell.h; sourceTree = "<group>"; };
 		1A96545F1AD60D8600C39B5B /* StockManagerDetailCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StockManagerDetailCell.m; sourceTree = "<group>"; };
+		1A9654621AD61D6900C39B5B /* StockTerminalController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StockTerminalController.h; sourceTree = "<group>"; };
+		1A9654631AD61D6900C39B5B /* StockTerminalController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StockTerminalController.m; sourceTree = "<group>"; };
+		1A9654651AD623C400C39B5B /* StockTerminalCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StockTerminalCell.h; sourceTree = "<group>"; };
+		1A9654661AD623C400C39B5B /* StockTerminalCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StockTerminalCell.m; sourceTree = "<group>"; };
+		1A9654691AD6535B00C39B5B /* UserManagerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserManagerController.h; sourceTree = "<group>"; };
+		1A96546A1AD6535B00C39B5B /* UserManagerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserManagerController.m; sourceTree = "<group>"; };
+		1A96546C1AD662D200C39B5B /* UserManagerCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserManagerCell.h; sourceTree = "<group>"; };
+		1A96546D1AD662D200C39B5B /* UserManagerCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserManagerCell.m; sourceTree = "<group>"; };
+		1A9654741AD6667900C39B5B /* MessageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageViewController.h; sourceTree = "<group>"; };
+		1A9654751AD6667900C39B5B /* MessageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageViewController.m; sourceTree = "<group>"; };
+		1A9654761AD6667900C39B5B /* MessageChildViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageChildViewController.h; sourceTree = "<group>"; };
+		1A9654771AD6667900C39B5B /* MessageChildViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageChildViewController.m; sourceTree = "<group>"; };
+		1A96547A1AD666C900C39B5B /* MessageViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageViewCell.h; sourceTree = "<group>"; };
+		1A96547B1AD666C900C39B5B /* MessageViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageViewCell.m; sourceTree = "<group>"; };
+		1A9654821AD669ED00C39B5B /* UIImage+Extention.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Extention.h"; sourceTree = "<group>"; };
+		1A9654831AD669ED00C39B5B /* UIImage+Extention.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Extention.m"; sourceTree = "<group>"; };
+		1A9654861AD66F3700C39B5B /* MineCommonController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MineCommonController.h; sourceTree = "<group>"; };
+		1A9654871AD66F3700C39B5B /* MineCommonController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MineCommonController.m; sourceTree = "<group>"; };
+		1A9654891AD66F5100C39B5B /* ChooseView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChooseView.h; sourceTree = "<group>"; };
+		1A96548A1AD66F5100C39B5B /* ChooseView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChooseView.m; sourceTree = "<group>"; };
+		1A9654901AD66FD200C39B5B /* MyMessageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyMessageViewController.h; sourceTree = "<group>"; };
+		1A9654911AD66FD200C39B5B /* MyMessageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyMessageViewController.m; sourceTree = "<group>"; };
+		1A9654931AD66FEF00C39B5B /* SwitchView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SwitchView.h; sourceTree = "<group>"; };
+		1A9654941AD66FEF00C39B5B /* SwitchView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SwitchView.m; sourceTree = "<group>"; };
+		1A9654961AD6705D00C39B5B /* BaseInformationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseInformationViewController.h; sourceTree = "<group>"; };
+		1A9654971AD6705D00C39B5B /* BaseInformationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseInformationViewController.m; sourceTree = "<group>"; };
 		1AD7FD4A1ACE72B3009A60FC /* FindPasswordViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FindPasswordViewController.h; sourceTree = "<group>"; };
 		1AD7FD4B1ACE72B3009A60FC /* FindPasswordViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FindPasswordViewController.m; sourceTree = "<group>"; };
 		1AD7FD4D1ACE7319009A60FC /* FindPasswordSuccessController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FindPasswordSuccessController.h; sourceTree = "<group>"; };
@@ -567,8 +606,79 @@
 				1A9654571AD60D7300C39B5B /* StockManagerController.m */,
 				1A9654581AD60D7300C39B5B /* StockManagerDetailController.h */,
 				1A9654591AD60D7300C39B5B /* StockManagerDetailController.m */,
+				1A9654621AD61D6900C39B5B /* StockTerminalController.h */,
+				1A9654631AD61D6900C39B5B /* StockTerminalController.m */,
 			);
 			name = StockManager;
+			sourceTree = "<group>";
+		};
+		1A9654681AD6533D00C39B5B /* UserManager */ = {
+			isa = PBXGroup;
+			children = (
+				1A9654691AD6535B00C39B5B /* UserManagerController.h */,
+				1A96546A1AD6535B00C39B5B /* UserManagerController.m */,
+			);
+			name = UserManager;
+			sourceTree = "<group>";
+		};
+		1A9654721AD6649000C39B5B /* HCell */ = {
+			isa = PBXGroup;
+			children = (
+				1A96547A1AD666C900C39B5B /* MessageViewCell.h */,
+				1A96547B1AD666C900C39B5B /* MessageViewCell.m */,
+				0D1694381AD3C60800B50A17 /* TerminalViewCell.h */,
+				0D1694391AD3C60800B50A17 /* TerminalViewCell.m */,
+				1A96546C1AD662D200C39B5B /* UserManagerCell.h */,
+				1A96546D1AD662D200C39B5B /* UserManagerCell.m */,
+				1A9654651AD623C400C39B5B /* StockTerminalCell.h */,
+				1A9654661AD623C400C39B5B /* StockTerminalCell.m */,
+				1A96545C1AD60D8600C39B5B /* StockManagerCell.h */,
+				1A96545D1AD60D8600C39B5B /* StockManagerCell.m */,
+				1A96545E1AD60D8600C39B5B /* StockManagerDetailCell.h */,
+				1A96545F1AD60D8600C39B5B /* StockManagerDetailCell.m */,
+			);
+			name = HCell;
+			sourceTree = "<group>";
+		};
+		1A9654731AD6666B00C39B5B /* Mymessage */ = {
+			isa = PBXGroup;
+			children = (
+				1A9654741AD6667900C39B5B /* MessageViewController.h */,
+				1A9654751AD6667900C39B5B /* MessageViewController.m */,
+				1A9654761AD6667900C39B5B /* MessageChildViewController.h */,
+				1A9654771AD6667900C39B5B /* MessageChildViewController.m */,
+			);
+			name = Mymessage;
+			sourceTree = "<group>";
+		};
+		1A9654811AD669DF00C39B5B /* Catagory */ = {
+			isa = PBXGroup;
+			children = (
+				1A9654821AD669ED00C39B5B /* UIImage+Extention.h */,
+				1A9654831AD669ED00C39B5B /* UIImage+Extention.m */,
+			);
+			name = Catagory;
+			sourceTree = "<group>";
+		};
+		1A9654851AD66EE700C39B5B /* Mine */ = {
+			isa = PBXGroup;
+			children = (
+				1A96548C1AD66FB000C39B5B /* MyMessage */,
+				1A9654861AD66F3700C39B5B /* MineCommonController.h */,
+				1A9654871AD66F3700C39B5B /* MineCommonController.m */,
+			);
+			name = Mine;
+			sourceTree = "<group>";
+		};
+		1A96548C1AD66FB000C39B5B /* MyMessage */ = {
+			isa = PBXGroup;
+			children = (
+				1A9654901AD66FD200C39B5B /* MyMessageViewController.h */,
+				1A9654911AD66FD200C39B5B /* MyMessageViewController.m */,
+				1A9654961AD6705D00C39B5B /* BaseInformationViewController.h */,
+				1A9654971AD6705D00C39B5B /* BaseInformationViewController.m */,
+			);
+			name = MyMessage;
 			sourceTree = "<group>";
 		};
 		1AF15A7D1ACCDB8C00D5C171 = {
@@ -592,6 +702,7 @@
 		1AF15A881ACCDB8C00D5C171 /* ZF_Agent_IPad */ = {
 			isa = PBXGroup;
 			children = (
+				1A9654811AD669DF00C39B5B /* Catagory */,
 				1AF15AB11ACCE33300D5C171 /* Controllers */,
 				1AF15AB21ACCE33300D5C171 /* Labrary */,
 				1AF15AB31ACCE33300D5C171 /* Model */,
@@ -641,6 +752,9 @@
 			children = (
 				1A8F68861AD4BCF100BD530E /* ScanImageViewController.h */,
 				1A8F68871AD4BCF100BD530E /* ScanImageViewController.m */,
+				1A9654851AD66EE700C39B5B /* Mine */,
+				1A9654731AD6666B00C39B5B /* Mymessage */,
+				1A9654681AD6533D00C39B5B /* UserManager */,
 				1A9654551AD60D4400C39B5B /* StockManager */,
 				0D1694341AD3C3A200B50A17 /* Terminal */,
 				1AF15B661ACD064D00D5C171 /* Login */,
@@ -738,10 +852,11 @@
 		1AF15AB61ACCE33300D5C171 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				1A96545C1AD60D8600C39B5B /* StockManagerCell.h */,
-				1A96545D1AD60D8600C39B5B /* StockManagerCell.m */,
-				1A96545E1AD60D8600C39B5B /* StockManagerDetailCell.h */,
-				1A96545F1AD60D8600C39B5B /* StockManagerDetailCell.m */,
+				1A9654931AD66FEF00C39B5B /* SwitchView.h */,
+				1A9654941AD66FEF00C39B5B /* SwitchView.m */,
+				1A9654891AD66F5100C39B5B /* ChooseView.h */,
+				1A96548A1AD66F5100C39B5B /* ChooseView.m */,
+				1A9654721AD6649000C39B5B /* HCell */,
 				0ED58EE91AD4DA550081E8BC /* InterestView.h */,
 				0ED58EEA1AD4DA550081E8BC /* InterestView.m */,
 				0ED58EE61AD4DA480081E8BC /* PollingViews.h */,
@@ -757,8 +872,6 @@
 				0ED58EC21AD4D7AB0081E8BC /* ZFSearchBar.m */,
 				1AF15B521ACD035400D5C171 /* PollingView.h */,
 				1AF15B531ACD037300D5C171 /* PollingView.m */,
-				0D1694381AD3C60800B50A17 /* TerminalViewCell.h */,
-				0D1694391AD3C60800B50A17 /* TerminalViewCell.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1044,11 +1157,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1A96547C1AD666C900C39B5B /* MessageViewCell.m in Sources */,
 				0ED58EC01AD4D78A0081E8BC /* FilterContentViewController.m in Sources */,
 				1AF15B3C1ACCE40400D5C171 /* RefreshView.m in Sources */,
 				0ED58F0D1AD4DF600081E8BC /* GoodsCollectionViewCell2.m in Sources */,
 				1AF15B101ACCE3BC00D5C171 /* StockTerminalModel.m in Sources */,
+				1A9654671AD623C400C39B5B /* StockTerminalCell.m in Sources */,
 				1AF15B3E1ACCE40400D5C171 /* TreeNode.m in Sources */,
+				1A96546E1AD662D200C39B5B /* UserManagerCell.m in Sources */,
 				1AF15B341ACCE40400D5C171 /* SearchHistoryHelper.m in Sources */,
 				1AF15B381ACCE40400D5C171 /* StringFormat.m in Sources */,
 				0ED58F0A1AD4DF400081E8BC /* CommentModel.m in Sources */,
@@ -1059,8 +1175,10 @@
 				0ED58EE41AD4DA010081E8BC /* GoodsCellCollectionViewCell.m in Sources */,
 				1AF15B3B1ACCE40400D5C171 /* CircleView.m in Sources */,
 				0ED58ECF1AD4D80B0081E8BC /* GoodDetialModel.m in Sources */,
+				1A9654951AD66FEF00C39B5B /* SwitchView.m in Sources */,
 				1AF15B6F1ACD068000D5C171 /* AccountTool.m in Sources */,
 				1AF15AF31ACCE3A400D5C171 /* UIImageView+HighlightedWebCache.m in Sources */,
+				1A96546B1AD6535B00C39B5B /* UserManagerController.m in Sources */,
 				0ED58ECA1AD4D7DA0081E8BC /* GoodDetailViewController.m in Sources */,
 				1AF15B691ACD065500D5C171 /* LoginViewController.m in Sources */,
 				1AF15B0D1ACCE3BC00D5C171 /* GoodListModel.m in Sources */,
@@ -1075,6 +1193,7 @@
 				0ED58EDB1AD4D9660081E8BC /* FormView.m in Sources */,
 				0ED58F071AD4DAAB0081E8BC /* CommentCell.m in Sources */,
 				1AF15B451ACCEDC200D5C171 /* RootViewController.m in Sources */,
+				1A9654781AD6667900C39B5B /* MessageViewController.m in Sources */,
 				1AF15AF01ACCE3A400D5C171 /* UIButton+WebCache.m in Sources */,
 				1AD7FD4F1ACE7319009A60FC /* FindPasswordSuccessController.m in Sources */,
 				0ED58EBE1AD4D78A0081E8BC /* SearchViewController.m in Sources */,
@@ -1082,11 +1201,13 @@
 				1AF15B641ACD048700D5C171 /* CommonViewController.m in Sources */,
 				0D1694241AD3C14100B50A17 /* NSLayoutConstraint+MASDebugAdditions.m in Sources */,
 				0D1694331AD3C1F300B50A17 /* BaseApi.m in Sources */,
+				1A9654881AD66F3700C39B5B /* MineCommonController.m in Sources */,
 				0D1694221AD3C14100B50A17 /* MASViewConstraint.m in Sources */,
 				1A8F68881AD4BCF100BD530E /* ScanImageViewController.m in Sources */,
 				0D1694251AD3C14100B50A17 /* View+MASAdditions.m in Sources */,
 				1AF15AE81ACCE3A400D5C171 /* NSData+ImageContentType.m in Sources */,
 				1AF15B371ACCE40400D5C171 /* NavigationBarAttr.m in Sources */,
+				1A9654841AD669ED00C39B5B /* UIImage+Extention.m in Sources */,
 				1AF15B351ACCE40400D5C171 /* CityHandle.m in Sources */,
 				1AF15B091ACCE3BC00D5C171 /* PersonModel.m in Sources */,
 				1AF15AEF1ACCE3A400D5C171 /* SDWebImagePrefetcher.m in Sources */,
@@ -1098,6 +1219,8 @@
 				1AF15B0B1ACCE3BC00D5C171 /* TreeDataHandle.m in Sources */,
 				0D16943A1AD3C60800B50A17 /* TerminalViewCell.m in Sources */,
 				0D16941D1AD3C14100B50A17 /* MASCompositeConstraint.m in Sources */,
+				1A96548B1AD66F5100C39B5B /* ChooseView.m in Sources */,
+				1A9654981AD6705D00C39B5B /* BaseInformationViewController.m in Sources */,
 				0ED58F021AD4DA820081E8BC /* UIView+MJExtension.m in Sources */,
 				1AF15B4B1ACCEE9200D5C171 /* MBProgressHUD.m in Sources */,
 				1A9654541AD60D0800C39B5B /* EmailSuccessViewController.m in Sources */,
@@ -1117,6 +1240,7 @@
 				0D1694231AD3C14100B50A17 /* NSArray+MASAdditions.m in Sources */,
 				1A96545B1AD60D7300C39B5B /* StockManagerDetailController.m in Sources */,
 				0ED58EC31AD4D7AB0081E8BC /* ZFSearchBar.m in Sources */,
+				1A9654641AD61D6900C39B5B /* StockTerminalController.m in Sources */,
 				0D1694201AD3C14100B50A17 /* MASLayoutConstraint.m in Sources */,
 				1AF15B391ACCE40400D5C171 /* TimeFormat.m in Sources */,
 				1AF15B0E1ACCE3BC00D5C171 /* StockListModel.m in Sources */,
@@ -1148,6 +1272,7 @@
 				1AF15AC01ACCE36900D5C171 /* NetworkRequest.m in Sources */,
 				0ED58ECB1AD4D7DA0081E8BC /* GoodDetaildetailViewController.m in Sources */,
 				1AF15A8C1ACCDB8C00D5C171 /* main.m in Sources */,
+				1A9654791AD6667900C39B5B /* MessageChildViewController.m in Sources */,
 				0D16942F1AD3C15600B50A17 /* README.md in Sources */,
 				1AF15AF21ACCE3A400D5C171 /* UIImage+MultiFormat.m in Sources */,
 				1AF15B3D1ACCE40400D5C171 /* RegularFormat.m in Sources */,
@@ -1159,6 +1284,7 @@
 				1AF15B0A1ACCE3BC00D5C171 /* MessageModel.m in Sources */,
 				0ED58EE81AD4DA480081E8BC /* PollingViews.m in Sources */,
 				1AF15B3F1ACCE40400D5C171 /* TreeNodeCollection.m in Sources */,
+				1A9654921AD66FD200C39B5B /* MyMessageViewController.m in Sources */,
 				0ED58EBD1AD4D78A0081E8BC /* GoodListViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

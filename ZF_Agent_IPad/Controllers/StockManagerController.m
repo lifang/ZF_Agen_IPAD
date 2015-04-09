@@ -34,11 +34,11 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    //设置字体颜色
+    //设置导航栏文字
+    self.title = @"库存管理";
     NSDictionary *attributes = [NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor],NSForegroundColorAttributeName,[UIFont boldSystemFontOfSize:22],NSFontAttributeName, nil];
     [self.navigationController.navigationBar setTitleTextAttributes:attributes];
     
-    self.title = @"库存管理";
     _dataItem = [[NSMutableArray alloc]init];
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(editStockName:)
@@ -52,11 +52,11 @@
 //顶部工具栏View
 -(void)setupHeaderView
 {
-    UIView *headerView = [[UIView alloc]init];
-    headerView.backgroundColor = [UIColor whiteColor];
-    headerView.frame = CGRectMake(0, 0, SCREEN_WIDTH, 50);
+    _headerView = [[UIView alloc]init];
+    _headerView.backgroundColor = [UIColor whiteColor];
+    _headerView.frame = CGRectMake(0, 0, SCREEN_WIDTH, 50);
     if (iOS7) {
-        headerView.frame = CGRectMake(0, 0, SCREEN_HEIGHT, 50);
+        _headerView.frame = CGRectMake(0, 0, SCREEN_HEIGHT, 50);
     }
     UIView *bottomView = [[UIView alloc]init];
     UIFont *mainFont = [UIFont systemFontOfSize:14];
@@ -71,7 +71,7 @@
     UILabel *second = [[UILabel alloc]init];
     second.font = mainFont;
     second.text = @"历史进货数量";
-    second.frame = CGRectMake(CGRectGetMaxX(first.frame) + 150, 0, 120, 25);
+    second.frame = CGRectMake(CGRectGetMaxX(first.frame) + 140, 0, 120, 25);
     [bottomView addSubview:second];
     
     UILabel *third = [[UILabel alloc]init];
@@ -89,15 +89,14 @@
     UILabel *fifth = [[UILabel alloc]init];
     fifth.font = mainFont;
     fifth.text = @"总库存";
-    fifth.frame = CGRectMake(CGRectGetMaxX(fourth.frame) + 50, 0, 90, 25);
+    fifth.frame = CGRectMake(CGRectGetMaxX(fourth.frame) + 60, 0, 90, 25);
     [bottomView addSubview:fifth];
     
     bottomView.frame = CGRectMake(0, 26, SCREEN_WIDTH, 24);
     if (iOS7) {
         bottomView.frame = CGRectMake(0, 26, SCREEN_HEIGHT, 24);
     }
-    [headerView addSubview:bottomView];
-    self.headerView = headerView;
+    [_headerView addSubview:bottomView];
 }
 
 
@@ -152,6 +151,7 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
     StockManagerDetailController *stockDetatilVC = [[StockManagerDetailController alloc]init];
     stockDetatilVC.hidesBottomBarWhenPushed = YES;
     StockListModel *model = [_dataItem objectAtIndex:indexPath.row];
@@ -413,4 +413,6 @@
         }
     }];
 }
+
+
 @end
