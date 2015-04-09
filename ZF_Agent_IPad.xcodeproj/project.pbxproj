@@ -58,10 +58,16 @@
 		0ED58F0A1AD4DF400081E8BC /* CommentModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0ED58F091AD4DF400081E8BC /* CommentModel.m */; };
 		0ED58F0D1AD4DF600081E8BC /* GoodsCollectionViewCell2.m in Sources */ = {isa = PBXBuildFile; fileRef = 0ED58F0C1AD4DF600081E8BC /* GoodsCollectionViewCell2.m */; };
 		1A8F68881AD4BCF100BD530E /* ScanImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A8F68871AD4BCF100BD530E /* ScanImageViewController.m */; };
+		1A96544E1AD60CF100C39B5B /* RegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A96544D1AD60CF100C39B5B /* RegisterViewController.m */; };
+		1A9654531AD60D0800C39B5B /* PhoneSuccessViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A9654501AD60D0800C39B5B /* PhoneSuccessViewController.m */; };
+		1A9654541AD60D0800C39B5B /* EmailSuccessViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A9654521AD60D0800C39B5B /* EmailSuccessViewController.m */; };
+		1A96545A1AD60D7300C39B5B /* StockManagerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A9654571AD60D7300C39B5B /* StockManagerController.m */; };
+		1A96545B1AD60D7300C39B5B /* StockManagerDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A9654591AD60D7300C39B5B /* StockManagerDetailController.m */; };
+		1A9654601AD60D8600C39B5B /* StockManagerCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A96545D1AD60D8600C39B5B /* StockManagerCell.m */; };
+		1A9654611AD60D8600C39B5B /* StockManagerDetailCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A96545F1AD60D8600C39B5B /* StockManagerDetailCell.m */; };
 		1AD7FD4C1ACE72B3009A60FC /* FindPasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AD7FD4B1ACE72B3009A60FC /* FindPasswordViewController.m */; };
 		1AD7FD4F1ACE7319009A60FC /* FindPasswordSuccessController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AD7FD4E1ACE7319009A60FC /* FindPasswordSuccessController.m */; };
 		1AD7FD521ACE7340009A60FC /* FindPasswordWithPhoneSuccessController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AD7FD511ACE7340009A60FC /* FindPasswordWithPhoneSuccessController.m */; };
-		1AD7FD551ACE7B73009A60FC /* RegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AD7FD541ACE7B73009A60FC /* RegisterViewController.m */; };
 		1AF15A8C1ACCDB8C00D5C171 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AF15A8B1ACCDB8C00D5C171 /* main.m */; };
 		1AF15A8F1ACCDB8C00D5C171 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AF15A8E1ACCDB8C00D5C171 /* AppDelegate.m */; };
 		1AF15A971ACCDB8C00D5C171 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1AF15A961ACCDB8C00D5C171 /* Images.xcassets */; };
@@ -240,14 +246,26 @@
 		0ED58F0C1AD4DF600081E8BC /* GoodsCollectionViewCell2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GoodsCollectionViewCell2.m; sourceTree = "<group>"; };
 		1A8F68861AD4BCF100BD530E /* ScanImageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScanImageViewController.h; sourceTree = "<group>"; };
 		1A8F68871AD4BCF100BD530E /* ScanImageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScanImageViewController.m; sourceTree = "<group>"; };
+		1A96544C1AD60CF100C39B5B /* RegisterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegisterViewController.h; sourceTree = "<group>"; };
+		1A96544D1AD60CF100C39B5B /* RegisterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegisterViewController.m; sourceTree = "<group>"; };
+		1A96544F1AD60D0800C39B5B /* PhoneSuccessViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhoneSuccessViewController.h; sourceTree = "<group>"; };
+		1A9654501AD60D0800C39B5B /* PhoneSuccessViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhoneSuccessViewController.m; sourceTree = "<group>"; };
+		1A9654511AD60D0800C39B5B /* EmailSuccessViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EmailSuccessViewController.h; sourceTree = "<group>"; };
+		1A9654521AD60D0800C39B5B /* EmailSuccessViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EmailSuccessViewController.m; sourceTree = "<group>"; };
+		1A9654561AD60D7300C39B5B /* StockManagerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StockManagerController.h; sourceTree = "<group>"; };
+		1A9654571AD60D7300C39B5B /* StockManagerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StockManagerController.m; sourceTree = "<group>"; };
+		1A9654581AD60D7300C39B5B /* StockManagerDetailController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StockManagerDetailController.h; sourceTree = "<group>"; };
+		1A9654591AD60D7300C39B5B /* StockManagerDetailController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StockManagerDetailController.m; sourceTree = "<group>"; };
+		1A96545C1AD60D8600C39B5B /* StockManagerCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StockManagerCell.h; sourceTree = "<group>"; };
+		1A96545D1AD60D8600C39B5B /* StockManagerCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StockManagerCell.m; sourceTree = "<group>"; };
+		1A96545E1AD60D8600C39B5B /* StockManagerDetailCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StockManagerDetailCell.h; sourceTree = "<group>"; };
+		1A96545F1AD60D8600C39B5B /* StockManagerDetailCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StockManagerDetailCell.m; sourceTree = "<group>"; };
 		1AD7FD4A1ACE72B3009A60FC /* FindPasswordViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FindPasswordViewController.h; sourceTree = "<group>"; };
 		1AD7FD4B1ACE72B3009A60FC /* FindPasswordViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FindPasswordViewController.m; sourceTree = "<group>"; };
 		1AD7FD4D1ACE7319009A60FC /* FindPasswordSuccessController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FindPasswordSuccessController.h; sourceTree = "<group>"; };
 		1AD7FD4E1ACE7319009A60FC /* FindPasswordSuccessController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FindPasswordSuccessController.m; sourceTree = "<group>"; };
 		1AD7FD501ACE7340009A60FC /* FindPasswordWithPhoneSuccessController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FindPasswordWithPhoneSuccessController.h; sourceTree = "<group>"; };
 		1AD7FD511ACE7340009A60FC /* FindPasswordWithPhoneSuccessController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FindPasswordWithPhoneSuccessController.m; sourceTree = "<group>"; };
-		1AD7FD531ACE7B73009A60FC /* RegisterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegisterViewController.h; sourceTree = "<group>"; };
-		1AD7FD541ACE7B73009A60FC /* RegisterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegisterViewController.m; sourceTree = "<group>"; };
 		1AF15A861ACCDB8C00D5C171 /* ZF_Agent_IPad.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ZF_Agent_IPad.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1AF15A8A1ACCDB8C00D5C171 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1AF15A8B1ACCDB8C00D5C171 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -542,6 +560,17 @@
 			name = MJ;
 			sourceTree = "<group>";
 		};
+		1A9654551AD60D4400C39B5B /* StockManager */ = {
+			isa = PBXGroup;
+			children = (
+				1A9654561AD60D7300C39B5B /* StockManagerController.h */,
+				1A9654571AD60D7300C39B5B /* StockManagerController.m */,
+				1A9654581AD60D7300C39B5B /* StockManagerDetailController.h */,
+				1A9654591AD60D7300C39B5B /* StockManagerDetailController.m */,
+			);
+			name = StockManager;
+			sourceTree = "<group>";
+		};
 		1AF15A7D1ACCDB8C00D5C171 = {
 			isa = PBXGroup;
 			children = (
@@ -612,6 +641,7 @@
 			children = (
 				1A8F68861AD4BCF100BD530E /* ScanImageViewController.h */,
 				1A8F68871AD4BCF100BD530E /* ScanImageViewController.m */,
+				1A9654551AD60D4400C39B5B /* StockManager */,
 				0D1694341AD3C3A200B50A17 /* Terminal */,
 				1AF15B661ACD064D00D5C171 /* Login */,
 				1AF15B651ACD060C00D5C171 /* Main */,
@@ -708,6 +738,10 @@
 		1AF15AB61ACCE33300D5C171 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				1A96545C1AD60D8600C39B5B /* StockManagerCell.h */,
+				1A96545D1AD60D8600C39B5B /* StockManagerCell.m */,
+				1A96545E1AD60D8600C39B5B /* StockManagerDetailCell.h */,
+				1A96545F1AD60D8600C39B5B /* StockManagerDetailCell.m */,
 				0ED58EE91AD4DA550081E8BC /* InterestView.h */,
 				0ED58EEA1AD4DA550081E8BC /* InterestView.m */,
 				0ED58EE61AD4DA480081E8BC /* PollingViews.h */,
@@ -897,8 +931,12 @@
 				1AD7FD4E1ACE7319009A60FC /* FindPasswordSuccessController.m */,
 				1AD7FD501ACE7340009A60FC /* FindPasswordWithPhoneSuccessController.h */,
 				1AD7FD511ACE7340009A60FC /* FindPasswordWithPhoneSuccessController.m */,
-				1AD7FD531ACE7B73009A60FC /* RegisterViewController.h */,
-				1AD7FD541ACE7B73009A60FC /* RegisterViewController.m */,
+				1A96544C1AD60CF100C39B5B /* RegisterViewController.h */,
+				1A96544D1AD60CF100C39B5B /* RegisterViewController.m */,
+				1A96544F1AD60D0800C39B5B /* PhoneSuccessViewController.h */,
+				1A9654501AD60D0800C39B5B /* PhoneSuccessViewController.m */,
+				1A9654511AD60D0800C39B5B /* EmailSuccessViewController.h */,
+				1A9654521AD60D0800C39B5B /* EmailSuccessViewController.m */,
 			);
 			name = Login;
 			sourceTree = "<group>";
@@ -1027,10 +1065,10 @@
 				1AF15B691ACD065500D5C171 /* LoginViewController.m in Sources */,
 				1AF15B0D1ACCE3BC00D5C171 /* GoodListModel.m in Sources */,
 				1AF15AF41ACCE3A400D5C171 /* UIImageView+WebCache.m in Sources */,
-				1AD7FD551ACE7B73009A60FC /* RegisterViewController.m in Sources */,
 				1AF15AEE1ACCE3A400D5C171 /* SDWebImageManager.m in Sources */,
 				1AF15AE91ACCE3A400D5C171 /* SDImageCache.m in Sources */,
 				1AF15B3A1ACCE40400D5C171 /* ImageScrollView.m in Sources */,
+				1A96545A1AD60D7300C39B5B /* StockManagerController.m in Sources */,
 				1AF15AED1ACCE3A400D5C171 /* SDWebImageDownloaderOperation.m in Sources */,
 				0ED58EBF1AD4D78A0081E8BC /* FilterViewController.m in Sources */,
 				0ED58EFD1AD4DA820081E8BC /* MJRefreshConst.m in Sources */,
@@ -1062,11 +1100,14 @@
 				0D16941D1AD3C14100B50A17 /* MASCompositeConstraint.m in Sources */,
 				0ED58F021AD4DA820081E8BC /* UIView+MJExtension.m in Sources */,
 				1AF15B4B1ACCEE9200D5C171 /* MBProgressHUD.m in Sources */,
+				1A9654541AD60D0800C39B5B /* EmailSuccessViewController.m in Sources */,
+				1A96544E1AD60CF100C39B5B /* RegisterViewController.m in Sources */,
 				0ECA762E1AD546AA0083D373 /* RefreshViewController.m in Sources */,
 				0ED58EDE1AD4D9870081E8BC /* RateModel.m in Sources */,
 				0ED58EEB1AD4DA550081E8BC /* InterestView.m in Sources */,
 				1AF15AC11ACCE36900D5C171 /* EncryptHelper.m in Sources */,
 				1AF15B511ACD031200D5C171 /* ZYHomeViewController.m in Sources */,
+				1A9654531AD60D0800C39B5B /* PhoneSuccessViewController.m in Sources */,
 				1AF15B6E1ACD068000D5C171 /* AccountModel.m in Sources */,
 				1AD7FD4C1ACE72B3009A60FC /* FindPasswordViewController.m in Sources */,
 				0ECA76311AD546DC0083D373 /* OrderModel.m in Sources */,
@@ -1074,16 +1115,19 @@
 				1AF15B0F1ACCE3BC00D5C171 /* StockAgentModel.m in Sources */,
 				0ED58ED81AD4D9550081E8BC /* GoodButton.m in Sources */,
 				0D1694231AD3C14100B50A17 /* NSArray+MASAdditions.m in Sources */,
+				1A96545B1AD60D7300C39B5B /* StockManagerDetailController.m in Sources */,
 				0ED58EC31AD4D7AB0081E8BC /* ZFSearchBar.m in Sources */,
 				0D1694201AD3C14100B50A17 /* MASLayoutConstraint.m in Sources */,
 				1AF15B391ACCE40400D5C171 /* TimeFormat.m in Sources */,
 				1AF15B0E1ACCE3BC00D5C171 /* StockListModel.m in Sources */,
 				1AF15AEB1ACCE3A400D5C171 /* SDWebImageDecoder.m in Sources */,
+				1A9654611AD60D8600C39B5B /* StockManagerDetailCell.m in Sources */,
 				0ED58ECC1AD4D7DA0081E8BC /* FactoryDetailController.m in Sources */,
 				0ECA76341AD546F80083D373 /* OrderCell.m in Sources */,
 				0ED58EFE1AD4DA820081E8BC /* MJRefreshFooterView.m in Sources */,
 				1AF15B571ACD03AE00D5C171 /* SMPageControl.m in Sources */,
 				1AF15B081ACCE3BC00D5C171 /* UserModel.m in Sources */,
+				1A9654601AD60D8600C39B5B /* StockManagerCell.m in Sources */,
 				1AF15B5E1ACD042A00D5C171 /* HomeImageModel.m in Sources */,
 				1AF15A8F1ACCDB8C00D5C171 /* AppDelegate.m in Sources */,
 				0D1694371AD3C4D900B50A17 /* TerminalViewController.m in Sources */,

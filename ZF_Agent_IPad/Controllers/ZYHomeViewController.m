@@ -16,6 +16,8 @@
 #import "TerminalViewController.h"
 #import "GoodListViewController.h"
 #import "OrderManagerController.h"
+#import "StockManagerController.h"
+
 @interface ZYHomeViewController ()
 @property(nonatomic,strong)PollingView *pollingView;
 @property(nonatomic,strong)NSString *cityName;
@@ -332,6 +334,9 @@
             break;
         case 1004: {
             //我要贷款
+            StockManagerController *stockVC = [[StockManagerController alloc]init];
+            stockVC.hidesBottomBarWhenPushed = YES;
+            [self.navigationController pushViewController:stockVC animated:YES];
         }
             break;
         case 1005: {
