@@ -15,6 +15,7 @@
 #import "AppDelegate.h"
 #import "TerminalViewController.h"
 #import "GoodListViewController.h"
+#import "OrderManagerController.h"
 @interface ZYHomeViewController ()
 @property(nonatomic,strong)PollingView *pollingView;
 @property(nonatomic,strong)NSString *cityName;
@@ -298,12 +299,19 @@
 - (void)tarbarClicked:(UIButton *)sender {
     switch (sender.tag) {
         case 1000: {
-            GoodListViewController *GoodListVC = [[GoodListViewController alloc]init];
-            GoodListVC.hidesBottomBarWhenPushed = YES;
-            [self.navigationController pushViewController:GoodListVC animated:YES];
+            AppDelegate *delegate = [AppDelegate shareAppDelegate];
+
+            [delegate.rootViewController.homeController setSeletedIndex:1];
+            
         }
             break;
         case 1001: {
+            
+            OrderManagerController *OrderManager = [[OrderManagerController alloc]init];
+            OrderManager.hidesBottomBarWhenPushed = YES;
+            [self.navigationController pushViewController:OrderManager animated:YES];
+
+            
             //开通认证
             
             

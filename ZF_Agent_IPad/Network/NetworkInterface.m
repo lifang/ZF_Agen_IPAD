@@ -576,6 +576,37 @@ static NSString *HTTP_GET  = @"GET";
                       httpMethod:HTTP_POST
                         finished:finish];
 }
+//67.
++ (void)getOrderListWithAgentID:(NSString *)agentID
+                          token:(NSString *)token
+                      orderType:(OrderType)orderType
+                        keyword:(NSString *)keyword
+                         status:(int)status
+                           page:(int)page
+                           rows:(int)rows
+                       finished:(requestDidFinished)finish {
+    //参数
+    NSMutableDictionary *paramDict = [[NSMutableDictionary alloc] init];
+    [paramDict setObject:[NSNumber numberWithInt:[agentID intValue]] forKey:@"customerId"];
+    if (orderType > 0) {
+        [paramDict setObject:[NSNumber numberWithInt:orderType] forKey:@"p"];
+    }
+    if (keyword) {
+        [paramDict setObject:keyword forKey:@"search"];
+    }
+    if (status > 0) {
+        [paramDict setObject:[NSString stringWithFormat:@"%d",status] forKey:@"q"];
+    }
+    [paramDict setObject:[NSNumber numberWithInt:page] forKey:@"page"];
+    [paramDict setObject:[NSNumber numberWithInt:rows] forKey:@"rows"];
+    //url
+    NSString *urlString = [NSString stringWithFormat:@"%@/%@",kServiceURL,s_orderList_method];
+    [[self class] requestWithURL:urlString
+                          params:paramDict
+                      httpMethod:HTTP_POST
+                        finished:finish];
+}
+
 
 //80.
 + (void)getPersonDetailWithAgentID:(NSString *)agentID

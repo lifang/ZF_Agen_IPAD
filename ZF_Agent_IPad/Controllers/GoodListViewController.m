@@ -55,6 +55,43 @@
 
 @implementation GoodListViewController
 
+
+- (void)viewWillAppear:(BOOL)animated
+{
+
+    [super viewWillAppear:animated];
+    NSLog(@"%f-%f-%f-%f",self.view.frame.origin.x,self.view.frame.origin.y,self.view.frame.size.height,self.view.frame.size.width);
+
+     [self.navigationController.navigationBar setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor], NSForegroundColorAttributeName, NavTitle_FONT(NavTitle_FONTSIZE),NSFontAttributeName,nil]];
+    UIButton *shoppingButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    shoppingButton.frame = CGRectMake(0, 0, 30, 30);
+    [shoppingButton setBackgroundImage:[UIImage imageNamed:@"good_right1@2x"] forState:UIControlStateNormal];
+    
+    //    [shoppingButton setBackgroundImage:kImageName(@"good_right1.png") forState:UIControlStateNormal];
+    [shoppingButton addTarget:self action:@selector(goShoppingCart:) forControlEvents:UIControlEventTouchUpInside];
+    
+    UIButton *filterButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    filterButton.frame = CGRectMake(0, 0, 30, 30);
+    [filterButton setBackgroundImage:kImageName(@"good_right2@2x.png") forState:UIControlStateNormal];
+    [filterButton addTarget:self action:@selector(filterGoods:) forControlEvents:UIControlEventTouchUpInside];
+    NSLog(@"%f",self.view.frame.size.width);
+    
+    //设置间距
+    UIBarButtonItem *spaceItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace
+                                                                               target:nil
+                                                                               action:nil];
+    UIBarButtonItem *rightItems = [[UIBarButtonItem alloc] initWithTitle:@""
+                                                                   style:UIBarButtonItemStylePlain
+                                                                  target:self
+                                                                  action:nil];
+
+    spaceItem.width = 52;
+    UIBarButtonItem *shoppingItem = [[UIBarButtonItem alloc] initWithCustomView:shoppingButton];
+    UIBarButtonItem *filterItem = [[UIBarButtonItem alloc] initWithCustomView:filterButton];
+    self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:spaceItem,filterItem,spaceItem,spaceItem, spaceItem,nil];
+    self.navigationItem.leftBarButtonItems = [NSArray arrayWithObjects:spaceItem,spaceItem, rightItems,nil];
+
+}
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
@@ -62,7 +99,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [self.navigationController.navigationBar setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor], NSForegroundColorAttributeName, NavTitle_FONT(NavTitle_FONTSIZE),NSFontAttributeName,nil]];
+    self.supplyType=SupplyGoodsWholesale;
+
 
   filterC = [[FilterViewController alloc] init];
     changA=8;
@@ -127,28 +165,7 @@
     self.view.backgroundColor=[UIColor whiteColor];
     
     
-    UIButton *shoppingButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    shoppingButton.frame = CGRectMake(0, 0, 30, 30);
-    [shoppingButton setBackgroundImage:[UIImage imageNamed:@"good_right1@2x"] forState:UIControlStateNormal];
-    
-//    [shoppingButton setBackgroundImage:kImageName(@"good_right1.png") forState:UIControlStateNormal];
-    [shoppingButton addTarget:self action:@selector(goShoppingCart:) forControlEvents:UIControlEventTouchUpInside];
-    
-    UIButton *filterButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    filterButton.frame = CGRectMake(0, 0, 30, 30);
-    [filterButton setBackgroundImage:kImageName(@"good_right2@2x.png") forState:UIControlStateNormal];
-    [filterButton addTarget:self action:@selector(filterGoods:) forControlEvents:UIControlEventTouchUpInside];
-    NSLog(@"%f",self.view.frame.size.width);
-    
-    //设置间距
-    UIBarButtonItem *spaceItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace
-                                                                               target:nil
-                                                                               action:nil];
-    spaceItem.width = 52;
-    UIBarButtonItem *shoppingItem = [[UIBarButtonItem alloc] initWithCustomView:shoppingButton];
-    UIBarButtonItem *filterItem = [[UIBarButtonItem alloc] initWithCustomView:filterButton];
-    self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:spaceItem,filterItem,spaceItem,spaceItem, spaceItem,nil];
-
+  
 }
 
 - (void)setHeaderAndFooterView {
@@ -188,18 +205,39 @@
     [self.view addSubview:_sortView];
     
     button1=[UIButton buttonWithType:UIButtonTypeCustom];
+    wholesalebutton=[UIButton buttonWithType:UIButtonTypeCustom];
+    behalfbutton=[UIButton buttonWithType:UIButtonTypeCustom];
+    wholesalebutton.frame=CGRectMake(60,10,  40, 40);
+    behalfbutton.frame=CGRectMake(120,10,  40, 40);
+    [behalfbutton setTitle:@"代购" forState:UIControlStateNormal];
+    [wholesalebutton setTitle:@"批购" forState:UIControlStateNormal];
+    [wholesalebutton setTitleColor:kColor(3, 112, 214, 1) forState:UIControlStateNormal];
+    [behalfbutton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    wholesalebutton.tag=506;
+    behalfbutton.tag=507;
+
+    UIView *linview = [[UIView alloc] initWithFrame:CGRectMake(110, 20, 1, 20)];
+    linview.backgroundColor = [UIColor grayColor];
+    [self.view addSubview:linview];
+    [behalfbutton addTarget:self action:@selector(selectStatus:) forControlEvents:UIControlEventTouchUpInside];
+    [wholesalebutton addTarget:self action:@selector(selectStatus:) forControlEvents:UIControlEventTouchUpInside];
+
     
-    
+    [self.view addSubview:behalfbutton];
+    [self.view addSubview:wholesalebutton];
+
     
     if (iOS7) {
         
-        button1.frame=CGRectMake(SCREEN_HEIGHT-180,10,  40, 40);
+        button1.frame=CGRectMake(SCREEN_HEIGHT-210,10,  40, 40);
+      
+
         
     }
     else
     {
         
-        button1.frame=CGRectMake(SCREEN_WIDTH-180,10,  40, 40);
+        button1.frame=CGRectMake(SCREEN_WIDTH-210,10,  40, 40);
         
     }
     
@@ -215,13 +253,13 @@
     
     if (iOS7) {
         
-        button2.frame=CGRectMake(SCREEN_HEIGHT-100,10,  40, 40);
+        button2.frame=CGRectMake(SCREEN_HEIGHT-130,10,  40, 40);
         
     }
     else
     {
         
-        button2.frame=CGRectMake(SCREEN_WIDTH-100,10,  40, 40);
+        button2.frame=CGRectMake(SCREEN_WIDTH-130,10,  40, 40);
         
     }
     
@@ -237,7 +275,7 @@
     
     
     [flowLayout setScrollDirection:UICollectionViewScrollDirectionVertical];//设置其布局方向
-   flowLayout.sectionInset = UIEdgeInsetsMake(15, 0, 0, 0);//设置其边
+//   flowLayout.sectionInset = UIEdgeInsetsMake(15, 0, 0, 0);//设置其边
     
     
     
@@ -253,59 +291,92 @@
 
     
     
-    _tableView.translatesAutoresizingMaskIntoConstraints = NO;
+//    _tableView.translatesAutoresizingMaskIntoConstraints = NO;
     _tableView.backgroundColor =[UIColor whiteColor];
     _tableView.delegate = self;
     _tableView.dataSource = self;
 //    [self setHeaderAndFooterView];
     [self.view addSubview:_tableView];
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_tableView
-                                                          attribute:NSLayoutAttributeTop
-                                                          relatedBy:NSLayoutRelationEqual
-                                                             toItem:_sortView
-                                                          attribute:NSLayoutAttributeBottom
-                                                         multiplier:1.0
-                                                           constant:0]];
     
     
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_tableView
-                                                          attribute:NSLayoutAttributeLeft
-                                                          relatedBy:NSLayoutRelationEqual
-                                                             toItem:self.view
-                                                          attribute:NSLayoutAttributeLeft
-                                                         multiplier:1.0
-                                                           constant:0]];
+//    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_tableView
+//                                                          attribute:NSLayoutAttributeTop
+//                                                          relatedBy:NSLayoutRelationEqual
+//                                                             toItem:_sortView
+//                                                          attribute:NSLayoutAttributeBottom
+//                                                         multiplier:1.0
+//                                                           constant:0]];
+//    
+//    
+//    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_tableView
+//                                                          attribute:NSLayoutAttributeLeft
+//                                                          relatedBy:NSLayoutRelationEqual
+//                                                             toItem:self.view
+//                                                          attribute:NSLayoutAttributeLeft
+//                                                         multiplier:1.0
+//                                                           constant:0]];
     if(changA==8)
     {
+        if(iOS7)
+        {
+            _tableView.frame=CGRectMake(0, 60, SCREEN_HEIGHT-60-20, SCREEN_WIDTH-130);
+            
+
+        }
+        else
+        {
         
+            _tableView.frame=CGRectMake(0, 60,  SCREEN_WIDTH-60-20, SCREEN_HEIGHT-130);
+            
+
         
-        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_tableView
-                                                              attribute:NSLayoutAttributeRight
-                                                              relatedBy:NSLayoutRelationEqual
-                                                                 toItem:self.view
-                                                              attribute:NSLayoutAttributeRight
-                                                             multiplier:1.0
-                                                               constant:-20]];
+        }
+        
+//        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_tableView
+//                                                              attribute:NSLayoutAttributeRight
+//                                                              relatedBy:NSLayoutRelationEqual
+//                                                                 toItem:self.view
+//                                                              attribute:NSLayoutAttributeRight
+//                                                             multiplier:1.0
+//                                                               constant:-20]];
     }else
     {
-        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_tableView
-                                                              attribute:NSLayoutAttributeRight
-                                                              relatedBy:NSLayoutRelationEqual
-                                                                 toItem:self.view
-                                                              attribute:NSLayoutAttributeRight
-                                                             multiplier:1.0
-                                                               constant:0]];
+        
+        
+        if(iOS7)
+        {
+            _tableView.frame=CGRectMake(0, 60, SCREEN_HEIGHT-60, SCREEN_WIDTH-130);
+            
+            
+        }
+        else
+        {
+            
+            _tableView.frame=CGRectMake(0, 60,  SCREEN_WIDTH-60, SCREEN_HEIGHT-130);
+            
+            
+            
+        }
+        
+
+//        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_tableView
+//                                                              attribute:NSLayoutAttributeRight
+//                                                              relatedBy:NSLayoutRelationEqual
+//                                                                 toItem:self.view
+//                                                              attribute:NSLayoutAttributeRight
+//                                                             multiplier:1.0
+//                                                               constant:0]];
     
     }
    
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_tableView
-                                                          attribute:NSLayoutAttributeBottom
-                                                          relatedBy:NSLayoutRelationEqual
-                                                             toItem:self.view
-                                                          attribute:NSLayoutAttributeBottom
-                                                         multiplier:1.0
-                                                           constant:0]];
-    
+//    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_tableView
+//                                                          attribute:NSLayoutAttributeBottom
+//                                                          relatedBy:NSLayoutRelationEqual
+//                                                             toItem:self.view
+//                                                          attribute:NSLayoutAttributeBottom
+//                                                         multiplier:1.0
+//                                                           constant:0]];
+//    
     
     
 //    if(iOS7)
@@ -540,6 +611,32 @@
 }
 
 #pragma mark - Action
+- (IBAction)selectStatus:(id)sender {
+    UIButton*but=(UIButton*)sender;
+    if(but.tag==506)
+    {
+        
+        
+        [wholesalebutton setTitleColor:kColor(3, 112, 214, 1) forState:UIControlStateNormal];
+        [behalfbutton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        
+        
+        self.supplyType=SupplyGoodsWholesale;
+        
+        
+        
+    }
+    else
+    {
+        self.supplyType=SupplyGoodsProcurement;
+
+        [behalfbutton setTitleColor:kColor(3, 112, 214, 1) forState:UIControlStateNormal];
+        [wholesalebutton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    }
+    
+//    self.currentType = but.tag;
+    [self firstLoadData];
+}
 
 - (IBAction)goShoppingCart:(id)sender {
 //    AppDelegate *del = (AppDelegate *)[[UIApplication sharedApplication] delegate];
@@ -640,12 +737,24 @@
         [cell.pictureView sd_setImageWithURL:[NSURL URLWithString:good.goodImagePath]
                             placeholderImage:kImageName(@"test1.png")];
         cell.titleLabel.text = good.goodName;
-       cell.priceLabel.text = [NSString stringWithFormat:@"原价：￥%.2f",good.goodPrimaryPrice];
+        
+        
+        
+        NSString *primaryPrice = [NSString stringWithFormat:@"原价 ￥%.2f",good.goodPrimaryPrice];
+        NSMutableAttributedString *priceAttrString = [[NSMutableAttributedString alloc] initWithString:primaryPrice];
+        NSDictionary *priceAttr = [NSDictionary dictionaryWithObjectsAndKeys:
+                                   [UIFont systemFontOfSize:15.f],NSFontAttributeName,
+                                   [NSNumber numberWithInt:2],NSStrikethroughStyleAttributeName,
+                                   nil];
+        [priceAttrString addAttributes:priceAttr range:NSMakeRange(0, [priceAttrString length])];
+        cell.priceLabel.attributedText = priceAttrString;
+
+        
         cell.lastnumber.text = [NSString stringWithFormat:@"最小起批量￥%d件",good.minWholesaleNumber];
         cell.newpriceLabel.text = [NSString stringWithFormat:@"￥%.2f",good.goodWholesalePrice];
 
         
-        cell.salesVolumeLabel.text = [NSString stringWithFormat:@"已售%d",good.goodSaleNumber];
+        cell.salesVolumeLabel.text = [NSString stringWithFormat:@"%d",good.goodSaleNumber];
         cell.brandLabel.text = [NSString stringWithFormat:@"品牌型号   %@%@",good.goodBrand,good.goodModel];
         cell.channelLabel.text = [NSString stringWithFormat:@"支付通道   %@",good.goodChannel];
         if (good.isRent)
@@ -709,10 +818,13 @@
 
 - (BOOL)searchBarShouldBeginEditing:(UISearchBar *)searchBar {
     SearchViewController *searchC = [[SearchViewController alloc] init];
+    
     searchC.delegate = self;
     searchC.keyword = _keyword;
     UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:searchC];
     [NavigationBarAttr setNavigationBarStyle:nav];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"hiedebar" object:self userInfo:nil];
+
     [self presentViewController:nav animated:NO completion:nil];
     return NO;
 

@@ -20,14 +20,15 @@
         [self setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     }
     else {
-        [self setTitleColor:kColor(255, 102, 36, 1) forState:UIControlStateNormal];
+        [self setTitleColor:kColor(3, 112, 214, 1) forState:UIControlStateNormal];
+
     }
 }
 
 - (void)setHighlighted:(BOOL)highlighted {
     [super setHighlighted:highlighted];
     if (highlighted) {
-        [self setTitleColor:kColor(255, 102, 36, 1) forState:UIControlStateNormal];
+        [self setTitleColor:kColor(3, 112, 214, 1) forState:UIControlStateNormal];
     }
 }
 
@@ -89,7 +90,7 @@
         }
         if (i < [itemNames count] - 1)
         {
-            UIView *line = [[UIView alloc] initWithFrame:CGRectMake(originX - kLineHeight, 25, kLineHeight, rect.size.height - 50)];
+            UIView *line = [[UIView alloc] initWithFrame:CGRectMake(originX - kLineHeight, 25, 1, rect.size.height - 50)];
             line.backgroundColor = [UIColor colorWithWhite:0.7 alpha:1];
             [self addSubview:line];
         }

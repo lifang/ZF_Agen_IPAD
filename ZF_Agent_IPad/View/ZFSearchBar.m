@@ -31,7 +31,7 @@
             UITextField *textFeild = (UITextField *)view;
             textFeild.font = [UIFont systemFontOfSize:14.f];
             if (kDeviceVersion >= 7.0) {
-                textFeild.backgroundColor = kColor(200, 91, 38, 1);
+                textFeild.backgroundColor = kColor(95, 152, 237, 1);
                 textFeild.layer.cornerRadius = 4;
                 textFeild.layer.masksToBounds = YES;
                 textFeild.textColor = [UIColor whiteColor];

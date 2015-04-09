@@ -9,7 +9,7 @@
 #import "HomepageViewController.h"
 #import "ZYHomeViewController.h"
 #import "BasicNagigationController.h"
-
+#import "GoodListViewController.h"
 @interface HomepageViewController ()
 
 @end
@@ -23,7 +23,7 @@
     [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(viewcontrollew) name:@"addressmanger" object:nil];
     ZYHomeViewController *viewController1 = [[ZYHomeViewController alloc] init];
-    ZYHomeViewController *viewController2 = [[ZYHomeViewController alloc] init];
+    GoodListViewController *viewController2 = [[GoodListViewController alloc] init];
     ZYHomeViewController *viewController3 = [[ZYHomeViewController alloc] init];
     ZYHomeViewController *viewController4 = [[ZYHomeViewController alloc] init];
     ZYHomeViewController *viewController5 = [[ZYHomeViewController alloc] init];

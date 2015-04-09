@@ -34,6 +34,9 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showbar) name:@"showbar" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(hidebar) name:@"hiedebar" object:nil];
+
     _nomalImageArray = [[NSArray alloc] initWithObjects:@"tabar_n1",@"tabar_n2",@"tabar_n3",@"tabar_n4",@"tabbar_button_notes_normal.png",nil];
     _hightlightedImageArray = [[NSArray alloc]initWithObjects:@"tabar1_h",@"taba2_h",@"tabar3_h",@"tabar4_h",@"tabbar_button_notes_selected.png",nil];
     [self createui];
@@ -42,7 +45,20 @@
 //		self.seletedIndex = _seletedIndex;
     self.view.backgroundColor=[UIColor whiteColor];
 }
+-(void)hidebar
+{
+    [self hideTabBar:1 animated:YES];
+    
+    
+    
+}
+-(void)showbar
+{
+    [self showTabBar:1 animated:YES];
+    
 
+
+}
 - (void)showMessage:(NSString*)message viewHeight:(float)height;
 {
     if(self)
@@ -267,7 +283,7 @@
     //设置当前视图的大小
     if(iOS7)
     {
-        if(self.AG==0)
+        if(self.AG==78)
         {
             currentViewController.view.frame = CGRectMake(60, 0,  SCREEN_HEIGHT - 60,SCREEN_WIDTH+260);
         }

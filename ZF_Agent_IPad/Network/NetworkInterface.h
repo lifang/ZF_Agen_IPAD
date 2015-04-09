@@ -40,12 +40,10 @@ typedef enum {
 }OrderStatus;
 
 typedef enum {
-    OrderTypeAll = -1,
-    OrderTypeUserBuy,          //用户订购
-    OrderTypeUserRent,         //用户租赁
-    OrderTypeAgentProcurement, //代理商代购
-    OrderTypeAgentRent,        //代理商代租赁
-    OrderTypeWholesale,        //代理商批购
+    OrderTypeProcurement = -1,      //不传默认查询3，4
+    OrderTypeProcurementBuy = 3,    //代理商代购
+    OrderTypeProcurementRent,       //代理商代租赁
+    OrderTypeWholesale,            //代理商批购
 }OrderType;
 
 typedef enum {
@@ -138,6 +136,9 @@ static NSString *s_messageMultiDelete_method = @"message/receiver/batchDelete";
 
 //64.我的消息——批量已读
 static NSString *s_messageMultiRead_method = @"message/receiver/batchRead";
+
+//67.订单管理——列表
+static NSString *s_orderList_method = @"order/orderSearch";
 
 //80.我的信息——获取详情
 static NSString *s_personDetail_method = @"agents/getOne";
@@ -483,6 +484,25 @@ static NSString *s_hot_method = @"index/pos_list";
                               token:(NSString *)token
                          messageIDs:(NSArray *)messageIDs
                            finished:(requestDidFinished)finish;
+/*!
+ @abstract 67.订单管理——列表
+ @param agentID  代理商id
+ @param token    登录返回
+ @param orderType  订单类型
+ @param keyword    关键字
+ @param status     订单状态
+ @param page     分页参数 页
+ @param rows     分页参数 行
+ @result finish  请求回调结果
+ */
++ (void)getOrderListWithAgentID:(NSString *)agentID
+                          token:(NSString *)token
+                      orderType:(OrderType)orderType
+                        keyword:(NSString *)keyword
+                         status:(int)status
+                           page:(int)page
+                           rows:(int)rows
+                       finished:(requestDidFinished)finish;
 
 /*!
  @abstract 80.我的信息——获取详情

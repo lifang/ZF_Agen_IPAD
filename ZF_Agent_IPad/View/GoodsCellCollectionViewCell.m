@@ -52,7 +52,7 @@
                                                                     toItem:self.contentView
                                                                  attribute:NSLayoutAttributeLeft
                                                                 multiplier:1.0
-                                                                  constant:leftSpace]];
+                                                                  constant:leftSpace+30]];
     [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_pictureView
                                                                  attribute:NSLayoutAttributeCenterY
                                                                  relatedBy:NSLayoutRelationEqual
@@ -153,9 +153,9 @@
         _newpriceLabel = [[UILabel alloc] initWithFrame:CGRectMake(SCREEN_HEIGHT/2, 70, 150, 30)];
         _lastnumber = [[UILabel alloc] initWithFrame:CGRectMake(SCREEN_HEIGHT/2, 110, 180, 30)];
 
-        _salesVolumeLabel = [[UILabel alloc]initWithFrame:CGRectMake(SCREEN_HEIGHT-160, 60, 100, 30)];
+        _salesVolumeLabel = [[UILabel alloc]initWithFrame:CGRectMake(SCREEN_HEIGHT-140, 60, 100, 30)];
         
-        self.bigimages=[[UILabel alloc]initWithFrame:CGRectMake(_pictureView.frame.origin.x+50, 0, SCREEN_HEIGHT-_pictureView.frame.origin.x-90, 20)];
+        self.bigimages=[[UILabel alloc]initWithFrame:CGRectMake(_pictureView.frame.origin.x+80, 0, SCREEN_HEIGHT-_pictureView.frame.origin.x-120, 20)];
        
 
         self.pricelable=[[UILabel alloc]initWithFrame:CGRectMake(SCREEN_HEIGHT/2, -5, 80, 30)];
@@ -168,8 +168,9 @@
         _priceLabel = [[UILabel alloc] initWithFrame:CGRectMake(SCREEN_WIDTH/2, 40, 150, 30)];
         
         _newpriceLabel = [[UILabel alloc] initWithFrame:CGRectMake(SCREEN_WIDTH/2, 70, 150, 30)];
-        _lastnumber = [[UILabel alloc] initWithFrame:CGRectMake(SCREEN_WIDTH/2, 110, 180, 30)];        _salesVolumeLabel = [[UILabel alloc]initWithFrame:CGRectMake(SCREEN_WIDTH-160, 60, 100, 30)];
-  self.bigimages=[[UILabel alloc]initWithFrame:CGRectMake(_pictureView.frame.origin.x+50, 0, SCREEN_WIDTH-_pictureView.frame.origin.x-90, 20)];
+        _lastnumber = [[UILabel alloc] initWithFrame:CGRectMake(SCREEN_WIDTH/2, 110, 180, 30)];
+        _salesVolumeLabel = [[UILabel alloc]initWithFrame:CGRectMake(SCREEN_WIDTH-140, 60, 100, 30)];
+  self.bigimages=[[UILabel alloc]initWithFrame:CGRectMake(_pictureView.frame.origin.x+80, 0, SCREEN_WIDTH-_pictureView.frame.origin.x-120, 20)];
         
         self.pricelable=[[UILabel alloc]initWithFrame:CGRectMake(SCREEN_WIDTH/2, -5, 80, 30)];
         

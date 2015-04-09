@@ -32,7 +32,8 @@
     [super viewDidLoad];
     _dataItem = [[NSMutableArray alloc] initWithCapacity:0];
     _dataItemid = [[NSMutableArray alloc] initWithCapacity:0];
-
+    self.view.backgroundColor=[UIColor whiteColor];
+    
     [self gethotname];
 
     _tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
@@ -122,7 +123,7 @@
         height=SCREEN_HEIGHT;
         
     }
-
+     
     _searchBar = [[ZFSearchBar alloc] initWithFrame:CGRectMake(0, 0, wide, 30)];
     _searchBar.delegate = self;
     _searchBar.text = _keyword;
@@ -336,6 +337,8 @@
 
 -(void)lastebuttonclick:(UIButton*)send
 {
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"showbar" object:self userInfo:nil];
+
 
     self.searchBar.text = [_historyItems objectAtIndex:send.tag];
     [self searchWithString:self.searchBar.text];
@@ -443,6 +446,9 @@
 
 - (IBAction)dismiss:(id)sender {
     [self searchWithString:nil];
+
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"showbar" object:self userInfo:nil];
+
     [self dismissViewControllerAnimated:NO completion:nil];
 }
 

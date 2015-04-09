@@ -17,8 +17,10 @@
     UICollectionViewFlowLayout *flowLayout;
     UIButton*button1;
     UIButton*button2;
+    UIButton*wholesalebutton;
+    UIButton*behalfbutton;
     NSInteger changA;
-    
+
     FilterViewController *filterC;
     
 
