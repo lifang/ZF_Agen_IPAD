@@ -8,7 +8,8 @@
 
 #import "UserManagerController.h"
 #import "NetworkInterface.h"
-
+#import "UserManagerModel.h"
+#import "UserManagerCell.h"
 
 @interface UserManagerController ()
 
@@ -22,6 +23,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    _dataItem = [[NSMutableArray alloc]init];
     [self setupNavBar];
     [self initAndLayoutUI];
     [self firstLoadData];
@@ -140,13 +142,14 @@
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 5;
+    return _dataItem.count;
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"cell"];
-    cell.textLabel.text = @"张三李四";
+    UserManagerModel *model = [_dataItem objectAtIndex:indexPath.row];
+    UserManagerCell *cell = [UserManagerCell cellWithTableView:tableView];
+    [cell setContentWithModel:model];
     return cell;
 }
 
@@ -157,7 +160,7 @@
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 60.f;
+    return hUserModelCellHeight;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
@@ -202,7 +205,7 @@
                         //无数据
                         hud.labelText = @"没有更多数据了...";
                     }
-//                    [self parseUserDataWithDictionary:object];
+                    [self parseUserDataWithDictionary:object];
                 }
             }
             else {
@@ -222,5 +225,21 @@
     }];
 }
 
+#pragma mark - Data
+
+- (void)parseUserDataWithDictionary:(NSDictionary *)dict {
+    if (![dict objectForKey:@"result"] || ![[dict objectForKey:@"result"] isKindOfClass:[NSArray class]]) {
+        return;
+    }
+    NSArray *userList = [dict objectForKey:@"result"];
+    for (int i = 0; i < [userList count]; i++) {
+        id userDict = [userList objectAtIndex:i];
+        if ([userDict isKindOfClass:[NSDictionary class]]) {
+            UserManagerModel *model = [[UserManagerModel alloc] initWithParseDictionary:userDict];
+            [_dataItem addObject:model];
+        }
+    }
+    [self.tableView reloadData];
+}
 
 @end

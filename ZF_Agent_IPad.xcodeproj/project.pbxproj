@@ -78,6 +78,7 @@
 		1A9654921AD66FD200C39B5B /* MyMessageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A9654911AD66FD200C39B5B /* MyMessageViewController.m */; };
 		1A9654951AD66FEF00C39B5B /* SwitchView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A9654941AD66FEF00C39B5B /* SwitchView.m */; };
 		1A9654981AD6705D00C39B5B /* BaseInformationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A9654971AD6705D00C39B5B /* BaseInformationViewController.m */; };
+		1A9EEB941AD7606400DA6E0D /* UserManagerModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A9EEB931AD7606400DA6E0D /* UserManagerModel.m */; };
 		1AD7FD4C1ACE72B3009A60FC /* FindPasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AD7FD4B1ACE72B3009A60FC /* FindPasswordViewController.m */; };
 		1AD7FD4F1ACE7319009A60FC /* FindPasswordSuccessController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AD7FD4E1ACE7319009A60FC /* FindPasswordSuccessController.m */; };
 		1AD7FD521ACE7340009A60FC /* FindPasswordWithPhoneSuccessController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AD7FD511ACE7340009A60FC /* FindPasswordWithPhoneSuccessController.m */; };
@@ -299,6 +300,8 @@
 		1A9654941AD66FEF00C39B5B /* SwitchView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SwitchView.m; sourceTree = "<group>"; };
 		1A9654961AD6705D00C39B5B /* BaseInformationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseInformationViewController.h; sourceTree = "<group>"; };
 		1A9654971AD6705D00C39B5B /* BaseInformationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseInformationViewController.m; sourceTree = "<group>"; };
+		1A9EEB921AD7606400DA6E0D /* UserManagerModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserManagerModel.h; sourceTree = "<group>"; };
+		1A9EEB931AD7606400DA6E0D /* UserManagerModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserManagerModel.m; sourceTree = "<group>"; };
 		1AD7FD4A1ACE72B3009A60FC /* FindPasswordViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FindPasswordViewController.h; sourceTree = "<group>"; };
 		1AD7FD4B1ACE72B3009A60FC /* FindPasswordViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FindPasswordViewController.m; sourceTree = "<group>"; };
 		1AD7FD4D1ACE7319009A60FC /* FindPasswordSuccessController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FindPasswordSuccessController.h; sourceTree = "<group>"; };
@@ -626,8 +629,6 @@
 			children = (
 				1A96547A1AD666C900C39B5B /* MessageViewCell.h */,
 				1A96547B1AD666C900C39B5B /* MessageViewCell.m */,
-				0D1694381AD3C60800B50A17 /* TerminalViewCell.h */,
-				0D1694391AD3C60800B50A17 /* TerminalViewCell.m */,
 				1A96546C1AD662D200C39B5B /* UserManagerCell.h */,
 				1A96546D1AD662D200C39B5B /* UserManagerCell.m */,
 				1A9654651AD623C400C39B5B /* StockTerminalCell.h */,
@@ -818,6 +819,8 @@
 				1AF15B051ACCE3BC00D5C171 /* StockAgentModel.m */,
 				1AF15B061ACCE3BC00D5C171 /* StockTerminalModel.h */,
 				1AF15B071ACCE3BC00D5C171 /* StockTerminalModel.m */,
+				1A9EEB921AD7606400DA6E0D /* UserManagerModel.h */,
+				1A9EEB931AD7606400DA6E0D /* UserManagerModel.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -861,6 +864,8 @@
 				0ED58EEA1AD4DA550081E8BC /* InterestView.m */,
 				0ED58EE61AD4DA480081E8BC /* PollingViews.h */,
 				0ED58EE71AD4DA480081E8BC /* PollingViews.m */,
+				0D1694381AD3C60800B50A17 /* TerminalViewCell.h */,
+				0D1694391AD3C60800B50A17 /* TerminalViewCell.m */,
 				0ED58EE51AD4DA040081E8BC /* cell */,
 				0ED58EDF1AD4D9DD0081E8BC /* SortView.h */,
 				0ED58EE01AD4D9DD0081E8BC /* SortView.m */,
@@ -1191,6 +1196,7 @@
 				0ED58EBF1AD4D78A0081E8BC /* FilterViewController.m in Sources */,
 				0ED58EFD1AD4DA820081E8BC /* MJRefreshConst.m in Sources */,
 				0ED58EDB1AD4D9660081E8BC /* FormView.m in Sources */,
+				1A9EEB941AD7606400DA6E0D /* UserManagerModel.m in Sources */,
 				0ED58F071AD4DAAB0081E8BC /* CommentCell.m in Sources */,
 				1AF15B451ACCEDC200D5C171 /* RootViewController.m in Sources */,
 				1A9654781AD6667900C39B5B /* MessageViewController.m in Sources */,
