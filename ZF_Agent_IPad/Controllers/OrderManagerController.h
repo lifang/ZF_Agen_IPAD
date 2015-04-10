@@ -7,7 +7,17 @@
 //
 
 #import "RefreshViewController.h"
+static NSString *RefreshOrderListNotification = @"RefreshOrderListNotification";
 
 @interface OrderManagerController : RefreshViewController
 
+{
+
+    BOOL typechang;
+    
+    UIButton*buybutton;
+    UIButton*rentbutton;
+
+
+}
 @end

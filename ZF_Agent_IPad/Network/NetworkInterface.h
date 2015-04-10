@@ -139,7 +139,17 @@ static NSString *s_messageMultiRead_method = @"message/receiver/batchRead";
 
 //67.订单管理——列表
 static NSString *s_orderList_method = @"order/orderSearch";
+//68.订单管理——批购详情
+//71.订单管理——代购详情
+static NSString *s_orderDetailProcurement_method = @"order/getProxyById";
+static NSString *s_orderDetailWholesale_method = @"order/getWholesaleById";
 
+
+//69.订单管理——批购取消订单
+static NSString *s_orderCancelWholesale_method = @"order/cancelWholesale";
+
+//72.订单管理——代购取消订单
+static NSString *s_orderCancelProcurement_method = @"order/cancelProxy";
 //80.我的信息——获取详情
 static NSString *s_personDetail_method = @"agents/getOne";
 
@@ -503,6 +513,37 @@ static NSString *s_hot_method = @"index/pos_list";
                            page:(int)page
                            rows:(int)rows
                        finished:(requestDidFinished)finish;
+/*!
+ @abstract 68.订单管理——批购列表  71.代购列表
+ @param token    登录返回
+ @param supplyType  批购还是代购
+ @param orderID    订单id
+ @result finish  请求回调结果
+ */
++ (void)getOrderDetailWithToken:(NSString *)token
+                      orderType:(SupplyGoodsType)supplyType
+                        orderID:(NSString *)orderID
+                       finished:(requestDidFinished)finish;
+/*!
+ @abstract 69.订单管理——取消批购订单
+ @param token    登录返回
+ @param orderID    订单id
+ @result finish  请求回调结果
+ */
++ (void)cancelWholesaleOrderWithToken:(NSString *)token
+                              orderID:(NSString *)orderID
+                             finished:(requestDidFinished)finish;
+/*!
+ @abstract 72.订单管理——取消代购订单
+ @param token    登录返回
+ @param orderID    订单id
+ @result finish  请求回调结果
+ */
++ (void)cancelProcurementOrderWithToken:(NSString *)token
+                                orderID:(NSString *)orderID
+                               finished:(requestDidFinished)finish;
+
+
 
 /*!
  @abstract 80.我的信息——获取详情

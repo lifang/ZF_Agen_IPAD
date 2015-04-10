@@ -45,17 +45,17 @@ typedef enum {
 
 - (void)initAndLayoutUI {
     CGFloat topSpace = 5.f;
-    CGFloat leftSpace = 10.f;
-    CGFloat labelHeight = 18.f;
+    CGFloat leftSpace = 60.f;
+    CGFloat labelHeight = 25.f;
     
-    CGFloat imageSize = 70.f;
+    CGFloat imageSize = 105.f;
     
     //订单编号
     _orderNoLabel = [[UILabel alloc] init];
     _orderNoLabel.translatesAutoresizingMaskIntoConstraints = NO;
     _orderNoLabel.backgroundColor = [UIColor clearColor];
     _orderNoLabel.textColor = kColor(117, 117, 117, 1);
-    _orderNoLabel.font = [UIFont systemFontOfSize:8.f];
+    _orderNoLabel.font = [UIFont systemFontOfSize:12.f];
     [self.contentView addSubview:_orderNoLabel];
     [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_orderNoLabel
                                                                  attribute:NSLayoutAttributeTop
@@ -90,7 +90,7 @@ typedef enum {
     _timeLabel.translatesAutoresizingMaskIntoConstraints = NO;
     _timeLabel.backgroundColor = [UIColor clearColor];
     _timeLabel.textColor = kColor(117, 117, 117, 1);
-    _timeLabel.font = [UIFont systemFontOfSize:8.f];
+    _timeLabel.font = [UIFont systemFontOfSize:12.f];
     [self.contentView addSubview:_timeLabel];
     [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_timeLabel
                                                                  attribute:NSLayoutAttributeTop
@@ -126,7 +126,7 @@ typedef enum {
     _statusLabel.backgroundColor = [UIColor clearColor];
     _statusLabel.textColor = kColor(117, 117, 117, 1);
     _statusLabel.textAlignment = NSTextAlignmentRight;
-    _statusLabel.font = [UIFont systemFontOfSize:11.f];
+    _statusLabel.font = [UIFont systemFontOfSize:13.f];
     [self.contentView addSubview:_statusLabel];
     [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_statusLabel
                                                                  attribute:NSLayoutAttributeTop
@@ -207,7 +207,7 @@ typedef enum {
                                                                     toItem:self.contentView
                                                                  attribute:NSLayoutAttributeLeft
                                                                 multiplier:1.0
-                                                                  constant:20.f]];
+                                                                  constant:60.f]];
     [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_pictureView
                                                                  attribute:NSLayoutAttributeWidth
                                                                  relatedBy:NSLayoutRelationEqual
@@ -230,7 +230,7 @@ typedef enum {
     _nameLabel = [[UILabel alloc] init];
     _nameLabel.translatesAutoresizingMaskIntoConstraints = NO;
     _nameLabel.backgroundColor = [UIColor clearColor];
-    _nameLabel.font = [UIFont systemFontOfSize:12.f];
+    _nameLabel.font = [UIFont systemFontOfSize:16.f];
     [self.contentView addSubview:_nameLabel];
     [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_nameLabel
                                                                  attribute:NSLayoutAttributeTop
@@ -259,43 +259,17 @@ typedef enum {
                                                                     toItem:nil
                                                                  attribute:NSLayoutAttributeNotAnAttribute
                                                                 multiplier:0.0
-                                                                  constant:14.f]];
+                                                                  constant:20.f]];
     if (_supplyType == SupplyGoodsWholesale) {
         //原价
         _primaryPriceLabel = [[UILabel alloc] init];
-        _primaryPriceLabel.translatesAutoresizingMaskIntoConstraints = NO;
+//        _primaryPriceLabel.translatesAutoresizingMaskIntoConstraints = NO;
         _primaryPriceLabel.backgroundColor = [UIColor clearColor];
         _primaryPriceLabel.font = [UIFont systemFontOfSize:12.f];
         _primaryPriceLabel.textAlignment = NSTextAlignmentRight;
         [self.contentView addSubview:_primaryPriceLabel];
-        [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_primaryPriceLabel
-                                                                     attribute:NSLayoutAttributeTop
-                                                                     relatedBy:NSLayoutRelationEqual
-                                                                        toItem:_orderNoLabel
-                                                                     attribute:NSLayoutAttributeBottom
-                                                                    multiplier:1.0
-                                                                      constant:5.f]];
-        [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_primaryPriceLabel
-                                                                     attribute:NSLayoutAttributeRight
-                                                                     relatedBy:NSLayoutRelationEqual
-                                                                        toItem:self.contentView
-                                                                     attribute:NSLayoutAttributeRight
-                                                                    multiplier:1.0
-                                                                      constant:-leftSpace]];
-        [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_primaryPriceLabel
-                                                                     attribute:NSLayoutAttributeWidth
-                                                                     relatedBy:NSLayoutRelationEqual
-                                                                        toItem:nil
-                                                                     attribute:NSLayoutAttributeNotAnAttribute
-                                                                    multiplier:1.0
-                                                                      constant:primaryWidth]];
-        [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_primaryPriceLabel
-                                                                     attribute:NSLayoutAttributeHeight
-                                                                     relatedBy:NSLayoutRelationEqual
-                                                                        toItem:nil
-                                                                     attribute:NSLayoutAttributeNotAnAttribute
-                                                                    multiplier:0.0
-                                                                      constant:14.f]];
+        [self layoutGoodLabel:_primaryPriceLabel WithTopView:firstLine topSpace:0.f alignment:NSTextAlignmentRight];
+
     }
 
     //价格
@@ -348,7 +322,7 @@ typedef enum {
     _firstLabel = [[UILabel alloc] init];
     _firstLabel.translatesAutoresizingMaskIntoConstraints = NO;
     _firstLabel.backgroundColor = [UIColor clearColor];
-    _firstLabel.font = [UIFont systemFontOfSize:10.f];
+    _firstLabel.font = [UIFont systemFontOfSize:12.f];
     _firstLabel.textColor = kColor(117, 117, 117, 1);
     [self.contentView addSubview:_firstLabel];
     [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_firstLabel
@@ -370,44 +344,9 @@ typedef enum {
                                                                  relatedBy:NSLayoutRelationEqual
                                                                     toItem:self.contentView
                                                                  attribute:NSLayoutAttributeWidth
-                                                                multiplier:0.3
+                                                                multiplier:0.2
                                                                   constant:-leftSpace]];
     [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_firstLabel
-                                                                 attribute:NSLayoutAttributeHeight
-                                                                 relatedBy:NSLayoutRelationEqual
-                                                                    toItem:nil
-                                                                 attribute:NSLayoutAttributeNotAnAttribute
-                                                                multiplier:0.0
-                                                                  constant:labelHeight]];
-    //第二列
-    _secondLabel = [[UILabel alloc] init];
-    _secondLabel.translatesAutoresizingMaskIntoConstraints = NO;
-    _secondLabel.backgroundColor = [UIColor clearColor];
-    _secondLabel.font = [UIFont systemFontOfSize:10.f];
-    _secondLabel.textColor = kColor(117, 117, 117, 1);
-    [self.contentView addSubview:_secondLabel];
-    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_secondLabel
-                                                                 attribute:NSLayoutAttributeTop
-                                                                 relatedBy:NSLayoutRelationEqual
-                                                                    toItem:secondLine
-                                                                 attribute:NSLayoutAttributeBottom
-                                                                multiplier:1.0
-                                                                  constant:topSpace]];
-    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_secondLabel
-                                                                 attribute:NSLayoutAttributeLeft
-                                                                 relatedBy:NSLayoutRelationEqual
-                                                                    toItem:_firstLabel
-                                                                 attribute:NSLayoutAttributeRight
-                                                                multiplier:1.0
-                                                                  constant:0.f]];
-    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_secondLabel
-                                                                 attribute:NSLayoutAttributeWidth
-                                                                 relatedBy:NSLayoutRelationEqual
-                                                                    toItem:self.contentView
-                                                                 attribute:NSLayoutAttributeWidth
-                                                                multiplier:0.3
-                                                                  constant:-leftSpace]];
-    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_secondLabel
                                                                  attribute:NSLayoutAttributeHeight
                                                                  relatedBy:NSLayoutRelationEqual
                                                                     toItem:nil
@@ -430,12 +369,12 @@ typedef enum {
                                                                 multiplier:1.0
                                                                   constant:topSpace]];
     [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_thirdLabel
-                                                                 attribute:NSLayoutAttributeRight
+                                                                 attribute:NSLayoutAttributeLeft
                                                                  relatedBy:NSLayoutRelationEqual
-                                                                    toItem:self.contentView
-                                                                 attribute:NSLayoutAttributeRight
+                                                                    toItem:_firstLabel
+                                                                 attribute:NSLayoutAttributeLeft
                                                                 multiplier:1.0
-                                                                  constant:-leftSpace]];
+                                                                  constant:10]];
     [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_thirdLabel
                                                                  attribute:NSLayoutAttributeWidth
                                                                  relatedBy:NSLayoutRelationEqual
@@ -450,6 +389,42 @@ typedef enum {
                                                                  attribute:NSLayoutAttributeNotAnAttribute
                                                                 multiplier:0.0
                                                                   constant:labelHeight]];
+    //第二列
+    _secondLabel = [[UILabel alloc] init];
+    _secondLabel.translatesAutoresizingMaskIntoConstraints = NO;
+    _secondLabel.backgroundColor = [UIColor clearColor];
+    _secondLabel.font = [UIFont systemFontOfSize:12.f];
+    _secondLabel.textColor = kColor(117, 117, 117, 1);
+    [self.contentView addSubview:_secondLabel];
+    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_secondLabel
+                                                                 attribute:NSLayoutAttributeTop
+                                                                 relatedBy:NSLayoutRelationEqual
+                                                                    toItem:secondLine
+                                                                 attribute:NSLayoutAttributeBottom
+                                                                multiplier:1.0
+                                                                  constant:topSpace]];
+    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_secondLabel
+                                                                 attribute:NSLayoutAttributeLeft
+                                                                 relatedBy:NSLayoutRelationEqual
+                                                                    toItem:_thirdLabel
+                                                                 attribute:NSLayoutAttributeRight
+                                                                multiplier:1.0
+                                                                  constant:20.f]];
+    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_secondLabel
+                                                                 attribute:NSLayoutAttributeWidth
+                                                                 relatedBy:NSLayoutRelationEqual
+                                                                    toItem:self.contentView
+                                                                 attribute:NSLayoutAttributeWidth
+                                                                multiplier:0.3
+                                                                  constant:-leftSpace]];
+    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_secondLabel
+                                                                 attribute:NSLayoutAttributeHeight
+                                                                 relatedBy:NSLayoutRelationEqual
+                                                                    toItem:nil
+                                                                 attribute:NSLayoutAttributeNotAnAttribute
+                                                                multiplier:0.0
+                                                                  constant:labelHeight]];
+   
     //合计
     _totalLabel = [[UILabel alloc] init];
     _totalLabel.translatesAutoresizingMaskIntoConstraints = NO;
@@ -464,7 +439,7 @@ typedef enum {
                                                                     toItem:_firstLabel
                                                                  attribute:NSLayoutAttributeBottom
                                                                 multiplier:1.0
-                                                                  constant:topSpace]];
+                                                                  constant:-topSpace-20]];
     [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_totalLabel
                                                                  attribute:NSLayoutAttributeRight
                                                                  relatedBy:NSLayoutRelationEqual
@@ -491,56 +466,68 @@ typedef enum {
 }
 
 - (void)setContentForReuseIdentifier {
+    CGFloat wide;
+    CGFloat height;
+    if(iOS7)
+    {
+        wide=SCREEN_HEIGHT;
+        height=SCREEN_WIDTH;
+        
+        
+    }
+    else
+    {  wide=SCREEN_WIDTH;
+        height=SCREEN_HEIGHT;
+        
+    }
+
+    
     if ([_identifier isEqualToString:wholesaleCancelIdentifier] ||
         [_identifier isEqualToString:procurementThirdIdentifier]) {
         return;
     }
+    
     else if ([_identifier isEqualToString:wholesaleUnpaidIdentifier]) {
         //批购未付款
-        [self addLine];
         UIButton *cancelBtn = [self buttonWithTitle:@"取消订单" action:@selector(cancelWholesalOrder:) style:orderBtnStyleFirst];
         [self.contentView addSubview:cancelBtn];
-        [self layoutButton:cancelBtn location:BtnPositionLeft];
+        cancelBtn.frame=CGRectMake(wide-60-100, 30, 100, 35);
         
         UIButton *payBtn = [self buttonWithTitle:@"支付定金" action:@selector(payDeposit:) style:orderBtnStyleSecond];
         [self.contentView addSubview:payBtn];
-        [self layoutButton:payBtn location:BtnPositionRight];
+        payBtn.frame=CGRectMake(wide-60-100, 75, 100, 35);
     }
     else if ([_identifier isEqualToString:wholesaleDepositIdentifier]) {
         //批购已付定金
-        [self addLine];
         UIButton *cancelBtn = [self buttonWithTitle:@"取消订单" action:@selector(cancelWholesalOrder:) style:orderBtnStyleFirst];
         [self.contentView addSubview:cancelBtn];
-        [self layoutButton:cancelBtn location:BtnPositionLeft];
+        cancelBtn.frame=CGRectMake(wide-60-100, 30, 100, 35);
         
         UIButton *payBtn = [self buttonWithTitle:@"付款" action:@selector(payWholesaleOrder:) style:orderBtnStyleSecond];
         [self.contentView addSubview:payBtn];
-        [self layoutButton:payBtn location:BtnPositionRight];
+        payBtn.frame=CGRectMake(wide-60-100, 75, 100, 35);
     }
     else if ([_identifier isEqualToString:wholesaleFinishIdentifier]) {
         //批购已完成
-        [self addLine];
         UIButton *repeatBtn = [self buttonWithTitle:@"再次批购" action:@selector(repeatWholesale:) style:orderBtnStyleSecond];
         [self.contentView addSubview:repeatBtn];
-        [self layoutButton:repeatBtn location:BtnPositionMiddle];
+        repeatBtn.frame=CGRectMake(wide-60-100, 75, 100, 35);
     }
     else if ([_identifier isEqualToString:procurementFirstIdentifier]) {
         //代购未付款
-        [self addLine];
         UIButton *cancelBtn = [self buttonWithTitle:@"取消订单" action:@selector(cancelProcurementOrder:) style:orderBtnStyleFirst];
         [self.contentView addSubview:cancelBtn];
-        [self layoutButton:cancelBtn location:BtnPositionLeft];
+        cancelBtn.frame=CGRectMake(wide-60-100, 30, 100, 35);
         
         UIButton *payBtn = [self buttonWithTitle:@"付款" action:@selector(payProcurementOrder:) style:orderBtnStyleSecond];
         [self.contentView addSubview:payBtn];
-        [self layoutButton:payBtn location:BtnPositionRight];
+        payBtn.frame=CGRectMake(wide-60-100, 75, 100, 35);
     }
     else if ([_identifier isEqualToString:procurementSecondIdentifier]) {
         //代购 已发货 已取消 交易关闭
-        [self addLine];
         UIButton *repeatBtn = [self buttonWithTitle:@"再次批购" action:@selector(repeatProcurement:) style:orderBtnStyleSecond];
         [self.contentView addSubview:repeatBtn];
-        [self layoutButton:repeatBtn location:BtnPositionMiddle];
+        repeatBtn.frame=CGRectMake(wide-60-100, 75, 100, 35);
     }
 }
 
@@ -550,7 +537,7 @@ typedef enum {
         topView = _totalLabel;
     }
     CGFloat middleSpace = 5.f;
-    CGFloat btnWidth = (kScreenWidth - 8 * middleSpace) / 2;
+    CGFloat btnWidth = 80;
     CGFloat btnHeight = 36.f;
     [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:button
                                                                  attribute:NSLayoutAttributeTop
@@ -630,10 +617,10 @@ typedef enum {
     }
 
     CGFloat leftSpace = 10.f;
-    CGFloat labelHeight = 14.f;
+    CGFloat labelHeight = 20.f;
     label.translatesAutoresizingMaskIntoConstraints = NO;
     label.backgroundColor = [UIColor clearColor];
-    label.font = [UIFont systemFontOfSize:12.f];
+    label.font = [UIFont systemFontOfSize:16.f];
     label.textAlignment = alignment;
     [self.contentView addSubview:label];
     [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:label
@@ -671,9 +658,7 @@ typedef enum {
                        action:(SEL)action
                         style:(NSString *)style{
     UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-    button.translatesAutoresizingMaskIntoConstraints = NO;
-    button.layer.cornerRadius = 4;
-    button.layer.masksToBounds = YES;
+//    button.translatesAutoresizingMaskIntoConstraints = NO;
     if ([style isEqualToString:orderBtnStyleFirst]) {
         button.layer.borderWidth = 1.f;
         button.layer.borderColor = kMainColor.CGColor;
@@ -711,14 +696,14 @@ typedef enum {
                                                                     toItem:self.contentView
                                                                  attribute:NSLayoutAttributeLeft
                                                                 multiplier:1.0
-                                                                  constant:10.f]];
+                                                                  constant:60.f]];
     [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:line
                                                                  attribute:NSLayoutAttributeRight
                                                                  relatedBy:NSLayoutRelationEqual
                                                                     toItem:self.contentView
                                                                  attribute:NSLayoutAttributeRight
                                                                 multiplier:1.0
-                                                                  constant:-10.f]];
+                                                                  constant:-60.f]];
     [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:line
                                                                  attribute:NSLayoutAttributeHeight
                                                                  relatedBy:NSLayoutRelationEqual
@@ -737,7 +722,25 @@ typedef enum {
     self.statusLabel.text = [_cellData getStatusStringWithSupplyType:_supplyType];
     self.nameLabel.text = _cellData.orderGood.goodName;
     if (_supplyType == SupplyGoodsWholesale) {
-        self.primaryPriceLabel.text = [NSString stringWithFormat:@"原价 ￥%.2f",_cellData.orderGood.goodPrimaryPrice];
+        
+        
+        
+        NSString *primaryPrice = [NSString stringWithFormat:@"原价 ￥%.2f",_cellData.orderGood.goodPrimaryPrice];
+        NSMutableAttributedString *priceAttrString = [[NSMutableAttributedString alloc] initWithString:primaryPrice];
+        NSDictionary *priceAttr = [NSDictionary dictionaryWithObjectsAndKeys:
+                                   [UIFont systemFontOfSize:14.f],NSFontAttributeName,
+                                   [NSNumber numberWithInt:2],NSStrikethroughStyleAttributeName,
+                                   nil];
+        [priceAttrString addAttributes:priceAttr range:NSMakeRange(0, [priceAttrString length])];
+       self.primaryPriceLabel.attributedText = priceAttrString;
+        
+        self.primaryPriceLabel.textColor=[UIColor grayColor];
+        
+        
+        
+        
+        
+        
         self.firstLabel.text = [NSString stringWithFormat:@"已付定金:￥%.2f",_cellData.orderDeposit];
         self.secondLabel.text = [NSString stringWithFormat:@"已发货数量:%d",_cellData.shipmentCount];
         self.thirdLabel.text = [NSString stringWithFormat:@"剩余金额:￥%.2f",_cellData.remainingMoney];
@@ -746,7 +749,7 @@ typedef enum {
     else {
         self.firstLabel.text = [NSString stringWithFormat:@"归属用户:%@",_cellData.belongUser];
         self.secondLabel.text = [NSString stringWithFormat:@"配送费:￥%.2f",_cellData.deliveryMoney];
-        self.thirdLabel.text = [NSString stringWithFormat:@"实付:￥%.2f",_cellData.actualMoney];
+        self.totalLabel.text = [NSString stringWithFormat:@"实付:￥%.2f",_cellData.actualMoney];
     }
     self.actualPriceLabel.text = [NSString stringWithFormat:@"￥%.2f",_cellData.orderGood.goodActualPirce];
     self.numberLabel.text = [NSString stringWithFormat:@"X %d",_cellData.orderGood.goodCount];

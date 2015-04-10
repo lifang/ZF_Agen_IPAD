@@ -24,6 +24,11 @@
 		0D1694331AD3C1F300B50A17 /* BaseApi.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D1694321AD3C1F300B50A17 /* BaseApi.m */; };
 		0D1694371AD3C4D900B50A17 /* TerminalViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D1694361AD3C4D900B50A17 /* TerminalViewController.m */; };
 		0D16943A1AD3C60800B50A17 /* TerminalViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D1694391AD3C60800B50A17 /* TerminalViewCell.m */; };
+		0EC67F0C1AD69457005BAB26 /* OrderDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EC67F0B1AD69457005BAB26 /* OrderDetailController.m */; };
+		0EC67F0F1AD69487005BAB26 /* OrderDetailModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EC67F0E1AD69487005BAB26 /* OrderDetailModel.m */; };
+		0EC67F121AD6949E005BAB26 /* RecordModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EC67F111AD6949E005BAB26 /* RecordModel.m */; };
+		0EC67F151AD694BF005BAB26 /* RecordView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EC67F141AD694BF005BAB26 /* RecordView.m */; };
+		0EC67F181AD694D9005BAB26 /* OrderDetailCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EC67F171AD694D9005BAB26 /* OrderDetailCell.m */; };
 		0ECA762B1AD5468F0083D373 /* OrderManagerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0ECA762A1AD5468F0083D373 /* OrderManagerController.m */; };
 		0ECA762E1AD546AA0083D373 /* RefreshViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0ECA762D1AD546AA0083D373 /* RefreshViewController.m */; };
 		0ECA76311AD546DC0083D373 /* OrderModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0ECA76301AD546DC0083D373 /* OrderModel.m */; };
@@ -172,6 +177,16 @@
 		0D1694361AD3C4D900B50A17 /* TerminalViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TerminalViewController.m; sourceTree = "<group>"; };
 		0D1694381AD3C60800B50A17 /* TerminalViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TerminalViewCell.h; sourceTree = "<group>"; };
 		0D1694391AD3C60800B50A17 /* TerminalViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TerminalViewCell.m; sourceTree = "<group>"; };
+		0EC67F0A1AD69457005BAB26 /* OrderDetailController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderDetailController.h; sourceTree = "<group>"; };
+		0EC67F0B1AD69457005BAB26 /* OrderDetailController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrderDetailController.m; sourceTree = "<group>"; };
+		0EC67F0D1AD69487005BAB26 /* OrderDetailModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderDetailModel.h; sourceTree = "<group>"; };
+		0EC67F0E1AD69487005BAB26 /* OrderDetailModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrderDetailModel.m; sourceTree = "<group>"; };
+		0EC67F101AD6949E005BAB26 /* RecordModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RecordModel.h; sourceTree = "<group>"; };
+		0EC67F111AD6949E005BAB26 /* RecordModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RecordModel.m; sourceTree = "<group>"; };
+		0EC67F131AD694BF005BAB26 /* RecordView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RecordView.h; sourceTree = "<group>"; };
+		0EC67F141AD694BF005BAB26 /* RecordView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RecordView.m; sourceTree = "<group>"; };
+		0EC67F161AD694D9005BAB26 /* OrderDetailCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderDetailCell.h; sourceTree = "<group>"; };
+		0EC67F171AD694D9005BAB26 /* OrderDetailCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrderDetailCell.m; sourceTree = "<group>"; };
 		0ECA76291AD5468F0083D373 /* OrderManagerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderManagerController.h; sourceTree = "<group>"; };
 		0ECA762A1AD5468F0083D373 /* OrderManagerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrderManagerController.m; sourceTree = "<group>"; };
 		0ECA762C1AD546AA0083D373 /* RefreshViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RefreshViewController.h; sourceTree = "<group>"; };
@@ -477,6 +492,8 @@
 			children = (
 				0ECA76291AD5468F0083D373 /* OrderManagerController.h */,
 				0ECA762A1AD5468F0083D373 /* OrderManagerController.m */,
+				0EC67F0A1AD69457005BAB26 /* OrderDetailController.h */,
+				0EC67F0B1AD69457005BAB26 /* OrderDetailController.m */,
 			);
 			name = OrderManager;
 			sourceTree = "<group>";
@@ -505,6 +522,8 @@
 		0ED58EE51AD4DA040081E8BC /* cell */ = {
 			isa = PBXGroup;
 			children = (
+				0EC67F161AD694D9005BAB26 /* OrderDetailCell.h */,
+				0EC67F171AD694D9005BAB26 /* OrderDetailCell.m */,
 				0ECA76321AD546F80083D373 /* OrderCell.h */,
 				0ECA76331AD546F80083D373 /* OrderCell.m */,
 				0ED58F0B1AD4DF600081E8BC /* GoodsCollectionViewCell2.h */,
@@ -640,6 +659,10 @@
 		1AF15AB31ACCE33300D5C171 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				0EC67F101AD6949E005BAB26 /* RecordModel.h */,
+				0EC67F111AD6949E005BAB26 /* RecordModel.m */,
+				0EC67F0D1AD69487005BAB26 /* OrderDetailModel.h */,
+				0EC67F0E1AD69487005BAB26 /* OrderDetailModel.m */,
 				0ECA762F1AD546DC0083D373 /* OrderModel.h */,
 				0ECA76301AD546DC0083D373 /* OrderModel.m */,
 				0ED58F081AD4DF400081E8BC /* CommentModel.h */,
@@ -708,6 +731,8 @@
 		1AF15AB61ACCE33300D5C171 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				0EC67F131AD694BF005BAB26 /* RecordView.h */,
+				0EC67F141AD694BF005BAB26 /* RecordView.m */,
 				0ED58EE91AD4DA550081E8BC /* InterestView.h */,
 				0ED58EEA1AD4DA550081E8BC /* InterestView.m */,
 				0ED58EE61AD4DA480081E8BC /* PollingViews.h */,
@@ -1011,6 +1036,7 @@
 				0ED58F0D1AD4DF600081E8BC /* GoodsCollectionViewCell2.m in Sources */,
 				1AF15B101ACCE3BC00D5C171 /* StockTerminalModel.m in Sources */,
 				1AF15B3E1ACCE40400D5C171 /* TreeNode.m in Sources */,
+				0EC67F151AD694BF005BAB26 /* RecordView.m in Sources */,
 				1AF15B341ACCE40400D5C171 /* SearchHistoryHelper.m in Sources */,
 				1AF15B381ACCE40400D5C171 /* StringFormat.m in Sources */,
 				0ED58F0A1AD4DF400081E8BC /* CommentModel.m in Sources */,
@@ -1031,6 +1057,7 @@
 				1AF15AEE1ACCE3A400D5C171 /* SDWebImageManager.m in Sources */,
 				1AF15AE91ACCE3A400D5C171 /* SDImageCache.m in Sources */,
 				1AF15B3A1ACCE40400D5C171 /* ImageScrollView.m in Sources */,
+				0EC67F121AD6949E005BAB26 /* RecordModel.m in Sources */,
 				1AF15AED1ACCE3A400D5C171 /* SDWebImageDownloaderOperation.m in Sources */,
 				0ED58EBF1AD4D78A0081E8BC /* FilterViewController.m in Sources */,
 				0ED58EFD1AD4DA820081E8BC /* MJRefreshConst.m in Sources */,
@@ -1052,6 +1079,7 @@
 				1AF15B351ACCE40400D5C171 /* CityHandle.m in Sources */,
 				1AF15B091ACCE3BC00D5C171 /* PersonModel.m in Sources */,
 				1AF15AEF1ACCE3A400D5C171 /* SDWebImagePrefetcher.m in Sources */,
+				0EC67F181AD694D9005BAB26 /* OrderDetailCell.m in Sources */,
 				0ED58EE11AD4D9DD0081E8BC /* SortView.m in Sources */,
 				0ED58F011AD4DA820081E8BC /* UIScrollView+MJRefresh.m in Sources */,
 				1AF15AF51ACCE3A400D5C171 /* UIView+WebCacheOperation.m in Sources */,
@@ -1098,6 +1126,7 @@
 				1AF15B0C1ACCE3BC00D5C171 /* TreeNodeModel.m in Sources */,
 				1AD7FD521ACE7340009A60FC /* FindPasswordWithPhoneSuccessController.m in Sources */,
 				0D16942D1AD3C15600B50A17 /* HexColor.m in Sources */,
+				0EC67F0C1AD69457005BAB26 /* OrderDetailController.m in Sources */,
 				1AF15AEA1ACCE3A400D5C171 /* SDWebImageCompat.m in Sources */,
 				0D1694211AD3C14100B50A17 /* MASViewAttribute.m in Sources */,
 				0ED58ED51AD4D9370081E8BC /* GoodsCell.m in Sources */,
@@ -1114,6 +1143,7 @@
 				1AF15AF11ACCE3A400D5C171 /* UIImage+GIF.m in Sources */,
 				1AF15B0A1ACCE3BC00D5C171 /* MessageModel.m in Sources */,
 				0ED58EE81AD4DA480081E8BC /* PollingViews.m in Sources */,
+				0EC67F0F1AD69487005BAB26 /* OrderDetailModel.m in Sources */,
 				1AF15B3F1ACCE40400D5C171 /* TreeNodeCollection.m in Sources */,
 				0ED58EBD1AD4D78A0081E8BC /* GoodListViewController.m in Sources */,
 			);

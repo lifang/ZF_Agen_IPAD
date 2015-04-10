@@ -60,7 +60,6 @@
 {
 
     [super viewWillAppear:animated];
-    NSLog(@"%f-%f-%f-%f",self.view.frame.origin.x,self.view.frame.origin.y,self.view.frame.size.height,self.view.frame.size.width);
 
      [self.navigationController.navigationBar setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor], NSForegroundColorAttributeName, NavTitle_FONT(NavTitle_FONTSIZE),NSFontAttributeName,nil]];
     UIButton *shoppingButton = [UIButton buttonWithType:UIButtonTypeCustom];
