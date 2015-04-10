@@ -8,8 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import "ChooseView.h"
+#import "ScanImageViewController.h"
 
-@interface MineCommonController : UIViewController
+@interface MineCommonController : ScanImageViewController
 
 @property(nonatomic,strong)ChooseView *chooseView;
 

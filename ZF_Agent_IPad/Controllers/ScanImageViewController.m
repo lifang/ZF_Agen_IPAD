@@ -15,6 +15,7 @@
 
 @property (nonatomic, strong) UIView *markView;
 @property (nonatomic, strong) UIView *scrollPanel;
+@property(nonatomic,strong)NSString *identifier;
 
 @end
 
@@ -101,8 +102,8 @@
     [self performSelector:@selector(setOriginFrame:) withObject:imagescroll afterDelay:0.1f];
 }
 
-- (void)showDetailImageWithURL:(NSString *)urlString
-                     imageRect:(CGRect)rect {
+-(void)showDetailImageWithURL:(NSString *)urlString imageRect:(CGRect)rect WithIdentifier:(NSString *)Identifier{
+    self.identifier = Identifier;
     //urlString = @"http://pic42.nipic.com/20140608/18347945_020920394000_2.jpg";
     urlString=@"http://g.hiphotos.baidu.com/image/w%3D2048/sign=b7641b0f6509c93d07f209f7ab05f9dc/d50735fae6cd7b89e0226b820d2442a7d9330e60.jpg";
     [self.view bringSubviewToFront:self.scrollPanel];
@@ -155,7 +156,11 @@
 
 - (void)tapImageViewWithObject:(ImageScrollView *)sender {
     [UIView animateWithDuration:0.5 animations:^{
+        if ([_identifier isEqualToString:@"无导航栏"]) {
+            
+        }else{
         self.navigationController.navigationBarHidden = NO;
+        }
         self.markView.alpha = 0;
         [sender rechangeInitRdct];
     } completion:^(BOOL finished) {

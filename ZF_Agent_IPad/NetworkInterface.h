@@ -71,6 +71,18 @@ typedef enum {
     CSTypeCancel,      //注销记录
 }CSType;
 
+typedef enum {
+    OpenApplyNone = 0,
+    OpenApplyPublic,    //对公
+    OpenApplyPrivate,   //对私
+}OpenApplyType;  //开通类型
+
+typedef enum {
+    AddressNone = 0,
+    AddressDefault,    //默认地址
+    AddressOther,      //非默认地址
+}AddressType;
+
 //1.登录
 static NSString *s_login_method = @"agent/agentLogin";
 
@@ -241,6 +253,19 @@ static NSString *s_modifyEmailValidate_method = @"agents/getUpdateEmailDentcode"
 
 //84.我的信息——修改邮箱
 static NSString *s_modifyEmail_method = @"agents/updateEmail";
+//88.我的信息——修改密码
+static NSString *s_modifyPassword_method = @"agents/updatePassword";
+
+//89.我的信息——地址列表
+static NSString *s_addressList_method = @"agents/getAddressList";
+
+//90.我的信息——新增地址
+static NSString *s_addressAdd_method = @"agents/insertAddress";
+
+//91.我的信息——删除地址
+static NSString *s_addressDelete_method = @"agents/batchDeleteAddress";
+//91.a.我的信息——更新收货地址
+static NSString *s_addressUpdate_method = @"agents/updateAddress";
 
 //热卖
 static NSString *s_hot_method = @"index/pos_list";
@@ -439,6 +464,8 @@ static NSString *s_hot_method = @"index/pos_list";
  */
 + (void)getUserTerminalListWithUserID:(NSString *)userID
                                 token:(NSString *)token
+                                 page:(int)page
+                                 rows:(int)rows
                              finished:(requestDidFinished)finish;
 /*!
  @abstract 34.商品搜索条件
@@ -751,5 +778,84 @@ static NSString *s_hot_method = @"index/pos_list";
                             newEmail:(NSString *)email
                             validate:(NSString *)validate
                             finished:(requestDidFinished)finish;
+
+/*!
+ @abstract 88.我的信息——修改密码
+ @param agentID  代理商id
+ @param token    登录返回
+ @param primaryPassword   原密码
+ @param newPassword   新密码
+ @result finish  请求回调结果
+ */
++ (void)modifyPasswordWithAgentID:(NSString *)agentID
+                            token:(NSString *)token
+                  primaryPassword:(NSString *)primaryPassword
+                      newPassword:(NSString *)newPassword
+                         finished:(requestDidFinished)finish;
+/*!
+ @abstract 89.我的信息——地址列表
+ @param agentID  代理商id
+ @param token    登录返回
+ @result finish  请求回调结果
+ */
++ (void)getAddressListWithAgentID:(NSString *)agentID
+                            token:(NSString *)token
+                         finished:(requestDidFinished)finish;
+
+/*!
+ @abstract 90.我的信息——新增地址
+ @param agentID  代理商id
+ @param token    登录返回
+ @param cityID   城市id
+ @param receiverName   收件人姓名
+ @param phoneNumber    收件人手机
+ @param zipCode  邮政编码
+ @param address  详细地址
+ @param addressType    是否默认地址
+ @result finish  请求回调结果
+ */
++ (void)addAddressWithAgentID:(NSString *)agentID
+                        token:(NSString *)token
+                       cityID:(NSString *)cityID
+                 receiverName:(NSString *)receiverName
+                  phoneNumber:(NSString *)phoneNumber
+                      zipCode:(NSString *)zipCode
+                      address:(NSString *)address
+                    isDefault:(AddressType)addressType
+                     finished:(requestDidFinished)finish;
+
+/*!
+ @abstract 91.我的信息——批量删除地址
+ @param token    登录返回
+ @param addressIDs   地址id数组
+ @result finish  请求回调结果
+ */
++ (void)deleteAddressWithToken:(NSString *)token
+                    addressIDs:(NSArray *)addressIDs
+                      finished:(requestDidFinished)finish;
+
+/*!
+ @abstract 91.a.修改地址
+ @param token       登录返回
+ @param addressID   地址ID
+ @param cityID    城市id
+ @param receiverName   收件人姓名
+ @param phoneNumber   收件人电话
+ @param zipCode   邮编
+ @param address   详细地址
+ @param addressType  是否默认地址
+ @result finish  请求回调结果
+ */
++ (void)updateAddressWithToken:(NSString *)token
+                     addressID:(NSString *)addressID
+                        cityID:(NSString *)cityID
+                  receiverName:(NSString *)receiverName
+                   phoneNumber:(NSString *)phoneNumber
+                       zipCode:(NSString *)zipCode
+                       address:(NSString *)address
+                     isDefault:(AddressType)addressType
+                      finished:(requestDidFinished)finish;
+
+
 
 @end

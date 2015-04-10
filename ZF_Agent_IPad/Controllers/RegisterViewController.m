@@ -129,7 +129,6 @@
     }
     [self.view addSubview:_mainScrollView];
     
-    CGFloat mainBtnWidth = 100.f;
 #pragma mark - 创建label
     UILabel *agentTypeLable = [[UILabel alloc]init];
     agentTypeLable.text = @"代理商类型";

@@ -16,6 +16,8 @@
 + (BOOL)isTelephoneNumber:(NSString *)teleNum;
 //邮箱正则
 + (BOOL)isCorrectEmail:(NSString *)email;
+//邮编正则
++ (BOOL)isZipCode:(NSString *)zipCode;
 //纯数字
 + (BOOL)isNumber:(NSString *)string;
 //整形

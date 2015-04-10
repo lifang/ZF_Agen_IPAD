@@ -7,6 +7,9 @@
 //
 
 #import "UserManagerChildController.h"
+#import "UserManagerTerminalCell.h"
+#import "UserTeminal.h"
+#import "NetworkInterface.h"
 
 @interface UserManagerChildController ()
 
@@ -23,6 +26,7 @@
     self.title = _userManagerModel.name;
     _dataItem = [[NSMutableArray alloc]init];
     [self initAndLayoutUI];
+    [self firstLoadData];
     
 }
 
@@ -77,6 +81,82 @@
     self.tableView.tableFooterView = footerView;
 }
 
+#pragma mark - Request
+
+- (void)firstLoadData {
+    self.page = 1;
+    [self downloadDataWithPage:self.page isMore:NO];
+}
+
+- (void)downloadDataWithPage:(int)page isMore:(BOOL)isMore {
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+    hud.labelText = @"加载中...";
+    AppDelegate *delegate = [AppDelegate shareAppDelegate];
+    [NetworkInterface getUserTerminalListWithUserID:_userManagerModel.customersId token:delegate.token page:page rows:kPageSize * 2 finished:^(BOOL success, NSData *response) {
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:0.3f];
+        if (success) {
+            NSLog(@"!!%@",[[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding]);
+            id object = [NSJSONSerialization JSONObjectWithData:response options:NSJSONReadingMutableLeaves error:nil];
+            if ([object isKindOfClass:[NSDictionary class]]) {
+                NSString *errorCode = [object objectForKey:@"code"];
+                if ([errorCode intValue] == RequestFail) {
+                    //返回错误代码
+                    hud.labelText = [NSString stringWithFormat:@"%@",[object objectForKey:@"message"]];
+                }
+                else if ([errorCode intValue] == RequestSuccess) {
+                    hud.labelText = @"加载完成";
+                    if (!isMore) {
+                        [_dataItem removeAllObjects];
+                    }
+                    if ([[object objectForKey:@"result"] count] > 0) {
+                        //有数据
+                        self.page++;
+                        [hud hide:YES];
+                    }
+                    else {
+                        //无数据
+                        hud.labelText = @"没有更多数据了...";
+                    }
+                    [self parseUserTerminalWithDictionary:object];
+                }
+            }
+            else {
+                //返回错误数据
+                hud.labelText = kServiceReturnWrong;
+            }
+        }
+        else {
+            hud.labelText = kNetworkFailed;
+        }
+        if (!isMore) {
+            [self refreshViewFinishedLoadingWithDirection:PullFromTop];
+        }
+        else {
+            [self refreshViewFinishedLoadingWithDirection:PullFromBottom];
+        }
+    }];
+}
+
+
+#pragma mark - Data
+
+- (void)parseUserTerminalWithDictionary:(NSDictionary *)dict {
+    if (![dict objectForKey:@"result"] || ![[dict objectForKey:@"result"] isKindOfClass:[NSArray class]]) {
+        return;
+    }
+    NSArray *terminalList = [dict objectForKey:@"result"];
+    for (int i = 0; i < [terminalList count]; i++) {
+        id terminalDict = [terminalList objectAtIndex:i];
+        if ([terminalDict isKindOfClass:[NSDictionary class]]) {
+            UserTeminal *model = [[UserTeminal alloc] initWithParseDictionary:terminalDict];
+            [_dataItem addObject:model];
+        }
+    }
+    [self.tableView reloadData];
+}
+
 #pragma mark - UITableView
 
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
@@ -96,13 +176,14 @@
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 5;
+    return _dataItem.count;
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"terminalC"];
-    cell.textLabel.text = @"asdasdasdas";
+    UserTeminal *model = [_dataItem objectAtIndex:indexPath.row];
+    UserManagerTerminalCell *cell = [UserManagerTerminalCell cellWithTableView:tableView];
+    cell.terminalLabel.text = model.terminalNum;
     return cell;
 }
 
@@ -119,5 +200,15 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
     return 0.001f;
+}
+
+#pragma mark - 上下拉刷新重写
+
+- (void)pullDownToLoadData {
+    [self firstLoadData];
+}
+
+- (void)pullUpToLoadData {
+    [self downloadDataWithPage:self.page isMore:YES];
 }
 @end

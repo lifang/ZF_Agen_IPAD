@@ -168,7 +168,9 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    UserManagerModel *model = [_dataItem objectAtIndex:indexPath.row];
     UserManagerChildController *userChildVC = [[UserManagerChildController alloc]init];
+    userChildVC.userManagerModel = model;
     userChildVC.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:userChildVC animated:YES];
 }
@@ -290,6 +292,16 @@
             hud.labelText = kNetworkFailed;
         }
     }];
+}
+
+#pragma mark - 上下拉刷新重写
+
+- (void)pullDownToLoadData {
+    [self firstLoadData];
+}
+
+- (void)pullUpToLoadData {
+    [self downloadDataWithPage:self.page isMore:YES];
 }
 
 @end

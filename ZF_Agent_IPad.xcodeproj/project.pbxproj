@@ -89,6 +89,13 @@
 		1A9EEB9E1AD76D4F00DA6E0D /* EncryptHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A9EEB9B1AD76D4F00DA6E0D /* EncryptHelper.m */; };
 		1A9EEBA11AD76E7E00DA6E0D /* NetworkInterface.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A9EEB9F1AD76E7E00DA6E0D /* NetworkInterface.m */; };
 		1A9EEBA41AD7768E00DA6E0D /* UserManagerChildController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A9EEBA31AD7768E00DA6E0D /* UserManagerChildController.m */; };
+		1AA6A04E1AD792980025FF1A /* UserManagerTerminalCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AA6A04D1AD792980025FF1A /* UserManagerTerminalCell.m */; };
+		1AA6A0511AD795B60025FF1A /* UserTeminal.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AA6A0501AD795B60025FF1A /* UserTeminal.m */; };
+		1AA6A0541AD79CD60025FF1A /* SafeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AA6A0531AD79CD60025FF1A /* SafeViewController.m */; };
+		1AA6A0571AD79F7B0025FF1A /* AddressViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AA6A0561AD79F7B0025FF1A /* AddressViewController.m */; };
+		1AA6A05A1AD79FA90025FF1A /* AddressCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AA6A0591AD79FA90025FF1A /* AddressCell.m */; };
+		1AA6A05D1AD79FCE0025FF1A /* AddressModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AA6A05C1AD79FCE0025FF1A /* AddressModel.m */; };
+		1AA6A0611AD7A0550025FF1A /* RegularFormat.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AA6A0601AD7A0550025FF1A /* RegularFormat.m */; };
 		1AD7FD4C1ACE72B3009A60FC /* FindPasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AD7FD4B1ACE72B3009A60FC /* FindPasswordViewController.m */; };
 		1AD7FD4F1ACE7319009A60FC /* FindPasswordSuccessController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AD7FD4E1ACE7319009A60FC /* FindPasswordSuccessController.m */; };
 		1AD7FD521ACE7340009A60FC /* FindPasswordWithPhoneSuccessController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AD7FD511ACE7340009A60FC /* FindPasswordWithPhoneSuccessController.m */; };
@@ -131,7 +138,6 @@
 		1AF15B3A1ACCE40400D5C171 /* ImageScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AF15B221ACCE40400D5C171 /* ImageScrollView.m */; };
 		1AF15B3B1ACCE40400D5C171 /* CircleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AF15B251ACCE40400D5C171 /* CircleView.m */; };
 		1AF15B3C1ACCE40400D5C171 /* RefreshView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AF15B271ACCE40400D5C171 /* RefreshView.m */; };
-		1AF15B3D1ACCE40400D5C171 /* RegularFormat.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AF15B2A1ACCE40400D5C171 /* RegularFormat.m */; };
 		1AF15B3E1ACCE40400D5C171 /* TreeNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AF15B2D1ACCE40400D5C171 /* TreeNode.m */; };
 		1AF15B3F1ACCE40400D5C171 /* TreeNodeCollection.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AF15B2F1ACCE40400D5C171 /* TreeNodeCollection.m */; };
 		1AF15B401ACCE40400D5C171 /* TreeNodeInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AF15B311ACCE40400D5C171 /* TreeNodeInfo.m */; };
@@ -329,6 +335,20 @@
 		1A9EEBA01AD76E7E00DA6E0D /* NetworkInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetworkInterface.h; sourceTree = "<group>"; };
 		1A9EEBA21AD7768E00DA6E0D /* UserManagerChildController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserManagerChildController.h; sourceTree = "<group>"; };
 		1A9EEBA31AD7768E00DA6E0D /* UserManagerChildController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserManagerChildController.m; sourceTree = "<group>"; };
+		1AA6A04C1AD792980025FF1A /* UserManagerTerminalCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserManagerTerminalCell.h; sourceTree = "<group>"; };
+		1AA6A04D1AD792980025FF1A /* UserManagerTerminalCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserManagerTerminalCell.m; sourceTree = "<group>"; };
+		1AA6A04F1AD795B60025FF1A /* UserTeminal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserTeminal.h; sourceTree = "<group>"; };
+		1AA6A0501AD795B60025FF1A /* UserTeminal.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserTeminal.m; sourceTree = "<group>"; };
+		1AA6A0521AD79CD60025FF1A /* SafeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SafeViewController.h; sourceTree = "<group>"; };
+		1AA6A0531AD79CD60025FF1A /* SafeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SafeViewController.m; sourceTree = "<group>"; };
+		1AA6A0551AD79F7B0025FF1A /* AddressViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddressViewController.h; sourceTree = "<group>"; };
+		1AA6A0561AD79F7B0025FF1A /* AddressViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddressViewController.m; sourceTree = "<group>"; };
+		1AA6A0581AD79FA90025FF1A /* AddressCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddressCell.h; sourceTree = "<group>"; };
+		1AA6A0591AD79FA90025FF1A /* AddressCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddressCell.m; sourceTree = "<group>"; };
+		1AA6A05B1AD79FCE0025FF1A /* AddressModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddressModel.h; sourceTree = "<group>"; };
+		1AA6A05C1AD79FCE0025FF1A /* AddressModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddressModel.m; sourceTree = "<group>"; };
+		1AA6A05F1AD7A0550025FF1A /* RegularFormat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegularFormat.h; sourceTree = "<group>"; };
+		1AA6A0601AD7A0550025FF1A /* RegularFormat.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegularFormat.m; sourceTree = "<group>"; };
 		1AD7FD4A1ACE72B3009A60FC /* FindPasswordViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FindPasswordViewController.h; sourceTree = "<group>"; };
 		1AD7FD4B1ACE72B3009A60FC /* FindPasswordViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FindPasswordViewController.m; sourceTree = "<group>"; };
 		1AD7FD4D1ACE7319009A60FC /* FindPasswordSuccessController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FindPasswordSuccessController.h; sourceTree = "<group>"; };
@@ -414,8 +434,6 @@
 		1AF15B251ACCE40400D5C171 /* CircleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CircleView.m; sourceTree = "<group>"; };
 		1AF15B261ACCE40400D5C171 /* RefreshView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RefreshView.h; sourceTree = "<group>"; };
 		1AF15B271ACCE40400D5C171 /* RefreshView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RefreshView.m; sourceTree = "<group>"; };
-		1AF15B291ACCE40400D5C171 /* RegularFormat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegularFormat.h; sourceTree = "<group>"; };
-		1AF15B2A1ACCE40400D5C171 /* RegularFormat.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegularFormat.m; sourceTree = "<group>"; };
 		1AF15B2C1ACCE40400D5C171 /* TreeNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TreeNode.h; sourceTree = "<group>"; };
 		1AF15B2D1ACCE40400D5C171 /* TreeNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TreeNode.m; sourceTree = "<group>"; };
 		1AF15B2E1ACCE40400D5C171 /* TreeNodeCollection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TreeNodeCollection.h; sourceTree = "<group>"; };
@@ -654,6 +672,8 @@
 		1A9654721AD6649000C39B5B /* HCell */ = {
 			isa = PBXGroup;
 			children = (
+				1AA6A0581AD79FA90025FF1A /* AddressCell.h */,
+				1AA6A0591AD79FA90025FF1A /* AddressCell.m */,
 				1A96547A1AD666C900C39B5B /* MessageViewCell.h */,
 				1A96547B1AD666C900C39B5B /* MessageViewCell.m */,
 				1A96546C1AD662D200C39B5B /* UserManagerCell.h */,
@@ -664,6 +684,8 @@
 				1A96545D1AD60D8600C39B5B /* StockManagerCell.m */,
 				1A96545E1AD60D8600C39B5B /* StockManagerDetailCell.h */,
 				1A96545F1AD60D8600C39B5B /* StockManagerDetailCell.m */,
+				1AA6A04C1AD792980025FF1A /* UserManagerTerminalCell.h */,
+				1AA6A04D1AD792980025FF1A /* UserManagerTerminalCell.m */,
 			);
 			name = HCell;
 			sourceTree = "<group>";
@@ -705,6 +727,10 @@
 				1A9654911AD66FD200C39B5B /* MyMessageViewController.m */,
 				1A9654961AD6705D00C39B5B /* BaseInformationViewController.h */,
 				1A9654971AD6705D00C39B5B /* BaseInformationViewController.m */,
+				1AA6A0521AD79CD60025FF1A /* SafeViewController.h */,
+				1AA6A0531AD79CD60025FF1A /* SafeViewController.m */,
+				1AA6A0551AD79F7B0025FF1A /* AddressViewController.h */,
+				1AA6A0561AD79F7B0025FF1A /* AddressViewController.m */,
 			);
 			name = MyMessage;
 			sourceTree = "<group>";
@@ -720,6 +746,15 @@
 				1A9EEB9B1AD76D4F00DA6E0D /* EncryptHelper.m */,
 			);
 			name = Network;
+			sourceTree = "<group>";
+		};
+		1AA6A05E1AD7A03D0025FF1A /* RegularFomat */ = {
+			isa = PBXGroup;
+			children = (
+				1AA6A05F1AD7A0550025FF1A /* RegularFormat.h */,
+				1AA6A0601AD7A0550025FF1A /* RegularFormat.m */,
+			);
+			name = RegularFomat;
 			sourceTree = "<group>";
 		};
 		1AF15A7D1ACCDB8C00D5C171 = {
@@ -825,6 +860,8 @@
 		1AF15AB31ACCE33300D5C171 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				1AA6A05B1AD79FCE0025FF1A /* AddressModel.h */,
+				1AA6A05C1AD79FCE0025FF1A /* AddressModel.m */,
 				0ECA762F1AD546DC0083D373 /* OrderModel.h */,
 				0ECA76301AD546DC0083D373 /* OrderModel.m */,
 				0ED58F081AD4DF400081E8BC /* CommentModel.h */,
@@ -869,6 +906,8 @@
 				0DC032531AD68CCF000532EF /* OpeningDetailsModel.m */,
 				0DC032551AD68CD8000532EF /* RecordModel.h */,
 				0DC032561AD68CDE000532EF /* RecordModel.m */,
+				1AA6A04F1AD795B60025FF1A /* UserTeminal.h */,
+				1AA6A0501AD795B60025FF1A /* UserTeminal.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -876,12 +915,12 @@
 		1AF15AB51ACCE33300D5C171 /* Tools */ = {
 			isa = PBXGroup;
 			children = (
+				1AA6A05E1AD7A03D0025FF1A /* RegularFomat */,
 				1AF15B111ACCE40400D5C171 /* Archive */,
 				1AF15B141ACCE40400D5C171 /* CityEncoding */,
 				1AF15B191ACCE40400D5C171 /* Format_UI */,
 				1AF15B201ACCE40400D5C171 /* ImageScan */,
 				1AF15B231ACCE40400D5C171 /* Refresh */,
-				1AF15B281ACCE40400D5C171 /* Regular */,
 				1AF15B2B1ACCE40400D5C171 /* TreeStructure */,
 			);
 			path = Tools;
@@ -1023,15 +1062,6 @@
 				1AF15B271ACCE40400D5C171 /* RefreshView.m */,
 			);
 			path = Refresh;
-			sourceTree = "<group>";
-		};
-		1AF15B281ACCE40400D5C171 /* Regular */ = {
-			isa = PBXGroup;
-			children = (
-				1AF15B291ACCE40400D5C171 /* RegularFormat.h */,
-				1AF15B2A1ACCE40400D5C171 /* RegularFormat.m */,
-			);
-			path = Regular;
 			sourceTree = "<group>";
 		};
 		1AF15B2B1ACCE40400D5C171 /* TreeStructure */ = {
@@ -1199,6 +1229,7 @@
 			files = (
 				0DC032511AD68CC1000532EF /* OpeningModel.m in Sources */,
 				1A96547C1AD666C900C39B5B /* MessageViewCell.m in Sources */,
+				1AA6A04E1AD792980025FF1A /* UserManagerTerminalCell.m in Sources */,
 				0ED58EC01AD4D78A0081E8BC /* FilterContentViewController.m in Sources */,
 				0DC032541AD68CCF000532EF /* OpeningDetailsModel.m in Sources */,
 				1AF15B3C1ACCE40400D5C171 /* RefreshView.m in Sources */,
@@ -1210,8 +1241,10 @@
 				1AF15B341ACCE40400D5C171 /* SearchHistoryHelper.m in Sources */,
 				1AF15B381ACCE40400D5C171 /* StringFormat.m in Sources */,
 				0ED58F0A1AD4DF400081E8BC /* CommentModel.m in Sources */,
+				1AA6A0511AD795B60025FF1A /* UserTeminal.m in Sources */,
 				0ED58EFF1AD4DA820081E8BC /* MJRefreshHeaderView.m in Sources */,
 				1AF15B4E1ACD02D300D5C171 /* ZYCustomTabBarViewController.m in Sources */,
+				1AA6A05D1AD79FCE0025FF1A /* AddressModel.m in Sources */,
 				0D1694261AD3C14100B50A17 /* README.md in Sources */,
 				1A9EEBA11AD76E7E00DA6E0D /* NetworkInterface.m in Sources */,
 				0ED58EE41AD4DA010081E8BC /* GoodsCellCollectionViewCell.m in Sources */,
@@ -1276,12 +1309,14 @@
 				0ED58EDE1AD4D9870081E8BC /* RateModel.m in Sources */,
 				0ED58EEB1AD4DA550081E8BC /* InterestView.m in Sources */,
 				1AF15B511ACD031200D5C171 /* ZYHomeViewController.m in Sources */,
+				1AA6A0571AD79F7B0025FF1A /* AddressViewController.m in Sources */,
 				1A9654531AD60D0800C39B5B /* PhoneSuccessViewController.m in Sources */,
 				1AF15B6E1ACD068000D5C171 /* AccountModel.m in Sources */,
 				1AD7FD4C1ACE72B3009A60FC /* FindPasswordViewController.m in Sources */,
 				0ECA76311AD546DC0083D373 /* OrderModel.m in Sources */,
 				1AF15B401ACCE40400D5C171 /* TreeNodeInfo.m in Sources */,
 				1AF15B0F1ACCE3BC00D5C171 /* StockAgentModel.m in Sources */,
+				1AA6A0611AD7A0550025FF1A /* RegularFormat.m in Sources */,
 				0ED58ED81AD4D9550081E8BC /* GoodButton.m in Sources */,
 				0D1694231AD3C14100B50A17 /* NSArray+MASAdditions.m in Sources */,
 				1A96545B1AD60D7300C39B5B /* StockManagerDetailController.m in Sources */,
@@ -1312,6 +1347,7 @@
 				1A9EEB9D1AD76D4F00DA6E0D /* NetworkRequest.m in Sources */,
 				1AF15B721ACD0A6D00D5C171 /* HomepageViewController.m in Sources */,
 				1AF15B0C1ACCE3BC00D5C171 /* TreeNodeModel.m in Sources */,
+				1AA6A0541AD79CD60025FF1A /* SafeViewController.m in Sources */,
 				1AD7FD521ACE7340009A60FC /* FindPasswordWithPhoneSuccessController.m in Sources */,
 				0D16942D1AD3C15600B50A17 /* HexColor.m in Sources */,
 				1AF15AEA1ACCE3A400D5C171 /* SDWebImageCompat.m in Sources */,
@@ -1319,10 +1355,10 @@
 				0ED58ED51AD4D9370081E8BC /* GoodsCell.m in Sources */,
 				0ED58ECB1AD4D7DA0081E8BC /* GoodDetaildetailViewController.m in Sources */,
 				1AF15A8C1ACCDB8C00D5C171 /* main.m in Sources */,
+				1AA6A05A1AD79FA90025FF1A /* AddressCell.m in Sources */,
 				1A9654791AD6667900C39B5B /* MessageChildViewController.m in Sources */,
 				0D16942F1AD3C15600B50A17 /* README.md in Sources */,
 				1AF15AF21ACCE3A400D5C171 /* UIImage+MultiFormat.m in Sources */,
-				1AF15B3D1ACCE40400D5C171 /* RegularFormat.m in Sources */,
 				1AF15B611ACD046A00D5C171 /* ChannelWebsiteController.m in Sources */,
 				1AF15B411ACCE40400D5C171 /* TreeView.m in Sources */,
 				0ED58EFC1AD4DA820081E8BC /* MJRefreshBaseView.m in Sources */,

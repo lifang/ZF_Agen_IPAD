@@ -535,7 +535,7 @@
     
     _noticeSwitch = [[UISwitch alloc]init];
     _noticeSwitch.backgroundColor = [UIColor clearColor];
-    _noticeSwitch.onTintColor = [UIColor orangeColor];
+    _noticeSwitch.onTintColor = kMainColor;
     _noticeSwitch.frame = CGRectMake(CGRectGetMaxX(getNews.frame) + 50, CGRectGetMaxY(line.frame) + 24, 85, 50);
     [_noticeSwitch addTarget:self action:@selector(switchAction:) forControlEvents:UIControlEventValueChanged];
     [whiteView addSubview:_noticeSwitch];

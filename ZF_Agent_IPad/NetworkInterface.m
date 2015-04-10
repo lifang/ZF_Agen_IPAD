@@ -343,12 +343,16 @@ static NSString *HTTP_GET  = @"GET";
 //33.
 + (void)getUserTerminalListWithUserID:(NSString *)userID
                                 token:(NSString *)token
+                                 page:(int)page
+                                 rows:(int)rows
                              finished:(requestDidFinished)finish {
     //参数
     NSMutableDictionary *paramDict = [[NSMutableDictionary alloc] init];
     if (userID) {
         [paramDict setObject:[NSNumber numberWithInt:[userID intValue]] forKey:@"customerId"];
     }
+    [paramDict setObject:[NSNumber numberWithInt:page] forKey:@"page"];
+    [paramDict setObject:[NSNumber numberWithInt:rows] forKey:@"rows"];
     //url
     NSString *urlString = [NSString stringWithFormat:@"%@/%@",kServiceURL,s_userTerminal_method];
     [[self class] requestWithURL:urlString
@@ -858,5 +862,140 @@ static NSString *HTTP_GET  = @"GET";
                       httpMethod:HTTP_POST
                         finished:finish];
 }
+//88.
++ (void)modifyPasswordWithAgentID:(NSString *)agentID
+                            token:(NSString *)token
+                  primaryPassword:(NSString *)primaryPassword
+                      newPassword:(NSString *)newPassword
+                         finished:(requestDidFinished)finish {
+    //参数
+    NSMutableDictionary *paramDict = [[NSMutableDictionary alloc] init];
+    if (agentID) {
+        [paramDict setObject:[NSNumber numberWithInt:[agentID intValue]] forKey:@"customerId"];
+    }
+    if (primaryPassword) {
+        [paramDict setObject:[EncryptHelper MD5_encryptWithString:primaryPassword] forKey:@"passwordOld"];
+    }
+    if (newPassword) {
+        [paramDict setObject:[EncryptHelper MD5_encryptWithString:newPassword] forKey:@"password"];
+    }
+    //url
+    NSString *urlString = [NSString stringWithFormat:@"%@/%@",kServiceURL,s_modifyPassword_method];
+    [[self class] requestWithURL:urlString
+                          params:paramDict
+                      httpMethod:HTTP_POST
+                        finished:finish];
+}
+
+//89.
++ (void)getAddressListWithAgentID:(NSString *)agentID
+                            token:(NSString *)token
+                         finished:(requestDidFinished)finish {
+    //参数
+    NSMutableDictionary *paramDict = [[NSMutableDictionary alloc] init];
+    if (agentID) {
+        [paramDict setObject:[NSNumber numberWithInt:[agentID intValue]] forKey:@"customerId"];
+    }
+    
+    //url
+    NSString *urlString = [NSString stringWithFormat:@"%@/%@",kServiceURL,s_addressList_method];
+    [[self class] requestWithURL:urlString
+                          params:paramDict
+                      httpMethod:HTTP_POST
+                        finished:finish];
+}
+
+//90.
++ (void)addAddressWithAgentID:(NSString *)agentID
+                        token:(NSString *)token
+                       cityID:(NSString *)cityID
+                 receiverName:(NSString *)receiverName
+                  phoneNumber:(NSString *)phoneNumber
+                      zipCode:(NSString *)zipCode
+                      address:(NSString *)address
+                    isDefault:(AddressType)addressType
+                     finished:(requestDidFinished)finish {
+    //参数
+    NSMutableDictionary *paramDict = [[NSMutableDictionary alloc] init];
+    if (agentID) {
+        [paramDict setObject:[NSNumber numberWithInt:[agentID intValue]] forKey:@"customerId"];
+    }
+    if (cityID) {
+        [paramDict setObject:cityID forKey:@"cityId"];
+    }
+    if (receiverName) {
+        [paramDict setObject:receiverName forKey:@"receiver"];
+    }
+    if (phoneNumber) {
+        [paramDict setObject:phoneNumber forKey:@"moblephone"];
+    }
+    if (zipCode) {
+        [paramDict setObject:zipCode forKey:@"zipCode"];
+    }
+    if (address) {
+        [paramDict setObject:address forKey:@"address"];
+    }
+    [paramDict setObject:[NSNumber numberWithInt:addressType] forKey:@"isDefault"];
+    //url
+    NSString *urlString = [NSString stringWithFormat:@"%@/%@",kServiceURL,s_addressAdd_method];
+    [[self class] requestWithURL:urlString
+                          params:paramDict
+                      httpMethod:HTTP_POST
+                        finished:finish];
+}
+
+//91.
++ (void)deleteAddressWithToken:(NSString *)token
+                    addressIDs:(NSArray *)addressIDs
+                      finished:(requestDidFinished)finish {
+    //参数
+    NSMutableDictionary *paramDict = [[NSMutableDictionary alloc] init];
+    [paramDict setObject:addressIDs forKey:@"ids"];
+    
+    //url
+    NSString *urlString = [NSString stringWithFormat:@"%@/%@",kServiceURL,s_addressDelete_method];
+    [[self class] requestWithURL:urlString
+                          params:paramDict
+                      httpMethod:HTTP_POST
+                        finished:finish];
+}
+
+//91.a.
++ (void)updateAddressWithToken:(NSString *)token
+                     addressID:(NSString *)addressID
+                        cityID:(NSString *)cityID
+                  receiverName:(NSString *)receiverName
+                   phoneNumber:(NSString *)phoneNumber
+                       zipCode:(NSString *)zipCode
+                       address:(NSString *)address
+                     isDefault:(AddressType)addressType
+                      finished:(requestDidFinished)finish {
+    //参数
+    NSMutableDictionary *paramDict = [[NSMutableDictionary alloc] init];
+    [paramDict setObject:[NSNumber numberWithInt:[addressID intValue]] forKey:@"id"];
+    if (cityID) {
+        [paramDict setObject:cityID forKey:@"cityId"];
+    }
+    if (receiverName) {
+        [paramDict setObject:receiverName forKey:@"receiver"];
+    }
+    if (phoneNumber) {
+        [paramDict setObject:phoneNumber forKey:@"moblephone"];
+    }
+    if (zipCode) {
+        [paramDict setObject:zipCode forKey:@"zipCode"];
+    }
+    if (address) {
+        [paramDict setObject:address forKey:@"address"];
+    }
+    [paramDict setObject:[NSNumber numberWithInt:addressType] forKey:@"isDefault"];
+    //url
+    NSString *urlString = [NSString stringWithFormat:@"%@/%@",kServiceURL,s_addressUpdate_method];
+    [[self class] requestWithURL:urlString
+                          params:paramDict
+                      httpMethod:HTTP_POST
+                        finished:finish];
+}
+
 
 @end
