@@ -9,9 +9,17 @@
 #import <UIKit/UIKit.h>
 #import "UserManagerModel.h"
 
+@protocol userManagerCellDelegate <NSObject>
+
+- (void)userManagerCellDeleteUserModel:(UserManagerModel *)model;
+
+@end
+
 #define hUserModelCellHeight 70.f
 
 @interface UserManagerCell : UITableViewCell
+
+@property(nonatomic,weak)id <userManagerCellDelegate> delegate;
 
 @property(nonatomic,strong)UILabel *nameLabel;
 

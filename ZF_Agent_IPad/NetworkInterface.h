@@ -89,6 +89,39 @@ static NSString *s_findPassword_method = @"agent/updatePassword";
 //7.注册图片上传
 static NSString *s_uploadRegisterImage_method = @"agent/uploadFile";
 
+//8.开通申请列表--根据代理商ID获得开通申请列表
+static NSString *s_applyList_method = @"apply/getApplyList";
+
+//9.申请开通—根据终端号查询-获得开通申请列表
+static NSString *s_searchapplyList_method = @"apply/searchApplyList";
+
+//10.申请开通--进入开通/重新申请
+static NSString *s_getapplyDetails_method = @"apply/getApplyDetails";
+
+//11.申请开通--根据商户id获得商户详细信息
+static NSString *s_getMerchant_method = @"apply/getMerchant";
+
+//12.申请开通--获得支付通道
+static NSString *s_applyChannel_method = @"apply/getChannels";
+
+//13.申请开通--选择银行
+static NSString *s_applyBank_method = @"apply/ChooseBank";
+
+//14.申请开通--对公对私材料名称
+static NSString *s_applyMaterial_method = @"apply/getMaterialName";
+
+//15.申请开通--添加申请信息
+static NSString *s_applySubmit_method = @"apply/addOpeningApply";
+
+//16.申请开通--图片资料上传
+static NSString *s_loadImage_method = @"comment/upload/tempImage";
+
+//17.申请开通—查看终端详情
+static NSString *s_termainlDetail_method = @"terminal/getTernimalDetails";
+
+//18.申请开通—获得所有商户分页列表
+static NSString *s_getMerchants_method = @"terminal/getMerchants";
+
 
 
 //19.终端管理——获取终端列表
@@ -183,7 +216,17 @@ static NSString *s_messageMultiRead_method = @"message/receiver/batchRead";
 
 //67.订单管理——列表
 static NSString *s_orderList_method = @"order/orderSearch";
+//68.订单管理——批购详情
+//71.订单管理——代购详情
+static NSString *s_orderDetailProcurement_method = @"order/getProxyById";
+static NSString *s_orderDetailWholesale_method = @"order/getWholesaleById";
 
+
+//69.订单管理——批购取消订单
+static NSString *s_orderCancelWholesale_method = @"order/cancelWholesale";
+
+//72.订单管理——代购取消订单
+static NSString *s_orderCancelProcurement_method = @"order/cancelProxy";
 //80.我的信息——获取详情
 static NSString *s_personDetail_method = @"agents/getOne";
 
@@ -298,6 +341,21 @@ static NSString *s_hot_method = @"index/pos_list";
 + (void)uploadRegisterImageWithImage:(UIImage *)image
                             finished:(requestDidFinished)finish;
 
+/*!
+ @abstract 8.申请开通--根据代理商ID获得开通申请列表
+ @param token       登录返回
+ @param agentID      代理商ID
+ @param page        分页参数 页
+ @param rows        分页参数 行
+ @result finish  请求回调结果
+ */
++ (void)getApplyListWithToken:(NSString *)token
+                      agentId:(NSString *)agentId
+                         page:(int)page
+                         rows:(int)rows
+                     finished:(requestDidFinished)finish;
+
+
 
 
 
@@ -370,7 +428,7 @@ static NSString *s_hot_method = @"index/pos_list";
  */
 + (void)deleteUserWithAgentID:(NSString *)agentID
                         token:(NSString *)token
-                       userID:(NSString *)userID
+                       userIDs:(NSArray *)userIDs
                      finished:(requestDidFinished)finish;
 
 /*!
@@ -600,6 +658,37 @@ static NSString *s_hot_method = @"index/pos_list";
                            page:(int)page
                            rows:(int)rows
                        finished:(requestDidFinished)finish;
+/*!
+ @abstract 68.订单管理——批购列表  71.代购列表
+ @param token    登录返回
+ @param supplyType  批购还是代购
+ @param orderID    订单id
+ @result finish  请求回调结果
+ */
++ (void)getOrderDetailWithToken:(NSString *)token
+                      orderType:(SupplyGoodsType)supplyType
+                        orderID:(NSString *)orderID
+                       finished:(requestDidFinished)finish;
+/*!
+ @abstract 69.订单管理——取消批购订单
+ @param token    登录返回
+ @param orderID    订单id
+ @result finish  请求回调结果
+ */
++ (void)cancelWholesaleOrderWithToken:(NSString *)token
+                              orderID:(NSString *)orderID
+                             finished:(requestDidFinished)finish;
+/*!
+ @abstract 72.订单管理——取消代购订单
+ @param token    登录返回
+ @param orderID    订单id
+ @result finish  请求回调结果
+ */
++ (void)cancelProcurementOrderWithToken:(NSString *)token
+                                orderID:(NSString *)orderID
+                               finished:(requestDidFinished)finish;
+
+
 
 /*!
  @abstract 80.我的信息——获取详情

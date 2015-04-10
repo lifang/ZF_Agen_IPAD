@@ -87,7 +87,9 @@
 #pragma mark - Action
 -(void)deleteBtnClicked
 {
-    
+    if (_delegate && [_delegate respondsToSelector:@selector(userManagerCellDeleteUserModel:)]) {
+        [_delegate userManagerCellDeleteUserModel:_userManagerModel];
+    }
 }
 
 //创建左边Label

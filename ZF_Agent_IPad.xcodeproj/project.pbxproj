@@ -85,6 +85,10 @@
 		1A9654951AD66FEF00C39B5B /* SwitchView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A9654941AD66FEF00C39B5B /* SwitchView.m */; };
 		1A9654981AD6705D00C39B5B /* BaseInformationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A9654971AD6705D00C39B5B /* BaseInformationViewController.m */; };
 		1A9EEB941AD7606400DA6E0D /* UserManagerModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A9EEB931AD7606400DA6E0D /* UserManagerModel.m */; };
+		1A9EEB9D1AD76D4F00DA6E0D /* NetworkRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A9EEB991AD76D4F00DA6E0D /* NetworkRequest.m */; };
+		1A9EEB9E1AD76D4F00DA6E0D /* EncryptHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A9EEB9B1AD76D4F00DA6E0D /* EncryptHelper.m */; };
+		1A9EEBA11AD76E7E00DA6E0D /* NetworkInterface.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A9EEB9F1AD76E7E00DA6E0D /* NetworkInterface.m */; };
+		1A9EEBA41AD7768E00DA6E0D /* UserManagerChildController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A9EEBA31AD7768E00DA6E0D /* UserManagerChildController.m */; };
 		1AD7FD4C1ACE72B3009A60FC /* FindPasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AD7FD4B1ACE72B3009A60FC /* FindPasswordViewController.m */; };
 		1AD7FD4F1ACE7319009A60FC /* FindPasswordSuccessController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AD7FD4E1ACE7319009A60FC /* FindPasswordSuccessController.m */; };
 		1AD7FD521ACE7340009A60FC /* FindPasswordWithPhoneSuccessController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AD7FD511ACE7340009A60FC /* FindPasswordWithPhoneSuccessController.m */; };
@@ -94,9 +98,6 @@
 		1AF15A9A1ACCDB8C00D5C171 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1AF15A981ACCDB8C00D5C171 /* LaunchScreen.xib */; };
 		1AF15AA61ACCDB8C00D5C171 /* ZF_Agent_IPadTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AF15AA51ACCDB8C00D5C171 /* ZF_Agent_IPadTests.m */; };
 		1AF15AB81ACCE34C00D5C171 /* city.js in Resources */ = {isa = PBXBuildFile; fileRef = 1AF15AB71ACCE34C00D5C171 /* city.js */; };
-		1AF15ABF1ACCE36900D5C171 /* NetworkInterface.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AF15ABA1ACCE36800D5C171 /* NetworkInterface.m */; };
-		1AF15AC01ACCE36900D5C171 /* NetworkRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AF15ABC1ACCE36800D5C171 /* NetworkRequest.m */; };
-		1AF15AC11ACCE36900D5C171 /* EncryptHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AF15ABE1ACCE36900D5C171 /* EncryptHelper.m */; };
 		1AF15AE71ACCE3A400D5C171 /* KxMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AF15AC71ACCE3A400D5C171 /* KxMenu.m */; };
 		1AF15AE81ACCE3A400D5C171 /* NSData+ImageContentType.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AF15ACA1ACCE3A400D5C171 /* NSData+ImageContentType.m */; };
 		1AF15AE91ACCE3A400D5C171 /* SDImageCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AF15ACC1ACCE3A400D5C171 /* SDImageCache.m */; };
@@ -320,6 +321,14 @@
 		1A9654971AD6705D00C39B5B /* BaseInformationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseInformationViewController.m; sourceTree = "<group>"; };
 		1A9EEB921AD7606400DA6E0D /* UserManagerModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserManagerModel.h; sourceTree = "<group>"; };
 		1A9EEB931AD7606400DA6E0D /* UserManagerModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserManagerModel.m; sourceTree = "<group>"; };
+		1A9EEB981AD76D4F00DA6E0D /* NetworkRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetworkRequest.h; sourceTree = "<group>"; };
+		1A9EEB991AD76D4F00DA6E0D /* NetworkRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NetworkRequest.m; sourceTree = "<group>"; };
+		1A9EEB9A1AD76D4F00DA6E0D /* EncryptHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EncryptHelper.h; sourceTree = "<group>"; };
+		1A9EEB9B1AD76D4F00DA6E0D /* EncryptHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EncryptHelper.m; sourceTree = "<group>"; };
+		1A9EEB9F1AD76E7E00DA6E0D /* NetworkInterface.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NetworkInterface.m; sourceTree = "<group>"; };
+		1A9EEBA01AD76E7E00DA6E0D /* NetworkInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetworkInterface.h; sourceTree = "<group>"; };
+		1A9EEBA21AD7768E00DA6E0D /* UserManagerChildController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserManagerChildController.h; sourceTree = "<group>"; };
+		1A9EEBA31AD7768E00DA6E0D /* UserManagerChildController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserManagerChildController.m; sourceTree = "<group>"; };
 		1AD7FD4A1ACE72B3009A60FC /* FindPasswordViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FindPasswordViewController.h; sourceTree = "<group>"; };
 		1AD7FD4B1ACE72B3009A60FC /* FindPasswordViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FindPasswordViewController.m; sourceTree = "<group>"; };
 		1AD7FD4D1ACE7319009A60FC /* FindPasswordSuccessController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FindPasswordSuccessController.h; sourceTree = "<group>"; };
@@ -338,12 +347,6 @@
 		1AF15AA51ACCDB8C00D5C171 /* ZF_Agent_IPadTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZF_Agent_IPadTests.m; sourceTree = "<group>"; };
 		1AF15AB01ACCE25500D5C171 /* Constants_H.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Constants_H.h; sourceTree = "<group>"; };
 		1AF15AB71ACCE34C00D5C171 /* city.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = city.js; sourceTree = "<group>"; };
-		1AF15AB91ACCE36800D5C171 /* NetworkInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetworkInterface.h; sourceTree = "<group>"; };
-		1AF15ABA1ACCE36800D5C171 /* NetworkInterface.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NetworkInterface.m; sourceTree = "<group>"; };
-		1AF15ABB1ACCE36800D5C171 /* NetworkRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetworkRequest.h; sourceTree = "<group>"; };
-		1AF15ABC1ACCE36800D5C171 /* NetworkRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NetworkRequest.m; sourceTree = "<group>"; };
-		1AF15ABD1ACCE36900D5C171 /* EncryptHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EncryptHelper.h; sourceTree = "<group>"; };
-		1AF15ABE1ACCE36900D5C171 /* EncryptHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EncryptHelper.m; sourceTree = "<group>"; };
 		1AF15AC61ACCE3A400D5C171 /* KxMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KxMenu.h; sourceTree = "<group>"; };
 		1AF15AC71ACCE3A400D5C171 /* KxMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KxMenu.m; sourceTree = "<group>"; };
 		1AF15AC91ACCE3A400D5C171 /* NSData+ImageContentType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+ImageContentType.h"; sourceTree = "<group>"; };
@@ -642,6 +645,8 @@
 			children = (
 				1A9654691AD6535B00C39B5B /* UserManagerController.h */,
 				1A96546A1AD6535B00C39B5B /* UserManagerController.m */,
+				1A9EEBA21AD7768E00DA6E0D /* UserManagerChildController.h */,
+				1A9EEBA31AD7768E00DA6E0D /* UserManagerChildController.m */,
 			);
 			name = UserManager;
 			sourceTree = "<group>";
@@ -704,6 +709,19 @@
 			name = MyMessage;
 			sourceTree = "<group>";
 		};
+		1A9EEB951AD76D3C00DA6E0D /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				1A9EEBA01AD76E7E00DA6E0D /* NetworkInterface.h */,
+				1A9EEB9F1AD76E7E00DA6E0D /* NetworkInterface.m */,
+				1A9EEB981AD76D4F00DA6E0D /* NetworkRequest.h */,
+				1A9EEB991AD76D4F00DA6E0D /* NetworkRequest.m */,
+				1A9EEB9A1AD76D4F00DA6E0D /* EncryptHelper.h */,
+				1A9EEB9B1AD76D4F00DA6E0D /* EncryptHelper.m */,
+			);
+			name = Network;
+			sourceTree = "<group>";
+		};
 		1AF15A7D1ACCDB8C00D5C171 = {
 			isa = PBXGroup;
 			children = (
@@ -725,11 +743,11 @@
 		1AF15A881ACCDB8C00D5C171 /* ZF_Agent_IPad */ = {
 			isa = PBXGroup;
 			children = (
+				1A9EEB951AD76D3C00DA6E0D /* Network */,
 				1A9654811AD669DF00C39B5B /* Catagory */,
 				1AF15AB11ACCE33300D5C171 /* Controllers */,
 				1AF15AB21ACCE33300D5C171 /* Labrary */,
 				1AF15AB31ACCE33300D5C171 /* Model */,
-				1AF15AB41ACCE33300D5C171 /* Network */,
 				1AF15AB51ACCE33300D5C171 /* Tools */,
 				1AF15AB61ACCE33300D5C171 /* View */,
 				1AF15A8D1ACCDB8C00D5C171 /* AppDelegate.h */,
@@ -853,19 +871,6 @@
 				0DC032561AD68CDE000532EF /* RecordModel.m */,
 			);
 			path = Model;
-			sourceTree = "<group>";
-		};
-		1AF15AB41ACCE33300D5C171 /* Network */ = {
-			isa = PBXGroup;
-			children = (
-				1AF15AB91ACCE36800D5C171 /* NetworkInterface.h */,
-				1AF15ABA1ACCE36800D5C171 /* NetworkInterface.m */,
-				1AF15ABB1ACCE36800D5C171 /* NetworkRequest.h */,
-				1AF15ABC1ACCE36800D5C171 /* NetworkRequest.m */,
-				1AF15ABD1ACCE36900D5C171 /* EncryptHelper.h */,
-				1AF15ABE1ACCE36900D5C171 /* EncryptHelper.m */,
-			);
-			path = Network;
 			sourceTree = "<group>";
 		};
 		1AF15AB51ACCE33300D5C171 /* Tools */ = {
@@ -1208,7 +1213,7 @@
 				0ED58EFF1AD4DA820081E8BC /* MJRefreshHeaderView.m in Sources */,
 				1AF15B4E1ACD02D300D5C171 /* ZYCustomTabBarViewController.m in Sources */,
 				0D1694261AD3C14100B50A17 /* README.md in Sources */,
-				1AF15ABF1ACCE36900D5C171 /* NetworkInterface.m in Sources */,
+				1A9EEBA11AD76E7E00DA6E0D /* NetworkInterface.m in Sources */,
 				0ED58EE41AD4DA010081E8BC /* GoodsCellCollectionViewCell.m in Sources */,
 				1AF15B3B1ACCE40400D5C171 /* CircleView.m in Sources */,
 				0DC0324E1AD68C6D000532EF /* RecordView.m in Sources */,
@@ -1264,12 +1269,12 @@
 				1A9654981AD6705D00C39B5B /* BaseInformationViewController.m in Sources */,
 				0ED58F021AD4DA820081E8BC /* UIView+MJExtension.m in Sources */,
 				1AF15B4B1ACCEE9200D5C171 /* MBProgressHUD.m in Sources */,
+				1A9EEB9E1AD76D4F00DA6E0D /* EncryptHelper.m in Sources */,
 				1A9654541AD60D0800C39B5B /* EmailSuccessViewController.m in Sources */,
 				1A96544E1AD60CF100C39B5B /* RegisterViewController.m in Sources */,
 				0ECA762E1AD546AA0083D373 /* RefreshViewController.m in Sources */,
 				0ED58EDE1AD4D9870081E8BC /* RateModel.m in Sources */,
 				0ED58EEB1AD4DA550081E8BC /* InterestView.m in Sources */,
-				1AF15AC11ACCE36900D5C171 /* EncryptHelper.m in Sources */,
 				1AF15B511ACD031200D5C171 /* ZYHomeViewController.m in Sources */,
 				1A9654531AD60D0800C39B5B /* PhoneSuccessViewController.m in Sources */,
 				1AF15B6E1ACD068000D5C171 /* AccountModel.m in Sources */,
@@ -1304,6 +1309,7 @@
 				0ECA762B1AD5468F0083D373 /* OrderManagerController.m in Sources */,
 				1AF15B541ACD037300D5C171 /* PollingView.m in Sources */,
 				1AF15AE71ACCE3A400D5C171 /* KxMenu.m in Sources */,
+				1A9EEB9D1AD76D4F00DA6E0D /* NetworkRequest.m in Sources */,
 				1AF15B721ACD0A6D00D5C171 /* HomepageViewController.m in Sources */,
 				1AF15B0C1ACCE3BC00D5C171 /* TreeNodeModel.m in Sources */,
 				1AD7FD521ACE7340009A60FC /* FindPasswordWithPhoneSuccessController.m in Sources */,
@@ -1311,7 +1317,6 @@
 				1AF15AEA1ACCE3A400D5C171 /* SDWebImageCompat.m in Sources */,
 				0D1694211AD3C14100B50A17 /* MASViewAttribute.m in Sources */,
 				0ED58ED51AD4D9370081E8BC /* GoodsCell.m in Sources */,
-				1AF15AC01ACCE36900D5C171 /* NetworkRequest.m in Sources */,
 				0ED58ECB1AD4D7DA0081E8BC /* GoodDetaildetailViewController.m in Sources */,
 				1AF15A8C1ACCDB8C00D5C171 /* main.m in Sources */,
 				1A9654791AD6667900C39B5B /* MessageChildViewController.m in Sources */,
@@ -1328,6 +1333,7 @@
 				1AF15B3F1ACCE40400D5C171 /* TreeNodeCollection.m in Sources */,
 				1A9654921AD66FD200C39B5B /* MyMessageViewController.m in Sources */,
 				0ED58EBD1AD4D78A0081E8BC /* GoodListViewController.m in Sources */,
+				1A9EEBA41AD7768E00DA6E0D /* UserManagerChildController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

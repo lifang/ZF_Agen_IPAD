@@ -123,7 +123,7 @@
         height=SCREEN_HEIGHT;
         
     }
-     
+    
     _searchBar = [[ZFSearchBar alloc] initWithFrame:CGRectMake(0, 0, wide, 30)];
     _searchBar.delegate = self;
     _searchBar.text = _keyword;
