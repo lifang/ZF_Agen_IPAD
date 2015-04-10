@@ -108,7 +108,7 @@ static NSString *s_applyList_method = @"apply/getApplyList";
 static NSString *s_searchapplyList_method = @"apply/searchApplyList";
 
 //10.申请开通--进入开通/重新申请
-static NSString *s_getapplyDetails_method = @"apply/getApplyDetails";
+static NSString *s_Intoapply_method = @"apply/getApplyDetails";
 
 //11.申请开通--根据商户id获得商户详细信息
 static NSString *s_getMerchant_method = @"apply/getMerchant";
@@ -379,6 +379,22 @@ static NSString *s_hot_method = @"index/pos_list";
                          page:(int)page
                          rows:(int)rows
                      finished:(requestDidFinished)finish;
+
+
+/*!
+ @abstract 10.申请开通--进入开通/重新申请
+ @param token       登录返回
+ @param agentID      代理商ID
+ @param applyStatus   对公对私
+ @param terminalsId   终端ID
+ @result finish  请求回调结果
+ */
++ (void)beginToApplyWithToken:(NSString *)token
+                      agentId:(NSString *)agentId
+                  applyStatus:(OpenApplyType)applyStatus
+                   terminalId:(NSString *)terminalId
+                     finished:(requestDidFinished)finish;
+
 
 
 

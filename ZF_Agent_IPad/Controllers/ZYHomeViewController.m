@@ -18,6 +18,7 @@
 #import "OrderManagerController.h"
 #import "StockManagerController.h"
 #import "UserManagerController.h"
+#import "IdentificationViewController.h"
 
 @interface ZYHomeViewController ()
 @property(nonatomic,strong)PollingView *pollingView;
@@ -351,7 +352,11 @@
         }
             break;
         case 1007: {
-            //联系我们
+            IdentificationViewController *identificationVC = [[IdentificationViewController alloc]init];
+            identificationVC.hidesBottomBarWhenPushed = YES;
+            [self.navigationController pushViewController:identificationVC animated:YES];
+            //开通认证
+
         
         }
             break;

@@ -19,9 +19,9 @@
         
         CGFloat mainBtnW = 100.f;
         CGFloat mainBtnH = 40.f;
-        CGFloat mainBtnX = (SCREEN_WIDTH - 130.f);
+        CGFloat mainBtnX = (SCREEN_WIDTH - 200.f);
         if (iOS7) {
-            mainBtnX = SCREEN_HEIGHT - 130.f;
+            mainBtnX = SCREEN_HEIGHT - 200.f;
         }
         CGFloat mainBtnY = 20.f;
         
@@ -49,12 +49,10 @@
             
                 UIButton *button = [[UIButton alloc]init];
                 button.titleLabel.font = [UIFont systemFontOfSize:15];
-                [button setTitleColor:[UIColor orangeColor] forState:UIControlStateNormal];
-                CALayer *readBtnLayer = [button layer];
-                [readBtnLayer setMasksToBounds:YES];
-                [readBtnLayer setCornerRadius:2.0];
-                [readBtnLayer setBorderWidth:1.0];
-                [readBtnLayer setBorderColor:[[UIColor orangeColor] CGColor]];
+                [button setTitleColor:[UIColor colorWithHexString:@"006fd5"] forState:UIControlStateNormal];
+                button.layer.masksToBounds=YES;
+                button.layer.borderWidth=1.0;
+                button.layer.borderColor=[UIColor colorWithHexString:@"006fd5"].CGColor;
                 button.backgroundColor = [UIColor clearColor];
                 button.tag = 1000;
                 [button addTarget:self action:@selector(buttonClick:) forControlEvents:UIControlEventTouchUpInside];
@@ -69,12 +67,10 @@
             for (int i = 0; i < 2; i++) {
                 UIButton *button = [[UIButton alloc]init];
                 button.titleLabel.font = [UIFont systemFontOfSize:15];
-                [button setTitleColor:[UIColor orangeColor] forState:UIControlStateNormal];
-                CALayer *readBtnLayer = [button layer];
-                [readBtnLayer setMasksToBounds:YES];
-                [readBtnLayer setCornerRadius:2.0];
-                [readBtnLayer setBorderWidth:1.0];
-                [readBtnLayer setBorderColor:[[UIColor orangeColor] CGColor]];
+                [button setTitleColor:[UIColor colorWithHexString:@"006fd5"] forState:UIControlStateNormal];
+                button.layer.masksToBounds=YES;
+                button.layer.borderWidth=1.0;
+                button.layer.borderColor=[UIColor colorWithHexString:@"006fd5"].CGColor;
                 button.backgroundColor = [UIColor clearColor];
                 button.tag = i + 2000;
                 [button addTarget:self action:@selector(buttonClick:) forControlEvents:UIControlEventTouchUpInside];
@@ -92,12 +88,10 @@
             for (int i = 0; i < 3; i++) {
                 UIButton *button = [[UIButton alloc]init];
                 button.titleLabel.font = [UIFont systemFontOfSize:15];
-                [button setTitleColor:[UIColor orangeColor] forState:UIControlStateNormal];
-                CALayer *readBtnLayer = [button layer];
-                [readBtnLayer setMasksToBounds:YES];
-                [readBtnLayer setCornerRadius:2.0];
-                [readBtnLayer setBorderWidth:1.0];
-                [readBtnLayer setBorderColor:[[UIColor orangeColor] CGColor]];
+                [button setTitleColor:[UIColor colorWithHexString:@"006fd5"] forState:UIControlStateNormal];
+                button.layer.masksToBounds=YES;
+                button.layer.borderWidth=1.0;
+                button.layer.borderColor=[UIColor colorWithHexString:@"006fd5"].CGColor;
                 button.backgroundColor = [UIColor clearColor];
                 button.tag = i + 3000;
                 [button addTarget:self action:@selector(buttonClick:) forControlEvents:UIControlEventTouchUpInside];
@@ -118,12 +112,10 @@
             for (int i = 0; i < 2; i++) {
                 UIButton *button = [[UIButton alloc]init];
                 button.titleLabel.font = [UIFont systemFontOfSize:15];
-                [button setTitleColor:[UIColor orangeColor] forState:UIControlStateNormal];
-                CALayer *readBtnLayer = [button layer];
-                [readBtnLayer setMasksToBounds:YES];
-                [readBtnLayer setCornerRadius:2.0];
-                [readBtnLayer setBorderWidth:1.0];
-                [readBtnLayer setBorderColor:[[UIColor orangeColor] CGColor]];
+                [button setTitleColor:[UIColor colorWithHexString:@"006fd5"] forState:UIControlStateNormal];
+                button.layer.masksToBounds=YES;
+                button.layer.borderWidth=1.0;
+                button.layer.borderColor=[UIColor colorWithHexString:@"006fd5"].CGColor;
                 button.backgroundColor = [UIColor clearColor];
                 button.tag = i + 4000;
                 [button addTarget:self action:@selector(buttonClick:) forControlEvents:UIControlEventTouchUpInside];

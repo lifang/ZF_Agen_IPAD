@@ -230,6 +230,30 @@ static NSString *HTTP_GET  = @"GET";
 }
 
 
+//10.
++ (void)beginToApplyWithToken:(NSString *)token
+                      agentId:(NSString *)agentId
+                  applyStatus:(OpenApplyType)applyStatus
+                   terminalId:(NSString *)terminalId
+                     finished:(requestDidFinished)finish {
+    //参数
+    NSMutableDictionary *paramDict = [[NSMutableDictionary alloc] init];
+    if (token && ![token isEqualToString:@""]) {
+        [paramDict setObject:token forKey:@"token"];
+    }
+    [paramDict setObject:[NSNumber numberWithInt:[agentId intValue]] forKey:@"customerId"];
+    [paramDict setObject:[NSNumber numberWithInt:[terminalId intValue]] forKey:@"terminalsId"];
+    [paramDict setObject:[NSNumber numberWithInt:applyStatus] forKey:@"status"];
+    //url
+    NSString *urlString = [NSString stringWithFormat:@"%@/%@",kServiceURL,s_Intoapply_method];
+    [[self class] requestWithURL:urlString
+                          params:paramDict
+                      httpMethod:HTTP_POST
+                        finished:finish];
+}
+
+
+
 
 //19.
 

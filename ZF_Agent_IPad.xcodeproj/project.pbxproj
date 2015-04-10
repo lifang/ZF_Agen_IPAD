@@ -24,6 +24,12 @@
 		0D1694331AD3C1F300B50A17 /* BaseApi.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D1694321AD3C1F300B50A17 /* BaseApi.m */; };
 		0D1694371AD3C4D900B50A17 /* TerminalViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D1694361AD3C4D900B50A17 /* TerminalViewController.m */; };
 		0D16943A1AD3C60800B50A17 /* TerminalViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D1694391AD3C60800B50A17 /* TerminalViewCell.m */; };
+		0D885FA51AD7D34A002CDA15 /* IdentificationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D885FA41AD7D34A002CDA15 /* IdentificationViewController.m */; };
+		0D885FA81AD7D358002CDA15 /* ApplyDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D885FA71AD7D358002CDA15 /* ApplyDetailController.m */; };
+		0D885FAB1AD7D4F6002CDA15 /* IdentificationViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D885FAA1AD7D4F6002CDA15 /* IdentificationViewCell.m */; };
+		0D885FAE1AD7D522002CDA15 /* IdentificationModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D885FAD1AD7D522002CDA15 /* IdentificationModel.m */; };
+		0D885FB11AD7D556002CDA15 /* ApplyOpenModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D885FB01AD7D556002CDA15 /* ApplyOpenModel.m */; };
+		0D885FB41AD7D56E002CDA15 /* MerchantModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D885FB31AD7D56E002CDA15 /* MerchantModel.m */; };
 		0DC032481AD68C2F000532EF /* TerminalDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0DC032471AD68C2F000532EF /* TerminalDetailViewController.m */; };
 		0DC0324E1AD68C6D000532EF /* RecordView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0DC0324D1AD68C6D000532EF /* RecordView.m */; };
 		0DC032511AD68CC1000532EF /* OpeningModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0DC032501AD68CC1000532EF /* OpeningModel.m */; };
@@ -205,6 +211,18 @@
 		0D1694361AD3C4D900B50A17 /* TerminalViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TerminalViewController.m; sourceTree = "<group>"; };
 		0D1694381AD3C60800B50A17 /* TerminalViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TerminalViewCell.h; sourceTree = "<group>"; };
 		0D1694391AD3C60800B50A17 /* TerminalViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TerminalViewCell.m; sourceTree = "<group>"; };
+		0D885FA31AD7D341002CDA15 /* IdentificationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IdentificationViewController.h; sourceTree = "<group>"; };
+		0D885FA41AD7D34A002CDA15 /* IdentificationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IdentificationViewController.m; sourceTree = "<group>"; };
+		0D885FA61AD7D352002CDA15 /* ApplyDetailController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ApplyDetailController.h; sourceTree = "<group>"; };
+		0D885FA71AD7D358002CDA15 /* ApplyDetailController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ApplyDetailController.m; sourceTree = "<group>"; };
+		0D885FA91AD7D4DB002CDA15 /* IdentificationViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IdentificationViewCell.h; sourceTree = "<group>"; };
+		0D885FAA1AD7D4F6002CDA15 /* IdentificationViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IdentificationViewCell.m; sourceTree = "<group>"; };
+		0D885FAC1AD7D518002CDA15 /* IdentificationModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IdentificationModel.h; sourceTree = "<group>"; };
+		0D885FAD1AD7D522002CDA15 /* IdentificationModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IdentificationModel.m; sourceTree = "<group>"; };
+		0D885FAF1AD7D54F002CDA15 /* ApplyOpenModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ApplyOpenModel.h; sourceTree = "<group>"; };
+		0D885FB01AD7D556002CDA15 /* ApplyOpenModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ApplyOpenModel.m; sourceTree = "<group>"; };
+		0D885FB21AD7D567002CDA15 /* MerchantModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MerchantModel.h; sourceTree = "<group>"; };
+		0D885FB31AD7D56E002CDA15 /* MerchantModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MerchantModel.m; sourceTree = "<group>"; };
 		0DC032461AD68C25000532EF /* TerminalDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TerminalDetailViewController.h; sourceTree = "<group>"; };
 		0DC032471AD68C2F000532EF /* TerminalDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TerminalDetailViewController.m; sourceTree = "<group>"; };
 		0DC0324C1AD68C67000532EF /* RecordView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RecordView.h; sourceTree = "<group>"; };
@@ -575,6 +593,17 @@
 			name = Terminal;
 			sourceTree = "<group>";
 		};
+		0D885FA21AD7D326002CDA15 /* Identification */ = {
+			isa = PBXGroup;
+			children = (
+				0D885FA31AD7D341002CDA15 /* IdentificationViewController.h */,
+				0D885FA41AD7D34A002CDA15 /* IdentificationViewController.m */,
+				0D885FA61AD7D352002CDA15 /* ApplyDetailController.h */,
+				0D885FA71AD7D358002CDA15 /* ApplyDetailController.m */,
+			);
+			name = Identification;
+			sourceTree = "<group>";
+		};
 		0ECA76281AD5465B0083D373 /* OrderManager */ = {
 			isa = PBXGroup;
 			children = (
@@ -833,6 +862,7 @@
 				1A9654681AD6533D00C39B5B /* UserManager */,
 				1A9654551AD60D4400C39B5B /* StockManager */,
 				0D1694341AD3C3A200B50A17 /* Terminal */,
+				0D885FA21AD7D326002CDA15 /* Identification */,
 				1AF15B661ACD064D00D5C171 /* Login */,
 				1AF15B651ACD060C00D5C171 /* Main */,
 				1AF15B431ACCEDC200D5C171 /* RootViewController.h */,
@@ -908,6 +938,12 @@
 				0DC032561AD68CDE000532EF /* RecordModel.m */,
 				1AA6A04F1AD795B60025FF1A /* UserTeminal.h */,
 				1AA6A0501AD795B60025FF1A /* UserTeminal.m */,
+				0D885FAC1AD7D518002CDA15 /* IdentificationModel.h */,
+				0D885FAD1AD7D522002CDA15 /* IdentificationModel.m */,
+				0D885FAF1AD7D54F002CDA15 /* ApplyOpenModel.h */,
+				0D885FB01AD7D556002CDA15 /* ApplyOpenModel.m */,
+				0D885FB21AD7D567002CDA15 /* MerchantModel.h */,
+				0D885FB31AD7D56E002CDA15 /* MerchantModel.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -940,6 +976,8 @@
 				0ED58EE71AD4DA480081E8BC /* PollingViews.m */,
 				0D1694381AD3C60800B50A17 /* TerminalViewCell.h */,
 				0D1694391AD3C60800B50A17 /* TerminalViewCell.m */,
+				0D885FA91AD7D4DB002CDA15 /* IdentificationViewCell.h */,
+				0D885FAA1AD7D4F6002CDA15 /* IdentificationViewCell.m */,
 				0ED58EE51AD4DA040081E8BC /* cell */,
 				0ED58EDF1AD4D9DD0081E8BC /* SortView.h */,
 				0ED58EE01AD4D9DD0081E8BC /* SortView.m */,
@@ -1255,6 +1293,7 @@
 				1AF15B6F1ACD068000D5C171 /* AccountTool.m in Sources */,
 				1AF15AF31ACCE3A400D5C171 /* UIImageView+HighlightedWebCache.m in Sources */,
 				1A96546B1AD6535B00C39B5B /* UserManagerController.m in Sources */,
+				0D885FB11AD7D556002CDA15 /* ApplyOpenModel.m in Sources */,
 				0ED58ECA1AD4D7DA0081E8BC /* GoodDetailViewController.m in Sources */,
 				1AF15B691ACD065500D5C171 /* LoginViewController.m in Sources */,
 				1AF15B0D1ACCE3BC00D5C171 /* GoodListModel.m in Sources */,
@@ -1277,6 +1316,7 @@
 				0D16941F1AD3C14100B50A17 /* MASConstraintMaker.m in Sources */,
 				1AF15B641ACD048700D5C171 /* CommonViewController.m in Sources */,
 				0D1694241AD3C14100B50A17 /* NSLayoutConstraint+MASDebugAdditions.m in Sources */,
+				0D885FA51AD7D34A002CDA15 /* IdentificationViewController.m in Sources */,
 				0D1694331AD3C1F300B50A17 /* BaseApi.m in Sources */,
 				1A9654881AD66F3700C39B5B /* MineCommonController.m in Sources */,
 				0D1694221AD3C14100B50A17 /* MASViewConstraint.m in Sources */,
@@ -1314,6 +1354,7 @@
 				1AF15B6E1ACD068000D5C171 /* AccountModel.m in Sources */,
 				1AD7FD4C1ACE72B3009A60FC /* FindPasswordViewController.m in Sources */,
 				0ECA76311AD546DC0083D373 /* OrderModel.m in Sources */,
+				0D885FAB1AD7D4F6002CDA15 /* IdentificationViewCell.m in Sources */,
 				1AF15B401ACCE40400D5C171 /* TreeNodeInfo.m in Sources */,
 				1AF15B0F1ACCE3BC00D5C171 /* StockAgentModel.m in Sources */,
 				1AA6A0611AD7A0550025FF1A /* RegularFormat.m in Sources */,
@@ -1335,11 +1376,13 @@
 				1AF15B081ACCE3BC00D5C171 /* UserModel.m in Sources */,
 				1A9654601AD60D8600C39B5B /* StockManagerCell.m in Sources */,
 				1AF15B5E1ACD042A00D5C171 /* HomeImageModel.m in Sources */,
+				0D885FAE1AD7D522002CDA15 /* IdentificationModel.m in Sources */,
 				1AF15A8F1ACCDB8C00D5C171 /* AppDelegate.m in Sources */,
 				0D1694371AD3C4D900B50A17 /* TerminalViewController.m in Sources */,
 				1AF15B5A1ACD03C100D5C171 /* BasicNagigationController.m in Sources */,
 				1AF15B481ACCEDFF00D5C171 /* FLViewController.m in Sources */,
 				0ED58F001AD4DA820081E8BC /* UIScrollView+MJExtension.m in Sources */,
+				0D885FA81AD7D358002CDA15 /* ApplyDetailController.m in Sources */,
 				0D16941E1AD3C14100B50A17 /* MASConstraint.m in Sources */,
 				0ECA762B1AD5468F0083D373 /* OrderManagerController.m in Sources */,
 				1AF15B541ACD037300D5C171 /* PollingView.m in Sources */,
@@ -1349,6 +1392,7 @@
 				1AF15B0C1ACCE3BC00D5C171 /* TreeNodeModel.m in Sources */,
 				1AA6A0541AD79CD60025FF1A /* SafeViewController.m in Sources */,
 				1AD7FD521ACE7340009A60FC /* FindPasswordWithPhoneSuccessController.m in Sources */,
+				0D885FB41AD7D56E002CDA15 /* MerchantModel.m in Sources */,
 				0D16942D1AD3C15600B50A17 /* HexColor.m in Sources */,
 				1AF15AEA1ACCE3A400D5C171 /* SDWebImageCompat.m in Sources */,
 				0D1694211AD3C14100B50A17 /* MASViewAttribute.m in Sources */,

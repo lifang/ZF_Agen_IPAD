@@ -79,9 +79,9 @@
     
     UIButton *applyBtn = [[UIButton alloc] init];
     applyBtn.clipsToBounds = YES;
-    applyBtn.layer.MasksToBounds=YES;
-    applyBtn.layer.BorderWidth=1.0;
-    applyBtn.layer.BorderColor=[UIColor colorWithHexString:@"006df5"].CGColor;
+    applyBtn.layer.masksToBounds=YES;
+    applyBtn.layer.borderWidth=1.0;
+    applyBtn.layer.borderColor=[UIColor colorWithHexString:@"006df5"].CGColor;
     [applyBtn setTitle:@"申请售后" forState:UIControlStateNormal];
     applyBtn.backgroundColor=[UIColor clearColor];
     [applyBtn setTitleColor:[UIColor colorWithHexString:@"006df5"] forState:UIControlStateNormal];
@@ -98,9 +98,9 @@
     
     UIButton *bindingBtn = [[UIButton alloc] init];
     bindingBtn.clipsToBounds = YES;
-    bindingBtn.layer.MasksToBounds=YES;
-    bindingBtn.layer.BorderWidth=1.0;
-    bindingBtn.layer.BorderColor=[UIColor colorWithHexString:@"006df5"].CGColor;
+    bindingBtn.layer.masksToBounds=YES;
+    bindingBtn.layer.borderWidth=1.0;
+    bindingBtn.layer.borderColor=[UIColor colorWithHexString:@"006df5"].CGColor;
     [bindingBtn setTitle:@"为用户绑定终端" forState:UIControlStateNormal];
     bindingBtn.backgroundColor=[UIColor colorWithHexString:@"006df5"];
     [bindingBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
@@ -127,6 +127,40 @@
     }];
     
     
+    
+    _textView=[[UITextView alloc] init];
+    _textView.delegate = self;
+    _textView.userInteractionEnabled = NO;
+    _textView.clipsToBounds = YES;
+    _textView.layer.borderColor = [UIColor colorWithHexString:@"a8a8a8"].CGColor;
+    _textView.layer.borderWidth = 1.0f;
+    _textView.font = FONT20;
+    _textView.text=@"全部";
+    _textView.textAlignment=NSTextAlignmentLeft;
+    _textView.textColor = [UIColor colorWithHexString:@"6c6c6c"];
+    _textView.backgroundColor = [UIColor whiteColor];
+    [headerView addSubview:_textView];
+    [_textView makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.equalTo(headerView.centerY);
+        make.left.equalTo(titleLB.right).offset(30);
+        make.right.equalTo(headerView.right).offset(-80);
+        make.height.equalTo(@40);
+        
+    }];
+    
+    
+    _terminalBtn = [[UIButton alloc] init];
+    [_terminalBtn setBackgroundImage:[UIImage imageNamed:@"arrow_line"] forState:UIControlStateNormal];
+    [_terminalBtn addTarget:self action:@selector(terminalBtnPressed:) forControlEvents:UIControlEventTouchUpInside];
+    [headerView addSubview:_terminalBtn];
+    [_terminalBtn makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.equalTo(headerView.centerY);
+        make.right.equalTo(headerView.right).offset(-80);
+        make.height.equalTo(@40);
+        make.width.equalTo(@50);
+    }];
+    
+
     UIView *titleView = [[UIView alloc]init];
     titleView.backgroundColor=[UIColor colorWithHexString:@"f2f1f1"];
     titleView.frame = CGRectMake(26, 120, SCREEN_WIDTH-52, 28);
@@ -203,12 +237,12 @@
     
     if(iOS7)
     {
-        _tableView = [[UITableView alloc] initWithFrame:CGRectMake(20, 120+28, SCREEN_HEIGHT-20*2, SCREEN_WIDTH-88)];
+        _tableView = [[UITableView alloc] initWithFrame:CGRectMake(20, 120+28, SCREEN_HEIGHT-20*2, SCREEN_WIDTH-148)];
         
     }else
     {
         
-        _tableView = [[UITableView alloc] initWithFrame:CGRectMake(20, 120+28, SCREEN_WIDTH-20*2, SCREEN_HEIGHT-88)];
+        _tableView = [[UITableView alloc] initWithFrame:CGRectMake(20, 120+28, SCREEN_WIDTH-20*2, SCREEN_HEIGHT-148)];
         
     }
     
@@ -232,10 +266,6 @@
     [_tableView addSubview:_bottomRefreshView];
     
 }
-
-
-
-
 
 
 
@@ -295,7 +325,7 @@
     UITextView *posTV=[[UITextView alloc] init];
     posTV.layer.masksToBounds=YES;
     posTV.layer.borderWidth=1.0;
-    posTV.layer.BorderColor=[UIColor colorWithHexString:@"a8a8a8"].CGColor;
+    posTV.layer.borderColor=[UIColor colorWithHexString:@"a8a8a8"].CGColor;
     posTV.backgroundColor = [UIColor clearColor];
     posTV.frame = CGRectMake(POSLB.frame.origin.x+POSLB.frame.size.width+30, CGRectGetMaxY(line.frame) + 30, 200, 40);
     [whiteView addSubview:posTV];
@@ -310,7 +340,7 @@
     UITextView *AddressTV=[[UITextView alloc] init];
     AddressTV.layer.masksToBounds=YES;
     AddressTV.layer.borderWidth=1.0;
-    AddressTV.layer.BorderColor=[UIColor colorWithHexString:@"a8a8a8"].CGColor;
+    AddressTV.layer.borderColor=[UIColor colorWithHexString:@"a8a8a8"].CGColor;
     AddressTV.backgroundColor = [UIColor clearColor];
     AddressTV.frame = CGRectMake(posTV.frame.origin.x, AddressLB.frame.origin.y, 200, 40);
     [whiteView addSubview:AddressTV];
@@ -325,7 +355,7 @@
     UITextView *reseasonTV=[[UITextView alloc] init];
     reseasonTV.layer.masksToBounds=YES;
     reseasonTV.layer.borderWidth=1.0;
-    reseasonTV.layer.BorderColor=[UIColor colorWithHexString:@"a8a8a8"].CGColor;
+    reseasonTV.layer.borderColor=[UIColor colorWithHexString:@"a8a8a8"].CGColor;
     reseasonTV.backgroundColor = [UIColor clearColor];
     reseasonTV.frame = CGRectMake(posTV.frame.origin.x, reseasonLB.frame.origin.y, 200, 120);
     [whiteView addSubview:reseasonTV];
@@ -334,7 +364,7 @@
     saveBtn.frame=CGRectMake(whiteView.frame.size.width/2.0-60, reseasonTV.frame.origin.y+120+30, 120, 40);
     saveBtn.layer.masksToBounds=YES;
     saveBtn.layer.borderWidth=1.0;
-    saveBtn.layer.BorderColor=[UIColor colorWithHexString:@"006fd5"].CGColor;
+    saveBtn.layer.borderColor=[UIColor colorWithHexString:@"006fd5"].CGColor;
     saveBtn.backgroundColor=[UIColor colorWithHexString:@"006fd5"];
     [saveBtn setTitle:@"提交" forState:UIControlStateNormal];
     [saveBtn addTarget:self action:@selector(saveBtnClick:) forControlEvents:UIControlEventTouchUpInside];
@@ -405,7 +435,7 @@
     UITextView *UserTV=[[UITextView alloc] init];
     UserTV.layer.masksToBounds=YES;
     UserTV.layer.borderWidth=1.0;
-    UserTV.layer.BorderColor=[UIColor colorWithHexString:@"a8a8a8"].CGColor;
+    UserTV.layer.borderColor=[UIColor colorWithHexString:@"a8a8a8"].CGColor;
     UserTV.backgroundColor = [UIColor clearColor];
     UserTV.frame = CGRectMake(UserLB.frame.origin.x+UserLB.frame.size.width+30, CGRectGetMaxY(line.frame) + 30, 200, 40);
     [whiteView addSubview:UserTV];
@@ -420,7 +450,7 @@
     UITextView *TerminalTV=[[UITextView alloc] init];
     TerminalTV.layer.masksToBounds=YES;
     TerminalTV.layer.borderWidth=1.0;
-    TerminalTV.layer.BorderColor=[UIColor colorWithHexString:@"a8a8a8"].CGColor;
+    TerminalTV.layer.borderColor=[UIColor colorWithHexString:@"a8a8a8"].CGColor;
     TerminalTV.backgroundColor = [UIColor clearColor];
     TerminalTV.frame = CGRectMake(UserTV.frame.origin.x, TerminalLB.frame.origin.y, 200, 40);
     [whiteView addSubview:TerminalTV];
@@ -429,7 +459,7 @@
     bindingBtn.frame=CGRectMake(whiteView.frame.size.width/2.0-60, TerminalTV.frame.origin.y+40+30, 120, 40);
     bindingBtn.layer.masksToBounds=YES;
     bindingBtn.layer.borderWidth=1.0;
-    bindingBtn.layer.BorderColor=[UIColor colorWithHexString:@"006fd5"].CGColor;
+    bindingBtn.layer.borderColor=[UIColor colorWithHexString:@"006fd5"].CGColor;
     bindingBtn.backgroundColor=[UIColor colorWithHexString:@"006fd5"];
     [bindingBtn setTitle:@"绑定" forState:UIControlStateNormal];
     [bindingBtn addTarget:self action:@selector(bindingBtnClick:) forControlEvents:UIControlEventTouchUpInside];
@@ -815,7 +845,6 @@
         terminalDetailVC.hidesBottomBarWhenPushed = YES;
         terminalDetailVC.dealStatus = model.TM_status;
         terminalDetailVC.tm_ID = model.TM_ID;
-        //  terminalDetailVC.t
         [self.navigationController pushViewController:terminalDetailVC animated:YES];
     }
     
@@ -826,7 +855,7 @@
 {
     return 80;
 }
-/*
+
  - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
  if ([tableView respondsToSelector:@selector(setSeparatorInset:)]) {
  [tableView setSeparatorInset:UIEdgeInsetsZero];
@@ -838,7 +867,7 @@
  [cell setLayoutMargins:UIEdgeInsetsZero];
  }
  }
- */
+
 
 #pragma mark - Refresh
 
