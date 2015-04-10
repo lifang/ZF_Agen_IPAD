@@ -24,6 +24,12 @@
 		0D1694331AD3C1F300B50A17 /* BaseApi.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D1694321AD3C1F300B50A17 /* BaseApi.m */; };
 		0D1694371AD3C4D900B50A17 /* TerminalViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D1694361AD3C4D900B50A17 /* TerminalViewController.m */; };
 		0D16943A1AD3C60800B50A17 /* TerminalViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D1694391AD3C60800B50A17 /* TerminalViewCell.m */; };
+		0DC032481AD68C2F000532EF /* TerminalDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0DC032471AD68C2F000532EF /* TerminalDetailViewController.m */; };
+		0DC0324E1AD68C6D000532EF /* RecordView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0DC0324D1AD68C6D000532EF /* RecordView.m */; };
+		0DC032511AD68CC1000532EF /* OpeningModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0DC032501AD68CC1000532EF /* OpeningModel.m */; };
+		0DC032541AD68CCF000532EF /* OpeningDetailsModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0DC032531AD68CCF000532EF /* OpeningDetailsModel.m */; };
+		0DC032571AD68CDE000532EF /* RecordModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0DC032561AD68CDE000532EF /* RecordModel.m */; };
+		0DC0325A1AD68D51000532EF /* TerminalManagerModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0DC032591AD68D51000532EF /* TerminalManagerModel.m */; };
 		0ECA762B1AD5468F0083D373 /* OrderManagerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0ECA762A1AD5468F0083D373 /* OrderManagerController.m */; };
 		0ECA762E1AD546AA0083D373 /* RefreshViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0ECA762D1AD546AA0083D373 /* RefreshViewController.m */; };
 		0ECA76311AD546DC0083D373 /* OrderModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0ECA76301AD546DC0083D373 /* OrderModel.m */; };
@@ -192,6 +198,18 @@
 		0D1694361AD3C4D900B50A17 /* TerminalViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TerminalViewController.m; sourceTree = "<group>"; };
 		0D1694381AD3C60800B50A17 /* TerminalViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TerminalViewCell.h; sourceTree = "<group>"; };
 		0D1694391AD3C60800B50A17 /* TerminalViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TerminalViewCell.m; sourceTree = "<group>"; };
+		0DC032461AD68C25000532EF /* TerminalDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TerminalDetailViewController.h; sourceTree = "<group>"; };
+		0DC032471AD68C2F000532EF /* TerminalDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TerminalDetailViewController.m; sourceTree = "<group>"; };
+		0DC0324C1AD68C67000532EF /* RecordView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RecordView.h; sourceTree = "<group>"; };
+		0DC0324D1AD68C6D000532EF /* RecordView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RecordView.m; sourceTree = "<group>"; };
+		0DC0324F1AD68CB0000532EF /* OpeningModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpeningModel.h; sourceTree = "<group>"; };
+		0DC032501AD68CC1000532EF /* OpeningModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OpeningModel.m; sourceTree = "<group>"; };
+		0DC032521AD68CC9000532EF /* OpeningDetailsModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpeningDetailsModel.h; sourceTree = "<group>"; };
+		0DC032531AD68CCF000532EF /* OpeningDetailsModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OpeningDetailsModel.m; sourceTree = "<group>"; };
+		0DC032551AD68CD8000532EF /* RecordModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RecordModel.h; sourceTree = "<group>"; };
+		0DC032561AD68CDE000532EF /* RecordModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RecordModel.m; sourceTree = "<group>"; };
+		0DC032581AD68D4A000532EF /* TerminalManagerModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TerminalManagerModel.h; sourceTree = "<group>"; };
+		0DC032591AD68D51000532EF /* TerminalManagerModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TerminalManagerModel.m; sourceTree = "<group>"; };
 		0ECA76291AD5468F0083D373 /* OrderManagerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderManagerController.h; sourceTree = "<group>"; };
 		0ECA762A1AD5468F0083D373 /* OrderManagerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrderManagerController.m; sourceTree = "<group>"; };
 		0ECA762C1AD546AA0083D373 /* RefreshViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RefreshViewController.h; sourceTree = "<group>"; };
@@ -528,6 +546,10 @@
 			children = (
 				0D1694351AD3C4D900B50A17 /* TerminalViewController.h */,
 				0D1694361AD3C4D900B50A17 /* TerminalViewController.m */,
+				0DC032461AD68C25000532EF /* TerminalDetailViewController.h */,
+				0DC032471AD68C2F000532EF /* TerminalDetailViewController.m */,
+				0DC0324C1AD68C67000532EF /* RecordView.h */,
+				0DC0324D1AD68C6D000532EF /* RecordView.m */,
 			);
 			name = Terminal;
 			sourceTree = "<group>";
@@ -821,6 +843,14 @@
 				1AF15B071ACCE3BC00D5C171 /* StockTerminalModel.m */,
 				1A9EEB921AD7606400DA6E0D /* UserManagerModel.h */,
 				1A9EEB931AD7606400DA6E0D /* UserManagerModel.m */,
+				0DC032581AD68D4A000532EF /* TerminalManagerModel.h */,
+				0DC032591AD68D51000532EF /* TerminalManagerModel.m */,
+				0DC0324F1AD68CB0000532EF /* OpeningModel.h */,
+				0DC032501AD68CC1000532EF /* OpeningModel.m */,
+				0DC032521AD68CC9000532EF /* OpeningDetailsModel.h */,
+				0DC032531AD68CCF000532EF /* OpeningDetailsModel.m */,
+				0DC032551AD68CD8000532EF /* RecordModel.h */,
+				0DC032561AD68CDE000532EF /* RecordModel.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1162,8 +1192,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0DC032511AD68CC1000532EF /* OpeningModel.m in Sources */,
 				1A96547C1AD666C900C39B5B /* MessageViewCell.m in Sources */,
 				0ED58EC01AD4D78A0081E8BC /* FilterContentViewController.m in Sources */,
+				0DC032541AD68CCF000532EF /* OpeningDetailsModel.m in Sources */,
 				1AF15B3C1ACCE40400D5C171 /* RefreshView.m in Sources */,
 				0ED58F0D1AD4DF600081E8BC /* GoodsCollectionViewCell2.m in Sources */,
 				1AF15B101ACCE3BC00D5C171 /* StockTerminalModel.m in Sources */,
@@ -1179,6 +1211,7 @@
 				1AF15ABF1ACCE36900D5C171 /* NetworkInterface.m in Sources */,
 				0ED58EE41AD4DA010081E8BC /* GoodsCellCollectionViewCell.m in Sources */,
 				1AF15B3B1ACCE40400D5C171 /* CircleView.m in Sources */,
+				0DC0324E1AD68C6D000532EF /* RecordView.m in Sources */,
 				0ED58ECF1AD4D80B0081E8BC /* GoodDetialModel.m in Sources */,
 				1A9654951AD66FEF00C39B5B /* SwitchView.m in Sources */,
 				1AF15B6F1ACD068000D5C171 /* AccountTool.m in Sources */,
@@ -1220,8 +1253,10 @@
 				0ED58EE11AD4D9DD0081E8BC /* SortView.m in Sources */,
 				0ED58F011AD4DA820081E8BC /* UIScrollView+MJRefresh.m in Sources */,
 				1AF15AF51ACCE3A400D5C171 /* UIView+WebCacheOperation.m in Sources */,
+				0DC032571AD68CDE000532EF /* RecordModel.m in Sources */,
 				1AF15B361ACCE40400D5C171 /* CityModel.m in Sources */,
 				1AF15AEC1ACCE3A400D5C171 /* SDWebImageDownloader.m in Sources */,
+				0DC032481AD68C2F000532EF /* TerminalDetailViewController.m in Sources */,
 				1AF15B0B1ACCE3BC00D5C171 /* TreeDataHandle.m in Sources */,
 				0D16943A1AD3C60800B50A17 /* TerminalViewCell.m in Sources */,
 				0D16941D1AD3C14100B50A17 /* MASCompositeConstraint.m in Sources */,
@@ -1254,6 +1289,7 @@
 				1A9654611AD60D8600C39B5B /* StockManagerDetailCell.m in Sources */,
 				0ED58ECC1AD4D7DA0081E8BC /* FactoryDetailController.m in Sources */,
 				0ECA76341AD546F80083D373 /* OrderCell.m in Sources */,
+				0DC0325A1AD68D51000532EF /* TerminalManagerModel.m in Sources */,
 				0ED58EFE1AD4DA820081E8BC /* MJRefreshFooterView.m in Sources */,
 				1AF15B571ACD03AE00D5C171 /* SMPageControl.m in Sources */,
 				1AF15B081ACCE3BC00D5C171 /* UserModel.m in Sources */,
@@ -1342,6 +1378,7 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -1384,6 +1421,7 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				ENABLE_NS_ASSERTIONS = NO;

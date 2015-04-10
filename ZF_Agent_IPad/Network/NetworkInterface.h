@@ -89,6 +89,50 @@ static NSString *s_findPassword_method = @"agent/updatePassword";
 //7.注册图片上传
 static NSString *s_uploadRegisterImage_method = @"agent/uploadFile";
 
+
+
+//19.终端管理——获取终端列表
+static NSString *s_terminalList_method = @"terminal/getApplyList";
+
+//20.终端管理——根据终端号模糊查询得到相关终端
+static NSString *s_terminalSearch_method = @"apply/searchApplyList";
+
+//21.终端管理——根据状态选择查询
+static NSString *s_terminalStatus_method = @"terminal/getTerminalList";
+
+//22.终端管理——进入终端详情
+static NSString *s_terminalDetails_method = @"terminal/getApplyDetails";
+
+//23.终端管理——开通申请/重新开通
+static NSString *s_getapply_method = @"apply/getApplyDetails";
+
+//24.终端管理——同步
+static NSString *s_terminalsynchronous_method = @"terminal/synchronous";
+
+//26.终端管理——为用户绑定终端号
+static NSString *s_bindingterminal_method = @"terminal/bindingTerminal";
+
+//27.终端管理——申请售后批量终端号筛选
+static NSString *s_batchterminalnum_method = @"terminal/batchTerminalNum";
+
+//28.终端管理——pos机,通道,价格,筛选终端
+static NSString *s_screeningterminalnum_method = @"terminal/screeningTerminalNum";
+
+//29.终端管理——pos机选择
+static NSString *s_screeningPOSnum_method = @"terminal/screeningPOSNum";
+
+//30.终端管理——通道列表
+static NSString *s_getChannels_method = @"terminal/getChannels";
+
+//31.终端管理——收件人信息
+static NSString *s_getAddressee_method = @"terminal/getAddressee";
+
+//32.终端管理——提交申请售后
+static NSString *s_submitAgent_method = @"terminal/submitAgent";
+
+
+
+
 //31.用户管理——获取用户列表
 static NSString *s_userList_method = @"user/getUser";
 
@@ -253,6 +297,59 @@ static NSString *s_hot_method = @"index/pos_list";
  */
 + (void)uploadRegisterImageWithImage:(UIImage *)image
                             finished:(requestDidFinished)finish;
+
+
+
+
+/*!
+ @abstract 19.终端管理--根据用户ID获得终端列表
+ @param Token       登录返回
+ @param agentID     代理商ID
+ @param page        分页参数 页
+ @param rows        分页参数 行
+ @result finish  请求回调结果
+ */
+
++ (void)getTerminalManagerListWithToken:(NSString *)token
+                                agentID:(NSString *)agentId
+                                   page:(int)page
+                                   rows:(int)rows
+                               finished:(requestDidFinished)finish;
+
+
+/*!
+ @abstract 21.终端管理--根据状态选择查询
+ @param Token       登录返回
+ @param agentID     代理商ID
+ @param page        分页参数 页
+ @param rows        分页参数 行
+ @result finish  请求回调结果
+ */
+
++ (void)getTerminalStatusListWithToken:(NSString *)token
+                               agentID:(NSString *)agentId
+                                  page:(int)page
+                                  rows:(int)rows
+                                status:(int)status
+                              finished:(requestDidFinished)finish;
+
+
+/*!
+ @abstract 22.终端管理--终端详情
+ @param Token       登录返回
+ @param terminalsId     代理商ID
+ @result finish  请求回调结果
+ */
+
++ (void)getTerminalDetailWithToken:(NSString *)token
+                       terminalsId:(NSString *)terminalsId
+                          finished:(requestDidFinished)finish;
+
+
+
+
+
+
 
 /*!
  @abstract 31.用户管理——获取用户列表

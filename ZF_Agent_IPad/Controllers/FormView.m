@@ -1,9 +1,9 @@
 //
 //  FormView.m
-//  ZFUB
+//  ZF_Agent_IPad
 //
-//  Created by 徐宝桥 on 15/2/9.
-//  Copyright (c) 2015年 ___MyCompanyName___. All rights reserved.
+//  Created by wufei on 15/4/9.
+//  Copyright (c) 2015年 comdo. All rights reserved.
 //
 
 #import "FormView.h"
@@ -42,7 +42,7 @@
         height=SCREEN_HEIGHT;
         
     }
-
+    
     CGFloat itemWidth = (wide - borderSpace * 2 - (columnCount + 1) * kLineHeight) / columnCount;
     
     UIImageView *pointView = [[UIImageView alloc] init];
@@ -314,11 +314,11 @@
 }
 
 - (void)createFormWithColumn:(NSArray *)titleArray
-                    content:(NSArray *)itemArray {
+                     content:(NSArray *)itemArray {
     CGFloat borderSpace = 20.f;
     NSInteger columnCount = [titleArray count];
     NSInteger itemCount = [itemArray count];
-
+    
     CGFloat itemWidth = (475 - borderSpace * 2 - (columnCount + 1) * kLineHeight) / columnCount;
     //竖线
     CGFloat lineHeight = menuHeight + itemCount * (contentHeight + kLineHeight) + kLineHeight * 2;
@@ -578,5 +578,6 @@
     }
     [self createFormWithTitle:formTitle column:titleArray content:contentArray];
 }
+
 
 @end
