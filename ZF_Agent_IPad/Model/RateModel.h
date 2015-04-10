@@ -18,11 +18,12 @@ typedef enum {
 @interface RateModel : NSObject
 
 @property (nonatomic, strong) NSString *rateID;
-@property (nonatomic, strong) NSString *rateName;
+//@property (nonatomic, strong) NSString *rateName;
 @property (nonatomic, assign) CGFloat rateService;
 @property (nonatomic, assign) CGFloat rateTerminal;
 @property (nonatomic, assign) CGFloat rateBase;
 @property (nonatomic, assign) RateStatus rateStatus;
+@property (nonatomic, strong) NSString *tradeType;
 
 - (id)initWithParseDictionary:(NSDictionary *)dict;
 
