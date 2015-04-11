@@ -12,7 +12,7 @@
 
 @interface ScanImageViewController : CommonViewController
 
-- (void)showDetailImageWithURL:(NSString *)urlString imageRect:(CGRect)rect;
+- (void)showDetailImageWithURL:(NSString *)urlString imageRect:(CGRect)rect WithIdentifier:(NSString *)Identifier;
 
 - (void)showDetailImageWithImg:(UIImage *)imageV imageRect:(CGRect)rect;
 

@@ -21,7 +21,6 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
-       
     }
     return self;
 }
@@ -32,6 +31,7 @@
     //change all navigationbar color
     [self.navigationController.navigationBar setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor], NSForegroundColorAttributeName, NavTitle_FONT(NavTitle_FONTSIZE),NSFontAttributeName,nil]];
         [[UINavigationBar appearance] setBarTintColor:kColor(3, 112, 214, 1)];
+    
 //        [[UINavigationBar appearance] setBarTintColor:[UIColor grayColor]];
         
  

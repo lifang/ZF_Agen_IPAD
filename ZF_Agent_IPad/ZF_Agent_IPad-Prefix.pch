@@ -30,7 +30,7 @@
 #import "HexColor.h"
 #import "UIImageView+WebCache.h"
 #import "BaseApi.h"
-
+#import "UIImage+Extention.h"
 
 #define BackColor @"dedede"
 #define LineColor @"DEDEDE"

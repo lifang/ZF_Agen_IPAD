@@ -17,6 +17,10 @@
 #import "GoodListViewController.h"
 #import "OrderManagerController.h"
 #import "DealRoadController.h"
+#import "StockManagerController.h"
+#import "UserManagerController.h"
+#import "IdentificationViewController.h"
+
 @interface ZYHomeViewController ()
 @property(nonatomic,strong)PollingView *pollingView;
 @property(nonatomic,strong)NSString *cityName;
@@ -336,11 +340,15 @@
         }
             break;
         case 1004: {
-            //我要贷款
+            StockManagerController *stockVC = [[StockManagerController alloc]init];
+            stockVC.hidesBottomBarWhenPushed = YES;
+            [self.navigationController pushViewController:stockVC animated:YES];
         }
             break;
         case 1005: {
-            //我要理财
+            UserManagerController *userVC = [[UserManagerController alloc]init];
+            userVC.hidesBottomBarWhenPushed = YES;
+            [self.navigationController pushViewController:userVC animated:YES];
         }
             break;
         case 1006: {
@@ -349,7 +357,11 @@
         }
             break;
         case 1007: {
-            //联系我们
+            IdentificationViewController *identificationVC = [[IdentificationViewController alloc]init];
+            identificationVC.hidesBottomBarWhenPushed = YES;
+            [self.navigationController pushViewController:identificationVC animated:YES];
+            //开通认证
+
         
         }
             break;

@@ -10,6 +10,9 @@
 #import "ZYHomeViewController.h"
 #import "BasicNagigationController.h"
 #import "GoodListViewController.h"
+#import "MessageViewController.h"
+#import "MyMessageViewController.h"
+#import "BaseInformationViewController.h"
 @interface HomepageViewController ()
 
 @end
@@ -24,8 +27,8 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(viewcontrollew) name:@"addressmanger" object:nil];
     ZYHomeViewController *viewController1 = [[ZYHomeViewController alloc] init];
     GoodListViewController *viewController2 = [[GoodListViewController alloc] init];
-    ZYHomeViewController *viewController3 = [[ZYHomeViewController alloc] init];
-    ZYHomeViewController *viewController4 = [[ZYHomeViewController alloc] init];
+    MessageViewController *viewController3 = [[MessageViewController alloc] init];
+    BaseInformationViewController *viewController4 = [[BaseInformationViewController alloc] init];
     ZYHomeViewController *viewController5 = [[ZYHomeViewController alloc] init];
     
     //创建一个导航，以第一个视图控制器为根视图

@@ -8,12 +8,15 @@
 
 #import "RegisterViewController.h"
 #import "CityHandle.h"
+#import "PhoneSuccessViewController.h"
+#import "EmailSuccessViewController.h"
 
 @interface RegisterViewController ()<UITextFieldDelegate,UIActionSheetDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,UIPopoverPresentationControllerDelegate,UIPickerViewDataSource,UIPickerViewDelegate,UIPopoverControllerDelegate,UITableViewDataSource,UITableViewDelegate>
 
 @property(nonatomic,strong)UIScrollView *mainScrollView;
 
 @property(nonatomic,strong)UILabel *firstLabel;
+@property(nonatomic,strong)UILabel *authCodeLabel;
 
 @property(nonatomic,strong)UITextField *agentTypeField;
 @property(nonatomic,strong)UITextField *companyNameField;
@@ -59,6 +62,8 @@
 
 //代理商选择
 @property(nonatomic,strong)UITableView *agentTypeTableView;
+//判断是否是手机
+@property(nonatomic,assign)BOOL isMobile;
 
 @end
 
@@ -88,6 +93,7 @@
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.isMobile = YES;
     self.authCode = @"123";
     self.imageArray = [[NSMutableArray alloc]init];
     _IDCardImg = [[UIImage alloc]init];
@@ -123,7 +129,6 @@
     }
     [self.view addSubview:_mainScrollView];
     
-    CGFloat mainBtnWidth = 100.f;
 #pragma mark - 创建label
     UILabel *agentTypeLable = [[UILabel alloc]init];
     agentTypeLable.text = @"代理商类型";
@@ -159,6 +164,7 @@
     
     UILabel *authCodeFieldLabel = [[UILabel alloc]init];
     authCodeFieldLabel.text = @"验证码";
+    self.authCodeLabel = authCodeFieldLabel;
     [self setLabel:authCodeFieldLabel withTopView:principalPhoneOrEmailLabel middleSpace:mainMargin labelTag:0];
     
     UILabel *locationLabel = [[UILabel alloc]init];
@@ -386,6 +392,7 @@
     CGFloat fieldHeight = 40.f;
     CGFloat leftSpace = 10.f;
     textField.translatesAutoresizingMaskIntoConstraints = NO;
+    textField.textColor = kColor(105, 105, 105, 1.0);
     textField.borderStyle = UITextBorderStyleLine;
     textField.clearButtonMode = UITextFieldViewModeWhileEditing;
     [textField setValue:[UIFont systemFontOfSize:20] forKeyPath:@"_placeholderLabel.font"];
@@ -649,6 +656,55 @@
 
 }
 
+#pragma mark - 判断是手机还是邮箱
+-(void)setIsMobile:(BOOL)isMobile
+{
+    _isMobile = isMobile;
+    if (_isMobile) {
+        NSLog(@"是手机！");
+        _authCodeLabel.hidden = NO;
+        _authCodeField.hidden = NO;
+        _makeSureBtn.hidden = NO;
+        _getAuthCodeBtn.hidden = NO;
+    }
+    else {
+        NSLog(@"不是手机");
+        _authCodeLabel.hidden = YES;
+        _authCodeField.hidden = YES;
+        _makeSureBtn.hidden = YES;
+        _getAuthCodeBtn.hidden = YES;
+    }
+}
+
+#pragma mark - UITextField
+
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
+    if ([string isEqualToString:@""]) {
+        //删除
+        if ([textField.text length] > 0 && [[textField.text substringToIndex:[textField.text length] - 1] rangeOfString:@"@"].length != 0) {
+            self.isMobile = NO;
+        }
+        else {
+            self.isMobile = YES;
+        }
+    }
+    else if ([textField.text rangeOfString:@"@"].length != 0 || [string rangeOfString:@"@"].length != 0) {
+        self.isMobile = NO;
+    }
+    else {
+        self.isMobile = YES;
+    }
+    return YES;
+}
+
+- (BOOL)textFieldShouldClear:(UITextField *)textField {
+    
+    if (textField == _principalPhoneOrEmailField) {
+        self.isMobile = YES;
+    }
+    return YES;
+}
+
 #pragma mark - tabelviewDateSource
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
@@ -702,6 +758,15 @@
 -(void)presentClick
 {
     NSLog(@"点击了提交！");
+    if (_isMobile) {
+        PhoneSuccessViewController *phoneVC = [[PhoneSuccessViewController alloc]init];
+        phoneVC.phoneNum = @"13539897878";
+        [self.navigationController pushViewController:phoneVC animated:YES];
+    }else{
+        EmailSuccessViewController *emilVC = [[EmailSuccessViewController alloc]init];
+        emilVC.email = @"78979879@qq.com";
+        [self.navigationController pushViewController:emilVC animated:YES];
+    }
 }
 
 -(void)rightBtnClicked:(UIButton *)button

@@ -532,14 +532,14 @@
     NSMutableArray *contentArray = [[NSMutableArray alloc] init];
     for (RateModel *model in rateItems) {
         NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
-        if (model.rateName) {
-            [dict setObject:model.rateName forKey:@"0"];
+        if (model.tradeType) {
+            [dict setObject:model.tradeType forKey:@"0"];
         }
         else {
             [dict setObject:@"" forKey:@"0"];
         }
         CGFloat rate = model.rateTerminal;
-        if ([model.rateName isEqualToString:@"消费"]) {
+        if ([model.tradeType isEqualToString:@"消费"]) {
             rate = model.rateService + model.rateBase;
         }
         [dict setObject:[NSString stringWithFormat:@"%2.f‰",rate] forKey:@"1"];
