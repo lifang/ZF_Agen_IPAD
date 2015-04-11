@@ -44,13 +44,40 @@
     [super viewDidLoad];
     self.view.backgroundColor=[UIColor whiteColor];
     [self.navigationController.navigationBar setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor], NSForegroundColorAttributeName, NavTitle_FONT(NavTitle_FONTSIZE),NSFontAttributeName,nil]];
+    
+    
+    UIButton *shoppingButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    shoppingButton.frame = CGRectMake(0, 0, 30, 30);
+    [shoppingButton setBackgroundImage:[UIImage imageNamed:@"shopping"] forState:UIControlStateNormal];
+    
+    //    [shoppingButton setBackgroundImage:kImageName(@"good_right1.png") forState:UIControlStateNormal];
+    [shoppingButton addTarget:self action:@selector(shoppingview) forControlEvents:UIControlEventTouchUpInside];
+    
+        //设置间距
+    UIBarButtonItem *spaceItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace
+                                                                               target:nil
+                                                                               action:nil];
+       spaceItem.width = 52;
+    UIBarButtonItem *shoppingItem = [[UIBarButtonItem alloc] initWithCustomView:shoppingButton];
+    self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:spaceItem,shoppingItem,spaceItem,spaceItem, spaceItem,nil];
+    
+
+
     // Do any additional setup after loading the view.
     self.title = @"订单管理";
     _orderItem = [[NSMutableArray alloc] init];
     [self initAndLayoutUI];
     self.supplyType = SupplyGoodsWholesale;
 }
+-(void)shoppingview
+{
 
+
+    AppDelegate *delegate = [AppDelegate shareAppDelegate];
+    
+    [delegate.rootViewController.homeController setSeletedIndex:1];
+
+}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

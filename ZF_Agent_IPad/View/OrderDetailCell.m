@@ -32,11 +32,26 @@
 #pragma mark - UI
 
 - (void)initAndLayoutUI {
+    CGFloat wide;
+    CGFloat height;
+    if(iOS7)
+    {
+        wide=SCREEN_HEIGHT;
+        height=SCREEN_WIDTH;
+        
+        
+    }
+    else
+    {  wide=SCREEN_WIDTH;
+        height=SCREEN_HEIGHT;
+        
+    }
+
     CGFloat topSpace = 10.f;
-    CGFloat leftSpace = 20.f;
-    CGFloat labelHeight = 14.f;
+    CGFloat leftSpace = 50.f;
+    CGFloat labelHeight = 20.f;
     
-    CGFloat imageSize = 70.f;
+    CGFloat imageSize = 100.f;
     
     //图片
     _pictureView = [[UIImageView alloc] init];
@@ -78,7 +93,7 @@
     _nameLabel = [[UILabel alloc] init];
     _nameLabel.translatesAutoresizingMaskIntoConstraints = NO;
     _nameLabel.backgroundColor = [UIColor clearColor];
-    _nameLabel.font = [UIFont boldSystemFontOfSize:12.f];
+    _nameLabel.font = [UIFont boldSystemFontOfSize:16.f];
     [self.contentView addSubview:_nameLabel];
     [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_nameLabel
                                                                  attribute:NSLayoutAttributeTop
@@ -93,7 +108,7 @@
                                                                     toItem:_pictureView
                                                                  attribute:NSLayoutAttributeRight
                                                                 multiplier:1.0
-                                                                  constant:leftSpace]];
+                                                                  constant:20]];
     [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_nameLabel
                                                                  attribute:NSLayoutAttributeRight
                                                                  relatedBy:NSLayoutRelationEqual
@@ -111,6 +126,8 @@
     if (_supplyType == SupplyGoodsWholesale) {
         //原价
         _primaryPriceLabel = [[UILabel alloc] init];
+       _primaryPriceLabel.textColor = [UIColor grayColor];
+
         _primaryPriceLabel.translatesAutoresizingMaskIntoConstraints = NO;
         _primaryPriceLabel.backgroundColor = [UIColor clearColor];
         _primaryPriceLabel.font = [UIFont systemFontOfSize:12.f];
@@ -129,7 +146,7 @@
                                                                         toItem:self.contentView
                                                                      attribute:NSLayoutAttributeRight
                                                                     multiplier:1.0
-                                                                      constant:-10.f]];
+                                                                      constant:-wide/2+50]];
         [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_primaryPriceLabel
                                                                      attribute:NSLayoutAttributeWidth
                                                                      relatedBy:NSLayoutRelationEqual
@@ -147,9 +164,10 @@
     }
     //价格
     _actualPriceLabel = [[UILabel alloc] init];
+    
     [self layoutGoodLabel:_actualPriceLabel WithTopView:_nameLabel topSpace:0.f alignment:NSTextAlignmentRight];
-    _actualPriceLabel.textColor = kColor(255, 102, 36, 1);
-    _actualPriceLabel.font = [UIFont boldSystemFontOfSize:13.f];
+//    _actualPriceLabel.textColor = kColor(255, 102, 36, 1);
+    _actualPriceLabel.font = [UIFont boldSystemFontOfSize:16.f];
     //数量
     _numberLabel = [[UILabel alloc] init];
     [self layoutGoodLabel:_numberLabel WithTopView:_actualPriceLabel topSpace:0.f alignment:NSTextAlignmentRight];
@@ -165,11 +183,27 @@
             WithTopView:(UIView *)topView
                topSpace:(CGFloat)space
               alignment:(NSTextAlignment)alignment {
+    CGFloat wide;
+    CGFloat height;
+    if(iOS7)
+    {
+        wide=SCREEN_HEIGHT;
+        height=SCREEN_WIDTH;
+        
+        
+    }
+    else
+    {  wide=SCREEN_WIDTH;
+        height=SCREEN_HEIGHT;
+        
+    }
+    
+
     CGFloat leftSpace = 10.f;
-    CGFloat labelHeight = 14.f;
+    CGFloat labelHeight = 20.f;
     label.translatesAutoresizingMaskIntoConstraints = NO;
     label.backgroundColor = [UIColor clearColor];
-    label.font = [UIFont systemFontOfSize:12.f];
+    label.font = [UIFont systemFontOfSize:16.f];
     label.textAlignment = alignment;
     [self.contentView addSubview:label];
     [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:label
@@ -186,13 +220,31 @@
                                                                  attribute:NSLayoutAttributeRight
                                                                 multiplier:1.0
                                                                   constant:20.f]];
+    
+    if(label==_actualPriceLabel)
+    {
+        [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:label
+                                                                     attribute:NSLayoutAttributeRight
+                                                                     relatedBy:NSLayoutRelationEqual
+                                                                        toItem:self.contentView
+                                                                     attribute:NSLayoutAttributeRight
+                                                                    multiplier:1.0
+                                                                      constant:-wide/2+50]];
+    
+    }
+else
+{
     [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:label
                                                                  attribute:NSLayoutAttributeRight
                                                                  relatedBy:NSLayoutRelationEqual
                                                                     toItem:self.contentView
                                                                  attribute:NSLayoutAttributeRight
                                                                 multiplier:1.0
-                                                                  constant:-leftSpace]];
+                                                                  constant:-80]];
+}
+    
+    
+    
     [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:label
                                                                  attribute:NSLayoutAttributeHeight
                                                                  relatedBy:NSLayoutRelationEqual
@@ -208,7 +260,18 @@
 - (void)setContentsWithData:(OrderGoodModel *)data {
     self.nameLabel.text = data.goodName;
     if (_supplyType == SupplyGoodsWholesale) {
-        self.primaryPriceLabel.text = [NSString stringWithFormat:@"原价 ￥%.2f",data.goodPrimaryPrice];
+        NSString *primaryPrice =[NSString stringWithFormat:@"原价 ￥%.2f",data.goodPrimaryPrice];
+        NSMutableAttributedString *priceAttrString = [[NSMutableAttributedString alloc] initWithString:primaryPrice];
+        NSDictionary *priceAttr = [NSDictionary dictionaryWithObjectsAndKeys:
+                                   [UIFont systemFontOfSize:14.f],NSFontAttributeName,
+                                   [NSNumber numberWithInt:2],NSStrikethroughStyleAttributeName,
+                                   nil];
+        [priceAttrString addAttributes:priceAttr range:NSMakeRange(0, [priceAttrString length])];
+        self.primaryPriceLabel.attributedText = priceAttrString;
+        
+        self.primaryPriceLabel.textColor=[UIColor grayColor];
+        
+        
     }
     self.actualPriceLabel.text = [NSString stringWithFormat:@"￥%.2f",data.goodActualPirce];
     self.numberLabel.text = [NSString stringWithFormat:@"X %d",data.goodCount];

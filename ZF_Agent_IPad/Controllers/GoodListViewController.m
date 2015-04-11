@@ -545,7 +545,8 @@
     CGFloat minPrice = [[_filterDict objectForKey:s_minPrice] floatValue];
     
     
-  
+    NSLog(@"%@",delegate.agentID);
+
 
     //***************************************
     [NetworkInterface getGoodListWithCityID:delegate.cityID agentID:delegate.agentID supplyType:_supplyType sortType:_filterType brandID:brandItem category:catrgoryItem channelID:channelItem payCardID:cardItem tradeID:tradeItem slipID:slipItem date:dateItem maxPrice:maxPrice minPrice:minPrice keyword:_keyword onlyRent:isRent page:page rows:kPageSize finished:^(BOOL success, NSData *response) {

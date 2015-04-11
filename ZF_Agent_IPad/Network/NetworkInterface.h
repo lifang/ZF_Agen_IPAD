@@ -106,7 +106,8 @@ static NSString *s_goodList_method = @"good/list";
 
 //36.商品详细
 static NSString *s_goodDetail_method = @"good/goodinfo";
-
+//获取交易流水终端列表
+static NSString *s_terminalList_method = @"trade/record/getTerminals";
 //40.库存管理列表
 static NSString *s_stockList_method = @"stock/list";
 
@@ -121,7 +122,10 @@ static NSString *s_stockTerminal_method = @"stock/terminallist";
 
 //55.交易流水——获取终端
 static NSString *s_tradeTerminalList_method = @"trade/record/getTerminals";
-
+//58.交易流水——获取代理商列表
+static NSString *s_tradeAgentList_method = @"trade/record/getAgents";
+//59.交易流水——查询交易流水
+static NSString *s_tradeRecord_method = @"trade/record/getTradeRecords";
 //60.我的消息——列表
 static NSString *s_messageList_method = @"message/receiver/getAll";
 
@@ -356,6 +360,14 @@ static NSString *s_hot_method = @"index/pos_list";
                          goodID:(NSString *)goodID
                      supplyType:(SupplyGoodsType)supplyType
                        finished:(requestDidFinished)finish;
+/*!
+ @abstract 37.获取终端列表
+ @param token       登录返回
+ @param userID      登录用户id
+ @result finish  请求回调结果
+ */
++ (void)getTerminalListWithagentId:(NSString *)agentId
+                        finished:(requestDidFinished)finish;
 
 /*!
  @abstract 40.库存管理列表
@@ -432,6 +444,39 @@ static NSString *s_hot_method = @"index/pos_list";
 + (void)getTradeTerminalListWithAgentID:(NSString *)agentID
                                   token:(NSString *)token
                                finished:(requestDidFinished)finish;
+/*!
+ @abstract 58.交易流水——获取代理商列表
+ @param token    登录返回
+ @param agentID  代理商id
+ @result finish  请求回调结果
+ */
++ (void)getTradeAgentListWithAgentID:(NSString *)agentID
+                               token:(NSString *)token
+                            finished:(requestDidFinished)finish;
+
+/*!
+ @abstract 59.交易流水——查询交易流水
+ @param agentID  代理商id
+ @param token    登录返回
+ @param tradeType  交易类型
+ @param terminalNumber  终端号
+ @param subAgentID  下级代理商
+ @param startTime   开始时间
+ @param endTime     结束时间
+ @param page     分页参数 页
+ @param rows     分页参数 行
+ @result finish  请求回调结果
+ */
++ (void)getTradeRecordWithAgentID:(NSString *)agentID
+                            token:(NSString *)token
+                        tradeType:(TradeType)tradeType
+                   terminalNumber:(NSString *)terminalNumber
+                       subAgentID:(NSString *)subAgentID
+                        startTime:(NSString *)startTime
+                          endTime:(NSString *)endTime
+                             page:(int)page
+                             rows:(int)rows
+                         finished:(requestDidFinished)finish;
 
 /*!
  @abstract 60.我的消息列表
