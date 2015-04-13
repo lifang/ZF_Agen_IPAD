@@ -8,7 +8,7 @@
 
 #import "MineCommonController.h"
 #import "BaseInformationViewController.h"
-
+#import "SubAgentListController.h"
 
 @interface MineCommonController ()
 
@@ -68,13 +68,13 @@
     baseInformationVC.navigationController.navigationBarHidden = YES;
     [self.navigationController pushViewController:baseInformationVC animated:NO];
 }
-////售后记录
-//-(void)aftersellBtnClick
-//{
-//    AfterSellViewController *afterVC = [[AfterSellViewController alloc]init];
-//    afterVC.navigationController.navigationBarHidden = YES;
-//    [self.navigationController pushViewController:afterVC animated:NO];
-//}
+//售后记录
+-(void)aftersellBtnClick
+{
+    SubAgentListController *afterVC = [[SubAgentListController alloc]init];
+    afterVC.navigationController.navigationBarHidden = YES;
+    [self.navigationController pushViewController:afterVC animated:NO];
+}
 ////我的信息
 //-(void)messageBtnClick
 //{

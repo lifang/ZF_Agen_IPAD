@@ -270,7 +270,8 @@ static NSString *s_addressAdd_method = @"agents/insertAddress";
 static NSString *s_addressDelete_method = @"agents/batchDeleteAddress";
 //91.a.我的信息——更新收货地址
 static NSString *s_addressUpdate_method = @"agents/updateAddress";
-
+//92.下级代理商管理——列表
+static NSString *s_subAgentList_method = @"lowerAgent/list";
 //热卖
 static NSString *s_hot_method = @"index/pos_list";
 
@@ -556,6 +557,11 @@ static NSString *s_hot_method = @"index/pos_list";
  */
 + (void)getTerminalListWithagentId:(NSString *)agentId
                         finished:(requestDidFinished)finish;
+
+
+
+
+
 
 /*!
  @abstract 40.库存管理列表
@@ -918,5 +924,17 @@ static NSString *s_hot_method = @"index/pos_list";
                       finished:(requestDidFinished)finish;
 
 
-
+/*!
+ @abstract 92.下级代理商管理——列表
+ @param agentID  代理商id
+ @param token    登录返回
+ @param page     分页参数 页
+ @param rows     分页参数 行
+ @result finish  请求回调结果
+ */
++ (void)getSubAgentListWithAgentID:(NSString *)agentID
+                             token:(NSString *)token
+                              page:(int)page
+                              rows:(int)rows
+                          finished:(requestDidFinished)finish;
 @end

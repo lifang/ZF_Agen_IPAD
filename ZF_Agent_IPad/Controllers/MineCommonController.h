@@ -19,5 +19,7 @@
 -(void)setLeftViewWith:(ChooseViewType)choosetype;
 -(void)messageBtnClick;
 
+-(void)aftersellBtnClick;
+
 
 @end
