@@ -87,7 +87,7 @@
     spaceItem.width = 52;
     UIBarButtonItem *shoppingItem = [[UIBarButtonItem alloc] initWithCustomView:shoppingButton];
     UIBarButtonItem *filterItem = [[UIBarButtonItem alloc] initWithCustomView:filterButton];
-    self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:spaceItem,filterItem,spaceItem,spaceItem, spaceItem,nil];
+    self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:spaceItem,spaceItem,filterItem,spaceItem,nil];
     self.navigationItem.leftBarButtonItems = [NSArray arrayWithObjects:spaceItem,spaceItem, rightItems,nil];
 
 }

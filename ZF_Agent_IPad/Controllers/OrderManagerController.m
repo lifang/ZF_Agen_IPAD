@@ -35,6 +35,7 @@
 @property (nonatomic, strong) UIButton *addButton;
 
 @property (nonatomic, strong) NSMutableArray *orderItem;
+@property (nonatomic, strong) OrderModel *selectedOrder;
 
 @end
 
@@ -68,6 +69,10 @@
     _orderItem = [[NSMutableArray alloc] init];
     [self initAndLayoutUI];
     self.supplyType = SupplyGoodsWholesale;
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(refreshOrderList:)
+                                                 name:RefreshOrderListNotification
+                                               object:nil];
 }
 -(void)shoppingview
 {
@@ -81,6 +86,11 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+#pragma mark - NSNotification
+
+- (void)refreshOrderList:(NSNotification *)notification {
+    [self performSelector:@selector(firstLoadData) withObject:nil afterDelay:0.1f];
 }
 
 #pragma mark - UI
@@ -264,7 +274,6 @@ headerView.backgroundColor = [UIColor whiteColor];
         
         
         _numberField = [[UITextField alloc] initWithFrame:CGRectMake(wide-280-60, 0, 280, 40)];
-        _numberField.delegate = self;
         _numberField.layer.borderWidth = 1;
         _numberField.layer.borderColor = kColor(193, 192, 192, 1).CGColor;
         _numberField.borderStyle = UITextBorderStyleNone;
@@ -277,7 +286,7 @@ headerView.backgroundColor = [UIColor whiteColor];
         _addButton.frame = CGRectMake(0, 0, 50, 35);
     [_addButton setImage:kImageName(@"textsearch") forState:UIControlStateNormal];
         [_addButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-        [_addButton addTarget:self action:@selector(countAdd:) forControlEvents:UIControlEventTouchUpInside];
+        [_addButton addTarget:self action:@selector(searchclick) forControlEvents:UIControlEventTouchUpInside];
         _numberField.rightView = _addButton;
         [statusBackView addSubview:_numberField];
         
@@ -339,7 +348,6 @@ headerView.backgroundColor = [UIColor whiteColor];
         
      
         _numberField = [[UITextField alloc] initWithFrame:CGRectMake(wide-280-60, 15, 280, 40)];
-        _numberField.delegate = self;
         _numberField.layer.borderWidth = 1;
         _numberField.layer.borderColor = kColor(193, 192, 192, 1).CGColor;
         _numberField.borderStyle = UITextBorderStyleNone;
@@ -352,7 +360,7 @@ headerView.backgroundColor = [UIColor whiteColor];
         _addButton.frame = CGRectMake(0, 0, 50, 35);
         [_addButton setImage:kImageName(@"textsearch") forState:UIControlStateNormal];
         [_addButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-        [_addButton addTarget:self action:@selector(countAdd:) forControlEvents:UIControlEventTouchUpInside];
+        [_addButton addTarget:self action:@selector(searchclick) forControlEvents:UIControlEventTouchUpInside];
         _numberField.rightView = _addButton;
         [headerView addSubview:_numberField];
 
@@ -364,6 +372,19 @@ headerView.backgroundColor = [UIColor whiteColor];
         [headerView addSubview:_statusButton];
         [headerView addSubview:_statusLabel];
     }
+}
+-(void)searchclick
+{
+
+
+    [self firstLoadData];
+    
+
+
+
+
+
+
 }
 - (IBAction)selectStatuss:(id)sender {
     UIButton*but=(UIButton*)sender;
@@ -472,7 +493,9 @@ headerView.backgroundColor = [UIColor whiteColor];
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
     hud.labelText = @"加载中...";
     AppDelegate *delegate = [AppDelegate shareAppDelegate];
-    [NetworkInterface getOrderListWithAgentID:delegate.agentID token:delegate.token orderType:_currentType keyword:nil status:_currentStatus page:page rows:kPageSize finished:^(BOOL success, NSData *response) {
+    NSLog(@"%@",_numberField.text);
+    
+    [NetworkInterface getOrderListWithAgentID:delegate.agentID token:delegate.token orderType:_currentType keyword:_numberField.text status:_currentStatus page:page rows:kPageSize finished:^(BOOL success, NSData *response) {
         hud.customView = [[UIImageView alloc] init];
         hud.mode = MBProgressHUDModeCustomView;
         [hud hide:YES afterDelay:0.3f];
@@ -761,6 +784,8 @@ headerView.backgroundColor = [UIColor whiteColor];
     
     cell.delegate = self;
     [cell setContentsWithData:model];
+    cell.userInteractionEnabled=YES;
+
     CGFloat wide;
     CGFloat height;
     if(iOS7)
@@ -818,6 +843,135 @@ headerView.backgroundColor = [UIColor whiteColor];
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
     return 0.001f;
+}
+//取消批购订单
+- (void)cancelWholesaleOrder {
+    AppDelegate *delegate = [AppDelegate shareAppDelegate];
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+    hud.labelText = @"加载中...";
+    [NetworkInterface cancelWholesaleOrderWithToken:delegate.token orderID:_selectedOrder.orderID finished:^(BOOL success, NSData *response) {
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:0.5f];
+        if (success) {
+            id object = [NSJSONSerialization JSONObjectWithData:response options:NSJSONReadingMutableLeaves error:nil];
+            if ([object isKindOfClass:[NSDictionary class]]) {
+                NSString *errorCode = [object objectForKey:@"code"];
+                if ([errorCode intValue] == RequestFail) {
+                    //返回错误代码
+                    hud.labelText = [NSString stringWithFormat:@"%@",[object objectForKey:@"message"]];
+                }
+                else if ([errorCode intValue] == RequestSuccess) {
+                    [hud hide:YES];
+                    hud.labelText = @"订单取消成功";
+                    [[NSNotificationCenter defaultCenter] postNotificationName:RefreshOrderListNotification object:nil];
+                }
+            }
+            else {
+                //返回错误数据
+                hud.labelText = kServiceReturnWrong;
+            }
+        }
+        else {
+            hud.labelText = kNetworkFailed;
+        }
+    }];
+}
+
+//取消代购订单
+- (void)cancelProcurementOrder {
+    AppDelegate *delegate = [AppDelegate shareAppDelegate];
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+    hud.labelText = @"加载中...";
+    [NetworkInterface cancelProcurementOrderWithToken:delegate.token orderID:_selectedOrder.orderID finished:^(BOOL success, NSData *response) {
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:0.5f];
+        if (success) {
+            id object = [NSJSONSerialization JSONObjectWithData:response options:NSJSONReadingMutableLeaves error:nil];
+            if ([object isKindOfClass:[NSDictionary class]]) {
+                NSString *errorCode = [object objectForKey:@"code"];
+                if ([errorCode intValue] == RequestFail) {
+                    //返回错误代码
+                    hud.labelText = [NSString stringWithFormat:@"%@",[object objectForKey:@"message"]];
+                }
+                else if ([errorCode intValue] == RequestSuccess) {
+                    [hud hide:YES];
+                    hud.labelText = @"订单取消成功";
+                    [[NSNotificationCenter defaultCenter] postNotificationName:RefreshOrderListNotification object:nil];
+                }
+            }
+            else {
+                //返回错误数据
+                hud.labelText = kServiceReturnWrong;
+            }
+        }
+        else {
+            hud.labelText = kNetworkFailed;
+        }
+    }];
+}
+
+#pragma mark - CellDelegate
+
+//批购
+- (void)orderCellCancelWholesaleOrder:(OrderModel *)model {
+    _selectedOrder = model;
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示信息"
+                                                    message:@"确定取消此订单？"
+                                                   delegate:self
+                                          cancelButtonTitle:@"取消"
+                                          otherButtonTitles:@"确定", nil];
+    [alert show];
+}
+
+- (void)orderCellPayWholesaleOrder:(OrderModel *)model {
+    
+}
+
+- (void)orderCellPayDepositOrder:(OrderModel *)model {
+    
+}
+
+- (void)orderCellWholesaleRepeat:(OrderModel *)model {
+    
+}
+
+//代购
+- (void)orderCellCancelProcurementOrder:(OrderModel *)model
+
+{
+    _selectedOrder = model;
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示信息"
+                                                    message:@"确定取消此订单？"
+                                                   delegate:self
+                                          cancelButtonTitle:@"取消"
+                                          otherButtonTitles:@"确定", nil];
+    [alert show];
+
+}
+
+- (void)orderCellPayProcurementOrder:(OrderModel *)model {
+    
+}
+
+- (void)orderCellProcurementRepeat:(OrderModel *)model {
+    
+}
+
+#pragma mark - AlertView
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if (buttonIndex != alertView.cancelButtonIndex) {
+        if (_supplyType == SupplyGoodsWholesale) {
+            //批购
+            [self cancelWholesaleOrder];
+        }
+        else {
+            //代购
+            [self cancelProcurementOrder];
+        }
+    }
 }
 
 #pragma mark - 上下拉刷新重写

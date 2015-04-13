@@ -9,7 +9,7 @@
 #import "MineCommonController.h"
 #import "BaseInformationViewController.h"
 #import "StaffManagerController.h"
-
+#import "SubAgentListController.h"
 
 @interface MineCommonController ()
 
@@ -65,17 +65,17 @@
 //我的信息
 -(void)orderClick
 {
-    MyMessageViewController *baseInformationVC = [[MyMessageViewController alloc]init];
+    BaseInformationViewController *baseInformationVC = [[BaseInformationViewController alloc]init];
     baseInformationVC.navigationController.navigationBarHidden = YES;
     [self.navigationController pushViewController:baseInformationVC animated:NO];
 }
-////售后记录
-//-(void)aftersellBtnClick
-//{
-//    AfterSellViewController *afterVC = [[AfterSellViewController alloc]init];
-//    afterVC.navigationController.navigationBarHidden = YES;
-//    [self.navigationController pushViewController:afterVC animated:NO];
-//}
+//售后记录
+-(void)aftersellBtnClick
+{
+    SubAgentListController *afterVC = [[SubAgentListController alloc]init];
+    afterVC.navigationController.navigationBarHidden = YES;
+    [self.navigationController pushViewController:afterVC animated:NO];
+}
 ////我的信息
 //-(void)messageBtnClick
 //{
@@ -93,7 +93,7 @@
 {
     StaffManagerController *staffVC = [[StaffManagerController alloc]init];
     staffVC.hidesBottomBarWhenPushed = YES;
-    [self.navigationController pushViewController:staffVC animated:YES];
+    [self.navigationController pushViewController:staffVC animated:NO];
 }
 
 @end

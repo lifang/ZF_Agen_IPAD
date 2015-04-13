@@ -506,6 +506,8 @@ typedef enum {
         UIButton *payBtn = [self buttonWithTitle:@"付款" action:@selector(payWholesaleOrder:) style:orderBtnStyleSecond];
         [self.contentView addSubview:payBtn];
         payBtn.frame=CGRectMake(wide-60-100, 75, 100, 35);
+        cancelBtn.userInteractionEnabled=YES;
+        
     }
     else if ([_identifier isEqualToString:wholesaleFinishIdentifier]) {
         //批购已完成
@@ -518,7 +520,8 @@ typedef enum {
         UIButton *cancelBtn = [self buttonWithTitle:@"取消订单" action:@selector(cancelProcurementOrder:) style:orderBtnStyleFirst];
         [self.contentView addSubview:cancelBtn];
         cancelBtn.frame=CGRectMake(wide-60-100, 30, 100, 35);
-        
+        cancelBtn.userInteractionEnabled=YES;
+
         UIButton *payBtn = [self buttonWithTitle:@"付款" action:@selector(payProcurementOrder:) style:orderBtnStyleSecond];
         [self.contentView addSubview:payBtn];
         payBtn.frame=CGRectMake(wide-60-100, 75, 100, 35);
@@ -763,37 +766,50 @@ typedef enum {
 
 //批购
 - (IBAction)cancelWholesalOrder:(id)sender {
-    
+    if (_delegate && [_delegate respondsToSelector:@selector(orderCellCancelWholesaleOrder:)]) {
+        [_delegate orderCellCancelWholesaleOrder:_cellData];
+    }
 }
 
 //支付定金
 - (IBAction)payDeposit:(id)sender {
-    
+    if (_delegate && [_delegate respondsToSelector:@selector(orderCellPayDepositOrder:)]) {
+        [_delegate orderCellPayDepositOrder:_cellData];
+    }
 }
 
 //付款
 - (IBAction)payWholesaleOrder:(id)sender {
-    
+    if (_delegate && [_delegate respondsToSelector:@selector(orderCellPayWholesaleOrder:)]) {
+        [_delegate orderCellPayWholesaleOrder:_cellData];
+    }
 }
 
 //再次批购
 - (IBAction)repeatWholesale:(id)sender {
-    
+    if (_delegate && [_delegate respondsToSelector:@selector(orderCellWholesaleRepeat:)]) {
+        [_delegate orderCellWholesaleRepeat:_cellData];
+    }
 }
 
 //代购
 - (IBAction)cancelProcurementOrder:(id)sender {
-    
+    if (_delegate && [_delegate respondsToSelector:@selector(orderCellCancelProcurementOrder:)]) {
+        [_delegate orderCellCancelProcurementOrder:_cellData];
+    }
 }
 
 //付款
 - (IBAction)payProcurementOrder:(id)sender {
-
+    if (_delegate && [_delegate respondsToSelector:@selector(orderCellPayProcurementOrder:)]) {
+        [_delegate orderCellPayProcurementOrder:_cellData];
+    }
 }
 
 //再次代购
 - (IBAction)repeatProcurement:(id)sender {
-    
+    if (_delegate && [_delegate respondsToSelector:@selector(orderCellProcurementRepeat:)]) {
+        [_delegate orderCellProcurementRepeat:_cellData];
+    }
 }
-
 @end

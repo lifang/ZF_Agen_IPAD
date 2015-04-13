@@ -25,6 +25,7 @@
 #import "NetworkInterface.h"
 #import "TradeAgentModel.h"
 
+#import "MJRefresh.h"
 
 
 #import "UIImage+Extention.h"
@@ -203,7 +204,7 @@ static NSString *s_defaultTerminalNum = @"请选择终端号";
     self.view.backgroundColor = [UIColor whiteColor];
     NSDictionary *attributes = [NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor],NSForegroundColorAttributeName,[UIFont boldSystemFontOfSize:22],NSFontAttributeName, nil];
     [self.navigationController.navigationBar setTitleTextAttributes:attributes];
-    [self.navigationController.navigationBar setBackgroundImage:[UIImage resizedImage:@"orange"] forBarPosition:UIBarPositionTop barMetrics:UIBarMetricsDefault];
+    [self.navigationController.navigationBar setBackgroundImage:[UIImage resizedImage:@"blue"] forBarPosition:UIBarPositionTop barMetrics:UIBarMetricsDefault];
     
     UIView *footerView = [[UIView alloc]init];
     footerView.backgroundColor = kColor(210, 210, 210, 1.0);
@@ -227,15 +228,37 @@ static NSString *s_defaultTerminalNum = @"请选择终端号";
     UIView *view = [UIView new];
     view.backgroundColor = [UIColor clearColor];
     [  self.tableView setTableFooterView:view];
+    
+    
+    
+    
+    [_tableView addHeaderWithTarget:self action:@selector(loadNewStatuses:) dateKey:@"table"];
+    [_tableView headerBeginRefreshing];
+    //上拉
+    [_tableView addFooterWithTarget:self action:@selector(loadMoreStatuses)];
+    
+    // 设置文字(也可以不设置,默认的文字在MJRefreshConst中修改)
+    _tableView.headerPullToRefreshText = @"下拉可以刷新了";
+    _tableView.headerReleaseToRefreshText = @"松开马上刷新了";
+    _tableView.headerRefreshingText = @">.< 正在努力加载中!";
+    
+    _tableView.footerPullToRefreshText = @"上拉可以加载更多数据了";
+    _tableView.footerReleaseToRefreshText = @"松开马上加载更多数据了";
+    _tableView.footerRefreshingText = @">.< 正在努力加载中!";
+
+    
+    
+    
+    
     if (iOS7) {
-        self.tableView.frame=CGRectMake(0, 260+64, SCREEN_HEIGHT, SCREEN_WIDTH-260);
-        headerView.frame = CGRectMake(0, 64, SCREEN_HEIGHT, 260);
+        self.tableView.frame=CGRectMake(0, 260, SCREEN_HEIGHT, SCREEN_WIDTH-260);
+        headerView.frame = CGRectMake(0, 0, SCREEN_HEIGHT, 260);
     }
     else
     {
-        headerView.frame = CGRectMake(0, 64, SCREEN_WIDTH, 260);
+        headerView.frame = CGRectMake(0, 0, SCREEN_WIDTH, 260);
 
-        self.tableView.frame=CGRectMake(0, 260+64, SCREEN_WIDTH, SCREEN_HEIGHT-260-64);
+        self.tableView.frame=CGRectMake(0, 260, SCREEN_WIDTH, SCREEN_HEIGHT-260);
 
     }
     [self.view addSubview:headerView];
@@ -571,7 +594,7 @@ static NSString *s_defaultTerminalNum = @"请选择终端号";
     UIDatePicker *datePicker = [[UIDatePicker alloc]init];
     datePicker.backgroundColor = kColor(212, 212, 212, 1.0);
     datePicker.datePickerMode = UIDatePickerModeDate;
-    datePicker.frame = CGRectMake(_dateField1.frame.origin.x - 30, CGRectGetMaxY(_dateField1.frame) + 80+64, _dateField1.frame.size.width + 60, 160);
+    datePicker.frame = CGRectMake(_dateField1.frame.origin.x - 30, CGRectGetMaxY(_dateField1.frame) + 80, _dateField1.frame.size.width + 60, 160);
     [_datePickerStart addTarget:self action:@selector(startPick) forControlEvents:UIControlEventValueChanged];
     UIButton *makeSureBtn = [[UIButton alloc]init];
     makeSureBtn.tag = 1112;
@@ -598,7 +621,7 @@ static NSString *s_defaultTerminalNum = @"请选择终端号";
     UIDatePicker *datePicker = [[UIDatePicker alloc]init];
     datePicker.backgroundColor = kColor(212, 212, 212, 1.0);
     datePicker.datePickerMode = UIDatePickerModeDate;
-    datePicker.frame = CGRectMake(_dateField2.frame.origin.x - 30, CGRectGetMaxY(_dateField2.frame) + 80+64, _dateField2.frame.size.width + 60, 160);
+    datePicker.frame = CGRectMake(_dateField2.frame.origin.x - 30, CGRectGetMaxY(_dateField2.frame) + 80, _dateField2.frame.size.width + 60, 160);
     [_datePickerEnd addTarget:self action:@selector(endPick) forControlEvents:UIControlEventValueChanged];
     UIButton *makeSureBtn = [[UIButton alloc]init];
     makeSureBtn.tag = 1113;
@@ -1116,7 +1139,7 @@ else if (tableView== _terminalTableView)
             [agentItem addObject:model];
         }
     }
-    self.agentTableView.frame = CGRectMake(blankbutton.frame.origin.x, CGRectGetMaxY(blankbutton.frame) + 80+64, blankbutton.frame.size.width, 160);
+    self.agentTableView.frame = CGRectMake(blankbutton.frame.origin.x, CGRectGetMaxY(blankbutton.frame) + 80, blankbutton.frame.size.width, 160);
     [self.view addSubview:_agentTableView];
    
         [_agentTableView reloadData];
@@ -1169,29 +1192,21 @@ else if (tableView== _terminalTableView)
 }
 
 - (void)downloadDataWithPage:(int)page isMore:(BOOL)isMore {
-    
     if(changeA==502)
     {
-
-    }
-    else
-    {
-    
-    
-    
-    }
-    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
-    hud.labelText = @"加载中...";
-    AppDelegate *delegate = [AppDelegate shareAppDelegate];
-    TradeType tradeType = [self tradeTypeFromIndex:_buttonIndex];
-    
-    
-    [NetworkInterface getTradeRecordWithAgentID:delegate.agentID token:delegate.token tradeType:tradeType terminalNumber:_terminalField.text subAgentID:agentid startTime:_startTime endTime:_endTime page:page rows:kPageSize finished:^(BOOL success, NSData *response) {
-    
-    
-    
-    
-     
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        hud.labelText = @"加载中...";
+        AppDelegate *delegate = [AppDelegate shareAppDelegate];
+        TradeType tradeType = [self tradeTypeFromIndex:_buttonIndex];
+        
+        
+        [NetworkInterface getTradeRecordWithAgentID:delegate.agentID token:delegate.token tradeType:tradeType terminalNumber:_terminalField.text subAgentID:agentid startTime:_startTime endTime:_endTime page:page rows:kPageSize finished:^(BOOL success, NSData *response) {
+            
+            
+            
+            [_tableView footerEndRefreshing];
+            [_tableView headerEndRefreshing];
+            
             hud.customView = [[UIImageView alloc] init];
             hud.mode = MBProgressHUDModeCustomView;
             [hud hide:YES afterDelay:0.3f];
@@ -1229,14 +1244,26 @@ else if (tableView== _terminalTableView)
             else {
                 hud.labelText = kNetworkFailed;
             }
-            if (!isMore) {
-                [self refreshViewFinishedLoadingWithDirection:PullFromTop];
-            }
-            else {
-                [self refreshViewFinishedLoadingWithDirection:PullFromBottom];
-            }
+            //            if (!isMore) {
+            //                [self refreshViewFinishedLoadingWithDirection:PullFromTop];
+            //            }
+            //            else {
+            //                [self refreshViewFinishedLoadingWithDirection:PullFromBottom];
+            //            }
         }];
-}
+
+       
+    }else
+    {
+    
+        
+        [_tableView footerEndRefreshing];
+        [_tableView headerEndRefreshing];
+    
+    
+    }
+   
+   }
 
 
 
@@ -1256,7 +1283,7 @@ else if (tableView== _terminalTableView)
         [_terminalItems addObject:terminal];
     }
     
-    self.terminalTableView.frame = CGRectMake(_terminalField.frame.origin.x, CGRectGetMaxY(_terminalField.frame) + 80+64, _terminalField.frame.size.width, 160);
+    self.terminalTableView.frame = CGRectMake(_terminalField.frame.origin.x, CGRectGetMaxY(_terminalField.frame) + 80, _terminalField.frame.size.width, 160);
     [self.view addSubview:_terminalTableView];
     if (_terminalItems.count != 0) {
         [_terminalTableView reloadData];
@@ -1296,101 +1323,131 @@ else if (tableView== _terminalTableView)
 
 #pragma mark - Refresh
 
-- (void)refreshViewReloadData {
-    _reloading = YES;
-}
-
-- (void)refreshViewFinishedLoadingWithDirection:(PullDirection)direction {
-    _reloading = NO;
-    if (direction == PullFromTop) {
-        [_topRefreshView refreshViewDidFinishedLoading:self.tableView];
-    }
-    else if (direction == PullFromBottom) {
-        _bottomRefreshView.frame = CGRectMake(0, self.tableView.contentSize.height, self.tableView.bounds.size.width, 60);
-        [_bottomRefreshView refreshViewDidFinishedLoading:self.tableView];
-    }
-    [self updateFooterViewFrame];
-}
-
-- (BOOL)refreshViewIsLoading:(RefreshView *)view {
-    return _reloading;
-}
-
-- (void)refreshViewDidEndTrackingForRefresh:(RefreshView *)view {
-    [self refreshViewReloadData];
-    //loading...
+//- (void)refreshViewReloadData {
+//    _reloading = YES;
+//}
+//
+//- (void)refreshViewFinishedLoadingWithDirection:(PullDirection)direction {
+//    _reloading = NO;
+//    if (direction == PullFromTop) {
+//        [_topRefreshView refreshViewDidFinishedLoading:self.tableView];
+//    }
+//    else if (direction == PullFromBottom) {
+//        _bottomRefreshView.frame = CGRectMake(0, self.tableView.contentSize.height, self.tableView.bounds.size.width, 60);
+//        [_bottomRefreshView refreshViewDidFinishedLoading:self.tableView];
+//    }
+//    [self updateFooterViewFrame];
+//}
+//
+//- (BOOL)refreshViewIsLoading:(RefreshView *)view {
+//    return _reloading;
+//}
+//
+//- (void)refreshViewDidEndTrackingForRefresh:(RefreshView *)view {
+//    [self refreshViewReloadData];
+//    //loading...
+//    
+//    
+//        if (view == _topRefreshView) {
+//            [self pullDownToLoadData];
+//        }
+//        else if (view == _bottomRefreshView) {
+//            [self pullUpToLoadData];
+//        }
+//
+//    
+//    
+//    }
+//
+//
+//- (void)updateFooterViewFrame {
+//    _bottomRefreshView.frame = CGRectMake(0, self.tableView.contentSize.height, self.tableView.bounds.size.width, 60);
+//    _bottomRefreshView.hidden = NO;
+//    if (self.tableView.contentSize.height < self.tableView.frame.size.height) {
+//        _bottomRefreshView.hidden = YES;
+//    }
+//}
+//
+//#pragma mark - UIScrollView
+//
+//- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
+//    _primaryOffsetY = scrollView.contentOffset.y;
+//}
+//
+//- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+//    if (scrollView == self.tableView) {
+//        CGPoint newPoint = scrollView.contentOffset;
+//        if (_primaryOffsetY < newPoint.y) {
+//            //上拉
+//            if (_bottomRefreshView.hidden) {
+//                return;
+//            }
+//            [_bottomRefreshView refreshViewDidScroll:scrollView];
+//        }
+//        else {
+//            //下拉
+//            [_topRefreshView refreshViewDidScroll:scrollView];
+//        }
+//    }
+//}
+//
+//- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
+//    if (scrollView == self.tableView) {
+//        CGPoint newPoint = scrollView.contentOffset;
+//        if (_primaryOffsetY < newPoint.y) {
+//            //上拉
+//            if (_bottomRefreshView.hidden) {
+//                return;
+//            }
+//            [_bottomRefreshView refreshViewDidEndDragging:scrollView];
+//        }
+//        else {
+//            //下拉
+//            [_topRefreshView refreshViewDidEndDragging:scrollView];
+//        }
+//    }
+//}
+//
+//#pragma mark - 上下拉刷新
+////下拉刷新
+//- (void)pullDownToLoadData {
+//    [self firstLoadData];
+//}
+//
+////上拉加载
+//- (void)pullUpToLoadData
+//{
+//    [self downloadDataWithPage:self.page isMore:YES];
+//}
+//下拉刷新加载更多微博数据
+-(void)loadNewStatuses:(UIRefreshControl *)refreshControl
+{
     
-    
-        if (view == _topRefreshView) {
-            [self pullDownToLoadData];
-        }
-        else if (view == _bottomRefreshView) {
-            [self pullUpToLoadData];
-        }
-
-    
-    
-    }
-
-
-- (void)updateFooterViewFrame {
-    _bottomRefreshView.frame = CGRectMake(0, self.tableView.contentSize.height, self.tableView.bounds.size.width, 60);
-    _bottomRefreshView.hidden = NO;
-    if (self.tableView.contentSize.height < self.tableView.frame.size.height) {
-        _bottomRefreshView.hidden = YES;
-    }
-}
-
-#pragma mark - UIScrollView
-
-- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
-    _primaryOffsetY = scrollView.contentOffset.y;
-}
-
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-    if (scrollView == self.tableView) {
-        CGPoint newPoint = scrollView.contentOffset;
-        if (_primaryOffsetY < newPoint.y) {
-            //上拉
-            if (_bottomRefreshView.hidden) {
-                return;
-            }
-            [_bottomRefreshView refreshViewDidScroll:scrollView];
-        }
-        else {
-            //下拉
-            [_topRefreshView refreshViewDidScroll:scrollView];
-        }
-    }
-}
-
-- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
-    if (scrollView == self.tableView) {
-        CGPoint newPoint = scrollView.contentOffset;
-        if (_primaryOffsetY < newPoint.y) {
-            //上拉
-            if (_bottomRefreshView.hidden) {
-                return;
-            }
-            [_bottomRefreshView refreshViewDidEndDragging:scrollView];
-        }
-        else {
-            //下拉
-            [_topRefreshView refreshViewDidEndDragging:scrollView];
-        }
-    }
-}
-
-#pragma mark - 上下拉刷新
-//下拉刷新
-- (void)pullDownToLoadData {
     [self firstLoadData];
+    
+    
+    //上拉加载
+    
+    
+    
+    
+    //    });
 }
 
-//上拉加载
-- (void)pullUpToLoadData {
+//上拉刷新加载更多微博数据
+-(void)loadMoreStatuses
+{
     [self downloadDataWithPage:self.page isMore:YES];
+    
+    
+    
+    
+    //    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+    //        [_Seatchtable footerEndRefreshing];
+    //
+    //    });
 }
+
 
 
 @end
