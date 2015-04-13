@@ -10,4 +10,11 @@
 
 @interface SubAgentListController : MineCommonController
 
+{    UIImageView*bigsview;
+
+    UITextField*neworiginaltextfield;
+    UILabel*namelable;
+    
+
+}
 @end

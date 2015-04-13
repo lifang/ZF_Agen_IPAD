@@ -272,6 +272,8 @@ static NSString *s_addressDelete_method = @"agents/batchDeleteAddress";
 static NSString *s_addressUpdate_method = @"agents/updateAddress";
 //92.下级代理商管理——列表
 static NSString *s_subAgentList_method = @"lowerAgent/list";
+//95.下级代理商管理——设置默认分润
+static NSString *s_subAgentDefaultBenefit_method = @"lowerAgent/changeProfit";
 //热卖
 static NSString *s_hot_method = @"index/pos_list";
 
@@ -937,4 +939,16 @@ static NSString *s_hot_method = @"index/pos_list";
                               page:(int)page
                               rows:(int)rows
                           finished:(requestDidFinished)finish;
+/*!
+ @abstract 95.下级代理商管理——设置默认分润
+ @param agentID  代理商id
+ @param token    登录返回
+ @param precent  分润比例
+ @result finish  请求回调结果
+ */
++ (void)setDefaultBenefitWithAgentID:(NSString *)agentID
+                               token:(NSString *)token
+                             precent:(CGFloat)precent
+                            finished:(requestDidFinished)finish;
+
 @end

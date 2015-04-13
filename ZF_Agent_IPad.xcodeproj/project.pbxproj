@@ -44,6 +44,8 @@
 		0EC65C251AD918EC00282C04 /* SubAgentListController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EC65C241AD918EC00282C04 /* SubAgentListController.m */; };
 		0EC67F0F1AD69487005BAB26 /* OrderDetailModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EC67F0E1AD69487005BAB26 /* OrderDetailModel.m */; };
 		0EC67F181AD694D9005BAB26 /* OrderDetailCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EC67F171AD694D9005BAB26 /* OrderDetailCell.m */; };
+		0EC696E71ADB6BBC009D544E /* RegularFormat.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EC696E61ADB6BBC009D544E /* RegularFormat.m */; };
+		0EC696EC1ADB913F009D544E /* CreateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EC696EB1ADB913F009D544E /* CreateViewController.m */; };
 		0ECA762B1AD5468F0083D373 /* OrderManagerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0ECA762A1AD5468F0083D373 /* OrderManagerController.m */; };
 		0ECA762E1AD546AA0083D373 /* RefreshViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0ECA762D1AD546AA0083D373 /* RefreshViewController.m */; };
 		0ECA76341AD546F80083D373 /* OrderCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0ECA76331AD546F80083D373 /* OrderCell.m */; };
@@ -120,7 +122,6 @@
 		1AA6A0571AD79F7B0025FF1A /* AddressViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AA6A0561AD79F7B0025FF1A /* AddressViewController.m */; };
 		1AA6A05A1AD79FA90025FF1A /* AddressCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AA6A0591AD79FA90025FF1A /* AddressCell.m */; };
 		1AA6A05D1AD79FCE0025FF1A /* AddressModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AA6A05C1AD79FCE0025FF1A /* AddressModel.m */; };
-		1AA6A0611AD7A0550025FF1A /* RegularFormat.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AA6A0601AD7A0550025FF1A /* RegularFormat.m */; };
 		1ABA17C11ADB548A006B8D9B /* StaffManagerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1ABA17C01ADB548A006B8D9B /* StaffManagerController.m */; };
 		1AD7FD4F1ACE7319009A60FC /* FindPasswordSuccessController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AD7FD4E1ACE7319009A60FC /* FindPasswordSuccessController.m */; };
 		1AD7FD521ACE7340009A60FC /* FindPasswordWithPhoneSuccessController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AD7FD511ACE7340009A60FC /* FindPasswordWithPhoneSuccessController.m */; };
@@ -269,6 +270,10 @@
 		0EC67F0E1AD69487005BAB26 /* OrderDetailModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrderDetailModel.m; sourceTree = "<group>"; };
 		0EC67F161AD694D9005BAB26 /* OrderDetailCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderDetailCell.h; sourceTree = "<group>"; };
 		0EC67F171AD694D9005BAB26 /* OrderDetailCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrderDetailCell.m; sourceTree = "<group>"; };
+		0EC696E51ADB6BBC009D544E /* RegularFormat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegularFormat.h; sourceTree = "<group>"; };
+		0EC696E61ADB6BBC009D544E /* RegularFormat.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegularFormat.m; sourceTree = "<group>"; };
+		0EC696EA1ADB913F009D544E /* CreateViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CreateViewController.h; sourceTree = "<group>"; };
+		0EC696EB1ADB913F009D544E /* CreateViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CreateViewController.m; sourceTree = "<group>"; };
 		0ECA76291AD5468F0083D373 /* OrderManagerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderManagerController.h; sourceTree = "<group>"; };
 		0ECA762A1AD5468F0083D373 /* OrderManagerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrderManagerController.m; sourceTree = "<group>"; };
 		0ECA762C1AD546AA0083D373 /* RefreshViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RefreshViewController.h; sourceTree = "<group>"; };
@@ -421,8 +426,6 @@
 		1AA6A0591AD79FA90025FF1A /* AddressCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddressCell.m; sourceTree = "<group>"; };
 		1AA6A05B1AD79FCE0025FF1A /* AddressModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddressModel.h; sourceTree = "<group>"; };
 		1AA6A05C1AD79FCE0025FF1A /* AddressModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddressModel.m; sourceTree = "<group>"; };
-		1AA6A05F1AD7A0550025FF1A /* RegularFormat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegularFormat.h; sourceTree = "<group>"; };
-		1AA6A0601AD7A0550025FF1A /* RegularFormat.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegularFormat.m; sourceTree = "<group>"; };
 		1ABA17BF1ADB548A006B8D9B /* StaffManagerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StaffManagerController.h; sourceTree = "<group>"; };
 		1ABA17C01ADB548A006B8D9B /* StaffManagerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StaffManagerController.m; sourceTree = "<group>"; };
 		1AD7FD4D1ACE7319009A60FC /* FindPasswordSuccessController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FindPasswordSuccessController.h; sourceTree = "<group>"; };
@@ -663,6 +666,8 @@
 			children = (
 				0EC65C231AD918EC00282C04 /* SubAgentListController.h */,
 				0EC65C241AD918EC00282C04 /* SubAgentListController.m */,
+				0EC696EA1ADB913F009D544E /* CreateViewController.h */,
+				0EC696EB1ADB913F009D544E /* CreateViewController.m */,
 			);
 			name = AgentManager;
 			sourceTree = "<group>";
@@ -874,8 +879,8 @@
 		1AA6A05E1AD7A03D0025FF1A /* RegularFomat */ = {
 			isa = PBXGroup;
 			children = (
-				1AA6A05F1AD7A0550025FF1A /* RegularFormat.h */,
-				1AA6A0601AD7A0550025FF1A /* RegularFormat.m */,
+				0EC696E51ADB6BBC009D544E /* RegularFormat.h */,
+				0EC696E61ADB6BBC009D544E /* RegularFormat.m */,
 			);
 			name = RegularFomat;
 			sourceTree = "<group>";
@@ -1463,6 +1468,7 @@
 				0DC032481AD68C2F000532EF /* TerminalDetailViewController.m in Sources */,
 				1AF15B0B1ACCE3BC00D5C171 /* TreeDataHandle.m in Sources */,
 				0D16943A1AD3C60800B50A17 /* TerminalViewCell.m in Sources */,
+				0EC696E71ADB6BBC009D544E /* RegularFormat.m in Sources */,
 				0D16941D1AD3C14100B50A17 /* MASCompositeConstraint.m in Sources */,
 				1A96548B1AD66F5100C39B5B /* ChooseView.m in Sources */,
 				1A9654981AD6705D00C39B5B /* BaseInformationViewController.m in Sources */,
@@ -1484,7 +1490,6 @@
 				0D885FAB1AD7D4F6002CDA15 /* IdentificationViewCell.m in Sources */,
 				1AF15B401ACCE40400D5C171 /* TreeNodeInfo.m in Sources */,
 				1AF15B0F1ACCE3BC00D5C171 /* StockAgentModel.m in Sources */,
-				1AA6A0611AD7A0550025FF1A /* RegularFormat.m in Sources */,
 				0ED58ED81AD4D9550081E8BC /* GoodButton.m in Sources */,
 				0D1694231AD3C14100B50A17 /* NSArray+MASAdditions.m in Sources */,
 				1ABA17C11ADB548A006B8D9B /* StaffManagerController.m in Sources */,
@@ -1543,6 +1548,7 @@
 				0ED58EE81AD4DA480081E8BC /* PollingViews.m in Sources */,
 				0EC67F0F1AD69487005BAB26 /* OrderDetailModel.m in Sources */,
 				1AF15B3F1ACCE40400D5C171 /* TreeNodeCollection.m in Sources */,
+				0EC696EC1ADB913F009D544E /* CreateViewController.m in Sources */,
 				1A9654921AD66FD200C39B5B /* MyMessageViewController.m in Sources */,
 				0ED58EBD1AD4D78A0081E8BC /* GoodListViewController.m in Sources */,
 				1A9EEBA41AD7768E00DA6E0D /* UserManagerChildController.m in Sources */,

@@ -10,7 +10,7 @@
 #import "NetworkInterface.h"
 #import "SubAgentModel.h"
 
-#define kSubAgentCellHeight 80.f
+#define kSubAgentCellHeight 60.f
 
 @interface SubAgentCell : UITableViewCell
 
