@@ -8,6 +8,7 @@
 
 #import "MineCommonController.h"
 #import "BaseInformationViewController.h"
+#import "StaffManagerController.h"
 
 
 @interface MineCommonController ()
@@ -87,11 +88,12 @@
 //    MyShopViewController *shopVC = [[MyShopViewController alloc]init];
 //    [self.navigationController pushViewController:shopVC animated:NO];
 //}
-////申请进度查询
-//-(void)applyBtnClick
-//{
-//    ApplyPlanViewController *applyPlanVC = [[ApplyPlanViewController alloc]init];
-//    [self.navigationController pushViewController:applyPlanVC animated:NO];
-//}
+//员工管理
+-(void)applyBtnClick
+{
+    StaffManagerController *staffVC = [[StaffManagerController alloc]init];
+    staffVC.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:staffVC animated:YES];
+}
 
 @end
