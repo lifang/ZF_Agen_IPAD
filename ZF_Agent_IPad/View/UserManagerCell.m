@@ -92,7 +92,7 @@
     }
 }
 
-//创建左边Label
+//创建Label
 //leftView-左边控件
 //space-距左边间距
 - (void)setLabel:(UILabel *)label

@@ -11,8 +11,8 @@
 #import "AppDelegate.h"
 #import "ApplyOpenModel.h"
 #import "CityHandle.h"
-//#import "ChannelSelectedController.h"
-//#import "BankSelectedController.h"
+#import "channelListModel.h"
+
 
 #define kTextViewTag   111
 
@@ -38,7 +38,7 @@
 
 @end
 
-@interface ApplyDetailController ()<UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate,UIActionSheetDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,UIPopoverPresentationControllerDelegate,UIPickerViewDataSource,UIPickerViewDelegate,UIPopoverControllerDelegate/*,ChannelSelectedDelegate,BankSelectedDelegate*/>
+@interface ApplyDetailController ()<UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate,UIActionSheetDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,UIPopoverPresentationControllerDelegate,UIPickerViewDataSource,UIPickerViewDelegate,UIPopoverControllerDelegate>
 
 @property(nonatomic,strong) UIPopoverController *popViewController;
 
@@ -86,6 +86,8 @@
 //无作用 就是用来去掉cell中输入框的输入状态
 @property (nonatomic, strong) UITextField *tempField;
 
+@property (nonatomic, strong) NSMutableArray *channelItems;
+
 @end
 
 @implementation ApplyDetailController
@@ -94,6 +96,7 @@
     [super viewDidLoad];
     self.view.backgroundColor=[UIColor whiteColor];
     _bankItems = [[NSMutableArray alloc] init];
+    _channelItems = [[NSMutableArray alloc] init];
     
     keynamesarry=[NSArray arrayWithObjects:@"key_name",@"key_merchantName",@"key_sex",@"key_birth",@"key_cardID",@"key_phone",@"key_email",@"key_location",@"key_bank",@"key_bankID",@"key_bankAccount",@"key_taxID",@"key_organID",@"key_channel", nil];
     //Do any additional setup after loading the view.
@@ -160,10 +163,8 @@
             
             
         }
-        
-        
     }
-    [_scrollView addSubview:_terminalTableView];
+       [_scrollView addSubview:_terminalTableView];
     if (_applyData.merchantList.count != 0) {
         [_terminalTableView reloadData];
     }
@@ -180,7 +181,6 @@
         {
             [_cityField setTitle:@"女" forState:UIControlStateNormal];
             
-            
         }else
         {
             
@@ -194,12 +194,9 @@
     else
     {
         MerchantModel *model = [_applyData.merchantList objectAtIndex:indexPath.row];
-        
         [_infoDict setObject:model.merchantName forKey:key_selected];
-        
-        
         [self beginApply];
-        
+    
     }
     
     
@@ -220,10 +217,6 @@
     lastheightY=_applyData.materialList.count-2;
     
     lastheightY=_applyData.materialList.count/3;
-    
-    
-    
-    
     
     _scrollView = [[UIView alloc]init];
     
@@ -299,16 +292,9 @@
     [accountnamebutton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     accountnamebutton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
     [accountnamebutton setImage:kImageName(@"arrow_line") forState:UIControlStateNormal];
-    CALayer *layer=[accountnamebutton  layer];
-    //是否设置边框以及是否可见
-    [layer setMasksToBounds:YES];
-    //设置边框圆角的弧度
-    
-    //设置边框线的宽
-    //
-    [layer setBorderWidth:1];
-    //设置边框线的颜色
-    [layer setBorderColor:[[UIColor grayColor] CGColor]];
+    accountnamebutton.layer.masksToBounds=YES;
+    accountnamebutton.layer.borderWidth=1.0;
+    accountnamebutton.layer.borderColor=[UIColor grayColor].CGColor;
     accountnamebutton.contentEdgeInsets = UIEdgeInsetsMake(0,-40, 0,0);
     accountnamebutton.imageEdgeInsets = UIEdgeInsetsMake(0,270,0,0);//设置image在button上的位置（上top，左left，下bottom，右right）这里可以写负值，对上写－5，那么image就象上移动5个像素
     
@@ -368,16 +354,9 @@
             [_cityField setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
             _cityField.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
             [_cityField setImage:kImageName(@"arrow_line1") forState:UIControlStateNormal];
-            CALayer *layer=[_cityField  layer];
-            //是否设置边框以及是否可见
-            [layer setMasksToBounds:YES];
-            //设置边框圆角的弧度
-            
-            //设置边框线的宽
-            //
-            [layer setBorderWidth:1];
-            //设置边框线的颜色
-            [layer setBorderColor:[[UIColor grayColor] CGColor]];
+            _cityField.layer.masksToBounds=YES;
+            _cityField.layer.borderWidth=1.0;
+            _cityField.layer.borderColor=[UIColor grayColor].CGColor;
             _cityField.contentEdgeInsets = UIEdgeInsetsMake(0,-40, 0, 0);
             _cityField.imageEdgeInsets = UIEdgeInsetsMake(0,270,0,0);//设置image在button上的位置（上top，左left，下bottom，右right）这里可以写负值，对上写－5，那么image就象上移动5个像素
             
@@ -394,17 +373,10 @@
             [birthdaybutton setTitle:accountname forState:UIControlStateNormal];
             [birthdaybutton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
             birthdaybutton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
-            [birthdaybutton setImage:kImageName(@"arrow_line") forState:UIControlStateNormal];
-            CALayer *layer=[birthdaybutton  layer];
-            //是否设置边框以及是否可见
-            [layer setMasksToBounds:YES];
-            //设置边框圆角的弧度
-            
-            //设置边框线的宽
-            //
-            [layer setBorderWidth:1];
-            //设置边框线的颜色
-            [layer setBorderColor:[[UIColor grayColor] CGColor]];
+            [birthdaybutton setImage:kImageName(@"arrow_line1") forState:UIControlStateNormal];
+            birthdaybutton.layer.masksToBounds=YES;
+            birthdaybutton.layer.borderWidth=1.0;
+            birthdaybutton.layer.borderColor=[UIColor grayColor].CGColor;
             birthdaybutton.contentEdgeInsets = UIEdgeInsetsMake(0,-40, 0, 0);
             birthdaybutton.imageEdgeInsets = UIEdgeInsetsMake(0,270,0,0);//设置image在button上的位置（上top，左left，下bottom，右right）这里可以写负值，对上写－5，那么image就象上移动5个像素
             
@@ -424,17 +396,10 @@
             [locationbutton setTitle:accountname forState:UIControlStateNormal];
             [locationbutton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
             locationbutton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
-            [locationbutton setImage:kImageName(@"arrow_line") forState:UIControlStateNormal];
-            CALayer *layer=[locationbutton  layer];
-            //是否设置边框以及是否可见
-            [layer setMasksToBounds:YES];
-            //设置边框圆角的弧度
-            
-            //设置边框线的宽
-            //
-            [layer setBorderWidth:1];
-            //设置边框线的颜色
-            [layer setBorderColor:[[UIColor grayColor] CGColor]];
+            [locationbutton setImage:kImageName(@"arrow_line1") forState:UIControlStateNormal];
+            locationbutton.layer.masksToBounds=YES;
+            locationbutton.layer.borderWidth=1.0;
+            locationbutton.layer.borderColor=[UIColor grayColor].CGColor;
             locationbutton.contentEdgeInsets = UIEdgeInsetsMake(0,-40, 0, 0);
             locationbutton.imageEdgeInsets = UIEdgeInsetsMake(0,270,0,0);//设置image在button上的位置（上top，左left，下bottom，右right）这里可以写负值，对上写－5，那么image就象上移动5个像素
             
@@ -473,18 +438,11 @@
             neworiginaltextfield.text=[NSString stringWithFormat:@"  %@",accountname];
             neworiginaltextfield.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
             [_scrollView addSubview:neworiginaltextfield];
-            //        neworiginaltextfield.delegate=self;
-            
-            CALayer *layer=[neworiginaltextfield layer];
-            //是否设置边框以及是否可见
-            [layer setMasksToBounds:YES];
-            //设置边框圆角的弧度
-            
-            //设置边框线的宽
-            //
-            [layer setBorderWidth:1];
-            //设置边框线的颜色
-            [layer setBorderColor:[[UIColor grayColor] CGColor]];
+            //neworiginaltextfield.delegate=self;
+            neworiginaltextfield.layer.masksToBounds=YES;
+            neworiginaltextfield.layer.borderWidth=1.0;
+            neworiginaltextfield.layer.borderColor=[UIColor grayColor].CGColor;
+
             if(i==1)
             {
                 
@@ -492,7 +450,6 @@
                 [_scrollView addSubview:newaddress];
                 newaddress.textAlignment = NSTextAlignmentLeft;
                 newaddress.font=[UIFont systemFontOfSize:12];
-                
                 newaddress.text=@"例：上海好乐迪KTV";
             }
             
@@ -546,33 +503,26 @@
             newaddress.text=model.materialName;
             
             
-            blankbutton = [UIButton buttonWithType:UIButtonTypeCustom];
-            blankbutton.frame = CGRectMake(wide/2-40-280,710+lastheight*70 ,280, 40);
+            bankbutton = [UIButton buttonWithType:UIButtonTypeCustom];
+            bankbutton.frame = CGRectMake(wide/2-40-280,710+lastheight*70 ,280, 40);
             NSString *bankCode = [self getApplyValueForKey:model.materialID];
-           // [blankbutton setTitle:[self getBankNameWithBankCode:bankCode] forState:UIControlStateNormal];
+           // [bankbutton setTitle:[self getBankNameWithBankCode:bankCode] forState:UIControlStateNormal];
             
             
             // [_cityField setTitle:@"123" forState:UIControlStateNormal];
-            [blankbutton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-            blankbutton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
-            [blankbutton setImage:kImageName(@"arrow_line") forState:UIControlStateNormal];
-            CALayer *layer=[blankbutton  layer];
-            //是否设置边框以及是否可见
-            [layer setMasksToBounds:YES];
-            //设置边框圆角的弧度
+            [bankbutton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+            bankbutton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
+            [bankbutton setImage:kImageName(@"arrow_line") forState:UIControlStateNormal];
+            bankbutton.layer.masksToBounds=YES;
+            bankbutton.layer.borderWidth=1.0;
+            bankbutton.layer.borderColor=[UIColor grayColor].CGColor;
+            bankbutton.contentEdgeInsets = UIEdgeInsetsMake(0,10, 0, 0);
+            bankbutton.imageEdgeInsets = UIEdgeInsetsMake(0,220,0,0);//设置image在button上的位置（上top，左left，下bottom，右right）这里可以写负值，对上写－5，那么image就象上移动5个像素
             
-            //设置边框线的宽
-            //
-            [layer setBorderWidth:1];
-            //设置边框线的颜色
-            [layer setBorderColor:[[UIColor grayColor] CGColor]];
-            blankbutton.contentEdgeInsets = UIEdgeInsetsMake(0,10, 0, 0);
-            blankbutton.imageEdgeInsets = UIEdgeInsetsMake(0,220,0,0);//设置image在button上的位置（上top，左left，下bottom，右right）这里可以写负值，对上写－5，那么image就象上移动5个像素
+            bankbutton.tag=[model.materialID integerValue];
             
-            blankbutton.tag=[model.materialID integerValue];
-            
-            [blankbutton addTarget:self action:@selector(blankclick:) forControlEvents:UIControlEventTouchUpInside];
-            [_scrollView addSubview:blankbutton];
+            [bankbutton addTarget:self action:@selector(bankclick:) forControlEvents:UIControlEventTouchUpInside];
+            [_scrollView addSubview:bankbutton];
             
             
         }
@@ -638,23 +588,13 @@
                     neworiginaltextfield.tag=i+1056;
                     
                     [_scrollView addSubview:neworiginaltextfield];
-                    //        neworiginaltextfield.delegate=self;
-                    
-                    CALayer *layer=[neworiginaltextfield layer];
-                    //是否设置边框以及是否可见
-                    [layer setMasksToBounds:YES];
-                    //设置边框圆角的弧度
-                    
-                    //设置边框线的宽
-                    //
-                    [layer setBorderWidth:1];
-                    //设置边框线的颜色
-                    [layer setBorderColor:[[UIColor grayColor] CGColor]];
+                    //neworiginaltextfield.delegate=self;
+                    neworiginaltextfield.layer.masksToBounds=YES;
+                    neworiginaltextfield.layer.borderWidth=1.0;
+                    neworiginaltextfield.layer.borderColor=[UIColor grayColor].CGColor;
                     
                     
                 }
-                
-                
                 
             }
             else
@@ -692,28 +632,13 @@
                     neworiginaltextfield.tag=i+1056;
                     
                     [_scrollView addSubview:neworiginaltextfield];
-                    //        neworiginaltextfield.delegate=self;
-                    
-                    CALayer *layer=[neworiginaltextfield layer];
-                    //是否设置边框以及是否可见
-                    [layer setMasksToBounds:YES];
-                    //设置边框圆角的弧度
-                    
-                    //设置边框线的宽
-                    //
-                    [layer setBorderWidth:1];
-                    //设置边框线的颜色
-                    [layer setBorderColor:[[UIColor grayColor] CGColor]];
-                    
+                    //neworiginaltextfield.delegate=self;
+                    neworiginaltextfield.layer.masksToBounds=YES;
+                    neworiginaltextfield.layer.borderWidth=1.0;
+                    neworiginaltextfield.layer.borderColor=[UIColor grayColor].CGColor;
                     
                 }
-                
-                
-                
             }
-            
-            
-            
         }
         else if (model.materialType == MaterialImage) {
             NSInteger row;
@@ -752,9 +677,6 @@
         }
         
         
-        
-        
-        
     }
     
     UIButton *submitBtn = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -787,26 +709,24 @@
 }
 -(void)zhifuclick
 {
-    /*
-    //选择支付通道
-    ChannelSelectedController *channelC = [[ChannelSelectedController alloc] init];
-    channelC.delegate = self;
-    channelC.hidesBottomBarWhenPushed = YES;
     
-    [self.navigationController pushViewController:channelC animated:YES];
-    
-    */
+    sexint=105;
+    [self getChannelList];
+    [self pickerDisplay:zhifubutton];
     
 }
--(void)blankclick:(UIButton*)send
+-(void)bankclick:(UIButton*)send
 {
+    
+    sexint=104;
+    [self setupTerminalTableView];
+    
     /*
     BankSelectedController *bankC = [[BankSelectedController alloc] init];
     bankC.delegate = self;
     bankC.bankItems = self.bankItems;
     bankC.hidesBottomBarWhenPushed = YES;
     _selectedKey =[NSString stringWithFormat:@"%ld",(long)send.tag] ;
-    
     [self.navigationController pushViewController:bankC animated:YES];
     
     */
@@ -817,10 +737,11 @@
 
 -(void)locationbuttonclick
 {
-    
+      sexint=101;
     _selectedKey = key_location;
     
-    [self pickerScrollIn];
+    //[self pickerScrollIn];
+    [self pickerDisplay:locationbutton];
     
     
 }
@@ -843,20 +764,17 @@
     
     [self setupTerminalTableView];
     
-    
-    
 }
+
 
 -(void)accountnamebuttonclick
 {
     sexint=103;
     
-    
     [self setupTerminalTableView];
     
-    
-    
 }
+
 
 -(void)setupHeaderView
 {
@@ -950,7 +868,7 @@
     [self setupHeaderView];
     //[self initUIScrollView];
     
-    [self initPickerView];
+   // [self initPickerView];
 }
 
 
@@ -970,7 +888,7 @@
 //银行信息
 - (void)getBankList {
     AppDelegate *delegate = [AppDelegate shareAppDelegate];
-    [NetworkInterface selectedBankWithToken:delegate.token finished:^(BOOL success, NSData *response) {
+    [NetworkInterface chooseBankWithToken:delegate.token bankName:@"邮政" finished:^(BOOL success, NSData *response) {
         NSLog(@"!!!!%@",[[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding]);
         if (success) {
             id object = [NSJSONSerialization JSONObjectWithData:response options:NSJSONReadingMutableLeaves error:nil];
@@ -1015,7 +933,61 @@
     }
 }
  
- */
+*/
+
+//选择支付通道
+
+- (void)getChannelList {
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+    hud.labelText = @"加载中...";
+    AppDelegate *delegate = [AppDelegate shareAppDelegate];
+    [NetworkInterface getChannelsWithToken:delegate.token finished:^(BOOL success, NSData *response) {
+        NSLog(@"!!!!%@",[[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding]);
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:0.5f];
+        if (success) {
+            id object = [NSJSONSerialization JSONObjectWithData:response options:NSJSONReadingMutableLeaves error:nil];
+            if ([object isKindOfClass:[NSDictionary class]]) {
+                NSString *errorCode = [NSString stringWithFormat:@"%@",[object objectForKey:@"code"]];
+                if ([errorCode intValue] == RequestFail) {
+                    //返回错误代码
+                    hud.labelText = [NSString stringWithFormat:@"%@",[object objectForKey:@"message"]];
+                }
+                else if ([errorCode intValue] == RequestSuccess) {
+                    [hud hide:YES];
+                    [self parseChannelListWithDictionary:object];
+                }
+            }
+            else {
+                //返回错误数据
+                hud.labelText = kServiceReturnWrong;
+            }
+        }
+        else {
+            hud.labelText = kNetworkFailed;
+        }
+    }];
+}
+
+#pragma mark - Data
+
+- (void)parseChannelListWithDictionary:(NSDictionary *)dict {
+    if (![dict objectForKey:@"result"] || ![[dict objectForKey:@"result"] isKindOfClass:[NSArray class]]) {
+        return;
+    }
+    NSArray *list = [dict objectForKey:@"result"];
+    [_channelItems removeAllObjects];
+    for (int i = 0; i < [list count]; i++) {
+        NSDictionary *channelDict = [list objectAtIndex:i];
+        ChannelListModel *model = [[ChannelListModel alloc] initWithParseDictionary:channelDict];
+        [_channelItems addObject:model];
+        NSLog(@"_channelItem:%@",_channelItems);
+    }
+    [_pickerView reloadAllComponents];
+}
+
+
 
 
 - (void)beginApply {
@@ -1054,7 +1026,7 @@
     }];
 }
 
- /*
+
 - (void)submitApplyInfoWithArray:(NSArray *)params {
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
     hud.labelText = @"提交中...";
@@ -1087,7 +1059,7 @@
         }
     }];
 }
-*/
+
   
   
 #pragma mark - Data
@@ -1203,7 +1175,7 @@
 }
 
 #pragma mark - 上传图片
-/*
+
 - (void)uploadPictureWithImage:(UIImage *)image {
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
     hud.labelText = @"上传中...";
@@ -1235,7 +1207,7 @@
         }
     }];
 }
-*/
+
 
 //点击图片行调用
 - (void)showImageOption {
@@ -1323,7 +1295,6 @@
         {
             
             [self.popViewController presentPopoverFromRect:CGRectMake(100, 100, 200, 300) inView:self.view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
-            // [self presentViewController:imagePickerController animated:nil completion:nil];
             NSLog(@"GOGO");
         }
         
@@ -1357,22 +1328,18 @@
     {
         if(sexint==102)
         {
-            
-            
             return 2;
-            
         }
         
-        else if (sexint==103)
+        else
         {
+            NSLog(@"count:::%lu",(unsigned long)_applyData.merchantList.count);
             return _applyData.merchantList.count;
             
         }
         
         
     }
-    
-    
     
     return 0;
     
@@ -1396,7 +1363,6 @@
         NSArray*arry=[NSArray arrayWithObjects:@"女", @"男",nil];
         if(sexint==102)
         {
-            
             
             cell.textLabel.text =[arry objectAtIndex:indexPath.row];
             
@@ -1452,9 +1418,6 @@
     datePicker.backgroundColor = kColor(212, 212, 212, 1.0);
     datePicker.datePickerMode = UIDatePickerModeDate;
     datePicker.frame = CGRectMake( birthdaybutton.frame.origin.x , birthdaybutton.frame.origin.y+birthdaybutton.frame.size.height, birthdaybutton.frame.size.width , 160);
-    
-    
-    
     
     [datePicker addTarget:self action:@selector(startPick) forControlEvents:UIControlEventValueChanged];
     makeSureBtn = [[UIButton alloc]init];
@@ -1514,160 +1477,22 @@
 
 
 
-
-
-
-#pragma mark - UIPickerView
-- (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView {
-    return 2;
-}
-
-- (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component {
-    if (component == 0) {
-        return [[CityHandle shareProvinceList] count];
-    }
-    else {
-        NSInteger provinceIndex = [pickerView selectedRowInComponent:0];
-        NSDictionary *provinceDict = [[CityHandle shareProvinceList] objectAtIndex:provinceIndex];
-        _cityArray = [provinceDict objectForKey:@"cities"];
-        return [_cityArray count];
-    }
-}
-
-- (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component {
-    if (component == 0) {
-        //省
-        NSDictionary *provinceDict = [[CityHandle shareProvinceList] objectAtIndex:row];
-        return [provinceDict objectForKey:@"name"];
-    }
-    else {
-        //市
-        return [[_cityArray objectAtIndex:row] objectForKey:@"name"];
-    }
-}
-
-- (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
-    if (component == 0) {
-        //省
-        [_pickerView reloadComponent:1];
-    }
-}
-
-
-#pragma mark - UIPickerView
-- (void)initPickerView {
-    //pickerView
-    CGFloat wide;
-    CGFloat height;
-    if(iOS7)
-    {
-        wide=SCREEN_HEIGHT;
-        height=SCREEN_WIDTH;
-        
-        
-    }
-    else
-    {  wide=SCREEN_WIDTH;
-        height=SCREEN_HEIGHT;
-        
-    }
-    
-    _toolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, height, wide, 44)];
-    UIBarButtonItem *cancelItem = [[UIBarButtonItem alloc] initWithTitle:@"取消"
-                                                                   style:UIBarButtonItemStyleDone
-                                                                  target:self
-                                                                  action:@selector(pickerScrollOut)];
-    UIBarButtonItem *finishItem = [[UIBarButtonItem alloc] initWithTitle:@"完成"
-                                                                   style:UIBarButtonItemStyleDone
-                                                                  target:self
-                                                                  action:@selector(modifyLocation:)];
-    UIBarButtonItem *spaceItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace
-                                                                               target:nil
-                                                                               action:nil];
-    spaceItem.width = 830.f;
-    [_toolbar setItems:[NSArray arrayWithObjects:cancelItem,spaceItem,finishItem, nil]];
-    [self.view addSubview:_toolbar];
-    _pickerView = [[UIPickerView alloc] initWithFrame:CGRectMake(0, height, wide, 216)];
-    _pickerView.backgroundColor = kColor(244, 243, 243, 1);
-    _pickerView.delegate = self;
-    _pickerView.dataSource = self;
-    
-    [self.view addSubview:_pickerView];
-}
-
-- (IBAction)modifyLocation:(id)sender {
-    [self pickerScrollOut];
-    NSInteger index = [_pickerView selectedRowInComponent:1];
-    NSString *cityID = [NSString stringWithFormat:@"%@",[[_cityArray objectAtIndex:index] objectForKey:@"id"]];
-    NSString *cityName = [[_cityArray objectAtIndex:index] objectForKey:@"name"];
-    [locationbutton setTitle:cityName forState:UIControlStateNormal];
-    [_infoDict setObject:cityID forKey:key_location];
-    
-}
-
-- (void)pickerScrollIn {
-    [UIView animateWithDuration:.3f animations:^{
-        CGFloat wide;
-        CGFloat height;
-        if(iOS7)
-        {
-            wide=SCREEN_HEIGHT;
-            height=SCREEN_WIDTH;
-            
-            
-        }
-        else
-        {  wide=SCREEN_WIDTH;
-            height=SCREEN_HEIGHT;
-            
-        }
-        
-        
-        _toolbar.frame = CGRectMake(0, height - 260, wide, 44);
-        _pickerView.frame = CGRectMake(0, height - 216, wide, 216);
-    }];
-}
-
-- (void)pickerScrollOut {
-    [UIView animateWithDuration:.3f animations:^{
-        CGFloat wide;
-        CGFloat height;
-        if(iOS7)
-        {
-            wide=SCREEN_HEIGHT;
-            height=SCREEN_WIDTH;
-            
-            
-        }
-        else
-        {  wide=SCREEN_WIDTH;
-            height=SCREEN_HEIGHT;
-            
-        }
-        
-        _toolbar.frame = CGRectMake(0, height, wide, 44);
-        _pickerView.frame = CGRectMake(0, height, wide, 216);
-    }];
-}
-
-
-
 #pragma mark - Action
 
-- (IBAction)typeChanged:(id)sender {
+- (void)typeChanged:(id)sender {
     if (_segmentControl.selectedSegmentIndex == 1) {
         _applyType = OpenApplyPrivate;
     }
     else {
         _applyType = OpenApplyPublic;
     }
-   // [self beginApply];
+    [self beginApply];
     NSLog(@"%d",_applyType);
 }
 
 
 
-- (IBAction)submitApply:(id)sender {
+- (void)submitApply:(id)sender {
     [_tempField becomeFirstResponder];
     [_tempField resignFirstResponder];
     if (![_infoDict objectForKey:key_name]) {
@@ -1845,7 +1670,7 @@
         [dict setObject:[NSNumber numberWithInt:[model.levelID intValue]] forKey:@"openingRequirementId"];
         [paramList addObject:dict];
     }
-    //[self submitApplyInfoWithArray:paramList];
+    [self submitApplyInfoWithArray:paramList];
 }
 
 #pragma mark - UITextFieldDelegate
@@ -1856,7 +1681,7 @@
 }
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField {
-    [self pickerScrollOut];
+    //[self pickerScrollOut];
 }
 
 - (void)textFieldDidEndEditing:(UITextField *)textField {
@@ -1890,6 +1715,169 @@
 }
 */
 
+
+#pragma mark - UIPickerView
+
+- (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView {
+    return 2;
+}
+
+- (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component {
+    
+    
+  if (sexint==101) {
+    
+        if (component == 0) {
+        return [[CityHandle shareProvinceList] count];
+         }
+      else {
+        NSInteger provinceIndex = [pickerView selectedRowInComponent:0];
+        NSDictionary *provinceDict = [[CityHandle shareProvinceList] objectAtIndex:provinceIndex];
+        _cityArray = [provinceDict objectForKey:@"cities"];
+        return [_cityArray count];
+            }
+    
+      }
+
+    else
+    {
+        if (component == 0) {
+             return [_channelItems count];;
+        }
+        else {
+            NSInteger channelIndex = [pickerView selectedRowInComponent:0];
+            if ([_channelItems count] > 0) {
+                ChannelListModel *channel = [_channelItems objectAtIndex:channelIndex];
+                _cityArray = channel.children;
+                return [_cityArray count];
+            }
+            return 0;
+
+        }
+
+    }
+    
+    
+}
+
+
+- (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component {
+    if (sexint==101) {
+       if (component == 0) {
+        //省
+        NSDictionary *provinceDict = [[CityHandle shareProvinceList] objectAtIndex:row];
+        return [provinceDict objectForKey:@"name"];
+         }
+         else {
+        //市
+           return [[_cityArray objectAtIndex:row] objectForKey:@"name"];
+             }
+         }
+    else
+    {
+        if (component == 0) {
+            //通道
+            ChannelListModel *model = [_channelItems objectAtIndex:row];
+            return model.channelName;
+        }
+        else {
+            //结算时间
+            if ([_cityArray count] > 0) {
+                BillingModel *model = [_cityArray objectAtIndex:row];
+                return model.billName;
+            }
+            return @"";
+
+        }
+
+    }
+}
+
+
+- (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
+    if (component == 0) {
+        //
+        [_pickerView reloadComponent:1];
+    }
+}
+
+ 
+#pragma mark - UIPickerView
+
+
+- (void)pickerDisplay:(id)sender {
+    
+    NSLog(@"pickerDiplay");
+    
+    UIViewController *sortViewController = [[UIViewController alloc] init];
+    UIView *theView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 276)];
+    
+    _toolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, 320, 60)];
+    UIBarButtonItem *cancelItem = [[UIBarButtonItem alloc] initWithTitle:@"取消" style:UIBarButtonItemStyleDone target:self action:@selector(pickerHide)];
+    UIBarButtonItem *finishItem = [[UIBarButtonItem alloc] initWithTitle:@"完成"
+                                                                   style:UIBarButtonItemStyleDone
+                                                                  target:self
+                                                                  action:@selector(modifySender:)];
+    UIBarButtonItem *spaceItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace
+                                                                               target:nil action:nil];
+    [_toolbar setItems:[NSArray arrayWithObjects:cancelItem,spaceItem,finishItem, nil]];
+    [theView addSubview:_toolbar];
+    
+    _pickerView = [[UIPickerView alloc] initWithFrame:CGRectMake(0, 60, 320, 216)];
+    _pickerView.delegate = self;
+    _pickerView.dataSource = self;
+    _pickerView.showsSelectionIndicator = YES;
+    [theView addSubview:_pickerView];
+    
+    sortViewController.view = theView;
+    
+    _popViewController = [[UIPopoverController alloc] initWithContentViewController:sortViewController];
+    [_popViewController setPopoverContentSize:CGSizeMake(320, 300) animated:YES];
+    [_popViewController presentPopoverFromRect:CGRectMake(120, 0, 0, 42) inView:sender permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+    _popViewController.delegate = self;
+    
+    
+}
+
+
+- (void)pickerHide
+{
+    [_popViewController dismissPopoverAnimated:NO];
+    
+}
+
+- (void)modifySender:(id)sender {
+    
+    [self pickerHide];
+    if (sexint==101) {
+        NSInteger index = [_pickerView selectedRowInComponent:1];
+        NSString *cityID = [NSString stringWithFormat:@"%@",[[_cityArray objectAtIndex:index] objectForKey:@"id"]];
+        NSString *cityName = [[_cityArray objectAtIndex:index] objectForKey:@"name"];
+       [locationbutton setTitle:cityName forState:UIControlStateNormal];
+       [_infoDict setObject:cityID forKey:key_location];
+    }
+    else if (sexint==105)
+    {
+        NSLog(@"UUUUUUU");
+       
+        NSString  *channelInfo;
+        NSLog(@"citynArray:%@",_cityArray);
+         NSLog(@"channelItems:%@",_channelItems);
+           // channelInfo = [NSString stringWithFormat:@"%@",model.channelName];
+           // NSLog(@"channelInfo:%@",channelInfo);
+             NSLog(@"channelInfoWUWUWU");
+            NSInteger index = [_pickerView selectedRowInComponent:1];
+            ChannelListModel *model=[_channelItems objectAtIndex:index];
+            BillingModel *billModel=[_cityArray objectAtIndex:index];
+            channelInfo = [NSString stringWithFormat:@"%@ %@",model.channelName,billModel.billName];
+             [zhifubutton setTitle:channelInfo forState:UIControlStateNormal];
+       // NSLog(@"billModel%@",billModel);
+        [_infoDict setObject:channelInfo forKey:key_channel];
+        //_billID = billModel.billID;
+    
+    }
+    
+}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

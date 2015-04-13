@@ -16,8 +16,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self.chooseView setChooseType:ChooseViewApplyplan];
-    self.view.backgroundColor = [UIColor cyanColor];
+    [self setLeftViewWith:ChooseViewApplyplan];
 }
 
 - (void)didReceiveMemoryWarning {

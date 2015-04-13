@@ -20,6 +20,7 @@
 #import "StockManagerController.h"
 #import "UserManagerController.h"
 #import "IdentificationViewController.h"
+#import "AfterSellController.h"
 
 @interface ZYHomeViewController ()
 @property(nonatomic,strong)PollingView *pollingView;
@@ -353,6 +354,9 @@
             break;
         case 1006: {
             //系统公告
+            AfterSellController *afterVC = [[AfterSellController alloc]init];
+            afterVC.hidesBottomBarWhenPushed = YES;
+            [self.navigationController pushViewController:afterVC animated:YES];
            
         }
             break;
