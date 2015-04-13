@@ -38,7 +38,7 @@ typedef enum {
     UIButton* locationbutton;
     NSArray*keynamesarry;
     NSInteger pickint;
-    UIButton* blankbutton ;
+    UIButton* bankbutton ;
     UIButton* zhifubutton;
     
     

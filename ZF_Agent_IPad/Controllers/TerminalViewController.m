@@ -14,6 +14,7 @@
 #import "NetworkInterface.h"
 #import "TerminalManagerModel.h"
 #import "TerminalDetailViewController.h"
+#import "ApplyDetailController.h"
 
 
 @interface TerminalViewController ()<UITableViewDelegate,UITableViewDataSource,RefreshDelegate,terminalCellSendBtnClicked,UITextViewDelegate,UIPickerViewDataSource,UIPickerViewDelegate,UIPopoverControllerDelegate,UIPopoverPresentationControllerDelegate>
@@ -289,7 +290,7 @@
     _findPosView = [[UIImageView alloc]init];
     _findPosView.frame = CGRectMake(0, 0, width, height);
     [self.view.window addSubview:_findPosView];
-    _findPosView.image=[UIImage imageNamed:@"login_Bg"];
+    _findPosView.image=[UIImage imageNamed:@"backimage"];
     _findPosView.userInteractionEnabled=YES;
     
     UIView *whiteView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 440, 500)];
@@ -399,7 +400,7 @@
     _findPosView = [[UIImageView alloc]init];
     _findPosView.frame = CGRectMake(0, 0, width, height);
     [self.view.window addSubview:_findPosView];
-    _findPosView.image=[UIImage imageNamed:@"login_Bg"];
+    _findPosView.image=[UIImage imageNamed:@"backimage"];
     _findPosView.userInteractionEnabled=YES;
     
     UIView *whiteView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 440, 320)];
@@ -703,6 +704,8 @@
     }
     if (btnTag == 3000) {
         NSLog(@"点击了找回POS密码（部分开通）");
+        [self initFindPosViewWithSelectedID:selectedID WithIndexNum:indexNum];
+
     }
     if (btnTag == 3001) {
         NSLog(@"点击了重新申请开通");
@@ -799,26 +802,26 @@
 //重新申请开通
 -(void)pushApplyNewVCWithSelectedID:(NSString *)selectedID
 {
-    /*
-     ApplyDetailController *detailC = [[ApplyDetailController alloc] init];
-     detailC.terminalID = selectedID;
-     detailC.openStatus = OpenStatusReopen;
-     detailC.hidesBottomBarWhenPushed = YES;
-     [self.navigationController pushViewController:detailC animated:YES];
-     */
+    
+     ApplyDetailController *detailVC = [[ApplyDetailController alloc] init];
+     detailVC.terminalID = selectedID;
+     detailVC.openStatus = OpenStatusReopen;
+     detailVC.hidesBottomBarWhenPushed = YES;
+     [self.navigationController pushViewController:detailVC animated:YES];
+    
 }
 
 
 //新开通
 -(void)pushApplyVCWithSelectedID:(NSString *)selectedID
 {
-    /*
-     ApplyDetailController *detailC = [[ApplyDetailController alloc] init];
-     detailC.terminalID = selectedID;
-     detailC.openStatus = OpenStatusNew;
-     detailC.hidesBottomBarWhenPushed = YES;
-     [self.navigationController pushViewController:detailC animated:YES];
-     */
+    
+     ApplyDetailController *detailVC = [[ApplyDetailController alloc] init];
+     detailVC.terminalID = selectedID;
+     detailVC.openStatus = OpenStatusNew;
+     detailVC.hidesBottomBarWhenPushed = YES;
+     [self.navigationController pushViewController:detailVC animated:YES];
+    
 }
 
 
