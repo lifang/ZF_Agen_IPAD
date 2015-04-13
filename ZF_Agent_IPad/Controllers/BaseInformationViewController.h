@@ -10,4 +10,8 @@
 
 @interface BaseInformationViewController : MyMessageViewController
 
+@property(nonatomic,strong)NSString *newsPhone;
+
+@property(nonatomic,strong)NSString *newsEmail;
+
 @end

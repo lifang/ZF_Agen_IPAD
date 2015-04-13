@@ -236,13 +236,40 @@ static NSString *s_orderList_method = @"order/orderSearch";
 //71.订单管理——代购详情
 static NSString *s_orderDetailProcurement_method = @"order/getProxyById";
 static NSString *s_orderDetailWholesale_method = @"order/getWholesaleById";
-
-
 //69.订单管理——批购取消订单
 static NSString *s_orderCancelWholesale_method = @"order/cancelWholesale";
-
 //72.订单管理——代购取消订单
 static NSString *s_orderCancelProcurement_method = @"order/cancelProxy";
+//73.售后记录——售后单列表
+static NSString *s_afterSaleList_method = @"cs/agents/search";
+
+//74.售后记录——售后单取消申请
+static NSString *s_afterSaleCancel_method = @"cs/agents/cancelApply";
+
+//75.售后记录——售后单详情
+static NSString *s_afterSaleDetail_method = @"cs/agents/getById";
+
+//76.售后记录——注销记录列表
+static NSString *s_cancelList_method = @"cs/cancels/search";
+
+//77.售后记录——注销记录取消申请
+static NSString *s_cancelCancel_method = @"cs/cancels/cancelApply";
+
+//78.售后记录——注销记录重新提交
+static NSString *s_cancelApply_mehtod = @"cs/cancels/resubmitCancel";
+
+//79.售后记录——注销记录详情
+static NSString *s_cancelDetail_method = @"cs/cancels/getCanCelById";
+
+//80.售后记录——更新资料列表
+static NSString *s_updateList_method = @"update/info/search";
+
+//81.售后记录——更新资料详情
+static NSString *s_updateDetail_method = @"update/info/getInfoById";
+
+//82.售后记录——更新资料取消申请
+static NSString *s_updateCancel_method = @"update/info/cancelApply";
+
 //80.我的信息——获取详情
 static NSString *s_personDetail_method = @"agents/getOne";
 
@@ -782,6 +809,59 @@ static NSString *s_hot_method = @"index/pos_list";
                                 orderID:(NSString *)orderID
                                finished:(requestDidFinished)finish;
 
+/*!
+ @abstract 73.售后单列表  76.注销记录列表 80.更新记录列表
+ @param agentID  代理商id
+ @param token    登录返回
+ @param type     售后类型
+ @param keyword  搜索关键字
+ @param status   订单状态
+ @param page     分页参数 页
+ @param rows     分页参数 行
+ @result finish  请求回调结果
+ */
++ (void)getCSListWithAgentID:(NSString *)agentID
+                       token:(NSString *)token
+                      csType:(CSType)type
+                     keyword:(NSString *)keyword
+                      status:(int)status
+                        page:(int)page
+                        rows:(int)rows
+                    finished:(requestDidFinished)finish;
+
+/*!
+ @abstract 74.售后单取消申请  77.注销记录取消申请 82.更新记录取消申请
+ @param token    登录返回
+ @param type     售后类型
+ @param csID     售后单id
+ @result finish  请求回调结果
+ */
++ (void)csCancelApplyWithToken:(NSString *)token
+                        csType:(CSType)type
+                          csID:(NSString *)csID
+                      finished:(requestDidFinished)finish;
+
+/*!
+ @abstract 75.售后单详情 79.注销记录详情 81.更新记录详情
+ @param token    登录返回
+ @param type     售后类型
+ @param csID     售后单id
+ @result finish  请求回调结果
+ */
++ (void)getCSDetailWithToken:(NSString *)token
+                      csType:(CSType)type
+                        csID:(NSString *)csID
+                    finished:(requestDidFinished)finish;
+
+/*!
+ @abstract 78.售后记录——重新提交注销
+ @param token    登录返回
+ @param csID     售后单id
+ @result finish  请求回调结果
+ */
++ (void)csRepeatAppleyWithToken:(NSString *)token
+                           csID:(NSString *)csID
+                       finished:(requestDidFinished)finish;
 
 
 /*!
