@@ -410,22 +410,22 @@
     
     TerminalManagerModel *model = [_applyList objectAtIndex:button.tag];
     
-    ApplyDetailController *detailC = [[ApplyDetailController alloc] init];
-    detailC.terminalID =[NSString stringWithFormat:@"%d",button.tag];
-    detailC.hidesBottomBarWhenPushed = YES;
+    ApplyDetailController *detailVC = [[ApplyDetailController alloc] init];
+    detailVC.terminalID =[NSString stringWithFormat:@"%d",button.tag];
+    detailVC.hidesBottomBarWhenPushed = YES;
     if(  [model.TM_status  isEqualToString:@"2"])
     {
-        detailC.openStatus = OpenStatusReopen;
+        detailVC.openStatus = OpenStatusReopen;
         
         
     }else
     {
-        detailC.openStatus = OpenStatusNew;
+        detailVC.openStatus = OpenStatusNew;
         
     }
-    detailC.terminalID = model.TM_ID;
+    detailVC.terminalID = model.TM_ID;
     
-    [self.navigationController pushViewController:detailC animated:YES];
+    [self.navigationController pushViewController:detailVC animated:YES];
     
 }
 

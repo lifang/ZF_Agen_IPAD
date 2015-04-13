@@ -30,6 +30,7 @@
 		0D885FAE1AD7D522002CDA15 /* IdentificationModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D885FAD1AD7D522002CDA15 /* IdentificationModel.m */; };
 		0D885FB11AD7D556002CDA15 /* ApplyOpenModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D885FB01AD7D556002CDA15 /* ApplyOpenModel.m */; };
 		0D885FB41AD7D56E002CDA15 /* MerchantModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D885FB31AD7D56E002CDA15 /* MerchantModel.m */; };
+		0DBA72681ADB584200D0C762 /* ChannelListModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0DBA72671ADB584200D0C762 /* ChannelListModel.m */; };
 		0DC032481AD68C2F000532EF /* TerminalDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0DC032471AD68C2F000532EF /* TerminalDetailViewController.m */; };
 		0DC0324E1AD68C6D000532EF /* RecordView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0DC0324D1AD68C6D000532EF /* RecordView.m */; };
 		0DC032511AD68CC1000532EF /* OpeningModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0DC032501AD68CC1000532EF /* OpeningModel.m */; };
@@ -248,6 +249,8 @@
 		0D885FB01AD7D556002CDA15 /* ApplyOpenModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ApplyOpenModel.m; sourceTree = "<group>"; };
 		0D885FB21AD7D567002CDA15 /* MerchantModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MerchantModel.h; sourceTree = "<group>"; };
 		0D885FB31AD7D56E002CDA15 /* MerchantModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MerchantModel.m; sourceTree = "<group>"; };
+		0DBA72661ADB584200D0C762 /* ChannelListModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChannelListModel.h; sourceTree = "<group>"; };
+		0DBA72671ADB584200D0C762 /* ChannelListModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChannelListModel.m; sourceTree = "<group>"; };
 		0DC032461AD68C25000532EF /* TerminalDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TerminalDetailViewController.h; sourceTree = "<group>"; };
 		0DC032471AD68C2F000532EF /* TerminalDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TerminalDetailViewController.m; sourceTree = "<group>"; };
 		0DC0324C1AD68C67000532EF /* RecordView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RecordView.h; sourceTree = "<group>"; };
@@ -1100,6 +1103,8 @@
 				0D885FB01AD7D556002CDA15 /* ApplyOpenModel.m */,
 				0D885FB21AD7D567002CDA15 /* MerchantModel.h */,
 				0D885FB31AD7D56E002CDA15 /* MerchantModel.m */,
+				0DBA72661ADB584200D0C762 /* ChannelListModel.h */,
+				0DBA72671ADB584200D0C762 /* ChannelListModel.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1456,6 +1461,7 @@
 				1AF15B6F1ACD068000D5C171 /* AccountTool.m in Sources */,
 				1AF15AF31ACCE3A400D5C171 /* UIImageView+HighlightedWebCache.m in Sources */,
 				1ABA17CB1ADB5A5E006B8D9B /* ChangeEmailController.m in Sources */,
+				0DBA72681ADB584200D0C762 /* ChannelListModel.m in Sources */,
 				1A96546B1AD6535B00C39B5B /* UserManagerController.m in Sources */,
 				0EC65C191AD9055D00282C04 /* SubAgentCell.m in Sources */,
 				0D885FB11AD7D556002CDA15 /* ApplyOpenModel.m in Sources */,

@@ -117,7 +117,7 @@ static NSString *s_getMerchant_method = @"apply/getMerchant";
 static NSString *s_applyChannel_method = @"apply/getChannels";
 
 //13.申请开通--选择银行
-static NSString *s_applyBank_method = @"apply/ChooseBank";
+static NSString *s_chooseBank_method = @"apply/ChooseBank";
 
 //14.申请开通--对公对私材料名称
 static NSString *s_applyMaterial_method = @"apply/getMaterialName";
@@ -153,6 +153,9 @@ static NSString *s_getapply_method = @"apply/getApplyDetails";
 
 //24.终端管理——同步
 static NSString *s_terminalsynchronous_method = @"terminal/synchronous";
+
+//25.终端管理--获取代理商下面的用户
+static NSString *s_terminalgetMerchants_method = @"terminal/getMerchants";
 
 //26.终端管理——为用户绑定终端号
 static NSString *s_bindingterminal_method = @"terminal/bindingTerminal";
@@ -398,6 +401,7 @@ static NSString *s_hot_method = @"index/pos_list";
 + (void)uploadRegisterImageWithImage:(UIImage *)image
                             finished:(requestDidFinished)finish;
 
+
 /*!
  @abstract 8.申请开通--根据代理商ID获得开通申请列表
  @param token       登录返回
@@ -411,6 +415,25 @@ static NSString *s_hot_method = @"index/pos_list";
                          page:(int)page
                          rows:(int)rows
                      finished:(requestDidFinished)finish;
+
+/*!
+ @abstract 9.申请开通—根据终端号查询-获得开通申请列表
+ @param token       登录返回
+ @param agentID      代理商ID
+ @param page        分页参数 页
+ @param rows        分页参数 行
+ @param serialNum     终端号
+ @result finish  请求回调结果
+ */
++ (void)searchApplyListWithToken:(NSString *)token
+                      agentId:(NSString *)agentId
+                         page:(int)page
+                         rows:(int)rows
+                       serialNum:(NSString *)serialNum
+                     finished:(requestDidFinished)finish;
+
+
+
 
 
 /*!
@@ -429,7 +452,92 @@ static NSString *s_hot_method = @"index/pos_list";
 
 
 
+/*
+ @abstract 11.申请开通--根据商户id获得商户详细信息
+ @param token       登录返回
+ @result finish  请求回调结果
+*/
++ (void)getMerchantWithToken:(NSString *)token
+                    finished:(requestDidFinished)finish;
 
+
+/*!
+ @abstract 12.申请开通--获得支付通道
+ @param token       登录返回
+ @result finish  请求回调结果
+ */
++ (void)getChannelsWithToken:(NSString *)token
+                    finished:(requestDidFinished)finish;
+
+/*!
+ @abstract 13.申请开通--选择银行
+ @param token       登录返回
+ @param bankName    银行名称
+ @result finish  请求回调结果
+ */
++ (void)chooseBankWithToken:(NSString *)token
+                   bankName:(NSString *)bankName
+                   finished:(requestDidFinished)finish;
+
+/*!
+ @abstract 14.申请开通--对公对私材料名称
+ @param token       登录返回
+ @param terminalID  终端ID
+ @param status     对公对私
+ @result finish  请求回调结果
+ */
++ (void)getMaterinalNameWithToken:(NSString *)token
+                   terminalId:(NSString *)terminalId
+                   status:(int)status
+                   finished:(requestDidFinished)finish;
+
+
+/*!
+ @abstract 15.申请开通--添加申请信息
+ @param token       登录返回
+ @param paramList   参数数组
+ @result finish  请求回调结果
+ */
++ (void)submitApplyWithToken:(NSString *)token
+                      params:(NSArray *)paramList
+                    finished:(requestDidFinished)finish;
+
+
+
+/*!
+ @abstract 16.申请开通--图片资料上传
+ @param image       图片
+ @result finish  请求回调结果
+ */
++ (void)uploadImageWithImage:(UIImage *)image
+                    finished:(requestDidFinished)finish;
+
+/*!
+ @abstract 17.申请开通—查看终端详情
+ @param Token       登录返回
+ @param terminalId      终端ID
+ @result finish  请求回调结果
+ */
+
++ (void)getTerminalDetailsWithToken:(NSString *)token
+                                terminalId:(NSString *)terminalId
+                               finished:(requestDidFinished)finish;
+
+
+/*!
+ @abstract 18.申请开通—获得所有商户分页列表
+ @param Token       登录返回
+ @param customerId    用户ID
+ @param page        分页参数 页
+ @param rows        分页参数 行
+ @result finish  请求回调结果
+ */
+
++ (void)getTerminalDetailsWithToken:(NSString *)token
+                         customerId:(NSString *)customerId
+                               page:(int)page
+                               rows:(int)rows
+                           finished:(requestDidFinished)finish;
 
 
 /*!
@@ -446,6 +554,27 @@ static NSString *s_hot_method = @"index/pos_list";
                                    page:(int)page
                                    rows:(int)rows
                                finished:(requestDidFinished)finish;
+
+
+/*!
+ @abstract 20.终端管理—根据终端号模糊查询得到相关终端
+ @param Token       登录返回
+ @param agentID     代理商ID
+ @param page        分页参数 页
+ @param rows        分页参数 行
+ @param serialNum    模糊查询终端号
+ @result finish  请求回调结果
+ */
+
++ (void)searchApplyListWithToken:(NSString *)token
+                                agentID:(NSString *)agentId
+                                   page:(int)page
+                                   rows:(int)rows
+                                serialNum:(NSString *)serialNum
+                               finished:(requestDidFinished)finish;
+
+
+
 
 
 /*!
@@ -478,6 +607,136 @@ static NSString *s_hot_method = @"index/pos_list";
 
 
 
+/*!
+ @abstract 23.终端管理—开通申请/重新开通
+ @param Token       登录返回
+ @param customerId     用户ID
+ @param terminalsId     代理商ID
+ @param status     对公对私
+ @result finish  请求回调结果
+ */
+
++ (void)getApplyDetailsWithToken:(NSString *)token
+                        customerId:(NSString *)customerId
+                        terminalsId:(NSString *)terminalsId
+                        status:(int)status
+                          finished:(requestDidFinished)finish;
+
+/*!
+ @abstract 24.终端管理--同步
+ @param Token       登录返回
+ @result finish  请求回调结果
+ */
+
++ (void)getTerminalSynchronousWithToken:(NSString *)token
+                        finished:(requestDidFinished)finish;
+
+
+
+
+
+/*!
+ @abstract 25.终端管理--获取代理商下面的用户
+ @param token    登录返回
+ @param customerId   用户id
+ @result finish  请求回调结果
+ */
++ (void)getUserTerminalListWithtoken:(NSString *)token
+                          customerId:(NSString *)customerId
+                                page:(int)page
+                                rows:(int)rows
+                            finished:(requestDidFinished)finish;
+/*!
+ @abstract 26.终端管理--为用户绑定终端号
+ 
+ @param token    登录返回
+ @param terminalsNum   终端号
+ @param userId   代理商下面的用户ID
+ @result finish  请求回调结果
+ */
++ (void)bindingTerminalWithtoken:(NSString *)token
+                    terminalsNum:(NSString *)terminalsNum
+                          userId:(int)userId
+                        finished:(requestDidFinished)finish;
+
+/*!
+ @abstract 27.终端管理—申请售后批量终端号筛选
+ @param token    登录返回
+ @param serialNum   所有终端号数组
+ @result finish  请求回调结果
+ */
++ (void)batchTerminalNumWithtoken:(NSString *)token
+                      serialNum:(NSArray *)serialNum
+                        finished:(requestDidFinished)finish;
+
+/*!
+ @abstract 28.终端管理—pos机,通道,价格,筛选终端
+ @param token    登录返回
+ @param title   Pos机名称
+ @param channelsId   通道ID
+ @param minPrice   最低价
+ @param maxPrice  最高价
+ @result finish  请求回调结果
+ */
++ (void)screeningTerminalNumWithtoken:(NSString *)token
+                                title:(NSString *)title
+                           channelsId:(int)channelsId
+                             minPrice:(int)minPrice
+                             maxPrice:(int)maxPrice
+                         finished:(requestDidFinished)finish;
+
+/*!
+ @abstract 29.终端管理--Pos机选择
+ @param token    登录返回
+ @param customerId   通道ID
+ @result finish  请求回调结果
+ */
++ (void)screeningPOSNumWithtoken:(NSString *)token
+                           customerId:(int)customerId
+                             finished:(requestDidFinished)finish;
+
+
+/*!
+ @abstract 30.终端管理--通道列表
+ @param token    登录返回
+ @result finish  请求回调结果
+ */
++ (void)getchannelsWithtoken:(NSString *)token
+                             finished:(requestDidFinished)finish;
+
+
+/*!
+ @abstract 31.终端管理--收件人信息
+ @param token    登录返回
+ @param customerId    用户ID
+ @result finish  请求回调结果
+ */
++ (void)getAddresseeWithtoken:(NSString *)token
+                   customerId:(int)customerId
+                    finished:(requestDidFinished)finish;
+
+
+/*!
+ @abstract 32.终端管理--提交申请售后
+ @param token    登录返回
+ @param customerId    用户ID
+ @param terminalsQuantity    终端数量
+ @param address    收件地址
+ @param reason    售后原因
+ @param terminalsList    终端号数组集合
+ @param reciver    收件人
+ @param phone    电话
+ @result finish  请求回调结果
+ */
++ (void)submintAgentWithtoken:(NSString *)token
+                   customerId:(int)customerId
+            terminalsQuantity:(int)terminalQuantity
+                      address:(NSString *)address
+                       reason:(NSString *)reason
+                terminalsList:(NSArray *)terminalsList
+                      reciver:(NSString *)reciver
+                        phone:(NSString *)phone
+                     finished:(requestDidFinished)finish;
 
 
 
