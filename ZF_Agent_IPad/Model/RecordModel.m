@@ -1,5 +1,9 @@
 //
 //  RecordModel.m
+//  ZFAB
+//
+//  Created by 徐宝桥 on 15/4/7.
+//  Copyright (c) 2015年 ___MyCompanyName___. All rights reserved.
 //  ZF_Agent_IPad
 //
 //  Created by wufei on 15/4/9.

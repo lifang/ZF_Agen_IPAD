@@ -8,7 +8,8 @@
 
 #import "MineCommonController.h"
 #import "BaseInformationViewController.h"
-
+#import "StaffManagerController.h"
+#import "SubAgentListController.h"
 
 @interface MineCommonController ()
 
@@ -64,17 +65,17 @@
 //我的信息
 -(void)orderClick
 {
-    MyMessageViewController *baseInformationVC = [[MyMessageViewController alloc]init];
+    BaseInformationViewController *baseInformationVC = [[BaseInformationViewController alloc]init];
     baseInformationVC.navigationController.navigationBarHidden = YES;
     [self.navigationController pushViewController:baseInformationVC animated:NO];
 }
-////售后记录
-//-(void)aftersellBtnClick
-//{
-//    AfterSellViewController *afterVC = [[AfterSellViewController alloc]init];
-//    afterVC.navigationController.navigationBarHidden = YES;
-//    [self.navigationController pushViewController:afterVC animated:NO];
-//}
+//售后记录
+-(void)aftersellBtnClick
+{
+    SubAgentListController *afterVC = [[SubAgentListController alloc]init];
+    afterVC.navigationController.navigationBarHidden = YES;
+    [self.navigationController pushViewController:afterVC animated:NO];
+}
 ////我的信息
 //-(void)messageBtnClick
 //{
@@ -87,11 +88,12 @@
 //    MyShopViewController *shopVC = [[MyShopViewController alloc]init];
 //    [self.navigationController pushViewController:shopVC animated:NO];
 //}
-////申请进度查询
-//-(void)applyBtnClick
-//{
-//    ApplyPlanViewController *applyPlanVC = [[ApplyPlanViewController alloc]init];
-//    [self.navigationController pushViewController:applyPlanVC animated:NO];
-//}
+//员工管理
+-(void)applyBtnClick
+{
+    StaffManagerController *staffVC = [[StaffManagerController alloc]init];
+    staffVC.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:staffVC animated:NO];
+}
 
 @end

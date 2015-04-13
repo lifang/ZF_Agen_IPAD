@@ -61,12 +61,27 @@
                                                           attribute:NSLayoutAttributeBottom
                                                          multiplier:1.0
                                                            constant:0]];
-    _topRefreshView = [[RefreshView alloc] initWithFrame:CGRectMake(0, -80, self.view.bounds.size.width, 80)];
+    
+    CGFloat wide;
+    CGFloat height;
+    if(iOS7)
+    {
+        wide=SCREEN_HEIGHT;
+        height=SCREEN_WIDTH;
+        
+    }
+    else
+    {  wide=SCREEN_WIDTH;
+        height=SCREEN_HEIGHT;
+        
+    }
+
+    _topRefreshView = [[RefreshView alloc] initWithFrame:CGRectMake(0, -80,wide, 80)];
     _topRefreshView.direction = PullFromTop;
     _topRefreshView.delegate = self;
     [_tableView addSubview:_topRefreshView];
     
-    _bottomRefreshView = [[RefreshView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 60)];
+    _bottomRefreshView = [[RefreshView alloc] initWithFrame:CGRectMake(0, 0, wide, 60)];
     _bottomRefreshView.direction = PullFromBottom;
     _bottomRefreshView.delegate = self;
     _bottomRefreshView.hidden = YES;

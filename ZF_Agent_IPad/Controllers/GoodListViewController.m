@@ -60,7 +60,6 @@
 {
 
     [super viewWillAppear:animated];
-    NSLog(@"%f-%f-%f-%f",self.view.frame.origin.x,self.view.frame.origin.y,self.view.frame.size.height,self.view.frame.size.width);
 
      [self.navigationController.navigationBar setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor], NSForegroundColorAttributeName, NavTitle_FONT(NavTitle_FONTSIZE),NSFontAttributeName,nil]];
     UIButton *shoppingButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -88,7 +87,7 @@
     spaceItem.width = 52;
     UIBarButtonItem *shoppingItem = [[UIBarButtonItem alloc] initWithCustomView:shoppingButton];
     UIBarButtonItem *filterItem = [[UIBarButtonItem alloc] initWithCustomView:filterButton];
-    self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:spaceItem,filterItem,spaceItem,spaceItem, spaceItem,nil];
+    self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:spaceItem,spaceItem,filterItem,spaceItem,nil];
     self.navigationItem.leftBarButtonItems = [NSArray arrayWithObjects:spaceItem,spaceItem, rightItems,nil];
 
 }
@@ -546,7 +545,8 @@
     CGFloat minPrice = [[_filterDict objectForKey:s_minPrice] floatValue];
     
     
-  
+    NSLog(@"%@",delegate.agentID);
+
 
     //***************************************
     [NetworkInterface getGoodListWithCityID:delegate.cityID agentID:delegate.agentID supplyType:_supplyType sortType:_filterType brandID:brandItem category:catrgoryItem channelID:channelItem payCardID:cardItem tradeID:tradeItem slipID:slipItem date:dateItem maxPrice:maxPrice minPrice:minPrice keyword:_keyword onlyRent:isRent page:page rows:kPageSize finished:^(BOOL success, NSData *response) {

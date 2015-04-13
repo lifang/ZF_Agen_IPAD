@@ -12,7 +12,7 @@
 #import "OrderModel.h"
 #import "OrderCell.h"
 #import "KxMenu.h"
-
+#import "OrderDetailController.h"
 @interface OrderManagerController ()<OrderCellDelegate>
 
 @property (nonatomic, strong) UISegmentedControl *segmentControl;
@@ -22,6 +22,7 @@
 
 @property (nonatomic, assign) int currentStatus;  //筛选的订单状态
 @property (nonatomic, assign) OrderType currentType;      //筛选的订单类型
+@property (nonatomic, strong) UITextField *numberField;
 
 @property (nonatomic, strong) UIButton *typeButton;   //订单类型
 @property (nonatomic, strong) UIButton *statusButton; //订单状态
@@ -30,9 +31,11 @@
 @property(nonatomic,assign)CGFloat privateX;
 @property(nonatomic,assign)CGFloat privateY;
 @property (nonatomic, strong) UILabel *typeLabel;
-@property (nonatomic, strong) UILabel *statusLabel;
+@property (nonatomic, strong) UIButton *statusLabel;
+@property (nonatomic, strong) UIButton *addButton;
 
 @property (nonatomic, strong) NSMutableArray *orderItem;
+@property (nonatomic, strong) OrderModel *selectedOrder;
 
 @end
 
@@ -40,16 +43,54 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.view.backgroundColor=[UIColor whiteColor];
+    [self.navigationController.navigationBar setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor], NSForegroundColorAttributeName, NavTitle_FONT(NavTitle_FONTSIZE),NSFontAttributeName,nil]];
+    
+    
+    UIButton *shoppingButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    shoppingButton.frame = CGRectMake(0, 0, 30, 30);
+    [shoppingButton setBackgroundImage:[UIImage imageNamed:@"shopping"] forState:UIControlStateNormal];
+    
+    //    [shoppingButton setBackgroundImage:kImageName(@"good_right1.png") forState:UIControlStateNormal];
+    [shoppingButton addTarget:self action:@selector(shoppingview) forControlEvents:UIControlEventTouchUpInside];
+    
+        //设置间距
+    UIBarButtonItem *spaceItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace
+                                                                               target:nil
+                                                                               action:nil];
+       spaceItem.width = 52;
+    UIBarButtonItem *shoppingItem = [[UIBarButtonItem alloc] initWithCustomView:shoppingButton];
+    self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:spaceItem,shoppingItem,spaceItem,spaceItem, spaceItem,nil];
+    
+
+
     // Do any additional setup after loading the view.
     self.title = @"订单管理";
     _orderItem = [[NSMutableArray alloc] init];
     [self initAndLayoutUI];
     self.supplyType = SupplyGoodsWholesale;
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(refreshOrderList:)
+                                                 name:RefreshOrderListNotification
+                                               object:nil];
 }
+-(void)shoppingview
+{
 
+
+    AppDelegate *delegate = [AppDelegate shareAppDelegate];
+    
+    [delegate.rootViewController.homeController setSeletedIndex:1];
+
+}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+#pragma mark - NSNotification
+
+- (void)refreshOrderList:(NSNotification *)notification {
+    [self performSelector:@selector(firstLoadData) withObject:nil afterDelay:0.1f];
 }
 
 #pragma mark - UI
@@ -147,102 +188,257 @@
 //    [_segmentControl setTitleTextAttributes:attrDict forState:UIControlStateNormal];
     
     //控件初始化
-    _typeButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    _typeButton.frame = CGRectMake(10, 0, 110, 30);
-    _typeButton.titleLabel.font = [UIFont systemFontOfSize:13.f];
-    [_typeButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    [_typeButton setTitle:@"选择订单类型" forState:UIControlStateNormal];
-    [_typeButton setImage:kImageName(@"arrow.png") forState:UIControlStateNormal];
-    [_typeButton addTarget:self action:@selector(showOrderType:) forControlEvents:UIControlEventTouchUpInside];
-    _typeButton.imageEdgeInsets = UIEdgeInsetsMake(0, 100, 0, 0);
-    _typeButton.titleEdgeInsets = UIEdgeInsetsMake(0, 0, 0, 10);
+//    _typeButton = [UIButton buttonWithType:UIButtonTypeCustom];
+//    _typeButton.frame = CGRectMake(10, 0, 110, 30);
+//    _typeButton.titleLabel.font = [UIFont systemFontOfSize:13.f];
+//    [_typeButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+//    [_typeButton setTitle:@"选择订单类型" forState:UIControlStateNormal];
+//    [_typeButton setImage:kImageName(@"arrow.png") forState:UIControlStateNormal];
+//    [_typeButton addTarget:self action:@selector(showOrderType:) forControlEvents:UIControlEventTouchUpInside];
+//    _typeButton.imageEdgeInsets = UIEdgeInsetsMake(0, 100, 0, 0);
+//    _typeButton.titleEdgeInsets = UIEdgeInsetsMake(0, 0, 0, 10);
     
     _statusButton = [UIButton buttonWithType:UIButtonTypeCustom];
     _statusButton.frame = CGRectMake(10, 0, 110, 30);
-    _statusButton.titleLabel.font = [UIFont systemFontOfSize:13.f];
+    _statusButton.titleLabel.font = [UIFont systemFontOfSize:18.f];
     [_statusButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    [_statusButton setTitle:@"选择订单状态" forState:UIControlStateNormal];
+    [_statusButton setTitle:@"选择状态" forState:UIControlStateNormal];
     [_statusButton setImage:kImageName(@"arrow.png") forState:UIControlStateNormal];
     [_statusButton addTarget:self action:@selector(showOrderStatus:) forControlEvents:UIControlEventTouchUpInside];
     _statusButton.imageEdgeInsets = UIEdgeInsetsMake(0, 100, 0, 0);
     _statusButton.titleEdgeInsets = UIEdgeInsetsMake(0, 0, 0, 10);
     
-    _typeLabel = [[UILabel alloc] init];
-    _typeLabel.backgroundColor = [UIColor clearColor];
-    _typeLabel.font = [UIFont systemFontOfSize:13.f];
-    _typeLabel.userInteractionEnabled = YES;
-    UITapGestureRecognizer *typeTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showOrderType:)];
-    [_typeLabel addGestureRecognizer:typeTap];
+//    _typeLabel = [[UILabel alloc] init];
+//    _typeLabel.backgroundColor = [UIColor clearColor];
+//    _typeLabel.font = [UIFont systemFontOfSize:13.f];
+//    _typeLabel.userInteractionEnabled = YES;
+//    UITapGestureRecognizer *typeTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showOrderType:)];
+//    [_typeLabel addGestureRecognizer:typeTap];
     
-    _statusLabel = [[UILabel alloc] init];
-    _statusLabel.backgroundColor = [UIColor clearColor];
-    _statusLabel.font = [UIFont systemFontOfSize:13.f];
-    _statusLabel.userInteractionEnabled = YES;
-    UITapGestureRecognizer *statusTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showOrderStatus:)];
-    [_statusLabel addGestureRecognizer:statusTap];
+    
+    
+    _statusLabel = [UIButton buttonWithType:UIButtonTypeCustom];
+
+    [_statusLabel setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    _statusLabel.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
+    [_statusLabel setImage:kImageName(@"arrow_line1") forState:UIControlStateNormal];
+    CALayer *layer=[_statusLabel  layer];
+    //是否设置边框以及是否可见
+    [layer setMasksToBounds:YES];
+    //设置边框圆角的弧度
+    
+    //设置边框线的宽
+    //
+    [layer setBorderWidth:1];
+    //设置边框线的颜色
+    [layer setBorderColor:[kColor(193, 192, 192, 1) CGColor]];
+    
+    
+    [_statusLabel addTarget:self action:@selector(showOrderStatus:) forControlEvents:UIControlEventTouchUpInside];
+
+    
 }
 
 - (void)setHeaderAndFooterView {
-    CGFloat headerHeight = 85.f;
+    CGFloat headerHeight = 70.f;
     if (_supplyType == SupplyGoodsProcurement) {
-        headerHeight = 120.f;
+        headerHeight = 70.f;
     }
-    UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, headerHeight)];
-    headerView.backgroundColor = [UIColor clearColor];
+    CGFloat wide;
+    CGFloat height;
+    if(iOS7)
+    {
+        wide=SCREEN_HEIGHT;
+        height=SCREEN_WIDTH;
+        
+        
+    }
+    else
+    {  wide=SCREEN_WIDTH;
+        height=SCREEN_HEIGHT;
+        
+    }
+
+    UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, wide, headerHeight)];
+headerView.backgroundColor = [UIColor whiteColor];
     self.tableView.tableHeaderView = headerView;
     CGFloat h_space = 20.f;
     CGFloat v_space = 10.f;
-    _segmentControl.frame = CGRectMake(h_space, v_space, kScreenWidth - h_space * 2, 30);
-//    [headerView addSubview:_segmentControl];
     
     if (_supplyType == SupplyGoodsWholesale) {
         UIView *statusBackView = [self getHeaderBackView];
         CGRect rect = statusBackView.frame;
-        rect.origin.y = 50.f;
+        rect.origin.y = 15.f;
         statusBackView.frame = rect;
         [headerView addSubview:statusBackView];
         
-        _statusButton.frame = CGRectMake(10, 0, 110, 30);
+        
+        _numberField = [[UITextField alloc] initWithFrame:CGRectMake(wide-280-60, 0, 280, 40)];
+        _numberField.layer.borderWidth = 1;
+        _numberField.layer.borderColor = kColor(193, 192, 192, 1).CGColor;
+        _numberField.borderStyle = UITextBorderStyleNone;
+        _numberField.font = [UIFont systemFontOfSize:16.f];
+        _numberField.textAlignment = NSTextAlignmentCenter;
+        _numberField.leftViewMode = UITextFieldViewModeAlways;
+        _numberField.rightViewMode = UITextFieldViewModeAlways;
+        
+        _addButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        _addButton.frame = CGRectMake(0, 0, 50, 35);
+    [_addButton setImage:kImageName(@"textsearch") forState:UIControlStateNormal];
+        [_addButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        [_addButton addTarget:self action:@selector(searchclick) forControlEvents:UIControlEventTouchUpInside];
+        _numberField.rightView = _addButton;
+        [statusBackView addSubview:_numberField];
+        
+        _statusLabel.contentEdgeInsets = UIEdgeInsetsMake(0,-40, 0, 0);
+        _statusLabel.imageEdgeInsets = UIEdgeInsetsMake(0,270,0,0);//设置image在button上的位置（上top，左left，下bottom，右right）这里可以写负值，对上写－5，那么image就象上移动5个像素
+
+        
+        _statusButton.frame = CGRectMake(60, 5, 110, 30);
         CGFloat originX = _statusButton.frame.origin.x + _statusButton.frame.size.width + 10;
-        _statusLabel.frame = CGRectMake(originX, 0, kScreenWidth - originX, 30);
+        _statusLabel.frame = CGRectMake(originX, 0,280, 40);
         [statusBackView addSubview:_statusButton];
         [statusBackView addSubview:_statusLabel];
     }
     else if (_supplyType == SupplyGoodsProcurement) {
         UIView *typeBackView = [self getHeaderBackView];
         CGRect rect = typeBackView.frame;
-        rect.origin.y = 50.f;
+        rect.origin.y = 10.f;
         typeBackView.frame = rect;
         [headerView addSubview:typeBackView];
         
-        _typeLabel.frame = CGRectMake(10, 0, 110, 30);
-        CGFloat originX = _typeLabel.frame.origin.x + _typeLabel.frame.size.width + 10;
-        _typeLabel.frame = CGRectMake(originX, 0, kScreenWidth - originX, 30);
-        [typeBackView addSubview:_typeButton];
-        [typeBackView addSubview:_typeLabel];
+//        _typeLabel.frame = CGRectMake(10, 0, 110, 30);
+//        CGFloat originX = _typeLabel.frame.origin.x + _typeLabel.frame.size.width + 10;
+//        _typeLabel.frame = CGRectMake(originX, 0, wide - originX, 30);
+//        [typeBackView addSubview:_typeButton];
+//        [typeBackView addSubview:_typeLabel];
+//        
         
+        
+        buybutton=[UIButton buttonWithType:UIButtonTypeCustom];
+        rentbutton=[UIButton buttonWithType:UIButtonTypeCustom];
+        buybutton.frame=CGRectMake(60,0,  60, 40);
+        rentbutton.frame=CGRectMake(160,0,  60, 40);
+        [buybutton setTitle:@"代购买" forState:UIControlStateNormal];
+        [rentbutton setTitle:@"代租赁" forState:UIControlStateNormal];
+        [rentbutton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        [buybutton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        rentbutton.tag=507;
+        buybutton.tag=506;
+
+        
+        UIView *linview = [[UIView alloc] initWithFrame:CGRectMake(140, 10, 1, 20)];
+        linview.backgroundColor = [UIColor grayColor];
+        [typeBackView addSubview:linview];
+        [buybutton addTarget:self action:@selector(selectStatuss:) forControlEvents:UIControlEventTouchUpInside];
+        [rentbutton addTarget:self action:@selector(selectStatuss:) forControlEvents:UIControlEventTouchUpInside];
+        
+        
+        [typeBackView addSubview:buybutton];
+        [typeBackView addSubview:rentbutton];
+
+     
         UIView *statusBackView = [self getHeaderBackView];
         rect = statusBackView.frame;
-        rect.origin.y = typeBackView.frame.origin.y + typeBackView.frame.size.height + 5;
+        rect.origin.x =220;
+        
+        rect.origin.y = 15;
         statusBackView.frame = rect;
         [headerView addSubview:statusBackView];
         
-        _statusButton.frame = CGRectMake(10, 0, 110, 30);
-        _statusLabel.frame = CGRectMake(originX, 0, kScreenWidth - originX, 30);
-        [statusBackView addSubview:_statusButton];
-        [statusBackView addSubview:_statusLabel];
+     
+        _numberField = [[UITextField alloc] initWithFrame:CGRectMake(wide-280-60, 15, 280, 40)];
+        _numberField.layer.borderWidth = 1;
+        _numberField.layer.borderColor = kColor(193, 192, 192, 1).CGColor;
+        _numberField.borderStyle = UITextBorderStyleNone;
+        _numberField.font = [UIFont systemFontOfSize:16.f];
+        _numberField.textAlignment = NSTextAlignmentCenter;
+        _numberField.leftViewMode = UITextFieldViewModeAlways;
+        _numberField.rightViewMode = UITextFieldViewModeAlways;
+        
+        _addButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        _addButton.frame = CGRectMake(0, 0, 50, 35);
+        [_addButton setImage:kImageName(@"textsearch") forState:UIControlStateNormal];
+        [_addButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        [_addButton addTarget:self action:@selector(searchclick) forControlEvents:UIControlEventTouchUpInside];
+        _numberField.rightView = _addButton;
+        [headerView addSubview:_numberField];
+
+        _statusLabel.contentEdgeInsets = UIEdgeInsetsMake(0,-40, 0, 0);
+        _statusLabel.imageEdgeInsets = UIEdgeInsetsMake(0,170,0,0);//设置image在button上的位置（上top，左left，下bottom，右right）这里可以写负值，对上写－5，那么image就象上移动5个像素
+
+        _statusButton.frame = CGRectMake(90+220, 15, 110, 30);
+        _statusLabel.frame = CGRectMake(220+220, 15,180, 40);
+        [headerView addSubview:_statusButton];
+        [headerView addSubview:_statusLabel];
     }
+}
+-(void)searchclick
+{
+
+
+    [self firstLoadData];
+    
+
+
+
+
+
+
+}
+- (IBAction)selectStatuss:(id)sender {
+    UIButton*but=(UIButton*)sender;
+    if(but.tag==506)
+    {
+        
+        
+        [buybutton setTitleColor:kColor(3, 112, 214, 1) forState:UIControlStateNormal];
+        [rentbutton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        
+        
+        _currentType = OrderTypeProcurementBuy;
+        
+        
+        
+    }
+    else
+    {
+        _currentType = OrderTypeProcurementRent;
+        
+        
+        [rentbutton setTitleColor:kColor(3, 112, 214, 1) forState:UIControlStateNormal];
+        [buybutton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    }
+    
+    //    self.currentType = but.tag;
+    self.page = 1;
+    [self downloadDataWithPage:self.page isMore:NO];
 }
 
 - (UIView *)getHeaderBackView {
-    UIView *backView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 30)];
+    CGFloat wide;
+    CGFloat height;
+    if(iOS7)
+    {
+        wide=SCREEN_HEIGHT;
+        height=SCREEN_WIDTH;
+        
+        
+    }
+    else
+    {  wide=SCREEN_WIDTH;
+        height=SCREEN_HEIGHT;
+        
+    }
+
+    UIView *backView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, wide, 40)];
     backView.backgroundColor = [UIColor whiteColor];
-    UIView *firstLine = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kLineHeight)];
-    firstLine.backgroundColor = kColor(200, 199, 204, 1);
-    [backView addSubview:firstLine];
-    UIView *secondLine = [[UIView alloc] initWithFrame:CGRectMake(0, 30 - kLineHeight, kScreenWidth, kLineHeight)];
-    secondLine.backgroundColor = kColor(200, 199, 204, 1);
-    [backView addSubview:secondLine];
+//    UIView *firstLine = [[UIView alloc] initWithFrame:CGRectMake(0, 0, wide, 1)];
+//    firstLine.backgroundColor = kColor(200, 199, 204, 1);
+//    [backView addSubview:firstLine];
+//    UIView *secondLine = [[UIView alloc] initWithFrame:CGRectMake(0, 30 - 1, wide, 1)];
+//    secondLine.backgroundColor = kColor(200, 199, 204, 1);
+//    [backView addSubview:secondLine];
     return backView;
 }
 
@@ -264,12 +460,12 @@
 
 - (void)setCurrentStatus:(int)currentStatus {
     _currentStatus = currentStatus;
-    _statusLabel.text = [self stringForOrderStatus:_currentStatus];
+    [_statusLabel setTitle:[self stringForOrderStatus:_currentStatus] forState:UIControlStateNormal];
 }
 
 - (void)setCurrentType:(OrderType)currentType {
     _currentType = currentType;
-    _typeLabel.text = [self stringForOrderType:_currentType];
+//    _typeLabel.text = [self stringForOrderType:_currentType];
 }
 
 #pragma mark - Request
@@ -297,7 +493,9 @@
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
     hud.labelText = @"加载中...";
     AppDelegate *delegate = [AppDelegate shareAppDelegate];
-    [NetworkInterface getOrderListWithAgentID:delegate.agentID token:delegate.token orderType:_currentType keyword:nil status:_currentStatus page:page rows:kPageSize finished:^(BOOL success, NSData *response) {
+    NSLog(@"%@",_numberField.text);
+    
+    [NetworkInterface getOrderListWithAgentID:delegate.agentID token:delegate.token orderType:_currentType keyword:_numberField.text status:_currentStatus page:page rows:kPageSize finished:^(BOOL success, NSData *response) {
         hud.customView = [[UIImageView alloc] init];
         hud.mode = MBProgressHUDModeCustomView;
         [hud hide:YES afterDelay:0.3f];
@@ -479,37 +677,37 @@
                                     image:nil
                                    target:self
                                    action:@selector(selectStatus:)
-                            selectedTitle:_statusLabel.text
+                            selectedTitle:_statusLabel.titleLabel.text
                                       tag:ProcurementStatusAll],
                      [KxMenuItem menuItem:[self stringForOrderStatus:ProcurementStatusUnPaid]
                                     image:nil
                                    target:self
                                    action:@selector(selectStatus:)
-                            selectedTitle:_statusLabel.text
+                            selectedTitle:_statusLabel.titleLabel.text
                                       tag:ProcurementStatusUnPaid],
                      [KxMenuItem menuItem:[self stringForOrderStatus:ProcurementStatusPaid]
                                     image:nil
                                    target:self
                                    action:@selector(selectStatus:)
-                            selectedTitle:_statusLabel.text
+                            selectedTitle:_statusLabel.titleLabel.text
                                       tag:ProcurementStatusPaid],
                      [KxMenuItem menuItem:[self stringForOrderStatus:ProcurementStatusSend]
                                     image:nil
                                    target:self
                                    action:@selector(selectStatus:)
-                            selectedTitle:_statusLabel.text
+                            selectedTitle:_statusLabel.titleLabel.text
                                       tag:ProcurementStatusSend],
                      [KxMenuItem menuItem:[self stringForOrderStatus:ProcurementStatusCancel]
                                     image:nil
                                    target:self
                                    action:@selector(selectStatus:)
-                            selectedTitle:_statusLabel.text
+                            selectedTitle:_statusLabel.titleLabel.text
                                       tag:ProcurementStatusCancel],
                      [KxMenuItem menuItem:[self stringForOrderStatus:ProcurementStatusClosed]
                                     image:nil
                                    target:self
                                    action:@selector(selectStatus:)
-                            selectedTitle:_statusLabel.text
+                            selectedTitle:_statusLabel.titleLabel.text
                                       tag:ProcurementStatusClosed],
                      nil];
     }
@@ -519,37 +717,37 @@
                                                 image:nil
                                                target:self
                                                action:@selector(selectStatus:)
-                                        selectedTitle:_statusLabel.text
+                                        selectedTitle:_statusLabel.titleLabel.text
                                                   tag:WholesaleStatusAll],
                                  [KxMenuItem menuItem:[self stringForOrderStatus:WholesaleStatusUnPaid]
                                                 image:nil
                                                target:self
                                                action:@selector(selectStatus:)
-                                        selectedTitle:_statusLabel.text
+                                        selectedTitle:_statusLabel.titleLabel.text
                                                   tag:WholesaleStatusUnPaid],
                                  [KxMenuItem menuItem:[self stringForOrderStatus:WholesaleStatusPartPaid]
                                                 image:nil
                                                target:self
                                                action:@selector(selectStatus:)
-                                        selectedTitle:_statusLabel.text
+                                        selectedTitle:_statusLabel.titleLabel.text
                                                   tag:WholesaleStatusPartPaid],
                                  [KxMenuItem menuItem:[self stringForOrderStatus:WholesaleStatusFinish]
                                                 image:nil
                                                target:self
                                                action:@selector(selectStatus:)
-                                        selectedTitle:_statusLabel.text
+                                        selectedTitle:_statusLabel.titleLabel.text
                                                   tag:WholesaleStatusFinish],
                                  [KxMenuItem menuItem:[self stringForOrderStatus:WholesaleStatusCancel]
                                                 image:nil
                                                target:self
                                                action:@selector(selectStatus:)
-                                        selectedTitle:_statusLabel.text
+                                        selectedTitle:_statusLabel.titleLabel.text
                                                   tag:WholesaleStatusCancel],
                                  nil];
 
     }
-    CGRect convertRect = [_statusButton convertRect:_statusButton.frame toView:self.view];
-    CGRect rect = CGRectMake(_statusButton.frame.origin.x + _statusButton.frame.size.width / 2, convertRect.origin.y + convertRect.size.height + 5, 0, 0);
+    CGRect convertRect = [_statusLabel convertRect:_statusLabel.frame toView:self.view];
+    CGRect rect = CGRectMake(_statusLabel.frame.origin.x + _statusLabel.frame.size.width / 2, convertRect.origin.y + convertRect.size.height , 0, 0);
     [KxMenu showMenuInView:self.view fromRect:rect menuItems:listArray];
 }
 
@@ -582,47 +780,198 @@
     if (cell == nil) {
         cell =[[ OrderCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier supplyType:_supplyType];
     }
+    self.tableView.separatorStyle=UITableViewCellSeparatorStyleNone;
+    
     cell.delegate = self;
     [cell setContentsWithData:model];
+    cell.userInteractionEnabled=YES;
+
+    CGFloat wide;
+    CGFloat height;
+    if(iOS7)
+    {
+        wide=SCREEN_HEIGHT;
+        height=SCREEN_WIDTH;
+        
+        
+    }
+    else
+    {  wide=SCREEN_WIDTH;
+        height=SCREEN_HEIGHT;
+        
+    }
+
+    UILabel* linlable  = [[UILabel alloc] initWithFrame:CGRectMake(60, 178, wide-120, 1)];
+    
+    
+    linlable.backgroundColor=[UIColor colorWithWhite:0.7 alpha:1];
+    
+    
+    [cell.contentView addSubview:linlable];
+    
+    UILabel* linlable0  = [[UILabel alloc] initWithFrame:CGRectMake(60, 0, wide-120, 1)];
+    
+    
+    linlable0.backgroundColor=[UIColor colorWithWhite:0.7 alpha:1];
+    
+    
+    [cell.contentView addSubview:linlable0];
+
     return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     OrderModel *model = [_orderItem objectAtIndex:indexPath.section];
-//    OrderDetailController *detailC = [[OrderDetailController alloc] init];
-//    detailC.supplyType = _supplyType;
-//    detailC.orderID = model.orderID;
-//    [self.navigationController pushViewController:detailC animated:YES];
+    OrderDetailController *detailC = [[OrderDetailController alloc] init];
+    detailC.hidesBottomBarWhenPushed=YES;
+    
+    detailC.supplyType = _supplyType;
+    detailC.orderID = model.orderID;
+    [self.navigationController pushViewController:detailC animated:YES];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    OrderModel *model = [_orderItem objectAtIndex:indexPath.section];
-    NSString *identifier = [model getCellIdentifierWithSupplyType:_supplyType];
-    if ([identifier isEqualToString:wholesaleCancelIdentifier]) {
-        return kOrderShortCellHeight + kFlexibleHeight;
-    }
-    else if ([identifier isEqualToString:wholesaleDepositIdentifier] ||
-             [identifier isEqualToString:wholesaleFinishIdentifier] ||
-             [identifier isEqualToString:wholesaleUnpaidIdentifier]) {
-        return kOrderLongCellHeight + kFlexibleHeight;
-    }
-    else if ([identifier isEqualToString:procurementThirdIdentifier]) {
-        return kOrderShortCellHeight;
-    }
-    else if ([identifier isEqualToString:procurementFirstIdentifier] ||
-             [identifier isEqualToString:procurementSecondIdentifier]) {
-        return kOrderLongCellHeight;
-    }
-    return 44.f;
+ 
+        return kOrderLongCellHeight + 10;
+   
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
-    return 8.f;
+    return 0.001f;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
     return 0.001f;
+}
+//取消批购订单
+- (void)cancelWholesaleOrder {
+    AppDelegate *delegate = [AppDelegate shareAppDelegate];
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+    hud.labelText = @"加载中...";
+    [NetworkInterface cancelWholesaleOrderWithToken:delegate.token orderID:_selectedOrder.orderID finished:^(BOOL success, NSData *response) {
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:0.5f];
+        if (success) {
+            id object = [NSJSONSerialization JSONObjectWithData:response options:NSJSONReadingMutableLeaves error:nil];
+            if ([object isKindOfClass:[NSDictionary class]]) {
+                NSString *errorCode = [object objectForKey:@"code"];
+                if ([errorCode intValue] == RequestFail) {
+                    //返回错误代码
+                    hud.labelText = [NSString stringWithFormat:@"%@",[object objectForKey:@"message"]];
+                }
+                else if ([errorCode intValue] == RequestSuccess) {
+                    [hud hide:YES];
+                    hud.labelText = @"订单取消成功";
+                    [[NSNotificationCenter defaultCenter] postNotificationName:RefreshOrderListNotification object:nil];
+                }
+            }
+            else {
+                //返回错误数据
+                hud.labelText = kServiceReturnWrong;
+            }
+        }
+        else {
+            hud.labelText = kNetworkFailed;
+        }
+    }];
+}
+
+//取消代购订单
+- (void)cancelProcurementOrder {
+    AppDelegate *delegate = [AppDelegate shareAppDelegate];
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+    hud.labelText = @"加载中...";
+    [NetworkInterface cancelProcurementOrderWithToken:delegate.token orderID:_selectedOrder.orderID finished:^(BOOL success, NSData *response) {
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:0.5f];
+        if (success) {
+            id object = [NSJSONSerialization JSONObjectWithData:response options:NSJSONReadingMutableLeaves error:nil];
+            if ([object isKindOfClass:[NSDictionary class]]) {
+                NSString *errorCode = [object objectForKey:@"code"];
+                if ([errorCode intValue] == RequestFail) {
+                    //返回错误代码
+                    hud.labelText = [NSString stringWithFormat:@"%@",[object objectForKey:@"message"]];
+                }
+                else if ([errorCode intValue] == RequestSuccess) {
+                    [hud hide:YES];
+                    hud.labelText = @"订单取消成功";
+                    [[NSNotificationCenter defaultCenter] postNotificationName:RefreshOrderListNotification object:nil];
+                }
+            }
+            else {
+                //返回错误数据
+                hud.labelText = kServiceReturnWrong;
+            }
+        }
+        else {
+            hud.labelText = kNetworkFailed;
+        }
+    }];
+}
+
+#pragma mark - CellDelegate
+
+//批购
+- (void)orderCellCancelWholesaleOrder:(OrderModel *)model {
+    _selectedOrder = model;
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示信息"
+                                                    message:@"确定取消此订单？"
+                                                   delegate:self
+                                          cancelButtonTitle:@"取消"
+                                          otherButtonTitles:@"确定", nil];
+    [alert show];
+}
+
+- (void)orderCellPayWholesaleOrder:(OrderModel *)model {
+    
+}
+
+- (void)orderCellPayDepositOrder:(OrderModel *)model {
+    
+}
+
+- (void)orderCellWholesaleRepeat:(OrderModel *)model {
+    
+}
+
+//代购
+- (void)orderCellCancelProcurementOrder:(OrderModel *)model
+
+{
+    _selectedOrder = model;
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示信息"
+                                                    message:@"确定取消此订单？"
+                                                   delegate:self
+                                          cancelButtonTitle:@"取消"
+                                          otherButtonTitles:@"确定", nil];
+    [alert show];
+
+}
+
+- (void)orderCellPayProcurementOrder:(OrderModel *)model {
+    
+}
+
+- (void)orderCellProcurementRepeat:(OrderModel *)model {
+    
+}
+
+#pragma mark - AlertView
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if (buttonIndex != alertView.cancelButtonIndex) {
+        if (_supplyType == SupplyGoodsWholesale) {
+            //批购
+            [self cancelWholesaleOrder];
+        }
+        else {
+            //代购
+            [self cancelProcurementOrder];
+        }
+    }
 }
 
 #pragma mark - 上下拉刷新重写

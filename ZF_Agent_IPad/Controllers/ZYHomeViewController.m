@@ -16,6 +16,7 @@
 #import "TerminalViewController.h"
 #import "GoodListViewController.h"
 #import "OrderManagerController.h"
+#import "DealRoadController.h"
 #import "StockManagerController.h"
 #import "UserManagerController.h"
 #import "IdentificationViewController.h"
@@ -331,7 +332,11 @@
             break;
         case 1003: {
             //交易流水
-           
+            DealRoadController *DealRoad = [[DealRoadController alloc]init];
+            DealRoad.hidesBottomBarWhenPushed = YES;
+            [self.navigationController pushViewController:DealRoad animated:YES];
+            
+
         }
             break;
         case 1004: {

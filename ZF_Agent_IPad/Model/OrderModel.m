@@ -160,7 +160,7 @@
                 break;
         }
     }
-    else if (supplyType == SupplyGoodsProcurement) {
+    else   {
         switch (_status) {
             case ProcurementStatusUnPaid:
                 statusString = @"未付款";

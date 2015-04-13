@@ -108,13 +108,13 @@
     CGFloat mainMargin = 20.f;
     
     _mainScrollView = [[UIScrollView alloc]init];
-    _mainScrollView.frame = CGRectMake(0, 0, kScreenWidth, kScreenHeight);
+    _mainScrollView.frame = CGRectMake(160, 0, kScreenWidth - 160, kScreenHeight);
     if (iOS7) {
-        _mainScrollView.frame = CGRectMake(0, 0, kScreenHeight, kScreenWidth);
+        _mainScrollView.frame = CGRectMake(160, 0, kScreenHeight - 160, kScreenWidth);
     }
-    _mainScrollView.contentSize = CGSizeMake(kScreenWidth, 1370);
+    _mainScrollView.contentSize = CGSizeMake(kScreenWidth - 160, 1370);
     if (iOS7) {
-        _mainScrollView.contentSize = CGSizeMake(kScreenHeight, 1370);
+        _mainScrollView.contentSize = CGSizeMake(kScreenHeight - 160, 1370);
     }
     [self.view addSubview:_mainScrollView];
     
