@@ -147,7 +147,7 @@
     CGFloat mainBtnY = 60.f;
     if ([_dealStatus isEqualToString:@"1"]) {
         //已开通
-        for (int i = 0; i < 1; i++) {
+        for (int i = 0; i < 2; i++) {
             UIButton *button = [[UIButton alloc]init];
             button.titleLabel.font = [UIFont systemFontOfSize:17];
             [button setTitleColor:[UIColor colorWithHexString:@"006df5"] forState:UIControlStateNormal];
@@ -162,12 +162,15 @@
             if (i == 0) {
                 [button setTitle:@"找回POS密码" forState:UIControlStateNormal];
             }
+            if (i == 1) {
+                [button setTitle:@"视频认证" forState:UIControlStateNormal];
+            }
         }
         
     }
     if ([_dealStatus isEqualToString:@"2"]) {
         //部分开通
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < 4; i++) {
             UIButton *button = [[UIButton alloc]init];
             button.titleLabel.font = [UIFont systemFontOfSize:17];
             [button setTitleColor:[UIColor colorWithHexString:@"006df5"] forState:UIControlStateNormal];
@@ -183,6 +186,9 @@
                 [button setTitle:@"找回POS密码" forState:UIControlStateNormal];
             }
             if (i == 1) {
+                [button setTitle:@"视频认证" forState:UIControlStateNormal];
+            }
+            if (i == 1) {
                 [button setTitle:@"重新申请开通" forState:UIControlStateNormal];
             }
             if (i == 2) {
@@ -194,7 +200,7 @@
     }
     if ([_dealStatus isEqualToString:@"3"]) {
         //未开通
-        for (int i = 0; i < 2; i++) {
+        for (int i = 0; i < 3; i++) {
             UIButton *button = [[UIButton alloc]init];
             button.titleLabel.font = [UIFont systemFontOfSize:17];
             [button setTitleColor:[UIColor colorWithHexString:@"006df5"] forState:UIControlStateNormal];
@@ -206,11 +212,13 @@
             [button addTarget:self action:@selector(buttonClick:) forControlEvents:UIControlEventTouchUpInside];
             button.frame = CGRectMake(mainBtnX - (i * 120), mainBtnY, mainBtnW, mainBtnH);
             [self.scrollView addSubview:button];
-          
             if (i == 0) {
-                [button setTitle:@"申请开通" forState:UIControlStateNormal];
+                [button setTitle:@"视频认证" forState:UIControlStateNormal];
             }
             if (i == 1) {
+                [button setTitle:@"申请开通" forState:UIControlStateNormal];
+            }
+            if (i == 2) {
                 [button setTitle:@"同步" forState:UIControlStateNormal];
             }
         }
@@ -1346,21 +1354,30 @@
             NSLog(@"点击了找回POS密码（已开通）");
             [self initFindPosViewWithSelectedID];
             break;
+        case 3334:
+            NSLog(@"点击了视频认证（已开通）");
+            break;
         case 4444:
             NSLog(@"点击了找回POS密码（部分开通）");
             break;
         case 4445:
+            NSLog(@"点击了视频认证（部分开通）");
+            break;
+        case 4446:
             NSLog(@"点击了重新申请通（部分开通）");
             [self pushApplyVCWithSelectedID:_tm_ID];
             break;
-        case 4446:
+        case 4447:
             NSLog(@"点击了同步（部分开通）");
             break;
         case 5555:
+            NSLog(@"点击了视频认证（未开通）");
+            break;
+        case 5556:
             NSLog(@"点击了申请开通（未开通）");
             [self pushApplyNewVCWithSelectedID:_tm_ID];
             break;
-        case 5556:
+        case 5557:
             NSLog(@"点击了同步（未开通）");
             break;
         case 6666:
