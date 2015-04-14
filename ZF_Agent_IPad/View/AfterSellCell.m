@@ -17,6 +17,8 @@
 
 @property(nonatomic,strong)UIButton *submitLogisticsBtn;
 
+@property(nonatomic,strong)UIButton *submitCancelBtn;
+
 @property(nonatomic,strong)NSString *identifier;
 
 @end
@@ -31,10 +33,10 @@
             ID = [model getCellIdentifier];
             break;
         case AfterSellTypeCancel:
-            ID = [model getCellIdentifier];
+            ID = [model getCellIdentifier1];
             break;
         case AfterSellTypeUpdate:
-            ID = [model getCellIdentifier];
+            ID = [model getCellIdentifier2];
             break;
         default:
             break;
@@ -49,9 +51,9 @@
 -(id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier WithModel:(CSModel *)model WithcsType:(AfterSellType)afterType
 {
     self.identifier = reuseIdentifier;
-    self.afterType = afterType;
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
+        self.afterType = afterType;
         [self initAndLayoutUIWithModel:model];
     }
     return self;
@@ -73,20 +75,26 @@
     _afterStatus = [[UILabel alloc]init];
     [self setLabel:_afterStatus withLeftView:_dateLable middleSpace:10.f labelTag:0];
     
+    NSLog(@"~~~~~~~%d",_afterType);
     [self setContentForReuseIdentifier];
     
 }
+
 
 -(void)setContentForReuseIdentifier
 {
     switch (_afterType) {
         case AfterSellTypeSell:{
             //售后单记录
-            if ([_identifier isEqualToString:secondStatusIdentifier] ||
-                [_identifier isEqualToString:thirdStatusIdentifier] ||
-                [_identifier isEqualToString:forthStatusIdentifier]) {
+            if ([_identifier isEqualToString:thirdStatusIdentifier] ||
+                [_identifier isEqualToString:forthStatusIdentifier] ||
+                [_identifier isEqualToString:fifthStatusIdentifier]) {
                 //处理中、处理完成、已取消无操作
                 return;
+            }
+            else if ([_identifier isEqualToString:secondStatusIdentifier])
+            {
+                [self setsubmitButton];
             }
             else if ([_identifier isEqualToString:firstStatusIdentifier]) {
                 //待处理 取消申请
@@ -95,14 +103,16 @@
         }
             break;
         case AfterSellTypeUpdate: {
+            
             //更新资料记录
-            if ([_identifier isEqualToString:secondStatusIdentifier] ||
-                [_identifier isEqualToString:forthStatusIdentifier] ||
-                [_identifier isEqualToString:fifthStatusIdentifier]) {
+            if ([_identifier isEqualToString:secondStatusIdentifier2] ||
+                [_identifier isEqualToString:forthStatusIdentifier2] ||
+                [_identifier isEqualToString:fifthStatusIdentifier2] ||
+                [_identifier isEqualToString:thirdStatusIdentifier2]) {
                 //处理中、处理完成、已取消无操作
                 return;
             }
-            else if ([_identifier isEqualToString:firstStatusIdentifier]) {
+            else if ([_identifier isEqualToString:firstStatusIdentifier2]) {
                 //待处理
                 [self setCancelButton];
             }
@@ -110,17 +120,18 @@
             break;
         case AfterSellTypeCancel: {
             //注销记录
-            if ([_identifier isEqualToString:secondStatusIdentifier] ||
-                [_identifier isEqualToString:forthStatusIdentifier]) {
+            if ([_identifier isEqualToString:secondStatusIdentifier1] ||
+                [_identifier isEqualToString:forthStatusIdentifier1] ||
+                [_identifier isEqualToString:thirdStatusIdentifier1]) {
                 //处理中、处理完成无操作
                 return;
             }
-            else if ([_identifier isEqualToString:firstStatusIdentifier]) {
+            else if ([_identifier isEqualToString:firstStatusIdentifier1]) {
                 //待处理
                 [self setCancelButton];
             }
-            else if ([_identifier isEqualToString:fifthStatusIdentifier]) {
-                [self setsubmitButton];
+            else if ([_identifier isEqualToString:fifthStatusIdentifier1]) {
+                [self setSubmitCancelBtn];
             }
         }
             break;
@@ -220,12 +231,58 @@
                                                                   constant:40.f]];
 }
 
--(void)setContentWithData:(CSModel *)model
+-(void)setSubmitCancelBtn
+{
+    _submitCancelBtn = [[UIButton alloc]init];
+    _submitCancelBtn.translatesAutoresizingMaskIntoConstraints = NO;
+    [_submitCancelBtn addTarget:self action:@selector(submitCancelClicked) forControlEvents:UIControlEventTouchUpInside];
+    [_submitCancelBtn setTitle:@"重新提交注销" forState:UIControlStateNormal];
+    _submitCancelBtn.titleLabel.font = [UIFont systemFontOfSize:18];
+    [_submitCancelBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    CALayer *readBtnLayer1 = [_submitCancelBtn layer];
+    [readBtnLayer1 setMasksToBounds:YES];
+    [readBtnLayer1 setCornerRadius:2.0];
+    [readBtnLayer1 setBorderWidth:1.0];
+    [readBtnLayer1 setBorderColor:[kMainColor CGColor]];
+    _submitCancelBtn.backgroundColor = kMainColor;
+    [self.contentView addSubview:_submitCancelBtn];
+    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_submitCancelBtn
+                                                                 attribute:NSLayoutAttributeLeft
+                                                                 relatedBy:NSLayoutRelationEqual
+                                                                    toItem:_afterStatus
+                                                                 attribute:NSLayoutAttributeRight
+                                                                multiplier:1.0
+                                                                  constant:0]];
+    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_submitCancelBtn
+                                                                 attribute:NSLayoutAttributeTop
+                                                                 relatedBy:NSLayoutRelationEqual
+                                                                    toItem:self.contentView
+                                                                 attribute:NSLayoutAttributeTop
+                                                                multiplier:1.0
+                                                                  constant:20.f]];
+    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_submitCancelBtn
+                                                                 attribute:NSLayoutAttributeWidth
+                                                                 relatedBy:NSLayoutRelationEqual
+                                                                    toItem:nil
+                                                                 attribute:NSLayoutAttributeNotAnAttribute
+                                                                multiplier:1.0
+                                                                  constant:120.f]];
+    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_submitCancelBtn
+                                                                 attribute:NSLayoutAttributeHeight
+                                                                 relatedBy:NSLayoutRelationEqual
+                                                                    toItem:nil
+                                                                 attribute:NSLayoutAttributeNotAnAttribute
+                                                                multiplier:1.0
+                                                                  constant:40.f]];
+
+}
+
+-(void)setContentWithData:(CSModel *)model WithAfterType:(AfterSellType)afterType
 {
     _afterNum.text = model.applyNum;
     _terminalNum.text = model.terminalNum;
     _dateLable.text = model.createTime;
-    _afterStatus.text = [[self class] getStatusStringWithCSType:_afterType status:model.status];
+    _afterStatus.text = [[self class] getStatusStringWithCSType:afterType status:model.status];
 }
 
 //创建Label
@@ -329,7 +386,7 @@
             statusString = @"待处理";
             break;
         case CSStatusSecond:
-            statusString = @"处理中";
+            statusString = @"退货中";
             break;
         case CSStatusThird:
             statusString = @"处理完成";
@@ -402,11 +459,24 @@
 -(void)cancelClicked
 {
     NSLog(@"取消申请！");
+    if (_delegate && [_delegate respondsToSelector:@selector(cancelClickedWithCSModel:)]) {
+        [_delegate cancelClickedWithCSModel:_csModel];
+    }
 }
 //提交物流信息
 -(void)submitClicked
 {
     NSLog(@"提交物流信息");
+    if (_delegate && [_delegate respondsToSelector:@selector(submitLogisticsClickedWithCSModel:)]) {
+        [_delegate submitLogisticsClickedWithCSModel:_csModel];
+    }
 }
-
+//重新提交注销
+-(void)submitCancelClicked
+{
+    NSLog(@"重新提交注销");
+    if (_delegate && [_delegate respondsToSelector:@selector(submitCancelClickedWithCSModel:)]) {
+        [_delegate submitCancelClickedWithCSModel:_csModel];
+    }
+}
 @end

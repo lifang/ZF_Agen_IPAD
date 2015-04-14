@@ -56,6 +56,55 @@
     return cellIdentifier;
 }
 
+- (NSString *)getCellIdentifier1 {
+    NSString *cellIdentifier = nil;
+    switch (_status) {
+        case CSStatusFirst:
+            cellIdentifier = firstStatusIdentifier1;
+            break;
+        case CSStatusSecond:
+            cellIdentifier = secondStatusIdentifier1;
+            break;
+        case CSStatusThird:
+            cellIdentifier = thirdStatusIdentifier1;
+            break;
+        case CSStatusForth:
+            cellIdentifier = forthStatusIdentifier1;
+            break;
+        case CSStatusFifth:
+            cellIdentifier = fifthStatusIdentifier1;
+            break;
+        default:
+            break;
+    }
+    return cellIdentifier;
+}
+
+- (NSString *)getCellIdentifier2 {
+    NSString *cellIdentifier = nil;
+    switch (_status) {
+        case CSStatusFirst:
+            cellIdentifier = firstStatusIdentifier2;
+            break;
+        case CSStatusSecond:
+            cellIdentifier = secondStatusIdentifier2;
+            break;
+        case CSStatusThird:
+            cellIdentifier = thirdStatusIdentifier2;
+            break;
+        case CSStatusForth:
+            cellIdentifier = forthStatusIdentifier2;
+            break;
+        case CSStatusFifth:
+            cellIdentifier = fifthStatusIdentifier2;
+            break;
+        default:
+            break;
+    }
+    return cellIdentifier;
+}
+
+
 - (NSString *)getCSNumberPrefixWithCSType:(CSType)csType {
     NSString *prefix = nil;
     switch (csType) {

@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "NetworkInterface.h"
 
-//对应于枚举状态为1的样式 
+//售后单标识
 static NSString *firstStatusIdentifier = @"firstStatusIdentifier";
 //2
 static NSString *secondStatusIdentifier = @"secondStatusIdentifier";
@@ -19,6 +19,28 @@ static NSString *thirdStatusIdentifier = @"thirdStatusIdentifier";
 static NSString *forthStatusIdentifier = @"forthStatusIdentifier";
 //5
 static NSString *fifthStatusIdentifier = @"fifthStatusIdentifier";
+
+//注销标识
+static NSString *firstStatusIdentifier1 = @"firstStatusIdentifier1";
+//2
+static NSString *secondStatusIdentifier1 = @"secondStatusIdentifier1";
+//3
+static NSString *thirdStatusIdentifier1 = @"thirdStatusIdentifier1";
+//4
+static NSString *forthStatusIdentifier1 = @"forthStatusIdentifier1";
+//5
+static NSString *fifthStatusIdentifier1 = @"fifthStatusIdentifier1";
+
+//更新标识
+static NSString *firstStatusIdentifier2 = @"firstStatusIdentifier2";
+//2
+static NSString *secondStatusIdentifier2 = @"secondStatusIdentifier2";
+//3
+static NSString *thirdStatusIdentifier2 = @"thirdStatusIdentifier2";
+//4
+static NSString *forthStatusIdentifier2 = @"forthStatusIdentifier2";
+//5
+static NSString *fifthStatusIdentifier2 = @"fifthStatusIdentifier2";
 
 typedef enum {
     CSStatusAll = -1,
@@ -44,6 +66,8 @@ typedef enum {
 - (id)initWithParseDictionary:(NSDictionary *)dict;
 
 - (NSString *)getCellIdentifier;
+- (NSString *)getCellIdentifier1;
+- (NSString *)getCellIdentifier2;
 
 //编号
 - (NSString *)getCSNumberPrefixWithCSType:(CSType)csType;
