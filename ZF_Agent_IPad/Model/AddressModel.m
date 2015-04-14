@@ -36,14 +36,14 @@
         if ([dict objectForKey:@"isDefault"]) {
             _isDefault = [NSString stringWithFormat:@"%@",[dict objectForKey:@"isDefault"]];
         }
-        if ([dict objectForKey:@"cityId"]) {
-            _cityID = [NSString stringWithFormat:@"%@",[dict objectForKey:@"cityId"]];
+        if ([dict objectForKey:@"city_id"]) {
+            _cityID = [NSString stringWithFormat:@"%@",[dict objectForKey:@"city_id"]];
         }
         else{
             _cityID = @"";
         }
-        if ([dict objectForKey:@"zipCode"]) {
-            _zipCode = [NSString stringWithFormat:@"%@",[dict objectForKey:@"zipCode"]];
+        if ([dict objectForKey:@"zip_code"]) {
+            _zipCode = [NSString stringWithFormat:@"%@",[dict objectForKey:@"zip_code"]];
         }
         else{
             _zipCode = @"";

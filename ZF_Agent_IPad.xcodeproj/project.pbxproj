@@ -47,6 +47,8 @@
 		0EC65C251AD918EC00282C04 /* SubAgentListController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EC65C241AD918EC00282C04 /* SubAgentListController.m */; };
 		0EC67F0F1AD69487005BAB26 /* OrderDetailModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EC67F0E1AD69487005BAB26 /* OrderDetailModel.m */; };
 		0EC67F181AD694D9005BAB26 /* OrderDetailCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EC67F171AD694D9005BAB26 /* OrderDetailCell.m */; };
+		0EC696E71ADB6BBC009D544E /* RegularFormat.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EC696E61ADB6BBC009D544E /* RegularFormat.m */; };
+		0EC696EC1ADB913F009D544E /* CreateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EC696EB1ADB913F009D544E /* CreateViewController.m */; };
 		0ECA762B1AD5468F0083D373 /* OrderManagerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0ECA762A1AD5468F0083D373 /* OrderManagerController.m */; };
 		0ECA762E1AD546AA0083D373 /* RefreshViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0ECA762D1AD546AA0083D373 /* RefreshViewController.m */; };
 		0ECA76341AD546F80083D373 /* OrderCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0ECA76331AD546F80083D373 /* OrderCell.m */; };
@@ -91,6 +93,9 @@
 		0ED58F071AD4DAAB0081E8BC /* CommentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0ED58F061AD4DAAB0081E8BC /* CommentCell.m */; };
 		0ED58F0A1AD4DF400081E8BC /* CommentModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0ED58F091AD4DF400081E8BC /* CommentModel.m */; };
 		0ED58F0D1AD4DF600081E8BC /* GoodsCollectionViewCell2.m in Sources */ = {isa = PBXBuildFile; fileRef = 0ED58F0C1AD4DF600081E8BC /* GoodsCollectionViewCell2.m */; };
+		1A55E7761ADB971A0020B0D8 /* AfterSellCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A55E7751ADB971A0020B0D8 /* AfterSellCell.m */; };
+		1A55E7791ADBA4100020B0D8 /* CSModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A55E7781ADBA4100020B0D8 /* CSModel.m */; };
+		1A5C481A1ADB6FB700A3068A /* AfterSellController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A5C48191ADB6FB700A3068A /* AfterSellController.m */; };
 		1A8F68881AD4BCF100BD530E /* ScanImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A8F68871AD4BCF100BD530E /* ScanImageViewController.m */; };
 		1A96544E1AD60CF100C39B5B /* RegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A96544D1AD60CF100C39B5B /* RegisterViewController.m */; };
 		1A9654531AD60D0800C39B5B /* PhoneSuccessViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A9654501AD60D0800C39B5B /* PhoneSuccessViewController.m */; };
@@ -123,8 +128,11 @@
 		1AA6A0571AD79F7B0025FF1A /* AddressViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AA6A0561AD79F7B0025FF1A /* AddressViewController.m */; };
 		1AA6A05A1AD79FA90025FF1A /* AddressCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AA6A0591AD79FA90025FF1A /* AddressCell.m */; };
 		1AA6A05D1AD79FCE0025FF1A /* AddressModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AA6A05C1AD79FCE0025FF1A /* AddressModel.m */; };
-		1AA6A0611AD7A0550025FF1A /* RegularFormat.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AA6A0601AD7A0550025FF1A /* RegularFormat.m */; };
 		1ABA17C11ADB548A006B8D9B /* StaffManagerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1ABA17C01ADB548A006B8D9B /* StaffManagerController.m */; };
+		1ABA17CA1ADB5A5E006B8D9B /* ChangePhoneController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1ABA17C31ADB5A5E006B8D9B /* ChangePhoneController.m */; };
+		1ABA17CB1ADB5A5E006B8D9B /* ChangeEmailController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1ABA17C51ADB5A5E006B8D9B /* ChangeEmailController.m */; };
+		1ABA17CC1ADB5A5E006B8D9B /* ChangePhoneSuccessViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1ABA17C71ADB5A5E006B8D9B /* ChangePhoneSuccessViewController.m */; };
+		1ABA17CD1ADB5A5E006B8D9B /* ChangeEmialSuccessViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1ABA17C91ADB5A5E006B8D9B /* ChangeEmialSuccessViewController.m */; };
 		1AD7FD4F1ACE7319009A60FC /* FindPasswordSuccessController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AD7FD4E1ACE7319009A60FC /* FindPasswordSuccessController.m */; };
 		1AD7FD521ACE7340009A60FC /* FindPasswordWithPhoneSuccessController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AD7FD511ACE7340009A60FC /* FindPasswordWithPhoneSuccessController.m */; };
 		1AF15A8C1ACCDB8C00D5C171 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AF15A8B1ACCDB8C00D5C171 /* main.m */; };
@@ -278,6 +286,10 @@
 		0EC67F0E1AD69487005BAB26 /* OrderDetailModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrderDetailModel.m; sourceTree = "<group>"; };
 		0EC67F161AD694D9005BAB26 /* OrderDetailCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderDetailCell.h; sourceTree = "<group>"; };
 		0EC67F171AD694D9005BAB26 /* OrderDetailCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrderDetailCell.m; sourceTree = "<group>"; };
+		0EC696E51ADB6BBC009D544E /* RegularFormat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegularFormat.h; sourceTree = "<group>"; };
+		0EC696E61ADB6BBC009D544E /* RegularFormat.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegularFormat.m; sourceTree = "<group>"; };
+		0EC696EA1ADB913F009D544E /* CreateViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CreateViewController.h; sourceTree = "<group>"; };
+		0EC696EB1ADB913F009D544E /* CreateViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CreateViewController.m; sourceTree = "<group>"; };
 		0ECA76291AD5468F0083D373 /* OrderManagerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderManagerController.h; sourceTree = "<group>"; };
 		0ECA762A1AD5468F0083D373 /* OrderManagerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrderManagerController.m; sourceTree = "<group>"; };
 		0ECA762C1AD546AA0083D373 /* RefreshViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RefreshViewController.h; sourceTree = "<group>"; };
@@ -366,6 +378,12 @@
 		0ED58F091AD4DF400081E8BC /* CommentModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommentModel.m; sourceTree = "<group>"; };
 		0ED58F0B1AD4DF600081E8BC /* GoodsCollectionViewCell2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GoodsCollectionViewCell2.h; sourceTree = "<group>"; };
 		0ED58F0C1AD4DF600081E8BC /* GoodsCollectionViewCell2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GoodsCollectionViewCell2.m; sourceTree = "<group>"; };
+		1A55E7741ADB971A0020B0D8 /* AfterSellCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AfterSellCell.h; sourceTree = "<group>"; };
+		1A55E7751ADB971A0020B0D8 /* AfterSellCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AfterSellCell.m; sourceTree = "<group>"; };
+		1A55E7771ADBA4100020B0D8 /* CSModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSModel.h; sourceTree = "<group>"; };
+		1A55E7781ADBA4100020B0D8 /* CSModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSModel.m; sourceTree = "<group>"; };
+		1A5C48181ADB6FB700A3068A /* AfterSellController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AfterSellController.h; sourceTree = "<group>"; };
+		1A5C48191ADB6FB700A3068A /* AfterSellController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AfterSellController.m; sourceTree = "<group>"; };
 		1A8F68861AD4BCF100BD530E /* ScanImageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScanImageViewController.h; sourceTree = "<group>"; };
 		1A8F68871AD4BCF100BD530E /* ScanImageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScanImageViewController.m; sourceTree = "<group>"; };
 		1A96544C1AD60CF100C39B5B /* RegisterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegisterViewController.h; sourceTree = "<group>"; };
@@ -430,10 +448,16 @@
 		1AA6A0591AD79FA90025FF1A /* AddressCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddressCell.m; sourceTree = "<group>"; };
 		1AA6A05B1AD79FCE0025FF1A /* AddressModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddressModel.h; sourceTree = "<group>"; };
 		1AA6A05C1AD79FCE0025FF1A /* AddressModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddressModel.m; sourceTree = "<group>"; };
-		1AA6A05F1AD7A0550025FF1A /* RegularFormat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegularFormat.h; sourceTree = "<group>"; };
-		1AA6A0601AD7A0550025FF1A /* RegularFormat.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegularFormat.m; sourceTree = "<group>"; };
 		1ABA17BF1ADB548A006B8D9B /* StaffManagerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StaffManagerController.h; sourceTree = "<group>"; };
 		1ABA17C01ADB548A006B8D9B /* StaffManagerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StaffManagerController.m; sourceTree = "<group>"; };
+		1ABA17C21ADB5A5E006B8D9B /* ChangePhoneController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChangePhoneController.h; sourceTree = "<group>"; };
+		1ABA17C31ADB5A5E006B8D9B /* ChangePhoneController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChangePhoneController.m; sourceTree = "<group>"; };
+		1ABA17C41ADB5A5E006B8D9B /* ChangeEmailController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChangeEmailController.h; sourceTree = "<group>"; };
+		1ABA17C51ADB5A5E006B8D9B /* ChangeEmailController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChangeEmailController.m; sourceTree = "<group>"; };
+		1ABA17C61ADB5A5E006B8D9B /* ChangePhoneSuccessViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChangePhoneSuccessViewController.h; sourceTree = "<group>"; };
+		1ABA17C71ADB5A5E006B8D9B /* ChangePhoneSuccessViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChangePhoneSuccessViewController.m; sourceTree = "<group>"; };
+		1ABA17C81ADB5A5E006B8D9B /* ChangeEmialSuccessViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChangeEmialSuccessViewController.h; sourceTree = "<group>"; };
+		1ABA17C91ADB5A5E006B8D9B /* ChangeEmialSuccessViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChangeEmialSuccessViewController.m; sourceTree = "<group>"; };
 		1AD7FD4D1ACE7319009A60FC /* FindPasswordSuccessController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FindPasswordSuccessController.h; sourceTree = "<group>"; };
 		1AD7FD4E1ACE7319009A60FC /* FindPasswordSuccessController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FindPasswordSuccessController.m; sourceTree = "<group>"; };
 		1AD7FD501ACE7340009A60FC /* FindPasswordWithPhoneSuccessController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FindPasswordWithPhoneSuccessController.h; sourceTree = "<group>"; };
@@ -674,6 +698,8 @@
 			children = (
 				0EC65C231AD918EC00282C04 /* SubAgentListController.h */,
 				0EC65C241AD918EC00282C04 /* SubAgentListController.m */,
+				0EC696EA1ADB913F009D544E /* CreateViewController.h */,
+				0EC696EB1ADB913F009D544E /* CreateViewController.m */,
 			);
 			name = AgentManager;
 			sourceTree = "<group>";
@@ -777,6 +803,15 @@
 			name = MJ;
 			sourceTree = "<group>";
 		};
+		1A5C48171ADB6F8D00A3068A /* AfterSell */ = {
+			isa = PBXGroup;
+			children = (
+				1A5C48181ADB6FB700A3068A /* AfterSellController.h */,
+				1A5C48191ADB6FB700A3068A /* AfterSellController.m */,
+			);
+			name = AfterSell;
+			sourceTree = "<group>";
+		};
 		1A9654551AD60D4400C39B5B /* StockManager */ = {
 			isa = PBXGroup;
 			children = (
@@ -818,6 +853,8 @@
 				1A96545F1AD60D8600C39B5B /* StockManagerDetailCell.m */,
 				1AA6A04C1AD792980025FF1A /* UserManagerTerminalCell.h */,
 				1AA6A04D1AD792980025FF1A /* UserManagerTerminalCell.m */,
+				1A55E7741ADB971A0020B0D8 /* AfterSellCell.h */,
+				1A55E7751ADB971A0020B0D8 /* AfterSellCell.m */,
 			);
 			name = HCell;
 			sourceTree = "<group>";
@@ -857,6 +894,14 @@
 		1A96548C1AD66FB000C39B5B /* MyMessage */ = {
 			isa = PBXGroup;
 			children = (
+				1ABA17C21ADB5A5E006B8D9B /* ChangePhoneController.h */,
+				1ABA17C31ADB5A5E006B8D9B /* ChangePhoneController.m */,
+				1ABA17C41ADB5A5E006B8D9B /* ChangeEmailController.h */,
+				1ABA17C51ADB5A5E006B8D9B /* ChangeEmailController.m */,
+				1ABA17C61ADB5A5E006B8D9B /* ChangePhoneSuccessViewController.h */,
+				1ABA17C71ADB5A5E006B8D9B /* ChangePhoneSuccessViewController.m */,
+				1ABA17C81ADB5A5E006B8D9B /* ChangeEmialSuccessViewController.h */,
+				1ABA17C91ADB5A5E006B8D9B /* ChangeEmialSuccessViewController.m */,
 				1A9654901AD66FD200C39B5B /* MyMessageViewController.h */,
 				1A9654911AD66FD200C39B5B /* MyMessageViewController.m */,
 				1A9654961AD6705D00C39B5B /* BaseInformationViewController.h */,
@@ -885,8 +930,8 @@
 		1AA6A05E1AD7A03D0025FF1A /* RegularFomat */ = {
 			isa = PBXGroup;
 			children = (
-				1AA6A05F1AD7A0550025FF1A /* RegularFormat.h */,
-				1AA6A0601AD7A0550025FF1A /* RegularFormat.m */,
+				0EC696E51ADB6BBC009D544E /* RegularFormat.h */,
+				0EC696E61ADB6BBC009D544E /* RegularFormat.m */,
 			);
 			name = RegularFomat;
 			sourceTree = "<group>";
@@ -971,6 +1016,7 @@
 			children = (
 				1A8F68861AD4BCF100BD530E /* ScanImageViewController.h */,
 				1A8F68871AD4BCF100BD530E /* ScanImageViewController.m */,
+				1A5C48171ADB6F8D00A3068A /* AfterSell */,
 				1A9654851AD66EE700C39B5B /* Mine */,
 				1A9654731AD6666B00C39B5B /* Mymessage */,
 				1A9654681AD6533D00C39B5B /* UserManager */,
@@ -1004,6 +1050,8 @@
 		1AF15AB31ACCE33300D5C171 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				1A55E7771ADBA4100020B0D8 /* CSModel.h */,
+				1A55E7781ADBA4100020B0D8 /* CSModel.m */,
 				0EC65C1A1AD9057D00282C04 /* SubAgentModel.h */,
 				0EC65C1B1AD9057D00282C04 /* SubAgentModel.m */,
 				0EC65C101AD8BA0A00282C04 /* AccountModel.h */,
@@ -1408,6 +1456,7 @@
 				0EC65C091AD8B55400282C04 /* RecordModel.m in Sources */,
 				1AF15B3E1ACCE40400D5C171 /* TreeNode.m in Sources */,
 				0ED194941AD7AC2100029DE3 /* DealRoadController.m in Sources */,
+				1ABA17CA1ADB5A5E006B8D9B /* ChangePhoneController.m in Sources */,
 				1A96546E1AD662D200C39B5B /* UserManagerCell.m in Sources */,
 				1AF15B341ACCE40400D5C171 /* SearchHistoryHelper.m in Sources */,
 				1AF15B381ACCE40400D5C171 /* StringFormat.m in Sources */,
@@ -1428,6 +1477,7 @@
 				1AF15B6F1ACD068000D5C171 /* AccountTool.m in Sources */,
 				0DBA726E1ADBFF4B00D0C762 /* MerchantSelecteViewController.m in Sources */,
 				1AF15AF31ACCE3A400D5C171 /* UIImageView+HighlightedWebCache.m in Sources */,
+				1ABA17CB1ADB5A5E006B8D9B /* ChangeEmailController.m in Sources */,
 				0DBA72681ADB584200D0C762 /* ChannelListModel.m in Sources */,
 				1A96546B1AD6535B00C39B5B /* UserManagerController.m in Sources */,
 				0EC65C191AD9055D00282C04 /* SubAgentCell.m in Sources */,
@@ -1449,7 +1499,9 @@
 				0ED194761AD79F7100029DE3 /* TopDealRoadCell.m in Sources */,
 				1A9EEB941AD7606400DA6E0D /* UserManagerModel.m in Sources */,
 				0ED58F071AD4DAAB0081E8BC /* CommentCell.m in Sources */,
+				1A55E7761ADB971A0020B0D8 /* AfterSellCell.m in Sources */,
 				1AF15B451ACCEDC200D5C171 /* RootViewController.m in Sources */,
+				1ABA17CC1ADB5A5E006B8D9B /* ChangePhoneSuccessViewController.m in Sources */,
 				0EC65C1C1AD9057D00282C04 /* SubAgentModel.m in Sources */,
 				1A9654781AD6667900C39B5B /* MessageViewController.m in Sources */,
 				1AF15AF01ACCE3A400D5C171 /* UIButton+WebCache.m in Sources */,
@@ -1457,6 +1509,7 @@
 				0ED58EBE1AD4D78A0081E8BC /* SearchViewController.m in Sources */,
 				0D16941F1AD3C14100B50A17 /* MASConstraintMaker.m in Sources */,
 				0ED194791AD79F7E00029DE3 /* ConsumptionCell.m in Sources */,
+				1ABA17CD1ADB5A5E006B8D9B /* ChangeEmialSuccessViewController.m in Sources */,
 				1AF15B641ACD048700D5C171 /* CommonViewController.m in Sources */,
 				0D1694241AD3C14100B50A17 /* NSLayoutConstraint+MASDebugAdditions.m in Sources */,
 				0D885FA51AD7D34A002CDA15 /* IdentificationViewController.m in Sources */,
@@ -1475,12 +1528,14 @@
 				0EC67F181AD694D9005BAB26 /* OrderDetailCell.m in Sources */,
 				0ED58EE11AD4D9DD0081E8BC /* SortView.m in Sources */,
 				0ED58F011AD4DA820081E8BC /* UIScrollView+MJRefresh.m in Sources */,
+				1A5C481A1ADB6FB700A3068A /* AfterSellController.m in Sources */,
 				1AF15AF51ACCE3A400D5C171 /* UIView+WebCacheOperation.m in Sources */,
 				1AF15B361ACCE40400D5C171 /* CityModel.m in Sources */,
 				1AF15AEC1ACCE3A400D5C171 /* SDWebImageDownloader.m in Sources */,
 				0DC032481AD68C2F000532EF /* TerminalDetailViewController.m in Sources */,
 				1AF15B0B1ACCE3BC00D5C171 /* TreeDataHandle.m in Sources */,
 				0D16943A1AD3C60800B50A17 /* TerminalViewCell.m in Sources */,
+				0EC696E71ADB6BBC009D544E /* RegularFormat.m in Sources */,
 				0D16941D1AD3C14100B50A17 /* MASCompositeConstraint.m in Sources */,
 				1A96548B1AD66F5100C39B5B /* ChooseView.m in Sources */,
 				1A9654981AD6705D00C39B5B /* BaseInformationViewController.m in Sources */,
@@ -1502,7 +1557,6 @@
 				0D885FAB1AD7D4F6002CDA15 /* IdentificationViewCell.m in Sources */,
 				1AF15B401ACCE40400D5C171 /* TreeNodeInfo.m in Sources */,
 				1AF15B0F1ACCE3BC00D5C171 /* StockAgentModel.m in Sources */,
-				1AA6A0611AD7A0550025FF1A /* RegularFormat.m in Sources */,
 				0ED58ED81AD4D9550081E8BC /* GoodButton.m in Sources */,
 				0D1694231AD3C14100B50A17 /* NSArray+MASAdditions.m in Sources */,
 				1ABA17C11ADB548A006B8D9B /* StaffManagerController.m in Sources */,
@@ -1522,6 +1576,7 @@
 				1AF15B081ACCE3BC00D5C171 /* UserModel.m in Sources */,
 				1A9654601AD60D8600C39B5B /* StockManagerCell.m in Sources */,
 				1AF15B5E1ACD042A00D5C171 /* HomeImageModel.m in Sources */,
+				1A55E7791ADBA4100020B0D8 /* CSModel.m in Sources */,
 				0ED1947C1AD79F9700029DE3 /* RepaymentCell.m in Sources */,
 				0D885FAE1AD7D522002CDA15 /* IdentificationModel.m in Sources */,
 				1AF15A8F1ACCDB8C00D5C171 /* AppDelegate.m in Sources */,
@@ -1561,6 +1616,7 @@
 				0ED58EE81AD4DA480081E8BC /* PollingViews.m in Sources */,
 				0EC67F0F1AD69487005BAB26 /* OrderDetailModel.m in Sources */,
 				1AF15B3F1ACCE40400D5C171 /* TreeNodeCollection.m in Sources */,
+				0EC696EC1ADB913F009D544E /* CreateViewController.m in Sources */,
 				1A9654921AD66FD200C39B5B /* MyMessageViewController.m in Sources */,
 				0ED58EBD1AD4D78A0081E8BC /* GoodListViewController.m in Sources */,
 				1A9EEBA41AD7768E00DA6E0D /* UserManagerChildController.m in Sources */,

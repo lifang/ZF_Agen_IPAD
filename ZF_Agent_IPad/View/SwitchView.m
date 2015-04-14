@@ -34,13 +34,18 @@
     if (self = [super initWithFrame:frame]) {
         self.btnArray = btnArray;
         self.isChecked = YES;
-        [self initUIWithTag:0];
+        [self initUIWithTag:0 Array:btnArray];
     }
     return self;
 }
 
--(void)initUIWithTag:(int)tag
+-(void)initUIWithTag:(int)tag Array:(NSArray *)arr
 {
+    
+    CGFloat originX = 50.f;
+    if ([[arr objectAtIndex:0]isEqualToString:@"售后单"]) {
+        originX = 400.f;
+    }
     if (tag == 0) {
         self.backgroundColor = kColor(228, 226, 226, 1.0);
         for (int i = 0; i < _btnsArray.count; i++) {
@@ -59,9 +64,9 @@
             btn.titleLabel.font = [UIFont systemFontOfSize:18];
             btn.backgroundColor = [UIColor clearColor];
             btn.tag = i + 444;
-            btn.frame = CGRectMake(50 + i * btnLittleWith, mainBtnY + 5, btnLittleWith, btnLittleHeight);
+            btn.frame = CGRectMake(originX + i * btnLittleWith, mainBtnY + 5, btnLittleWith, btnLittleHeight);
             if (btn.tag == 444) {
-                btn.frame = CGRectMake(30 + i * btnWidth, mainBtnY, btnWidth, btnHeight);
+                btn.frame = CGRectMake(originX - 20 + i * btnWidth, mainBtnY, btnWidth, btnHeight);
                 [btn setBackgroundImage:[UIImage imageNamed:@"chose_Btn"] forState:UIControlStateNormal];
                 btn.titleLabel.font = [UIFont systemFontOfSize:20];
             }
@@ -89,13 +94,13 @@
                 btn.titleLabel.font = [UIFont systemFontOfSize:18];
                 btn.backgroundColor = [UIColor clearColor];
                 btn.tag = i + 444;
-                btn.frame = CGRectMake(50 + i * btnLittleWith, mainBtnY + 5, btnLittleWith, btnLittleHeight);
+                btn.frame = CGRectMake(originX + i * btnLittleWith, mainBtnY + 5, btnLittleWith, btnLittleHeight);
                 if (btn.tag == 444) {
-                    btn.frame = CGRectMake(30 + i * btnWidth, mainBtnY + 5, btnLittleWith, btnLittleHeight);
+                    btn.frame = CGRectMake(originX - 20 + i * btnWidth, mainBtnY + 5, btnLittleWith, btnLittleHeight);
                     btn.titleLabel.font = [UIFont systemFontOfSize:18];
                 }
                 if (btn.tag == 445) {
-                    btn.frame = CGRectMake(20 + i * btnWidth - 10, mainBtnY, btnWidth, btnHeight);
+                    btn.frame = CGRectMake(originX - 30 + i * btnWidth - 10, mainBtnY, btnWidth, btnHeight);
                     [btn setBackgroundImage:[UIImage imageNamed:@"chose_Btn"] forState:UIControlStateNormal];
                     btn.titleLabel.font = [UIFont systemFontOfSize:20];
                 }
@@ -122,13 +127,13 @@
                 btn.titleLabel.font = [UIFont systemFontOfSize:18];
                 btn.backgroundColor = [UIColor clearColor];
                 btn.tag = i + 444;
-                btn.frame = CGRectMake(50 + i * btnLittleWith, mainBtnY + 5, btnLittleWith, btnLittleHeight);
+                btn.frame = CGRectMake(originX + i * btnLittleWith, mainBtnY + 5, btnLittleWith, btnLittleHeight);
                 if (btn.tag == 445) {
-                    btn.frame = CGRectMake(30 + i * btnWidth, mainBtnY + 5, btnLittleWith, btnLittleHeight);
+                    btn.frame = CGRectMake(originX - 20 + i * btnWidth, mainBtnY + 5, btnLittleWith, btnLittleHeight);
                     btn.titleLabel.font = [UIFont systemFontOfSize:18];
                 }
                 if (btn.tag == 446) {
-                    btn.frame = CGRectMake(20 + i * btnWidth - 15, mainBtnY, btnWidth, btnHeight);
+                    btn.frame = CGRectMake(originX - 30 + i * btnWidth - 15, mainBtnY, btnWidth, btnHeight);
                     [btn setBackgroundImage:[UIImage imageNamed:@"chose_Btn"] forState:UIControlStateNormal];
                     btn.titleLabel.font = [UIFont systemFontOfSize:20];
                 }
@@ -185,16 +190,16 @@
                 
             }else{
                 _isChecked = YES;
-                [self initUIWithTag:0];
+                [self initUIWithTag:0 Array:_btnArray];
             }
             break;
         case 445:
-            [self initUIWithTag:button.tag];
+            [self initUIWithTag:button.tag Array:_btnArray];
             break;
         case 446:
-            [self initUIWithTag:button.tag];
+            [self initUIWithTag:button.tag Array:_btnArray];
         case 447:
-            [self initUIWithTag:button.tag];
+            [self initUIWithTag:button.tag Array:_btnArray];
         default:
             break;
     }
@@ -205,16 +210,16 @@
 {
     switch (Index) {
         case 1:
-            [self initUIWithTag:0];
+            [self initUIWithTag:0 Array:_btnArray];
             break;
         case 2:
-            [self initUIWithTag:445];
+            [self initUIWithTag:445 Array:_btnArray];
             break;
         case 3:
-            [self initUIWithTag:446];
+            [self initUIWithTag:446 Array:_btnArray];
             break;
         case 4:
-            [self initUIWithTag:447];
+            [self initUIWithTag:447 Array:_btnArray];
             break;
             
         default:

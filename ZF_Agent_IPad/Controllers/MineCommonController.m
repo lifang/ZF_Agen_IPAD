@@ -92,7 +92,7 @@
 -(void)applyBtnClick
 {
     StaffManagerController *staffVC = [[StaffManagerController alloc]init];
-    staffVC.hidesBottomBarWhenPushed = YES;
+    staffVC.navigationController.navigationBarHidden = YES;
     [self.navigationController pushViewController:staffVC animated:NO];
 }
 

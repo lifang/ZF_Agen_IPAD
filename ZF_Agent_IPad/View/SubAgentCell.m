@@ -47,19 +47,19 @@
 
     //类型
     _typeLabel = [[UILabel alloc] init];
-    _typeLabel.frame=CGRectMake(60, 15, 60, 30);
+    _typeLabel.frame=CGRectMake(120, 15, 60, 30);
     
     
-    _typeLabel.font = [UIFont systemFontOfSize:14.f];
+    _typeLabel.font = [UIFont systemFontOfSize:16.f];
     [self.contentView addSubview:_typeLabel];//    //售出数量
 //    _saleCountLabel = [[UILabel alloc] init];
 //    [self layoutLabel:_saleCountLabel topView:nil isLeft:NO];
     //代理商名称
     _nameLabel = [[UILabel alloc] init];
-    _nameLabel.frame=CGRectMake(wide/2, 15, 60, 30);
+    _nameLabel.frame=CGRectMake(wide/2-40, 15, 120, 30);
     
     
-    _nameLabel.font = [UIFont systemFontOfSize:14.f];
+    _nameLabel.font = [UIFont systemFontOfSize:16.f];
     [self.contentView addSubview:_nameLabel];//    //库存
 //    _stockCountLabel = [[UILabel alloc] init];
 //    [self layoutLabel:_stockCountLabel topView:_typeLabel isLeft:NO];
@@ -68,7 +68,7 @@
     _timeLabel.frame=CGRectMake(wide-160, 15, 100, 30);
     
     
-    _timeLabel.font = [UIFont systemFontOfSize:14.f];
+    _timeLabel.font = [UIFont systemFontOfSize:16.f];
     [self.contentView addSubview:_timeLabel];
     //    //开通量
 //    _openCountLabel = [[UILabel alloc] init];

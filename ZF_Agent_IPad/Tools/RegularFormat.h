@@ -20,7 +20,9 @@
 + (BOOL)isZipCode:(NSString *)zipCode;
 //纯数字
 + (BOOL)isNumber:(NSString *)string;
-//整形
+//整型
 + (BOOL)isInt:(NSString*)string;
+//浮点型
++ (BOOL)isFloat:(NSString *)string;
 
 @end

@@ -11,6 +11,8 @@
 #import "PersonModel.h"
 #import "AppDelegate.h"
 #import "CityHandle.h"
+#import "ChangePhoneController.h"
+#import "ChangeEmailController.h"
 
 @interface BaseInformationViewController ()<UITextFieldDelegate>
 
@@ -50,6 +52,12 @@
 -(void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
+    if (_newsPhone) {
+        _principalPhoneOrEmailField.text = _newsPhone;
+    }
+    if (_newsEmail) {
+        _authCodeField.text = _newsEmail;
+    }
     self.swithView.hidden = NO;
 }
 
@@ -100,6 +108,12 @@
             hud.labelText = kNetworkFailed;
         }
     }];
+}
+
+
+-(void)setContentForUI
+{
+    
 }
 
 #pragma mark - UI
@@ -247,9 +261,11 @@
 #pragma mark - 创建Button
     _getAuthCodeBtn = [[UIButton alloc]init];
     [_getAuthCodeBtn setTitle:@"修改" forState:UIControlStateNormal];
+    [_getAuthCodeBtn addTarget:self action:@selector(changePhoneClicked) forControlEvents:UIControlEventTouchUpInside];
     [self setBtn:_getAuthCodeBtn withTopView:_principalCardField middleSpace:mainMargin buttonTag:1];
     
     _makeSureBtn = [[UIButton alloc]init];
+    [_makeSureBtn addTarget:self action:@selector(changeEmailClicked) forControlEvents:UIControlEventTouchUpInside];
     [_makeSureBtn setTitle:@"修改" forState:UIControlStateNormal];
     [self setBtn:_makeSureBtn withTopView:_getAuthCodeBtn middleSpace:mainMargin buttonTag:2];
     
@@ -647,5 +663,19 @@
         CGRect convertRect = [[btn superview] convertRect:btn.frame toView:self.view];
         [self showDetailImageWithURL:_personInfo.taxImagePath imageRect:convertRect WithIdentifier:@"无导航栏"];
     }
+}
+
+-(void)changePhoneClicked
+{
+    ChangePhoneController *changePhoneVC = [[ChangePhoneController alloc]init];
+    changePhoneVC.oldPhoneNum = _principalPhoneOrEmailField.text;
+    [self.navigationController pushViewController:changePhoneVC animated:YES];
+}
+
+-(void)changeEmailClicked
+{
+    ChangeEmailController *changeEmailVC = [[ChangeEmailController alloc]init];
+    changeEmailVC.oldEmail = _authCodeField.text;
+    [self.navigationController pushViewController:changeEmailVC animated:YES];
 }
 @end
