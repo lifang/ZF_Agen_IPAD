@@ -15,12 +15,19 @@
         if ([dict objectForKey:@"id"]) {
             _merchantID = [NSString stringWithFormat:@"%@",[dict objectForKey:@"id"]];
         }
+        if ([dict objectForKey:@"name"]) {
+            _merchantName = [NSString stringWithFormat:@"%@",[dict objectForKey:@"name"]];
+        }
+        /*
         if ([dict objectForKey:@"title"]) {
             _merchantName = [NSString stringWithFormat:@"%@",[dict objectForKey:@"title"]];
         }
+         */
+        /*
         if ([dict objectForKey:@"legal_person_name"]) {
             _merchantLegal = [NSString stringWithFormat:@"%@",[dict objectForKey:@"legal_person_name"]];
         }
+         */
     }
     return self;
 }

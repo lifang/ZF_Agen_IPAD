@@ -19,9 +19,9 @@
         
         CGFloat mainBtnW = 100.f;
         CGFloat mainBtnH = 40.f;
-        CGFloat mainBtnX = (SCREEN_WIDTH - 200.f);
+        CGFloat mainBtnX = (SCREEN_WIDTH - 160.f);
         if (iOS7) {
-            mainBtnX = SCREEN_HEIGHT - 200.f;
+            mainBtnX = SCREEN_HEIGHT - 160.f;
         }
         CGFloat mainBtnY = 20.f;
         
@@ -46,7 +46,7 @@
         [self addSubview:_dredgeStatus];
         
         if ([reuseIdentifier isEqualToString:@"cell-1"]) {
-            
+             for (int i = 0; i < 2; i++) {
                 UIButton *button = [[UIButton alloc]init];
                 button.titleLabel.font = [UIFont systemFontOfSize:15];
                 [button setTitleColor:[UIColor colorWithHexString:@"006fd5"] forState:UIControlStateNormal];
@@ -54,17 +54,24 @@
                 button.layer.borderWidth=1.0;
                 button.layer.borderColor=[UIColor colorWithHexString:@"006fd5"].CGColor;
                 button.backgroundColor = [UIColor clearColor];
-                button.tag = 1000;
+                button.tag = 1000+i;
                 [button addTarget:self action:@selector(buttonClick:) forControlEvents:UIControlEventTouchUpInside];
-                button.frame = CGRectMake(mainBtnX , mainBtnY, mainBtnW, mainBtnH);
+                button.frame = CGRectMake(mainBtnX-(i * 115) , mainBtnY, mainBtnW, mainBtnH);
                 [self addSubview:button];
+                  if (i == 0) {
                 [button setTitle:@"找回POS密码" forState:UIControlStateNormal];
-                
+                  }
+                 if (i == 1) {
+                     [button setTitle:@"视频认证" forState:UIControlStateNormal];
+                 }
+
+             }
+            
                 
             
         }
         if ([reuseIdentifier isEqualToString:@"cell-3"]) {
-            for (int i = 0; i < 2; i++) {
+            for (int i = 0; i < 3; i++) {
                 UIButton *button = [[UIButton alloc]init];
                 button.titleLabel.font = [UIFont systemFontOfSize:15];
                 [button setTitleColor:[UIColor colorWithHexString:@"006fd5"] forState:UIControlStateNormal];
@@ -77,15 +84,18 @@
                 button.frame = CGRectMake(mainBtnX - (i * 115), mainBtnY, mainBtnW, mainBtnH);
                 [self addSubview:button];
                 if (i == 0) {
-                    [button setTitle:@"申请开通" forState:UIControlStateNormal];
+                    [button setTitle:@"视频认证" forState:UIControlStateNormal];
                 }
                 if (i == 1) {
+                    [button setTitle:@"申请开通" forState:UIControlStateNormal];
+                }
+                if (i == 2) {
                     [button setTitle:@"同步" forState:UIControlStateNormal];
                 }
             }
         }
         if ([reuseIdentifier isEqualToString:@"cell-2"]) {
-            for (int i = 0; i < 3; i++) {
+            for (int i = 0; i < 4; i++) {
                 UIButton *button = [[UIButton alloc]init];
                 button.titleLabel.font = [UIFont systemFontOfSize:15];
                 [button setTitleColor:[UIColor colorWithHexString:@"006fd5"] forState:UIControlStateNormal];
@@ -101,9 +111,12 @@
                     [button setTitle:@"找回POS密码" forState:UIControlStateNormal];
                 }
                 if (i == 1) {
-                    [button setTitle:@"重新申请开通" forState:UIControlStateNormal];
+                    [button setTitle:@"视频认证" forState:UIControlStateNormal];
                 }
                 if (i == 2) {
+                    [button setTitle:@"重新申请开通" forState:UIControlStateNormal];
+                }
+                if (i == 3) {
                     [button setTitle:@"同步" forState:UIControlStateNormal];
                 }
             }
@@ -131,21 +144,20 @@
         }
         if ([reuseIdentifier isEqualToString:@"cell-4"]) {
             //            for (int i = 0; i < 1; i++) {
-            //                UIButton *button = [[UIButton alloc]init];
-            //                button.titleLabel.font = [UIFont systemFontOfSize:17];
-            //                [button setTitleColor:[UIColor orangeColor] forState:UIControlStateNormal];
-            //                CALayer *readBtnLayer = [button layer];
-            //                [readBtnLayer setMasksToBounds:YES];
-            //                [readBtnLayer setCornerRadius:2.0];
-            //                [readBtnLayer setBorderWidth:1.0];
-            //                [readBtnLayer setBorderColor:[[UIColor orangeColor] CGColor]];
-            //                button.backgroundColor = [UIColor clearColor];
-            //                button.tag = i + 5000;
-            //                [button addTarget:self action:@selector(buttonClick:) forControlEvents:UIControlEventTouchUpInside];
-            //                button.frame = CGRectMake(mainBtnX - (i * 120), mainBtnY, mainBtnW, mainBtnH);
-            //                [self addSubview:button];
+                           UIButton *button = [[UIButton alloc]init];
+                            button.titleLabel.font = [UIFont systemFontOfSize:17];
+                            [button setTitleColor:[UIColor orangeColor] forState:UIControlStateNormal];
+                            button.layer.masksToBounds=YES;
+                            button.layer.cornerRadius=2.0;
+                            button.layer.borderWidth=1.0;
+                            button.layer.borderColor=[UIColor orangeColor].CGColor;
+                            button.backgroundColor = [UIColor clearColor];
+                            button.tag = 5000;
+                            [button addTarget:self action:@selector(buttonClick:) forControlEvents:UIControlEventTouchUpInside];
+                            button.frame = CGRectMake(mainBtnX, mainBtnY, mainBtnW, mainBtnH);
+                            [self addSubview:button];
             //                if (i == 0) {
-            //                    [button setTitle:@"租凭退换" forState:UIControlStateNormal];
+                               [button setTitle:@"租凭退换" forState:UIControlStateNormal];
             //                }
             //            }
         }
@@ -174,9 +186,9 @@
     
     _posLabel.frame = CGRectMake(CGRectGetMaxX(_terminalLabel.frame) + 20, mainY, mainWidth * 0.5, mainheight);
     
-    _payRoad.frame = CGRectMake(CGRectGetMaxX(_posLabel.frame) + 35, mainY, mainWidth * 0.5 + 30, mainheight);
+    _payRoad.frame = CGRectMake(CGRectGetMaxX(_posLabel.frame) + 20, mainY, mainWidth * 0.5 + 30, mainheight);
     
-    _dredgeStatus.frame = CGRectMake(CGRectGetMaxX(_payRoad.frame) + 50, mainY, mainWidth * 0.5, mainheight);
+    _dredgeStatus.frame = CGRectMake(CGRectGetMaxX(_payRoad.frame) + 20, mainY, mainWidth * 0.5, mainheight);
 }
 
 

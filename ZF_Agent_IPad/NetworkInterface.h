@@ -132,7 +132,7 @@ static NSString *s_loadImage_method = @"comment/upload/tempImage";
 static NSString *s_termainlDetail_method = @"terminal/getTernimalDetails";
 
 //18.申请开通—获得所有商户分页列表
-static NSString *s_getMerchants_method = @"terminal/getMerchants";
+static NSString *s_merchantList_method = @"terminal/getMerchants";
 
 
 
@@ -461,7 +461,8 @@ static NSString *s_submitLogist_method = @"/cs/agents/addMark";
  @param token       登录返回
  @result finish  请求回调结果
 */
-+ (void)getMerchantWithToken:(NSString *)token
++ (void)getMerchantDetailWithToken:(NSString *)token
+                        merchantId:(NSString *)merchantId
                     finished:(requestDidFinished)finish;
 
 
@@ -528,20 +529,18 @@ static NSString *s_submitLogist_method = @"/cs/agents/addMark";
 
 
 /*!
- @abstract 18.申请开通—获得所有商户分页列表
- @param Token       登录返回
- @param customerId    用户ID
- @param page        分页参数 页
- @param rows        分页参数 行
+ @abstract 18.申请开通——获取商户列表
+ @param agentID     代理商ID
+ @param token    登录返回
+ @param page     分页参数 页
+ @param rows     分页参数 行
  @result finish  请求回调结果
  */
-
-+ (void)getTerminalDetailsWithToken:(NSString *)token
-                         customerId:(NSString *)customerId
-                               page:(int)page
-                               rows:(int)rows
-                           finished:(requestDidFinished)finish;
-
++ (void)getMerchantListWithToken:(NSString *)token
+                           AgentID:(NSString *)agentID
+                              page:(int)page
+                              rows:(int)rows
+                          finished:(requestDidFinished)finish;
 
 /*!
  @abstract 19.终端管理--根据用户ID获得终端列表

@@ -280,13 +280,15 @@ static NSString *HTTP_GET  = @"GET";
 }
 
 //11
-+ (void)getMerchantWithToken:(NSString *)token
++ (void)getMerchantDetailWithToken:(NSString *)token
+                    merchantId:(NSString *)merchantId
                     finished:(requestDidFinished)finish{
     //参数
     NSMutableDictionary *paramDict = [[NSMutableDictionary alloc] init];
     if (token && ![token isEqualToString:@""]) {
         [paramDict setObject:token forKey:@"token"];
     }
+    [paramDict setObject:[NSNumber numberWithInt:[merchantId intValue]] forKey:@"merchantId"];
     //url
     NSString *urlString = [NSString stringWithFormat:@"%@/%@",kServiceURL,s_getMerchant_method];
     [[self class] requestWithURL:urlString
@@ -406,28 +408,25 @@ static NSString *HTTP_GET  = @"GET";
                         finished:finish];
 
 }
-//18
-+ (void)getTerminalDetailsWithToken:(NSString *)token
-                         customerId:(NSString *)customerId
-                               page:(int)page
-                               rows:(int)rows
-                           finished:(requestDidFinished)finish{
+
+//18.
++ (void)getMerchantListWithToken:(NSString *)token
+                          AgentID:(NSString *)agentID
+                              page:(int)page
+                              rows:(int)rows
+                          finished:(requestDidFinished)finish {
     //参数
     NSMutableDictionary *paramDict = [[NSMutableDictionary alloc] init];
-    if (token && ![token isEqualToString:@""]) {
-        [paramDict setObject:token forKey:@"token"];
-    }
-    [paramDict setObject:[NSNumber numberWithInt:[customerId intValue]] forKey:@"customerId"];
+    [paramDict setObject:[NSNumber numberWithInt:[agentID intValue]] forKey:@"customerId"];
     [paramDict setObject:[NSNumber numberWithInt:page] forKey:@"page"];
     [paramDict setObject:[NSNumber numberWithInt:rows] forKey:@"rows"];
     //url
-    NSString *urlString = [NSString stringWithFormat:@"%@/%@",kServiceURL,s_getMerchants_method];
+    NSString *urlString = [NSString stringWithFormat:@"%@/%@",kServiceURL,s_merchantList_method];
     [[self class] requestWithURL:urlString
                           params:paramDict
                       httpMethod:HTTP_POST
                         finished:finish];
 }
-
 
 
 //19.
