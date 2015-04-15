@@ -132,7 +132,7 @@ static NSString *s_loadImage_method = @"comment/upload/tempImage";
 static NSString *s_termainlDetail_method = @"terminal/getTernimalDetails";
 
 //18.申请开通—获得所有商户分页列表
-static NSString *s_getMerchants_method = @"terminal/getMerchants";
+static NSString *s_merchantList_method = @"terminal/getMerchants";
 
 
 
@@ -308,6 +308,8 @@ static NSString *s_subAgentList_method = @"lowerAgent/list";
 static NSString *s_subAgentDefaultBenefit_method = @"lowerAgent/changeProfit";
 //热卖
 static NSString *s_hot_method = @"index/pos_list";
+//提交物流信息
+static NSString *s_submitLogist_method = @"/cs/agents/addMark";
 
 @interface NetworkInterface : NSObject
 /*!
@@ -461,7 +463,8 @@ static NSString *s_hot_method = @"index/pos_list";
  @param token       登录返回
  @result finish  请求回调结果
 */
-+ (void)getMerchantWithToken:(NSString *)token
++ (void)getMerchantDetailWithToken:(NSString *)token
+                        merchantId:(NSString *)merchantId
                     finished:(requestDidFinished)finish;
 
 
@@ -482,28 +485,6 @@ static NSString *s_hot_method = @"index/pos_list";
 + (void)chooseBankWithToken:(NSString *)token
                    bankName:(NSString *)bankName
                    finished:(requestDidFinished)finish;
-
-/*!
-=======
-
-/*!
- @abstract 12.申请开通--获得支付通道
- @param token       登录返回
- @result finish  请求回调结果
- */
-+ (void)getChannelsWithToken:(NSString *)token
-                    finished:(requestDidFinished)finish;
-
-/*!
- @abstract 13.申请开通--选择银行
- @param token       登录返回
- @param bankName    银行名称
- @result finish  请求回调结果
- */
-+ (void)chooseBankWithToken:(NSString *)token
-                   bankName:(NSString *)bankName
-                   finished:(requestDidFinished)finish;
-
 /*!
  @abstract 14.申请开通--对公对私材料名称
  @param token       登录返回
@@ -550,20 +531,18 @@ static NSString *s_hot_method = @"index/pos_list";
 
 
 /*!
- @abstract 18.申请开通—获得所有商户分页列表
- @param Token       登录返回
- @param customerId    用户ID
- @param page        分页参数 页
- @param rows        分页参数 行
+ @abstract 18.申请开通——获取商户列表
+ @param agentID     代理商ID
+ @param token    登录返回
+ @param page     分页参数 页
+ @param rows     分页参数 行
  @result finish  请求回调结果
  */
-
-+ (void)getTerminalDetailsWithToken:(NSString *)token
-                         customerId:(NSString *)customerId
-                               page:(int)page
-                               rows:(int)rows
-                           finished:(requestDidFinished)finish;
-
++ (void)getMerchantListWithToken:(NSString *)token
+                           AgentID:(NSString *)agentID
+                              page:(int)page
+                              rows:(int)rows
+                          finished:(requestDidFinished)finish;
 
 /*!
  @abstract 19.终端管理--根据用户ID获得终端列表
@@ -774,6 +753,8 @@ static NSString *s_hot_method = @"index/pos_list";
  */
 + (void)getUserListWithAgentID:(NSString *)agentID
                          token:(NSString *)token
+                          page:(int)page
+                          rows:(int)rows
                       finished:(requestDidFinished)finish;
 
 /*!
@@ -1314,6 +1295,13 @@ static NSString *s_hot_method = @"index/pos_list";
 + (void)setDefaultBenefitWithAgentID:(NSString *)agentID
                                token:(NSString *)token
                              precent:(CGFloat)precent
+                            finished:(requestDidFinished)finish;
+
+//提交物流
++ (void)submitLogistWithAgentID:(NSString *)agentID
+                                csID:(NSString *)csID
+                          logistName:(NSString *)logistname
+                           logistNum:(NSString *)logistnum
                             finished:(requestDidFinished)finish;
 
 @end

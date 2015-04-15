@@ -31,6 +31,8 @@
 		0D885FB11AD7D556002CDA15 /* ApplyOpenModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D885FB01AD7D556002CDA15 /* ApplyOpenModel.m */; };
 		0D885FB41AD7D56E002CDA15 /* MerchantModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D885FB31AD7D56E002CDA15 /* MerchantModel.m */; };
 		0DBA72681ADB584200D0C762 /* ChannelListModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0DBA72671ADB584200D0C762 /* ChannelListModel.m */; };
+		0DBA726B1ADBCFB200D0C762 /* MerchantDetailModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0DBA726A1ADBCFB200D0C762 /* MerchantDetailModel.m */; };
+		0DBA726E1ADBFF4B00D0C762 /* MerchantSelecteViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0DBA726D1ADBFF4B00D0C762 /* MerchantSelecteViewController.m */; };
 		0DC032481AD68C2F000532EF /* TerminalDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0DC032471AD68C2F000532EF /* TerminalDetailViewController.m */; };
 		0DC0324E1AD68C6D000532EF /* RecordView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0DC0324D1AD68C6D000532EF /* RecordView.m */; };
 		0DC032511AD68CC1000532EF /* OpeningModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0DC032501AD68CC1000532EF /* OpeningModel.m */; };
@@ -95,6 +97,13 @@
 		1A55E7761ADB971A0020B0D8 /* AfterSellCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A55E7751ADB971A0020B0D8 /* AfterSellCell.m */; };
 		1A55E7791ADBA4100020B0D8 /* CSModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A55E7781ADBA4100020B0D8 /* CSModel.m */; };
 		1A5C481A1ADB6FB700A3068A /* AfterSellController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A5C48191ADB6FB700A3068A /* AfterSellController.m */; };
+		1A790B0E1ADCDC4B00EE886A /* ChooseStatusCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A790B0D1ADCDC4B00EE886A /* ChooseStatusCell.m */; };
+		1A790B111ADCEF2300EE886A /* CsDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A790B101ADCEF2300EE886A /* CsDetailController.m */; };
+		1A790B141ADCEF6000EE886A /* ResourceModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A790B131ADCEF6000EE886A /* ResourceModel.m */; };
+		1A790B171ADCEF7D00EE886A /* CSDataHandle.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A790B161ADCEF7D00EE886A /* CSDataHandle.m */; };
+		1A790B1A1ADCF32F00EE886A /* AfterSellDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A790B191ADCF32F00EE886A /* AfterSellDetailController.m */; };
+		1A790B1D1ADCFED700EE886A /* CancelDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A790B1C1ADCFED700EE886A /* CancelDetailController.m */; };
+		1A790B201ADD031B00EE886A /* UpdateDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A790B1F1ADD031B00EE886A /* UpdateDetailController.m */; };
 		1A8F68881AD4BCF100BD530E /* ScanImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A8F68871AD4BCF100BD530E /* ScanImageViewController.m */; };
 		1A96544E1AD60CF100C39B5B /* RegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A96544D1AD60CF100C39B5B /* RegisterViewController.m */; };
 		1A9654531AD60D0800C39B5B /* PhoneSuccessViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A9654501AD60D0800C39B5B /* PhoneSuccessViewController.m */; };
@@ -253,6 +262,10 @@
 		0D885FB31AD7D56E002CDA15 /* MerchantModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MerchantModel.m; sourceTree = "<group>"; };
 		0DBA72661ADB584200D0C762 /* ChannelListModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChannelListModel.h; sourceTree = "<group>"; };
 		0DBA72671ADB584200D0C762 /* ChannelListModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChannelListModel.m; sourceTree = "<group>"; };
+		0DBA72691ADBCFAA00D0C762 /* MerchantDetailModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MerchantDetailModel.h; sourceTree = "<group>"; };
+		0DBA726A1ADBCFB200D0C762 /* MerchantDetailModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MerchantDetailModel.m; sourceTree = "<group>"; };
+		0DBA726C1ADBFF4B00D0C762 /* MerchantSelecteViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MerchantSelecteViewController.h; sourceTree = "<group>"; };
+		0DBA726D1ADBFF4B00D0C762 /* MerchantSelecteViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MerchantSelecteViewController.m; sourceTree = "<group>"; };
 		0DC032461AD68C25000532EF /* TerminalDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TerminalDetailViewController.h; sourceTree = "<group>"; };
 		0DC032471AD68C2F000532EF /* TerminalDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TerminalDetailViewController.m; sourceTree = "<group>"; };
 		0DC0324C1AD68C67000532EF /* RecordView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RecordView.h; sourceTree = "<group>"; };
@@ -381,6 +394,20 @@
 		1A55E7781ADBA4100020B0D8 /* CSModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSModel.m; sourceTree = "<group>"; };
 		1A5C48181ADB6FB700A3068A /* AfterSellController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AfterSellController.h; sourceTree = "<group>"; };
 		1A5C48191ADB6FB700A3068A /* AfterSellController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AfterSellController.m; sourceTree = "<group>"; };
+		1A790B0C1ADCDC4B00EE886A /* ChooseStatusCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChooseStatusCell.h; sourceTree = "<group>"; };
+		1A790B0D1ADCDC4B00EE886A /* ChooseStatusCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChooseStatusCell.m; sourceTree = "<group>"; };
+		1A790B0F1ADCEF2300EE886A /* CsDetailController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CsDetailController.h; sourceTree = "<group>"; };
+		1A790B101ADCEF2300EE886A /* CsDetailController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CsDetailController.m; sourceTree = "<group>"; };
+		1A790B121ADCEF6000EE886A /* ResourceModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ResourceModel.h; sourceTree = "<group>"; };
+		1A790B131ADCEF6000EE886A /* ResourceModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ResourceModel.m; sourceTree = "<group>"; };
+		1A790B151ADCEF7D00EE886A /* CSDataHandle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSDataHandle.h; sourceTree = "<group>"; };
+		1A790B161ADCEF7D00EE886A /* CSDataHandle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSDataHandle.m; sourceTree = "<group>"; };
+		1A790B181ADCF32F00EE886A /* AfterSellDetailController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AfterSellDetailController.h; sourceTree = "<group>"; };
+		1A790B191ADCF32F00EE886A /* AfterSellDetailController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AfterSellDetailController.m; sourceTree = "<group>"; };
+		1A790B1B1ADCFED700EE886A /* CancelDetailController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CancelDetailController.h; sourceTree = "<group>"; };
+		1A790B1C1ADCFED700EE886A /* CancelDetailController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CancelDetailController.m; sourceTree = "<group>"; };
+		1A790B1E1ADD031B00EE886A /* UpdateDetailController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UpdateDetailController.h; sourceTree = "<group>"; };
+		1A790B1F1ADD031B00EE886A /* UpdateDetailController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UpdateDetailController.m; sourceTree = "<group>"; };
 		1A8F68861AD4BCF100BD530E /* ScanImageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScanImageViewController.h; sourceTree = "<group>"; };
 		1A8F68871AD4BCF100BD530E /* ScanImageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScanImageViewController.m; sourceTree = "<group>"; };
 		1A96544C1AD60CF100C39B5B /* RegisterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegisterViewController.h; sourceTree = "<group>"; };
@@ -684,6 +711,8 @@
 				0D885FA41AD7D34A002CDA15 /* IdentificationViewController.m */,
 				0D885FA61AD7D352002CDA15 /* ApplyDetailController.h */,
 				0D885FA71AD7D358002CDA15 /* ApplyDetailController.m */,
+				0DBA726C1ADBFF4B00D0C762 /* MerchantSelecteViewController.h */,
+				0DBA726D1ADBFF4B00D0C762 /* MerchantSelecteViewController.m */,
 			);
 			name = Identification;
 			sourceTree = "<group>";
@@ -805,6 +834,14 @@
 			children = (
 				1A5C48181ADB6FB700A3068A /* AfterSellController.h */,
 				1A5C48191ADB6FB700A3068A /* AfterSellController.m */,
+				1A790B0F1ADCEF2300EE886A /* CsDetailController.h */,
+				1A790B101ADCEF2300EE886A /* CsDetailController.m */,
+				1A790B181ADCF32F00EE886A /* AfterSellDetailController.h */,
+				1A790B191ADCF32F00EE886A /* AfterSellDetailController.m */,
+				1A790B1B1ADCFED700EE886A /* CancelDetailController.h */,
+				1A790B1C1ADCFED700EE886A /* CancelDetailController.m */,
+				1A790B1E1ADD031B00EE886A /* UpdateDetailController.h */,
+				1A790B1F1ADD031B00EE886A /* UpdateDetailController.m */,
 			);
 			name = AfterSell;
 			sourceTree = "<group>";
@@ -852,6 +889,8 @@
 				1AA6A04D1AD792980025FF1A /* UserManagerTerminalCell.m */,
 				1A55E7741ADB971A0020B0D8 /* AfterSellCell.h */,
 				1A55E7751ADB971A0020B0D8 /* AfterSellCell.m */,
+				1A790B0C1ADCDC4B00EE886A /* ChooseStatusCell.h */,
+				1A790B0D1ADCDC4B00EE886A /* ChooseStatusCell.m */,
 			);
 			name = HCell;
 			sourceTree = "<group>";
@@ -1047,6 +1086,10 @@
 		1AF15AB31ACCE33300D5C171 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				1A790B151ADCEF7D00EE886A /* CSDataHandle.h */,
+				1A790B161ADCEF7D00EE886A /* CSDataHandle.m */,
+				1A790B121ADCEF6000EE886A /* ResourceModel.h */,
+				1A790B131ADCEF6000EE886A /* ResourceModel.m */,
 				1A55E7771ADBA4100020B0D8 /* CSModel.h */,
 				1A55E7781ADBA4100020B0D8 /* CSModel.m */,
 				0EC65C1A1AD9057D00282C04 /* SubAgentModel.h */,
@@ -1113,6 +1156,8 @@
 				0D885FB01AD7D556002CDA15 /* ApplyOpenModel.m */,
 				0D885FB21AD7D567002CDA15 /* MerchantModel.h */,
 				0D885FB31AD7D56E002CDA15 /* MerchantModel.m */,
+				0DBA72691ADBCFAA00D0C762 /* MerchantDetailModel.h */,
+				0DBA726A1ADBCFB200D0C762 /* MerchantDetailModel.m */,
 				0DBA72661ADB584200D0C762 /* ChannelListModel.h */,
 				0DBA72671ADB584200D0C762 /* ChannelListModel.m */,
 			);
@@ -1452,6 +1497,7 @@
 				1AF15B3E1ACCE40400D5C171 /* TreeNode.m in Sources */,
 				0ED194941AD7AC2100029DE3 /* DealRoadController.m in Sources */,
 				1ABA17CA1ADB5A5E006B8D9B /* ChangePhoneController.m in Sources */,
+				1A790B1A1ADCF32F00EE886A /* AfterSellDetailController.m in Sources */,
 				1A96546E1AD662D200C39B5B /* UserManagerCell.m in Sources */,
 				1AF15B341ACCE40400D5C171 /* SearchHistoryHelper.m in Sources */,
 				1AF15B381ACCE40400D5C171 /* StringFormat.m in Sources */,
@@ -1468,7 +1514,9 @@
 				0DC0324E1AD68C6D000532EF /* RecordView.m in Sources */,
 				0ED58ECF1AD4D80B0081E8BC /* GoodDetialModel.m in Sources */,
 				1A9654951AD66FEF00C39B5B /* SwitchView.m in Sources */,
+				0DBA726B1ADBCFB200D0C762 /* MerchantDetailModel.m in Sources */,
 				1AF15B6F1ACD068000D5C171 /* AccountTool.m in Sources */,
+				0DBA726E1ADBFF4B00D0C762 /* MerchantSelecteViewController.m in Sources */,
 				1AF15AF31ACCE3A400D5C171 /* UIImageView+HighlightedWebCache.m in Sources */,
 				1ABA17CB1ADB5A5E006B8D9B /* ChangeEmailController.m in Sources */,
 				0DBA72681ADB584200D0C762 /* ChannelListModel.m in Sources */,
@@ -1522,9 +1570,12 @@
 				0ED58EE11AD4D9DD0081E8BC /* SortView.m in Sources */,
 				0ED58F011AD4DA820081E8BC /* UIScrollView+MJRefresh.m in Sources */,
 				1A5C481A1ADB6FB700A3068A /* AfterSellController.m in Sources */,
+				1A790B1D1ADCFED700EE886A /* CancelDetailController.m in Sources */,
 				1AF15AF51ACCE3A400D5C171 /* UIView+WebCacheOperation.m in Sources */,
+				1A790B111ADCEF2300EE886A /* CsDetailController.m in Sources */,
 				1AF15B361ACCE40400D5C171 /* CityModel.m in Sources */,
 				1AF15AEC1ACCE3A400D5C171 /* SDWebImageDownloader.m in Sources */,
+				1A790B171ADCEF7D00EE886A /* CSDataHandle.m in Sources */,
 				0DC032481AD68C2F000532EF /* TerminalDetailViewController.m in Sources */,
 				1AF15B0B1ACCE3BC00D5C171 /* TreeDataHandle.m in Sources */,
 				0D16943A1AD3C60800B50A17 /* TerminalViewCell.m in Sources */,
@@ -1536,6 +1587,7 @@
 				1AF15B4B1ACCEE9200D5C171 /* MBProgressHUD.m in Sources */,
 				0ED1948B1AD7A01B00029DE3 /* TradeModel.m in Sources */,
 				1A9EEB9E1AD76D4F00DA6E0D /* EncryptHelper.m in Sources */,
+				1A790B0E1ADCDC4B00EE886A /* ChooseStatusCell.m in Sources */,
 				1A9654541AD60D0800C39B5B /* EmailSuccessViewController.m in Sources */,
 				1A96544E1AD60CF100C39B5B /* RegisterViewController.m in Sources */,
 				0ECA762E1AD546AA0083D373 /* RefreshViewController.m in Sources */,
@@ -1546,6 +1598,7 @@
 				0ED194881AD7A00C00029DE3 /* TerminalModel.m in Sources */,
 				0ED194661AD7642C00029DE3 /* OrderDetailController.m in Sources */,
 				1AA6A0571AD79F7B0025FF1A /* AddressViewController.m in Sources */,
+				1A790B201ADD031B00EE886A /* UpdateDetailController.m in Sources */,
 				1A9654531AD60D0800C39B5B /* PhoneSuccessViewController.m in Sources */,
 				0D885FAB1AD7D4F6002CDA15 /* IdentificationViewCell.m in Sources */,
 				1AF15B401ACCE40400D5C171 /* TreeNodeInfo.m in Sources */,
@@ -1590,6 +1643,7 @@
 				1AA6A0541AD79CD60025FF1A /* SafeViewController.m in Sources */,
 				1AD7FD521ACE7340009A60FC /* FindPasswordWithPhoneSuccessController.m in Sources */,
 				0D885FB41AD7D56E002CDA15 /* MerchantModel.m in Sources */,
+				1A790B141ADCEF6000EE886A /* ResourceModel.m in Sources */,
 				0D16942D1AD3C15600B50A17 /* HexColor.m in Sources */,
 				1AF15AEA1ACCE3A400D5C171 /* SDWebImageCompat.m in Sources */,
 				0D1694211AD3C14100B50A17 /* MASViewAttribute.m in Sources */,

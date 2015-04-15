@@ -9,6 +9,18 @@
 #import <UIKit/UIKit.h>
 #import "CSModel.h"
 
+@protocol AfterSellClickedDelegate <NSObject>
+
+@optional
+
+-(void)cancelClickedWithCSModel:(CSModel *)model;
+
+-(void)submitLogisticsClickedWithCSModel:(CSModel *)model;
+
+-(void)submitCancelClickedWithCSModel:(CSModel *)model;
+
+@end
+
 typedef enum {
     AfterSellTypeNone = 0,
     AfterSellTypeSell = 1,
@@ -18,6 +30,8 @@ typedef enum {
 
 
 @interface AfterSellCell : UITableViewCell
+
+@property(nonatomic,weak) id <AfterSellClickedDelegate> delegate;
 //初始化方法
 +(instancetype)cellWithTableView:(UITableView *)tableView WithAfterSellType:(AfterSellType)type WithCsModel:(CSModel*)model;
 
@@ -31,6 +45,6 @@ typedef enum {
 
 @property(nonatomic,strong)CSModel *csModel;
 
--(void)setContentWithData:(CSModel *)model;
+-(void)setContentWithData:(CSModel *)model WithAfterType:(AfterSellType)afterType;
 
 @end

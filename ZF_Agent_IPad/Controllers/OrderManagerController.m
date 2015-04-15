@@ -167,8 +167,6 @@
     self.supplyType=SupplyGoodsProcurement;
     
     _isChecked = NO;
-    
-    
     [self firstLoadData];
     
 }

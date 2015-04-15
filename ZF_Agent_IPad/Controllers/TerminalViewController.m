@@ -46,6 +46,12 @@
 @property(strong,nonatomic) NSString *string;
 @property (nonatomic, assign) int stringStatus;
 
+@property (nonatomic, strong) UITextView *posTV;
+@property (nonatomic, strong) UITextView *AddressTV;
+
+@property(nonatomic,strong)UITableView *terminalTableView;
+
+@property(nonatomic,strong) UIView *whiteView;
 
 @end
 
@@ -180,7 +186,7 @@
     [titleView addSubview:numberLB];
     [numberLB makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(titleView.centerY);
-        make.left.equalTo(titleView.left).offset(65);
+        make.left.equalTo(titleView.left).offset(50);
         make.width.equalTo(@70);
         
     }];
@@ -194,7 +200,7 @@
     [titleView addSubview:POSLB];
     [POSLB makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(titleView.centerY);
-        make.left.equalTo(numberLB.right).offset(60);
+        make.left.equalTo(numberLB.right).offset(50);
         make.width.equalTo(@70);
         
     }];
@@ -208,8 +214,8 @@
     [titleView addSubview:payLB];
     [payLB makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(titleView.centerY);
-        make.left.equalTo(POSLB.right).offset(60);
-        make.width.equalTo(@90);
+        make.left.equalTo(POSLB.right).offset(50);
+        make.width.equalTo(@70);
     }];
     
     UILabel *statusLB = [[UILabel alloc] init];
@@ -221,8 +227,8 @@
     [titleView addSubview:statusLB];
     [statusLB makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(titleView.centerY);
-        make.left.equalTo(payLB.right).offset(60);
-        make.width.equalTo(@90);
+        make.left.equalTo(payLB.right).offset(50);
+        make.width.equalTo(@70);
     }];
 
     
@@ -293,92 +299,162 @@
     _findPosView.image=[UIImage imageNamed:@"backimage"];
     _findPosView.userInteractionEnabled=YES;
     
-    UIView *whiteView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 440, 500)];
-    whiteView.center = CGPointMake(width / 2, (height - 100) / 2);
-    whiteView.backgroundColor = [UIColor whiteColor];
-    [_findPosView addSubview:whiteView];
+    _whiteView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 440, 500)];
+    _whiteView.center = CGPointMake(width / 2, (height - 100) / 2);
+    _whiteView.backgroundColor = [UIColor whiteColor];
+    [_findPosView addSubview:_whiteView];
     
     UIButton *leftXBtn = [[UIButton alloc]init];
     [leftXBtn addTarget:self action:@selector(leftClicked) forControlEvents:UIControlEventTouchUpInside];
     [leftXBtn setBackgroundImage:[UIImage imageNamed:@"X_black"] forState:UIControlStateNormal];
     leftXBtn.frame = CGRectMake(15, 15, 25, 25);
-    [whiteView addSubview:leftXBtn];
+    [_whiteView addSubview:leftXBtn];
     
     UILabel *ApplyLable = [[UILabel alloc]init];
     ApplyLable.text = @"申请售后";
     ApplyLable.textColor = kColor(38, 38, 38, 1.0);
     ApplyLable.font = [UIFont systemFontOfSize:22];
     ApplyLable.frame = CGRectMake(150, 10, 200, 40);
-    [whiteView addSubview:ApplyLable];
+    [_whiteView addSubview:ApplyLable];
     
     UIView *line = [[UIView alloc]init];
     line.backgroundColor = kColor(128, 128, 128, 1.0);
-    line.frame = CGRectMake(0, CGRectGetMaxY(ApplyLable.frame) + 10, whiteView.frame.size.width, 1);
-    [whiteView addSubview:line];
+    line.frame = CGRectMake(0, CGRectGetMaxY(ApplyLable.frame) + 10, _whiteView.frame.size.width, 1);
+    [_whiteView addSubview:line];
     
     UILabel *POSLB = [[UILabel alloc]init];
     POSLB.text = @"选择终端";
     POSLB.textColor = kColor(56, 56, 56, 1.0);
     POSLB.font = [UIFont systemFontOfSize:20];
     POSLB.frame = CGRectMake(26, CGRectGetMaxY(line.frame) + 30, 100, 40);
-    [whiteView addSubview:POSLB];
+    [_whiteView addSubview:POSLB];
     
-    UITextView *posTV=[[UITextView alloc] init];
-    posTV.layer.masksToBounds=YES;
-    posTV.layer.borderWidth=1.0;
-    posTV.layer.borderColor=[UIColor colorWithHexString:@"a8a8a8"].CGColor;
-    posTV.backgroundColor = [UIColor clearColor];
-    posTV.frame = CGRectMake(POSLB.frame.origin.x+POSLB.frame.size.width+30, CGRectGetMaxY(line.frame) + 30, 200, 40);
-    [whiteView addSubview:posTV];
+    _posTV=[[UITextView alloc] init];
+    _posTV.layer.masksToBounds=YES;
+    _posTV.layer.borderWidth=1.0;
+    _posTV.layer.borderColor=[UIColor colorWithHexString:@"a8a8a8"].CGColor;
+    _posTV.backgroundColor = [UIColor clearColor];
+    _posTV.font = FONT20;
+    _posTV.frame = CGRectMake(POSLB.frame.origin.x+POSLB.frame.size.width+30, CGRectGetMaxY(line.frame) + 30, 200, 40);
+    [_whiteView addSubview:_posTV];
+    
+    UIButton *POSBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    POSBtn.frame = CGRectMake(POSLB.frame.origin.x+POSLB.frame.size.width+30+150, CGRectGetMaxY(line.frame) + 30, 50, 40);
+    [POSBtn setImage:kImageName(@"arrow_line") forState:UIControlStateNormal];
+    [POSBtn  addTarget:self action:@selector(POSBtnclick:) forControlEvents:UIControlEventTouchUpInside];
+    [_whiteView addSubview:POSBtn];
     
     UILabel *AddressLB = [[UILabel alloc]init];
     AddressLB.text = @"选择地址";
     AddressLB.textColor = kColor(56, 56, 56, 1.0);
     AddressLB.font = [UIFont systemFontOfSize:20];
     AddressLB.frame = CGRectMake(26, POSLB.frame.origin.y + 70, 100, 40);
-    [whiteView addSubview:AddressLB];
+    [_whiteView addSubview:AddressLB];
     
-    UITextView *AddressTV=[[UITextView alloc] init];
-    AddressTV.layer.masksToBounds=YES;
-    AddressTV.layer.borderWidth=1.0;
-    AddressTV.layer.borderColor=[UIColor colorWithHexString:@"a8a8a8"].CGColor;
-    AddressTV.backgroundColor = [UIColor clearColor];
-    AddressTV.frame = CGRectMake(posTV.frame.origin.x, AddressLB.frame.origin.y, 200, 40);
-    [whiteView addSubview:AddressTV];
+    _AddressTV=[[UITextView alloc] init];
+    _AddressTV.layer.masksToBounds=YES;
+    _AddressTV.layer.borderWidth=1.0;
+    _AddressTV.layer.borderColor=[UIColor colorWithHexString:@"a8a8a8"].CGColor;
+    _AddressTV.backgroundColor = [UIColor clearColor];
+    _AddressTV.font = FONT20;
+    _AddressTV.frame = CGRectMake(_posTV.frame.origin.x, AddressLB.frame.origin.y, 200, 40);
+    [_whiteView addSubview:_AddressTV];
+    
+    UIButton *AddressBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    AddressBtn.frame = CGRectMake(POSLB.frame.origin.x+POSLB.frame.size.width+30+150,  _AddressTV.frame.origin.y, 50, 40);
+    [AddressBtn setImage:kImageName(@"arrow_line") forState:UIControlStateNormal];
+    [AddressBtn  addTarget:self action:@selector(AddressBtnclick:) forControlEvents:UIControlEventTouchUpInside];
+    [_whiteView addSubview:AddressBtn];
     
     UILabel *reseasonLB = [[UILabel alloc]init];
     reseasonLB.text = @"售后原因";
     reseasonLB.textColor = kColor(56, 56, 56, 1.0);
     reseasonLB.font = [UIFont systemFontOfSize:20];
     reseasonLB.frame = CGRectMake(26, AddressLB.frame.origin.y+ 70, 100, 40);
-    [whiteView addSubview:reseasonLB];
+    [_whiteView addSubview:reseasonLB];
     
     UITextView *reseasonTV=[[UITextView alloc] init];
     reseasonTV.layer.masksToBounds=YES;
     reseasonTV.layer.borderWidth=1.0;
     reseasonTV.layer.borderColor=[UIColor colorWithHexString:@"a8a8a8"].CGColor;
     reseasonTV.backgroundColor = [UIColor clearColor];
-    reseasonTV.frame = CGRectMake(posTV.frame.origin.x, reseasonLB.frame.origin.y, 200, 120);
-    [whiteView addSubview:reseasonTV];
+    reseasonTV.font = FONT20;
+    reseasonTV.frame = CGRectMake(_posTV.frame.origin.x, reseasonLB.frame.origin.y, 200, 120);
+    [_whiteView addSubview:reseasonTV];
     
-    UIButton *saveBtn=[[UIButton alloc] init];
-    saveBtn.frame=CGRectMake(whiteView.frame.size.width/2.0-60, reseasonTV.frame.origin.y+120+30, 120, 40);
-    saveBtn.layer.masksToBounds=YES;
-    saveBtn.layer.borderWidth=1.0;
-    saveBtn.layer.borderColor=[UIColor colorWithHexString:@"006fd5"].CGColor;
-    saveBtn.backgroundColor=[UIColor colorWithHexString:@"006fd5"];
-    [saveBtn setTitle:@"提交" forState:UIControlStateNormal];
-    [saveBtn addTarget:self action:@selector(saveBtnClick:) forControlEvents:UIControlEventTouchUpInside];
-    [whiteView addSubview:saveBtn];
-    
-    
-    
+    UIButton *submitBtn=[[UIButton alloc] init];
+    submitBtn.frame=CGRectMake(_whiteView.frame.size.width/2.0-60, reseasonTV.frame.origin.y+120+30, 120, 40);
+    submitBtn.layer.masksToBounds=YES;
+    submitBtn.layer.borderWidth=1.0;
+    submitBtn.layer.borderColor=[UIColor colorWithHexString:@"006fd5"].CGColor;
+    submitBtn.backgroundColor=[UIColor colorWithHexString:@"006fd5"];
+    [submitBtn setTitle:@"提交" forState:UIControlStateNormal];
+    [submitBtn addTarget:self action:@selector(submitBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+    [_whiteView addSubview:submitBtn];
     
 }
 
--(void)saveBtnClick:(id)sender
+//选择终端tableView加载
+-(UITableView *)terminalTableView
 {
+    if (!_terminalTableView) {
+        _terminalTableView = [[UITableView alloc]init];
+        _terminalTableView.tag = 1111;
+        _terminalTableView.delegate = self;
+        _terminalTableView.dataSource = self;
+    }
+    return _terminalTableView;
+}
+//创建选择终端tableView
+-(void)setupTerminalTableView
+{
+   
+        NSInteger numberrow;
+        numberrow=_terminalItems.count;
+        if(numberrow>5)
+        {
+            self.terminalTableView.frame = CGRectMake(_posTV.frame.origin.x, _posTV.frame.origin.y+_posTV.frame.size.height, 200, 5*45);
+            
+        }else
+        {
+            self.terminalTableView.frame = CGRectMake(_posTV.frame.origin.x, _posTV.frame.origin.y+_posTV.frame.size.height, 200, numberrow*45);
+
+        }
+   // }
+    [_whiteView addSubview:_terminalTableView];
+   // if (_applyData.merchantList.count != 0) {
+        [_terminalTableView reloadData];
+  //  }
+}
+
+
+-(void)POSBtnclick:(id)sender
+{
+    [self setupTerminalTableView];
+
+}
+
+-(void)AddressBtnclick:(id)sender
+{
+
+
+}
+
+-(void)submitBtnClick:(id)sender
+{
+   /*
+    NSMutableArray *paramList = [[NSMutableArray alloc] init];
+    AppDelegate *delegate = [AppDelegate shareAppDelegate];
+    NSMutableDictionary *params = [[NSMutableDictionary alloc] init];
+    [params setObject:[NSNumber numberWithInt:[delegate.agentID intValue]] forKey:@"customerId"];
     
+   [params setObject:[NSString stringWithFormat:@"%@",_AddressTV.text]forKey:@"address"];
+   [params setObject:[NSString stringWithFormat:@"%@",_AddressTV.text]forKey:@"reason"];
+    
+   [paramList addObject:params];
+   //2[self submitApplyInfoWithArray:paramList];
+*/
+     [self removePOSView];
     
 }
 
@@ -403,35 +479,35 @@
     _findPosView.image=[UIImage imageNamed:@"backimage"];
     _findPosView.userInteractionEnabled=YES;
     
-    UIView *whiteView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 440, 320)];
-    whiteView.center = CGPointMake(width / 2, (height - 100) / 2);
-    whiteView.backgroundColor = [UIColor whiteColor];
-    [_findPosView addSubview:whiteView];
+    _whiteView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 440, 320)];
+    _whiteView.center = CGPointMake(width / 2, (height - 100) / 2);
+    _whiteView.backgroundColor = [UIColor whiteColor];
+    [_findPosView addSubview:_whiteView];
     
     UIButton *leftXBtn = [[UIButton alloc]init];
     [leftXBtn addTarget:self action:@selector(leftClicked) forControlEvents:UIControlEventTouchUpInside];
     [leftXBtn setBackgroundImage:[UIImage imageNamed:@"X_black"] forState:UIControlStateNormal];
     leftXBtn.frame = CGRectMake(15, 15, 25, 25);
-    [whiteView addSubview:leftXBtn];
+    [_whiteView addSubview:leftXBtn];
     
     UILabel *BindingLB = [[UILabel alloc]init];
     BindingLB.text = @"为用户绑定终端";
     BindingLB.textColor = kColor(38, 38, 38, 1.0);
     BindingLB.font = [UIFont systemFontOfSize:22];
     BindingLB.frame = CGRectMake(150, 10, 200, 40);
-    [whiteView addSubview:BindingLB];
+    [_whiteView addSubview:BindingLB];
     
     UIView *line = [[UIView alloc]init];
     line.backgroundColor = kColor(128, 128, 128, 1.0);
-    line.frame = CGRectMake(0, CGRectGetMaxY(BindingLB.frame) + 10, whiteView.frame.size.width, 1);
-    [whiteView addSubview:line];
+    line.frame = CGRectMake(0, CGRectGetMaxY(BindingLB.frame) + 10, _whiteView.frame.size.width, 1);
+    [_whiteView addSubview:line];
     
     UILabel *UserLB = [[UILabel alloc]init];
     UserLB.text = @"选择用户";
     UserLB.textColor = kColor(56, 56, 56, 1.0);
     UserLB.font = [UIFont systemFontOfSize:20];
     UserLB.frame = CGRectMake(26, CGRectGetMaxY(line.frame) + 30, 100, 40);
-    [whiteView addSubview:UserLB];
+    [_whiteView addSubview:UserLB];
     
     UITextView *UserTV=[[UITextView alloc] init];
     UserTV.layer.masksToBounds=YES;
@@ -439,14 +515,14 @@
     UserTV.layer.borderColor=[UIColor colorWithHexString:@"a8a8a8"].CGColor;
     UserTV.backgroundColor = [UIColor clearColor];
     UserTV.frame = CGRectMake(UserLB.frame.origin.x+UserLB.frame.size.width+30, CGRectGetMaxY(line.frame) + 30, 200, 40);
-    [whiteView addSubview:UserTV];
+    [_whiteView addSubview:UserTV];
     
     UILabel *TerminalLB = [[UILabel alloc]init];
     TerminalLB.text = @"终端号";
     TerminalLB.textColor = kColor(56, 56, 56, 1.0);
     TerminalLB.font = [UIFont systemFontOfSize:20];
     TerminalLB.frame = CGRectMake(26, UserLB.frame.origin.y + 70, 100, 40);
-    [whiteView addSubview:TerminalLB];
+    [_whiteView addSubview:TerminalLB];
     
     UITextView *TerminalTV=[[UITextView alloc] init];
     TerminalTV.layer.masksToBounds=YES;
@@ -454,17 +530,17 @@
     TerminalTV.layer.borderColor=[UIColor colorWithHexString:@"a8a8a8"].CGColor;
     TerminalTV.backgroundColor = [UIColor clearColor];
     TerminalTV.frame = CGRectMake(UserTV.frame.origin.x, TerminalLB.frame.origin.y, 200, 40);
-    [whiteView addSubview:TerminalTV];
+    [_whiteView addSubview:TerminalTV];
     
     UIButton *bindingBtn=[[UIButton alloc] init];
-    bindingBtn.frame=CGRectMake(whiteView.frame.size.width/2.0-60, TerminalTV.frame.origin.y+40+30, 120, 40);
+    bindingBtn.frame=CGRectMake(_whiteView.frame.size.width/2.0-60, TerminalTV.frame.origin.y+40+30, 120, 40);
     bindingBtn.layer.masksToBounds=YES;
     bindingBtn.layer.borderWidth=1.0;
     bindingBtn.layer.borderColor=[UIColor colorWithHexString:@"006fd5"].CGColor;
     bindingBtn.backgroundColor=[UIColor colorWithHexString:@"006fd5"];
     [bindingBtn setTitle:@"绑定" forState:UIControlStateNormal];
     [bindingBtn addTarget:self action:@selector(bindingBtnClick:) forControlEvents:UIControlEventTouchUpInside];
-    [whiteView addSubview:bindingBtn];
+    [_whiteView addSubview:bindingBtn];
     
 }
 
@@ -601,6 +677,40 @@
 }
 
 
+//加载详情
+- (void)submitAfterSaleWithParm:(NSDictionary *)parm {
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+    hud.labelText = @"提交中...";
+    AppDelegate *delegate = [AppDelegate shareAppDelegate];
+    [NetworkInterface  submintAgentWithtoken:delegate.agentID customerId:@"132" terminalsQuantity:@"12" address:@"shanghai" reason:@"aaaaaa" terminalsList:nil reciver:@"12" phone:@"1234567890"  finished:^(BOOL success, NSData *response) {
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:0.5f];
+        if (success) {
+            id object = [NSJSONSerialization JSONObjectWithData:response options:NSJSONReadingMutableLeaves error:nil];
+            if ([object isKindOfClass:[NSDictionary class]]) {
+                NSString *errorCode = [NSString stringWithFormat:@"%@",[object objectForKey:@"code"]];
+                if ([errorCode intValue] == RequestFail) {
+                    //返回错误代码
+                    hud.labelText = [NSString stringWithFormat:@"%@",[object objectForKey:@"message"]];
+                }
+                else if ([errorCode intValue] == RequestSuccess) {
+                    [hud hide:YES];
+                   // [self parseSubmitWithDictionary:object];
+                }
+            }
+            else {
+                //返回错误数据
+                hud.labelText = kServiceReturnWrong;
+                [self.navigationController popViewControllerAnimated:YES];
+            }
+        }
+        else {
+            hud.labelText = kNetworkFailed;
+        }
+    }];
+}
+
 
 #pragma mark - Data
 
@@ -631,62 +741,6 @@
 }
 
 
-#pragma mark - Table view data source
-
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 1;
-}
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return _terminalItems.count;
-}
-
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (_terminalItems.count == 0) {
-        NSString *ID = @"cell";
-        TerminalViewCell *cell = [tableView dequeueReusableCellWithIdentifier:ID];
-        if (cell == nil) {
-            cell = [[TerminalViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:ID];
-        }
-        return cell;
-    }else{
-        TerminalManagerModel *model = [_terminalItems objectAtIndex:indexPath.row];
-        NSString *IDs = [NSString stringWithFormat:@"cell-%@",model.TM_status];
-        TerminalViewCell *cell = [tableView dequeueReusableCellWithIdentifier:IDs];
-        if (cell == nil) {
-            cell = [[TerminalViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:IDs];
-            cell.TerminalViewCellDelegate = self;
-        }
-        cell.selectedID = model.TM_ID;
-        cell.terminalLabel.text = model.TM_serialNumber;
-        cell.posLabel.text = [NSString stringWithFormat:@"%@%@",model.TM_brandsName,model.TM_model_number];
-        cell.payRoad.text = model.TM_channelName;
-        cell.indexNum = indexPath.row;
-        if ([model.TM_status isEqualToString:@"1"]) {
-            cell.dredgeStatus.text = @"已开通";
-            cell.cellStates = @"已开通";
-        }
-        if ([model.TM_status isEqualToString:@"3"]) {
-            cell.dredgeStatus.text = @"未开通";
-            cell.cellStates = @"未开通";
-        }
-        if ([model.TM_status isEqualToString:@"2"]) {
-            cell.dredgeStatus.text = @"部分开通";
-            cell.cellStates = @"部分开通";
-        }
-        if ([model.TM_status isEqualToString:@"5"]) {
-            cell.dredgeStatus.text = @"已停用";
-            cell.cellStates = @"已停用";
-        }
-        if ([model.TM_status isEqualToString:@"4"]) {
-            cell.dredgeStatus.text = @"已注销";
-            cell.cellStates = @"已注销";
-        }
-        return cell;
-    }
-}
-
 
 #pragma mark terminalCell的代理
 -(void)terminalCellBtnClicked:(int)btnTag WithSelectedID:(NSString *)selectedID Withindex:(int)indexNum
@@ -695,11 +749,19 @@
         NSLog(@"点击了找回POS密码 信息ID为%@",selectedID);
         [self initFindPosViewWithSelectedID:selectedID WithIndexNum:indexNum];
     }
+    if (btnTag == 1001) {
+        NSLog(@"点击了视频认证(已开通) 信息ID为%@",selectedID);
+       
+    }
     if (btnTag == 2000) {
+        NSLog(@"点击了视频认证(未开通) 信息ID为%@",selectedID);
+        
+    }
+    if (btnTag == 2001) {
         NSLog(@"点击了申请开通");
         [self pushApplyVCWithSelectedID:selectedID];
     }
-    if (btnTag == 2001) {
+    if (btnTag == 2002) {
         NSLog(@"点击了同步(未开通)");
     }
     if (btnTag == 3000) {
@@ -708,10 +770,14 @@
 
     }
     if (btnTag == 3001) {
+        NSLog(@"点击了视频认证(部分开通) 信息ID为%@",selectedID);
+        
+    }
+    if (btnTag == 3002) {
         NSLog(@"点击了重新申请开通");
         [self pushApplyNewVCWithSelectedID:selectedID];
     }
-    if (btnTag == 3002) {
+    if (btnTag == 3003) {
         NSLog(@"点击了同步（部分开通）");
     }
     if (btnTag == 4000) {
@@ -720,6 +786,10 @@
     if (btnTag == 4001) {
         NSLog(@"点击了同步（已停用）");
     }
+    if (btnTag == 5000) {
+        NSLog(@"点击了租赁退换（已注销）");
+    }
+
     
 }
 
@@ -825,13 +895,90 @@
 }
 
 
+#pragma mark - Table view data source
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    return 1;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return _terminalItems.count;
+}
+
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (tableView==_terminalTableView) {
+        NSString *ID = @"terminalcell";
+        TerminalViewCell *cell = [tableView dequeueReusableCellWithIdentifier:ID];
+        if (cell == nil) {
+            cell = [[TerminalViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:ID];
+        }
+        cell.backgroundColor = kColor(214, 214, 214, 1.0);
+        TerminalManagerModel *model = [_terminalItems objectAtIndex:indexPath.row];
+        cell.textLabel.text = model.TM_serialNumber;
+        return cell;
+        
+    }
+    else{
+        if (_terminalItems.count == 0) {
+            NSString *ID = @"cell";
+            TerminalViewCell *cell = [tableView dequeueReusableCellWithIdentifier:ID];
+            if (cell == nil) {
+                cell = [[TerminalViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:ID];
+            }
+            return cell;
+        }else{
+            TerminalManagerModel *model = [_terminalItems objectAtIndex:indexPath.row];
+            NSString *IDs = [NSString stringWithFormat:@"cell-%@",model.TM_status];
+            TerminalViewCell *cell = [tableView dequeueReusableCellWithIdentifier:IDs];
+            if (cell == nil) {
+                cell = [[TerminalViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:IDs];
+                cell.TerminalViewCellDelegate = self;
+            }
+            cell.selectedID = model.TM_ID;
+            cell.terminalLabel.text = model.TM_serialNumber;
+            cell.posLabel.text = [NSString stringWithFormat:@"%@%@",model.TM_brandsName,model.TM_model_number];
+            cell.payRoad.text = model.TM_channelName;
+            cell.indexNum = indexPath.row;
+            if ([model.TM_status isEqualToString:@"1"]) {
+                cell.dredgeStatus.text = @"已开通";
+                cell.cellStates = @"已开通";
+            }
+            if ([model.TM_status isEqualToString:@"3"]) {
+                cell.dredgeStatus.text = @"未开通";
+                cell.cellStates = @"未开通";
+            }
+            if ([model.TM_status isEqualToString:@"2"]) {
+                cell.dredgeStatus.text = @"部分开通";
+                cell.cellStates = @"部分开通";
+            }
+            if ([model.TM_status isEqualToString:@"5"]) {
+                cell.dredgeStatus.text = @"已停用";
+                cell.cellStates = @"已停用";
+            }
+            if ([model.TM_status isEqualToString:@"4"]) {
+                cell.dredgeStatus.text = @"已注销";
+                cell.cellStates = @"已注销";
+            }
+            return cell;
+        }
+    }
+}
+
 
 
 
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    
+    if (tableView==_terminalTableView) {
+        TerminalManagerModel *model = [_terminalItems objectAtIndex:indexPath.row];
+         _posTV.text=model.TM_serialNumber;
+        [_terminalTableView removeFromSuperview];
+        
+    }
+    else
+    {
     self.isPush = NO;
     TerminalManagerModel *model = [_terminalItems objectAtIndex:indexPath.row];
     if ([model.TM_status intValue] == TerminalStatusOpened && !model.appID) {
@@ -850,13 +997,19 @@
         terminalDetailVC.tm_ID = model.TM_ID;
         [self.navigationController pushViewController:terminalDetailVC animated:YES];
     }
-    
+   }
 }
 
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    if (tableView==_terminalTableView) {
+        return 30;
+    }
+    else
+    {
     return 80;
+    }
 }
 
  - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -870,6 +1023,7 @@
  [cell setLayoutMargins:UIEdgeInsetsZero];
  }
  }
+
 
 
 #pragma mark - Refresh

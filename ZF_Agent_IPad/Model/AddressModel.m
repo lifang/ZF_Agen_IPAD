@@ -42,8 +42,8 @@
         else{
             _cityID = @"";
         }
-        if ([dict objectForKey:@"zip_code"]) {
-            _zipCode = [NSString stringWithFormat:@"%@",[dict objectForKey:@"zip_code"]];
+        if ([dict objectForKey:@"zipCode"]) {
+            _zipCode = [NSString stringWithFormat:@"%@",[dict objectForKey:@"zipCode"]];
         }
         else{
             _zipCode = @"";
