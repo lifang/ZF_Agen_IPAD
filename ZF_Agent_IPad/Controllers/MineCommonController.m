@@ -10,7 +10,7 @@
 #import "BaseInformationViewController.h"
 #import "StaffManagerController.h"
 #import "SubAgentListController.h"
-
+#import "PrepareGoodManagerController.h"
 @interface MineCommonController ()
 
 @end
@@ -76,12 +76,14 @@
     afterVC.navigationController.navigationBarHidden = YES;
     [self.navigationController pushViewController:afterVC animated:NO];
 }
-////我的信息
-//-(void)messageBtnClick
-//{
-//    BaseInformationViewController *baseInformationVC = [[BaseInformationViewController alloc]init];
-//    [self.navigationController pushViewController:baseInformationVC animated:NO];
-//}
+//我的信息
+-(void)messageBtnClick
+{
+    PrepareGoodManagerController *baseInformationVC = [[PrepareGoodManagerController alloc]init];
+    baseInformationVC.navigationController.navigationBarHidden = YES;
+
+    [self.navigationController pushViewController:baseInformationVC animated:NO];
+}
 ////我的商户
 //-(void)shopBtnClick
 //{

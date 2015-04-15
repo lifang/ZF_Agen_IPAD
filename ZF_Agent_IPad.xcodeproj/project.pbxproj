@@ -53,6 +53,10 @@
 		0ECA762B1AD5468F0083D373 /* OrderManagerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0ECA762A1AD5468F0083D373 /* OrderManagerController.m */; };
 		0ECA762E1AD546AA0083D373 /* RefreshViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0ECA762D1AD546AA0083D373 /* RefreshViewController.m */; };
 		0ECA76341AD546F80083D373 /* OrderCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0ECA76331AD546F80083D373 /* OrderCell.m */; };
+		0ECB170C1ADE02D100234772 /* PrepareGoodManagerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0ECB170B1ADE02D100234772 /* PrepareGoodManagerController.m */; };
+		0ECB170F1ADE2F2400234772 /* GoodAgentModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0ECB170E1ADE2F2400234772 /* GoodAgentModel.m */; };
+		0ECB17121ADE36C600234772 /* PrepareGoodModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0ECB17111ADE36C600234772 /* PrepareGoodModel.m */; };
+		0ECB17151ADE377E00234772 /* PrepareGoodCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0ECB17141ADE377E00234772 /* PrepareGoodCell.m */; };
 		0ED194661AD7642C00029DE3 /* OrderDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0ED194651AD7642C00029DE3 /* OrderDetailController.m */; };
 		0ED194731AD79F6200029DE3 /* TransferCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0ED194721AD79F6200029DE3 /* TransferCell.m */; };
 		0ED194761AD79F7100029DE3 /* TopDealRoadCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0ED194751AD79F7100029DE3 /* TopDealRoadCell.m */; };
@@ -306,6 +310,14 @@
 		0ECA762D1AD546AA0083D373 /* RefreshViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RefreshViewController.m; sourceTree = "<group>"; };
 		0ECA76321AD546F80083D373 /* OrderCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderCell.h; sourceTree = "<group>"; };
 		0ECA76331AD546F80083D373 /* OrderCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrderCell.m; sourceTree = "<group>"; };
+		0ECB170A1ADE02D100234772 /* PrepareGoodManagerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrepareGoodManagerController.h; sourceTree = "<group>"; };
+		0ECB170B1ADE02D100234772 /* PrepareGoodManagerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PrepareGoodManagerController.m; sourceTree = "<group>"; };
+		0ECB170D1ADE2F2400234772 /* GoodAgentModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GoodAgentModel.h; sourceTree = "<group>"; };
+		0ECB170E1ADE2F2400234772 /* GoodAgentModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GoodAgentModel.m; sourceTree = "<group>"; };
+		0ECB17101ADE36C600234772 /* PrepareGoodModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrepareGoodModel.h; sourceTree = "<group>"; };
+		0ECB17111ADE36C600234772 /* PrepareGoodModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PrepareGoodModel.m; sourceTree = "<group>"; };
+		0ECB17131ADE377E00234772 /* PrepareGoodCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrepareGoodCell.h; sourceTree = "<group>"; };
+		0ECB17141ADE377E00234772 /* PrepareGoodCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PrepareGoodCell.m; sourceTree = "<group>"; };
 		0ED194641AD7642C00029DE3 /* OrderDetailController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderDetailController.h; sourceTree = "<group>"; };
 		0ED194651AD7642C00029DE3 /* OrderDetailController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrderDetailController.m; sourceTree = "<group>"; };
 		0ED194711AD79F6200029DE3 /* TransferCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TransferCell.h; sourceTree = "<group>"; };
@@ -739,6 +751,15 @@
 			name = OrderManager;
 			sourceTree = "<group>";
 		};
+		0ECB17091ADE026B00234772 /* Picking */ = {
+			isa = PBXGroup;
+			children = (
+				0ECB170A1ADE02D100234772 /* PrepareGoodManagerController.h */,
+				0ECB170B1ADE02D100234772 /* PrepareGoodManagerController.m */,
+			);
+			name = Picking;
+			sourceTree = "<group>";
+		};
 		0ED194671AD79E1800029DE3 /* DealFlow */ = {
 			isa = PBXGroup;
 			children = (
@@ -873,6 +894,8 @@
 		1A9654721AD6649000C39B5B /* HCell */ = {
 			isa = PBXGroup;
 			children = (
+				0ECB17131ADE377E00234772 /* PrepareGoodCell.h */,
+				0ECB17141ADE377E00234772 /* PrepareGoodCell.m */,
 				1AA6A0581AD79FA90025FF1A /* AddressCell.h */,
 				1AA6A0591AD79FA90025FF1A /* AddressCell.m */,
 				1A96547A1AD666C900C39B5B /* MessageViewCell.h */,
@@ -918,6 +941,7 @@
 		1A9654851AD66EE700C39B5B /* Mine */ = {
 			isa = PBXGroup;
 			children = (
+				0ECB17091ADE026B00234772 /* Picking */,
 				1ABA17BE1ADB5471006B8D9B /* StaffManager */,
 				0EC65C131AD904D100282C04 /* AgentManager */,
 				1A96548C1AD66FB000C39B5B /* MyMessage */,
@@ -1086,6 +1110,10 @@
 		1AF15AB31ACCE33300D5C171 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				0ECB17101ADE36C600234772 /* PrepareGoodModel.h */,
+				0ECB17111ADE36C600234772 /* PrepareGoodModel.m */,
+				0ECB170D1ADE2F2400234772 /* GoodAgentModel.h */,
+				0ECB170E1ADE2F2400234772 /* GoodAgentModel.m */,
 				1A790B151ADCEF7D00EE886A /* CSDataHandle.h */,
 				1A790B161ADCEF7D00EE886A /* CSDataHandle.m */,
 				1A790B121ADCEF6000EE886A /* ResourceModel.h */,
@@ -1546,6 +1574,7 @@
 				0EC65C1C1AD9057D00282C04 /* SubAgentModel.m in Sources */,
 				1A9654781AD6667900C39B5B /* MessageViewController.m in Sources */,
 				1AF15AF01ACCE3A400D5C171 /* UIButton+WebCache.m in Sources */,
+				0ECB17151ADE377E00234772 /* PrepareGoodCell.m in Sources */,
 				1AD7FD4F1ACE7319009A60FC /* FindPasswordSuccessController.m in Sources */,
 				0ED58EBE1AD4D78A0081E8BC /* SearchViewController.m in Sources */,
 				0D16941F1AD3C14100B50A17 /* MASConstraintMaker.m in Sources */,
@@ -1654,7 +1683,10 @@
 				1A9654791AD6667900C39B5B /* MessageChildViewController.m in Sources */,
 				0D16942F1AD3C15600B50A17 /* README.md in Sources */,
 				1AF15AF21ACCE3A400D5C171 /* UIImage+MultiFormat.m in Sources */,
+				0ECB170F1ADE2F2400234772 /* GoodAgentModel.m in Sources */,
+				0ECB170C1ADE02D100234772 /* PrepareGoodManagerController.m in Sources */,
 				1AF15B611ACD046A00D5C171 /* ChannelWebsiteController.m in Sources */,
+				0ECB17121ADE36C600234772 /* PrepareGoodModel.m in Sources */,
 				1AF15B411ACCE40400D5C171 /* TreeView.m in Sources */,
 				0ED58EFC1AD4DA820081E8BC /* MJRefreshBaseView.m in Sources */,
 				0EC65C251AD918EC00282C04 /* SubAgentListController.m in Sources */,
