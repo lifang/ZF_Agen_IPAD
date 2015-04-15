@@ -15,6 +15,8 @@
 #import "TerminalManagerModel.h"
 #import "TerminalDetailViewController.h"
 #import "ApplyDetailController.h"
+#import "SearchTermianlViewController.h"
+#import "TerminalSelectViewController.h"
 
 
 @interface TerminalViewController ()<UITableViewDelegate,UITableViewDataSource,RefreshDelegate,terminalCellSendBtnClicked,UITextViewDelegate,UIPickerViewDataSource,UIPickerViewDelegate,UIPopoverControllerDelegate,UIPopoverPresentationControllerDelegate>
@@ -53,6 +55,7 @@
 
 @property(nonatomic,strong) UIView *whiteView;
 
+@property(nonatomic,strong) UIView *secondView;
 @end
 
 @implementation TerminalViewController
@@ -61,6 +64,18 @@
     [super viewDidLoad];
     self.title=@"终端管理";
     self.view.backgroundColor=[UIColor whiteColor];
+    
+    UIButton *searchBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    searchBtn.frame = CGRectMake(0, 0, 44, 44);
+    searchBtn.titleLabel.font = IconFontWithSize(22);
+    [searchBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    //[searchBtn setTitle:@"\U0000E62f" forState:UIControlStateNormal];
+    [searchBtn setBackgroundImage:[UIImage imageNamed:@"searchbar.png"] forState:UIControlStateNormal];
+    [searchBtn addTarget:self action:@selector(searchBtnPressed:) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem *leftBarBtn = [[UIBarButtonItem alloc] initWithCustomView:searchBtn];
+    self.navigationItem.rightBarButtonItem = leftBarBtn;
+
+    
     _terminalItems = [[NSMutableArray alloc]init];
     _statusArray = [[NSMutableArray alloc]initWithObjects:@"全部",@"已开通", @"部分开通",@"未开通",@"已注销",@"已停用",nil];
     _stringStatus=0;
@@ -132,7 +147,6 @@
         make.width.equalTo(@120);
         
     }];
-    
     
     
     _textView=[[UITextView alloc] init];
@@ -254,7 +268,6 @@
     }
     
 
-    //_tableView.translatesAutoresizingMaskIntoConstraints = NO;
     _tableView.backgroundColor = [UIColor whiteColor];
     _tableView.delegate = self;
     _tableView.dataSource = self;
@@ -274,7 +287,14 @@
     
 }
 
+-(void)searchBtnPressed:(id)sender
+{
+    SearchTermianlViewController *searchVC=[[SearchTermianlViewController alloc] init];
+    searchVC.hidesBottomBarWhenPushed=YES;
+    [self.navigationController pushViewController:searchVC animated:YES];
 
+
+}
 
 
 //申请售后
@@ -335,11 +355,11 @@
     _posTV.layer.borderColor=[UIColor colorWithHexString:@"a8a8a8"].CGColor;
     _posTV.backgroundColor = [UIColor clearColor];
     _posTV.font = FONT20;
-    _posTV.frame = CGRectMake(POSLB.frame.origin.x+POSLB.frame.size.width+30, CGRectGetMaxY(line.frame) + 30, 200, 40);
+    _posTV.frame = CGRectMake(POSLB.frame.origin.x+POSLB.frame.size.width+30, CGRectGetMaxY(line.frame) + 30, 240, 40);
     [_whiteView addSubview:_posTV];
     
     UIButton *POSBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    POSBtn.frame = CGRectMake(POSLB.frame.origin.x+POSLB.frame.size.width+30+150, CGRectGetMaxY(line.frame) + 30, 50, 40);
+    POSBtn.frame = CGRectMake(POSLB.frame.origin.x+POSLB.frame.size.width+30+150+40, CGRectGetMaxY(line.frame) + 30, 50, 40);
     [POSBtn setImage:kImageName(@"arrow_line") forState:UIControlStateNormal];
     [POSBtn  addTarget:self action:@selector(POSBtnclick:) forControlEvents:UIControlEventTouchUpInside];
     [_whiteView addSubview:POSBtn];
@@ -357,11 +377,11 @@
     _AddressTV.layer.borderColor=[UIColor colorWithHexString:@"a8a8a8"].CGColor;
     _AddressTV.backgroundColor = [UIColor clearColor];
     _AddressTV.font = FONT20;
-    _AddressTV.frame = CGRectMake(_posTV.frame.origin.x, AddressLB.frame.origin.y, 200, 40);
+    _AddressTV.frame = CGRectMake(_posTV.frame.origin.x, AddressLB.frame.origin.y, 240, 40);
     [_whiteView addSubview:_AddressTV];
     
     UIButton *AddressBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    AddressBtn.frame = CGRectMake(POSLB.frame.origin.x+POSLB.frame.size.width+30+150,  _AddressTV.frame.origin.y, 50, 40);
+    AddressBtn.frame = CGRectMake(POSLB.frame.origin.x+POSLB.frame.size.width+30+150+40,  _AddressTV.frame.origin.y, 50, 40);
     [AddressBtn setImage:kImageName(@"arrow_line") forState:UIControlStateNormal];
     [AddressBtn  addTarget:self action:@selector(AddressBtnclick:) forControlEvents:UIControlEventTouchUpInside];
     [_whiteView addSubview:AddressBtn];
@@ -379,7 +399,7 @@
     reseasonTV.layer.borderColor=[UIColor colorWithHexString:@"a8a8a8"].CGColor;
     reseasonTV.backgroundColor = [UIColor clearColor];
     reseasonTV.font = FONT20;
-    reseasonTV.frame = CGRectMake(_posTV.frame.origin.x, reseasonLB.frame.origin.y, 200, 120);
+    reseasonTV.frame = CGRectMake(_posTV.frame.origin.x, reseasonLB.frame.origin.y, 240, 120);
     [_whiteView addSubview:reseasonTV];
     
     UIButton *submitBtn=[[UIButton alloc] init];
@@ -394,6 +414,7 @@
     
 }
 
+/*
 //选择终端tableView加载
 -(UITableView *)terminalTableView
 {
@@ -426,11 +447,15 @@
         [_terminalTableView reloadData];
   //  }
 }
-
+*/
 
 -(void)POSBtnclick:(id)sender
 {
-    [self setupTerminalTableView];
+   // [self setupTerminalTableView];
+    TerminalSelectViewController *TerminalSC=[[TerminalSelectViewController alloc] init];
+    TerminalSC.hidesBottomBarWhenPushed=YES;
+    [self removePOSView];
+    [self.navigationController pushViewController:TerminalSC animated:YES];
 
 }
 
@@ -514,14 +539,29 @@
     UserTV.layer.borderWidth=1.0;
     UserTV.layer.borderColor=[UIColor colorWithHexString:@"a8a8a8"].CGColor;
     UserTV.backgroundColor = [UIColor clearColor];
-    UserTV.frame = CGRectMake(UserLB.frame.origin.x+UserLB.frame.size.width+30, CGRectGetMaxY(line.frame) + 30, 200, 40);
+    UserTV.frame = CGRectMake(UserLB.frame.origin.x+UserLB.frame.size.width+30, CGRectGetMaxY(line.frame) + 30, 240, 40);
     [_whiteView addSubview:UserTV];
+    
+    UIButton *UserBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    UserBtn.frame = CGRectMake(UserTV.frame.origin.x+150+40, UserTV.frame.origin.y,50, 40);
+    [UserBtn setImage:kImageName(@"arrow_line") forState:UIControlStateNormal];
+    [UserBtn  addTarget:self action:@selector(UserBtnclick:) forControlEvents:UIControlEventTouchUpInside];
+    [_whiteView addSubview:UserBtn];
+    
+    UIButton *newBtn=[[UIButton alloc] init];
+    newBtn.frame=CGRectMake(UserTV.frame.origin.x, UserTV.frame.origin.y+40+10, 100, 20);
+    [newBtn setTitleColor:[UIColor colorWithHexString:@"006fd5"] forState:UIControlStateNormal];
+    [newBtn setTitle:@"创建新用户" forState:UIControlStateNormal];
+    newBtn.titleLabel.font = FONT15;
+    [newBtn addTarget:self action:@selector(newBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+    [_whiteView addSubview:newBtn];
+
     
     UILabel *TerminalLB = [[UILabel alloc]init];
     TerminalLB.text = @"终端号";
     TerminalLB.textColor = kColor(56, 56, 56, 1.0);
     TerminalLB.font = [UIFont systemFontOfSize:20];
-    TerminalLB.frame = CGRectMake(26, UserLB.frame.origin.y + 70, 100, 40);
+    TerminalLB.frame = CGRectMake(26, UserLB.frame.origin.y + 80, 100, 40);
     [_whiteView addSubview:TerminalLB];
     
     UITextView *TerminalTV=[[UITextView alloc] init];
@@ -529,7 +569,7 @@
     TerminalTV.layer.borderWidth=1.0;
     TerminalTV.layer.borderColor=[UIColor colorWithHexString:@"a8a8a8"].CGColor;
     TerminalTV.backgroundColor = [UIColor clearColor];
-    TerminalTV.frame = CGRectMake(UserTV.frame.origin.x, TerminalLB.frame.origin.y, 200, 40);
+    TerminalTV.frame = CGRectMake(UserTV.frame.origin.x, TerminalLB.frame.origin.y, 240, 40);
     [_whiteView addSubview:TerminalTV];
     
     UIButton *bindingBtn=[[UIButton alloc] init];
@@ -544,9 +584,15 @@
     
 }
 
+-(void)UserBtnclick:(id)sender
+{
+
+
+}
+
 -(void)bindingBtnClick:(id)sender
 {
-    
+    [self removePOSView];
     
 }
 
@@ -555,9 +601,194 @@
     [self pickerDisplay:_textView];
 }
 
+-(void)newBtnClick:(id)sender
+{
+    
+    CGFloat width;
+    CGFloat height;
+    if(iOS7)
+    {
+        width = SCREEN_HEIGHT;
+        height = SCREEN_WIDTH;
+    }
+    else
+    {
+        width = SCREEN_WIDTH;
+        height = SCREEN_HEIGHT;
+    }
+    /*
+    _findPosView = [[UIImageView alloc]init];
+    _findPosView.frame = CGRectMake(0, 0, width, height);
+    [self.view.window addSubview:_findPosView];
+    _findPosView.image=[UIImage imageNamed:@"backimage"];
+    _findPosView.userInteractionEnabled=YES;
+    */
+    
+    _secondView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 440, 550)];
+    _secondView.center = CGPointMake(width / 2, (height - 100) / 2);
+    _secondView.backgroundColor = [UIColor whiteColor];
+    [_findPosView addSubview:_secondView];
+    
+    UIButton *leftBtn = [[UIButton alloc]init];
+    [leftBtn addTarget:self action:@selector(leftBackClicked) forControlEvents:UIControlEventTouchUpInside];
+    [leftBtn setBackgroundImage:[UIImage imageNamed:@"X_black"] forState:UIControlStateNormal];
+    leftBtn.frame = CGRectMake(15, 15, 25, 25);
+    [_secondView addSubview:leftBtn];
+    
+    UILabel *newLB = [[UILabel alloc]init];
+    newLB.text = @"创建用户";
+    newLB.textColor = kColor(38, 38, 38, 1.0);
+    newLB.font = [UIFont systemFontOfSize:22];
+    newLB.frame = CGRectMake(150, 10, 200, 40);
+    [_secondView addSubview:newLB];
+    
+    UIView *line = [[UIView alloc]init];
+    line.backgroundColor = kColor(128, 128, 128, 1.0);
+    line.frame = CGRectMake(0, CGRectGetMaxY(newLB.frame) + 10, _secondView.frame.size.width, 1);
+    [_secondView addSubview:line];
+    
+    UILabel *nameLB = [[UILabel alloc]init];
+    nameLB.text = @"用户姓名";
+    nameLB.textColor = kColor(56, 56, 56, 1.0);
+    nameLB.font = [UIFont systemFontOfSize:20];
+    nameLB.frame = CGRectMake(26, CGRectGetMaxY(line.frame) + 30, 100, 40);
+    [_secondView addSubview:nameLB];
+    
+    UITextView *nameTV=[[UITextView alloc] init];
+    nameTV.layer.masksToBounds=YES;
+    nameTV.layer.borderWidth=1.0;
+    nameTV.layer.borderColor=[UIColor colorWithHexString:@"a8a8a8"].CGColor;
+    nameTV.backgroundColor = [UIColor clearColor];
+    nameTV.frame = CGRectMake(nameLB.frame.origin.x+nameLB.frame.size.width+30, CGRectGetMaxY(line.frame) + 30, 240, 40);
+    [_secondView addSubview:nameTV];
+    
+  
+    UILabel *phoneLB = [[UILabel alloc]init];
+    phoneLB.text = @"手机号码";
+    phoneLB.textColor = kColor(56, 56, 56, 1.0);
+    phoneLB.font = [UIFont systemFontOfSize:20];
+    phoneLB.frame = CGRectMake(26, nameLB.frame.origin.y + 60, 100, 40);
+    [_secondView addSubview:phoneLB];
+    
+    UITextView *phoneTV=[[UITextView alloc] init];
+    phoneTV.layer.masksToBounds=YES;
+    phoneTV.layer.borderWidth=1.0;
+    phoneTV.layer.borderColor=[UIColor colorWithHexString:@"a8a8a8"].CGColor;
+    phoneTV.backgroundColor = [UIColor clearColor];
+    phoneTV.frame = CGRectMake(nameTV.frame.origin.x, phoneLB.frame.origin.y, 240, 40);
+    [_secondView addSubview:phoneTV];
+    
+    UIButton *getcodeBtn=[[UIButton alloc] init];
+    getcodeBtn.frame=CGRectMake(phoneTV.frame.origin.x+160, phoneTV.frame.origin.y, 80, 40);
+    [getcodeBtn setTitleColor:[UIColor colorWithHexString:@"006fd5"] forState:UIControlStateNormal];
+    [getcodeBtn setTitle:@"获取验证码" forState:UIControlStateNormal];
+    getcodeBtn.titleLabel.font = FONT15;
+    [getcodeBtn addTarget:self action:@selector(getcodeBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+    [_secondView addSubview:getcodeBtn];
+    
+    UILabel *codeLB = [[UILabel alloc]init];
+    codeLB.text = @"验证码";
+    codeLB.textColor = kColor(56, 56, 56, 1.0);
+    codeLB.font = [UIFont systemFontOfSize:20];
+    codeLB.frame = CGRectMake(26, phoneLB.frame.origin.y + 60, 100, 40);
+    [_secondView addSubview:codeLB];
+    
+    UITextView *codeTV=[[UITextView alloc] init];
+    codeTV.layer.masksToBounds=YES;
+    codeTV.layer.borderWidth=1.0;
+    codeTV.layer.borderColor=[UIColor colorWithHexString:@"a8a8a8"].CGColor;
+    codeTV.backgroundColor = [UIColor clearColor];
+    codeTV.frame = CGRectMake(phoneTV.frame.origin.x, codeLB.frame.origin.y, 240, 40);
+    [_secondView addSubview:codeTV];
+    
+    
+    UILabel *locationLB = [[UILabel alloc]init];
+    locationLB.text = @"所在地";
+    locationLB.textColor = kColor(56, 56, 56, 1.0);
+    locationLB.font = [UIFont systemFontOfSize:20];
+    locationLB.frame = CGRectMake(26, codeLB.frame.origin.y + 60, 100, 40);
+    [_secondView addSubview:locationLB];
+    
+    UITextView *locationTV=[[UITextView alloc] init];
+    locationTV.layer.masksToBounds=YES;
+    locationTV.layer.borderWidth=1.0;
+    locationTV.layer.borderColor=[UIColor colorWithHexString:@"a8a8a8"].CGColor;
+    locationTV.backgroundColor = [UIColor clearColor];
+    locationTV.frame = CGRectMake(codeTV.frame.origin.x, locationLB.frame.origin.y, 240, 40);
+    [_secondView addSubview:locationTV];
+    
+    UIButton *locationBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    locationBtn.frame = CGRectMake(locationTV.frame.origin.x+150+40, locationTV.frame.origin.y, 50, 40);
+    [locationBtn setImage:kImageName(@"arrow_line") forState:UIControlStateNormal];
+    [locationBtn  addTarget:self action:@selector(locationBtnclick:) forControlEvents:UIControlEventTouchUpInside];
+    [_secondView addSubview:locationBtn];
+
+    
+    UILabel *pwdLB = [[UILabel alloc]init];
+    pwdLB.text = @"密码";
+    pwdLB.textColor = kColor(56, 56, 56, 1.0);
+    pwdLB.font = [UIFont systemFontOfSize:20];
+    pwdLB.frame = CGRectMake(26, locationLB.frame.origin.y + 60, 100, 40);
+    [_secondView addSubview:pwdLB];
+    
+    UITextView *pwdTV=[[UITextView alloc] init];
+    pwdTV.layer.masksToBounds=YES;
+    pwdTV.layer.borderWidth=1.0;
+    pwdTV.layer.borderColor=[UIColor colorWithHexString:@"a8a8a8"].CGColor;
+    pwdTV.backgroundColor = [UIColor clearColor];
+    pwdTV.frame = CGRectMake(codeTV.frame.origin.x, pwdLB.frame.origin.y, 240, 40);
+    [_secondView addSubview:pwdTV];
+
+    UILabel *confpwdLB = [[UILabel alloc]init];
+    confpwdLB.text = @"确认密码";
+    confpwdLB.textColor = kColor(56, 56, 56, 1.0);
+    confpwdLB.font = [UIFont systemFontOfSize:20];
+    confpwdLB.frame = CGRectMake(26, pwdLB.frame.origin.y + 60, 100, 40);
+    [_secondView addSubview:confpwdLB];
+    
+    UITextView *confirmpwdTV=[[UITextView alloc] init];
+    confirmpwdTV.layer.masksToBounds=YES;
+    confirmpwdTV.layer.borderWidth=1.0;
+    confirmpwdTV.layer.borderColor=[UIColor colorWithHexString:@"a8a8a8"].CGColor;
+    confirmpwdTV.backgroundColor = [UIColor clearColor];
+    confirmpwdTV.frame = CGRectMake(codeTV.frame.origin.x, confpwdLB.frame.origin.y, 240, 40);
+    [_secondView addSubview:confirmpwdTV];
+
+    
+    UIButton *bulidBtn=[[UIButton alloc] init];
+    bulidBtn.frame=CGRectMake(_secondView.frame.size.width/2.0-60, confirmpwdTV.frame.origin.y+40+30, 120, 40);
+    bulidBtn.layer.masksToBounds=YES;
+    bulidBtn.layer.borderWidth=1.0;
+    bulidBtn.layer.borderColor=[UIColor colorWithHexString:@"006fd5"].CGColor;
+    bulidBtn.backgroundColor=[UIColor colorWithHexString:@"006fd5"];
+    [bulidBtn setTitle:@"创建" forState:UIControlStateNormal];
+    [bulidBtn addTarget:self action:@selector(bulidBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+    [_secondView addSubview:bulidBtn];
+    
 
 
+}
 
+-(void)getcodeBtnClick:(id)sender
+{
+
+}
+
+-(void)locationBtnclick:(id)sender
+{
+
+}
+
+-(void)leftBackClicked
+{
+   [_secondView removeFromSuperview];
+}
+
+-(void)bulidBtnClick:(id)sender
+{
+
+    [_secondView removeFromSuperview];
+}
 #pragma mark - Request
 
 - (void)firstLoadData {
@@ -676,7 +907,7 @@
     }];
 }
 
-
+/*
 //加载详情
 - (void)submitAfterSaleWithParm:(NSDictionary *)parm {
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
@@ -710,7 +941,7 @@
         }
     }];
 }
-
+*/
 
 #pragma mark - Data
 
@@ -907,6 +1138,7 @@
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    /*
     if (tableView==_terminalTableView) {
         NSString *ID = @"terminalcell";
         TerminalViewCell *cell = [tableView dequeueReusableCellWithIdentifier:ID];
@@ -920,6 +1152,7 @@
         
     }
     else{
+     */
         if (_terminalItems.count == 0) {
             NSString *ID = @"cell";
             TerminalViewCell *cell = [tableView dequeueReusableCellWithIdentifier:ID];
@@ -961,7 +1194,7 @@
                 cell.cellStates = @"已注销";
             }
             return cell;
-        }
+      //  }
     }
 }
 
@@ -971,6 +1204,7 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    /*
     if (tableView==_terminalTableView) {
         TerminalManagerModel *model = [_terminalItems objectAtIndex:indexPath.row];
          _posTV.text=model.TM_serialNumber;
@@ -979,6 +1213,7 @@
     }
     else
     {
+     */
     self.isPush = NO;
     TerminalManagerModel *model = [_terminalItems objectAtIndex:indexPath.row];
     if ([model.TM_status intValue] == TerminalStatusOpened && !model.appID) {
@@ -997,19 +1232,21 @@
         terminalDetailVC.tm_ID = model.TM_ID;
         [self.navigationController pushViewController:terminalDetailVC animated:YES];
     }
-   }
+  // }
 }
 
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    /*
     if (tableView==_terminalTableView) {
         return 30;
     }
     else
     {
+     */
     return 80;
-    }
+    //}
 }
 
  - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {

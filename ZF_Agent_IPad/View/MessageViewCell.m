@@ -54,7 +54,6 @@
     else{
         [_leftBtn setBackgroundImage:[UIImage imageNamed:@"noSelected"] forState:UIControlStateNormal];
     }
-    
     self.btnStatus = !self.btnStatus;
 }
 

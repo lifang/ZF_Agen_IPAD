@@ -99,7 +99,7 @@ static NSString *s_emailValidate_method = @"agent/sendEmailVerificationCode";
 static NSString *s_findPassword_method = @"agent/updatePassword";
 
 //7.注册图片上传
-static NSString *s_uploadRegisterImage_method = @"agent/uploadFile";
+static NSString *s_uploadRegisterImage_method = @"comment/upload/tempImage";
 
 //8.开通申请列表--根据代理商ID获得开通申请列表
 static NSString *s_applyList_method = @"apply/getApplyList";
@@ -117,7 +117,7 @@ static NSString *s_getMerchant_method = @"apply/getMerchant";
 static NSString *s_applyChannel_method = @"apply/getChannels";
 
 //13.申请开通--选择银行
-static NSString *s_chooseBank_method = @"apply/ChooseBank";
+static NSString *s_chooseBank_method = @"apply/chooseBank";
 
 //14.申请开通--对公对私材料名称
 static NSString *s_applyMaterial_method = @"apply/getMaterialName";
@@ -313,6 +313,11 @@ static NSString *s_subAgentDefaultBenefit_method = @"lowerAgent/changeProfit";
 static NSString *s_hot_method = @"index/pos_list";
 //提交物流信息
 static NSString *s_submitLogist_method = @"/cs/agents/addMark";
+//员工列表
+static NSString *s_staffList_method = @"/customerManage/getList";
+//删除员工
+static NSString *s_deletedstaff_method = @"/customerManage/deleteOne";
+
 
 @interface NetworkInterface : NSObject
 /*!
@@ -1335,5 +1340,17 @@ static NSString *s_submitLogist_method = @"/cs/agents/addMark";
                           logistName:(NSString *)logistname
                            logistNum:(NSString *)logistnum
                             finished:(requestDidFinished)finish;
+//员工管理列表
++ (void)getStaffListWithAgentID:(NSString *)agentID
+                             token:(NSString *)token
+                              page:(int)page
+                              rows:(int)rows
+                          finished:(requestDidFinished)finish;
+//删除员工
++ (void)deleteStaffWithAgentID:(NSString *)agentID
+                         Token:(NSString *)token
+                       loginID:(NSString *)loginID
+                       staffID:(NSString *)staffID
+                      finished:(requestDidFinished)finish;
 
 @end

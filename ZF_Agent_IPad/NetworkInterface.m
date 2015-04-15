@@ -204,7 +204,7 @@ static NSString *HTTP_GET  = @"GET";
                                                                 finished:finish];
     [request uploadImageData:UIImagePNGRepresentation(image)
                    imageName:nil
-                         key:@"filename"];
+                         key:@"img"];
     [request start];
 }
 //8.
@@ -1736,6 +1736,43 @@ static NSString *HTTP_GET  = @"GET";
                       httpMethod:HTTP_POST
                         finished:finish];
 }
++ (void)getStaffListWithAgentID:(NSString *)agentID
+                          token:(NSString *)token
+                           page:(int)page
+                           rows:(int)rows
+                       finished:(requestDidFinished)finish {
+    //参数
+    NSMutableDictionary *paramDict = [[NSMutableDictionary alloc] init];
+    if (agentID) {
+        [paramDict setObject:[NSNumber numberWithInt:[agentID intValue]] forKey:@"agentsId"];
+    }
+    [paramDict setObject:[NSNumber numberWithInt:page] forKey:@"page"];
+    [paramDict setObject:[NSNumber numberWithInt:rows] forKey:@"rows"];
+    //url
+    NSString *urlString = [NSString stringWithFormat:@"%@/%@",kServiceURL,s_staffList_method];
+    [[self class] requestWithURL:urlString
+                          params:paramDict
+                      httpMethod:HTTP_POST
+                        finished:finish];
+}
++(void)deleteStaffWithAgentID:(NSString *)agentID
+                        Token:(NSString *)token
+                      loginID:(NSString *)loginID
+                      staffID:(NSString *)staffID
+                     finished:(requestDidFinished)finish{
+    //参数
+    NSMutableDictionary *paramDict = [[NSMutableDictionary alloc] init];
+    [paramDict setObject:[NSNumber numberWithInt:[agentID intValue]] forKey:@"agentsId"];
+    [paramDict setObject:[NSNumber numberWithInt:[staffID intValue]] forKey:@"customerId"];
+    [paramDict setObject:loginID forKey:@"loginId"];
+    
+    //url
+    NSString *urlString = [NSString stringWithFormat:@"%@/%@",kServiceURL,s_deletedstaff_method];
+    [[self class] requestWithURL:urlString
+                          params:paramDict
+                      httpMethod:HTTP_POST
+                        finished:finish];
 
+}
 
 @end

@@ -354,6 +354,7 @@
         _chooseStatusField.text = @"全部";
         _keywordStr = nil;
         _searchField.text = nil;
+        [_searchField resignFirstResponder];
         _currentStatus = CSStatusAll;
         self.afterType = AfterSellTypeSell;
         self.csType = CSTypeAfterSale;
@@ -367,6 +368,7 @@
         _chooseStatusField.text = @"全部";
         _keywordStr = nil;
         _searchField.text = nil;
+        [_searchField resignFirstResponder];
         _currentStatus = CSStatusAll;
         self.afterType = AfterSellTypeCancel;
         self.csType = CSTypeCancel;
@@ -380,6 +382,7 @@
         _chooseStatusField.text = @"全部";
         _keywordStr = nil;
         _searchField.text = nil;
+        [_searchField resignFirstResponder];
         _currentStatus = CSStatusAll;
         self.afterType = AfterSellTypeUpdate;
         self.csType = CSTypeUpdate;
@@ -674,6 +677,7 @@
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     if (tableView.tag == searchTag) {
+        [_searchField resignFirstResponder];
         _keywordStr = nil;
         _searchField.text = nil;
         _chooseStatusField.text = [_statusArray objectAtIndex:indexPath.row];

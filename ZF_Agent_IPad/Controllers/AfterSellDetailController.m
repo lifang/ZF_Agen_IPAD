@@ -384,7 +384,7 @@
                                                                constant:recordHeight]];
         [recordView initAndLayoutUI];
     }
-    self.scrollView.contentSize = CGSizeMake(kScreenWidth, 320 + textHeight + recordHeight);
+    self.scrollView.contentSize = CGSizeMake(kScreenWidth, 400 + textHeight + recordHeight);
     terminalTitleLabel.text = @"终端号";
     addressTitleLabel.text = @"收货地址";
     reasonTitleLabel.text = @"售后原因";
