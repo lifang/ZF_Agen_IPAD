@@ -14,6 +14,7 @@
 #import "channelListModel.h"
 #import "MerchantDetailModel.h"
 #import "MerchantSelecteViewController.h"
+#import "BnakSelectViewController.h"
 
 
 #define kTextViewTag   111
@@ -40,7 +41,7 @@
 
 @end
 
-@interface ApplyDetailController ()<UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate,UIActionSheetDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,UIPopoverPresentationControllerDelegate,UIPickerViewDataSource,UIPickerViewDelegate,UIPopoverControllerDelegate,ApplyMerchantSelectedDelegate>
+@interface ApplyDetailController ()<UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate,UIActionSheetDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,UIPopoverPresentationControllerDelegate,UIPickerViewDataSource,UIPickerViewDelegate,UIPopoverControllerDelegate,ApplyMerchantSelectedDelegate,BankSelectedDelegate>
 
 @property(nonatomic,strong) UIPopoverController *popViewController;
 
@@ -656,16 +657,14 @@
             imagebutton.tag=[model.materialID integerValue];
             [self getApplyValueForKey:model.materialID];
             if ([_infoDict objectForKey:model.materialID] && ![[_infoDict objectForKey:model.materialID] isEqualToString:@""])
-            {            [imagebutton setImage:[UIImage imageNamed:@"upload.png"] forState:UIControlStateNormal];
+            {    [imagebutton setImage:[UIImage imageNamed:@"haveImage.png"] forState:UIControlStateNormal];
                 
             }
             else {
                 [imagebutton setTitle:@"上传图片" forState:UIControlStateNormal];
-                
-                [imagebutton setBackgroundImage:[UIImage imageNamed:@"orange.png"] forState:UIControlStateNormal];
+                imagebutton.backgroundColor=[UIColor colorWithHexString:@"006fd5"];
                 
             }
-            
             
             [_scrollView addSubview:imagebutton];
             
@@ -714,9 +713,10 @@
 }
 -(void)bankclick:(UIButton*)send
 {
-    
+    BnakSelectViewController *BnakSC=[[BnakSelectViewController alloc] init];
+    BnakSC.hidesBottomBarWhenPushed=YES;
+    [self.navigationController pushViewController:BnakSC animated:YES];
   
-    
 }
 //选择所在地
 
@@ -724,7 +724,6 @@
 {
       sexint=101;
     _selectedKey = key_location;
-    
     [self pickerDisplay:locationbutton];
     
     
@@ -923,6 +922,7 @@
 }
  
 */
+
 
 //选择支付通道
 
@@ -1152,6 +1152,18 @@
 }
 
 
+//根据银行编码获取银行名
+- (NSString *)getBankNameWithBankCode:(NSString *)bankCode {
+    for (BankModel *model in _bankItems) {
+        if ([model.bankCode isEqualToString:bankCode]) {
+            return model.bankName;
+        }
+    }
+    return nil;
+}
+
+
+
 - (void)parseImageUploadInfo:(NSDictionary *)dict {
     if (![dict objectForKey:@"result"] || ![[dict objectForKey:@"result"] isKindOfClass:[NSString class]]) {
         return;
@@ -1275,7 +1287,7 @@
             
             [[NSOperationQueue mainQueue] addOperationWithBlock:^{
                 
-                [self.popViewController presentPopoverFromRect:CGRectMake(100, 100, 200, 300) inView:self.view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+                [self.popViewController presentPopoverFromRect:CGRectMake(self.view.frame.size.width/2.0, 0, 0, 42) inView:self.view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
                 
             }];
             
@@ -1283,7 +1295,7 @@
         else
         {
             
-            [self.popViewController presentPopoverFromRect:CGRectMake(100, 100, 200, 300) inView:self.view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+            [self.popViewController presentPopoverFromRect:CGRectMake(self.view.frame.size.width/2.0, 0, 0, 42) inView:self.view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
         }
         
     }
@@ -1699,16 +1711,19 @@
     [accountnamebutton setTitle:model.merchantName forState:UIControlStateNormal];
 }
 
-/*
+
 #pragma mark - ChannelSelectedDelegate
 - (void)getSelectedBank:(BankModel *)model {
     if (model) {
         //此处没有保存对象 因为infoDict的值都为NSString，防止报错
         [_infoDict setObject:model.bankCode forKey:_selectedKey];
+        NSLog(@"12333433222");
         [_tableView reloadData];
     }
 }
 
+/*
+ 
 - (void)getChannelList:(ChannelListModel *)model billModel:(BillingModel *)billModel {
     NSString *channelInfo = [NSString stringWithFormat:@"%@ %@",model.channelName,billModel.billName];
     [_infoDict setObject:channelInfo forKey:key_channel];
