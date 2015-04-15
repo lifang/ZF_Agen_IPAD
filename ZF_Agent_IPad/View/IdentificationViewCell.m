@@ -52,6 +52,12 @@
         [_applicationBtn setBackgroundColor:[UIColor colorWithHexString:@"006fd5"]];
         [self addSubview:_applicationBtn];
         
+        _vedioConfirmBtn = [[UIButton alloc]init];
+        [_vedioConfirmBtn setTitle:@"视频认证" forState:UIControlStateNormal];
+        [_vedioConfirmBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        [_vedioConfirmBtn setBackgroundColor:[UIColor colorWithHexString:@"006fd5"]];
+        [self addSubview:_vedioConfirmBtn];
+        
     }
     return self;
 }
@@ -63,18 +69,20 @@
     
     CGFloat mainWidth = 160.f;
     CGFloat mainheight = 24.f;
-    CGFloat mainY = 20.f;
+    CGFloat mainY = 10.f;
    // CGFloat mainY = 60.f;
     
-    _terminalLabel.frame = CGRectMake(45, mainY, mainWidth, mainheight);
+    _terminalLabel.frame = CGRectMake(45, mainY+40, mainWidth, mainheight);
     
-    _posLabel.frame = CGRectMake(CGRectGetMaxX(_terminalLabel.frame) + 50, mainY, mainWidth, mainheight);
+    _posLabel.frame = CGRectMake(CGRectGetMaxX(_terminalLabel.frame) + 50, mainY+40, mainWidth, mainheight);
     
-    _payRoad.frame = CGRectMake(CGRectGetMaxX(_posLabel.frame) + 60, mainY, mainWidth * 0.5, mainheight);
+    _payRoad.frame = CGRectMake(CGRectGetMaxX(_posLabel.frame) + 60, mainY+40, mainWidth * 0.5, mainheight);
     
-    _dredgeStatus.frame = CGRectMake(CGRectGetMaxX(_payRoad.frame) + 90, mainY, mainWidth * 0.5, mainheight);
+    _dredgeStatus.frame = CGRectMake(CGRectGetMaxX(_payRoad.frame) + 90, mainY+40, mainWidth * 0.5, mainheight);
     
     _applicationBtn.frame = CGRectMake(CGRectGetMaxX(_dredgeStatus.frame) + 100, mainY, mainWidth * 0.7, mainheight * 1.5);
+    
+   _vedioConfirmBtn.frame = CGRectMake(CGRectGetMaxX(_dredgeStatus.frame) + 100, mainY+50, mainWidth * 0.7, mainheight * 1.5);
     
 }
 

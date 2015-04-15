@@ -188,10 +188,10 @@
             if (i == 1) {
                 [button setTitle:@"视频认证" forState:UIControlStateNormal];
             }
-            if (i == 1) {
+            if (i == 2) {
                 [button setTitle:@"重新申请开通" forState:UIControlStateNormal];
             }
-            if (i == 2) {
+            if (i == 3) {
                 [button setTitle:@"同步" forState:UIControlStateNormal];
             }
             
@@ -574,8 +574,35 @@
                                                          multiplier:1.0
                                                            constant:1.0]];
     
+    //开通详情高度
+    CGFloat openHeight = 0;
+    //文字
+    for (OpeningDetailsModel *model in _openItems) {
+        if (model.type == ResourceText) {
+            UILabel *openLabel = [[UILabel alloc] init];
+            [self setLabel:openLabel withTopView:thirdLine middleSpace:openHeight + space titleName:model.resourceKey];
+            openLabel.text = model.resourceValue;
+            openHeight += titleLabelHeight;
+        }
+    }
+    //图片
+    int index = 0;
+    for (OpeningDetailsModel *model in _openItems) {
+        if (model.type == ResourceImage) {
+            model.index = index;
+            if (index % 2 == 0 && index != 0) {
+                openHeight += labelHeight + lineSpace;
+            }
+            UILabel *imageLabel = [[UILabel alloc] init];
+            [self setImageLabel:imageLabel withTopView:openTitleLabel middleSpace:openHeight + lineSpace data:model];
+            index++;
+        }
+    }
+    openHeight += labelHeight + lineSpace;
+
     
     
+    /*
     //开通类型
     UILabel *typeLB = [[UILabel alloc] init];
     typeLB.text=@"开通类型";
@@ -972,6 +999,8 @@
         make.width.equalTo(@(42));
         
     }];
+     
+     */
     
     //跟踪记录
      _recordHeight = 0.f;
@@ -983,6 +1012,7 @@
         tipLabel.font = [UIFont systemFontOfSize:18];
         tipLabel.text = @"追踪记录：";
         [_scrollView addSubview:tipLabel];
+        /*
         [tipLabel makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(privatebankImageLB.bottom).offset(40);
             make.left.equalTo(privatebankImageLB.left);
@@ -990,6 +1020,36 @@
             make.width.equalTo(@(120));
             
         }];
+         */
+        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:tipLabel
+                                                              attribute:NSLayoutAttributeTop
+                                                              relatedBy:NSLayoutRelationEqual
+                                                                 toItem:openTitleLabel
+                                                              attribute:NSLayoutAttributeBottom
+                                                             multiplier:1.0
+                                                               constant:openHeight + 30]];
+        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:tipLabel
+                                                              attribute:NSLayoutAttributeLeft
+                                                              relatedBy:NSLayoutRelationEqual
+                                                                 toItem:self.view
+                                                              attribute:NSLayoutAttributeLeft
+                                                             multiplier:1.0
+                                                               constant:leftSpace]];
+        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:tipLabel
+                                                              attribute:NSLayoutAttributeRight
+                                                              relatedBy:NSLayoutRelationEqual
+                                                                 toItem:self.view
+                                                              attribute:NSLayoutAttributeRight
+                                                             multiplier:1.0
+                                                               constant:-leftSpace]];
+        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:tipLabel
+                                                              attribute:NSLayoutAttributeHeight
+                                                              relatedBy:NSLayoutRelationEqual
+                                                                 toItem:nil
+                                                              attribute:NSLayoutAttributeNotAnAttribute
+                                                             multiplier:1.0
+                                                               constant:labelHeight * 2]];
+
 
         
         RecordView *recordView = [[RecordView alloc] initWithRecords:self.records
@@ -1031,8 +1091,7 @@
     }
     
   
-
-
+    self.scrollView.contentSize = CGSizeMake(kScreenWidth, 400 + rateHeight + openHeight + _recordHeight);
     
     terminalTitleLabel.text = @"终端信息";
     openTitleLabel.text = @"开通详情";
@@ -1046,20 +1105,21 @@
     orderLabel.text = _orderNumber;
     timeLabel.text = _createTime;
     
+    /*
     typeDetailLB.text=_openModel.openType;
     inforDetailLB.text=_openModel.infor;
     nameDetailLB.text=_openModel.name;
     phoneDetailLB.text=_openModel.phone;
-    
+    */
 }
 
-
+/*
 -(void)BtnImagePressed:(id)sender
 {
 
 
 }
-
+*/
 
 - (NSString *)getStatusString {
     NSString *statusString = nil;
@@ -1300,10 +1360,104 @@
         }
     }
     [self initSubViews];
-    [self get];
+   // [self get];
 }
 
 
+- (void)setImageLabel:(UILabel *)label
+          withTopView:(UIView *)topView
+          middleSpace:(CGFloat)space
+                 data:(OpeningDetailsModel *)dataModel {
+    CGFloat leftSpace = 70.f;
+    CGFloat labelHeight = 18.f;
+    CGFloat vSpace = 0.f;
+    label.translatesAutoresizingMaskIntoConstraints = NO;
+    label.backgroundColor = [UIColor clearColor];
+    label.font = [UIFont systemFontOfSize:18.f];
+    label.textColor = kColor(42, 42, 42, 1);
+    label.text = dataModel.resourceKey;
+    [_scrollView addSubview:label];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:label
+                                                          attribute:NSLayoutAttributeTop
+                                                          relatedBy:NSLayoutRelationEqual
+                                                             toItem:topView
+                                                          attribute:NSLayoutAttributeBottom
+                                                         multiplier:1.0
+                                                           constant:space]];
+    if (dataModel.index % 2 == 0) {
+        //左侧
+        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:label
+                                                              attribute:NSLayoutAttributeLeft
+                                                              relatedBy:NSLayoutRelationEqual
+                                                                 toItem:self.view
+                                                              attribute:NSLayoutAttributeLeft
+                                                             multiplier:1.0
+                                                               constant:leftSpace]];
+    }
+    else {
+        //右侧
+        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:label
+                                                              attribute:NSLayoutAttributeLeft
+                                                              relatedBy:NSLayoutRelationEqual
+                                                                 toItem:self.view
+                                                              attribute:NSLayoutAttributeRight
+                                                             multiplier:0.4
+                                                               constant:0.f]];
+    }
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:label
+                                                          attribute:NSLayoutAttributeWidth
+                                                          relatedBy:NSLayoutRelationEqual
+                                                             toItem:nil
+                                                          attribute:NSLayoutAttributeWidth
+                                                         multiplier:1.0
+                                                           constant:150.f]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:label
+                                                          attribute:NSLayoutAttributeHeight
+                                                          relatedBy:NSLayoutRelationEqual
+                                                             toItem:nil
+                                                          attribute:NSLayoutAttributeNotAnAttribute
+                                                         multiplier:1.0
+                                                           constant:labelHeight]];
+    if (!dataModel.resourceValue) {
+        return;
+    }
+    UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
+    btn.translatesAutoresizingMaskIntoConstraints = NO;
+    btn.tag = dataModel.index + 1;
+    [btn setBackgroundImage:kImageName(@"upload.png") forState:UIControlStateNormal];
+    [btn addTarget:self action:@selector(scanImage:) forControlEvents:UIControlEventTouchUpInside];
+    [_scrollView addSubview:btn];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:btn
+                                                          attribute:NSLayoutAttributeTop
+                                                          relatedBy:NSLayoutRelationEqual
+                                                             toItem:topView
+                                                          attribute:NSLayoutAttributeBottom
+                                                         multiplier:1.0
+                                                           constant:space]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:btn
+                                                          attribute:NSLayoutAttributeLeft
+                                                          relatedBy:NSLayoutRelationEqual
+                                                             toItem:label
+                                                          attribute:NSLayoutAttributeRight
+                                                         multiplier:1.0
+                                                           constant:vSpace]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:btn
+                                                          attribute:NSLayoutAttributeWidth
+                                                          relatedBy:NSLayoutRelationEqual
+                                                             toItem:nil
+                                                          attribute:NSLayoutAttributeNotAnAttribute
+                                                         multiplier:0.0
+                                                           constant:25.f]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:btn
+                                                          attribute:NSLayoutAttributeHeight
+                                                          relatedBy:NSLayoutRelationEqual
+                                                             toItem:nil
+                                                          attribute:NSLayoutAttributeNotAnAttribute
+                                                         multiplier:1.0
+                                                           constant:25.f]];
+}
+
+/*
 -(void)get
 {
    for (int i = 0; i < [_openItems count]; i++) {
@@ -1343,7 +1497,7 @@
      }
    }
 }
-
+*/
 
 #pragma mark ---按钮点击时间
 
@@ -1359,6 +1513,7 @@
             break;
         case 4444:
             NSLog(@"点击了找回POS密码（部分开通）");
+            [self initFindPosViewWithSelectedID];
             break;
         case 4445:
             NSLog(@"点击了视频认证（部分开通）");
@@ -1421,18 +1576,18 @@
 
 #pragma mark - Action
 
-/*
+
 - (void)scanImage:(id)sender {
     UIButton *btn = (UIButton *)sender;
     CGRect convertRect = [[btn superview] convertRect:btn.frame toView:self.view];
-    for (OpeningModel *model in _openItems) {
+    for (OpeningDetailsModel *model in _openItems) {
         if (model.type == ResourceImage && btn.tag == model.index + 1) {
-            [self showDetailImageWithURL:model.resourceValue imageRect:convertRect];
+            [self showDetailImageWithURL:model.resourceValue imageRect:convertRect WithIdentifier:nil];
             break;
         }
     }
 }
-*/
+
 
 -(void)initFindPosViewWithSelectedID
 {
@@ -1500,6 +1655,7 @@
 
 -(void)viewDidLayoutSubviews
 {
+    /*
     if (iOS8) {
         
         [_scrollView setContentSize:CGSizeMake(self.view.frame.size.width, _privatebankIMGBtn.frame.origin.y+200+_recordHeight)];
@@ -1508,11 +1664,13 @@
     if (iOS7) {
         _scrollView.contentSize = CGSizeMake(self.view.frame.size.height,  _privatebankIMGBtn.frame.origin.y+200+_recordHeight);
     }
+     */
 }
 
 
 -(void)viewDidAppear:(BOOL)animated
 {
+    /*
     if (iOS8) {
         
         [_scrollView setContentSize:CGSizeMake(self.view.frame.size.width, _privatebankIMGBtn.frame.origin.y+200+_recordHeight)];
@@ -1521,7 +1679,7 @@
         
         [_scrollView setContentSize:CGSizeMake(self.view.frame.size.height, _privatebankIMGBtn.frame.origin.y+200+_recordHeight)];
     }
-
+*/
 }
 
 

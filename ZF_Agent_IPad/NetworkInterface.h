@@ -117,7 +117,7 @@ static NSString *s_getMerchant_method = @"apply/getMerchant";
 static NSString *s_applyChannel_method = @"apply/getChannels";
 
 //13.申请开通--选择银行
-static NSString *s_chooseBank_method = @"apply/ChooseBank";
+static NSString *s_chooseBank_method = @"apply/chooseBank";
 
 //14.申请开通--对公对私材料名称
 static NSString *s_applyMaterial_method = @"apply/getMaterialName";

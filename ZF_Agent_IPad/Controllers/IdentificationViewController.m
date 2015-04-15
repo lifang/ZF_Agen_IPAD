@@ -379,7 +379,7 @@
     
     //用来标识数据的id
     cell.applicationBtn.tag = indexPath.row;
-    //cell.vedioConfirmBtn.tag = [model.TM_ID intValue];
+    cell.vedioConfirmBtn.tag = [model.TM_ID intValue];
     if(  [model.TM_status  isEqualToString:@"2"])
     {
         [cell.applicationBtn setTitle:@"重新申请开通" forState:UIControlStateNormal];
@@ -393,9 +393,9 @@
     {
         [cell.applicationBtn setTitle:@"申请开通" forState:UIControlStateNormal];
         [cell.applicationBtn addTarget:self action:@selector(applicationClick:) forControlEvents:UIControlEventTouchUpInside];
-        
-        
     }
+    [cell.vedioConfirmBtn setTitle:@"视频认证" forState:UIControlStateNormal];
+    [cell.vedioConfirmBtn addTarget:self action:@selector(vedioConfirmClick:) forControlEvents:UIControlEventTouchUpInside];
     
     return cell;
 }
@@ -429,17 +429,7 @@
     
 }
 
-//-(void)applicationClicks:(UIButton *)button
-//{
-//    NSLog(@"%ld",(long)button.tag);
-//
-//    ApplyDetailController *detailC = [[ApplyDetailController alloc] init];
-//    detailC.terminalID =[NSString stringWithFormat:@"%d",button.tag];
-//    detailC.openStatus = OpenStatusReopen;
-//    detailC.hidesBottomBarWhenPushed = YES;
-//
-//    [self.navigationController pushViewController:detailC animated:YES];
-//}
+
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     //    DynamicStatus *status = [_listArray objectAtIndex:indexPath.row];
@@ -451,7 +441,7 @@
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 80;
+    return 110;
 }
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
