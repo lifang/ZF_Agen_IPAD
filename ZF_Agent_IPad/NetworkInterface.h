@@ -198,6 +198,8 @@ static NSString *s_goodList_method = @"good/list";
 
 //36.商品详细
 static NSString *s_goodDetail_method = @"good/goodinfo";
+//36.交易流水详情
+static NSString *s_TradeRecord = @"trade/getTradeRecord";
 //获取交易流水终端列表
 //static NSString *s_terminalList_method = @"trade/record/getTerminals";
 //40.库存管理列表
@@ -503,7 +505,6 @@ static NSString *s_hot_method = @"index/pos_list";
                    finished:(requestDidFinished)finish;
 
 /*!
->>>>>>> ece32d8ac553ed263c0570bb286bf961bd23a287
  @abstract 14.申请开通--对公对私材料名称
  @param token       登录返回
  @param terminalID  终端ID
@@ -859,6 +860,9 @@ static NSString *s_hot_method = @"index/pos_list";
                          goodID:(NSString *)goodID
                      supplyType:(SupplyGoodsType)supplyType
                        finished:(requestDidFinished)finish;
+//37.
++ (void)getTradeRecordid:(NSString *)isHaveProfit agentID:(NSString *)agentID tradeRecordId:(NSString *)tradeRecordId finished:(requestDidFinished)finish;
+
 /*!
  @abstract 37.获取终端列表
  @param token       登录返回

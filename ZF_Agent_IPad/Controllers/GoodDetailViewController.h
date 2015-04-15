@@ -7,6 +7,7 @@
 //
 
 #import "CommonViewController.h"
+#import "NetworkInterface.h"
 
 @interface GoodDetailViewController : CommonViewController
 
@@ -16,5 +17,6 @@
 }
 @property (nonatomic, strong) NSString *goodID;
 @property (nonatomic, assign) NSInteger  secletA;
+@property (nonatomic, assign) SupplyGoodsType supplyType;
 
 @end

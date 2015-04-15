@@ -34,7 +34,7 @@
 
 @end
 
-@interface CreateViewController ()<UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate,UIPickerViewDataSource,UIPickerViewDelegate,UIActionSheetDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate>
+@interface CreateViewController ()<UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate,UIPickerViewDataSource,UIPickerViewDelegate,UIActionSheetDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,UIPopoverControllerDelegate>
 
 @property (nonatomic, strong) UIPickerView *pickerView;
 
@@ -48,6 +48,8 @@
 @property (nonatomic, strong) UIButton *cityField;
 @property (nonatomic, assign) BOOL isopen;
 @property (nonatomic, assign) BOOL isPorS;
+@property(nonatomic,strong) UIPopoverController *popViewController;
+@property (nonatomic, strong) NSMutableDictionary *infoDict;
 
 @end
 
@@ -55,6 +57,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    _infoDict = [[NSMutableDictionary alloc] init];
+
     // Do any additional setup after loading the view.
     self.title = @"申请成为代理商";
     _agentType = AgentTypeCompany;
@@ -240,12 +244,63 @@
 
 
 #pragma mark - Request
+- (void)parseImageUploadInfo:(NSDictionary *)dict {
+    if (![dict objectForKey:@"result"] || ![[dict objectForKey:@"result"] isKindOfClass:[NSString class]]) {
+        return;
+    }
+    NSString *urlString = [dict objectForKey:@"result"];
+    if (urlString && ![urlString isEqualToString:@""]) {
+        [_infoDict setObject:urlString forKey:_selectedKey];
+    }
+    [_tableView reloadData];
+}
 
-- (void)uploadPictureWithImage:(UIImage *)image {
-    
+- (void)uploadPictureWithImage:(UIImage *)image
+
+{
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+    hud.labelText = @"上传中...";
+    [NetworkInterface uploadImageWithImage:image finished:^(BOOL success, NSData *response) {
+        NSLog(@"!!!!%@",[[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding]);
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:0.5f];
+        if (success) {
+            id object = [NSJSONSerialization JSONObjectWithData:response options:NSJSONReadingMutableLeaves error:nil];
+            if ([object isKindOfClass:[NSDictionary class]]) {
+                NSString *errorCode = [NSString stringWithFormat:@"%@",[object objectForKey:@"code"]];
+                if ([errorCode intValue] == RequestFail) {
+                    //返回错误代码
+                    hud.labelText = [NSString stringWithFormat:@"%@",[object objectForKey:@"message"]];
+                }
+                else if ([errorCode intValue] == RequestSuccess) {
+                    hud.labelText = @"上传成功";
+                    [self parseImageUploadInfo:object];
+                }
+            }
+            else {
+                //返回错误数据
+                hud.labelText = kServiceReturnWrong;
+            }
+        }
+        else {
+            hud.labelText = kNetworkFailed;
+        }
+    }];
+
 }
 
 #pragma mark - Action
+-(void)pictureclick:(UIButton*)send
+{
+    _selectedKey =[NSString stringWithFormat:@"%d", send.tag];
+
+
+    [self showImageOption];
+    
+
+
+}
 -(void)addressclick
 {
 
@@ -608,7 +663,8 @@
             
             
             UITextField*neworiginaltextfield=[[UITextField alloc]init];
-            
+            neworiginaltextfield.tag=i+404;
+
             neworiginaltextfield.frame = CGRectMake(wide/2-200,  i*60+100,280, 40);
             
             neworiginaltextfield.delegate=self;
@@ -668,15 +724,15 @@
         
         if(i==4)
         {
-           addressbutton = [UIButton buttonWithType:UIButtonTypeCustom];
-            addressbutton.frame = CGRectMake(wide/2-200,i*60+heighth,280, 40);
+           addressbuttons = [UIButton buttonWithType:UIButtonTypeCustom];
+            addressbuttons.frame = CGRectMake(wide/2-200,i*60+heighth,280, 40);
             
-            [addressbutton setTitle:cityName forState:UIControlStateNormal];
+            [addressbuttons setTitle:cityName forState:UIControlStateNormal];
 
-            [addressbutton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-            addressbutton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
-            [addressbutton setImage:kImageName(@"arrow_line1") forState:UIControlStateNormal];
-            CALayer *layer=[addressbutton  layer];
+            [addressbuttons setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+            addressbuttons.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
+            [addressbuttons setImage:kImageName(@"arrow_line1") forState:UIControlStateNormal];
+            CALayer *layer=[addressbuttons  layer];
             //是否设置边框以及是否可见
             [layer setMasksToBounds:YES];
             //设置边框圆角的弧度
@@ -686,12 +742,12 @@
             [layer setBorderWidth:1];
             //设置边框线的颜色
             [layer setBorderColor:[[UIColor grayColor] CGColor]];
-            addressbutton.contentEdgeInsets = UIEdgeInsetsMake(0,-40, 0, 0);
-            addressbutton.imageEdgeInsets = UIEdgeInsetsMake(0,270,0,0);//设置image在button上的位置（上top，左left，下bottom，右right）这里可以写负值，对上写－5，那么image就象上移动5个像素
+            addressbuttons.contentEdgeInsets = UIEdgeInsetsMake(0,-40, 0, 0);
+            addressbuttons.imageEdgeInsets = UIEdgeInsetsMake(0,270,0,0);//设置image在button上的位置（上top，左left，下bottom，右right）这里可以写负值，对上写－5，那么image就象上移动5个像素
             
             
-            [addressbutton addTarget:self action:@selector(addressclick) forControlEvents:UIControlEventTouchUpInside];
-            [_scrollView addSubview:addressbutton];
+            [addressbuttons addTarget:self action:@selector(addressclick) forControlEvents:UIControlEventTouchUpInside];
+            [_scrollView addSubview:addressbuttons];
         
         }else
         {
@@ -700,7 +756,8 @@
             neworiginaltextfield.frame = CGRectMake(wide/2-200,i*60+heighth,280, 40);
             
             neworiginaltextfield.delegate=self;
-            
+            neworiginaltextfield.tag=i+408;
+
             neworiginaltextfield.tag=i+1056;
             neworiginaltextfield.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
             [_scrollView addSubview:neworiginaltextfield];
@@ -754,11 +811,12 @@
             [addressbutton setBackgroundImage:kImageName(@"blue") forState:UIControlStateNormal];
             
             
-            [addressbutton addTarget:self action:@selector(sexclick) forControlEvents:UIControlEventTouchUpInside];
+            [addressbutton addTarget:self action:@selector(pictureclick:) forControlEvents:UIControlEventTouchUpInside];
             [_scrollView addSubview:addressbutton];
             
             
-            
+            addressbutton.tag=i+418;
+
             
             
         }
@@ -793,11 +851,12 @@
             [addressbutton setBackgroundImage:kImageName(@"blue") forState:UIControlStateNormal];
             
             
-            [addressbutton addTarget:self action:@selector(sexclick) forControlEvents:UIControlEventTouchUpInside];
+            [addressbutton addTarget:self action:@selector(pictureclick:) forControlEvents:UIControlEventTouchUpInside];
             [_scrollView addSubview:addressbutton];
             
             
-            
+            addressbutton.tag=i+428;
+
             
             
         }
@@ -856,7 +915,8 @@
         
         
         UITextField*neworiginaltextfield=[[UITextField alloc]init];
-        
+        neworiginaltextfield.tag=i+518;
+
         neworiginaltextfield.frame = CGRectMake(wide/2-200,  i*60+heighth,280, 40);
         
         neworiginaltextfield.delegate=self;
@@ -920,14 +980,7 @@
 #pragma mark - UITextField
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField {
-    RegisterCell *cell = (RegisterCell *)[[textField superview] superview];
-    CGRect rect = cell.textLabel.frame;
-    [cell.textLabel sizeToFit];
-    rect.size.width = cell.textLabel.frame.size.width;
-    cell.textLabel.frame = rect;
-    CGFloat originX = cell.textLabel.frame.origin.x + cell.textLabel.frame.size.width;
-    CGFloat width = kScreenWidth - originX - 20 > 170 ? 170 : kScreenWidth - originX - 20;
-    textField.frame = CGRectMake(kScreenWidth - width - 20, 0, width, cell.contentView.frame.size.height);
+  
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
@@ -936,9 +989,7 @@
 }
 
 - (void)textFieldDidEndEditing:(RegisterTextField *)textField {
-    if (textField.text && ![textField.text isEqualToString:@""]) {
-        [_registerDict setObject:textField.text forKey:textField.key];
-    }
+    
 }
 
 
@@ -992,13 +1043,34 @@
             sourceType = UIImagePickerControllerSourceTypeCamera;
         }
     }
-    if ([UIImagePickerController isSourceTypeAvailable:sourceType] &&
+    if ([UIImagePickerController isSourceTypeAvailable:sourceType]&&
         buttonIndex != actionSheet.cancelButtonIndex) {
         UIImagePickerController *imagePickerController = [[UIImagePickerController alloc] init];
         imagePickerController.delegate = self;
         imagePickerController.allowsEditing = YES;
         imagePickerController.sourceType = sourceType;
-        [self presentViewController:imagePickerController animated:YES completion:nil];
+        
+        UIPopoverController *popover = [[UIPopoverController alloc] initWithContentViewController:imagePickerController];
+        popover.delegate = self;
+        self.popViewController = popover;//对局部UIPopoverController对象popover我们赋给了一个全局的UIPopoverController对象popoverController
+        // popover.popoverContentSize = CGSizeMake(SCREEN_WIDTH, SCREEN_HEIGHT);
+        
+        if([[[UIDevice currentDevice] systemVersion] floatValue]>=8.0)
+        {
+            
+            [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+                
+                [self.popViewController presentPopoverFromRect:CGRectMake(100, 100, 200, 300) inView:self.view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+                
+            }];
+            
+        }
+        else
+        {
+            
+            [self.popViewController presentPopoverFromRect:CGRectMake(100, 100, 200, 300) inView:self.view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+        }
+        
     }
 }
 
@@ -1014,7 +1086,7 @@
 #pragma mark - UIImagePickerDelegate
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
-    [picker dismissViewControllerAnimated:YES completion:nil];
+    [self.popViewController dismissPopoverAnimated:NO];
     UIImage *editImage = [info objectForKey:UIImagePickerControllerEditedImage];
     [self uploadPictureWithImage:editImage];
 }

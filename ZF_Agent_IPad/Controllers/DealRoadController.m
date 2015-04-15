@@ -26,7 +26,7 @@
 #import "TradeAgentModel.h"
 
 #import "MJRefresh.h"
-
+#import "DealRoadChildController.h"
 
 #import "UIImage+Extention.h"
 typedef enum {
@@ -333,9 +333,13 @@ static NSString *s_defaultTerminalNum = @"请选择终端号";
     self.contentView = contentView;
     [self setupContetView];
     contentView.backgroundColor = [UIColor whiteColor];
-    contentView.frame = CGRectMake(0, CGRectGetMaxY(publicBtn.frame), SCREEN_WIDTH, 260 - CGRectGetMaxY(publicBtn.frame));
     if (iOS7) {
         contentView.frame = CGRectMake(0, CGRectGetMaxY(publicBtn.frame), SCREEN_HEIGHT, 260 - CGRectGetMaxY(publicBtn.frame));
+    }else
+    {
+        contentView.frame = CGRectMake(0, CGRectGetMaxY(publicBtn.frame), SCREEN_WIDTH, 260 - CGRectGetMaxY(publicBtn.frame));
+
+    
     }
     [headerView addSubview:contentView];
     
@@ -481,6 +485,28 @@ static NSString *s_defaultTerminalNum = @"请选择终端号";
     startStatisticsBtn.titleLabel.font = [UIFont systemFontOfSize:18];
     startStatisticsBtn.frame = CGRectMake(CGRectGetMaxX(startFindBtn.frame) + 60, CGRectGetMaxY(_terminalField.frame) + 30, 100, 40);
     [_contentView addSubview:startStatisticsBtn];
+    
+    
+    
+    UIView*lineView = [[UIView alloc]init];
+    if(iOS7)
+    {
+        lineView.frame=CGRectMake(0, 179, SCREEN_HEIGHT, 1);
+
+    
+    }else
+    {
+    
+    
+        lineView.frame=CGRectMake(0, 179, SCREEN_WIDTH, 1);
+
+    
+    }
+    
+    
+    lineView.backgroundColor = [UIColor colorWithWhite:0.7 alpha:0.8];
+    [_contentView addSubview:lineView];
+
     [self setRefreshView];
     
 }
@@ -1066,7 +1092,7 @@ else if (tableView== _terminalTableView)
         _terminalField.text = model.terminalNum;
         [_terminalTableView removeFromSuperview];
     }
-    if (tableView == _agentTableView)
+  else  if (tableView == _agentTableView)
     
     {
         TradeAgentModel *model = [agentItem objectAtIndex:indexPath.row];
@@ -1078,14 +1104,14 @@ else if (tableView== _terminalTableView)
         
     }
     else{
-        //    //内容点击跳转
-        //    DealRoadChildController *dealVC = [[DealRoadChildController alloc]init];
-        //    TradeModel *model = [_tradeRecords objectAtIndex:indexPath.row];
-        //    TradeType tradeType = [self tradeTypeFromIndex:_buttonIndex];
-        //    dealVC.tradeID = model.tradeID;
-        //    dealVC.tradeType = tradeType;
-        //    dealVC.hidesBottomBarWhenPushed = YES;
-        //    [self.navigationController pushViewController:dealVC animated:YES];
+            //内容点击跳转
+            DealRoadChildController *dealVC = [[DealRoadChildController alloc]init];
+            TradeModel *model = [_tradeRecords objectAtIndex:indexPath.row];
+            TradeType tradeType = [self tradeTypeFromIndex:_buttonIndex];
+            dealVC.tradeID = model.tradeID;
+            dealVC.tradeType = tradeType;
+            dealVC.hidesBottomBarWhenPushed = YES;
+            [self.navigationController pushViewController:dealVC animated:YES];
     }
 }
 
@@ -1292,6 +1318,7 @@ else if (tableView== _terminalTableView)
 
 - (void)parseTradeDataWithDictionary:(NSDictionary *)dict {
     if (![dict objectForKey:@"result"] || ![[dict objectForKey:@"result"] isKindOfClass:[NSDictionary class]]) {
+        
         return;
     }
     NSArray *tradeList = [[dict objectForKey:@"result"] objectForKey:@"list"];
