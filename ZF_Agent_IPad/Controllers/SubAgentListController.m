@@ -456,6 +456,7 @@
         }
         cell.textLabel.text = titleName;
         cell.textLabel.font = [UIFont systemFontOfSize:15.f];
+        
         return cell;
     }
     else {
@@ -467,6 +468,28 @@
         }
         SubAgentModel *model = [_dataItem objectAtIndex:indexPath.row];
         [cell setContentWithData:model];
+        
+        _tableView.separatorStyle=UITableViewCellSeparatorStyleNone;
+        CGFloat wide;
+        CGFloat height;
+        if(iOS7)
+        {
+            wide=SCREEN_HEIGHT;
+            height=SCREEN_WIDTH;
+            
+        }
+        else
+        {  wide=SCREEN_WIDTH;
+            height=SCREEN_HEIGHT;
+            
+        }
+
+                UIView*lineView = [[UIView alloc]init];
+        lineView.frame=CGRectMake(20, 59, wide-220-40, 1);
+        
+        
+             lineView.backgroundColor = [UIColor grayColor];
+             [cell addSubview:lineView];
 //        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         return cell;
     }

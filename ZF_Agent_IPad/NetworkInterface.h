@@ -99,7 +99,7 @@ static NSString *s_emailValidate_method = @"agent/sendEmailVerificationCode";
 static NSString *s_findPassword_method = @"agent/updatePassword";
 
 //7.注册图片上传
-static NSString *s_uploadRegisterImage_method = @"agent/uploadFile";
+static NSString *s_uploadRegisterImage_method = @"comment/upload/tempImage";
 
 //8.开通申请列表--根据代理商ID获得开通申请列表
 static NSString *s_applyList_method = @"apply/getApplyList";
@@ -198,6 +198,8 @@ static NSString *s_goodList_method = @"good/list";
 
 //36.商品详细
 static NSString *s_goodDetail_method = @"good/goodinfo";
+//36.交易流水详情
+static NSString *s_TradeRecord = @"trade/getTradeRecord";
 //获取交易流水终端列表
 //static NSString *s_terminalList_method = @"trade/record/getTerminals";
 //40.库存管理列表
@@ -308,6 +310,11 @@ static NSString *s_subAgentDefaultBenefit_method = @"lowerAgent/changeProfit";
 static NSString *s_hot_method = @"index/pos_list";
 //提交物流信息
 static NSString *s_submitLogist_method = @"/cs/agents/addMark";
+//员工列表
+static NSString *s_staffList_method = @"/customerManage/getList";
+//删除员工
+static NSString *s_deletedstaff_method = @"/customerManage/deleteOne";
+
 
 @interface NetworkInterface : NSObject
 /*!
@@ -839,6 +846,9 @@ static NSString *s_submitLogist_method = @"/cs/agents/addMark";
                          goodID:(NSString *)goodID
                      supplyType:(SupplyGoodsType)supplyType
                        finished:(requestDidFinished)finish;
+//37.
++ (void)getTradeRecordid:(NSString *)isHaveProfit agentID:(NSString *)agentID tradeRecordId:(NSString *)tradeRecordId finished:(requestDidFinished)finish;
+
 /*!
  @abstract 37.获取终端列表
  @param token       登录返回
@@ -1298,5 +1308,17 @@ static NSString *s_submitLogist_method = @"/cs/agents/addMark";
                           logistName:(NSString *)logistname
                            logistNum:(NSString *)logistnum
                             finished:(requestDidFinished)finish;
+//员工管理列表
++ (void)getStaffListWithAgentID:(NSString *)agentID
+                             token:(NSString *)token
+                              page:(int)page
+                              rows:(int)rows
+                          finished:(requestDidFinished)finish;
+//删除员工
++ (void)deleteStaffWithAgentID:(NSString *)agentID
+                         Token:(NSString *)token
+                       loginID:(NSString *)loginID
+                       staffID:(NSString *)staffID
+                      finished:(requestDidFinished)finish;
 
 @end

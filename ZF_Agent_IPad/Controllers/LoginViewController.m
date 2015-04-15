@@ -148,7 +148,9 @@
 
 -(void)loginClick:(UIButton *)sender
 {
+    //进入首页
     [[AppDelegate shareRootViewController] showMainViewController];
+    
 //    if (!_userField.text || [_userField.text isEqualToString:@""] || !_passwordField.text || [_passwordField.text isEqualToString:@""]) {
 //        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示信息"
 //                                                        message:@"用户名或密码不能为空!"
@@ -158,7 +160,7 @@
 //        [alert show];
 //        return;
 //    }
-//    
+//
 //    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
 //    hud.labelText = @"正在登录...";
 //    [NetworkInterface loginWithUsername:_userField.text password:_passwordField.text isAlreadyEncrypt:NO finished:^(BOOL success, NSData *response) {
@@ -218,27 +220,6 @@
 //        [self.LoginSuccessDelegate LoginSuccess];
 //    }
 //    [self dismissViewControllerAnimated:YES completion:nil];
-//}
-//
-//-(void)exitClick
-//{
-//    [self dismissViewControllerAnimated:YES completion:nil];
-//}
-//
-//-(void)findClick:(UIButton *)sender
-//{
-//    NSLog(@"点击了找回密码！");
-//    FindPasswordViewController *findV = [[FindPasswordViewController alloc]init];
-//    self.navigationController.navigationBarHidden = NO;
-//    [self.navigationController pushViewController:findV animated:YES];
-//}
-//
-//-(void)registe:(UIButton *)sender
-//{
-//    NSLog(@"点击了注册！");
-//    RegisterViewController *registeVC = [[RegisterViewController alloc]init];
-//    self.navigationController.navigationBarHidden = NO;
-//    [self.navigationController pushViewController:registeVC animated:YES];
 //}
 
 @end

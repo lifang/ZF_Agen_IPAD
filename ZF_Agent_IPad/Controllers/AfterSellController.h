@@ -9,6 +9,7 @@
 #import "RefreshViewController.h"
 
 static NSString *RefreshCSListNotification = @"RefreshCSListNotification";
+
 @interface AfterSellController : RefreshViewController
 
 @end

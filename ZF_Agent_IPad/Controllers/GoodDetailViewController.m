@@ -175,11 +175,11 @@
     //    _priceLabel.textAlignment = NSTextAlignmentRight;
     
     _buyButton = [GoodButton buttonWithType:UIButtonTypeCustom];
-    [_buyButton setButtonAttrWithTitle:@"购买"];
+    [_buyButton setButtonAttrWithTitle:@"代购买"];
     [_buyButton addTarget:self action:@selector(buyGood:) forControlEvents:UIControlEventTouchUpInside];
     _buyButton.selected = YES;
     _rentButton = [GoodButton buttonWithType:UIButtonTypeCustom];
-    [_rentButton setButtonAttrWithTitle:@"租赁"];
+    [_rentButton setButtonAttrWithTitle:@"代租赁"];
     [_rentButton addTarget:self action:@selector(rentGood:) forControlEvents:UIControlEventTouchUpInside];
     
     [self initImageScanView];
@@ -396,6 +396,7 @@
     originY += vSpace + labelHeight;
     _priceLabel.frame = CGRectMake(leftSpace, originY, leftSpace- rightSpace, labelHeight);
     
+    
     if (_buyButton.isSelected) {
         [self setPriceWithString:[NSString stringWithFormat:@"%.2f",_detailModel.goodPrice + _detailModel.defaultChannel.openCost]];
     }
@@ -404,6 +405,28 @@
     }
 
     [_mainScrollView addSubview:_priceLabel];
+    
+    
+    if (self.supplyType==2)
+    {
+        
+    }
+    else {
+        
+        UILabel *originalable = [[UILabel alloc] initWithFrame:CGRectMake(200+_priceLabel.frame.origin.x+20, originY, _priceLabel.frame.size.width, labelHeight)];
+        NSString *primaryPrice = [NSString stringWithFormat:@"原价 ￥222"];
+        NSMutableAttributedString *priceAttrString = [[NSMutableAttributedString alloc] initWithString:primaryPrice];
+        NSDictionary *priceAttr = [NSDictionary dictionaryWithObjectsAndKeys:
+                                   [UIFont systemFontOfSize:15.f],NSFontAttributeName,
+                                   [NSNumber numberWithInt:2],NSStrikethroughStyleAttributeName,
+                                   nil];
+        [priceAttrString addAttributes:priceAttr range:NSMakeRange(0, [priceAttrString length])];
+        originalable.attributedText = priceAttrString;
+        
+        [_mainScrollView addSubview:originalable];
+        
+    }
+
     //支付通道
     originY += labelHeight + 10.f;
     UILabel *channelTitleLabel = [[UILabel alloc] initWithFrame:CGRectMake(leftSpace, originY, leftLabelWidth, btnHeight)];
@@ -464,7 +487,7 @@
     _buyButton.frame = CGRectMake(leftSpace + leftLabelWidth + firstSpace, originY, btnWidth, btnHeight);
     _rentButton.frame = CGRectMake(_buyButton.frame.origin.x + _buyButton.frame.size.width + hSpace, originY, btnWidth, btnHeight);
     [_mainScrollView addSubview:_rentButton];
-    if (_detailModel.canRent) {
+    if (self.supplyType==2) {
         _rentButton.hidden = NO;
         [self setLabel:buyTypeTitleLabel withTitle:@"购买方式" font:[UIFont systemFontOfSize:17.f]];
         [_mainScrollView addSubview:_buyButton];
@@ -486,20 +509,30 @@
     [_shopcartButton setTitle:@"加入购物车" forState:UIControlStateNormal];
     _shopcartButton.titleLabel.font = [UIFont systemFontOfSize:16.f];
     [_shopcartButton addTarget:self action:@selector(addShoppingCart:) forControlEvents:UIControlEventTouchUpInside];
-    [_mainScrollView addSubview:_shopcartButton];
     
     
     //立即购买
     _buyGoodButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    _buyGoodButton.frame = CGRectMake(_shopcartButton.frame.origin.x+_shopcartButton.frame.size.width+20, _buyButton.frame.origin.y + _buyButton.frame.size.height+20, wide/4-80, 40);
+    _buyGoodButton.frame = CGRectMake(_shopcartButton.frame.origin.x+_shopcartButton.frame.size.width+20, _buyButton.frame.origin.y + _buyButton.frame.size.height+20, wide/4, 40);
+    _buyGoodButton.center=CGPointMake(wide/4*3-20,  _buyButton.frame.origin.y + _buyButton.frame.size.height+60);
+    
+    
     //    _buyGoodButton.layer.cornerRadius = 4.f;
     _buyGoodButton.layer.masksToBounds = YES;
-    [_buyGoodButton setBackgroundImage:kImageName(@"orange.png") forState:UIControlStateNormal];
-    [_buyGoodButton setTitle:@"立即购买" forState:UIControlStateNormal];
+    [_buyGoodButton setBackgroundImage:kImageName(@"blue") forState:UIControlStateNormal];
     _buyGoodButton.titleLabel.font = [UIFont systemFontOfSize:16.f];
     [_buyGoodButton addTarget:self action:@selector(buyNow:) forControlEvents:UIControlEventTouchUpInside];
     [_mainScrollView addSubview:_buyGoodButton];
-    
+    if (self.supplyType==2) {
+        [_buyGoodButton setTitle:@"代购" forState:UIControlStateNormal];
+
+           }
+    else {
+        
+        [_buyGoodButton setTitle:@"立即批购" forState:UIControlStateNormal];
+
+    }
+
     UIView *handleView = [self handleViewWithOriginY:_topScorllView.frame.origin.y+_topScorllView.frame.size.height+60];
     [_mainScrollView addSubview:handleView];
     handleView.userInteractionEnabled=YES;
@@ -582,8 +615,11 @@
     [viewbutton addSubview:lineview];
     lineview.backgroundColor = [UIColor grayColor];
     viewbutton.backgroundColor = [UIColor whiteColor];
-    if (_detailModel.canRent)
+    if (self.supplyType==2)
     {
+        
+        if(_detailModel.canRent)
+        {
         NSString*str=[NSString stringWithFormat:@"评论(%d)",[_detailModel.goodComment intValue]];
         
         NSArray*arry=[NSArray arrayWithObjects:@"商品描述",@"开通所需材料",str,@"租赁说明",@"  交易费率", nil];
@@ -605,9 +641,41 @@
             line.backgroundColor = [UIColor grayColor];
             [viewbutton addSubview:line];
         }
+        }
         
+        else
+            
+        {
+            NSString*str=[NSString stringWithFormat:@"评论(%d)",[_detailModel.goodComment intValue]];
+            
+            NSArray*arry=[NSArray arrayWithObjects:@"商品描述",@"开通所需材料",str,@"交易费率", nil];
+            
+            
+            for (int i = 0; i < 4; i++ ) {
+                
+                UIButton *rentButton = [UIButton buttonWithType:UIButtonTypeCustom];
+                rentButton.frame = CGRectMake(viewbutton.frame.size.width / 9*(2*i +1), 10, viewbutton.frame.size.width / 9, 45);
+                [rentButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+                [rentButton setTitleColor:[UIColor lightGrayColor] forState:UIControlStateHighlighted];
+                [rentButton setTitle:[arry objectAtIndex:i] forState:UIControlStateNormal];
+                rentButton.titleLabel.font = [UIFont systemFontOfSize: 15.0];
+                rentButton.tag=i+1024;
+                
+                [rentButton addTarget:self action:@selector(scanRent:) forControlEvents:UIControlEventTouchUpInside];
+                [viewbutton addSubview:rentButton];
+                UIView *line = [[UIView alloc] initWithFrame:CGRectMake(viewbutton.frame.size.width / 4*(i+1), 20, 1, 30)];
+                line.backgroundColor = [UIColor colorWithWhite:0.7 alpha:1];
+                [viewbutton addSubview:line];
+            }
+            
+            
+            
+            
+        }
+
     }
     else
+    
     {
         NSString*str=[NSString stringWithFormat:@"评论(%d)",[_detailModel.goodComment intValue]];
         
@@ -735,7 +803,31 @@
 }
 
 - (void)setPriceWithString:(NSString *)price {
-    NSString *priceString = [NSString stringWithFormat:@"价       格   ￥%@",price];
+    NSString *priceString ;
+    
+    
+    
+    if (self.supplyType==2) {
+        
+        if(_buyButton.selected)
+        {
+            priceString = [NSString stringWithFormat:@"代购价格   ￥%@",price];
+
+        }else
+        {
+            priceString = [NSString stringWithFormat:@"租赁价格   ￥%@",price];
+
+        
+        }
+        
+
+    }
+    else {
+       priceString = [NSString stringWithFormat:@"批购价格   ￥%@",price];
+
+        
+    }
+
     NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithString:priceString];
     NSDictionary *normalAttr = [NSDictionary dictionaryWithObjectsAndKeys:
                                 [UIFont systemFontOfSize:17.f],NSFontAttributeName,
@@ -745,8 +837,8 @@
                                [UIFont boldSystemFontOfSize:17.f],NSFontAttributeName,
                                kColor(255, 102, 36, 1),NSForegroundColorAttributeName,
                                nil];
-    [attrString addAttributes:normalAttr range:NSMakeRange(0, 9)];
-    [attrString addAttributes:priceAttr range:NSMakeRange(10, [attrString length] - 10)];
+    [attrString addAttributes:normalAttr range:NSMakeRange(0, 4)];
+    [attrString addAttributes:priceAttr range:NSMakeRange(5, [attrString length] - 5)];
     _priceLabel.attributedText = attrString;
 }
 
@@ -754,36 +846,39 @@
 #pragma mark - Request
 
 - (void)downloadGoodDetail {
-//    AppDelegate *delegate = [AppDelegate shareAppDelegate];
-//    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
-//    hud.labelText = @"加载中...";
-//    [NetworkInterface getGoodDetailWithCityID:delegate.cityID goodID:_goodID finished:^(BOOL success, NSData *response) {
-//        NSLog(@"%@",[[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding]);
-//        hud.customView = [[UIImageView alloc] init];
-//        hud.mode = MBProgressHUDModeCustomView;
-//        [hud hide:YES afterDelay:0.5f];
-//        if (success) {
-//            id object = [NSJSONSerialization JSONObjectWithData:response options:NSJSONReadingMutableLeaves error:nil];
-//            if ([object isKindOfClass:[NSDictionary class]]) {
-//                NSString *errorCode = [object objectForKey:@"code"];
-//                if ([errorCode intValue] == RequestFail) {
-//                    //返回错误代码
-//                    hud.labelText = [NSString stringWithFormat:@"%@",[object objectForKey:@"message"]];
-//                }
-//                else if ([errorCode intValue] == RequestSuccess) {
-//                    [hud hide:YES];
-//                    [self parseGoodDetailDateWithDictionary:object];
-//                }
-//            }
-//            else {
-//                //返回错误数据
-//                hud.labelText = kServiceReturnWrong;
-//            }
-//        }
-//        else {
-//            hud.labelText = kNetworkFailed;
-//        }
-//    }];
+    AppDelegate *delegate = [AppDelegate shareAppDelegate];
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+    hud.labelText = @"加载中...";
+    
+    
+    [NetworkInterface getGoodDetailWithCityID:delegate.cityID agentID:delegate.agentID goodID:_goodID supplyType:self.supplyType finished:^(BOOL success, NSData *response) {
+  
+        NSLog(@"%@",[[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding]);
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:0.5f];
+        if (success) {
+            id object = [NSJSONSerialization JSONObjectWithData:response options:NSJSONReadingMutableLeaves error:nil];
+            if ([object isKindOfClass:[NSDictionary class]]) {
+                NSString *errorCode = [object objectForKey:@"code"];
+                if ([errorCode intValue] == RequestFail) {
+                    //返回错误代码
+                    hud.labelText = [NSString stringWithFormat:@"%@",[object objectForKey:@"message"]];
+                }
+                else if ([errorCode intValue] == RequestSuccess) {
+                    [hud hide:YES];
+                    [self parseGoodDetailDateWithDictionary:object];
+                }
+            }
+            else {
+                //返回错误数据
+                hud.labelText = kServiceReturnWrong;
+            }
+        }
+        else {
+            hud.labelText = kNetworkFailed;
+        }
+    }];
 }
 
 #pragma mark - Data
@@ -892,7 +987,7 @@
    // _shopcartButton.hidden=NO;
 
     _shopcartButton.enabled = YES;
-    [_buyGoodButton setTitle:@"立即购买" forState:UIControlStateNormal];
+    [_buyGoodButton setTitle:@"代购" forState:UIControlStateNormal];
     if (_buyButton.isSelected) {
         [self setPriceWithString:[NSString stringWithFormat:@"%.2f",_detailModel.goodPrice + _detailModel.defaultChannel.openCost]];
     }
@@ -917,7 +1012,7 @@
    //_shopcartButton.hidden=YES;
     
     _shopcartButton.enabled = NO;
-    [_buyGoodButton setTitle:@"立即租赁" forState:UIControlStateNormal];
+    [_buyGoodButton setTitle:@"代租赁" forState:UIControlStateNormal];
     if (_buyButton.isSelected) {
         [self setPriceWithString:[NSString stringWithFormat:@"%.2f",_detailModel.goodPrice + _detailModel.defaultChannel.openCost]];
     }
@@ -991,7 +1086,7 @@
 //立即购买
 - (IBAction)buyNow:(id)sender {
     if (_isLogin) {
-        if ([_buyGoodButton.titleLabel.text isEqualToString:@"立即购买"]) {
+        if ([_buyGoodButton.titleLabel.text isEqualToString:@"立即批购"]) {
 //            BuyOrderViewController *buyC = [[BuyOrderViewController alloc] init];
 //            buyC.goodDetail = _detailModel;
 //            buyC.hidesBottomBarWhenPushed =  YES ;

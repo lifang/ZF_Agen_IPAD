@@ -46,4 +46,7 @@ typedef enum {
 //重新提交注销申请
 - (void)submitCanncelApply;
 
+//提交物流信息
+-(void)submitLogistApply;
+
 @end

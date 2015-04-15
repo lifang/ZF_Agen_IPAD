@@ -550,6 +550,7 @@
 
     //***************************************
     [NetworkInterface getGoodListWithCityID:delegate.cityID agentID:delegate.agentID supplyType:_supplyType sortType:_filterType brandID:brandItem category:catrgoryItem channelID:channelItem payCardID:cardItem tradeID:tradeItem slipID:slipItem date:dateItem maxPrice:maxPrice minPrice:minPrice keyword:_keyword onlyRent:isRent page:page rows:kPageSize finished:^(BOOL success, NSData *response) {
+        
         [_tableView footerEndRefreshing];
         [_tableView headerEndRefreshing];
         hud.customView = [[UIImageView alloc] init];
@@ -799,6 +800,7 @@
     GoodDetailViewController *detailC = [[GoodDetailViewController alloc] init];
     
     detailC.hidesBottomBarWhenPushed =  YES ;
+    detailC.supplyType=self.supplyType;
     
     detailC.goodID = good.goodID;
     [self.navigationController pushViewController:detailC animated:YES];

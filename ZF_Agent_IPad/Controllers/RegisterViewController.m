@@ -10,6 +10,7 @@
 #import "CityHandle.h"
 #import "PhoneSuccessViewController.h"
 #import "EmailSuccessViewController.h"
+#import "NetworkInterface.h"
 
 @interface RegisterViewController ()<UITextFieldDelegate,UIActionSheetDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,UIPopoverPresentationControllerDelegate,UIPickerViewDataSource,UIPickerViewDelegate,UIPopoverControllerDelegate,UITableViewDataSource,UITableViewDelegate>
 
@@ -65,6 +66,12 @@
 //判断是否是手机
 @property(nonatomic,assign)BOOL isMobile;
 
+@property(nonatomic,assign)AgentType agentType;
+
+@property(nonatomic,strong)NSString *imageStr1;
+@property(nonatomic,strong)NSString *imageStr2;
+@property(nonatomic,strong)NSString *imageStr3;
+
 @end
 
 @implementation RegisterViewController
@@ -93,6 +100,7 @@
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.agentType = AgentTypeCompany;
     self.isMobile = YES;
     self.authCode = @"123";
     self.imageArray = [[NSMutableArray alloc]init];
@@ -734,10 +742,12 @@
     if (indexPath.row == 0) {
         _agentTypeField.text = nil;
         _agentTypeField.text = @"个人";
+        _agentType = AgentTypePerson;
     }
     else{
         _agentTypeField.text = nil;
         _agentTypeField.text = @"公司";
+        _agentType = AgentTypeCompany;
     }
     [_agentTypeTableView removeFromSuperview];
 }
@@ -883,15 +893,15 @@
     UIImage *editImage = [info objectForKey:UIImagePickerControllerEditedImage];
     switch (picker.view.tag) {
         case 1336:
-            [self updateBtnBGWithBtn:_IdCardNumImageBtn WithImage:editImage];
+            [self uploadImageWithImage:editImage WithTag:1];
             _IDCardImg = editImage;
             break;
         case 1337:
-            [self updateBtnBGWithBtn:_businesslicenseImageBtn WithImage:editImage];
+            [self uploadImageWithImage:editImage WithTag:2];
             _bussinessImg = editImage;
             break;
         case 1338:
-            [self updateBtnBGWithBtn:_taxregisterImageBtn WithImage:editImage];
+            [self uploadImageWithImage:editImage WithTag:3];
             _taxImg = editImage;
             break;
 
@@ -899,6 +909,53 @@
             break;
     }
     NSLog(@"%@",editImage);
+}
+
+-(void)uploadImageWithImage:(UIImage *)image WithTag:(int)tag
+{
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+    hud.labelText = @"正在上传...";
+    [NetworkInterface uploadRegisterImageWithImage:image finished:^(BOOL success, NSData *response) {
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:0.3f];
+        if (success) {
+            id object = [NSJSONSerialization JSONObjectWithData:response options:NSJSONReadingMutableLeaves error:nil];
+            NSLog(@"~~~~~%@",[[NSString alloc]initWithData:response encoding:NSUTF8StringEncoding]);
+            if ([object isKindOfClass:[NSDictionary class]]) {
+                [hud hide:YES];
+                int errorCode = [[object objectForKey:@"code"] intValue];
+                if (errorCode == RequestFail) {
+                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示信息"
+                                                                    message:[object objectForKey:@"message"]
+                                                                   delegate:nil
+                                                          cancelButtonTitle:@"确定"
+                                                          otherButtonTitles:nil];
+                    [alert show];
+                }
+                else if (errorCode == RequestSuccess) {
+                    if (tag == 1) {
+                        _imageStr1 = [object objectForKey:@"result"];
+                      [self updateBtnBGWithBtn:_IdCardNumImageBtn WithImage:image];
+                    }
+                    if (tag == 2) {
+                        _imageStr2 = [object objectForKey:@"result"];
+                        [self updateBtnBGWithBtn:_businesslicenseImageBtn WithImage:image];
+                    }
+                    if (tag == 3) {
+                        _imageStr3 = [object objectForKey:@"result"];
+                        [self updateBtnBGWithBtn:_taxregisterImageBtn WithImage:image];
+                    }
+                }
+            }
+            else {
+                hud.labelText = kServiceReturnWrong;
+            }
+        }
+        else {
+            hud.labelText = kNetworkFailed;
+        }
+    }];
 }
 
 -(void)updateBtnBGWithBtn:(UIButton *)button WithImage:(UIImage *)image
@@ -1153,5 +1210,45 @@
     _locationField.text = cityName;
     
 }
+
+#pragma mark - Request
+
+-(void)registeWithPhone
+{
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+    hud.labelText = @"正在登录...";
+    [NetworkInterface registerWithUsername:_loginIDField.text password:_loginPasswordField.text isAlreadyEncrypt:NO agentType:_agentType companyName:_companyNameField.text licenseID:_companyBusinesslicenseField.text taxID:_companyTaxField.text legalPersonName:_principalNameField.text legalPersonID:_principalCardField.text mobileNumber:_principalPhoneOrEmailField.text email:nil cityID:_cityId detailAddress:nil cardImagePath:_imageStr1 licenseImagePath:_imageStr2 taxImagePath:_imageStr3 finished:^(BOOL success, NSData *response) {
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:0.3f];
+        if (success) {
+            id object = [NSJSONSerialization JSONObjectWithData:response options:NSJSONReadingMutableLeaves error:nil];
+            NSLog(@"~~~~~%@",[[NSString alloc]initWithData:response encoding:NSUTF8StringEncoding]);
+            if ([object isKindOfClass:[NSDictionary class]]) {
+                [hud hide:YES];
+                int errorCode = [[object objectForKey:@"code"] intValue];
+                if (errorCode == RequestFail) {
+                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示信息"
+                                                                    message:[object objectForKey:@"message"]
+                                                                   delegate:nil
+                                                          cancelButtonTitle:@"确定"
+                                                          otherButtonTitles:nil];
+                    [alert show];
+                }
+                else if (errorCode == RequestSuccess) {
+//                    [self parseLoginDataWithDictionary:object];
+                }
+            }
+            else {
+                hud.labelText = kServiceReturnWrong;
+            }
+        }
+        else {
+            hud.labelText = kNetworkFailed;
+        }
+    }];
+
+}
+
 
 @end

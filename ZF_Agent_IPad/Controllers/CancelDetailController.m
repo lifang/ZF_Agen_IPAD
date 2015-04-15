@@ -412,7 +412,7 @@
                                                                constant:recordHeight]];
         [recordView initAndLayoutUI];
     }
-    self.scrollView.contentSize = CGSizeMake(kScreenWidth, 300 + resourceHeight + recordHeight);
+    self.scrollView.contentSize = CGSizeMake(kScreenWidth, 400 + resourceHeight + recordHeight);
     terminalTitleLabel.text = @"终端信息";
     statusLabel.text = [CSDataHandle getStatusStringWithCSType:self.csType status:_status];
     applyTimeLabel.text = [NSString stringWithFormat:@"申请时间：%@",_applyTime];
