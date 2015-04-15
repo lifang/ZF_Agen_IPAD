@@ -754,12 +754,16 @@ static NSString *HTTP_GET  = @"GET";
 //31.
 + (void)getUserListWithAgentID:(NSString *)agentID
                          token:(NSString *)token
+                          page:(int)page
+                          rows:(int)rows
                       finished:(requestDidFinished)finish {
     //参数
     NSMutableDictionary *paramDict = [[NSMutableDictionary alloc] init];
     if (agentID) {
         [paramDict setObject:[NSNumber numberWithInt:[agentID intValue]] forKey:@"customerId"];
     }
+    [paramDict setObject:[NSNumber numberWithInt:page] forKey:@"page"];
+    [paramDict setObject:[NSNumber numberWithInt:rows] forKey:@"rows"];
     //url
     NSString *urlString = [NSString stringWithFormat:@"%@/%@",kServiceURL,s_userList_method];
     [[self class] requestWithURL:urlString
@@ -844,6 +848,7 @@ static NSString *HTTP_GET  = @"GET";
                          page:(int)page
                          rows:(int)rows
                      finished:(requestDidFinished)finish {
+    
     //参数
     NSMutableDictionary *paramDict = [[NSMutableDictionary alloc] init];
     [paramDict setObject:[NSNumber numberWithInt:[cityID intValue]] forKey:@"cityId"];
@@ -885,6 +890,8 @@ static NSString *HTTP_GET  = @"GET";
     [paramDict setObject:[NSNumber numberWithInt:rent] forKey:@"hasLease"];
     [paramDict setObject:[NSNumber numberWithInt:page] forKey:@"page"];
     [paramDict setObject:[NSNumber numberWithInt:rows] forKey:@"rows"];
+    NSLog(@"%@",paramDict);
+    
     //url
     NSString *urlString = [NSString stringWithFormat:@"%@/%@",kServiceURL,s_goodList_method];
     [[self class] requestWithURL:urlString
@@ -907,6 +914,23 @@ static NSString *HTTP_GET  = @"GET";
     [paramDict setObject:[NSNumber numberWithInt:supplyType] forKey:@"type"];
     //url
     NSString *urlString = [NSString stringWithFormat:@"%@/%@",kServiceURL,s_goodDetail_method];
+    [[self class] requestWithURL:urlString
+                          params:paramDict
+                      httpMethod:HTTP_POST
+                        finished:finish];
+}
+//37.
++ (void)getTradeRecordid:(NSString *)isHaveProfit
+                 agentID:(NSString *)agentID
+           tradeRecordId:(NSString *)tradeRecordId
+                finished:(requestDidFinished)finish {
+    //参数
+    NSMutableDictionary *paramDict = [[NSMutableDictionary alloc] init];
+    [paramDict setObject:[NSNumber numberWithInt:[isHaveProfit intValue]] forKey:@"isHaveProfit"];
+    [paramDict setObject:[NSNumber numberWithInt:[agentID intValue]] forKey:@"agentId"];
+    [paramDict setObject:[NSNumber numberWithInt:[tradeRecordId intValue]] forKey:@"tradeRecordId"];
+    //url
+    NSString *urlString = [NSString stringWithFormat:@"%@/%@",kServiceURL,s_TradeRecord];
     [[self class] requestWithURL:urlString
                           params:paramDict
                       httpMethod:HTTP_POST
@@ -1643,6 +1667,22 @@ static NSString *HTTP_GET  = @"GET";
     [paramDict setObject:[NSNumber numberWithFloat:precent] forKey:@"defaultProfit"];
     //url
     NSString *urlString = [NSString stringWithFormat:@"%@/%@",kServiceURL,s_subAgentDefaultBenefit_method];
+    [[self class] requestWithURL:urlString
+                          params:paramDict
+                      httpMethod:HTTP_POST
+                        finished:finish];
+}
+//提交物流
++(void)submitLogistWithAgentID:(NSString *)agentID csID:(NSString *)csID logistName:(NSString *)logistname logistNum:(NSString *)logistnum finished:(requestDidFinished)finish
+{
+    //参数
+    NSMutableDictionary *paramDict = [[NSMutableDictionary alloc] init];
+    [paramDict setObject:[NSNumber numberWithInt:[agentID intValue]] forKey:@"customerId"];
+    [paramDict setObject:[NSNumber numberWithInt:[csID intValue]] forKey:@"id"];
+    [paramDict setObject:logistname forKey:@"computer_name"];
+    [paramDict setObject:logistnum forKey:@"track_number"];
+    //url
+    NSString *urlString = [NSString stringWithFormat:@"%@/%@",kServiceURL,s_submitLogist_method];
     [[self class] requestWithURL:urlString
                           params:paramDict
                       httpMethod:HTTP_POST
