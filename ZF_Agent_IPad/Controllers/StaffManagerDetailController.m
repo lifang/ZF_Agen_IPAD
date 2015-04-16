@@ -9,7 +9,7 @@
 #import "StaffManagerDetailController.h"
 #import "StaffButton.h"
 
-@interface StaffManagerDetailController ()<UITextFieldDelegate>
+@interface StaffManagerDetailController ()<UITextFieldDelegate,StaffBtnClickedDelegate>
 
 @property(nonatomic,strong)UITextField *loginIDField;
 
@@ -23,13 +23,13 @@
 
 /** 状态选中Btn */
 @property(nonatomic,strong)StaffButton *firstBtn;
-@property(nonatomic,strong)UIButton *secondBtn;
-@property(nonatomic,strong)UIButton *thirdBtn;
-@property(nonatomic,strong)UIButton *fourthBtn;
-@property(nonatomic,strong)UIButton *fifthBtn;
-@property(nonatomic,strong)UIButton *sixBtn;
-@property(nonatomic,strong)UIButton *seventhBtn;
-@property(nonatomic,strong)UIButton *eighthBtn;
+@property(nonatomic,strong)StaffButton *secondBtn;
+@property(nonatomic,strong)StaffButton *thirdBtn;
+@property(nonatomic,strong)StaffButton *fourthBtn;
+@property(nonatomic,strong)StaffButton *fifthBtn;
+@property(nonatomic,strong)StaffButton *sixBtn;
+@property(nonatomic,strong)StaffButton *seventhBtn;
+@property(nonatomic,strong)StaffButton *eighthBtn;
 
 @property(nonatomic,assign)BOOL isSelected;
 
@@ -150,14 +150,14 @@
     
 }
 
--(void)setSelectedBtn:(UIButton *)button WithTopSpace:(CGFloat)topSpace WithTopView:(UIView *)topButton WithButtonTag:(NSInteger)buttonTag
+-(void)setSelectedBtn:(StaffButton *)button WithTopSpace:(CGFloat)topSpace WithTopView:(UIView *)topButton WithButtonTag:(NSInteger)buttonTag
 {
     CGFloat originX = CGRectGetMaxX(_loginIDField.frame) + 190.f;
     CGFloat buttonWidth = 25.f;
     CGFloat buttonHeight = 25.f;
+    button.delegate = self;
     button.tag = 5000 + buttonTag;
     [button setImage:kImageName(@"noSelected") forState:UIControlStateNormal];
-    [button addTarget:self action:@selector(statusClicked:) forControlEvents:UIControlEventTouchUpInside];
     button.frame = CGRectMake(originX, CGRectGetMaxY(topButton.frame) + topSpace, buttonWidth, buttonHeight);
     [self.view addSubview:button];
 }
@@ -228,10 +228,11 @@
     
 }
 
--(void)statusClicked:(UIButton *)button
+#pragma mark - staffBtn Delegate
+-(void)staffClickedWithButton:(UIButton *)button
 {
     if (button.tag == 5001) {
-        _firstBtn.isSelected = NO;
+        NSLog(@"点击了第一个空格 并且状态为%d",_firstBtn.isSelected);
     }
 }
 @end

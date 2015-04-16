@@ -8,7 +8,17 @@
 
 #import <UIKit/UIKit.h>
 
+@protocol StaffBtnClickedDelegate <NSObject>
+
+@optional
+
+-(void)staffClickedWithButton:(UIButton *)button;
+
+@end
+
 @interface StaffButton : UIButton
+
+@property(nonatomic,weak)id <StaffBtnClickedDelegate> delegate;
 
 @property(nonatomic,assign)BOOL isSelected;
 
