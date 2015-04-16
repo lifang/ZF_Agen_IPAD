@@ -18,7 +18,7 @@
 
 #define kDeviceVersion [[[UIDevice currentDevice] systemVersion] floatValue]
 
-#define kLineHeight   0.5f
+#define kLineHeight   1.0f
 
 #define kPageSize 10   //分页加载每页行数
 

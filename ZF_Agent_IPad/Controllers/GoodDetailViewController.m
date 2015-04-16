@@ -748,7 +748,8 @@
     goodedetal.secletA=sender.tag;
     goodedetal.goodDetail=_detailModel;
     goodedetal.channelData = _detailModel.defaultChannel;
-
+    goodedetal.supplyType=self.supplyType;
+    
     goodedetal.tradeRateItem = _detailModel.defaultChannel.dateRateItem;
 
     goodedetal.hidesBottomBarWhenPushed =  YES ;

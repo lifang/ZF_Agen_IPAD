@@ -268,7 +268,7 @@
     //划线
     UIView *secondLine = [[UIView alloc] init];
     secondLine.translatesAutoresizingMaskIntoConstraints = NO;
-    secondLine.backgroundColor = kColor(255, 102, 36, 1);
+    secondLine.backgroundColor =kColor(3, 112, 214, 1);
     [_scrollView addSubview:secondLine];
     [self.view addConstraint:[NSLayoutConstraint constraintWithItem:secondLine
                                                           attribute:NSLayoutAttributeTop
@@ -346,7 +346,7 @@
     //划线
     UIView *thirdLine = [[UIView alloc] init];
     thirdLine.translatesAutoresizingMaskIntoConstraints = NO;
-    thirdLine.backgroundColor = kColor(255, 102, 36, 1);
+    thirdLine.backgroundColor = kColor(3, 112, 214, 1);
     [_scrollView addSubview:thirdLine];
     [self.view addConstraint:[NSLayoutConstraint constraintWithItem:thirdLine
                                                           attribute:NSLayoutAttributeTop
@@ -673,13 +673,13 @@
     _tradeAmount = [[infoDict objectForKey:@"amount"] floatValue] / 100;
     _tradePoundage = [[infoDict objectForKey:@"poundage"] floatValue] / 100;
     _tradeTime = [NSString stringWithFormat:@"%@",[infoDict objectForKey:@"tradedTimeStr"]];
-    _merchantNumber = [NSString stringWithFormat:@"%@",[infoDict objectForKey:@"merchantNumber"]];
-    _merchantName = [NSString stringWithFormat:@"%@",[infoDict objectForKey:@"merchantName"]];
-    _agentID = [NSString stringWithFormat:@"%@",[infoDict objectForKey:@"agentId"]];
+    _merchantNumber = [NSString stringWithFormat:@"%@",[infoDict objectForKey:@"merchant_number"]];
+    _merchantName = [NSString stringWithFormat:@"%@",[infoDict objectForKey:@"agentName"]];
+    _agentID = [NSString stringWithFormat:@"%@",[infoDict objectForKey:@"agent_id"]];
     _terminalNumber = [NSString stringWithFormat:@"%@",[infoDict objectForKey:@"terminalNumber"]];
     _payFromAccount = [NSString stringWithFormat:@"%@",[infoDict objectForKey:@"payFromAccount"]];
     _payToAccount = [NSString stringWithFormat:@"%@",[infoDict objectForKey:@"payIntoAccount"]];
-    _channelName = [NSString stringWithFormat:@"%@",[infoDict objectForKey:@"payChannelName"]];
+    _channelName = [NSString stringWithFormat:@"%@",[infoDict objectForKey:@"paychannel"]];
     _profitPrice = [NSString stringWithFormat:@"%@",[infoDict objectForKey:@"profitPrice"]];
     _batchNumber = [NSString stringWithFormat:@"%@",[infoDict objectForKey:@"batchNumber"]];
     _tradeNumber = [NSString stringWithFormat:@"%@",[infoDict objectForKey:@"tradeNumber"]];

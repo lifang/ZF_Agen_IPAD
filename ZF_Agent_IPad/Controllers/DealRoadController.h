@@ -21,7 +21,9 @@
     UIView*datepickviewend;
     UIButton *cancelBtnend;
 
-    
+    BOOL changeD;
+    BOOL changeagent;
+
 }
 
 @end

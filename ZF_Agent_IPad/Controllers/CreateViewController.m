@@ -74,6 +74,8 @@
 #pragma mark - UI
 
 - (IBAction)modifyLocation:(id)sender {
+    addressbuttons.userInteractionEnabled=YES;
+
     [self pickerScrollOut];
     NSInteger index = [_pickerView selectedRowInComponent:1];
     cityID = [NSString stringWithFormat:@"%@",[[_cityArray objectAtIndex:index] objectForKey:@"id"]];
@@ -161,7 +163,8 @@
 
 
 - (void)pickerScrollOut {
-    
+    addressbuttons.userInteractionEnabled=YES;
+
     CGFloat wide;
     CGFloat height;
     if(iOS7)
@@ -304,6 +307,8 @@
 -(void)addressclick
 {
 
+    addressbuttons.userInteractionEnabled=NO;
+    
     [self initPickerView];
 
 

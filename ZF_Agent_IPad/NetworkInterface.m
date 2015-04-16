@@ -928,9 +928,35 @@ static NSString *HTTP_GET  = @"GET";
     NSMutableDictionary *paramDict = [[NSMutableDictionary alloc] init];
     [paramDict setObject:[NSNumber numberWithInt:[isHaveProfit intValue]] forKey:@"isHaveProfit"];
     [paramDict setObject:[NSNumber numberWithInt:[agentID intValue]] forKey:@"agentId"];
-    [paramDict setObject:[NSNumber numberWithInt:[tradeRecordId intValue]] forKey:@"tradeRecordId"];
+    [paramDict setObject:[NSNumber numberWithInt:[tradeRecordId intValue]] forKey:@"id"];
     //url
     NSString *urlString = [NSString stringWithFormat:@"%@/%@",kServiceURL,s_TradeRecord];
+    [[self class] requestWithURL:urlString
+                          params:paramDict
+                      httpMethod:HTTP_POST
+                        finished:finish];
+}
+//38.
++ (void)getTradeStatistics:(NSString *)tradeTypeId
+                 agentID:(NSString *)agentID
+           tradeRecordId:(NSString *)sonagentId
+            terminalNumber:(NSString *)terminalNumber
+                 startTime:(NSString *)startTime
+                   endTime:(NSString *)endTime
+                   isHaveProfit:(NSString *)isHaveProfit
+                finished:(requestDidFinished)finish {
+    //参数
+    NSMutableDictionary *paramDict = [[NSMutableDictionary alloc] init];
+    [paramDict setObject:[NSNumber numberWithInt:[tradeTypeId intValue]] forKey:@"tradeTypeId"];
+    [paramDict setObject:[NSNumber numberWithInt:[agentID intValue]] forKey:@"agentId"];
+    [paramDict setObject:[NSNumber numberWithInt:[sonagentId intValue]] forKey:@"sonagentId"];
+    [paramDict setObject:terminalNumber forKey:@"terminalNumber"];
+    [paramDict setObject:endTime forKey:@"endTime"];
+    [paramDict setObject:startTime forKey:@"startTime"];
+    [paramDict setObject:[NSNumber numberWithInt:[isHaveProfit intValue]] forKey:@"isHaveProfit"];
+
+    //url
+    NSString *urlString = [NSString stringWithFormat:@"%@/%@",kServiceURL,s_TradeStatistics];
     [[self class] requestWithURL:urlString
                           params:paramDict
                       httpMethod:HTTP_POST

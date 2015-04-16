@@ -200,6 +200,8 @@ static NSString *s_goodList_method = @"good/list";
 static NSString *s_goodDetail_method = @"good/goodinfo";
 //36.交易流水详情
 static NSString *s_TradeRecord = @"trade/getTradeRecord";
+//36.交易流水统计
+static NSString *s_TradeStatistics = @"trade/getTradeStatistics";
 //获取交易流水终端列表
 //static NSString *s_terminalList_method = @"trade/record/getTerminals";
 //40.库存管理列表
@@ -862,6 +864,16 @@ static NSString *s_deletedstaff_method = @"/customerManage/deleteOne";
                         finished:(requestDidFinished)finish;
 
 
+
+//38.
++ (void)getTradeStatistics:(NSString *)tradeTypeId
+                   agentID:(NSString *)agentID
+             tradeRecordId:(NSString *)sonagentId
+            terminalNumber:(NSString *)terminalNumber
+                 startTime:(NSString *)startTime
+                   endTime:(NSString *)endTime
+              isHaveProfit:(NSString *)isHaveProfit
+                  finished:(requestDidFinished)finish;
 
 
 

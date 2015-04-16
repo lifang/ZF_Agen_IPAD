@@ -55,6 +55,8 @@
 		0EC67F181AD694D9005BAB26 /* OrderDetailCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EC67F171AD694D9005BAB26 /* OrderDetailCell.m */; };
 		0EC696E71ADB6BBC009D544E /* RegularFormat.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EC696E61ADB6BBC009D544E /* RegularFormat.m */; };
 		0EC696EC1ADB913F009D544E /* CreateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EC696EB1ADB913F009D544E /* CreateViewController.m */; };
+		0EC7C14C1ADF77E90076AAC4 /* AdjustGoodsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EC7C14B1ADF77E90076AAC4 /* AdjustGoodsViewController.m */; };
+		0EC7C14F1ADF99ED0076AAC4 /* DealRoadDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EC7C14E1ADF99ED0076AAC4 /* DealRoadDetailController.m */; };
 		0ECA762B1AD5468F0083D373 /* OrderManagerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0ECA762A1AD5468F0083D373 /* OrderManagerController.m */; };
 		0ECA762E1AD546AA0083D373 /* RefreshViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0ECA762D1AD546AA0083D373 /* RefreshViewController.m */; };
 		0ECA76341AD546F80083D373 /* OrderCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0ECA76331AD546F80083D373 /* OrderCell.m */; };
@@ -324,6 +326,10 @@
 		0EC696E61ADB6BBC009D544E /* RegularFormat.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegularFormat.m; sourceTree = "<group>"; };
 		0EC696EA1ADB913F009D544E /* CreateViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CreateViewController.h; sourceTree = "<group>"; };
 		0EC696EB1ADB913F009D544E /* CreateViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CreateViewController.m; sourceTree = "<group>"; };
+		0EC7C14A1ADF77E90076AAC4 /* AdjustGoodsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AdjustGoodsViewController.h; sourceTree = "<group>"; };
+		0EC7C14B1ADF77E90076AAC4 /* AdjustGoodsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AdjustGoodsViewController.m; sourceTree = "<group>"; };
+		0EC7C14D1ADF99ED0076AAC4 /* DealRoadDetailController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DealRoadDetailController.h; sourceTree = "<group>"; };
+		0EC7C14E1ADF99ED0076AAC4 /* DealRoadDetailController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DealRoadDetailController.m; sourceTree = "<group>"; };
 		0ECA76291AD5468F0083D373 /* OrderManagerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderManagerController.h; sourceTree = "<group>"; };
 		0ECA762A1AD5468F0083D373 /* OrderManagerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrderManagerController.m; sourceTree = "<group>"; };
 		0ECA762C1AD546AA0083D373 /* RefreshViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RefreshViewController.h; sourceTree = "<group>"; };
@@ -776,6 +782,15 @@
 			name = AgentManager;
 			sourceTree = "<group>";
 		};
+		0EC7C1491ADF77670076AAC4 /* AdjustGoods */ = {
+			isa = PBXGroup;
+			children = (
+				0EC7C14A1ADF77E90076AAC4 /* AdjustGoodsViewController.h */,
+				0EC7C14B1ADF77E90076AAC4 /* AdjustGoodsViewController.m */,
+			);
+			name = AdjustGoods;
+			sourceTree = "<group>";
+		};
 		0ECA76281AD5465B0083D373 /* OrderManager */ = {
 			isa = PBXGroup;
 			children = (
@@ -801,8 +816,10 @@
 			children = (
 				0ED194921AD7AC2100029DE3 /* DealRoadController.h */,
 				0ED194931AD7AC2100029DE3 /* DealRoadController.m */,
-				1A81460C1ADE691400A7680E /* DealRoadChildController.m */,
 				1A81460D1ADE691400A7680E /* DealRoadChildController.h */,
+				1A81460C1ADE691400A7680E /* DealRoadChildController.m */,
+				0EC7C14D1ADF99ED0076AAC4 /* DealRoadDetailController.h */,
+				0EC7C14E1ADF99ED0076AAC4 /* DealRoadDetailController.m */,
 			);
 			name = DealFlow;
 			sourceTree = "<group>";
@@ -979,6 +996,7 @@
 		1A9654851AD66EE700C39B5B /* Mine */ = {
 			isa = PBXGroup;
 			children = (
+				0EC7C1491ADF77670076AAC4 /* AdjustGoods */,
 				0ECB17091ADE026B00234772 /* Picking */,
 				1ABA17BE1ADB5471006B8D9B /* StaffManager */,
 				0EC65C131AD904D100282C04 /* AgentManager */,
@@ -1674,6 +1692,7 @@
 				1AF15B4B1ACCEE9200D5C171 /* MBProgressHUD.m in Sources */,
 				0ED1948B1AD7A01B00029DE3 /* TradeModel.m in Sources */,
 				1A9EEB9E1AD76D4F00DA6E0D /* EncryptHelper.m in Sources */,
+				0EC7C14F1ADF99ED0076AAC4 /* DealRoadDetailController.m in Sources */,
 				1A790B0E1ADCDC4B00EE886A /* ChooseStatusCell.m in Sources */,
 				1A9654541AD60D0800C39B5B /* EmailSuccessViewController.m in Sources */,
 				1A96544E1AD60CF100C39B5B /* RegisterViewController.m in Sources */,
@@ -1737,6 +1756,7 @@
 				1AF15AEA1ACCE3A400D5C171 /* SDWebImageCompat.m in Sources */,
 				0D1694211AD3C14100B50A17 /* MASViewAttribute.m in Sources */,
 				0ED58ED51AD4D9370081E8BC /* GoodsCell.m in Sources */,
+				0EC7C14C1ADF77E90076AAC4 /* AdjustGoodsViewController.m in Sources */,
 				0ED58ECB1AD4D7DA0081E8BC /* GoodDetaildetailViewController.m in Sources */,
 				1AF15A8C1ACCDB8C00D5C171 /* main.m in Sources */,
 				1AA6A05A1AD79FA90025FF1A /* AddressCell.m in Sources */,
