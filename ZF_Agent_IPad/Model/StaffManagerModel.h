@@ -18,6 +18,8 @@
 
 @property(nonatomic,strong)NSString *createdTime;
 
+@property(nonatomic,strong)NSString *roles;
+
 - (id)initWithParseDictionary:(NSDictionary *)dict;
 
 @end

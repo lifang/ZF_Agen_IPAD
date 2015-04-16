@@ -1,19 +1,17 @@
 //
-//  StaffManagerDetailController.m
+//  StaffChangeController.m
 //  ZF_Agent_IPad
 //
-//  Created by 黄含章 on 15/4/15.
+//  Created by 黄含章 on 15/4/16.
 //  Copyright (c) 2015年 comdo. All rights reserved.
 //
 
-#import "StaffManagerDetailController.h"
+#import "StaffChangeController.h"
 #import "StaffButton.h"
 #import "NetworkInterface.h"
 #import "StaffManagerController.h"
-#import "StaffChangeController.h"
 
-@interface StaffManagerDetailController ()<UITextFieldDelegate,StaffBtnClickedDelegate>
-
+@interface StaffChangeController ()<UITextFieldDelegate,StaffBtnClickedDelegate>
 @property(nonatomic,strong)UITextField *loginIDField;
 
 @property(nonatomic,strong)UITextField *nameField;
@@ -42,75 +40,24 @@
 @property(nonatomic,strong)NSMutableArray *statusArray;
 
 @property(nonatomic,strong)NSMutableString *statusStr;
-
-@property(nonatomic,strong)NSArray *statusDetailArray;
-
-@property(nonatomic,strong)NSString *loginID;
-@property(nonatomic,strong)NSString *name;
-
 @end
 
-@implementation StaffManagerDetailController
+@implementation StaffChangeController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    _statusArray = [[NSMutableArray alloc]init];
+    // Do any additional setup after loading the view.
+    NSDictionary *attributes = [NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor],NSForegroundColorAttributeName,[UIFont boldSystemFontOfSize:22],NSFontAttributeName, nil];
+    [self.navigationController.navigationBar setTitleTextAttributes:attributes];
+    self.title = @"员工信息修改";
     _statusStr = [[NSMutableString alloc]init];
+    _statusArray = [[NSMutableArray alloc]init];
     [self initAndLayoutUI];
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
-}
-
--(void)setupNavBar
-{
-    //设置导航栏文字
-    switch (_statffStatus) {
-        case staffStatusCreated:
-             self.title = @"员工创建";
-            break;
-        case staffStatusDetail:
-            self.title = @"员工详情";
-            [self StaffDetail];
-            break;
-            
-        default:
-            break;
-    }
-    NSDictionary *attributes = [NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor],NSForegroundColorAttributeName,[UIFont boldSystemFontOfSize:22],NSFontAttributeName, nil];
-    [self.navigationController.navigationBar setTitleTextAttributes:attributes];
-}
-
-//改变为详情界面
--(void)StaffDetail
-{
-    _statusDetailArray = [[NSArray alloc]init];
-    [self loadDetail];
-    _passwordLabel.text = @"创建日期";
-    
-    _passwordField.userInteractionEnabled = NO;
-    _passwordField.secureTextEntry = NO;
-    
-    _makeSurePasswordLabel.hidden = YES;
-    _makeSureField.hidden = YES;
-    
-    _passwordField.borderStyle = UITextBorderStyleNone;
-    CALayer *readBtnLayer3= [_passwordField layer];
-    [readBtnLayer3 setBorderColor:[[UIColor clearColor] CGColor]];
-    
-    _loginIDField.userInteractionEnabled = NO;
-    _loginIDField.borderStyle = UITextBorderStyleNone;
-    CALayer *readBtnLayer = [_loginIDField layer];
-    [readBtnLayer setBorderColor:[[UIColor clearColor] CGColor]];
-    
-    _nameField.userInteractionEnabled = NO;
-    _nameField.borderStyle = UITextBorderStyleNone;
-    CALayer *readBtnLayer2 = [_nameField layer];
-    [readBtnLayer2 setBorderColor:[[UIColor clearColor] CGColor]];
-    
-    [_bottomBtn setTitle:@"编辑" forState:UIControlStateNormal];
 }
 
 -(void)initAndLayoutUI
@@ -135,9 +82,11 @@
     [self setLabel:_makeSurePasswordLabel WithTopSapce:topSpaceBig WithTopView:_passwordLabel WithLabelTag:0];
     
     _loginIDField = [[UITextField alloc]init];
+    _loginIDField.text = _loginID;
     [self setTextField:_loginIDField WithTopSapce:topSpaceBig * 4 WithTopView:self.view WithfieldTag:1];
     
     _nameField = [[UITextField alloc]init];
+    _nameField.text = _name;
     [self setTextField:_nameField WithTopSapce:topSpaceBig WithTopView:_loginIDField WithfieldTag:0];
     
     _passwordField = [[UITextField alloc]init];
@@ -229,7 +178,8 @@
     [self setSelectedBtn:_eighthBtn WithTopSpace:mainMargin WithTopView:_seventhBtn WithButtonTag:8];
     
     
-    [self setupNavBar];
+    [self setcontentBtnStatus];
+    
 }
 
 -(void)setSelectedBtn:(StaffButton *)button WithTopSpace:(CGFloat)topSpace WithTopView:(UIView *)topButton WithButtonTag:(NSInteger)buttonTag
@@ -300,111 +250,48 @@
         textfield.frame = CGRectMake(originX, CGRectGetMaxY(topField.frame) + topSpace, textWidth, textHeight);
     }
     [self.view addSubview:textfield];
-
     
 }
 
-#pragma mark - Action
--(void)bottomClicked
+-(void)setcontentBtnStatus
 {
-    switch (_statffStatus) {
-        case staffStatusCreated:
-            [self createClicked];
-            break;
-        case staffStatusDetail:
-            [self staffDetailClicked];
-            break;
-            
-        default:
-            break;
-    }
-    
-}
-//详情可编辑
--(void)staffDetailClicked
-{
-    StaffChangeController *staffChangeVC = [[StaffChangeController alloc]init];
-    staffChangeVC.name = _name;
-    staffChangeVC.loginID = _loginID;
-    staffChangeVC.statusDetailArray = _statusDetailArray;
-    staffChangeVC.hidesBottomBarWhenPushed = YES;
-    [self.navigationController pushViewController:staffChangeVC animated:NO];
-}
-
-//创建按钮
--(void)createClicked
-{
-    NSLog(@"_statusArr 有%d个元素",_statusArray.count);
-    for (int i = 0; i < _statusArray.count; i++) {
-        NSString *str = [_statusArray objectAtIndex:i];
-        NSString *statusStr = [NSString stringWithFormat:@",%@",str];
-        if (i == 0) {
-            statusStr = [NSString stringWithFormat:@"%@",str];
+    NSLog(@"_statusDetailArray 有 %@",_statusDetailArray);
+    for (int i = 0; i < [_statusDetailArray count]; i++) {
+        int statusNum = [[_statusDetailArray objectAtIndex:i] intValue];
+        switch (statusNum) {
+            case 1:
+                [_firstBtn BtnClickedWithButton:_firstBtn];
+                break;
+            case 2:
+                [_secondBtn BtnClickedWithButton:_secondBtn];
+                break;
+            case 3:
+                [_thirdBtn BtnClickedWithButton:_thirdBtn];
+                break;
+            case 4:
+                [_fourthBtn BtnClickedWithButton:_fourthBtn];
+                break;
+            case 5:
+                [_fifthBtn BtnClickedWithButton:_fifthBtn];
+                break;
+            case 6:
+                [_sixBtn BtnClickedWithButton:_sixBtn];
+                break;
+            case 7:
+                [_seventhBtn BtnClickedWithButton:_seventhBtn];
+                break;
+            case 8:
+                [_eighthBtn BtnClickedWithButton:_eighthBtn];
+                break;
+                
+            default:
+                break;
         }
-        [_statusStr appendFormat:statusStr];
     }
-    
-    NSLog(@"~~~~~~%@",_statusStr);
-    if (!_loginIDField.text || [_loginIDField.text isEqualToString:@""]) {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示信息"
-                                                        message:@"登录ID不能为空!"
-                                                       delegate:nil
-                                              cancelButtonTitle:@"确定"
-                                              otherButtonTitles:nil];
-        [alert show];
-        return;
-    }
-    if (!_nameField.text || [_nameField.text isEqualToString:@""]) {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示信息"
-                                                        message:@"姓名不能为空!"
-                                                       delegate:nil
-                                              cancelButtonTitle:@"确定"
-                                              otherButtonTitles:nil];
-        [alert show];
-        return;
-    }
-    if (!_passwordField.text || [_passwordField.text isEqualToString:@""]) {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示信息"
-                                                        message:@"密码不能为空!"
-                                                       delegate:nil
-                                              cancelButtonTitle:@"确定"
-                                              otherButtonTitles:nil];
-        [alert show];
-        return;
-    }
-    if (!_makeSureField.text || [_makeSureField.text isEqualToString:@""]) {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示信息"
-                                                        message:@"确认密码不能为空!"
-                                                       delegate:nil
-                                              cancelButtonTitle:@"确定"
-                                              otherButtonTitles:nil];
-        [alert show];
-        return;
-    }
-    if (![_makeSureField.text isEqualToString:_passwordField.text]) {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示信息"
-                                                        message:@"两次输入密码不一致!"
-                                                       delegate:nil
-                                              cancelButtonTitle:@"确定"
-                                              otherButtonTitles:nil];
-        [alert show];
-        return;
-    }
-    if (_statusArray.count == 0) {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示信息"
-                                                        message:@"请选择员工权限!"
-                                                       delegate:nil
-                                              cancelButtonTitle:@"确定"
-                                              otherButtonTitles:nil];
-        [alert show];
-        return;
-    }
-    [self createdApply];
-
 }
 
 #pragma mark - staffBtn Delegate
--(void)staffClickedWithButton:(UIButton *)button
+-(void)staffClickedWithButton:(StaffButton *)button
 {
     if (button.tag == 5001) {
         NSLog(@"点击了第一个空格 并且状态为%d",_firstBtn.isSelected);
@@ -472,13 +359,86 @@
     }
 }
 
-#pragma mark - Data
--(void)createdApply
+#pragma mark - Action
+//保存
+-(void)bottomClicked
+{
+    NSLog(@"_statusArray 有%d个元素",_statusArray.count);
+    for (int i = 0; i < _statusArray.count; i++) {
+        NSString *str = [_statusArray objectAtIndex:i];
+        NSString *statusStr = [NSString stringWithFormat:@",%@",str];
+        if (i == 0) {
+            statusStr = [NSString stringWithFormat:@"%@",str];
+        }
+        [_statusStr appendFormat:statusStr];
+    }
+    
+    NSLog(@"~~~~~~%@",_statusStr);
+    if (!_loginIDField.text || [_loginIDField.text isEqualToString:@""]) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示信息"
+                                                        message:@"登录ID不能为空!"
+                                                       delegate:nil
+                                              cancelButtonTitle:@"确定"
+                                              otherButtonTitles:nil];
+        [alert show];
+        return;
+    }
+    if (!_nameField.text || [_nameField.text isEqualToString:@""]) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示信息"
+                                                        message:@"姓名不能为空!"
+                                                       delegate:nil
+                                              cancelButtonTitle:@"确定"
+                                              otherButtonTitles:nil];
+        [alert show];
+        return;
+    }
+    if (!_passwordField.text || [_passwordField.text isEqualToString:@""]) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示信息"
+                                                        message:@"密码不能为空!"
+                                                       delegate:nil
+                                              cancelButtonTitle:@"确定"
+                                              otherButtonTitles:nil];
+        [alert show];
+        return;
+    }
+    if (!_makeSureField.text || [_makeSureField.text isEqualToString:@""]) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示信息"
+                                                        message:@"确认密码不能为空!"
+                                                       delegate:nil
+                                              cancelButtonTitle:@"确定"
+                                              otherButtonTitles:nil];
+        [alert show];
+        return;
+    }
+    if (![_makeSureField.text isEqualToString:_passwordField.text]) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示信息"
+                                                        message:@"两次输入密码不一致!"
+                                                       delegate:nil
+                                              cancelButtonTitle:@"确定"
+                                              otherButtonTitles:nil];
+        [alert show];
+        return;
+    }
+    if (_statusArray.count == 0) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示信息"
+                                                        message:@"请选择员工权限!"
+                                                       delegate:nil
+                                              cancelButtonTitle:@"确定"
+                                              otherButtonTitles:nil];
+        [alert show];
+        return;
+    }
+    [self changeApply];
+
+}
+
+//#pragma mark - Data
+-(void)changeApply
 {
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
     hud.labelText = @"加载中...";
     AppDelegate *delegate = [AppDelegate shareAppDelegate];
-    [NetworkInterface createStaffWithAgentID:delegate.agentID Token:delegate.token LoginID:_loginIDField.text UserName:_nameField.text Roles:_statusStr Password:_passwordField.text MakePassword:_makeSureField.text finished:^(BOOL success, NSData *response) {
+    [NetworkInterface changeStaffWithAgentID:delegate.agentID Token:delegate.token LoginID:_loginID Roles:_statusStr Password:_passwordField.text finished:^(BOOL success, NSData *response) {
         NSLog(@"%@",[[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding]);
         hud.customView = [[UIImageView alloc] init];
         hud.mode = MBProgressHUDModeCustomView;
@@ -493,7 +453,7 @@
                 }
                 else if ([errorCode intValue] == RequestSuccess) {
                     [hud hide:YES afterDelay:1.f];
-                    hud.labelText = @"创建员工成功";
+                    hud.labelText = @"修改员工信息成功";
                     [[NSNotificationCenter defaultCenter] postNotificationName:RefreshStaffManagerListNotification object:nil];
                     [self.navigationController popViewControllerAnimated:YES];
                 }
@@ -507,96 +467,7 @@
             hud.labelText = kNetworkFailed;
         }
     }];
-
+//
 }
 
-//获取详情
--(void)loadDetail
-{
-    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
-    hud.labelText = @"加载中...";
-    AppDelegate *delegate = [AppDelegate shareAppDelegate];
-    [NetworkInterface getStaffDetailWithAgentID:delegate.agentID Token:delegate.token staffID:_staffModel.userID finished:^(BOOL success, NSData *response) {
-        NSLog(@"%@",[[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding]);
-        hud.customView = [[UIImageView alloc] init];
-        hud.mode = MBProgressHUDModeCustomView;
-        [hud hide:YES afterDelay:0.5f];
-        if (success) {
-            id object = [NSJSONSerialization JSONObjectWithData:response options:NSJSONReadingMutableLeaves error:nil];
-            if ([object isKindOfClass:[NSDictionary class]]) {
-                NSString *errorCode = [NSString stringWithFormat:@"%@",[object objectForKey:@"code"]];
-                if ([errorCode intValue] == RequestFail) {
-                    //返回错误代码
-                    hud.labelText = [NSString stringWithFormat:@"%@",[object objectForKey:@"message"]];
-                }
-                else if ([errorCode intValue] == RequestSuccess) {
-                    [self parsestaffDetailDataWithDictionary:object];
-                }
-            }
-            else {
-                //返回错误数据
-                hud.labelText = kServiceReturnWrong;
-            }
-        }
-        else {
-            hud.labelText = kNetworkFailed;
-        }
-    }];
-}
-
-- (void)parsestaffDetailDataWithDictionary:(NSDictionary *)dict {
-    if (![dict objectForKey:@"result"] || ![[dict objectForKey:@"result"] isKindOfClass:[NSDictionary class]]) {
-        return;
-    }
-    NSDictionary *dicts = [dict objectForKey:@"result"];
-    if ([dicts objectForKey:@"loginId"]) {
-        _loginID = [dicts objectForKey:@"loginId"];
-        _loginIDField.text = [dicts objectForKey:@"loginId"];
-    }
-    if ([dicts objectForKey:@"name"]) {
-        _name = [dicts objectForKey:@"name"];
-        _nameField.text = [dicts objectForKey:@"name"];
-    }
-    if ([dicts objectForKey:@"createdAt"]) {
-        _passwordField.text = [dicts objectForKey:@"createdAt"];
-    }
-    if ([dicts objectForKey:@"rolesStr"]) {
-        NSString *str = [dicts objectForKey:@"rolesStr"];
-        _statusDetailArray = [str componentsSeparatedByString:@","];
-        
-        for (int i = 0; i < [_statusDetailArray count]; i++) {
-            int statusNum = [[_statusDetailArray objectAtIndex:i] intValue];
-            switch (statusNum) {
-                case 1:
-                    [_firstBtn setBGWithisSelected:YES];
-                    break;
-                case 2:
-                    [_secondBtn setBGWithisSelected:YES];
-                    break;
-                case 3:
-                    [_thirdBtn setBGWithisSelected:YES];
-                    break;
-                case 4:
-                    [_fourthBtn setBGWithisSelected:YES];
-                    break;
-                case 5:
-                    [_fifthBtn setBGWithisSelected:YES];
-                    break;
-                case 6:
-                    [_sixBtn setBGWithisSelected:YES];
-                    break;
-                case 7:
-                    [_seventhBtn setBGWithisSelected:YES];
-                    break;
-                case 8:
-                    [_eighthBtn setBGWithisSelected:YES];
-                    break;
-                    
-                default:
-                    break;
-            }
-        }
-    }
-    
-}
 @end

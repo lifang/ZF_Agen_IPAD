@@ -115,6 +115,7 @@
 		1A790B1A1ADCF32F00EE886A /* AfterSellDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A790B191ADCF32F00EE886A /* AfterSellDetailController.m */; };
 		1A790B1D1ADCFED700EE886A /* CancelDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A790B1C1ADCFED700EE886A /* CancelDetailController.m */; };
 		1A790B201ADD031B00EE886A /* UpdateDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A790B1F1ADD031B00EE886A /* UpdateDetailController.m */; };
+		1A7AE6EC1ADF996700836C09 /* StaffChangeController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A7AE6EB1ADF996700836C09 /* StaffChangeController.m */; };
 		1A8145FF1ADE04CF00A7680E /* StaffManagerCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A8145FE1ADE04CF00A7680E /* StaffManagerCell.m */; };
 		1A8146021ADE053C00A7680E /* StaffManagerModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A8146011ADE053C00A7680E /* StaffManagerModel.m */; };
 		1A8146051ADE3D0900A7680E /* StaffManagerDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A8146041ADE3D0900A7680E /* StaffManagerDetailController.m */; };
@@ -446,6 +447,8 @@
 		1A790B1C1ADCFED700EE886A /* CancelDetailController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CancelDetailController.m; sourceTree = "<group>"; };
 		1A790B1E1ADD031B00EE886A /* UpdateDetailController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UpdateDetailController.h; sourceTree = "<group>"; };
 		1A790B1F1ADD031B00EE886A /* UpdateDetailController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UpdateDetailController.m; sourceTree = "<group>"; };
+		1A7AE6EA1ADF996700836C09 /* StaffChangeController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StaffChangeController.h; sourceTree = "<group>"; };
+		1A7AE6EB1ADF996700836C09 /* StaffChangeController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StaffChangeController.m; sourceTree = "<group>"; };
 		1A8145FD1ADE04CF00A7680E /* StaffManagerCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StaffManagerCell.h; sourceTree = "<group>"; };
 		1A8145FE1ADE04CF00A7680E /* StaffManagerCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StaffManagerCell.m; sourceTree = "<group>"; };
 		1A8146001ADE053C00A7680E /* StaffManagerModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StaffManagerModel.h; sourceTree = "<group>"; };
@@ -1059,6 +1062,8 @@
 				1ABA17C01ADB548A006B8D9B /* StaffManagerController.m */,
 				1A8146031ADE3D0900A7680E /* StaffManagerDetailController.h */,
 				1A8146041ADE3D0900A7680E /* StaffManagerDetailController.m */,
+				1A7AE6EA1ADF996700836C09 /* StaffChangeController.h */,
+				1A7AE6EB1ADF996700836C09 /* StaffChangeController.m */,
 			);
 			name = StaffManager;
 			sourceTree = "<group>";
@@ -1723,6 +1728,7 @@
 				1A9654611AD60D8600C39B5B /* StockManagerDetailCell.m in Sources */,
 				0ED58ECC1AD4D7DA0081E8BC /* FactoryDetailController.m in Sources */,
 				0ECA76341AD546F80083D373 /* OrderCell.m in Sources */,
+				1A7AE6EC1ADF996700836C09 /* StaffChangeController.m in Sources */,
 				0DC0325A1AD68D51000532EF /* TerminalManagerModel.m in Sources */,
 				0ED58EFE1AD4DA820081E8BC /* MJRefreshFooterView.m in Sources */,
 				1AF15B571ACD03AE00D5C171 /* SMPageControl.m in Sources */,

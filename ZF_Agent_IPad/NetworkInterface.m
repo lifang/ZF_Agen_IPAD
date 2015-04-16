@@ -1800,5 +1800,58 @@ static NSString *HTTP_GET  = @"GET";
                         finished:finish];
 
 }
++(void)createStaffWithAgentID:(NSString *)agentID
+                        Token:(NSString *)token
+                      LoginID:(NSString *)loginID
+                     UserName:(NSString *)userName
+                        Roles:(NSMutableString *)roles
+                     Password:(NSString *)password
+                 MakePassword:(NSString *)makepassword
+                     finished:(requestDidFinished)finish{
+    //参数
+    NSMutableDictionary *paramDict = [[NSMutableDictionary alloc] init];
+    [paramDict setObject:roles forKey:@"roles"];
+    [paramDict setObject:loginID forKey:@"loginId"];
+    [paramDict setObject:userName forKey:@"userName"];
+    [paramDict setObject:password forKey:@"pwd"];
+    [paramDict setObject:makepassword forKey:@"pwd1"];
+    [paramDict setObject:[NSNumber numberWithInt:[agentID intValue]] forKey:@"agentsId"];
+    //url
+    NSString *urlString = [NSString stringWithFormat:@"%@/%@",kServiceURL,s_createstaff_method];
+    [[self class] requestWithURL:urlString
+                          params:paramDict
+                      httpMethod:HTTP_POST
+                        finished:finish];
+}
++(void)getStaffDetailWithAgentID:(NSString *)agentID
+                           Token:(NSString *)token
+                         staffID:(NSString *)staffID
+                        finished:(requestDidFinished)finish{
+    //参数
+    NSMutableDictionary *paramDict = [[NSMutableDictionary alloc] init];
+    [paramDict setObject:[NSNumber numberWithInt:[agentID intValue]] forKey:@"agentsId"];
+    [paramDict setObject:[NSNumber numberWithInt:[staffID intValue]] forKey:@"customerId"];
+    //url
+    NSString *urlString = [NSString stringWithFormat:@"%@/%@",kServiceURL,s_getstaffdetail_method];
+    [[self class] requestWithURL:urlString
+                          params:paramDict
+                      httpMethod:HTTP_POST
+                        finished:finish];
+}
++(void)changeStaffWithAgentID:(NSString *)agentID Token:(NSString *)token LoginID:(NSString *)loginID Roles:(NSMutableString *)roles Password:(NSString *)password finished:(requestDidFinished)finish
+{
+    //参数
+    NSMutableDictionary *paramDict = [[NSMutableDictionary alloc] init];
+    [paramDict setObject:roles forKey:@"roles"];
+    [paramDict setObject:loginID forKey:@"loginId"];
+    [paramDict setObject:password forKey:@"pwd"];
+    [paramDict setObject:[NSNumber numberWithInt:[agentID intValue]] forKey:@"agentsId"];
+    //url
+    NSString *urlString = [NSString stringWithFormat:@"%@/%@",kServiceURL,s_changestaffdetail_method];
+    [[self class] requestWithURL:urlString
+                          params:paramDict
+                      httpMethod:HTTP_POST
+                        finished:finish];
+}
 
 @end
