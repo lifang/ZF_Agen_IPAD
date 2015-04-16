@@ -7,18 +7,17 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "StaffManagerModel.h"
 
 typedef enum {
-    staffStatus1 = 1,//批购
-    staffStatus2,    //代购
-    staffStatus3,    //终端管理/售后记录查看
-    staffStatus4,    //交易分润查询
-    staffStatus5,    //下级代理商管理
-    staffStatus6,    //用户管理
-    staffStatus7,    //员工账号管理
-    staffStatus8,    //代理商资料/收货地址管理
+    staffStatusCreated = 1,//创建
+    staffStatusDetail,    //详情
 }staffStatus;
 
 @interface StaffManagerDetailController : UIViewController
+
+@property(nonatomic,strong)StaffManagerModel *staffModel;
+
+@property(nonatomic,assign)staffStatus statffStatus;
 
 @end

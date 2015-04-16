@@ -22,4 +22,8 @@
 
 @property(nonatomic,assign)BOOL isSelected;
 
+-(void)BtnClickedWithButton:(UIButton *)button;
+
+-(void)setBGWithisSelected:(BOOL)isSelected;
+
 @end

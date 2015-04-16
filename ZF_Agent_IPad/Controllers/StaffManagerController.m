@@ -47,8 +47,16 @@
     return _tableView;
 }
 
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(refreshStaffManagerList:)
+                                                 name:RefreshStaffManagerListNotification
+                                               object:nil];
     _dataItem = [[NSMutableArray alloc]init];
     [self setLeftViewWith:ChooseViewApplyplan];
     [self setupHeaderView];
@@ -249,7 +257,13 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    StaffManagerModel *model = [_dataItem objectAtIndex:indexPath.row];
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    StaffManagerDetailController *staffVC = [[StaffManagerDetailController alloc]init];
+    staffVC.staffModel = model;
+    staffVC.statffStatus = staffStatusDetail;
+    staffVC.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:staffVC animated:NO];
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -288,6 +302,7 @@
 -(void)createdClick
 {
     StaffManagerDetailController *staffVC = [[StaffManagerDetailController alloc]init];
+    staffVC.statffStatus = staffStatusCreated;
     staffVC.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:staffVC animated:NO];
 }
@@ -500,6 +515,10 @@
 - (void)pullUpToLoadData {
     [self downloadDataWithPage:self.page isMore:YES];
 }
+#pragma mark - NSNotification
 
+- (void)refreshStaffManagerList:(NSNotification *)notification {
+    [self performSelector:@selector(firstLoadData) withObject:nil afterDelay:0.1f];
+}
 
 @end

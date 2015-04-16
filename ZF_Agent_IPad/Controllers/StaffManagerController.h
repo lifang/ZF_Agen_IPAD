@@ -7,7 +7,7 @@
 //
 
 #import "MineCommonController.h"
-
+static NSString *RefreshStaffManagerListNotification = @"RefreshStaffManagerListNotification";
 @interface StaffManagerController : MineCommonController
 
 @end

@@ -33,6 +33,12 @@
         else{
             _createdTime = @"";
         }
+        if ([dict objectForKey:@"rolesStr"]) {
+            _roles = [NSString stringWithFormat:@"%@",[dict objectForKey:@"rolesStr"]];
+        }
+        else{
+            _roles = @"";
+        }
         
     }
     return self;

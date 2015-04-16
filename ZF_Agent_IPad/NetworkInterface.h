@@ -317,7 +317,12 @@ static NSString *s_submitLogist_method = @"/cs/agents/addMark";
 static NSString *s_staffList_method = @"/customerManage/getList";
 //删除员工
 static NSString *s_deletedstaff_method = @"/customerManage/deleteOne";
-
+//创建员工
+static NSString *s_createstaff_method = @"/customerManage/insert";
+//获得员工详情
+static NSString *s_getstaffdetail_method = @"/customerManage/getInfo";
+//修改员工信息
+static NSString *s_changestaffdetail_method = @"/customerManage/edit";
 
 @interface NetworkInterface : NSObject
 /*!
@@ -1351,6 +1356,27 @@ static NSString *s_deletedstaff_method = @"/customerManage/deleteOne";
                          Token:(NSString *)token
                        loginID:(NSString *)loginID
                        staffID:(NSString *)staffID
+                      finished:(requestDidFinished)finish;
+//创建员工
++ (void)createStaffWithAgentID:(NSString *)agentID
+                         Token:(NSString *)token
+                       LoginID:(NSString *)loginID
+                      UserName:(NSString *)userName
+                         Roles:(NSMutableString *)roles
+                      Password:(NSString *)password
+                  MakePassword:(NSString *)makepassword
+                      finished:(requestDidFinished)finish;
+//获取详情
++ (void)getStaffDetailWithAgentID:(NSString *)agentID
+                           Token:(NSString *)token
+                         staffID:(NSString *)staffID
+                        finished:(requestDidFinished)finish;
+//修改详情
++ (void)changeStaffWithAgentID:(NSString *)agentID
+                         Token:(NSString *)token
+                       LoginID:(NSString *)loginID
+                         Roles:(NSMutableString *)roles
+                      Password:(NSString *)password
                       finished:(requestDidFinished)finish;
 
 @end

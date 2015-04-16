@@ -40,7 +40,7 @@
     _loginIDLabel.backgroundColor = [UIColor clearColor];
     _loginIDLabel.font = mainFont;
     _loginIDLabel.textAlignment = NSTextAlignmentCenter;
-    _loginIDLabel.frame = CGRectMake(80, 20, labelW, labelH);
+    _loginIDLabel.frame = CGRectMake(70, 20, labelW, labelH);
     [self.contentView addSubview:_loginIDLabel];
     
     _userNameLabel = [[UILabel alloc]init];
