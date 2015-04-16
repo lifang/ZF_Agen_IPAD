@@ -16,6 +16,11 @@
     
     NSString*agentid;
     NSInteger changeA;
+    UIView*datepickview;
+    UIButton *cancelBtn;
+    UIView*datepickviewend;
+    UIButton *cancelBtnend;
+
     
 }
 

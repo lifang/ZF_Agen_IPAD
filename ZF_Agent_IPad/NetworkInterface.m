@@ -1034,6 +1034,54 @@ static NSString *HTTP_GET  = @"GET";
                       httpMethod:HTTP_POST
                         finished:finish];
 }
+//47.
++ (void)getGoodSubAgentWithAgentID:(NSString *)agentID
+                             token:(NSString *)token
+                          finished:(requestDidFinished)finish {
+    //参数
+    NSMutableDictionary *paramDict = [[NSMutableDictionary alloc] init];
+    if (agentID) {
+        [paramDict setObject:[NSNumber numberWithInt:[agentID intValue]] forKey:@"agentId"];
+    }
+    //url
+    NSString *urlString = [NSString stringWithFormat:@"%@/%@",kServiceURL,s_subAgent_method];
+    [[self class] requestWithURL:urlString
+                          params:paramDict
+                      httpMethod:HTTP_POST
+                        finished:finish];
+}
+//48.
++ (void)getPrepareGoodListWithAgentID:(NSString *)agentID
+                                token:(NSString *)token
+                           subAgentID:(NSString *)subAgentID
+                            startTime:(NSString *)startTime
+                              endTime:(NSString *)endTime
+                                 page:(int)page
+                                 rows:(int)rows
+                             finished:(requestDidFinished)finish {
+    //参数
+    NSMutableDictionary *paramDict = [[NSMutableDictionary alloc] init];
+    if (agentID) {
+        [paramDict setObject:[NSNumber numberWithInt:[agentID intValue]] forKey:@"agentId"];
+    }
+    if (subAgentID) {
+        [paramDict setObject:[NSNumber numberWithInt:[subAgentID intValue]] forKey:@"sonAgentId"];
+    }
+    if (startTime) {
+        [paramDict setObject:startTime forKey:@"startTime"];
+    }
+    if (endTime) {
+        [paramDict setObject:endTime forKey:@"endTime"];
+    }
+    [paramDict setObject:[NSNumber numberWithInt:page] forKey:@"page"];
+    [paramDict setObject:[NSNumber numberWithInt:rows] forKey:@"rows"];
+    //url
+    NSString *urlString = [NSString stringWithFormat:@"%@/%@",kServiceURL,s_prepareGoodList_method];
+    [[self class] requestWithURL:urlString
+                          params:paramDict
+                      httpMethod:HTTP_POST
+                        finished:finish];
+}
 
 //55.
 + (void)getTradeTerminalListWithAgentID:(NSString *)agentID

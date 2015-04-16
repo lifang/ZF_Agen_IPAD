@@ -213,7 +213,10 @@ static NSString *s_stockDetail_method = @"stock/info";
 
 //43.库存管理详情——下级代理商终端列表
 static NSString *s_stockTerminal_method = @"stock/terminallist";
-
+//47.选择代理商
+static NSString *s_subAgent_method = @"preparegood/getsonagent";
+//48.配货列表
+static NSString *s_prepareGoodList_method = @"preparegood/list";
 //55.交易流水——获取终端
 static NSString *s_tradeTerminalList_method = @"trade/record/getTerminals";
 //58.交易流水——获取代理商列表
@@ -928,6 +931,35 @@ static NSString *s_deletedstaff_method = @"/customerManage/deleteOne";
                                page:(int)page
                                rows:(int)rows
                            finished:(requestDidFinished)finish;
+/*!
+ @abstract 47.选择代理商
+ @param agentID     代理商ID
+ @param token    登录返回
+ @result finish  请求回调结果
+ */
++ (void)getGoodSubAgentWithAgentID:(NSString *)agentID
+                             token:(NSString *)token
+                          finished:(requestDidFinished)finish;
+/*!
+ @abstract 48.配货列表
+ @param agentID     代理商ID
+ @param token    登录返回
+ @param subAgentID  下级代理商id
+ @param startTime   开始时间
+ @param endTime     结束时间
+ @param page     分页参数 页
+ @param rows     分页参数 行
+ @result finish  请求回调结果
+ */
++ (void)getPrepareGoodListWithAgentID:(NSString *)agentID
+                                token:(NSString *)token
+                           subAgentID:(NSString *)subAgentID
+                            startTime:(NSString *)startTime
+                              endTime:(NSString *)endTime
+                                 page:(int)page
+                                 rows:(int)rows
+                             finished:(requestDidFinished)finish;
+
 
 /*!
  @abstract 55.交易流水获取终端列表

@@ -414,7 +414,7 @@
     else {
         
         UILabel *originalable = [[UILabel alloc] initWithFrame:CGRectMake(200+_priceLabel.frame.origin.x+20, originY, _priceLabel.frame.size.width, labelHeight)];
-        NSString *primaryPrice = [NSString stringWithFormat:@"原价 ￥222"];
+        NSString *primaryPrice = [NSString stringWithFormat:@"原价 ￥%.2f",_detailModel.originalprice];
         NSMutableAttributedString *priceAttrString = [[NSMutableAttributedString alloc] initWithString:primaryPrice];
         NSDictionary *priceAttr = [NSDictionary dictionaryWithObjectsAndKeys:
                                    [UIFont systemFontOfSize:15.f],NSFontAttributeName,
@@ -488,9 +488,19 @@
     _rentButton.frame = CGRectMake(_buyButton.frame.origin.x + _buyButton.frame.size.width + hSpace, originY, btnWidth, btnHeight);
     [_mainScrollView addSubview:_rentButton];
     if (self.supplyType==2) {
-        _rentButton.hidden = NO;
-        [self setLabel:buyTypeTitleLabel withTitle:@"购买方式" font:[UIFont systemFontOfSize:17.f]];
-        [_mainScrollView addSubview:_buyButton];
+        if(_detailModel.canRent)
+        {
+            _rentButton.hidden = NO;
+            [self setLabel:buyTypeTitleLabel withTitle:@"购买方式" font:[UIFont systemFontOfSize:17.f]];
+            [_mainScrollView addSubview:_buyButton];}
+        else
+        {
+            _rentButton.hidden = YES;
+
+        
+        
+        }
+     
 
     }
     else {
