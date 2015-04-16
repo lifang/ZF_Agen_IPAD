@@ -26,6 +26,9 @@
 		0D1694331AD3C1F300B50A17 /* BaseApi.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D1694321AD3C1F300B50A17 /* BaseApi.m */; };
 		0D1694371AD3C4D900B50A17 /* TerminalViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D1694361AD3C4D900B50A17 /* TerminalViewController.m */; };
 		0D16943A1AD3C60800B50A17 /* TerminalViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D1694391AD3C60800B50A17 /* TerminalViewCell.m */; };
+		0D1C66DF1ADFE0E000CAC1B8 /* AddressSelectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D1C66DE1ADFE0E000CAC1B8 /* AddressSelectViewController.m */; };
+		0D1C66E21ADFE10A00CAC1B8 /* UserSelectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D1C66E11ADFE10A00CAC1B8 /* UserSelectViewController.m */; };
+		0D1C66E51ADFE15B00CAC1B8 /* AddressSelectCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D1C66E41ADFE15B00CAC1B8 /* AddressSelectCell.m */; };
 		0D885FA51AD7D34A002CDA15 /* IdentificationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D885FA41AD7D34A002CDA15 /* IdentificationViewController.m */; };
 		0D885FA81AD7D358002CDA15 /* ApplyDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D885FA71AD7D358002CDA15 /* ApplyDetailController.m */; };
 		0D885FAB1AD7D4F6002CDA15 /* IdentificationViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D885FAA1AD7D4F6002CDA15 /* IdentificationViewCell.m */; };
@@ -269,6 +272,12 @@
 		0D1694361AD3C4D900B50A17 /* TerminalViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TerminalViewController.m; sourceTree = "<group>"; };
 		0D1694381AD3C60800B50A17 /* TerminalViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TerminalViewCell.h; sourceTree = "<group>"; };
 		0D1694391AD3C60800B50A17 /* TerminalViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TerminalViewCell.m; sourceTree = "<group>"; };
+		0D1C66DD1ADFE0D800CAC1B8 /* AddressSelectViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddressSelectViewController.h; sourceTree = "<group>"; };
+		0D1C66DE1ADFE0E000CAC1B8 /* AddressSelectViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddressSelectViewController.m; sourceTree = "<group>"; };
+		0D1C66E01ADFE10400CAC1B8 /* UserSelectViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserSelectViewController.h; sourceTree = "<group>"; };
+		0D1C66E11ADFE10A00CAC1B8 /* UserSelectViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserSelectViewController.m; sourceTree = "<group>"; };
+		0D1C66E31ADFE15500CAC1B8 /* AddressSelectCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddressSelectCell.h; sourceTree = "<group>"; };
+		0D1C66E41ADFE15B00CAC1B8 /* AddressSelectCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddressSelectCell.m; sourceTree = "<group>"; };
 		0D885FA31AD7D341002CDA15 /* IdentificationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IdentificationViewController.h; sourceTree = "<group>"; };
 		0D885FA41AD7D34A002CDA15 /* IdentificationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IdentificationViewController.m; sourceTree = "<group>"; };
 		0D885FA61AD7D352002CDA15 /* ApplyDetailController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ApplyDetailController.h; sourceTree = "<group>"; };
@@ -751,8 +760,12 @@
 				0DC032471AD68C2F000532EF /* TerminalDetailViewController.m */,
 				0DC1D0A61ADD5DAD0048783F /* SearchTermianlViewController.h */,
 				0DC1D0A71ADD5DAD0048783F /* SearchTermianlViewController.m */,
+				0D1C66E01ADFE10400CAC1B8 /* UserSelectViewController.h */,
+				0D1C66E11ADFE10A00CAC1B8 /* UserSelectViewController.m */,
 				0DC1D0A91ADD63350048783F /* TerminalSelectViewController.h */,
 				0DC1D0AA1ADD63350048783F /* TerminalSelectViewController.m */,
+				0D1C66DD1ADFE0D800CAC1B8 /* AddressSelectViewController.h */,
+				0D1C66DE1ADFE0E000CAC1B8 /* AddressSelectViewController.m */,
 				0DC0324C1AD68C67000532EF /* RecordView.h */,
 				0DC0324D1AD68C6D000532EF /* RecordView.m */,
 			);
@@ -1293,6 +1306,8 @@
 				0D885FAA1AD7D4F6002CDA15 /* IdentificationViewCell.m */,
 				0D12AF881ADE063A00229D13 /* TerminalSelectCell.h */,
 				0D12AF891ADE063A00229D13 /* TerminalSelectCell.m */,
+				0D1C66E31ADFE15500CAC1B8 /* AddressSelectCell.h */,
+				0D1C66E41ADFE15B00CAC1B8 /* AddressSelectCell.m */,
 				0ED58EE51AD4DA040081E8BC /* cell */,
 				0ED58EDF1AD4D9DD0081E8BC /* SortView.h */,
 				0ED58EE01AD4D9DD0081E8BC /* SortView.m */,
@@ -1629,6 +1644,7 @@
 				0D885FB11AD7D556002CDA15 /* ApplyOpenModel.m in Sources */,
 				0ED58ECA1AD4D7DA0081E8BC /* GoodDetailViewController.m in Sources */,
 				1AF15B691ACD065500D5C171 /* LoginViewController.m in Sources */,
+				0D1C66E51ADFE15B00CAC1B8 /* AddressSelectCell.m in Sources */,
 				0ED194731AD79F6200029DE3 /* TransferCell.m in Sources */,
 				1AF15B0D1ACCE3BC00D5C171 /* GoodListModel.m in Sources */,
 				1AF15AF41ACCE3A400D5C171 /* UIImageView+WebCache.m in Sources */,
@@ -1672,6 +1688,7 @@
 				0D1694251AD3C14100B50A17 /* View+MASAdditions.m in Sources */,
 				1AF15AE81ACCE3A400D5C171 /* NSData+ImageContentType.m in Sources */,
 				1AF15B371ACCE40400D5C171 /* NavigationBarAttr.m in Sources */,
+				0D1C66DF1ADFE0E000CAC1B8 /* AddressSelectViewController.m in Sources */,
 				1A9654841AD669ED00C39B5B /* UIImage+Extention.m in Sources */,
 				1AF15B351ACCE40400D5C171 /* CityHandle.m in Sources */,
 				1AF15B091ACCE3BC00D5C171 /* PersonModel.m in Sources */,
@@ -1761,6 +1778,7 @@
 				0D16942D1AD3C15600B50A17 /* HexColor.m in Sources */,
 				1AF15AEA1ACCE3A400D5C171 /* SDWebImageCompat.m in Sources */,
 				0D1694211AD3C14100B50A17 /* MASViewAttribute.m in Sources */,
+				0D1C66E21ADFE10A00CAC1B8 /* UserSelectViewController.m in Sources */,
 				0ED58ED51AD4D9370081E8BC /* GoodsCell.m in Sources */,
 				0EC7C14C1ADF77E90076AAC4 /* AdjustGoodsViewController.m in Sources */,
 				0ED58ECB1AD4D7DA0081E8BC /* GoodDetaildetailViewController.m in Sources */,

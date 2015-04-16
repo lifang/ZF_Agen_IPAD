@@ -300,7 +300,7 @@
     
         [tableView deselectRowAtIndexPath:indexPath animated:YES];
         MerchantModel *model = [_MerchantItems objectAtIndex:indexPath.row];
-        //[_delegate displaySelectedMerchant:model];
+        [_delegate displaySelectedMerchant:model];
          [self getMerchantDetailWithMerchant:model];
 }
 

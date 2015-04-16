@@ -15,6 +15,7 @@
 #import "MerchantDetailModel.h"
 #import "MerchantSelecteViewController.h"
 #import "BnakSelectViewController.h"
+#import "BankModel.h"
 
 
 #define kTextViewTag   111
@@ -286,7 +287,8 @@
     accountnamebutton= [UIButton buttonWithType:UIButtonTypeCustom];
     accountnamebutton.frame = CGRectMake(150+wide/2,  topSpace + labelHeight * 2,280, 40);
     
-    NSString*accountname=[_infoDict objectForKey:key_selected];
+    //NSString *accountname=[_infoDict objectForKey:key_selected];
+     NSString *accountname=[_infoDict objectForKey:@"key_merchantName"];
     
     [accountnamebutton setTitle:accountname forState:UIControlStateNormal];
     [accountnamebutton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
@@ -405,6 +407,41 @@
             [locationbutton addTarget:self action:@selector(locationbuttonclick) forControlEvents:UIControlEventTouchUpInside];
             [_scrollView addSubview:locationbutton];
         }
+        else if(i==8)
+        {
+            bankNameBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+            bankNameBtn.frame = CGRectMake(190+(wide/2-40)*row,  height*70+topSpace + labelHeight * 7,280, 40);
+            
+            NSString *accountname=[NSString stringWithFormat:@"%@",[_infoDict objectForKey:[keynamesarry objectAtIndex:i]]];
+            [bankNameBtn setTitle:accountname forState:UIControlStateNormal];
+            [bankNameBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+            bankNameBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
+            [bankNameBtn setImage:kImageName(@"arrow_line1") forState:UIControlStateNormal];
+            bankNameBtn.layer.masksToBounds=YES;
+            bankNameBtn.layer.borderWidth=1.0;
+            bankNameBtn.layer.borderColor=[UIColor grayColor].CGColor;
+            bankNameBtn.contentEdgeInsets = UIEdgeInsetsMake(0,-40, 0, 0);
+            bankNameBtn.imageEdgeInsets = UIEdgeInsetsMake(0,270,0,0);//设置image在button上的位置（上top，左left，下bottom，右right）这里可以写负值，对上写－5，那么image就象上移动5个像素
+            
+            
+            [bankNameBtn addTarget:self action:@selector(bankNameBtnclick) forControlEvents:UIControlEventTouchUpInside];
+            [_scrollView addSubview:bankNameBtn];
+        }
+        else if (i==9)
+        {
+           bankIdTF=[[UITextField alloc]initWithFrame:CGRectMake(190+(wide/2-40)*row,  height*70+topSpace + labelHeight * 7,280, 40)];
+             bankIdTF.delegate=self;
+            
+             bankIdTF.tag=i+1056;
+            NSString *bankIdname=[NSString stringWithFormat:@"%@",[_infoDict objectForKey:[keynamesarry objectAtIndex:i]]];
+             bankIdTF.text=[NSString stringWithFormat:@"  %@",bankIdname];
+             bankIdTF.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
+            [_scrollView addSubview: bankIdTF];
+             bankIdTF.layer.masksToBounds=YES;
+             bankIdTF.layer.borderWidth=1.0;
+             bankIdTF.layer.borderColor=[UIColor grayColor].CGColor;
+            
+        }
         
         else if(i==13)
         {
@@ -428,7 +465,7 @@
         
         else
         {
-            UITextField*neworiginaltextfield=[[UITextField alloc]initWithFrame:CGRectMake(190+(wide/2-40)*row,  height*70+topSpace + labelHeight * 7,280, 40)];
+            UITextField *neworiginaltextfield=[[UITextField alloc]initWithFrame:CGRectMake(190+(wide/2-40)*row,  height*70+topSpace + labelHeight * 7,280, 40)];
             neworiginaltextfield.delegate=self;
             
             neworiginaltextfield.tag=i+1056;
@@ -711,9 +748,11 @@
     [self pickerDisplay:zhifubutton];
     
 }
+
 -(void)bankclick:(UIButton*)send
 {
     BnakSelectViewController *BnakSC=[[BnakSelectViewController alloc] init];
+    BnakSC.delegate=self;
     BnakSC.hidesBottomBarWhenPushed=YES;
     [self.navigationController pushViewController:BnakSC animated:YES];
   
@@ -722,7 +761,7 @@
 
 -(void)locationbuttonclick
 {
-      sexint=101;
+    sexint=101;
     _selectedKey = key_location;
     [self pickerDisplay:locationbutton];
     
@@ -733,7 +772,6 @@
 -(void)birthdaybuttonclick
 {
     
-    
     [self setupStartDate ];
     
     
@@ -743,8 +781,6 @@
 -(void)sexclick
 {
     sexint=102;
-    
-    
     [self setupTerminalTableView];
     
 }
@@ -752,13 +788,21 @@
 
 -(void)accountnamebuttonclick
 {
-   // sexint=103;
-   // [self setupTerminalTableView];
+  
     MerchantSelecteViewController *MerchantSC=[[MerchantSelecteViewController alloc] init];
-     MerchantSC.hidesBottomBarWhenPushed = YES;
+    MerchantSC.delegate=self;
+    MerchantSC.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:MerchantSC animated:YES];
     
     
+}
+
+-(void)bankNameBtnclick
+{
+    BnakSelectViewController *BnakSC=[[BnakSelectViewController alloc] init];
+    BnakSC.delegate=self;
+    BnakSC.hidesBottomBarWhenPushed=YES;
+    [self.navigationController pushViewController:BnakSC animated:YES];
 }
 
 
@@ -820,6 +864,7 @@
     
     [self.view addSubview:headerView];
 }
+
 #pragma mark - Request
 
 
@@ -852,9 +897,7 @@
 - (void)initAndLayoutUI {
     [self setupNavBar];
     [self setupHeaderView];
-    //[self initUIScrollView];
-    
-   // [self initPickerView];
+   
 }
 
 
@@ -869,59 +912,6 @@
     textField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
 }
 
-
-
-/*
-#pragma mark - Request
-//银行信息
-- (void)getBankList {
-    AppDelegate *delegate = [AppDelegate shareAppDelegate];
-    [NetworkInterface chooseBankWithToken:delegate.token bankName:@"邮政" finished:^(BOOL success, NSData *response) {
-        NSLog(@"!!!!%@",[[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding]);
-        if (success) {
-            id object = [NSJSONSerialization JSONObjectWithData:response options:NSJSONReadingMutableLeaves error:nil];
-            if ([object isKindOfClass:[NSDictionary class]]) {
-                NSString *errorCode = [NSString stringWithFormat:@"%@",[object objectForKey:@"code"]];
-                if ([errorCode intValue] == RequestFail) {
-                    //返回错误代码
-                }
-                else if ([errorCode intValue] == RequestSuccess) {
-                    [self parseBankListWithDictionary:object];
-                }
-            }
-            else {
-                //返回错误数据
-            }
-        }
-        else {
-        }
-    }];
-}
-
-- (NSString *)getBankNameWithBankCode:(NSString *)bankCode {
-    for (BankModel *model in _bankItems) {
-        if ([model.bankCode isEqualToString:bankCode]) {
-            return model.bankName;
-        }
-    }
-    return nil;
-}
-
-- (void)parseBankListWithDictionary:(NSDictionary *)dict {
-    if (![dict objectForKey:@"result"] || ![[dict objectForKey:@"result"] isKindOfClass:[NSArray class]]) {
-        return;
-    }
-    NSArray *bankList = [dict objectForKey:@"result"];
-    for (int i = 0; i < [bankList count]; i++) {
-        id bankDict = [bankList objectAtIndex:i];
-        if ([bankDict isKindOfClass:[NSDictionary class]]) {
-            BankModel *model = [[BankModel alloc] initWithParseDictionary:bankDict];
-            [_bankItems addObject:model];
-        }
-    }
-}
- 
-*/
 
 
 //选择支付通道
@@ -1151,7 +1141,7 @@
     return nil;
 }
 
-
+/*
 //根据银行编码获取银行名
 - (NSString *)getBankNameWithBankCode:(NSString *)bankCode {
     for (BankModel *model in _bankItems) {
@@ -1161,7 +1151,7 @@
     }
     return nil;
 }
-
+*/
 
 
 - (void)parseImageUploadInfo:(NSDictionary *)dict {
@@ -1337,16 +1327,12 @@
         {
             NSLog(@"count:::%lu",(unsigned long)_applyData.merchantList.count);
             return _applyData.merchantList.count;
-            
         }
-        
-        
     }
     
     return 0;
-    
-    
 }
+
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
@@ -1707,19 +1693,28 @@
 
 
 -(void)displaySelectedMerchant:(MerchantModel *)model{
-    NSLog(@"abd");
+    
     [accountnamebutton setTitle:model.merchantName forState:UIControlStateNormal];
+    NSLog(@"infoDict:%@",_infoDict);
+
 }
 
 
 #pragma mark - ChannelSelectedDelegate
 - (void)getSelectedBank:(BankModel *)model {
+    NSLog(@"yinhang");
     if (model) {
-        //此处没有保存对象 因为infoDict的值都为NSString，防止报错
-        [_infoDict setObject:model.bankCode forKey:_selectedKey];
-        NSLog(@"12333433222");
-        [_tableView reloadData];
+         NSLog(@"model:%@",model);
+        NSLog(@"model.bank:%@",model.bankName);
+    [bankNameBtn setTitle:[NSString stringWithFormat:@"%@",model.bankName] forState:UIControlStateNormal];
+    bankIdTF.text=model.bankCode;
+
+
+        [_infoDict setObject:model.bankCode forKey:@"key_bankID"];
+        [_infoDict setObject:model.bankName forKey:@"key_bank"];
+        NSLog(@"infoDict:%@",_infoDict);
     }
+  
 }
 
 /*

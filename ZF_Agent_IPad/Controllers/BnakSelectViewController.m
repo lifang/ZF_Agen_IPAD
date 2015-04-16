@@ -235,10 +235,9 @@
     BankModel *model = [_searchItem objectAtIndex:indexPath.row];
     model.isSelected = YES;
     [_tableView reloadData];
-   // if (_delegate && [_delegate respondsToSelector:@selector(getSelectedBank:)]) {
-   //    [_delegate getSelectedBank:model];
-   // }
-    [_delegate getSelectedBank:model];
+    if (_delegate && [_delegate respondsToSelector:@selector(getSelectedBank:)]) {
+     [_delegate getSelectedBank:model];
+    }
     [self.navigationController popViewControllerAnimated:YES];
 }
 
