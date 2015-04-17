@@ -23,7 +23,7 @@
 #import "TerminalSelectModel.h"
 
 
-@interface TerminalViewController ()<UITableViewDelegate,UITableViewDataSource,RefreshDelegate,terminalCellSendBtnClicked,UITextViewDelegate,UIPickerViewDataSource,UIPickerViewDelegate,UIPopoverControllerDelegate,UIPopoverPresentationControllerDelegate,SelectedAddressDelegate,SelectedUserDelegate>
+@interface TerminalViewController ()<UITableViewDelegate,UITableViewDataSource,RefreshDelegate,terminalCellSendBtnClicked,UITextViewDelegate,UIPickerViewDataSource,UIPickerViewDelegate,UIPopoverControllerDelegate,UIPopoverPresentationControllerDelegate,SelectedAddressDelegate,SelectedUserDelegate,SelectedTerminalDelegate>
 
 @property(nonatomic,strong) UITableView *tableView;
 
@@ -54,6 +54,7 @@
 
 @property (nonatomic, strong) UITextView *posTV;
 @property (nonatomic, strong) UITextView *AddressTV;
+@property (nonatomic, strong) UITextView *reseasonTV;
 
 @property(nonatomic,strong)UITableView *terminalTableView;
 
@@ -403,17 +404,17 @@
     reseasonLB.frame = CGRectMake(26, AddressLB.frame.origin.y+ 70, 100, 40);
     [_whiteView addSubview:reseasonLB];
     
-    UITextView *reseasonTV=[[UITextView alloc] init];
-    reseasonTV.layer.masksToBounds=YES;
-    reseasonTV.layer.borderWidth=1.0;
-    reseasonTV.layer.borderColor=[UIColor colorWithHexString:@"a8a8a8"].CGColor;
-    reseasonTV.backgroundColor = [UIColor clearColor];
-    reseasonTV.font = FONT20;
-    reseasonTV.frame = CGRectMake(_posTV.frame.origin.x, reseasonLB.frame.origin.y, 240, 120);
-    [_whiteView addSubview:reseasonTV];
+    _reseasonTV=[[UITextView alloc] init];
+    _reseasonTV.layer.masksToBounds=YES;
+    _reseasonTV.layer.borderWidth=1.0;
+    _reseasonTV.layer.borderColor=[UIColor colorWithHexString:@"a8a8a8"].CGColor;
+    _reseasonTV.backgroundColor = [UIColor clearColor];
+    _reseasonTV.font = FONT20;
+    _reseasonTV.frame = CGRectMake(_posTV.frame.origin.x, reseasonLB.frame.origin.y, 240, 120);
+    [_whiteView addSubview:_reseasonTV];
     
     UIButton *submitBtn=[[UIButton alloc] init];
-    submitBtn.frame=CGRectMake(_whiteView.frame.size.width/2.0-60, reseasonTV.frame.origin.y+120+30, 120, 40);
+    submitBtn.frame=CGRectMake(_whiteView.frame.size.width/2.0-60, _reseasonTV.frame.origin.y+120+30, 120, 40);
     submitBtn.layer.masksToBounds=YES;
     submitBtn.layer.borderWidth=1.0;
     submitBtn.layer.borderColor=[UIColor colorWithHexString:@"006fd5"].CGColor;
@@ -464,7 +465,7 @@
    // [self setupTerminalTableView];
     TerminalSelectViewController *TerminalSC=[[TerminalSelectViewController alloc] init];
     TerminalSC.hidesBottomBarWhenPushed=YES;
-    //TerminalSC.delegate=self;
+    TerminalSC.delegate=self;
      [_findPosView setHidden:YES];
     [self.navigationController pushViewController:TerminalSC animated:YES];
 
@@ -494,8 +495,35 @@
     
    [paramList addObject:params];
    //2[self submitApplyInfoWithArray:paramList];
+    
 */
-     [self removePOSView];
+    if ([_TerminalsArray count] <= 0) {
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:1.f];
+        hud.labelText = @"请选择终端";
+        return;
+    }
+    if (!_AddressTV.text ||[_AddressTV.text isEqualToString:@""]) {
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:1.f];
+        hud.labelText = @"请选择地址";
+        return;
+    }
+    if (!_reseasonTV.text || [_reseasonTV.text isEqualToString:@""]) {
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:1.f];
+        hud.labelText = @"请输入售后原因";
+        return;
+    }
+   
+      [self submitAfterSale];
+     //[self removePOSView];
     
 }
 
@@ -826,20 +854,24 @@
     
 }
 
--(void)selectTerminal:(NSMutableArray *)array
+
+
+-(void)getSelectedTerminal:(NSMutableArray *)array
 {
+    NSLog(@"youyouyou");
     [_findPosView setHidden:NO];
     [_TerminalsArray removeAllObjects];
     TerminalSelectModel *model=[[TerminalSelectModel alloc] init];
     for (int i=0; i<array.count; i++) {
         model=[ array objectAtIndex:i];
         [_TerminalsArray addObject:model];
+        if (i==0) {
+            NSLog(@"zhongduan%@",model.serial_num);
+            _posTV.text=[NSString stringWithFormat:@"%@等",model.serial_num];
+        }
     }
-    _posTV.text=@"TTTTTTT";
     
-
-
-}
+ }
 
 
 
@@ -961,13 +993,13 @@
     }];
 }
 
-/*
+
 //加载详情
-- (void)submitAfterSaleWithParm:(NSDictionary *)parm {
+- (void)submitAfterSale {
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
     hud.labelText = @"提交中...";
     AppDelegate *delegate = [AppDelegate shareAppDelegate];
-    [NetworkInterface  submintAgentWithtoken:delegate.agentID customerId:@"132" terminalsQuantity:@"12" address:@"shanghai" reason:@"aaaaaa" terminalsList:nil reciver:@"12" phone:@"1234567890"  finished:^(BOOL success, NSData *response) {
+    [NetworkInterface  submintAgentWithtoken:delegate.token customerId:delegate.agentID terminalsQuantity:[_TerminalsArray count] address:_AddressTV.text reason:_reseasonTV.text terminalsList:_TerminalsArray reciver:@"12" phone:@"1234567890"  finished:^(BOOL success, NSData *response) {
         hud.customView = [[UIImageView alloc] init];
         hud.mode = MBProgressHUDModeCustomView;
         [hud hide:YES afterDelay:0.5f];
@@ -980,14 +1012,14 @@
                     hud.labelText = [NSString stringWithFormat:@"%@",[object objectForKey:@"message"]];
                 }
                 else if ([errorCode intValue] == RequestSuccess) {
-                    [hud hide:YES];
-                   // [self parseSubmitWithDictionary:object];
+                    hud.labelText = @"提交申请成功";
+                    [self removePOSView];
+            
                 }
             }
             else {
                 //返回错误数据
                 hud.labelText = kServiceReturnWrong;
-                [self.navigationController popViewControllerAnimated:YES];
             }
         }
         else {
@@ -995,7 +1027,7 @@
         }
     }];
 }
-*/
+
 
 #pragma mark - Data
 

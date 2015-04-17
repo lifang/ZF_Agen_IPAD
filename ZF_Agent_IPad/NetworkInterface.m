@@ -630,7 +630,8 @@ static NSString *HTTP_GET  = @"GET";
 
 //28
 + (void)screeningTerminalNumWithtoken:(NSString *)token
-                                title:(NSString *)title
+                              agentId:(NSString *)agentId
+                                POStitle:(NSString *)POStitle
                            channelsId:(int)channelsId
                              minPrice:(int)minPrice
                              maxPrice:(int)maxPrice
@@ -640,7 +641,8 @@ static NSString *HTTP_GET  = @"GET";
     if (token && ![token isEqualToString:@""]) {
         [paramDict setObject:token forKey:@"token"];
     }
-    [paramDict setObject:title forKey:@"title"];
+    [paramDict setObject:POStitle forKey:@"title"];
+    [paramDict setObject:[NSNumber numberWithInt:[agentId intValue]] forKey:@"agentId"];
     [paramDict setObject:[NSNumber numberWithInt:channelsId] forKey:@"channelsId"];
     [paramDict setObject:[NSNumber numberWithInt:minPrice] forKey:@"minPrice"];
     [paramDict setObject:[NSNumber numberWithInt:maxPrice] forKey:@"maxPrice"];
@@ -716,7 +718,7 @@ static NSString *HTTP_GET  = @"GET";
 
 //32
 + (void)submitAgentWithtoken:(NSString *)token
-                   customerId:(int)customerId
+                   customerId:(NSString *)customerId
             terminalsQuantity:(int)terminalQuantity
                       address:(NSString *)address
                        reason:(NSString *)reason

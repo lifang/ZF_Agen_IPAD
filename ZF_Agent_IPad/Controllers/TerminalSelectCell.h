@@ -9,13 +9,19 @@
 #import <UIKit/UIKit.h>
 #import "TerminalSelectModel.h"
 
+
 @interface TerminalSelectCell : UITableViewCell
 
+
 @property(strong,nonatomic) UIView * backView;
+
+@property(strong,nonatomic) UIImageView * selectedIMV;
 
 @property(strong,nonatomic) UILabel * terminalLB;
 
 @property(strong,nonatomic) UILabel * priceLB;
+
+@property(strong,nonatomic) UITapGestureRecognizer * TAP;
 
 
 @property(strong,nonatomic) TerminalSelectModel * TerminalSelectModel;
@@ -23,5 +29,6 @@
 @property(weak,nonatomic) id superTarget;
 
 -(void)setTerminalSelectModel:(TerminalSelectModel *)TerminalSelectModel andTarget:(id)target;
+
 
 @end

@@ -167,7 +167,7 @@ static NSString *s_batchterminalnum_method = @"terminal/batchTerminalNum";
 static NSString *s_screeningterminalnum_method = @"terminal/screeningTerminalNum";
 
 //29.终端管理——pos机选择
-static NSString *s_screeningPOSnum_method = @"terminal/screeningPosname";
+static NSString *s_screeningPOSnum_method = @"terminal/screeningPosName";
 
 //30.终端管理——通道列表
 static NSString *s_getChannels_method = @"terminal/getChannels";
@@ -698,7 +698,8 @@ static NSString *s_changestaffdetail_method = @"/customerManage/edit";
  @result finish  请求回调结果
  */
 + (void)screeningTerminalNumWithtoken:(NSString *)token
-                                title:(NSString *)title
+                              agentId:(NSString *)agentId
+                                POStitle:(NSString *)POStitle
                            channelsId:(int)channelsId
                              minPrice:(int)minPrice
                              maxPrice:(int)maxPrice
@@ -748,7 +749,7 @@ static NSString *s_changestaffdetail_method = @"/customerManage/edit";
  @result finish  请求回调结果
  */
 + (void)submintAgentWithtoken:(NSString *)token
-                   customerId:(int)customerId
+                   customerId:(NSString *)customerId
             terminalsQuantity:(int)terminalQuantity
                       address:(NSString *)address
                        reason:(NSString *)reason

@@ -9,14 +9,16 @@
 #import "TerminalSelectViewController.h"
 #import "TerminalSelectCell.h"
 #import "TerminalSelectModel.h"
-#import "RefreshView.h"
 #import "NetworkInterface.h"
+#import "ChannelListModel.h"
+#import "RegularFormat.h"
 
-@interface TerminalSelectViewController ()<UITableViewDelegate,UITableViewDataSource,UITextViewDelegate,RefreshDelegate,UIPickerViewDelegate,UIPickerViewDataSource,UIPopoverControllerDelegate>
+@interface TerminalSelectViewController ()<UITableViewDelegate,UITableViewDataSource,UITextViewDelegate,UIPickerViewDelegate,UIPickerViewDataSource,UIPopoverControllerDelegate>
 {
     BOOL isSelected;
     //CGFloat summaryPrice;
     NSInteger sumall;
+     NSInteger pickerstatus;
 
 }
 
@@ -36,13 +38,6 @@
 
 @property (nonatomic, strong) NSMutableArray *terminalItems;
 
-/***************上下拉刷新**********/
-@property (nonatomic, strong) RefreshView *topRefreshView;
-@property (nonatomic, strong) RefreshView *bottomRefreshView;
-@property (nonatomic, assign) BOOL reloading;
-@property (nonatomic, assign) CGFloat primaryOffsetY;
-@property (nonatomic, assign) int page;
-/********************************/
 
 @property (nonatomic, strong) NSString *POStitle;
 @property (nonatomic, assign) int channelsId;
@@ -53,7 +48,15 @@
 @property (nonatomic, strong) UIButton *selectedBtn;
 @property (nonatomic, strong) UIPopoverController *popViewController;
 
+@property (nonatomic, strong) UIPickerView  *pickerView;
+
 @property (nonatomic, strong) NSMutableArray *POSArray;
+
+@property (nonatomic, strong) NSMutableArray *channelItems;
+
+@property (nonatomic, strong) NSArray *pickerArray;  //pickerView 第二列
+
+@property (nonatomic, strong) UILabel *numberLB;
 
 @end
 
@@ -66,7 +69,7 @@
     
     _terminalList=[[NSMutableArray alloc] init];
     _POSArray=[[NSMutableArray alloc] init];
-
+    _channelItems=[[NSMutableArray alloc] init];
     
     UILabel *POSLB=[[UILabel alloc ] init];
     POSLB.font = FONT20;
@@ -334,17 +337,7 @@
         make.right.equalTo(self.view.right);
         make.bottom.equalTo(self.view.bottom).offset(-60);
     }];
-
-    _topRefreshView = [[RefreshView alloc] initWithFrame:CGRectMake(0, -60,_tableView.frame.size.width, 60)];
-    _topRefreshView.direction = PullFromTop;
-    _topRefreshView.delegate = self;
-    [_tableView addSubview:_topRefreshView];
     
-    _bottomRefreshView = [[RefreshView alloc] initWithFrame:CGRectMake(0, 0, _tableView.frame.size.width, 60)];
-    _bottomRefreshView.direction = PullFromBottom;
-    _bottomRefreshView.delegate = self;
-    _bottomRefreshView.hidden = YES;
-    [_tableView addSubview:_bottomRefreshView];
 
     
     //创建头部View
@@ -411,12 +404,12 @@
     }
     
    
-    UILabel *numberLB = [[UILabel alloc] init];
-    numberLB.font = [UIFont boldSystemFontOfSize:16.f];
+    _numberLB = [[UILabel alloc] init];
+    _numberLB.font = [UIFont boldSystemFontOfSize:16.f];
     //numberLB.text = [NSString stringWithFormat:@"已选中%d台",sumall];
-    numberLB.text = [NSString stringWithFormat:@"已选中6台"];
-    [FooterView addSubview:numberLB];
-    [numberLB makeConstraints:^(MASConstraintMaker *make) {
+    _numberLB.text = [NSString stringWithFormat:@"已选中0台"];
+    [FooterView addSubview:_numberLB];
+    [_numberLB makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(FooterView.centerY);
         make.centerX.equalTo(FooterView.centerX);
         make.height.equalTo(@42);
@@ -430,6 +423,7 @@
 
 -(void)POSBtnPressed:(id)sender
 {
+    pickerstatus=100;
     [self ChoosePOSData];
     [self pickerDisplay:_POSTV];
     
@@ -437,29 +431,94 @@
 
 -(void)channelBtnPressed:(id)sender
 {
+    pickerstatus=200;
+     [self getChannelList];
+    [self pickerDisplay:_channelTV];
 
 
 }
 
 -(void)confirmBtnPressed:(id)sender
 {
+    BOOL maxIsNumber = [RegularFormat isNumber:_maxPriceTV.text];
+    BOOL minIsNumber = [RegularFormat isNumber:_minPriceTV.text];
+    if ((_maxPriceTV.text && ![_maxPriceTV.text isEqualToString:@""] && !maxIsNumber) ||
+        (_minPriceTV.text && ![_minPriceTV.text isEqualToString:@""] && !minIsNumber)) {
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:1.f];
+        hud.labelText = @"价格必须为正整数";
+        return;
+    }
+    if ([_maxPriceTV.text intValue] < [_minPriceTV.text intValue]) {
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:1.f];
+        hud.labelText = @"最低价不能超过最高价";
+        return;
+    }
+    [self FilterTerminals];
 
 
 }
+
+
+- (void)refreshSelectedInfo {
+    int selectedCount = 0;
+    for (TerminalSelectModel *model in _terminalList) {
+        if (model.isSelected) {
+            selectedCount++;
+        }
+    }
+    if (selectedCount == [_terminalList count]) {
+    
+        [_selectedBtn setImage:kImageName(@"select_height") forState:UIControlStateNormal];
+    }
+    else {
+        [_selectedBtn setImage:kImageName(@"select_normal") forState:UIControlStateNormal];
+
+    }
+    
+    _numberLB.text = [NSString stringWithFormat:@"已选中%d台",selectedCount];
+   
+}
+
 
 
 -(void)selectedBtnPressed:(id)sender
 {
 
+    if (isSelected) {
+        
+        [_selectedBtn setImage:kImageName(@"select_height") forState:UIControlStateNormal];
+        //selectedLB.textColor = [UIColor blackColor];
+    }
+    else {
+        
+        [_selectedBtn setImage:kImageName(@"select_normal") forState:UIControlStateNormal];
+        //selectedLB.textColor = kColor(128, 126, 126, 1);
+    }
+    
 
 }
 
+
+
+
+-(void)select:(TerminalSelectModel *)model
+{
+    NSLog(@"2322222");
+    [self refreshSelectedInfo];
+    
+}
 
 -(void)finishBtnPressed:(id)sender
 {
     
          NSMutableArray *selectedTerminal = [[NSMutableArray alloc] init];
-         for (TerminalSelectModel *model in _terminalItems) {
+         for (TerminalSelectModel *model in _terminalList) {
              if (model.isSelected) {
                  [selectedTerminal addObject:model];
              }
@@ -472,81 +531,23 @@
              hud.labelText = @"请至少选择一个终端";
              return;
          }
+    /*
+    NSMutableArray *terminalList = [[NSMutableArray alloc] init];
+    for (TerminalSelectModel *model in _terminalList) {
+        if (model.isSelected) {
+            [terminalList addObject:model];
+        }
+    }
+*/
     
-    if (_delegate && [_delegate respondsToSelector:@selector(getSelectedTerminal:)]) {
+   // if (_delegate && [_delegate respondsToSelector:@selector(getSelectedTerminal:)]) {
         [_delegate getSelectedTerminal:selectedTerminal];
          [self.navigationController popViewControllerAnimated:YES];
-     }
-}
-
-//pos机,通道,价格,筛选终端
-#pragma mark - Request
-
-- (void)firstLoadData {
-    _page = 1;
-    _POStitle=@"泰山Pos旗舰版1";
-    _channelsId=1;
-    _minPrice=100;
-    _maxPrice=10000;
-    [self downloadDataWithPage:_page isMore:NO];
-}
-
-- (void)downloadDataWithPage:(int)page isMore:(BOOL)isMore {
-    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
-    hud.labelText = @"加载中...";
-    AppDelegate *delegate = [AppDelegate shareAppDelegate];
-    [NetworkInterface screeningTerminalNumWithtoken:delegate.token title:_POStitle channelsId:_channelsId minPrice:_minPrice maxPrice:_maxPrice  finished:^(BOOL success, NSData *response) {
-        hud.customView = [[UIImageView alloc] init];
-        hud.mode = MBProgressHUDModeCustomView;
-        [hud hide:YES afterDelay:0.3f];
-        if (success) {
-            NSLog(@"数据是%@",[[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding]);
-            id object = [NSJSONSerialization JSONObjectWithData:response options:NSJSONReadingMutableLeaves error:nil];
-            if ([object isKindOfClass:[NSDictionary class]]) {
-                NSString *errorCode = [object objectForKey:@"code"];
-                if ([errorCode intValue] == RequestFail) {
-                    //返回错误代码
-                    hud.labelText = [NSString stringWithFormat:@"%@",[object objectForKey:@"message"]];
-                }
-                else if ([errorCode intValue] == RequestSuccess) {
-                    
-                    if (!isMore) {
-                        [_terminalList removeAllObjects];
-                        
-                    }
-                    
-                    id list = [[object objectForKey:@"result"] objectForKey:@"list"];
-                    if ([list isKindOfClass:[NSArray class]] && [list count] > 0) {
-                        //有数据
-                        _page++;
-                        [hud hide:YES];
-                    }
-                    else {
-                        //无数据
-                        hud.labelText = @"没有更多数据了...";
-                    }
-                    [self parseMerchantDataWithDictionary:object];
-                    NSLog(@"object:%@",object);
-                }
-            }
-            else {
-                //返回错误数据
-                hud.labelText = kServiceReturnWrong;
-            }
-        }
-        else {
-            hud.labelText = kNetworkFailed;
-        }
-        if (!isMore) {
-            [self refreshViewFinishedLoadingWithDirection:PullFromTop];
-        }
-        else {
-            [self refreshViewFinishedLoadingWithDirection:PullFromBottom];
-        }
-    }];
+    // }
 }
 
 
+//选择POS
 - (void)ChoosePOSData{
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
     hud.labelText = @"加载中...";
@@ -581,6 +582,103 @@
 }
 
 
+//选择支付通道
+
+- (void)getChannelList {
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+    hud.labelText = @"加载中...";
+    AppDelegate *delegate = [AppDelegate shareAppDelegate];
+    [NetworkInterface getChannelsWithToken:delegate.token finished:^(BOOL success, NSData *response) {
+        NSLog(@"!!!!%@",[[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding]);
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:0.5f];
+        if (success) {
+            id object = [NSJSONSerialization JSONObjectWithData:response options:NSJSONReadingMutableLeaves error:nil];
+            if ([object isKindOfClass:[NSDictionary class]]) {
+                NSString *errorCode = [NSString stringWithFormat:@"%@",[object objectForKey:@"code"]];
+                if ([errorCode intValue] == RequestFail) {
+                    //返回错误代码
+                    hud.labelText = [NSString stringWithFormat:@"%@",[object objectForKey:@"message"]];
+                }
+                else if ([errorCode intValue] == RequestSuccess) {
+                    [hud hide:YES];
+                    [self parseChannelListWithDictionary:object];
+                }
+            }
+            else {
+                //返回错误数据
+                hud.labelText = kServiceReturnWrong;
+            }
+        }
+        else {
+            hud.labelText = kNetworkFailed;
+        }
+    }];
+}
+
+
+#pragma mark - Request
+//pos机,通道,价格,筛选终端
+
+- (void)FilterTerminals {
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+    hud.labelText = @"加载中...";
+    AppDelegate *delegate = [AppDelegate shareAppDelegate];
+    [NetworkInterface screeningTerminalNumWithtoken:delegate.token agentId:delegate.agentID POStitle:_POSTV.text channelsId:1 minPrice:[_minPriceTV.text intValue] maxPrice:[_maxPriceTV.text intValue] finished:^(BOOL success, NSData *response)
+     
+            //  getTerminalManagerUseChannelWithToken:delegate.token posTitle:_selectedPOS.title channelID:_selectedChannel.channelID maxPrice:[_highField.text intValue] minPrice:[_lowField.text intValue] finished:^(BOOL success, NSData *response)
+     
+     {
+        NSLog(@"%@",[[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding]);
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:0.5f];
+        if (success) {
+            id object = [NSJSONSerialization JSONObjectWithData:response options:NSJSONReadingMutableLeaves error:nil];
+            if ([object isKindOfClass:[NSDictionary class]]) {
+                NSString *errorCode = [object objectForKey:@"code"];
+                if ([errorCode intValue] == RequestFail) {
+                    //返回错误代码
+                    hud.labelText = [NSString stringWithFormat:@"%@",[object objectForKey:@"message"]];
+                }
+                else if ([errorCode intValue] == RequestSuccess) {
+                    [hud hide:YES];
+                    [self parseSearchListWithData:object];
+                }
+            }
+            else {
+                //返回错误数据
+                hud.labelText = kServiceReturnWrong;
+            }
+        }
+        else {
+            hud.labelText = kNetworkFailed;
+        }
+    }];
+}
+
+#pragma mark - Data
+
+- (void)parseSearchListWithData:(NSDictionary *)dict {
+    if (![dict objectForKey:@"result"] || ![[dict objectForKey:@"result"] isKindOfClass:[NSArray class]]) {
+        return;
+    }
+    //NSMutableArray *searchList = [[NSMutableArray alloc] init];
+    [ _terminalList removeAllObjects];
+    NSArray *serialList = [dict objectForKey:@"result"];
+    for (int i = 0; i < [serialList count]; i++) {
+        id TerminalDict = [serialList objectAtIndex:i];
+        if ([TerminalDict isKindOfClass:[NSDictionary class]]) {
+            TerminalSelectModel *model = [[TerminalSelectModel alloc] initWithParseDictionary:TerminalDict];
+            [_terminalList addObject:model];
+        }
+    }
+    [_tableView reloadData];
+   
+}
+
+
 
 
 
@@ -602,7 +700,7 @@
 }
 
 
-#pragma mark - Data
+#pragma mark - Data-POS
 
 - (void)parsePOSDataWithDictionary:(NSDictionary *)dict {
      NSLog(@"zhihzihzhi");
@@ -616,6 +714,23 @@
     
 }
 
+#pragma mark - Data-channel
+
+- (void)parseChannelListWithDictionary:(NSDictionary *)dict {
+    if (![dict objectForKey:@"result"] || ![[dict objectForKey:@"result"] isKindOfClass:[NSArray class]]) {
+        return;
+    }
+    NSArray *list = [dict objectForKey:@"result"];
+    [_channelItems removeAllObjects];
+    for (int i = 0; i < [list count]; i++) {
+        NSDictionary *channelDict = [list objectAtIndex:i];
+        ChannelListModel *model = [[ChannelListModel alloc] initWithParseDictionary:channelDict];
+        [_channelItems addObject:model];
+        NSLog(@"_channelItem:%@",_channelItems);
+    }
+    [_pickerView reloadAllComponents];
+}
+
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return 1;
@@ -625,6 +740,10 @@
     return _terminalList.count;
 }
 
+
+- (CGFloat)tableView:(UITableView *)tableView  heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return 44;
+}
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -636,113 +755,11 @@
         cell = [[TerminalSelectCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:identifier];
     }
     [cell setTerminalSelectModel:model andTarget:self];
+ 
     return cell;
 }
 
 
-#pragma mark - Refresh
-
-- (void)refreshViewReloadData {
-    _reloading = YES;
-}
-
-- (void)refreshViewFinishedLoadingWithDirection:(PullDirection)direction {
-    _reloading = NO;
-    if (direction == PullFromTop) {
-        [_topRefreshView refreshViewDidFinishedLoading:_tableView];
-    }
-    else if (direction == PullFromBottom) {
-        _bottomRefreshView.frame = CGRectMake(0, _tableView.contentSize.height, _tableView.bounds.size.width, 60);
-        [_bottomRefreshView refreshViewDidFinishedLoading:_tableView];
-    }
-    [self updateFooterViewFrame];
-}
-
-- (BOOL)refreshViewIsLoading:(RefreshView *)view {
-    return _reloading;
-}
-
-- (void)refreshViewDidEndTrackingForRefresh:(RefreshView *)view {
-    [self refreshViewReloadData];
-    //loading...
-    if (view == _topRefreshView) {
-        [self pullDownToLoadData];
-    }
-    else if (view == _bottomRefreshView) {
-        [self pullUpToLoadData];
-    }
-}
-
-- (void)updateFooterViewFrame {
-    _bottomRefreshView.frame = CGRectMake(0, _tableView.contentSize.height, _tableView.bounds.size.width, 60);
-    _bottomRefreshView.hidden = NO;
-    if (_tableView.contentSize.height < _tableView.frame.size.height) {
-        _bottomRefreshView.hidden = YES;
-    }
-}
-
-
-
-
-#pragma mark - UIScrollView
-
-- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
-    _primaryOffsetY = scrollView.contentOffset.y;
-}
-
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-    if (scrollView == _tableView) {
-        CGPoint newPoint = scrollView.contentOffset;
-        if (_primaryOffsetY < newPoint.y) {
-            //上拉
-            if (_bottomRefreshView.hidden) {
-                return;
-            }
-            [_bottomRefreshView refreshViewDidScroll:scrollView];
-        }
-        else {
-            //下拉
-            [_topRefreshView refreshViewDidScroll:scrollView];
-        }
-    }
-}
-
-- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
-    if (scrollView == _tableView) {
-        CGPoint newPoint = scrollView.contentOffset;
-        if (_primaryOffsetY < newPoint.y) {
-            //上拉
-            if (_bottomRefreshView.hidden) {
-                return;
-            }
-            [_bottomRefreshView refreshViewDidEndDragging:scrollView];
-        }
-        else {
-            //下拉
-            [_topRefreshView refreshViewDidEndDragging:scrollView];
-        }
-    }
-}
-
-
-#pragma mark - 上下拉刷新
-//下拉刷新
-- (void)pullDownToLoadData {
-   // [self firstLoadData];
-}
-
-//上拉加载
-- (void)pullUpToLoadData {
-   // [self downloadDataWithPage:self.page isMore:YES];
-    
-    NSLog(@"上拉加载");
-}
-
-#pragma mark - NSNotification
-
-- (void)refreshMerchantList:(NSNotification *)notification {
-   // [self firstLoadData];
-}
 
 
 
@@ -797,7 +814,7 @@
     
 }
 
-
+/*
 #pragma mark - UIPickerView
 
 - (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView {
@@ -824,6 +841,96 @@
     _POSTV.text=[NSString stringWithFormat:@"%@"
              , [[_POSArray objectAtIndex:row] objectForKey:@"title"]];
     
+}
+*/
+
+
+#pragma mark - UIPickerView
+
+- (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView {
+    if (pickerstatus==100) {
+        return 1;
+    }
+    else
+    {
+    return 2;
+    }
+}
+
+- (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component {
+    
+    
+    if (pickerstatus==100) {
+        
+      return _POSArray.count;
+        
+    }
+    
+    else
+    {
+        if (component == 0) {
+            return [_channelItems count];;
+        }
+        else {
+            NSInteger channelIndex = [pickerView selectedRowInComponent:0];
+            if ([_channelItems count] > 0) {
+                ChannelListModel *channel = [_channelItems objectAtIndex:channelIndex];
+                _pickerArray = channel.children;
+                return [_pickerArray count];
+            }
+            return 0;
+            
+        }
+        
+    }
+    
+    
+}
+
+
+- (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component {
+    if (pickerstatus==100) {
+        
+        return [[_POSArray objectAtIndex:row] objectForKey:@"title"];
+   
+    }
+    else
+    {
+        if (component == 0) {
+            //通道
+            ChannelListModel *model = [_channelItems objectAtIndex:row];
+            return model.channelName;
+        }
+        else {
+            //结算时间
+            if ([_pickerArray count] > 0) {
+                BillingModel *model = [_pickerArray objectAtIndex:row];
+                return model.billName;
+            }
+            return @"";
+            
+        }
+        
+    }
+}
+
+
+- (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
+     if (pickerstatus==100) {
+         
+         _POSTV.text=[NSString stringWithFormat:@"%@"
+                      , [[_POSArray objectAtIndex:row] objectForKey:@"title"]];
+         
+     }
+     else{
+    if (component == 0) {
+        //
+        [_pickerView reloadComponent:1];
+   // _channelTV.text=[NSString stringWithFormat:@"%@"
+                   //  , [[_channelItems objectAtIndex:row] objectForKey:@"title"]];
+        
+    }
+  }
 }
 
 
