@@ -12,7 +12,7 @@
 #import "RefreshView.h"
 #import "NetworkInterface.h"
 
-@interface TerminalSelectViewController ()<UITableViewDelegate,UITableViewDataSource,UITextViewDelegate,RefreshDelegate>
+@interface TerminalSelectViewController ()<UITableViewDelegate,UITableViewDataSource,UITextViewDelegate,RefreshDelegate,UIPickerViewDelegate,UIPickerViewDataSource,UIPopoverControllerDelegate>
 {
     BOOL isSelected;
     //CGFloat summaryPrice;
@@ -51,6 +51,9 @@
 
 @property (nonatomic, strong) UIButton *finishBtn;
 @property (nonatomic, strong) UIButton *selectedBtn;
+@property (nonatomic, strong) UIPopoverController *popViewController;
+
+@property (nonatomic, strong) NSMutableArray *POSArray;
 
 @end
 
@@ -62,6 +65,8 @@
     self.view.backgroundColor=[UIColor whiteColor];
     
     _terminalList=[[NSMutableArray alloc] init];
+    _POSArray=[[NSMutableArray alloc] init];
+
     
     UILabel *POSLB=[[UILabel alloc ] init];
     POSLB.font = FONT20;
@@ -418,13 +423,15 @@
         make.width.equalTo(@120);
     }];
 
+   
     
     }
 
 
 -(void)POSBtnPressed:(id)sender
 {
-
+    [self ChoosePOSData];
+    [self pickerDisplay:_POSTV];
     
 }
 
@@ -447,12 +454,32 @@
 
 }
 
+
 -(void)finishBtnPressed:(id)sender
 {
     
-
+         NSMutableArray *selectedTerminal = [[NSMutableArray alloc] init];
+         for (TerminalSelectModel *model in _terminalItems) {
+             if (model.isSelected) {
+                 [selectedTerminal addObject:model];
+             }
+         }
+         if ([selectedTerminal count] <= 0) {
+             MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+             hud.customView = [[UIImageView alloc] init];
+             hud.mode = MBProgressHUDModeCustomView;
+             [hud hide:YES afterDelay:1.f];
+             hud.labelText = @"请至少选择一个终端";
+             return;
+         }
+    
+    if (_delegate && [_delegate respondsToSelector:@selector(getSelectedTerminal:)]) {
+        [_delegate getSelectedTerminal:selectedTerminal];
+         [self.navigationController popViewControllerAnimated:YES];
+     }
 }
 
+//pos机,通道,价格,筛选终端
 #pragma mark - Request
 
 - (void)firstLoadData {
@@ -519,6 +546,45 @@
     }];
 }
 
+
+- (void)ChoosePOSData{
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+    hud.labelText = @"加载中...";
+    AppDelegate *delegate = [AppDelegate shareAppDelegate];
+    [NetworkInterface  screeningPOSNameWithtoken:delegate.token customerId:delegate.agentID finished:^(BOOL success, NSData *response) {
+        NSLog(@"POS：%@",[[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding]);
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:0.5f];
+        if (success) {
+            id object = [NSJSONSerialization JSONObjectWithData:response options:NSJSONReadingMutableLeaves error:nil];
+            if ([object isKindOfClass:[NSDictionary class]]) {
+                NSString *errorCode = [object objectForKey:@"code"];
+                if ([errorCode intValue] == RequestFail) {
+                    //返回错误代码
+                    hud.labelText = [NSString stringWithFormat:@"%@",[object objectForKey:@"message"]];
+                }
+                else if ([errorCode intValue] == RequestSuccess) {
+                    [hud hide:YES];
+                    [self parsePOSDataWithDictionary:object];
+                }
+            }
+            else {
+                //返回错误数据
+                hud.labelText = kServiceReturnWrong;
+            }
+        }
+        else {
+            hud.labelText = kNetworkFailed;
+        }
+    }];
+}
+
+
+
+
+
+
 #pragma mark - Data
 
 - (void)parseMerchantDataWithDictionary:(NSDictionary *)dict {
@@ -527,8 +593,6 @@
         return;
     }
     _terminalList = [dict objectForKey:@"result"];
-    // NSArray *MerchantList = [[dict objectForKey:@"result"] objectForKey:@"list"];
-    //_MerchantList = [[dict objectForKey:@"result"] objectForKey:@"list"];
     for (int i = 0; i < [_terminalList count]; i++) {
         TerminalSelectModel *model = [[TerminalSelectModel alloc] initWithParseDictionary:[_terminalList objectAtIndex:i]];
         [_terminalItems addObject:model];
@@ -538,8 +602,19 @@
 }
 
 
+#pragma mark - Data
 
-
+- (void)parsePOSDataWithDictionary:(NSDictionary *)dict {
+     NSLog(@"zhihzihzhi");
+    //if (![dict objectForKey:@"result"] || ![[dict objectForKey:@"result"] isKindOfClass:[NSDictionary class]]) {
+    //    return;
+   // }
+   // NSDictionary *infoDict = [dict objectForKey:@"result"];
+    _POSArray=[dict objectForKey:@"result"];
+    NSLog(@"infoDict:%@",_POSArray);
+    
+    
+}
 
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -670,11 +745,94 @@
 }
 
 
+
+-(void)modifyStatus:(id)sender
+{
+
+
+}
+
+#pragma mark - UIPickerView
+
+
+- (void)pickerDisplay:(id)sender{
+    
+    NSLog(@"pickerDiplay");
+    
+    UIViewController *sortViewController = [[UIViewController alloc] init];
+    UIView *theView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 276)];
+    
+    UIToolbar *toolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, 320, 60)];
+    UIBarButtonItem *cancelItem = [[UIBarButtonItem alloc] initWithTitle:@"取消" style:UIBarButtonItemStyleDone target:self action:@selector(pickerHide)];
+    UIBarButtonItem *finishItem = [[UIBarButtonItem alloc] initWithTitle:@"完成"
+                                                                   style:UIBarButtonItemStyleDone
+                                                                  target:self
+                                                                  action:@selector(modifyStatus:)];
+    UIBarButtonItem *spaceItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace
+                                                                               target:nil action:nil];
+    [toolbar setItems:[NSArray arrayWithObjects:cancelItem,spaceItem,finishItem, nil]];
+    [theView addSubview:toolbar];
+    
+    UIPickerView *pickerView = [[UIPickerView alloc] initWithFrame:CGRectMake(0, 60, 320, 216)];
+    pickerView.delegate = self;
+    pickerView.dataSource = self;
+    pickerView.showsSelectionIndicator = YES;
+    [theView addSubview:pickerView];
+    
+    sortViewController.view = theView;
+    
+    _popViewController = [[UIPopoverController alloc] initWithContentViewController:sortViewController];
+    [_popViewController setPopoverContentSize:CGSizeMake(320, 300) animated:YES];
+    [_popViewController presentPopoverFromRect:CGRectMake(0, 0, 0, 42) inView:sender permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+    _popViewController.delegate = self;
+    
+    
+}
+
+
+- (void)pickerHide
+{
+    
+    [_popViewController dismissPopoverAnimated:NO];
+    
+}
+
+
+#pragma mark - UIPickerView
+
+- (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView {
+    return 1;
+}
+
+- (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component {
+    
+    return _POSArray.count;
+    
+}
+
+
+-(NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component
+{
+    
+    return [[_POSArray objectAtIndex:row] objectForKey:@"title"];
+}
+
+- (void)pickerView:(UIPickerView *)pickerView didSelectRow:
+(NSInteger)row inComponent:(NSInteger)component
+{
+    
+    _POSTV.text=[NSString stringWithFormat:@"%@"
+             , [[_POSArray objectAtIndex:row] objectForKey:@"title"]];
+    
+}
+
+
+
+
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
-
 
 @end

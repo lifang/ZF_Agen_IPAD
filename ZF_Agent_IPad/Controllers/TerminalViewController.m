@@ -17,9 +17,13 @@
 #import "ApplyDetailController.h"
 #import "SearchTermianlViewController.h"
 #import "TerminalSelectViewController.h"
+#import "AddressSelectViewController.h"
+#import "AddressModel.h"
+#import "UserSelectViewController.h"
+#import "TerminalSelectModel.h"
 
 
-@interface TerminalViewController ()<UITableViewDelegate,UITableViewDataSource,RefreshDelegate,terminalCellSendBtnClicked,UITextViewDelegate,UIPickerViewDataSource,UIPickerViewDelegate,UIPopoverControllerDelegate,UIPopoverPresentationControllerDelegate>
+@interface TerminalViewController ()<UITableViewDelegate,UITableViewDataSource,RefreshDelegate,terminalCellSendBtnClicked,UITextViewDelegate,UIPickerViewDataSource,UIPickerViewDelegate,UIPopoverControllerDelegate,UIPopoverPresentationControllerDelegate,SelectedAddressDelegate,SelectedUserDelegate>
 
 @property(nonatomic,strong) UITableView *tableView;
 
@@ -56,6 +60,11 @@
 @property(nonatomic,strong) UIView *whiteView;
 
 @property(nonatomic,strong) UIView *secondView;
+
+@property (nonatomic, strong) UITextView *UserTV;
+//售后终端信息
+@property (nonatomic, strong) NSMutableArray *TerminalsArray;
+
 @end
 
 @implementation TerminalViewController
@@ -77,6 +86,7 @@
 
     
     _terminalItems = [[NSMutableArray alloc]init];
+    _TerminalsArray = [[NSMutableArray alloc]init];
     _statusArray = [[NSMutableArray alloc]initWithObjects:@"全部",@"已开通", @"部分开通",@"未开通",@"已注销",@"已停用",nil];
     _stringStatus=0;
     [self setupHeaderView];
@@ -107,7 +117,7 @@
     [applyBtn setTitle:@"申请售后" forState:UIControlStateNormal];
     applyBtn.backgroundColor=[UIColor clearColor];
     [applyBtn setTitleColor:[UIColor colorWithHexString:@"006df5"] forState:UIControlStateNormal];
-    [applyBtn addTarget:self action:@selector(applyAfterSale:) forControlEvents:UIControlEventTouchUpInside];
+    [applyBtn addTarget:self action:@selector(applyAfterSale) forControlEvents:UIControlEventTouchUpInside];
     [headerView addSubview:applyBtn];
     [applyBtn makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(headerView.centerY);
@@ -298,7 +308,7 @@
 
 
 //申请售后
--(void)applyAfterSale:(id)sender
+-(void)applyAfterSale
 {
     CGFloat width;
     CGFloat height;
@@ -454,14 +464,20 @@
    // [self setupTerminalTableView];
     TerminalSelectViewController *TerminalSC=[[TerminalSelectViewController alloc] init];
     TerminalSC.hidesBottomBarWhenPushed=YES;
-    [self removePOSView];
+    //TerminalSC.delegate=self;
+     [_findPosView setHidden:YES];
     [self.navigationController pushViewController:TerminalSC animated:YES];
 
 }
 
 -(void)AddressBtnclick:(id)sender
 {
-
+    AddressSelectViewController *AddressSC=[[AddressSelectViewController alloc] init];
+    AddressSC.hidesBottomBarWhenPushed=YES;
+    AddressSC.delegate=self;
+    [_findPosView setHidden:YES];
+    [self.navigationController pushViewController:AddressSC animated:YES];
+   
 
 }
 
@@ -534,22 +550,22 @@
     UserLB.frame = CGRectMake(26, CGRectGetMaxY(line.frame) + 30, 100, 40);
     [_whiteView addSubview:UserLB];
     
-    UITextView *UserTV=[[UITextView alloc] init];
-    UserTV.layer.masksToBounds=YES;
-    UserTV.layer.borderWidth=1.0;
-    UserTV.layer.borderColor=[UIColor colorWithHexString:@"a8a8a8"].CGColor;
-    UserTV.backgroundColor = [UIColor clearColor];
-    UserTV.frame = CGRectMake(UserLB.frame.origin.x+UserLB.frame.size.width+30, CGRectGetMaxY(line.frame) + 30, 240, 40);
-    [_whiteView addSubview:UserTV];
+    _UserTV=[[UITextView alloc] init];
+    _UserTV.layer.masksToBounds=YES;
+    _UserTV.layer.borderWidth=1.0;
+    _UserTV.layer.borderColor=[UIColor colorWithHexString:@"a8a8a8"].CGColor;
+    _UserTV.backgroundColor = [UIColor clearColor];
+    _UserTV.frame = CGRectMake(UserLB.frame.origin.x+UserLB.frame.size.width+30, CGRectGetMaxY(line.frame) + 30, 240, 40);
+    [_whiteView addSubview:_UserTV];
     
     UIButton *UserBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    UserBtn.frame = CGRectMake(UserTV.frame.origin.x+150+40, UserTV.frame.origin.y,50, 40);
+    UserBtn.frame = CGRectMake(_UserTV.frame.origin.x+150+40, _UserTV.frame.origin.y,50, 40);
     [UserBtn setImage:kImageName(@"arrow_line") forState:UIControlStateNormal];
     [UserBtn  addTarget:self action:@selector(UserBtnclick:) forControlEvents:UIControlEventTouchUpInside];
     [_whiteView addSubview:UserBtn];
     
     UIButton *newBtn=[[UIButton alloc] init];
-    newBtn.frame=CGRectMake(UserTV.frame.origin.x, UserTV.frame.origin.y+40+10, 100, 20);
+    newBtn.frame=CGRectMake(_UserTV.frame.origin.x, _UserTV.frame.origin.y+40+10, 100, 20);
     [newBtn setTitleColor:[UIColor colorWithHexString:@"006fd5"] forState:UIControlStateNormal];
     [newBtn setTitle:@"创建新用户" forState:UIControlStateNormal];
     newBtn.titleLabel.font = FONT15;
@@ -569,7 +585,7 @@
     TerminalTV.layer.borderWidth=1.0;
     TerminalTV.layer.borderColor=[UIColor colorWithHexString:@"a8a8a8"].CGColor;
     TerminalTV.backgroundColor = [UIColor clearColor];
-    TerminalTV.frame = CGRectMake(UserTV.frame.origin.x, TerminalLB.frame.origin.y, 240, 40);
+    TerminalTV.frame = CGRectMake(_UserTV.frame.origin.x, TerminalLB.frame.origin.y, 240, 40);
     [_whiteView addSubview:TerminalTV];
     
     UIButton *bindingBtn=[[UIButton alloc] init];
@@ -587,6 +603,11 @@
 -(void)UserBtnclick:(id)sender
 {
 
+    UserSelectViewController *UserSC=[[UserSelectViewController alloc] init];
+    UserSC.hidesBottomBarWhenPushed=YES;
+    UserSC.delegate=self;
+    [_findPosView setHidden:YES];
+    [self.navigationController pushViewController:UserSC animated:YES];
 
 }
 
@@ -789,6 +810,39 @@
 
     [_secondView removeFromSuperview];
 }
+
+#pragma mark - SelectedAddressDelegate
+
+- (void)getSelectedAddress:(AddressModel *)addressModel {
+    
+     [_findPosView setHidden:NO];
+    _AddressTV.text=addressModel.address;
+    NSLog(@"chuanzhi");
+}
+
+-(void)selectedUser:(UserModel *)model {
+    [_findPosView setHidden:NO];
+    _UserTV.text=model.userName;
+    
+}
+
+-(void)selectTerminal:(NSMutableArray *)array
+{
+    [_findPosView setHidden:NO];
+    [_TerminalsArray removeAllObjects];
+    TerminalSelectModel *model=[[TerminalSelectModel alloc] init];
+    for (int i=0; i<array.count; i++) {
+        model=[ array objectAtIndex:i];
+        [_TerminalsArray addObject:model];
+    }
+    _posTV.text=@"TTTTTTT";
+    
+
+
+}
+
+
+
 #pragma mark - Request
 
 - (void)firstLoadData {
@@ -1362,13 +1416,7 @@
 
 
 
--(void)viewDidAppear:(BOOL)animated
-{
-    [super viewDidAppear:animated];
-    
-    [self firstLoadData];
-    
-}
+
 
 -(void)modifyStatus:(id)sender
 {
@@ -1470,6 +1518,14 @@
 {
     _string=[NSString stringWithFormat:@"%@"
              , [_statusArray objectAtIndex:row]];
+    
+}
+
+
+-(void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    [self firstLoadData];
     
 }
 

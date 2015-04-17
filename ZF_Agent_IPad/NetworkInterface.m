@@ -655,8 +655,8 @@ static NSString *HTTP_GET  = @"GET";
 }
 
 //29
-+ (void)screeningPOSNumWithtoken:(NSString *)token
-                           customerId:(int)customerId
++ (void)screeningPOSNameWithtoken:(NSString *)token
+                           customerId:(NSString *)customerId
                              finished:(requestDidFinished)finish{
     //参数
     NSMutableDictionary *paramDict = [[NSMutableDictionary alloc] init];
@@ -664,7 +664,7 @@ static NSString *HTTP_GET  = @"GET";
         [paramDict setObject:token forKey:@"token"];
     }
   
-    [paramDict setObject:[NSNumber numberWithInt:customerId] forKey:@"customerId"];
+    [paramDict setObject:[NSNumber numberWithInt:[customerId intValue]] forKey:@"customerId"];
     //url
     NSString *urlString = [NSString stringWithFormat:@"%@/%@",kServiceURL,s_screeningPOSnum_method];
     [[self class] requestWithURL:urlString

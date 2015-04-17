@@ -827,7 +827,7 @@ static NSString *s_defaultTerminalNum = @"请选择终端号";
                             [_dataItem removeAllObjects];
                         }
                         id list = [[object objectForKey:@"result"] objectForKey:@"list"];
-                        if ([list isKindOfClass:[NSArray class]] && [list count] > 0) {
+                        if ([list isKindOfClass:[NSArray class]]/* && [list count] > 0*/) {
                             //有数据
                             [hud hide:YES];
                         }
