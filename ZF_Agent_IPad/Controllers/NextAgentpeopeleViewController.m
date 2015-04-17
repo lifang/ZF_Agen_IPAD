@@ -1,20 +1,20 @@
 //
-//  NextAgentdetalViewController.m
+//  NextAgentpeopeleViewController.m
 //  ZF_Agent_IPad
 //
 //  Created by comdosoft on 15/4/17.
 //  Copyright (c) 2015年 comdo. All rights reserved.
 //
 
-#import "NextAgentdetalViewController.h"
+#import "NextAgentpeopeleViewController.h"
 
-@interface NextAgentdetalViewController ()
+@interface NextAgentpeopeleViewController ()
 @property (nonatomic, strong) UIScrollView *scrollView;
 @property (nonatomic, assign) BOOL isopen;
-
 @end
 
-@implementation NextAgentdetalViewController
+@implementation NextAgentpeopeleViewController
+
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -61,14 +61,14 @@
         
         
     }
-
+    
     
     
     
 }
 -(void)createui
 {
-
+    
     CGFloat wide;
     CGFloat height;
     if(iOS7)
@@ -91,10 +91,10 @@
     
     openlable.text=@"开通分润";
     openbutton= [UIButton buttonWithType:UIButtonTypeCustom];
-    openbutton.frame = CGRectMake(wide-160,80,80, 46);
-       [openbutton addTarget:self action:@selector(openclick) forControlEvents:UIControlEventTouchUpInside];
+    openbutton.frame = CGRectMake(wide-160,40,80, 46);
+    [openbutton addTarget:self action:@selector(openclick) forControlEvents:UIControlEventTouchUpInside];
     [_scrollView addSubview:openbutton];
-
+    
     if(_isopen)
     {
         [openbutton setImage:kImageName(@"open") forState:UIControlStateNormal];
@@ -106,42 +106,18 @@
         
         
     }
-
-    NSArray*namesarry=[NSArray arrayWithObjects:@"代理商类型",@"公司名称",@"公司营业执照登记号",@"公司税务登记号", nil];
-
-
-    for(int i=0;i<namesarry.count;i++)
+    
+    
+    
+    
+    NSArray*namesarry1=[NSArray arrayWithObjects:@"代理商类型",@"负责人姓名",@"负责人身份证号",@"手机", @"邮箱",@"所在地",@"详细地址",nil];
+    for(int i=0;i<namesarry1.count;i++)
     {
+        
+        
         
         
         UILabel*newaddress=[[UILabel alloc]initWithFrame:CGRectMake(60, i*60+100,wide/2-270, 40)];
-        [_scrollView addSubview:newaddress];
-        newaddress.textAlignment = NSTextAlignmentRight;
-        newaddress.font=[UIFont systemFontOfSize:18];
-        
-        newaddress.text=[namesarry objectAtIndex:i];
-        
-        
-        
-        
-        
-        
-        
-    }
-
-
-    
-    NSArray*namesarry1=[NSArray arrayWithObjects:@"负责人姓名",@"负责人身份证号",@"手机", @"邮箱",@"所在地",@"详细地址",nil];
-    for(int i=0;i<namesarry1.count;i++)
-    {
-        NSInteger heighth;
-        
-      
-            heighth=400;
-            
-        
-        
-        UILabel*newaddress=[[UILabel alloc]initWithFrame:CGRectMake(60, i*60+heighth,wide/2-270, 40)];
         [_scrollView addSubview:newaddress];
         newaddress.textAlignment = NSTextAlignmentRight;
         newaddress.font=[UIFont systemFontOfSize:18];
@@ -150,12 +126,12 @@
         
         
     }
-    NSArray*namesarry2=[NSArray arrayWithObjects:@"身份证照片",@"营业执照照片",@"税务登记照片",nil];
+    NSArray*namesarry2=[NSArray arrayWithObjects:@"身份证照片",nil];
     for(int i=0;i<namesarry2.count;i++)
     {
         
         
-        UILabel*newaddress=[[UILabel alloc]initWithFrame:CGRectMake(60, i*60+820,wide/2-270, 40)];
+        UILabel*newaddress=[[UILabel alloc]initWithFrame:CGRectMake(60, i*60+600,wide/2-270, 40)];
         [_scrollView addSubview:newaddress];
         newaddress.textAlignment = NSTextAlignmentRight;
         newaddress.font=[UIFont systemFontOfSize:18];
@@ -164,7 +140,7 @@
         
         
         UIButton* addressbutton = [UIButton buttonWithType:UIButtonTypeCustom];
-        addressbutton.frame = CGRectMake(wide/2-200,i*60+820,35, 35);
+        addressbutton.frame = CGRectMake(wide/2-200,i*60+600,35, 35);
         
         
         //            [addressbutton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
@@ -180,17 +156,17 @@
         
         
     }
-    UILabel*line=[[UILabel alloc]initWithFrame:CGRectMake(60, 780,wide-120, 1)];
+    UILabel*line=[[UILabel alloc]initWithFrame:CGRectMake(60, 680,wide-120, 1)];
     
     line.backgroundColor=[UIColor grayColor];
     
     [_scrollView addSubview:line];
-
     
     
-    UILabel*idlable=[[UILabel alloc]initWithFrame:CGRectMake(60, 1030,wide/2-270, 30)];
+    
+    UILabel*idlable=[[UILabel alloc]initWithFrame:CGRectMake(60, 720,wide/2-270, 30)];
     idlable.textAlignment = NSTextAlignmentRight;
-
+    
     idlable.text=@"登录ID";
     
     [_scrollView addSubview:idlable];
@@ -199,9 +175,9 @@
     UIButton* savebutton = [UIButton buttonWithType:UIButtonTypeCustom];
     savebutton.frame = CGRectMake(wide/2-200,1300,280, 40);
     
-     savebutton.center=CGPointMake(wide/2, 1300);
-        
-    UILabel*line2=[[UILabel alloc]initWithFrame:CGRectMake(60, 1080,wide-120, 1)];
+    savebutton.center=CGPointMake(wide/2, 860);
+    
+    UILabel*line2=[[UILabel alloc]initWithFrame:CGRectMake(60, 860,wide-120, 1)];
     
     line2.backgroundColor=[UIColor grayColor];
     
@@ -216,10 +192,11 @@
     
     [savebutton addTarget:self action:@selector(sexclick) forControlEvents:UIControlEventTouchUpInside];
     [_scrollView addSubview:savebutton];
-
-
-
+    
+    
+    
 }
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

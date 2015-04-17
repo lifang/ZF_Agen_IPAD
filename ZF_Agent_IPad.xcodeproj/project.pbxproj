@@ -49,6 +49,7 @@
 		0DC1D0AB1ADD63350048783F /* TerminalSelectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0DC1D0AA1ADD63350048783F /* TerminalSelectViewController.m */; };
 		0E5099941AE0A2F9008CA305 /* AgentRentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E5099931AE0A2F9008CA305 /* AgentRentViewController.m */; };
 		0E5099971AE0AF48008CA305 /* NextAgentdetalViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E5099961AE0AF48008CA305 /* NextAgentdetalViewController.m */; };
+		0E50999A1AE0D533008CA305 /* NextAgentpeopeleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E5099991AE0D533008CA305 /* NextAgentpeopeleViewController.m */; };
 		0EC65C091AD8B55400282C04 /* RecordModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EC65C081AD8B55400282C04 /* RecordModel.m */; };
 		0EC65C0C1AD8B80800282C04 /* OrderModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EC65C0B1AD8B80800282C04 /* OrderModel.m */; };
 		0EC65C0F1AD8B8EF00282C04 /* FindPasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EC65C0E1AD8B8EF00282C04 /* FindPasswordViewController.m */; };
@@ -326,6 +327,8 @@
 		0E5099931AE0A2F9008CA305 /* AgentRentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AgentRentViewController.m; sourceTree = "<group>"; };
 		0E5099951AE0AF48008CA305 /* NextAgentdetalViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NextAgentdetalViewController.h; sourceTree = "<group>"; };
 		0E5099961AE0AF48008CA305 /* NextAgentdetalViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NextAgentdetalViewController.m; sourceTree = "<group>"; };
+		0E5099981AE0D533008CA305 /* NextAgentpeopeleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NextAgentpeopeleViewController.h; sourceTree = "<group>"; };
+		0E5099991AE0D533008CA305 /* NextAgentpeopeleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NextAgentpeopeleViewController.m; sourceTree = "<group>"; };
 		0EC65C071AD8B55400282C04 /* RecordModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RecordModel.h; sourceTree = "<group>"; };
 		0EC65C081AD8B55400282C04 /* RecordModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RecordModel.m; sourceTree = "<group>"; };
 		0EC65C0A1AD8B80800282C04 /* OrderModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderModel.h; sourceTree = "<group>"; };
@@ -818,6 +821,8 @@
 				0EC65C241AD918EC00282C04 /* SubAgentListController.m */,
 				0EC696EA1ADB913F009D544E /* CreateViewController.h */,
 				0EC696EB1ADB913F009D544E /* CreateViewController.m */,
+				0E5099981AE0D533008CA305 /* NextAgentpeopeleViewController.h */,
+				0E5099991AE0D533008CA305 /* NextAgentpeopeleViewController.m */,
 				0E5099951AE0AF48008CA305 /* NextAgentdetalViewController.h */,
 				0E5099961AE0AF48008CA305 /* NextAgentdetalViewController.m */,
 			);
@@ -1671,6 +1676,7 @@
 				0ED194821AD79FCA00029DE3 /* TelephonechargeCell.m in Sources */,
 				1AF15B3B1ACCE40400D5C171 /* CircleView.m in Sources */,
 				0DC0324E1AD68C6D000532EF /* RecordView.m in Sources */,
+				0E50999A1AE0D533008CA305 /* NextAgentpeopeleViewController.m in Sources */,
 				0ED58ECF1AD4D80B0081E8BC /* GoodDetialModel.m in Sources */,
 				1A9654951AD66FEF00C39B5B /* SwitchView.m in Sources */,
 				0DC1D0A81ADD5DAD0048783F /* SearchTermianlViewController.m in Sources */,

@@ -14,6 +14,9 @@
 #import "RegularFormat.h"
 #import "NetworkInterface.h"
 #import "CreateViewController.h"
+#import "NextAgentdetalViewController.h"
+
+#import "NextAgentpeopeleViewController.h"
 @interface SubAgentListController ()<UITableViewDataSource,UITableViewDelegate>
 @property (nonatomic, strong) UITableView *tableView;
 
@@ -508,6 +511,12 @@
         }
             break;
         case 2: {
+            
+            NextAgentpeopeleViewController*agentdetal=[[NextAgentpeopeleViewController alloc]init];
+            
+            agentdetal.hidesBottomBarWhenPushed=YES;
+            
+            [self.navigationController pushViewController:agentdetal animated:YES];
             
         }
             break;

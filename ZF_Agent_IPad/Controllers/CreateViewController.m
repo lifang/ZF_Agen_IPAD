@@ -560,7 +560,9 @@
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 
-{ CGFloat wide;
+{
+    
+    CGFloat wide;
     CGFloat height;
     if(iOS7)
     {
@@ -577,6 +579,7 @@
 
     
     _scrollView = [[UIView alloc]init];
+    
     
     UILabel*newaddress=[[UILabel alloc]initWithFrame:CGRectMake(60,40,wide/2-270, 40)];
     [_scrollView addSubview:newaddress];

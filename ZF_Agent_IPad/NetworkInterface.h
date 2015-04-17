@@ -206,10 +206,12 @@ static NSString *s_TradeStatistics = @"trade/getTradeStatistics";
 //static NSString *s_terminalList_method = @"trade/record/getTerminals";
 //40.库存管理列表
 static NSString *s_stockList_method = @"stock/list";
-
+//40.支付通道详细
+static NSString *s_channelDetail_method = @"paychannel/info";
 //41.库存管理重命名
 static NSString *s_stockRename_method = @"stock/rename";
-
+//41.评论列表
+static NSString *s_commentList_method = @"comment/list";
 //42.库存管理详情——下级代理商列表
 static NSString *s_stockDetail_method = @"stock/info";
 
@@ -881,6 +883,15 @@ static NSString *s_changestaffdetail_method = @"/customerManage/edit";
                   finished:(requestDidFinished)finish;
 
 
+/*!
+ @abstract 40.支付通道详细
+ @param token     登录返回
+ @param channelID   支付通道id
+ @result finish  请求回调结果
+ */
++ (void)getChannelDetailWithToken:(NSString *)token
+                        channelID:(NSString *)channelID
+                         finished:(requestDidFinished)finish;
 
 
 /*!
@@ -896,6 +907,21 @@ static NSString *s_changestaffdetail_method = @"/customerManage/edit";
                            page:(int)page
                            rows:(int)rows
                        finished:(requestDidFinished)finish;
+
+/*!
+ @abstract 41.商品评论列表
+ @param token     登录返回
+ @param goodID   商品id
+ @param page     分页参数 页
+ @param rows     分页参数 行
+ @result finish  请求回调结果
+ */
++ (void)getCommentListWithToken:(NSString *)token
+                         goodID:(NSString *)goodID
+                           page:(int)page
+                           rows:(int)rows
+                       finished:(requestDidFinished)finish;
+
 
 /*!
  @abstract 41.库存管理重命名
@@ -1279,6 +1305,8 @@ static NSString *s_changestaffdetail_method = @"/customerManage/edit";
 + (void)getAddressListWithAgentID:(NSString *)agentID
                             token:(NSString *)token
                          finished:(requestDidFinished)finish;
+
+
 
 /*!
  @abstract 90.我的信息——新增地址

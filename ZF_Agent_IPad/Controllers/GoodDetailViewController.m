@@ -398,13 +398,26 @@
     _priceLabel.frame = CGRectMake(leftSpace, originY, leftSpace- rightSpace, labelHeight);
     
     
-    if (_buyButton.isSelected) {
-        [self setPriceWithString:[NSString stringWithFormat:@"%.2f",_detailModel.goodPrice + _detailModel.defaultChannel.openCost]];
+    
+    
+    
+    
+    if (_supplyType == SupplyGoodsWholesale) {
+        [self setPriceWithString:[NSString stringWithFormat:@"%.2f",_detailModel.wholesalePrice + _detailModel.defaultChannel.openCost]];
     }
     else {
-        [self setPriceWithString:[NSString stringWithFormat:@"%.2f",_detailModel.deposit + _detailModel.defaultChannel.openCost]];
+        if (_buyButton.isSelected) {
+            [self setPriceWithString:[NSString stringWithFormat:@"%.2f",_detailModel.procurementPrice + _detailModel.defaultChannel.openCost]];
+        }
+        else {
+            [self setPriceWithString:[NSString stringWithFormat:@"%.2f",_detailModel.deposit + _detailModel.defaultChannel.openCost]];
+        }
     }
 
+    
+    
+    
+   
     [_mainScrollView addSubview:_priceLabel];
     
     
@@ -415,7 +428,7 @@
     else {
         
         UILabel *originalable = [[UILabel alloc] initWithFrame:CGRectMake(200+_priceLabel.frame.origin.x+20, originY, _priceLabel.frame.size.width, labelHeight)];
-        NSString *primaryPrice = [NSString stringWithFormat:@"原价 ￥%.2f",_detailModel.originalprice];
+        NSString *primaryPrice = [NSString stringWithFormat:@"原价 ￥%.2f",_detailModel.originalprice+ _detailModel.defaultChannel.openCost];
         NSMutableAttributedString *priceAttrString = [[NSMutableAttributedString alloc] initWithString:primaryPrice];
         NSDictionary *priceAttr = [NSDictionary dictionaryWithObjectsAndKeys:
                                    [UIFont systemFontOfSize:15.f],NSFontAttributeName,
@@ -962,35 +975,36 @@
     }
 }
 - (void)getChannelDetailWithChannelID:(NSString *)channelID {
-//    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
-//    hud.labelText = @"加载中...";
-//    [NetworkInterface getChannelDetailWithChannleID:channelID finished:^(BOOL success, NSData *response) {
-//        NSLog(@"%@",[[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding]);
-//        hud.customView = [[UIImageView alloc] init];
-//        hud.mode = MBProgressHUDModeCustomView;
-//        [hud hide:YES afterDelay:0.5f];
-//        if (success) {
-//            id object = [NSJSONSerialization JSONObjectWithData:response options:NSJSONReadingMutableLeaves error:nil];
-//            if ([object isKindOfClass:[NSDictionary class]]) {
-//                NSString *errorCode = [object objectForKey:@"code"];
-//                if ([errorCode intValue] == RequestFail) {
-//                    //返回错误代码
-//                    hud.labelText = [NSString stringWithFormat:@"%@",[object objectForKey:@"message"]];
-//                }
-//                else if ([errorCode intValue] == RequestSuccess) {
-//                    [hud hide:YES];
-//                    [self parseChannelDetailWithDictionary:object];
-//                }
-//            }
-//            else {
-//                //返回错误数据
-//                hud.labelText = kServiceReturnWrong;
-//            }
-//        }
-//        else {
-//            hud.labelText = kNetworkFailed;
-//        }
-//    }];
+    AppDelegate *delegate = [AppDelegate shareAppDelegate];
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+    hud.labelText = @"加载中...";
+    [NetworkInterface getChannelDetailWithToken:delegate.token channelID:channelID finished:^(BOOL success, NSData *response) {
+        NSLog(@"%@",[[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding]);
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:0.5f];
+        if (success) {
+            id object = [NSJSONSerialization JSONObjectWithData:response options:NSJSONReadingMutableLeaves error:nil];
+            if ([object isKindOfClass:[NSDictionary class]]) {
+                NSString *errorCode = [object objectForKey:@"code"];
+                if ([errorCode intValue] == RequestFail) {
+                    //返回错误代码
+                    hud.labelText = [NSString stringWithFormat:@"%@",[object objectForKey:@"message"]];
+                }
+                else if ([errorCode intValue] == RequestSuccess) {
+                    [hud hide:YES];
+                    [self parseChannelDetailWithDictionary:object];
+                }
+            }
+            else {
+                //返回错误数据
+                hud.labelText = kServiceReturnWrong;
+            }
+        }
+        else {
+            hud.labelText = kNetworkFailed;
+        }
+    }];
 }
 - (IBAction)buyGood:(id)sender {
     NSLog(@"buy ");
@@ -1001,7 +1015,7 @@
     _shopcartButton.enabled = YES;
     [_buyGoodButton setTitle:@"代购" forState:UIControlStateNormal];
     if (_buyButton.isSelected) {
-        [self setPriceWithString:[NSString stringWithFormat:@"%.2f",_detailModel.goodPrice + _detailModel.defaultChannel.openCost]];
+        [self setPriceWithString:[NSString stringWithFormat:@"%.2f",_detailModel.procurementPrice + _detailModel.defaultChannel.openCost]];
     }
     else {
         [self setPriceWithString:[NSString stringWithFormat:@"%.2f",_detailModel.deposit + _detailModel.defaultChannel.openCost]];

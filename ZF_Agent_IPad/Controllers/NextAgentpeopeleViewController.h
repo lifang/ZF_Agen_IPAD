@@ -1,5 +1,5 @@
 //
-//  NextAgentdetalViewController.h
+//  NextAgentpeopeleViewController.h
 //  ZF_Agent_IPad
 //
 //  Created by comdosoft on 15/4/17.
@@ -8,11 +8,11 @@
 
 #import "ScanImageViewController.h"
 
-@interface NextAgentdetalViewController : ScanImageViewController
+@interface NextAgentpeopeleViewController : ScanImageViewController
 
 {UIButton*openbutton;
-
-
-
+    
+    
+    
 }
 @end

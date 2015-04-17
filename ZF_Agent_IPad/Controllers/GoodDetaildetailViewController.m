@@ -478,53 +478,54 @@
 }
 
 - (void)downloadDataWithPage:(int)page isMore:(BOOL)isMore {
-//    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
-//    hud.labelText = @"加载中...";
-//    [NetworkInterface getCommentListWithGoodID:_goodID page:page rows:kPageSize finished:^(BOOL success, NSData *response) {
-//        hud.customView = [[UIImageView alloc] init];
-//        hud.mode = MBProgressHUDModeCustomView;
-//        [hud hide:YES afterDelay:0.3f];
-//        if (success) {
-//            NSLog(@"!!%@",[[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding]);
-//            id object = [NSJSONSerialization JSONObjectWithData:response options:NSJSONReadingMutableLeaves error:nil];
-//            if ([object isKindOfClass:[NSDictionary class]]) {
-//                NSString *errorCode = [object objectForKey:@"code"];
-//                if ([errorCode intValue] == RequestFail) {
-//                    //返回错误代码
-//                    hud.labelText = [NSString stringWithFormat:@"%@",[object objectForKey:@"message"]];
-//                }
-//                else if ([errorCode intValue] == RequestSuccess) {
-//                    if (!isMore) {
-//                        [_reviewItem removeAllObjects];
-//                    }
-//                    id list = [[object objectForKey:@"result"] objectForKey:@"list"];
-//                    if ([list isKindOfClass:[NSArray class]] && [list count] > 0) {
-//                        //有数据
-//                        self.page++;
-//                        [hud hide:YES];
-//                    }
-//                    else {
-//                        //无数据
-//                        hud.labelText = @"没有更多数据了...";
-//                    }
-//                    [self parseCommentDataWithDictionary:object];
-//                }
-//            }
-//            else {
-//                //返回错误数据
-//                hud.labelText = kServiceReturnWrong;
-//            }
-//        }
-//        else {
-//            hud.labelText = kNetworkFailed;
-//        }
-//        if (!isMore) {
-//            [self refreshViewFinishedLoadingWithDirection:PullFromTop];
-//        }
-//        else {
-//            [self refreshViewFinishedLoadingWithDirection:PullFromBottom];
-//        }
-//    }];
+    AppDelegate *delegate = [AppDelegate shareAppDelegate];
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+    hud.labelText = @"加载中...";
+    [NetworkInterface getCommentListWithToken:delegate.token goodID:_goodID page:page rows:kPageSize finished:^(BOOL success, NSData *response) {
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:0.3f];
+        if (success) {
+            NSLog(@"!!%@",[[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding]);
+            id object = [NSJSONSerialization JSONObjectWithData:response options:NSJSONReadingMutableLeaves error:nil];
+            if ([object isKindOfClass:[NSDictionary class]]) {
+                NSString *errorCode = [object objectForKey:@"code"];
+                if ([errorCode intValue] == RequestFail) {
+                    //返回错误代码
+                    hud.labelText = [NSString stringWithFormat:@"%@",[object objectForKey:@"message"]];
+                }
+                else if ([errorCode intValue] == RequestSuccess) {
+                    if (!isMore) {
+                        [_reviewItem removeAllObjects];
+                    }
+                    id list = [[object objectForKey:@"result"] objectForKey:@"list"];
+                    if ([list isKindOfClass:[NSArray class]] && [list count] > 0) {
+                        //有数据
+                        self.page++;
+                        [hud hide:YES];
+                    }
+                    else {
+                        //无数据
+                        hud.labelText = @"没有更多数据了...";
+                    }
+                    [self parseCommentDataWithDictionary:object];
+                }
+            }
+            else {
+                //返回错误数据
+                hud.labelText = kServiceReturnWrong;
+            }
+        }
+        else {
+            hud.labelText = kNetworkFailed;
+        }
+        if (!isMore) {
+            [self refreshViewFinishedLoadingWithDirection:PullFromTop];
+        }
+        else {
+            [self refreshViewFinishedLoadingWithDirection:PullFromBottom];
+        }
+    }];
 }
 
 #pragma mark - Data
