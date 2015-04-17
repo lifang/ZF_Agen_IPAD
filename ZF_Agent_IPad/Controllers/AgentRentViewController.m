@@ -1,12 +1,12 @@
 //
-//  BuyOrderViewController.m
-//  ZFUB
+//  AgentRentViewController.m
+//  ZF_Agent_IPad
 //
-//  Created by 徐宝桥 on 15/3/13.
-//  Copyright (c) 2015年 ___MyCompanyName___. All rights reserved.
+//  Created by comdosoft on 15/4/17.
+//  Copyright (c) 2015年 comdo. All rights reserved.
 //
 
-#import "BuyOrderViewController.h"
+#import "AgentRentViewController.h"
 #import "PayWayViewController.h"
 //#import "AddressTableViewCell.h"
 #import "KxMenu.h"
@@ -14,10 +14,9 @@
 #import "CityHandle.h"
 #import "NetworkInterface.h"
 #import "AppDelegate.h"
+#import "RentDescriptionController.h"
 #import "POSAddressTableViewCell.h"
-@interface BuyOrderViewController ()<UITextFieldDelegate,UIPickerViewDataSource,UIPickerViewDelegate,UIAlertViewDelegate>
-
-
+@interface AgentRentViewController ()<UITextFieldDelegate,UIPickerViewDataSource,UIPickerViewDelegate,UIAlertViewDelegate>
 
 @property (nonatomic, strong) UIButton *typeBtn;
 
@@ -30,6 +29,7 @@
 
 @property (nonatomic, strong) NSString *selectedCityID;
 
+@property(nonatomic,strong)UITableView *agentTableView;
 
 
 
@@ -43,7 +43,7 @@
 
 @end
 
-@implementation BuyOrderViewController
+@implementation AgentRentViewController
 
 @synthesize addressLabel;
 
@@ -54,15 +54,16 @@
 @synthesize billField;
 @synthesize billType;
 @synthesize pushWay;
-@synthesize defaultAddress;
 @synthesize reviewField;
-
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.title = @"代租赁订单确认";
+    [self updatPrice];
+    
     // Do any additional setup after loading the view.
     _count = 1;
     [self initSubView];
-    //设置间距
+    
     UIBarButtonItem *spaceItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace
                                                                                target:nil
                                                                                action:nil];
@@ -91,7 +92,6 @@
     
     
 }
-
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -159,12 +159,6 @@
     
     _minusButton = [UIButton buttonWithType:UIButtonTypeCustom];
     _minusButton.frame = CGRectMake(0, 0, 40, 40);
-    [_minusButton setTitle:@"-" forState:UIControlStateNormal];
-    [_minusButton addTarget:self action:@selector(countMinus:) forControlEvents:UIControlEventTouchUpInside];
-    [_minusButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    _numberField.leftView = _minusButton;
-    
-    
     CALayer *layer=[_minusButton  layer];
     //是否设置边框以及是否可见
     [layer setMasksToBounds:YES];
@@ -175,7 +169,10 @@
     [layer setBorderWidth:1];
     //设置边框线的颜色
     [layer setBorderColor:[kColor(193, 192, 192, 1) CGColor]];
-    
+    [_minusButton setTitle:@"-" forState:UIControlStateNormal];
+    [_minusButton addTarget:self action:@selector(countMinus:) forControlEvents:UIControlEventTouchUpInside];
+    [_minusButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    _numberField.leftView = _minusButton;
     
     _addButton = [UIButton buttonWithType:UIButtonTypeCustom];
     _addButton.frame = CGRectMake(0, 0, 40, 40);
@@ -189,6 +186,7 @@
     [layers setBorderWidth:1];
     //设置边框线的颜色
     [layers setBorderColor:[kColor(193, 192, 192, 1) CGColor]];
+    
     [_addButton setTitle:@"+" forState:UIControlStateNormal];
     [_addButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     [_addButton addTarget:self action:@selector(countAdd:) forControlEvents:UIControlEventTouchUpInside];
@@ -198,11 +196,11 @@
 #pragma mark - Request
 
 - (void)createOrderForBuy {
+    
     //是否需要发票
-    int needInvoice = 0;
-    if (isneedpp) {
-        needInvoice = 1;
-    }
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+    hud.labelText = @"加载中...";
+    AppDelegate *delegate = [AppDelegate shareAppDelegate];
     NSString*addressID;
     if(B==0)
     {
@@ -228,61 +226,62 @@
         
         
     }
-
-    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
-    hud.labelText = @"加载中...";
-//    AppDelegate *delegate = [AppDelegate shareAppDelegate];
-//    [NetworkInterface createOrderFromGoodBuyWithToken:delegate.token userID:delegate.userID goodID:_goodDetail.goodID channelID:_goodDetail.defaultChannel.channelID count:_count addressID:addressID comment:@"" needInvoice:needInvoice invoiceType:self.billType invoiceInfo:self.billField.text finished:^(BOOL success, NSData *response) {
-//        hud.customView = [[UIImageView alloc] init];
-//        hud.mode = MBProgressHUDModeCustomView;
-//        [hud hide:YES afterDelay:0.3f];
-//        if (success) {
-//           // NSLog(@"!!%@",[[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding]);
-//            id object = [NSJSONSerialization JSONObjectWithData:response options:NSJSONReadingMutableLeaves error:nil];
-//            if ([object isKindOfClass:[NSDictionary class]]) {
-//                NSString *errorCode = [object objectForKey:@"code"];
-//                if ([errorCode intValue] == RequestFail) {
-//                    //返回错误代码
-//                    hud.labelText = [NSString stringWithFormat:@"%@",[object objectForKey:@"message"]];
-//                }
-//                else if ([errorCode intValue] == RequestSuccess) {
-//                    [hud hide:YES];
-//                    [[NSNotificationCenter defaultCenter] postNotificationName:RefreshShoppingCartNotification object:nil];
-//                    PayWayViewController *payWayC = [[PayWayViewController alloc] init];
-//                    payWayC.totalPrice = [self getSummaryPrice];
-//                    payWayC.hidesBottomBarWhenPushed =  YES ;
-//
-//                    [self.navigationController pushViewController:payWayC animated:YES];
-//                }
-//                else if ([errorCode intValue] == -2)
-//                {
-//                    
-//                    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
-//                    hud.customView = [[UIImageView alloc] init];
-//                    hud.mode = MBProgressHUDModeCustomView;
-//                    [hud hide:YES afterDelay:1.f];
-//                    hud.labelText = [object objectForKey:@"message"];
-//                    
-//                    
-//                    
-//                }
-//
-//            }
-//            else {
-//                //返回错误数据
-//                hud.labelText = kServiceReturnWrong;
-//            }
-//        }
-//        else {
-//            hud.labelText = kNetworkFailed;
-//        }
-//    }];
+    //    NSLog(@"%@-%@-%@-%d-%@-%@",delegate.userID,_goodDetail.goodID,_goodDetail.defaultChannel.channelID,_count,addressID,self.reviewField.text);
+    //
+    //    [NetworkInterface createOrderFromGoodRentWithToken:delegate.token userID:delegate.userID goodID:_goodDetail.goodID channelID:_goodDetail.defaultChannel.channelID count:_count addressID:addressID comment:self.reviewField.text needInvoice:0 invoiceType:0 invoiceInfo:nil finished:^(BOOL success, NSData *response) {
+    //        hud.customView = [[UIImageView alloc] init];
+    //        hud.mode = MBProgressHUDModeCustomView;
+    //        [hud hide:YES afterDelay:0.3f];
+    //        if (success)
+    //          {
+    //            NSLog(@"!!%@",[[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding]);
+    //            id object = [NSJSONSerialization JSONObjectWithData:response options:NSJSONReadingMutableLeaves error:nil];
+    //            if ([object isKindOfClass:[NSDictionary class]])
+    //            {
+    //                NSString *errorCode = [object objectForKey:@"code"];
+    //                if ([errorCode intValue] == RequestFail) {
+    //                    //返回错误代码
+    //                    hud.labelText = [NSString stringWithFormat:@"%@",[object objectForKey:@"message"]];
+    //                }
+    //                else if ([errorCode intValue] == RequestSuccess)
+    //                {
+    //                    [hud hide:YES];
+    //                    [[NSNotificationCenter defaultCenter] postNotificationName:RefreshShoppingCartNotification object:nil];
+    //                    PayWayViewController *payWayC = [[PayWayViewController alloc] init];
+    //                    payWayC.totalPrice = [self getSummaryPrice];
+    //                    payWayC.hidesBottomBarWhenPushed =  YES ;
+    //
+    //                    [self.navigationController pushViewController:payWayC animated:YES];
+    //                }
+    //                else if ([errorCode intValue] == -2)
+    //                {
+    //
+    //                    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+    //                    hud.customView = [[UIImageView alloc] init];
+    //                    hud.mode = MBProgressHUDModeCustomView;
+    //                    [hud hide:YES afterDelay:1.f];
+    //                    hud.labelText = [object objectForKey:@"message"];
+    //
+    //
+    //
+    //                }
+    //            }
+    //            else
+    //            {
+    //                //返回错误数据
+    //                hud.labelText = kServiceReturnWrong;
+    //            }
+    //        }
+    //        else {
+    //            hud.labelText = kNetworkFailed;
+    //        }
+    //    }];
 }
 
 #pragma mark - Data
 
 - (CGFloat)getSummaryPrice {
-    return (_goodDetail.goodPrice + _goodDetail.defaultChannel.openCost) * _count;
+    return (_goodDetail.defaultChannel.openCost + _goodDetail.deposit) * _count;
 }
 
 #pragma mark - Data
@@ -298,9 +297,22 @@
 
 
 #pragma mark - Action
-
+- (IBAction)scanProtocol:(id)sender {
+    RentDescriptionController *descC = [[RentDescriptionController alloc] init];
+    descC.goodDetail = _goodDetail;
+    descC.hidesBottomBarWhenPushed =  YES ;
+    
+    [self.navigationController pushViewController:descC animated:YES];
+}
 - (IBAction)ensureOrder:(id)sender {
-    NSLog(@"!!");
+    if (!isneedpp) {
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:1.f];
+        hud.labelText = @"请同意租赁协议";
+        return;
+    }
     [self createOrderForBuy];
 }
 - (IBAction)countMinus:(id)sender {
@@ -339,31 +351,11 @@
 }
 
 #pragma mark - UITextField
--(void)textFieldDidEndEditing:(UITextField *)textField
-{
-    
-    if(textField==self.billField )
-    {
-        [self  closeKeyboard];
-        
-        
-    }
-    
-    [self.billField resignFirstResponder];
-    
-}
+
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
     [textField resignFirstResponder];
     
-    if(textField==self.billField )
-    {
-        [self  closeKeyboard];
-
     
-    }
-    
-    
-    [self.billField resignFirstResponder];
     BOOL isNumber = [RegularFormat isNumber:_numberField.text];
     if (isNumber && [_numberField.text intValue] > 0) {
         int currentCount = [_numberField.text intValue];
@@ -376,72 +368,6 @@
         _numberField.text = [NSString stringWithFormat:@"%d",_count];
     }
     return YES;
-}
-
-
--(void)closeKeyboard
-{
-    NSTimeInterval animationDuration = 0.30f;
-    [UIView beginAnimations:@"ResizeForKeyboard" context:nil];
-    [UIView setAnimationDuration:animationDuration];
-    if(iOS7)
-    {
-        
-        self.tableView.frame=CGRectMake(0, 0, SCREEN_HEIGHT, SCREEN_WIDTH-64-60);
-        
-    }
-    
-    else
-        
-    {
-        
-        self.tableView.frame=CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT-64-60);
-        
-        
-        
-    }
-    
-    
-    [UIView commitAnimations];
-}
-- (void)textFieldDidBeginEditing:(UITextField *)textField
-
-{
-    
-    
-    
-    NSTimeInterval animationDuration = 0.30f;
-    [UIView beginAnimations:@"ResizeForKeyboard" context:nil];
-    [UIView setAnimationDuration:animationDuration];
-    
-    if(textField==self.billField )
-    {
-        if(iOS7)
-        {
-            
-            self.tableView.frame=CGRectMake(0, -360, SCREEN_HEIGHT, SCREEN_WIDTH-64);
-            
-        }
-        
-        else
-            
-        {
-            
-            self.tableView.frame=CGRectMake(0, -360, SCREEN_WIDTH, SCREEN_HEIGHT-64);
-            
-            
-            
-        }
-  
-        
-    }
-
-    
-    
-    
-    [UIView commitAnimations];
-    
-    
 }
 
 
@@ -481,18 +407,82 @@
             height=SCREEN_HEIGHT;
             
         }
-        CGFloat hearderHeight = 80.f;
+        CGFloat hearderHeight = 210.f;
         
         UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, wide, hearderHeight)];
         headerView.backgroundColor = [UIColor whiteColor];
         
         
         
-        UILabel*addresslable=[[UILabel alloc]initWithFrame:CGRectMake(20, 10, 80, 30)];
+        UILabel*choseuserlable=[[UILabel alloc]initWithFrame:CGRectMake(40, 10,100, 30)];
+        [headerView addSubview:choseuserlable];
+        choseuserlable.font=[UIFont systemFontOfSize:18];
+        
+        choseuserlable.text=@"选择用户";
+        
+        
+        
+        
+        UILabel*newaddress=[[UILabel alloc]initWithFrame:CGRectMake(40, 50,100, 40)];
+        [headerView addSubview:newaddress];
+        newaddress.font=[UIFont systemFontOfSize:18];
+        
+        newaddress.text=@"已有用户";
+        
+        
+        blankbutton = [UIButton buttonWithType:UIButtonTypeCustom];
+        blankbutton.frame = CGRectMake(150,50 ,260, 40);
+        //    [blankbutton setTitle:[self getBankNameWithBankCode:bankCode] forState:UIControlStateNormal];
+        
+        [blankbutton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        blankbutton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
+        [blankbutton setImage:kImageName(@"arrow_line1") forState:UIControlStateNormal];
+        CALayer *layer=[blankbutton  layer];
+        //是否设置边框以及是否可见
+        [layer setMasksToBounds:YES];
+        //设置边框圆角的弧度
+        
+        //设置边框线的宽
+        //
+        [layer setBorderWidth:1];
+        //设置边框线的颜色
+        [layer setBorderColor:[[UIColor grayColor] CGColor]];
+        blankbutton.contentEdgeInsets = UIEdgeInsetsMake(0,10, 0, 0);
+        blankbutton.imageEdgeInsets = UIEdgeInsetsMake(0,200,0,0);//设置image在button上的位置（上top，左left，下bottom，右right）这里可以写负值，对上写－5，那么image就象上移动5个像素
+        blankbutton.tag=5044;
+        
+        [blankbutton addTarget:self action:@selector(agentclick:) forControlEvents:UIControlEventTouchUpInside];
+        [headerView addSubview:blankbutton];
+        
+        
+        
+        
+        
+        
+        
+        
+        UIButton*creatorbutton = [UIButton buttonWithType:UIButtonTypeCustom];
+        creatorbutton.frame = CGRectMake(150+280,50 ,140, 40);
+        //    savebutton.layer.cornerRadius=10;
+        
+        [creatorbutton setBackgroundImage:kImageName(@"blue") forState:UIControlStateNormal];
+        [creatorbutton setTitle:@"创建新用户" forState:UIControlStateNormal];
+        [creatorbutton addTarget:self action:@selector(okclick) forControlEvents:UIControlEventTouchUpInside];
+        [headerView addSubview:creatorbutton];
+        
+        
+        
+        UILabel*lineback=[[UILabel alloc]initWithFrame:CGRectMake(0, 120, wide, 1)];
+        [headerView addSubview:lineback];
+        
+        lineback.backgroundColor=[UIColor colorWithWhite:0.7 alpha:1];
+        
+        
+        UILabel*addresslable=[[UILabel alloc]initWithFrame:CGRectMake(20, 130, 80, 30)];
         [headerView addSubview:addresslable];
         
         addresslable.text=@"选择地址";
-        self.addressView = [[UIView alloc] initWithFrame:CGRectMake(20, 50, wide-40, 20)];
+        self.addressView = [[UIView alloc] initWithFrame:CGRectMake(20, 180, wide-40, 20)];
         self.addressView.backgroundColor = kColor(235, 233, 233, 1);
         [headerView addSubview: self.addressView];
         
@@ -551,7 +541,7 @@
             
         }
         CGFloat hearderHeight = 50.f;
-//        CGFloat blackViewHeight = 80.f;
+        //        CGFloat blackViewHeight = 80.f;
         UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, wide, hearderHeight)];
         headerView.backgroundColor = [UIColor whiteColor];
         
@@ -576,12 +566,12 @@
         [rootview addSubview:phonelable];
         phonelable.textAlignment = NSTextAlignmentCenter;
         
-        phonelable.text=@"单价";
+        phonelable.text=@"押金";
         UILabel*numberlable=[[UILabel alloc]initWithFrame:CGRectMake(wide-120, 0, 80, 20)];
         [rootview addSubview:numberlable];
         numberlable.textAlignment = NSTextAlignmentCenter;
         
-        numberlable.text=@"购买数量";
+        numberlable.text=@"租赁数量";
         
         return headerView;
         
@@ -589,6 +579,82 @@
     
     
 }
+-(void)agentclick:(UIButton*)send
+{
+    changeB=send.tag;
+    changeagent=!changeagent;
+    
+    [self  getSubAgent];
+    
+    
+}
+//已有用户
+- (void)getSubAgent {
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+    hud.labelText = @"加载中...";
+    AppDelegate *delegate = [AppDelegate shareAppDelegate];
+    [NetworkInterface getGoodSubAgentWithAgentID:delegate.agentID token:delegate.token finished:^(BOOL success, NSData *response) {
+        NSLog(@"%@",[[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding]);
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:0.5f];
+        if (success) {
+            id object = [NSJSONSerialization JSONObjectWithData:response options:NSJSONReadingMutableLeaves error:nil];
+            if ([object isKindOfClass:[NSDictionary class]]) {
+                NSString *errorCode = [object objectForKey:@"code"];
+                if ([errorCode intValue] == RequestFail) {
+                    //返回错误代码
+                    hud.labelText = [NSString stringWithFormat:@"%@",[object objectForKey:@"message"]];
+                }
+                else if ([errorCode intValue] == RequestSuccess) {
+                    [hud hide:YES];
+                    [self parseSubAgentListWithDictionary:object];
+                }
+            }
+            else {
+                //返回错误数据
+                hud.labelText = kServiceReturnWrong;
+            }
+        }
+        else {
+            hud.labelText = kNetworkFailed;
+        }
+    }];
+}
+//选择代理商tableView懒加载
+-(UITableView *)agentTableView
+{
+    if (!_agentTableView) {
+        _agentTableView = [[UITableView alloc]init];
+        _agentTableView.tag = 1119;
+        _agentTableView.backgroundColor = kColor(214, 214, 214, 1.0);
+        _agentTableView.delegate = self;
+        _agentTableView.dataSource = self;
+    }
+    return _agentTableView;
+}
+
+- (void)parseSubAgentListWithDictionary:(NSDictionary *)dict {
+    
+    self.agentTableView.frame = CGRectMake(blankbutton.frame.origin.x, CGRectGetMaxY(blankbutton.frame), blankbutton.frame.size.width, 160);
+    [self.view addSubview:_agentTableView];
+    if(changeagent)
+    {
+        _agentTableView.hidden=NO;
+        
+    }else
+    {
+        _agentTableView.hidden=YES;
+        
+        
+    }
+    
+    
+    
+    
+    [_agentTableView reloadData];
+}
+
 -(void)createui
 {
     CGFloat wide;
@@ -818,14 +884,7 @@
     [self addAddress];
     
 }
-- (IBAction)modifyLocation:(id)sender {
-    [self pickerScrollOut];
-    NSInteger index = [_pickerView selectedRowInComponent:1];
-    NSString *cityName = [[_cityArray objectAtIndex:index] objectForKey:@"name"];
-    [_cityField setTitle:cityName forState:UIControlStateNormal];
-    _selectedCityID = [NSString stringWithFormat:@"%@",[[_cityArray objectAtIndex:index] objectForKey:@"id"]];
 
-}
 - (void)initPickerView {
     //pickerView
     CGFloat wide;
@@ -881,7 +940,14 @@
         return [_cityArray count];
     }
 }
-
+- (IBAction)modifyLocation:(id)sender {
+    [self pickerScrollOut];
+    NSInteger index = [_pickerView selectedRowInComponent:1];
+    NSString *cityName = [[_cityArray objectAtIndex:index] objectForKey:@"name"];
+    [_cityField setTitle:cityName forState:UIControlStateNormal];
+    _selectedCityID = [NSString stringWithFormat:@"%@",[[_cityArray objectAtIndex:index] objectForKey:@"id"]];
+    
+}
 - (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component {
     if (component == 0) {
         //省
@@ -902,6 +968,7 @@
 }
 
 
+
 - (void)pickerScrollOut {
     CGFloat wide;
     CGFloat height;
@@ -917,7 +984,7 @@
         height=SCREEN_HEIGHT;
         
     }
-
+    
     [UIView animateWithDuration:.3f animations:^{
         _toolbar.frame = CGRectMake(0, kScreenHeight, wide, 44);
         _pickerView.frame = CGRectMake(0, kScreenHeight, wide, 216);
@@ -939,41 +1006,41 @@
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
     hud.labelText = @"提交中...";
     AppDelegate *delegate = [AppDelegate shareAppDelegate];
-//    [NetworkInterface addAddressWithToken:delegate.token userID:delegate.userID cityID:_selectedCityID receiverName:_nameField.text phoneNumber:_phoneField.text zipCode:_zipField.text address:_detailField.text isDefault:isDefault finished:^(BOOL success, NSData *response) {
-//        hud.customView = [[UIImageView alloc] init];
-//        hud.mode = MBProgressHUDModeCustomView;
-//        [hud hide:YES afterDelay:0.5f];
-//        if (success) {
-//            id object = [NSJSONSerialization JSONObjectWithData:response options:NSJSONReadingMutableLeaves error:nil];
-//            if ([object isKindOfClass:[NSDictionary class]]) {
-//                NSString *errorCode = [object objectForKey:@"code"];
-//                if ([errorCode intValue] == RequestFail) {
-//                    //返回错误代码
-//                    hud.labelText = [NSString stringWithFormat:@"%@",[object objectForKey:@"message"]];
-//                }
-//                else if ([errorCode intValue] == RequestSuccess) {
-//                    [hud hide:YES];
-////                    [[NSNotificationCenter defaultCenter] postNotificationName:RefreshAddressListNotification object:nil];
-//                    [self  getAddressLists];
-//                    
-//                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示信息"
-//                                                                    message:@"新增地址成功"
-//                                                                   delegate:self
-//                                                          cancelButtonTitle:@"确定"
-//                                                          otherButtonTitles:nil];
-//                    [alert show];
-//                }
-//            }
-//            else {
-//                //返回错误数据
-//                hud.labelText = kServiceReturnWrong;
-//            }
-//        }
-//        else {
-//            hud.labelText = kNetworkFailed;
-//        }
-//        
-//    }];
+    //    [NetworkInterface addAddressWithToken:delegate.token userID:delegate.userID cityID:_selectedCityID receiverName:_nameField.text phoneNumber:_phoneField.text zipCode:_zipField.text address:_detailField.text isDefault:isDefault finished:^(BOOL success, NSData *response) {
+    //        hud.customView = [[UIImageView alloc] init];
+    //        hud.mode = MBProgressHUDModeCustomView;
+    //        [hud hide:YES afterDelay:0.5f];
+    //        if (success) {
+    //            id object = [NSJSONSerialization JSONObjectWithData:response options:NSJSONReadingMutableLeaves error:nil];
+    //            if ([object isKindOfClass:[NSDictionary class]]) {
+    //                NSString *errorCode = [object objectForKey:@"code"];
+    //                if ([errorCode intValue] == RequestFail) {
+    //                    //返回错误代码
+    //                    hud.labelText = [NSString stringWithFormat:@"%@",[object objectForKey:@"message"]];
+    //                }
+    //                else if ([errorCode intValue] == RequestSuccess) {
+    //                    [hud hide:YES];
+    //                    //                    [[NSNotificationCenter defaultCenter] postNotificationName:RefreshAddressListNotification object:nil];
+    //                    [self  getAddressLists];
+    //
+    //                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示信息"
+    //                                                                    message:@"新增地址成功"
+    //                                                                   delegate:self
+    //                                                          cancelButtonTitle:@"确定"
+    //                                                          otherButtonTitles:nil];
+    //                    [alert show];
+    //                }
+    //            }
+    //            else {
+    //                //返回错误数据
+    //                hud.labelText = kServiceReturnWrong;
+    //            }
+    //        }
+    //        else {
+    //            hud.labelText = kNetworkFailed;
+    //        }
+    //
+    //    }];
 }
 -(void)cancelclick
 {
@@ -1024,18 +1091,17 @@
         [newaddressmangerbutton setBackgroundImage:kImageName(@"blue") forState:UIControlStateNormal];
         [newaddressmangerbutton setTitle:@"新增地址" forState:UIControlStateNormal];
         newaddressmangerbutton.titleLabel.font = [UIFont systemFontOfSize:16.f];
-        
         //此处取消地址管理
         /*
-        UIButton *addressmangerbutton = [UIButton buttonWithType:UIButtonTypeCustom];
-        addressmangerbutton.frame = CGRectMake(wide-260, 10, 100, 40);
-        [addressmangerbutton addTarget:self action:@selector(addressbuttonclick) forControlEvents:UIControlEventTouchUpInside];
-        [footerView addSubview:addressmangerbutton];
-        //addressmangerbutton.layer.cornerRadius = 4.f;
-        addressmangerbutton.layer.masksToBounds = YES;
-        [addressmangerbutton setBackgroundImage:kImageName(@"orange.png") forState:UIControlStateNormal];
-        [addressmangerbutton setTitle:@"地址管理" forState:UIControlStateNormal];
-        addressmangerbutton.titleLabel.font = [UIFont systemFontOfSize:16.f];
+         UIButton *addressmangerbutton = [UIButton buttonWithType:UIButtonTypeCustom];
+         addressmangerbutton.frame = CGRectMake(wide-260, 10, 100, 40);
+         [addressmangerbutton addTarget:self action:@selector(addressbuttonclick) forControlEvents:UIControlEventTouchUpInside];
+         [footerView addSubview:addressmangerbutton];
+         //addressmangerbutton.layer.cornerRadius = 4.f;
+         addressmangerbutton.layer.masksToBounds = YES;
+         [addressmangerbutton setBackgroundImage:kImageName(@"orange.png") forState:UIControlStateNormal];
+         [addressmangerbutton setTitle:@"地址管理" forState:UIControlStateNormal];
+         addressmangerbutton.titleLabel.font = [UIFont systemFontOfSize:16.f];
          */
         UIView *grayview = [[UIView alloc] initWithFrame:CGRectMake(0, 59, wide, 1)];
         grayview.backgroundColor = [UIColor grayColor];
@@ -1065,41 +1131,42 @@
         self.reviewField .font = [UIFont systemFontOfSize:14.f];
         
         [footerView addSubview:self.reviewField ];
-
+        
         
         self.billBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-        self.billBtn.frame = CGRectMake(20, 60, 28, 28);
+        self.billBtn.frame = CGRectMake(20, 70, 28, 28);
         
         
-       
+        if ( isneedpp) {
+            [ self.billBtn setBackgroundImage:kImageName(@"select_height") forState:UIControlStateNormal];
+        }
+        else {
+            [self.billBtn setBackgroundImage:kImageName(@"btn_unselected.png") forState:UIControlStateNormal];
+        }
         
         [self.billBtn addTarget:self action:@selector(needBill:) forControlEvents:UIControlEventTouchUpInside];
         [footerView addSubview:self.billBtn];
         
-        UILabel *billLabel = [[UILabel alloc] initWithFrame:CGRectMake(50, 65, wide - 40, 20)];
+        UILabel *billLabel = [[UILabel alloc] initWithFrame:CGRectMake(50, 75, wide - 40, 20)];
         billLabel.backgroundColor = [UIColor clearColor];
         billLabel.font = [UIFont systemFontOfSize:16.f];
-        billLabel.text = @"我要发票";
+        NSString *rentInfo = @"我同意《租赁协议》";
+        NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithString:rentInfo];
+        NSDictionary *rentAttr = [NSDictionary dictionaryWithObjectsAndKeys:
+                                  [UIFont boldSystemFontOfSize:16.f],NSFontAttributeName,
+                                  kColor(3, 112, 214, 1),NSForegroundColorAttributeName,
+                                  nil];
+        [attrString addAttributes:rentAttr range:NSMakeRange(3, [rentInfo length] - 3)];
+        billLabel.attributedText = attrString;
+        
         billLabel.userInteractionEnabled = YES;
+        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(scanProtocol:)];
+        [billLabel addGestureRecognizer:tap];
         [footerView addSubview:billLabel];
         
-        UIView *billView = [self addBillView];
-        [footerView addSubview:billView];
-        
-        
-        
-        if ( isneedpp) {
-            billView.hidden=NO;
-            
-            
-            [ self.billBtn setBackgroundImage:kImageName(@"btn_selected.png") forState:UIControlStateNormal];
-        }
-        else {
-            
-            billView.hidden=YES;
-
-            [self.billBtn setBackgroundImage:kImageName(@"btn_unselected.png") forState:UIControlStateNormal];
-        }return footerView;
+        //        UIView *billView = [self addBillView];
+        //        [footerView addSubview:billView];
+        return footerView;
         
         
     }
@@ -1110,8 +1177,8 @@
 
 -(void)addressbuttonclick
 {
-  [[NSNotificationCenter defaultCenter] postNotificationName:@"addressmanger" object:self userInfo:nil];
-
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"addressmanger" object:self userInfo:nil];
+    
 }
 
 -(void)newbuttonclick
@@ -1125,38 +1192,38 @@
 }
 
 - (void)getAddressLists {
-//    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
-//    hud.labelText = @"加载中...";
-//    AppDelegate *delegate = [AppDelegate shareAppDelegate];
-//    [NetworkInterface getAddressListWithToken:delegate.token usedID:delegate.userID finished:^(BOOL success, NSData *response) {
-//        NSLog(@"%@",[[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding]);
-//        hud.customView = [[UIImageView alloc] init];
-//        hud.mode = MBProgressHUDModeCustomView;
-//        [hud hide:YES afterDelay:0.5f];
-//        if (success) {
-//            id object = [NSJSONSerialization JSONObjectWithData:response options:NSJSONReadingMutableLeaves error:nil];
-//            if ([object isKindOfClass:[NSDictionary class]]) {
-//                NSString *errorCode = [object objectForKey:@"code"];
-//                if ([errorCode intValue] == RequestFail) {
-//                    //返回错误代码
-//                    hud.labelText = [NSString stringWithFormat:@"%@",[object objectForKey:@"message"]];
-//                }
-//                else if ([errorCode intValue] == RequestSuccess) {
-//                    [hud hide:YES];
-//                    [addressarry removeAllObjects];
-//                    
-//                    [self parseAddressListDataWithDicts:object];
-//                }
-//            }
-//            else {
-//                //返回错误数据
-//                hud.labelText = kServiceReturnWrong;
-//            }
-//        }
-//        else {
-//            hud.labelText = kNetworkFailed;
-//        }
-//    }];
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+    hud.labelText = @"加载中...";
+    AppDelegate *delegate = [AppDelegate shareAppDelegate];
+    //    [NetworkInterface getAddressListWithToken:delegate.token usedID:delegate.userID finished:^(BOOL success, NSData *response) {
+    //        NSLog(@"%@",[[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding]);
+    //        hud.customView = [[UIImageView alloc] init];
+    //        hud.mode = MBProgressHUDModeCustomView;
+    //        [hud hide:YES afterDelay:0.5f];
+    //        if (success) {
+    //            id object = [NSJSONSerialization JSONObjectWithData:response options:NSJSONReadingMutableLeaves error:nil];
+    //            if ([object isKindOfClass:[NSDictionary class]]) {
+    //                NSString *errorCode = [object objectForKey:@"code"];
+    //                if ([errorCode intValue] == RequestFail) {
+    //                    //返回错误代码
+    //                    hud.labelText = [NSString stringWithFormat:@"%@",[object objectForKey:@"message"]];
+    //                }
+    //                else if ([errorCode intValue] == RequestSuccess) {
+    //                    [hud hide:YES];
+    //                    [addressarry removeAllObjects];
+    //
+    //                    [self parseAddressListDataWithDicts:object];
+    //                }
+    //            }
+    //            else {
+    //                //返回错误数据
+    //                hud.labelText = kServiceReturnWrong;
+    //            }
+    //        }
+    //        else {
+    //            hud.labelText = kNetworkFailed;
+    //        }
+    //    }];
 }
 
 #pragma mark - Data
@@ -1195,7 +1262,7 @@
     }
     
     CGFloat billHeight = 44.f;
-    UIView *billView = [[UIView alloc] initWithFrame:CGRectMake(0, 90, wide, billHeight)];
+    UIView *billView = [[UIView alloc] initWithFrame:CGRectMake(0, 40, wide, billHeight)];
     billView.backgroundColor = [UIColor whiteColor];
     //    UIView *firstLine = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 0.5)];
     //    firstLine.backgroundColor = kColor(135, 135, 135, 1);
@@ -1283,11 +1350,12 @@
         
         static NSString *cellIdentifier = @"Cell";
         
-        //AddressTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+        // AddressTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
         POSAddressTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+        
         if (!cell)
         {
-            //cell = [[AddressTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier] ;
+            // cell = [[AddressTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier] ;
             cell = [[POSAddressTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier] ;
         }
         AddressModel *model =[addressarry objectAtIndex:indexPath.row];
@@ -1300,23 +1368,26 @@
         
         
         if(B>0)
-        {if(indexPath.row==B-1)
         {
-            cell.logoImageView.image=kImageName(@"select_height") ;
-            cell.logoabel.text=@"";
+            if(indexPath.row==B-1)
+            {
+                cell.logoImageView.image=kImageName(@"select_height") ;
+                cell.logoabel.text=@"";
+                
+                
+            }
+            else
+            {
+                cell.logoImageView.image=kImageName(@"") ;
+                cell.logoabel.text=@"";
+                
+                
+            }
             
             
         }
+        
         else
-        {
-            cell.logoImageView.image=kImageName(@"") ;
-            cell.logoabel.text=@"";
-            
-            
-        }
-            
-            
-        }else
         {
             if([model.isDefault isEqualToString:@"1"])
             {
@@ -1346,7 +1417,6 @@
     {
         
         if (indexPath.row == 1) {
-            //最后一行
             CGFloat wide;
             CGFloat height;
             if(iOS7)
@@ -1363,41 +1433,54 @@
             }
             
             UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
-//            int count = [self getSummaryCount];
+            //            int count = [self getSummaryCount];
             CGFloat price = [self getSummaryPrice];
-            
-            
-            UILabel *totalLabels = [[UILabel alloc] initWithFrame:CGRectMake(20, 20, wide-40, 30)];
+            UILabel *totalLabels = [[UILabel alloc] initWithFrame:CGRectMake(20, 20, wide-40, 60)];
             totalLabels.backgroundColor = kColor(235, 233, 233, 1);
             //            totalLabel.font = [UIFont systemFontOfSize:11.f];
             [cell.contentView addSubview:totalLabels];
             
-            UILabel *totalLabel = [[UILabel alloc] initWithFrame:CGRectMake(20, 20, 130, 30)];
+            UILabel *maxLabel = [[UILabel alloc] initWithFrame:CGRectMake(20, 20, 130, 30)];
+            maxLabel.backgroundColor = [UIColor clearColor];
+            maxLabel.font = [UIFont systemFontOfSize:16.f];
+            maxLabel.adjustsFontSizeToFitWidth = YES;
+            maxLabel.text = [NSString stringWithFormat:@"最长租赁时间：%@月",_goodDetail.maxTime];
+            [cell.contentView addSubview:maxLabel];
+            
+            UILabel *minLabel = [[UILabel alloc] initWithFrame:CGRectMake(160, 20, 130, 30)];
+            minLabel.backgroundColor = [UIColor clearColor];
+            minLabel.font = [UIFont systemFontOfSize:16.f];
+            minLabel.adjustsFontSizeToFitWidth = YES;
+            minLabel.text = [NSString stringWithFormat:@"最短租赁时间：%@月",_goodDetail.minTime];
+            [cell.contentView addSubview:minLabel];
+            
+            
+            UILabel *totalLabel = [[UILabel alloc] initWithFrame:CGRectMake(20, 50, 130, 30)];
             totalLabel.backgroundColor = [UIColor clearColor];
-            //            totalLabel.font = [UIFont systemFontOfSize:11.f];
+            totalLabel.font = [UIFont systemFontOfSize:16.f];
             totalLabel.adjustsFontSizeToFitWidth = YES;
-            totalLabel.text = [NSString stringWithFormat:@"共计：%d件商品",1];
+            totalLabel.text = [NSString stringWithFormat:@"共计：%d件商品",_count];
             [cell.contentView addSubview:totalLabel];
             
-            UILabel *deliveryLabel = [[UILabel alloc] initWithFrame:CGRectMake(160, 20, 130, 30)];
+            UILabel *deliveryLabel = [[UILabel alloc] initWithFrame:CGRectMake(160, 50, 130, 30)];
             deliveryLabel.backgroundColor = [UIColor clearColor];
-            //            deliveryLabel.font = [UIFont systemFontOfSize:11.f];
+            deliveryLabel.font = [UIFont systemFontOfSize:16.f];
             deliveryLabel.adjustsFontSizeToFitWidth = YES;
             deliveryLabel.text = [NSString stringWithFormat:@"配送费：￥%@",@"123"];
             [cell.contentView addSubview:deliveryLabel];
             
             
             
-            UILabel *priceLabel = [[UILabel alloc] initWithFrame:CGRectMake(wide-200, 20,180, 30)];
+            UILabel *priceLabel = [[UILabel alloc] initWithFrame:CGRectMake(wide-200, 50,180, 30)];
             priceLabel.backgroundColor = [UIColor clearColor];
-            //            priceLabel.font = [UIFont boldSystemFontOfSize:12.f];
+            priceLabel.font = [UIFont boldSystemFontOfSize:16.f];
             priceLabel.adjustsFontSizeToFitWidth = YES;
             priceLabel.text = [NSString stringWithFormat:@"合计：￥%.2f",price];
             [cell.contentView addSubview:priceLabel];
             priceLabel.textAlignment = NSTextAlignmentRight;
             
-//            self.reviewField.frame = CGRectMake(10, 40, wide - 20, 32);
-//            [cell.contentView addSubview:self.reviewField];
+            //            self.reviewField.frame = CGRectMake(10, 40, wide - 20, 32);
+            //            [cell.contentView addSubview:self.reviewField];
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
             
             return cell;
@@ -1409,8 +1492,8 @@
                 cell = [[OrderDetailCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:orderIdentifier];
             }
             cell.nameLabel.text = _goodDetail.goodName;
-            cell.actualPriceLabel.text = [NSString stringWithFormat:@"￥%.2f",(_goodDetail.goodPrice + _goodDetail.defaultChannel.openCost)];
-//            cell.numberLabel.text = [NSString stringWithFormat:@"X %d",_count];
+            //            cell.priceLabel.text = [NSString stringWithFormat:@"￥%.2f",_goodDetail.deposit];
+            //            cell.numberLabel.text = [NSString stringWithFormat:@"X %d",_count];
             cell.brandLabel.text = [NSString stringWithFormat:@"品牌型号 %@%@",_goodDetail.goodBrand,_goodDetail.goodModel];
             cell.channelLabel.text = [NSString stringWithFormat:@"支付通道 %@",_goodDetail.defaultChannel.channelName];
             if ([_goodDetail.goodImageList count] > 0) {
@@ -1418,17 +1501,17 @@
                                     placeholderImage:kImageName(@"test1.png")];
             }
             if(iOS7)
-              {
-                  _numberField.frame = CGRectMake(SCREEN_HEIGHT - 170, 30, 140, 40);
-
+            {
+                _numberField.frame = CGRectMake(SCREEN_HEIGHT - 170, 30, 140, 40);
+                
             }else
-                {
-
-                    _numberField.frame = CGRectMake(SCREEN_WIDTH - 170, 30, 140, 40);
-
-                }
-
-//            cell.linlable.hidden=YES;
+            {
+                
+                _numberField.frame = CGRectMake(SCREEN_WIDTH - 170, 30, 140, 40);
+                
+            }
+            
+            //            cell.linlable.hidden=YES;
             
             [cell.contentView addSubview:_numberField];
             _numberField.text = [NSString stringWithFormat:@"%d",_count];
@@ -1449,7 +1532,7 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
     if(section==0)
     {
-        return 80;
+        return 210.f;
         
     }else
     {
@@ -1479,13 +1562,12 @@
     }else
     {
         if (indexPath.row == 1) {
-            return 70.f;
+            return 130.f;
         }
         return kOrderDetailCellHeight;
     }
     
 }
-
 
 
 @end

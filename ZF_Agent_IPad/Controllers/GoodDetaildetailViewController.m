@@ -232,7 +232,7 @@
     //划线
     originY += labelHeight + vSpace;
     UIView *secondLine = [[UIView alloc] initWithFrame:CGRectMake(40, originY,wide-80, 1)];
-    secondLine.backgroundColor = kColor(255, 102, 36, 1);
+    secondLine.backgroundColor = kColor(3, 112, 214, 1);
     [_mainScrollView addSubview:secondLine];
     
     //品牌型号
@@ -262,7 +262,7 @@
     //划线
     originY += labelHeight + vSpace;
     UIView *thirdLine = [[UIView alloc] initWithFrame:CGRectMake(40, originY, wide-80, 1)];
-    thirdLine.backgroundColor = kColor(255, 102, 36, 1);
+    thirdLine.backgroundColor = kColor(3, 112, 214, 1);
     [_mainScrollView addSubview:thirdLine];
     
     //支持区域
@@ -318,7 +318,7 @@
     //划线
     originY += labelHeight + vSpace;
     UIView *forthLine = [[UIView alloc] initWithFrame:CGRectMake(40, originY, wide - 80, 1)];
-    forthLine.backgroundColor = kColor(255, 102, 36, 1);
+    forthLine.backgroundColor =kColor(3, 112, 214, 1);
     [_mainScrollView addSubview:forthLine];
     
     //申请开通条件内容
@@ -339,7 +339,7 @@
     //划线
     originY += labelHeight + vSpace;
     UIView *fifthLine = [[UIView alloc] initWithFrame:CGRectMake(40, originY, wide - 80, 1)];
-    fifthLine.backgroundColor = kColor(255, 102, 36, 1);
+    fifthLine.backgroundColor =kColor(3, 112, 214, 1);
     [_mainScrollView addSubview:fifthLine];
     
     //说明
@@ -806,7 +806,7 @@
     //划线
     UIView *firstLine = [[UIView alloc] init];
     firstLine.translatesAutoresizingMaskIntoConstraints = NO;
-    firstLine.backgroundColor = kColor(255, 102, 36, 1);
+    firstLine.backgroundColor =kColor(3, 112, 214, 1);
     [_scrollViewrent addSubview:firstLine];
     [self.view addConstraint:[NSLayoutConstraint constraintWithItem:firstLine
                                                           attribute:NSLayoutAttributeTop
@@ -1000,7 +1000,7 @@
     //划线
     UIView *firstLine = [[UIView alloc] init];
     firstLine.translatesAutoresizingMaskIntoConstraints = NO;
-    firstLine.backgroundColor = kColor(255, 102, 36, 1);
+    firstLine.backgroundColor =kColor(3, 112, 214, 1);
     [_scrollViewmaterial addSubview:firstLine];
     [self.view addConstraint:[NSLayoutConstraint constraintWithItem:firstLine
                                                           attribute:NSLayoutAttributeTop
@@ -1676,7 +1676,7 @@
     
     //设置为正常状态下的图片
     UIButton *currentButton = (UIButton *)[self.view viewWithTag:(aIndex )];
-    [currentButton setTitleColor:kColor(233, 91, 38, 1) forState:UIControlStateNormal];
+    [currentButton setTitleColor:kColor(3, 112, 214, 1) forState:UIControlStateNormal];
 }
 /*
 

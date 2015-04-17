@@ -23,6 +23,7 @@
 #import "AccountTool.h"
 #import "ChannelWebsiteController.h"
 #import "BuyOrderViewController.h"
+#import "AgentRentViewController.h"
 //static CGFloat topImageHeight = 160.f;
 
 @interface GoodDetailViewController ()<UIScrollViewDelegate,ImageScrollViewDelegate,LoginSuccessDelegate>
@@ -1097,20 +1098,33 @@
 //立即购买
 - (IBAction)buyNow:(id)sender {
    
-        if ([_buyGoodButton.titleLabel.text isEqualToString:@"立即批购"]) {
+        if ([_buyGoodButton.titleLabel.text isEqualToString:@"立即批购"])
+        {
             BuyOrderViewController *buyC = [[BuyOrderViewController alloc] init];
             buyC.goodDetail = _detailModel;
             buyC.hidesBottomBarWhenPushed =  YES ;
             
             [self.navigationController pushViewController:buyC animated:YES];
         }
-        else {
-            RentOrderViewController *rentC = [[RentOrderViewController alloc] init];
-            rentC.goodDetail = _detailModel;
-            rentC.hidesBottomBarWhenPushed =  YES ;
+  else  if ([_buyGoodButton.titleLabel.text isEqualToString:@"代购"])
+    {
+        RentOrderViewController *rentC = [[RentOrderViewController alloc] init];
+        rentC.goodDetail = _detailModel;
+        rentC.hidesBottomBarWhenPushed =  YES ;
+        
+        [self.navigationController pushViewController:rentC animated:YES];
+
+           }
+    
+
+        else
+        {
+            AgentRentViewController *buyC = [[AgentRentViewController alloc] init];
+            buyC.goodDetail = _detailModel;
+            buyC.hidesBottomBarWhenPushed =  YES ;
             
-            [self.navigationController pushViewController:rentC animated:YES];
-            
+            [self.navigationController pushViewController:buyC animated:YES];
+
         }
  
 }

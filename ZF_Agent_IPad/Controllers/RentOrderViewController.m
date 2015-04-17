@@ -59,7 +59,7 @@
 @synthesize reviewField;
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title = @"租赁订单确认";
+    self.title = @"代购订单确认";
     [self updatPrice];
 
     // Do any additional setup after loading the view.
@@ -299,13 +299,13 @@
 
 
 #pragma mark - Action
-- (IBAction)scanProtocol:(id)sender {
-    RentDescriptionController *descC = [[RentDescriptionController alloc] init];
-    descC.goodDetail = _goodDetail;
-    descC.hidesBottomBarWhenPushed =  YES ;
-
-    [self.navigationController pushViewController:descC animated:YES];
-}
+//- (IBAction)scanProtocol:(id)sender {
+//    RentDescriptionController *descC = [[RentDescriptionController alloc] init];
+//    descC.goodDetail = _goodDetail;
+//    descC.hidesBottomBarWhenPushed =  YES ;
+//
+//    [self.navigationController pushViewController:descC animated:YES];
+//}
 - (IBAction)ensureOrder:(id)sender {
     if (!isneedpp) {
         MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
@@ -1139,12 +1139,6 @@
         self.billBtn.frame = CGRectMake(20, 70, 28, 28);
         
         
-        if ( isneedpp) {
-            [ self.billBtn setBackgroundImage:kImageName(@"select_height") forState:UIControlStateNormal];
-        }
-        else {
-            [self.billBtn setBackgroundImage:kImageName(@"btn_unselected.png") forState:UIControlStateNormal];
-        }
         
         [self.billBtn addTarget:self action:@selector(needBill:) forControlEvents:UIControlEventTouchUpInside];
         [footerView addSubview:self.billBtn];
@@ -1152,22 +1146,31 @@
         UILabel *billLabel = [[UILabel alloc] initWithFrame:CGRectMake(50, 75, wide - 40, 20)];
         billLabel.backgroundColor = [UIColor clearColor];
         billLabel.font = [UIFont systemFontOfSize:16.f];
-        NSString *rentInfo = @"我同意《租赁协议》";
-        NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithString:rentInfo];
-        NSDictionary *rentAttr = [NSDictionary dictionaryWithObjectsAndKeys:
-                                  [UIFont boldSystemFontOfSize:16.f],NSFontAttributeName,
-                                  kColor(3, 112, 214, 1),NSForegroundColorAttributeName,
-                                  nil];
-        [attrString addAttributes:rentAttr range:NSMakeRange(3, [rentInfo length] - 3)];
-        billLabel.attributedText = attrString;
+        NSString *rentInfo = @"我要发票";
+        billLabel.text=rentInfo;
+        
 
         billLabel.userInteractionEnabled = YES;
-        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(scanProtocol:)];
-        [billLabel addGestureRecognizer:tap];
+       
         [footerView addSubview:billLabel];
         
-//        UIView *billView = [self addBillView];
-//        [footerView addSubview:billView];
+       UIView *billView = [self addBillView];
+        [footerView addSubview:billView];
+        
+        
+        if ( isneedpp) {
+            billView.hidden=NO;
+            
+            
+            [ self.billBtn setBackgroundImage:kImageName(@"btn_selected.png") forState:UIControlStateNormal];
+        }
+        else {
+            
+            billView.hidden=YES;
+            
+            [self.billBtn setBackgroundImage:kImageName(@"btn_unselected.png") forState:UIControlStateNormal];
+        }
+
         return footerView;
         
         
@@ -1264,7 +1267,7 @@
     }
     
     CGFloat billHeight = 44.f;
-    UIView *billView = [[UIView alloc] initWithFrame:CGRectMake(0, 40, wide, billHeight)];
+    UIView *billView = [[UIView alloc] initWithFrame:CGRectMake(0, 110, wide, billHeight)];
     billView.backgroundColor = [UIColor whiteColor];
     //    UIView *firstLine = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 0.5)];
     //    firstLine.backgroundColor = kColor(135, 135, 135, 1);
@@ -1442,29 +1445,29 @@
             //            totalLabel.font = [UIFont systemFontOfSize:11.f];
             [cell.contentView addSubview:totalLabels];
             
-            UILabel *maxLabel = [[UILabel alloc] initWithFrame:CGRectMake(20, 20, 130, 30)];
-            maxLabel.backgroundColor = [UIColor clearColor];
-            maxLabel.font = [UIFont systemFontOfSize:16.f];
-            maxLabel.adjustsFontSizeToFitWidth = YES;
-            maxLabel.text = [NSString stringWithFormat:@"最长租赁时间：%@月",_goodDetail.maxTime];
-            [cell.contentView addSubview:maxLabel];
-            
-            UILabel *minLabel = [[UILabel alloc] initWithFrame:CGRectMake(160, 20, 130, 30)];
-            minLabel.backgroundColor = [UIColor clearColor];
-            minLabel.font = [UIFont systemFontOfSize:16.f];
-            minLabel.adjustsFontSizeToFitWidth = YES;
-            minLabel.text = [NSString stringWithFormat:@"最短租赁时间：%@月",_goodDetail.minTime];
-            [cell.contentView addSubview:minLabel];
 
           
-            UILabel *totalLabel = [[UILabel alloc] initWithFrame:CGRectMake(20, 50, 130, 30)];
-            totalLabel.backgroundColor = [UIColor clearColor];
+            UILabel *totalLabel = [[UILabel alloc] initWithFrame:CGRectMake(20, 35, 130, 30)];
+            totalLabel.backgroundColor = [UIColor clearColor];//            UILabel *maxLabel = [[UILabel alloc] initWithFrame:CGRectMake(20, 20, 130, 30)];
+//            maxLabel.backgroundColor = [UIColor clearColor];
+//            maxLabel.font = [UIFont systemFontOfSize:16.f];
+//            maxLabel.adjustsFontSizeToFitWidth = YES;
+//            maxLabel.text = [NSString stringWithFormat:@"最长租赁时间：%@月",_goodDetail.maxTime];
+//            [cell.contentView addSubview:maxLabel];
+//            
+//            UILabel *minLabel = [[UILabel alloc] initWithFrame:CGRectMake(160, 20, 130, 30)];
+//            minLabel.backgroundColor = [UIColor clearColor];
+//            minLabel.font = [UIFont systemFontOfSize:16.f];
+//            minLabel.adjustsFontSizeToFitWidth = YES;
+//            minLabel.text = [NSString stringWithFormat:@"最短租赁时间：%@月",_goodDetail.minTime];
+//            [cell.contentView addSubview:minLabel];
+
                    totalLabel.font = [UIFont systemFontOfSize:16.f];
             totalLabel.adjustsFontSizeToFitWidth = YES;
             totalLabel.text = [NSString stringWithFormat:@"共计：%d件商品",_count];
             [cell.contentView addSubview:totalLabel];
             
-            UILabel *deliveryLabel = [[UILabel alloc] initWithFrame:CGRectMake(160, 50, 130, 30)];
+            UILabel *deliveryLabel = [[UILabel alloc] initWithFrame:CGRectMake(160, 35, 130, 30)];
             deliveryLabel.backgroundColor = [UIColor clearColor];
                      deliveryLabel.font = [UIFont systemFontOfSize:16.f];
             deliveryLabel.adjustsFontSizeToFitWidth = YES;
@@ -1473,7 +1476,7 @@
             
             
             
-            UILabel *priceLabel = [[UILabel alloc] initWithFrame:CGRectMake(wide-200, 50,180, 30)];
+            UILabel *priceLabel = [[UILabel alloc] initWithFrame:CGRectMake(wide-200, 35,180, 30)];
             priceLabel.backgroundColor = [UIColor clearColor];
                      priceLabel.font = [UIFont boldSystemFontOfSize:16.f];
             priceLabel.adjustsFontSizeToFitWidth = YES;
