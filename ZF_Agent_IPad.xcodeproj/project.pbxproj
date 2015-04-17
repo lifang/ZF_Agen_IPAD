@@ -57,6 +57,12 @@
 		0EC696EC1ADB913F009D544E /* CreateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EC696EB1ADB913F009D544E /* CreateViewController.m */; };
 		0EC7C14C1ADF77E90076AAC4 /* AdjustGoodsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EC7C14B1ADF77E90076AAC4 /* AdjustGoodsViewController.m */; };
 		0EC7C14F1ADF99ED0076AAC4 /* DealRoadDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EC7C14E1ADF99ED0076AAC4 /* DealRoadDetailController.m */; };
+		0EC7C1521ADFC3E50076AAC4 /* BuyOrderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EC7C1511ADFC3E50076AAC4 /* BuyOrderViewController.m */; };
+		0EC7C1551ADFC4180076AAC4 /* OrderConfirmController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EC7C1541ADFC4180076AAC4 /* OrderConfirmController.m */; };
+		0EC7C1581ADFC4830076AAC4 /* PayWayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EC7C1571ADFC4830076AAC4 /* PayWayViewController.m */; };
+		0EC7C15B1ADFC4E20076AAC4 /* POSAddressTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EC7C15A1ADFC4E20076AAC4 /* POSAddressTableViewCell.m */; };
+		0EC7C15E1ADFCCCB0076AAC4 /* RentOrderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EC7C15D1ADFCCCB0076AAC4 /* RentOrderViewController.m */; };
+		0EC7C1611ADFCD170076AAC4 /* RentDescriptionController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EC7C1601ADFCD170076AAC4 /* RentDescriptionController.m */; };
 		0ECA762B1AD5468F0083D373 /* OrderManagerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0ECA762A1AD5468F0083D373 /* OrderManagerController.m */; };
 		0ECA762E1AD546AA0083D373 /* RefreshViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0ECA762D1AD546AA0083D373 /* RefreshViewController.m */; };
 		0ECA76341AD546F80083D373 /* OrderCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0ECA76331AD546F80083D373 /* OrderCell.m */; };
@@ -331,6 +337,18 @@
 		0EC7C14B1ADF77E90076AAC4 /* AdjustGoodsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AdjustGoodsViewController.m; sourceTree = "<group>"; };
 		0EC7C14D1ADF99ED0076AAC4 /* DealRoadDetailController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DealRoadDetailController.h; sourceTree = "<group>"; };
 		0EC7C14E1ADF99ED0076AAC4 /* DealRoadDetailController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DealRoadDetailController.m; sourceTree = "<group>"; };
+		0EC7C1501ADFC3E50076AAC4 /* BuyOrderViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BuyOrderViewController.h; sourceTree = "<group>"; };
+		0EC7C1511ADFC3E50076AAC4 /* BuyOrderViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BuyOrderViewController.m; sourceTree = "<group>"; };
+		0EC7C1531ADFC4180076AAC4 /* OrderConfirmController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderConfirmController.h; sourceTree = "<group>"; };
+		0EC7C1541ADFC4180076AAC4 /* OrderConfirmController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrderConfirmController.m; sourceTree = "<group>"; };
+		0EC7C1561ADFC4830076AAC4 /* PayWayViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PayWayViewController.h; sourceTree = "<group>"; };
+		0EC7C1571ADFC4830076AAC4 /* PayWayViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PayWayViewController.m; sourceTree = "<group>"; };
+		0EC7C1591ADFC4E20076AAC4 /* POSAddressTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = POSAddressTableViewCell.h; sourceTree = "<group>"; };
+		0EC7C15A1ADFC4E20076AAC4 /* POSAddressTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = POSAddressTableViewCell.m; sourceTree = "<group>"; };
+		0EC7C15C1ADFCCCB0076AAC4 /* RentOrderViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RentOrderViewController.h; sourceTree = "<group>"; };
+		0EC7C15D1ADFCCCB0076AAC4 /* RentOrderViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RentOrderViewController.m; sourceTree = "<group>"; };
+		0EC7C15F1ADFCD170076AAC4 /* RentDescriptionController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RentDescriptionController.h; sourceTree = "<group>"; };
+		0EC7C1601ADFCD170076AAC4 /* RentDescriptionController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RentDescriptionController.m; sourceTree = "<group>"; };
 		0ECA76291AD5468F0083D373 /* OrderManagerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderManagerController.h; sourceTree = "<group>"; };
 		0ECA762A1AD5468F0083D373 /* OrderManagerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrderManagerController.m; sourceTree = "<group>"; };
 		0ECA762C1AD546AA0083D373 /* RefreshViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RefreshViewController.h; sourceTree = "<group>"; };
@@ -830,6 +848,8 @@
 		0ED58EB41AD4D7560081E8BC /* POS */ = {
 			isa = PBXGroup;
 			children = (
+				0EC7C1531ADFC4180076AAC4 /* OrderConfirmController.h */,
+				0EC7C1541ADFC4180076AAC4 /* OrderConfirmController.m */,
 				0ED58EB51AD4D78A0081E8BC /* GoodListViewController.h */,
 				0ED58EB61AD4D78A0081E8BC /* GoodListViewController.m */,
 				0ED58EB71AD4D78A0081E8BC /* SearchViewController.h */,
@@ -844,6 +864,14 @@
 				0ED58EC71AD4D7DA0081E8BC /* GoodDetaildetailViewController.m */,
 				0ED58EC81AD4D7DA0081E8BC /* FactoryDetailController.h */,
 				0ED58EC91AD4D7DA0081E8BC /* FactoryDetailController.m */,
+				0EC7C1501ADFC3E50076AAC4 /* BuyOrderViewController.h */,
+				0EC7C1511ADFC3E50076AAC4 /* BuyOrderViewController.m */,
+				0EC7C1561ADFC4830076AAC4 /* PayWayViewController.h */,
+				0EC7C1571ADFC4830076AAC4 /* PayWayViewController.m */,
+				0EC7C15C1ADFCCCB0076AAC4 /* RentOrderViewController.h */,
+				0EC7C15D1ADFCCCB0076AAC4 /* RentOrderViewController.m */,
+				0EC7C15F1ADFCD170076AAC4 /* RentDescriptionController.h */,
+				0EC7C1601ADFCD170076AAC4 /* RentDescriptionController.m */,
 			);
 			name = POS;
 			sourceTree = "<group>";
@@ -950,6 +978,8 @@
 		1A9654721AD6649000C39B5B /* HCell */ = {
 			isa = PBXGroup;
 			children = (
+				0EC7C1591ADFC4E20076AAC4 /* POSAddressTableViewCell.h */,
+				0EC7C15A1ADFC4E20076AAC4 /* POSAddressTableViewCell.m */,
 				0ECB17131ADE377E00234772 /* PrepareGoodCell.h */,
 				0ECB17141ADE377E00234772 /* PrepareGoodCell.m */,
 				1A8145FD1ADE04CF00A7680E /* StaffManagerCell.h */,
@@ -1593,6 +1623,7 @@
 				0DC032541AD68CCF000532EF /* OpeningDetailsModel.m in Sources */,
 				1AF15B3C1ACCE40400D5C171 /* RefreshView.m in Sources */,
 				0ED58F0D1AD4DF600081E8BC /* GoodsCollectionViewCell2.m in Sources */,
+				0EC7C1521ADFC3E50076AAC4 /* BuyOrderViewController.m in Sources */,
 				1AF15B101ACCE3BC00D5C171 /* StockTerminalModel.m in Sources */,
 				1A9654671AD623C400C39B5B /* StockTerminalCell.m in Sources */,
 				0EC65C091AD8B55400282C04 /* RecordModel.m in Sources */,
@@ -1661,6 +1692,7 @@
 				0D16941F1AD3C14100B50A17 /* MASConstraintMaker.m in Sources */,
 				0ED194791AD79F7E00029DE3 /* ConsumptionCell.m in Sources */,
 				1ABA17CD1ADB5A5E006B8D9B /* ChangeEmialSuccessViewController.m in Sources */,
+				0EC7C1581ADFC4830076AAC4 /* PayWayViewController.m in Sources */,
 				1AF15B641ACD048700D5C171 /* CommonViewController.m in Sources */,
 				0D1694241AD3C14100B50A17 /* NSLayoutConstraint+MASDebugAdditions.m in Sources */,
 				0D885FA51AD7D34A002CDA15 /* IdentificationViewController.m in Sources */,
@@ -1675,6 +1707,7 @@
 				1A9654841AD669ED00C39B5B /* UIImage+Extention.m in Sources */,
 				1AF15B351ACCE40400D5C171 /* CityHandle.m in Sources */,
 				1AF15B091ACCE3BC00D5C171 /* PersonModel.m in Sources */,
+				0EC7C15B1ADFC4E20076AAC4 /* POSAddressTableViewCell.m in Sources */,
 				1AF15AEF1ACCE3A400D5C171 /* SDWebImagePrefetcher.m in Sources */,
 				0EC67F181AD694D9005BAB26 /* OrderDetailCell.m in Sources */,
 				0ED58EE11AD4D9DD0081E8BC /* SortView.m in Sources */,
@@ -1716,6 +1749,7 @@
 				1AF15B401ACCE40400D5C171 /* TreeNodeInfo.m in Sources */,
 				1AF15B0F1ACCE3BC00D5C171 /* StockAgentModel.m in Sources */,
 				0ED58ED81AD4D9550081E8BC /* GoodButton.m in Sources */,
+				0EC7C15E1ADFCCCB0076AAC4 /* RentOrderViewController.m in Sources */,
 				0D1694231AD3C14100B50A17 /* NSArray+MASAdditions.m in Sources */,
 				1ABA17C11ADB548A006B8D9B /* StaffManagerController.m in Sources */,
 				1A96545B1AD60D7300C39B5B /* StockManagerDetailController.m in Sources */,
@@ -1724,6 +1758,7 @@
 				0D1694201AD3C14100B50A17 /* MASLayoutConstraint.m in Sources */,
 				1AF15B391ACCE40400D5C171 /* TimeFormat.m in Sources */,
 				1AF15B0E1ACCE3BC00D5C171 /* StockListModel.m in Sources */,
+				0EC7C1611ADFCD170076AAC4 /* RentDescriptionController.m in Sources */,
 				1AF15AEB1ACCE3A400D5C171 /* SDWebImageDecoder.m in Sources */,
 				1A9654611AD60D8600C39B5B /* StockManagerDetailCell.m in Sources */,
 				0ED58ECC1AD4D7DA0081E8BC /* FactoryDetailController.m in Sources */,
@@ -1768,6 +1803,7 @@
 				1AA6A05A1AD79FA90025FF1A /* AddressCell.m in Sources */,
 				1A9654791AD6667900C39B5B /* MessageChildViewController.m in Sources */,
 				0D16942F1AD3C15600B50A17 /* README.md in Sources */,
+				0EC7C1551ADFC4180076AAC4 /* OrderConfirmController.m in Sources */,
 				1AF15AF21ACCE3A400D5C171 /* UIImage+MultiFormat.m in Sources */,
 				0ECB170F1ADE2F2400234772 /* GoodAgentModel.m in Sources */,
 				0ECB170C1ADE02D100234772 /* PrepareGoodManagerController.m in Sources */,

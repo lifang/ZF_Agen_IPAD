@@ -13,16 +13,16 @@
 #import "GoodButton.h"
 #import "UIImageView+WebCache.h"
 #import "FormView.h"
-//#import "BuyOrderViewController.h"
 #import "PollingViews.h"
 #import "ImageScrollView.h"
 #import "InterestView.h"
 #import "GoodDetaildetailViewController.h"
-//#import "RentOrderViewController.h"
+#import "RentOrderViewController.h"
 #import "FactoryDetailController.h"
 #import "LoginViewController.h"
 #import "AccountTool.h"
 #import "ChannelWebsiteController.h"
+#import "BuyOrderViewController.h"
 //static CGFloat topImageHeight = 160.f;
 
 @interface GoodDetailViewController ()<UIScrollViewDelegate,ImageScrollViewDelegate,LoginSuccessDelegate>
@@ -1096,23 +1096,23 @@
 
 //立即购买
 - (IBAction)buyNow:(id)sender {
-    if (_isLogin) {
+   
         if ([_buyGoodButton.titleLabel.text isEqualToString:@"立即批购"]) {
-//            BuyOrderViewController *buyC = [[BuyOrderViewController alloc] init];
-//            buyC.goodDetail = _detailModel;
-//            buyC.hidesBottomBarWhenPushed =  YES ;
-//            
-//            [self.navigationController pushViewController:buyC animated:YES];
+            BuyOrderViewController *buyC = [[BuyOrderViewController alloc] init];
+            buyC.goodDetail = _detailModel;
+            buyC.hidesBottomBarWhenPushed =  YES ;
+            
+            [self.navigationController pushViewController:buyC animated:YES];
         }
         else {
-//            RentOrderViewController *rentC = [[RentOrderViewController alloc] init];
-//            rentC.goodDetail = _detailModel;
-//            rentC.hidesBottomBarWhenPushed =  YES ;
-//            
-//            [self.navigationController pushViewController:rentC animated:YES];
+            RentOrderViewController *rentC = [[RentOrderViewController alloc] init];
+            rentC.goodDetail = _detailModel;
+            rentC.hidesBottomBarWhenPushed =  YES ;
+            
+            [self.navigationController pushViewController:rentC animated:YES];
             
         }
-    }
+ 
 }
 
 @end

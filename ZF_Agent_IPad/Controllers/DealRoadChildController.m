@@ -487,7 +487,6 @@
     CGFloat leftSpace = 50.f;
     CGFloat rightSpce = 20.f;
     CGFloat labelHeight = 30.f;
-    CGFloat leftSpace2 = 820.f;
     label.translatesAutoresizingMaskIntoConstraints = NO;
     label.backgroundColor = [UIColor clearColor];
     label.font = [UIFont systemFontOfSize:16.f];

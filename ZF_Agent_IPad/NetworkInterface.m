@@ -1060,6 +1060,22 @@ static NSString *HTTP_GET  = @"GET";
                       httpMethod:HTTP_POST
                         finished:finish];
 }
+//45.
++ (void)getAddressListWithToken:(NSString *)token
+                         usedID:(NSString *)userID
+                       finished:(requestDidFinished)finish {
+    NSMutableDictionary *paramDict = [[NSMutableDictionary alloc] init];
+    if (token && ![token isEqualToString:@""]) {
+        [paramDict setObject:token forKey:@"token"];
+    }
+    //url
+    NSString *urlString =@"http://114.215.149.242:18080/ZFMerchant/api/customers/getAddressList/80";
+    [[self class] requestWithURL:urlString
+                          params:paramDict
+                      httpMethod:HTTP_POST
+                        finished:finish];
+}
+
 //47.
 + (void)getGoodSubAgentWithAgentID:(NSString *)agentID
                              token:(NSString *)token
