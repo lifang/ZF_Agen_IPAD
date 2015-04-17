@@ -10,7 +10,9 @@
 
 @interface PrepareGoodManagerController : MineCommonController
 
-{    UIButton* blankbutton ;
+{
+    
+    UIButton*blankbutton;
     UIView*datepickview;
     UIButton *cancelBtn;
     UIView*datepickviewend;

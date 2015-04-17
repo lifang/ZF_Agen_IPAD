@@ -232,7 +232,7 @@
     //划线
     originY += labelHeight + vSpace;
     UIView *secondLine = [[UIView alloc] initWithFrame:CGRectMake(40, originY,wide-80, 1)];
-    secondLine.backgroundColor = kColor(255, 102, 36, 1);
+    secondLine.backgroundColor = kColor(3, 112, 214, 1);
     [_mainScrollView addSubview:secondLine];
     
     //品牌型号
@@ -262,7 +262,7 @@
     //划线
     originY += labelHeight + vSpace;
     UIView *thirdLine = [[UIView alloc] initWithFrame:CGRectMake(40, originY, wide-80, 1)];
-    thirdLine.backgroundColor = kColor(255, 102, 36, 1);
+    thirdLine.backgroundColor = kColor(3, 112, 214, 1);
     [_mainScrollView addSubview:thirdLine];
     
     //支持区域
@@ -318,7 +318,7 @@
     //划线
     originY += labelHeight + vSpace;
     UIView *forthLine = [[UIView alloc] initWithFrame:CGRectMake(40, originY, wide - 80, 1)];
-    forthLine.backgroundColor = kColor(255, 102, 36, 1);
+    forthLine.backgroundColor =kColor(3, 112, 214, 1);
     [_mainScrollView addSubview:forthLine];
     
     //申请开通条件内容
@@ -339,7 +339,7 @@
     //划线
     originY += labelHeight + vSpace;
     UIView *fifthLine = [[UIView alloc] initWithFrame:CGRectMake(40, originY, wide - 80, 1)];
-    fifthLine.backgroundColor = kColor(255, 102, 36, 1);
+    fifthLine.backgroundColor =kColor(3, 112, 214, 1);
     [_mainScrollView addSubview:fifthLine];
     
     //说明
@@ -478,53 +478,54 @@
 }
 
 - (void)downloadDataWithPage:(int)page isMore:(BOOL)isMore {
-//    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
-//    hud.labelText = @"加载中...";
-//    [NetworkInterface getCommentListWithGoodID:_goodID page:page rows:kPageSize finished:^(BOOL success, NSData *response) {
-//        hud.customView = [[UIImageView alloc] init];
-//        hud.mode = MBProgressHUDModeCustomView;
-//        [hud hide:YES afterDelay:0.3f];
-//        if (success) {
-//            NSLog(@"!!%@",[[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding]);
-//            id object = [NSJSONSerialization JSONObjectWithData:response options:NSJSONReadingMutableLeaves error:nil];
-//            if ([object isKindOfClass:[NSDictionary class]]) {
-//                NSString *errorCode = [object objectForKey:@"code"];
-//                if ([errorCode intValue] == RequestFail) {
-//                    //返回错误代码
-//                    hud.labelText = [NSString stringWithFormat:@"%@",[object objectForKey:@"message"]];
-//                }
-//                else if ([errorCode intValue] == RequestSuccess) {
-//                    if (!isMore) {
-//                        [_reviewItem removeAllObjects];
-//                    }
-//                    id list = [[object objectForKey:@"result"] objectForKey:@"list"];
-//                    if ([list isKindOfClass:[NSArray class]] && [list count] > 0) {
-//                        //有数据
-//                        self.page++;
-//                        [hud hide:YES];
-//                    }
-//                    else {
-//                        //无数据
-//                        hud.labelText = @"没有更多数据了...";
-//                    }
-//                    [self parseCommentDataWithDictionary:object];
-//                }
-//            }
-//            else {
-//                //返回错误数据
-//                hud.labelText = kServiceReturnWrong;
-//            }
-//        }
-//        else {
-//            hud.labelText = kNetworkFailed;
-//        }
-//        if (!isMore) {
-//            [self refreshViewFinishedLoadingWithDirection:PullFromTop];
-//        }
-//        else {
-//            [self refreshViewFinishedLoadingWithDirection:PullFromBottom];
-//        }
-//    }];
+    AppDelegate *delegate = [AppDelegate shareAppDelegate];
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+    hud.labelText = @"加载中...";
+    [NetworkInterface getCommentListWithToken:delegate.token goodID:_goodID page:page rows:kPageSize finished:^(BOOL success, NSData *response) {
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:0.3f];
+        if (success) {
+            NSLog(@"!!%@",[[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding]);
+            id object = [NSJSONSerialization JSONObjectWithData:response options:NSJSONReadingMutableLeaves error:nil];
+            if ([object isKindOfClass:[NSDictionary class]]) {
+                NSString *errorCode = [object objectForKey:@"code"];
+                if ([errorCode intValue] == RequestFail) {
+                    //返回错误代码
+                    hud.labelText = [NSString stringWithFormat:@"%@",[object objectForKey:@"message"]];
+                }
+                else if ([errorCode intValue] == RequestSuccess) {
+                    if (!isMore) {
+                        [_reviewItem removeAllObjects];
+                    }
+                    id list = [[object objectForKey:@"result"] objectForKey:@"list"];
+                    if ([list isKindOfClass:[NSArray class]] && [list count] > 0) {
+                        //有数据
+                        self.page++;
+                        [hud hide:YES];
+                    }
+                    else {
+                        //无数据
+                        hud.labelText = @"没有更多数据了...";
+                    }
+                    [self parseCommentDataWithDictionary:object];
+                }
+            }
+            else {
+                //返回错误数据
+                hud.labelText = kServiceReturnWrong;
+            }
+        }
+        else {
+            hud.labelText = kNetworkFailed;
+        }
+        if (!isMore) {
+            [self refreshViewFinishedLoadingWithDirection:PullFromTop];
+        }
+        else {
+            [self refreshViewFinishedLoadingWithDirection:PullFromBottom];
+        }
+    }];
 }
 
 #pragma mark - Data
@@ -806,7 +807,7 @@
     //划线
     UIView *firstLine = [[UIView alloc] init];
     firstLine.translatesAutoresizingMaskIntoConstraints = NO;
-    firstLine.backgroundColor = kColor(255, 102, 36, 1);
+    firstLine.backgroundColor =kColor(3, 112, 214, 1);
     [_scrollViewrent addSubview:firstLine];
     [self.view addConstraint:[NSLayoutConstraint constraintWithItem:firstLine
                                                           attribute:NSLayoutAttributeTop
@@ -1000,7 +1001,7 @@
     //划线
     UIView *firstLine = [[UIView alloc] init];
     firstLine.translatesAutoresizingMaskIntoConstraints = NO;
-    firstLine.backgroundColor = kColor(255, 102, 36, 1);
+    firstLine.backgroundColor =kColor(3, 112, 214, 1);
     [_scrollViewmaterial addSubview:firstLine];
     [self.view addConstraint:[NSLayoutConstraint constraintWithItem:firstLine
                                                           attribute:NSLayoutAttributeTop
@@ -1676,7 +1677,7 @@
     
     //设置为正常状态下的图片
     UIButton *currentButton = (UIButton *)[self.view viewWithTag:(aIndex )];
-    [currentButton setTitleColor:kColor(233, 91, 38, 1) forState:UIControlStateNormal];
+    [currentButton setTitleColor:kColor(3, 112, 214, 1) forState:UIControlStateNormal];
 }
 /*
 

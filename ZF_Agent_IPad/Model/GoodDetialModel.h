@@ -36,6 +36,7 @@
 
 @property (nonatomic, strong) NSString *goodCategory;
 @property (nonatomic, assign) CGFloat originalprice;       //商品价格
+@property (nonatomic, assign) CGFloat wholesalePrice;     //批购价
 
 @property (nonatomic, assign) CGFloat goodPrice;       //商品价格
 
@@ -52,6 +53,7 @@
 @property (nonatomic, strong) NSString *goodSaleNumber;  //销售数量
 
 @property (nonatomic, strong) NSString *goodDescription;   //详细说明
+@property (nonatomic, assign) CGFloat procurementPrice;   //代购价
 
 @property (nonatomic, strong) NSString *maxTime;   //租赁最长时间
 @property (nonatomic, strong) NSString *minTime;   //租赁最短时间
