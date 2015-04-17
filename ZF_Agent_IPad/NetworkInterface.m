@@ -587,10 +587,44 @@ static NSString *HTTP_GET  = @"GET";
 
 }
 
+
+
+//26.
++ (void)addUserWithtoken:(NSString *)token
+                     AgentId:(NSString *)agentId
+                  username:(NSString *)name
+                  password:(NSString *)password
+                codeNumber:(NSString *)codeNumber
+                    cityId:(NSString *)cityId
+                  finished:(requestDidFinished)finish {
+    //参数
+    NSMutableDictionary *paramDict = [[NSMutableDictionary alloc] init];
+    [paramDict setObject:[NSNumber numberWithInt:[agentId intValue]] forKey:@"agentId"];
+    if (name) {
+        [paramDict setObject:name forKey:@"name"];
+    }
+    if (password) {
+        [paramDict setObject:[EncryptHelper MD5_encryptWithString:password] forKey:@"password"];
+    }
+    if (codeNumber) {
+        [paramDict setObject:codeNumber forKey:@"codeNumber"];
+    }
+    [paramDict setObject:[NSNumber numberWithInt:[cityId intValue]] forKey:@"cityId"];
+    
+    //url
+    NSString *urlString = [NSString stringWithFormat:@"%@/%@",kServiceURL,s_addUser_method];
+    [[self class] requestWithURL:urlString
+                          params:paramDict
+                      httpMethod:HTTP_POST
+                        finished:finish];
+}
+
+
+
 //26
 + (void)bindingTerminalWithtoken:(NSString *)token
                     terminalsNum:(NSString *)terminalsNum
-                          userId:(int)userId
+                          userId:(NSString *)userId
                         finished:(requestDidFinished)finish{
 
     //参数
@@ -599,7 +633,7 @@ static NSString *HTTP_GET  = @"GET";
         [paramDict setObject:token forKey:@"token"];
     }
     [paramDict setObject:terminalsNum forKey:@"terminalsId"];
-    [paramDict setObject:[NSNumber numberWithInt:userId] forKey:@"userId"];
+    [paramDict setObject:[NSNumber numberWithInt:[userId intValue]] forKey:@"userId"];
     //url
     NSString *urlString = [NSString stringWithFormat:@"%@/%@",kServiceURL,s_bindingterminal_method];
     [[self class] requestWithURL:urlString
@@ -732,8 +766,8 @@ static NSString *HTTP_GET  = @"GET";
         [paramDict setObject:token forKey:@"token"];
     }
     
-    [paramDict setObject:[NSNumber numberWithInt:customerId] forKey:@"customerId"];
-    [paramDict setObject:[NSNumber numberWithInt:terminalQuantity] forKey:@"terminalQuantity"];
+    [paramDict setObject:[NSNumber numberWithInt:[customerId intValue]] forKey:@"customerId"];
+    [paramDict setObject:[NSNumber numberWithInt:terminalQuantity ] forKey:@"terminalQuantity"];
     [paramDict setObject:address forKey:@"address"];
     [paramDict setObject:reason forKey:@"reason"];
     [paramDict setObject:terminalsList forKey:@"terminalsList"];

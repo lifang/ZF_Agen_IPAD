@@ -157,8 +157,11 @@ static NSString *s_terminalsynchronous_method = @"terminal/synchronous";
 //25.终端管理--获取代理商下面的用户
 static NSString *s_terminalgetMerchants_method = @"terminal/getMerchants";
 
+//26.终端管理——添加用户
+static NSString *s_addUser_method = @"terminal/addCustomer";
+
 //26.终端管理——为用户绑定终端号
-static NSString *s_bindingterminal_method = @"terminal/bindingTerminal";
+static NSString *s_bindingterminal_method = @"terminal/bindingTerminals";
 
 //27.终端管理——申请售后批量终端号筛选
 static NSString *s_batchterminalnum_method = @"terminal/batchTerminalNum";
@@ -667,6 +670,29 @@ static NSString *s_changestaffdetail_method = @"/customerManage/edit";
                                 page:(int)page
                                 rows:(int)rows
                             finished:(requestDidFinished)finish;
+
+
+
+/*!
+ @abstract 26.终端管理——添加用户
+ @param agentId     代理商ID
+ @param token    登录返回
+ @param name     用户名
+ @param password 密码
+ @param codeNumber   验证码
+ @param cityID   城市id
+ @result finish  请求回调结果
+ */
++ (void)addUserWithtoken:(NSString *)token
+                     AgentId:(NSString *)agentId
+                  username:(NSString *)name
+                  password:(NSString *)password
+                codeNumber:(NSString *)codeNumber
+                    cityId:(NSString *)cityId
+                  finished:(requestDidFinished)finish;
+
+
+
 /*!
  @abstract 26.终端管理--为用户绑定终端号
  
@@ -677,7 +703,7 @@ static NSString *s_changestaffdetail_method = @"/customerManage/edit";
  */
 + (void)bindingTerminalWithtoken:(NSString *)token
                     terminalsNum:(NSString *)terminalsNum
-                          userId:(int)userId
+                          userId:(NSString *)userId
                         finished:(requestDidFinished)finish;
 
 /*!
