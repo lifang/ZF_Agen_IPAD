@@ -72,7 +72,7 @@
 @property (nonatomic, strong) UITextView *UserTV;
 
 @property (nonatomic, strong) UITextView *TerminalTV;
-//售后终端信息
+//售后终端号
 @property (nonatomic, strong) NSMutableArray *TerminalsArray;
 
 @property (nonatomic, strong) UITextView *nameTV;
@@ -86,6 +86,10 @@
 //@property (nonatomic, strong) UIToolbar *toolbar;
 @property (nonatomic, strong) NSArray *cityArray;  //pickerView 第二列
 @property (nonatomic, strong) NSString *cityId;
+
+@property (nonatomic, strong) NSString *reciver;
+
+@property (nonatomic, strong) NSString *phone;
 
 
 
@@ -532,6 +536,17 @@
         hud.labelText = @"请输入售后原因";
         return;
     }
+    NSLog(@"count:%d",[_TerminalsArray count]);
+    NSLog(@"array:%@",_TerminalsArray);
+    NSLog(@"reciver:%@",_reciver);
+    NSLog(@"phone:%@",_phone);
+    NSLog(@"address:%@",_AddressTV.text);
+    NSLog(@"reseason:%@",_reseasonTV.text);
+
+
+
+
+    
    
       [self submitAfterSale];
      //[self removePOSView];
@@ -944,7 +959,11 @@
     
      [_findPosView setHidden:NO];
     _AddressTV.text=addressModel.address;
-    NSLog(@"chuanzhi");
+    _phone=addressModel.addressPhone;
+    _reciver=addressModel.addressReceiver;
+    NSLog(@"PHONE:%@",addressModel.addressPhone);
+    NSLog(@"RECIVER:%@",addressModel.addressReceiver);
+   
 }
 
 -(void)selectedUser:(UserModel *)model {
@@ -957,15 +976,15 @@
 
 -(void)getSelectedTerminal:(NSMutableArray *)array
 {
-    NSLog(@"youyouyou");
+   
     [_findPosView setHidden:NO];
     [_TerminalsArray removeAllObjects];
     TerminalSelectModel *model=[[TerminalSelectModel alloc] init];
     for (int i=0; i<array.count; i++) {
         model=[ array objectAtIndex:i];
-        [_TerminalsArray addObject:model];
+        //[_TerminalsArray addObject:model];
+        [_TerminalsArray addObject:model.serial_num];
         if (i==0) {
-            NSLog(@"zhongduan%@",model.serial_num);
             _posTV.text=[NSString stringWithFormat:@"%@等",model.serial_num];
         }
     }
@@ -1093,12 +1112,12 @@
 }
 
 
-//加载详情
+//提交售后
 - (void)submitAfterSale {
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
     hud.labelText = @"提交中...";
     AppDelegate *delegate = [AppDelegate shareAppDelegate];
-    [NetworkInterface  submintAgentWithtoken:delegate.token customerId:delegate.agentID terminalsQuantity:_TerminalsArray.count address:_AddressTV.text reason:_reseasonTV.text terminalsList:_TerminalsArray reciver:@"12" phone:@"1234567890"  finished:^(BOOL success, NSData *response) {
+    [NetworkInterface  submintAgentWithtoken:delegate.token customerId:delegate.agentID terminalsQuantity:[_TerminalsArray count] address:_AddressTV.text reason:_reseasonTV.text terminalsList:_TerminalsArray reciver:_reciver phone:_phone  finished:^(BOOL success, NSData *response) {
         hud.customView = [[UIImageView alloc] init];
         hud.mode = MBProgressHUDModeCustomView;
         [hud hide:YES afterDelay:0.5f];
@@ -1741,35 +1760,7 @@
     
 }
 
-/*
-#pragma mark - UIPickerView
 
-- (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView {
-    return 1;
-}
-
-- (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component {
-    
-    return _statusArray.count;
-    
-}
-
-
--(NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component
-{
-    
-    return [_statusArray objectAtIndex:row];
-}
-
-- (void)pickerView:(UIPickerView *)pickerView didSelectRow:
-(NSInteger)row inComponent:(NSInteger)component
-{
-    _string=[NSString stringWithFormat:@"%@"
-             , [_statusArray objectAtIndex:row]];
-    
-}
-
- */
 
 #pragma mark - UIPickerView
 

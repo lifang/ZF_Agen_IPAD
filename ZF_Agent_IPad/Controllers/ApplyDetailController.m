@@ -93,6 +93,9 @@
 
 @property (nonatomic, strong) NSMutableArray *channelItems;
 
+@property (nonatomic, strong) NSString *masterChannel;
+@property (nonatomic, strong) NSString *branchChannel;
+
 @end
 
 @implementation ApplyDetailController
@@ -1359,9 +1362,6 @@
             cell.backgroundColor = kColor(214, 214, 214, 1.0);
         }
         
-        
-        
-        
     }
     
     return cell;
@@ -1423,7 +1423,7 @@
     [self startPick];
     
     [_infoDict setObject: self.startTime forKey:key_birth];
-    NSString*accountname=[NSString stringWithFormat:@"%@",[_infoDict objectForKey:key_birth]];
+    NSString *accountname=[NSString stringWithFormat:@"%@",[_infoDict objectForKey:key_birth]];
     
     [birthdaybutton setTitle:accountname forState:UIControlStateNormal];
     
@@ -1575,26 +1575,7 @@
         hud.labelText = @"请选择支付通道";
         return;
     }
-    //    for (MaterialModel *model in _applyData.materialList) {
-    //        if (![_infoDict objectForKey:model.materialID]) {
-    //            NSString *infoString = nil;
-    //            if (model.materialType == MaterialText) {
-    //                infoString = [NSString stringWithFormat:@"请填写%@",model.materialName];
-    //            }
-    //            else if (model.materialType == MaterialList) {
-    //                infoString = [NSString stringWithFormat:@"请选择%@",model.materialName];
-    //            }
-    //            else if (model.materialType == MaterialImage) {
-    //                infoString = [NSString stringWithFormat:@"请上传%@",model.materialName];
-    //            }
-    //            MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
-    //            hud.customView = [[UIImageView alloc] init];
-    //            hud.mode = MBProgressHUDModeCustomView;
-    //            [hud hide:YES afterDelay:1.f];
-    //            hud.labelText = infoString;
-    //            return;
-    //        }
-    //    }
+  
     NSMutableArray *paramList = [[NSMutableArray alloc] init];
     AppDelegate *delegate = [AppDelegate shareAppDelegate];
     NSMutableDictionary *params = [[NSMutableDictionary alloc] init];
@@ -1713,18 +1694,7 @@
   
 }
 
-/*
- 
-- (void)getChannelList:(ChannelListModel *)model billModel:(BillingModel *)billModel {
-    NSString *channelInfo = [NSString stringWithFormat:@"%@ %@",model.channelName,billModel.billName];
-    [_infoDict setObject:channelInfo forKey:key_channel];
-    _channelID = model.channelID;
-    _billID = billModel.billID;
-    [zhifubutton setTitle:channelInfo forState:UIControlStateNormal];
-    
-    [_tableView reloadData];
-}
-*/
+
 
 
 #pragma mark - UIPickerView
@@ -1806,9 +1776,28 @@
 
 
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
-    if (component == 0) {
-        //
+    if (sexint==101) {
         [_pickerView reloadComponent:1];
+        
+    }
+    else{
+        if (component == 0) {
+            //
+            
+            [_pickerView selectRow:0 inComponent:1 animated:NO];
+            [_pickerView reloadComponent:1];
+            ChannelListModel *model=[_channelItems objectAtIndex:row];
+            _masterChannel =model.channelName;
+            _channelID=model.channelID;
+            
+        }else
+        {
+            if ([_cityArray count] > 0){
+                BillingModel *billModel=[_cityArray objectAtIndex:row];
+                _branchChannel=billModel.billName;
+                _billID=billModel.billID;
+            }
+        }
     }
 }
 
@@ -1869,7 +1858,7 @@
     }
     else if (sexint==105)
     {
-       
+       /*
         NSString  *channelInfo;
         NSLog(@"citynArray:%@",_cityArray);
         NSLog(@"channelItems:%@",_channelItems);
@@ -1882,7 +1871,12 @@
         [_infoDict setObject:channelInfo forKey:key_channel];
         _channelID=model.channelID;
         _billID = billModel.billID;
-    
+    */
+         NSString  *channelInfo = [NSString stringWithFormat:@"%@ %@",_masterChannel,_branchChannel];
+        [zhifubutton setTitle:channelInfo forState:UIControlStateNormal];
+        [_infoDict setObject:channelInfo forKey:key_channel];
+
+        
     }
     
 }
