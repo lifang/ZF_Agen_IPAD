@@ -732,10 +732,12 @@
         ChannelListModel *model = [[ChannelListModel alloc] initWithParseDictionary:channelDict];
         [_channelItems addObject:model];
         NSLog(@"_channelItem:%@",_channelItems);
+        /*
         if (i==0) {
             _channelsId=[model.channelID intValue];
             _masterChannel=model.channelName;
         }
+         */
     }
     
     [_pickerView reloadAllComponents];
@@ -776,36 +778,34 @@
 -(void)modifyStatus:(id)sender
 {
     if (pickerstatus==100) {
-        _POSTV.text=_POStitle;
-        
+        NSInteger index = [_pickerView selectedRowInComponent:0];
+       _POSTV.text=[NSString stringWithFormat:@"%@"
+                   , [[_POSArray objectAtIndex:index] objectForKey:@"title"]];
+       
     }
     else
     {
-       /*
-       // NSString  *channelInfo;
-       // NSLog(@"citynArray:%@",_cityArray);
-        NSLog(@"channelItems:%@",_channelItems);
-        NSLog(@"channelInfoWUWUWU");
-        NSInteger index = [_pickerView selectedRowInComponent:1];
-        ChannelListModel *model=[_channelItems objectAtIndex:index];
-         NSInteger index0 = [_pickerView selectedRowInComponent:0];
-        BillingModel *billModel=[_pickerArray objectAtIndex:index0];
-       // channelInfo = [NSString stringWithFormat:@"%@ %@",model.channelName,billModel.billName];
-        //[zhifubutton setTitle:channelInfo forState:UIControlStateNormal];
-       // [_infoDict setObject:channelInfo forKey:key_channel];
-        _channelsId=[model.channelID intValue];
-       // _billID = billModel.billID;
-        _channelTV.text=[NSString stringWithFormat:@"%@ %@",model.channelName,billModel.billName];
-*/
-        /*
-        NSInteger index = [_pickerView selectedRowInComponent:0];
-        ChannelListModel *model=[_channelItems objectAtIndex:index];
-        _channelsId=[model.channelID intValue];
-        _channelTV.text=[NSString stringWithFormat:@"%@",model.channelName];
-         */
-    _channelTV.text=[NSString stringWithFormat:@"%@",_masterChannel];
-        NSLog(@"dierpai:%@",_branchChannel);
- 
+       
+        NSInteger firstIndex = [_pickerView selectedRowInComponent:0];
+        NSInteger secondIndex = [_pickerView selectedRowInComponent:1];
+        ChannelListModel *channel = nil;
+        BillingModel *model = nil;
+        if (firstIndex < [_channelItems count]) {
+            channel = [_channelItems objectAtIndex:firstIndex];
+            _channelsId=[channel.channelID intValue];
+        }
+        if (secondIndex < [_pickerArray count]) {
+            model = [_pickerArray objectAtIndex:secondIndex];
+        }
+        if (model==nil) {
+            _channelTV.text=[NSString stringWithFormat:@"%@",channel.channelName];
+            
+        }
+        else
+        {
+           _channelTV.text= [NSString stringWithFormat:@"%@ %@",channel.channelName,model.billName];
+        }
+       
     }
     [self pickerHide];
 
@@ -930,30 +930,13 @@
 
 
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
-     if (pickerstatus==100) {
-         
-         _POStitle=[NSString stringWithFormat:@"%@"
-                      , [[_POSArray objectAtIndex:row] objectForKey:@"title"]];
-         
-     }
-     else{
-           if (component == 0) {
+     if (pickerstatus==200) {
+          if (component == 0) {
               //
-               [_pickerView selectRow:0 inComponent:1 animated:NO];
                [_pickerView reloadComponent:1];
-               ChannelListModel *model=[_channelItems objectAtIndex:row];
-               _masterChannel =model.channelName;
-               _channelsId=[model.channelID intValue];
-             
-           }else
-           {
-               if ([_pickerArray count] > 0){
-               BillingModel *billModel=[_pickerArray objectAtIndex:row];
-               _branchChannel=billModel.billName;
                }
-           }
-    }
-}
+        }
+   }
 
 
 

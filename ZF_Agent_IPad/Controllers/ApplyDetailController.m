@@ -1776,6 +1776,8 @@
 
 
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
+    [_pickerView reloadComponent:1];
+    /*
     if (sexint==101) {
         [_pickerView reloadComponent:1];
         
@@ -1799,6 +1801,7 @@
             }
         }
     }
+     */
 }
 
  
@@ -1858,25 +1861,29 @@
     }
     else if (sexint==105)
     {
-       /*
+      
         NSString  *channelInfo;
-        NSLog(@"citynArray:%@",_cityArray);
-        NSLog(@"channelItems:%@",_channelItems);
-        NSLog(@"channelInfoWUWUWU");
-        NSInteger index = [_pickerView selectedRowInComponent:1];
-        ChannelListModel *model=[_channelItems objectAtIndex:index];
-        BillingModel *billModel=[_cityArray objectAtIndex:index];
-        channelInfo = [NSString stringWithFormat:@"%@ %@",model.channelName,billModel.billName];
+        NSInteger firstIndex = [_pickerView selectedRowInComponent:0];
+        NSInteger secondIndex = [_pickerView selectedRowInComponent:1];
+        ChannelListModel *channel = nil;
+        BillingModel *model = nil;
+        if (firstIndex < [_channelItems count]) {
+            channel = [_channelItems objectAtIndex:firstIndex];
+        }
+        if (secondIndex < [_cityArray count]) {
+            model = [_cityArray objectAtIndex:secondIndex];
+        }
+        if (model==nil) {
+            
+            channelInfo = [NSString stringWithFormat:@"%@",channel.channelName];
+        }
+        else
+        {
+        channelInfo = [NSString stringWithFormat:@"%@ %@",channel.channelName,model.billName];
+        }
         [zhifubutton setTitle:channelInfo forState:UIControlStateNormal];
         [_infoDict setObject:channelInfo forKey:key_channel];
-        _channelID=model.channelID;
-        _billID = billModel.billID;
-    */
-         NSString  *channelInfo = [NSString stringWithFormat:@"%@ %@",_masterChannel,_branchChannel];
-        [zhifubutton setTitle:channelInfo forState:UIControlStateNormal];
-        [_infoDict setObject:channelInfo forKey:key_channel];
-
-        
+               
     }
     
 }
