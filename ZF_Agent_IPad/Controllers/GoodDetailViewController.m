@@ -1120,8 +1120,8 @@
             
             [self.navigationController pushViewController:buyC animated:YES];
         }
-  else  if ([_buyGoodButton.titleLabel.text isEqualToString:@"代购"])
-    {
+     else  if ([_buyGoodButton.titleLabel.text isEqualToString:@"代购"])
+          {
         RentOrderViewController *rentC = [[RentOrderViewController alloc] init];
         rentC.goodDetail = _detailModel;
         rentC.hidesBottomBarWhenPushed =  YES ;

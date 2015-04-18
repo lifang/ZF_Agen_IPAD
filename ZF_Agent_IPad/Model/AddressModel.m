@@ -36,8 +36,8 @@
         if ([dict objectForKey:@"isDefault"]) {
             _isDefault = [NSString stringWithFormat:@"%@",[dict objectForKey:@"isDefault"]];
         }
-        if ([dict objectForKey:@"city_id"]) {
-            _cityID = [NSString stringWithFormat:@"%@",[dict objectForKey:@"city_id"]];
+        if ([dict objectForKey:@"cityId"]) {
+            _cityID = [NSString stringWithFormat:@"%@",[dict objectForKey:@"cityId"]];
         }
         else{
             _cityID = @"";

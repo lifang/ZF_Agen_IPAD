@@ -575,6 +575,40 @@ static NSString *s_defaultTerminalNum = @"请选择终端号";
 
 -(void)startStatistics
 {
+    
+    
+    
+    if (!_startTime || [_startTime isEqualToString:@"开始时间"]) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示信息"
+                                                        message:@"请选择开始时间"
+                                                       delegate:nil
+                                              cancelButtonTitle:@"确定"
+                                              otherButtonTitles:nil];
+        [alert show];
+        return;
+    }
+    if (!_endTime || [_endTime isEqualToString:@"结束时间"]) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示信息"
+                                                        message:@"请选择结束时间"
+                                                       delegate:nil
+                                              cancelButtonTitle:@"确定"
+                                              otherButtonTitles:nil];
+        [alert show];
+        return;
+    }
+    NSDate *start = [self dateFromString:_startTime];
+    NSDate *end = [self dateFromString:_endTime];
+    if (!([start earlierDate:end] == start)) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示信息"
+                                                        message:@"开始时间不能晚于结束时间"
+                                                       delegate:nil
+                                              cancelButtonTitle:@"确定"
+                                              otherButtonTitles:nil];
+        [alert show];
+        return;
+    }
+
+    
     //    NSLog(@"点击了开始统计！为上排第%d个按钮",_buttonIndex);
         DealRoadDetailController *detailVC = [[DealRoadDetailController alloc]init];
         detailVC.hidesBottomBarWhenPushed = YES;

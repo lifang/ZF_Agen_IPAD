@@ -60,7 +60,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    _count = 1;
+    _count = _goodDetail.minWholesaleNumber;
     [self initSubView];
     //设置间距
     UIBarButtonItem *spaceItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace
@@ -576,12 +576,12 @@
         [rootview addSubview:phonelable];
         phonelable.textAlignment = NSTextAlignmentCenter;
         
-        phonelable.text=@"单价";
+        phonelable.text=@"价格";
         UILabel*numberlable=[[UILabel alloc]initWithFrame:CGRectMake(wide-120, 0, 80, 20)];
         [rootview addSubview:numberlable];
         numberlable.textAlignment = NSTextAlignmentCenter;
         
-        numberlable.text=@"购买数量";
+        numberlable.text=@"批购数量";
         
         return headerView;
         
@@ -726,7 +726,8 @@
 }
 -(void)cityclick
 {
-    
+    _cityField.userInteractionEnabled=NO;
+
     [self initPickerView];
     
     
@@ -903,6 +904,8 @@
 
 
 - (void)pickerScrollOut {
+    _cityField.userInteractionEnabled=YES;
+
     CGFloat wide;
     CGFloat height;
     if(iOS7)
@@ -939,41 +942,48 @@
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
     hud.labelText = @"提交中...";
     AppDelegate *delegate = [AppDelegate shareAppDelegate];
-//    [NetworkInterface addAddressWithToken:delegate.token userID:delegate.userID cityID:_selectedCityID receiverName:_nameField.text phoneNumber:_phoneField.text zipCode:_zipField.text address:_detailField.text isDefault:isDefault finished:^(BOOL success, NSData *response) {
-//        hud.customView = [[UIImageView alloc] init];
-//        hud.mode = MBProgressHUDModeCustomView;
-//        [hud hide:YES afterDelay:0.5f];
-//        if (success) {
-//            id object = [NSJSONSerialization JSONObjectWithData:response options:NSJSONReadingMutableLeaves error:nil];
-//            if ([object isKindOfClass:[NSDictionary class]]) {
-//                NSString *errorCode = [object objectForKey:@"code"];
-//                if ([errorCode intValue] == RequestFail) {
-//                    //返回错误代码
-//                    hud.labelText = [NSString stringWithFormat:@"%@",[object objectForKey:@"message"]];
-//                }
-//                else if ([errorCode intValue] == RequestSuccess) {
-//                    [hud hide:YES];
-////                    [[NSNotificationCenter defaultCenter] postNotificationName:RefreshAddressListNotification object:nil];
-//                    [self  getAddressLists];
-//                    
-//                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示信息"
-//                                                                    message:@"新增地址成功"
-//                                                                   delegate:self
-//                                                          cancelButtonTitle:@"确定"
-//                                                          otherButtonTitles:nil];
-//                    [alert show];
-//                }
-//            }
-//            else {
-//                //返回错误数据
-//                hud.labelText = kServiceReturnWrong;
-//            }
-//        }
-//        else {
-//            hud.labelText = kNetworkFailed;
-//        }
-//        
-//    }];
+    
+    
+    
+    
+    
+     [NetworkInterface addAddressWithAgentID:delegate.agentID token:delegate.token cityID:_selectedCityID receiverName:_nameField.text phoneNumber:_phoneField.text zipCode:_zipField.text address:_detailField.text isDefault:isDefault finished:^(BOOL success, NSData *response) {
+    
+    
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:0.5f];
+        if (success) {
+            id object = [NSJSONSerialization JSONObjectWithData:response options:NSJSONReadingMutableLeaves error:nil];
+            if ([object isKindOfClass:[NSDictionary class]]) {
+                NSString *errorCode = [object objectForKey:@"code"];
+                if ([errorCode intValue] == RequestFail) {
+                    //返回错误代码
+                    hud.labelText = [NSString stringWithFormat:@"%@",[object objectForKey:@"message"]];
+                }
+                else if ([errorCode intValue] == RequestSuccess) {
+                    [hud hide:YES];
+//                    [[NSNotificationCenter defaultCenter] postNotificationName:RefreshAddressListNotification object:nil];
+                    [self  getAddressLists];
+                    
+                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示信息"
+                                                                    message:@"新增地址成功"
+                                                                   delegate:self
+                                                          cancelButtonTitle:@"确定"
+                                                          otherButtonTitles:nil];
+                    [alert show];
+                }
+            }
+            else {
+                //返回错误数据
+                hud.labelText = kServiceReturnWrong;
+            }
+        }
+        else {
+            hud.labelText = kNetworkFailed;
+        }
+        
+    }];
 }
 -(void)cancelclick
 {
@@ -1125,38 +1135,38 @@
 }
 
 - (void)getAddressLists {
-//    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
-//    hud.labelText = @"加载中...";
-//    AppDelegate *delegate = [AppDelegate shareAppDelegate];
-//    [NetworkInterface getAddressListWithToken:delegate.token usedID:delegate.userID finished:^(BOOL success, NSData *response) {
-//        NSLog(@"%@",[[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding]);
-//        hud.customView = [[UIImageView alloc] init];
-//        hud.mode = MBProgressHUDModeCustomView;
-//        [hud hide:YES afterDelay:0.5f];
-//        if (success) {
-//            id object = [NSJSONSerialization JSONObjectWithData:response options:NSJSONReadingMutableLeaves error:nil];
-//            if ([object isKindOfClass:[NSDictionary class]]) {
-//                NSString *errorCode = [object objectForKey:@"code"];
-//                if ([errorCode intValue] == RequestFail) {
-//                    //返回错误代码
-//                    hud.labelText = [NSString stringWithFormat:@"%@",[object objectForKey:@"message"]];
-//                }
-//                else if ([errorCode intValue] == RequestSuccess) {
-//                    [hud hide:YES];
-//                    [addressarry removeAllObjects];
-//                    
-//                    [self parseAddressListDataWithDicts:object];
-//                }
-//            }
-//            else {
-//                //返回错误数据
-//                hud.labelText = kServiceReturnWrong;
-//            }
-//        }
-//        else {
-//            hud.labelText = kNetworkFailed;
-//        }
-//    }];
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+    hud.labelText = @"加载中...";
+    AppDelegate *delegate = [AppDelegate shareAppDelegate];
+    [NetworkInterface getAddressListWithAgentID:delegate.agentID token:delegate.token finished:^(BOOL success, NSData *response) {
+        NSLog(@"%@",[[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding]);
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:0.5f];
+        if (success) {
+            id object = [NSJSONSerialization JSONObjectWithData:response options:NSJSONReadingMutableLeaves error:nil];
+            if ([object isKindOfClass:[NSDictionary class]]) {
+                NSString *errorCode = [object objectForKey:@"code"];
+                if ([errorCode intValue] == RequestFail) {
+                    //返回错误代码
+                    hud.labelText = [NSString stringWithFormat:@"%@",[object objectForKey:@"message"]];
+                }
+                else if ([errorCode intValue] == RequestSuccess) {
+                    [hud hide:YES];
+                    [addressarry removeAllObjects];
+                    
+                    [self parseAddressListDataWithDicts:object];
+                }
+            }
+            else {
+                //返回错误数据
+                hud.labelText = kServiceReturnWrong;
+            }
+        }
+        else {
+            hud.labelText = kNetworkFailed;
+        }
+    }];
 }
 
 #pragma mark - Data
@@ -1481,7 +1491,15 @@
             
             
             
+            UILabel *lastnumberlable = [[UILabel alloc] initWithFrame:CGRectMake(wide-200, 70, 130, 20)];
+            lastnumberlable.backgroundColor = [UIColor clearColor];
             
+            lastnumberlable.font = [UIFont systemFontOfSize:14.f];
+            lastnumberlable.text =[NSString stringWithFormat:@"最低起批量%d件",_goodDetail.minWholesaleNumber];
+            
+            lastnumberlable.textAlignment=NSTextAlignmentRight;
+            
+            [cell.contentView addSubview:lastnumberlable];
             
             
             
