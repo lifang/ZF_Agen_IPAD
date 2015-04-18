@@ -792,7 +792,8 @@
 }
 -(void)cityclick
 {
-    
+    _cityField.userInteractionEnabled=NO;
+
     [self initPickerView];
     
     
@@ -886,6 +887,8 @@
 }
 
 - (void)initPickerView {
+    _cityField.userInteractionEnabled=YES;
+
     //pickerView
     CGFloat wide;
     CGFloat height;
@@ -1006,41 +1009,41 @@
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
     hud.labelText = @"提交中...";
     AppDelegate *delegate = [AppDelegate shareAppDelegate];
-    //    [NetworkInterface addAddressWithToken:delegate.token userID:delegate.userID cityID:_selectedCityID receiverName:_nameField.text phoneNumber:_phoneField.text zipCode:_zipField.text address:_detailField.text isDefault:isDefault finished:^(BOOL success, NSData *response) {
-    //        hud.customView = [[UIImageView alloc] init];
-    //        hud.mode = MBProgressHUDModeCustomView;
-    //        [hud hide:YES afterDelay:0.5f];
-    //        if (success) {
-    //            id object = [NSJSONSerialization JSONObjectWithData:response options:NSJSONReadingMutableLeaves error:nil];
-    //            if ([object isKindOfClass:[NSDictionary class]]) {
-    //                NSString *errorCode = [object objectForKey:@"code"];
-    //                if ([errorCode intValue] == RequestFail) {
-    //                    //返回错误代码
-    //                    hud.labelText = [NSString stringWithFormat:@"%@",[object objectForKey:@"message"]];
-    //                }
-    //                else if ([errorCode intValue] == RequestSuccess) {
-    //                    [hud hide:YES];
-    //                    //                    [[NSNotificationCenter defaultCenter] postNotificationName:RefreshAddressListNotification object:nil];
-    //                    [self  getAddressLists];
-    //
-    //                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示信息"
-    //                                                                    message:@"新增地址成功"
-    //                                                                   delegate:self
-    //                                                          cancelButtonTitle:@"确定"
-    //                                                          otherButtonTitles:nil];
-    //                    [alert show];
-    //                }
-    //            }
-    //            else {
-    //                //返回错误数据
-    //                hud.labelText = kServiceReturnWrong;
-    //            }
-    //        }
-    //        else {
-    //            hud.labelText = kNetworkFailed;
-    //        }
-    //
-    //    }];
+     [NetworkInterface addAddressWithAgentID:delegate.agentID token:delegate.token cityID:_selectedCityID receiverName:_nameField.text phoneNumber:_phoneField.text zipCode:_zipField.text address:_detailField.text isDefault:isDefault finished:^(BOOL success, NSData *response) {
+            hud.customView = [[UIImageView alloc] init];
+            hud.mode = MBProgressHUDModeCustomView;
+            [hud hide:YES afterDelay:0.5f];
+            if (success) {
+                id object = [NSJSONSerialization JSONObjectWithData:response options:NSJSONReadingMutableLeaves error:nil];
+                if ([object isKindOfClass:[NSDictionary class]]) {
+                    NSString *errorCode = [object objectForKey:@"code"];
+                    if ([errorCode intValue] == RequestFail) {
+                        //返回错误代码
+                        hud.labelText = [NSString stringWithFormat:@"%@",[object objectForKey:@"message"]];
+                    }
+                    else if ([errorCode intValue] == RequestSuccess) {
+                        [hud hide:YES];
+                        //                    [[NSNotificationCenter defaultCenter] postNotificationName:RefreshAddressListNotification object:nil];
+                        [self  getAddressLists];
+    
+                        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示信息"
+                                                                        message:@"新增地址成功"
+                                                                       delegate:self
+                                                              cancelButtonTitle:@"确定"
+                                                              otherButtonTitles:nil];
+                        [alert show];
+                    }
+                }
+                else {
+                    //返回错误数据
+                    hud.labelText = kServiceReturnWrong;
+                }
+            }
+            else {
+                hud.labelText = kNetworkFailed;
+            }
+    
+        }];
 }
 -(void)cancelclick
 {
@@ -1195,35 +1198,35 @@
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
     hud.labelText = @"加载中...";
     AppDelegate *delegate = [AppDelegate shareAppDelegate];
-    //    [NetworkInterface getAddressListWithToken:delegate.token usedID:delegate.userID finished:^(BOOL success, NSData *response) {
-    //        NSLog(@"%@",[[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding]);
-    //        hud.customView = [[UIImageView alloc] init];
-    //        hud.mode = MBProgressHUDModeCustomView;
-    //        [hud hide:YES afterDelay:0.5f];
-    //        if (success) {
-    //            id object = [NSJSONSerialization JSONObjectWithData:response options:NSJSONReadingMutableLeaves error:nil];
-    //            if ([object isKindOfClass:[NSDictionary class]]) {
-    //                NSString *errorCode = [object objectForKey:@"code"];
-    //                if ([errorCode intValue] == RequestFail) {
-    //                    //返回错误代码
-    //                    hud.labelText = [NSString stringWithFormat:@"%@",[object objectForKey:@"message"]];
-    //                }
-    //                else if ([errorCode intValue] == RequestSuccess) {
-    //                    [hud hide:YES];
-    //                    [addressarry removeAllObjects];
-    //
-    //                    [self parseAddressListDataWithDicts:object];
-    //                }
-    //            }
-    //            else {
-    //                //返回错误数据
-    //                hud.labelText = kServiceReturnWrong;
-    //            }
-    //        }
-    //        else {
-    //            hud.labelText = kNetworkFailed;
-    //        }
-    //    }];
+    [NetworkInterface getAddressListWithAgentID:delegate.agentID token:delegate.token finished:^(BOOL success, NSData *response) {
+            NSLog(@"%@",[[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding]);
+            hud.customView = [[UIImageView alloc] init];
+            hud.mode = MBProgressHUDModeCustomView;
+            [hud hide:YES afterDelay:0.5f];
+            if (success) {
+                id object = [NSJSONSerialization JSONObjectWithData:response options:NSJSONReadingMutableLeaves error:nil];
+                if ([object isKindOfClass:[NSDictionary class]]) {
+                    NSString *errorCode = [object objectForKey:@"code"];
+                    if ([errorCode intValue] == RequestFail) {
+                        //返回错误代码
+                        hud.labelText = [NSString stringWithFormat:@"%@",[object objectForKey:@"message"]];
+                    }
+                    else if ([errorCode intValue] == RequestSuccess) {
+                        [hud hide:YES];
+                        [addressarry removeAllObjects];
+    
+                        [self parseAddressListDataWithDicts:object];
+                    }
+                }
+                else {
+                    //返回错误数据
+                    hud.labelText = kServiceReturnWrong;
+                }
+            }
+            else {
+                hud.labelText = kNetworkFailed;
+            }
+        }];
 }
 
 #pragma mark - Data
@@ -1344,7 +1347,21 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     [self updatPrice];
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    
+    CGFloat wide;
+    CGFloat height;
+    if(iOS7)
+    {
+        wide=SCREEN_HEIGHT;
+        height=SCREEN_WIDTH;
+        
+        
+    }
+    else
+    {  wide=SCREEN_WIDTH;
+        height=SCREEN_HEIGHT;
+        
+    }
+
     if(indexPath.section==0)
     {
         
@@ -1364,6 +1381,9 @@
         cell.addresslable.text=model.address;
         cell.phonelable.text=model.addressPhone;
         cell.postlable.text=model.zipCode;
+        
+        NSLog(@"---%@",model.cityID);
+        
         cell.citylable.text=[CityHandle getCityNameWithCityID:model.cityID];
         
         
@@ -1417,20 +1437,6 @@
     {
         
         if (indexPath.row == 1) {
-            CGFloat wide;
-            CGFloat height;
-            if(iOS7)
-            {
-                wide=SCREEN_HEIGHT;
-                height=SCREEN_WIDTH;
-                
-                
-            }
-            else
-            {  wide=SCREEN_WIDTH;
-                height=SCREEN_HEIGHT;
-                
-            }
             
             UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
             //            int count = [self getSummaryCount];
@@ -1486,20 +1492,42 @@
             return cell;
         }
         else {
-            static NSString *orderIdentifier = @"orderIdentifier";
-            OrderDetailCell *cell = [tableView dequeueReusableCellWithIdentifier:orderIdentifier];
-            if (cell == nil) {
-                cell = [[OrderDetailCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:orderIdentifier];
-            }
-            cell.nameLabel.text = _goodDetail.goodName;
-            //            cell.priceLabel.text = [NSString stringWithFormat:@"￥%.2f",_goodDetail.deposit];
-            //            cell.numberLabel.text = [NSString stringWithFormat:@"X %d",_count];
-            cell.brandLabel.text = [NSString stringWithFormat:@"品牌型号 %@%@",_goodDetail.goodBrand,_goodDetail.goodModel];
-            cell.channelLabel.text = [NSString stringWithFormat:@"支付通道 %@",_goodDetail.defaultChannel.channelName];
-            if ([_goodDetail.goodImageList count] > 0) {
-                [cell.pictureView sd_setImageWithURL:[NSURL URLWithString:[_goodDetail.goodImageList objectAtIndex:0]]
-                                    placeholderImage:kImageName(@"test1.png")];
-            }
+            UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
+            
+            
+            
+            UIImageView*imageview=[[UIImageView alloc]initWithFrame:CGRectMake(20, 20,80, 80)];
+            [imageview sd_setImageWithURL:[NSURL URLWithString:[_goodDetail.goodImageList objectAtIndex:0]]
+                         placeholderImage:kImageName(@"test1.png")];
+            [cell.contentView addSubview:imageview];
+            
+            UILabel *namelable = [[UILabel alloc] initWithFrame:CGRectMake(110, 20, 130, 30)];
+            namelable.backgroundColor = [UIColor clearColor];
+            namelable.font = [UIFont systemFontOfSize:16.f];
+            namelable.text = _goodDetail.goodName;
+            [cell.contentView addSubview:namelable];
+            UILabel *brandLabel = [[UILabel alloc] initWithFrame:CGRectMake(110, 60, 180, 20)];
+            brandLabel.backgroundColor = [UIColor clearColor];
+            brandLabel.font = [UIFont systemFontOfSize:14.f];
+            brandLabel.text = [NSString stringWithFormat:@"品牌型号 %@%@",_goodDetail.goodBrand,_goodDetail.goodModel];
+            [cell.contentView addSubview:brandLabel];
+            UILabel *channelLabel = [[UILabel alloc] initWithFrame:CGRectMake(110, 80, 130, 20)];
+            channelLabel.backgroundColor = [UIColor clearColor];
+            channelLabel.font = [UIFont systemFontOfSize:14.f];
+            channelLabel.text =  [NSString stringWithFormat:@"支付通道 %@",_goodDetail.defaultChannel.channelName];
+            
+            [cell.contentView addSubview:channelLabel];
+            
+            
+            
+            
+            UILabel *actualPriceLabel = [[UILabel alloc] initWithFrame:CGRectMake(wide/2, 60, 130, 20)];
+            actualPriceLabel.backgroundColor = [UIColor clearColor];
+            actualPriceLabel.font = [UIFont systemFontOfSize:14.f];
+            actualPriceLabel.text =  [NSString stringWithFormat:@"￥%.2f",(_goodDetail.procurementPrice + _goodDetail.defaultChannel.openCost)];
+            
+            
+            [cell.contentView addSubview:actualPriceLabel];
             if(iOS7)
             {
                 _numberField.frame = CGRectMake(SCREEN_HEIGHT - 170, 30, 140, 40);

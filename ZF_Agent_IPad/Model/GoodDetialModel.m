@@ -86,6 +86,9 @@
             if ([goodInfo objectForKey:@"purchase_price"]) {
                 _wholesalePrice = [[goodInfo objectForKey:@"purchase_price"] floatValue] / 100;
             }
+            if ([goodInfo objectForKey:@"floor_purchase_quantity"]) {
+                _minWholesaleNumber = [[goodInfo objectForKey:@"floor_purchase_quantity"] intValue];
+            }
 
             if ([goodInfo objectForKey:@"lease_time"]) {
                 _minTime = [NSString stringWithFormat:@"%@",[goodInfo objectForKey:@"lease_time"]];
