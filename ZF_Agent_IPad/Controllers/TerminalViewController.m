@@ -21,9 +21,16 @@
 #import "AddressModel.h"
 #import "UserSelectViewController.h"
 #import "TerminalSelectModel.h"
+#import "RegularFormat.h"
+#import "CityHandle.h"
 
 
-@interface TerminalViewController ()<UITableViewDelegate,UITableViewDataSource,RefreshDelegate,terminalCellSendBtnClicked,UITextViewDelegate,UIPickerViewDataSource,UIPickerViewDelegate,UIPopoverControllerDelegate,UIPopoverPresentationControllerDelegate,SelectedAddressDelegate,SelectedUserDelegate>
+@interface TerminalViewController ()<UITableViewDelegate,UITableViewDataSource,RefreshDelegate,terminalCellSendBtnClicked,UITextViewDelegate,UIPickerViewDataSource,UIPickerViewDelegate,UIPopoverControllerDelegate,UIPopoverPresentationControllerDelegate,SelectedAddressDelegate,SelectedUserDelegate,SelectedTerminalDelegate>
+{
+
+     NSInteger touchStatus;
+    
+}
 
 @property(nonatomic,strong) UITableView *tableView;
 
@@ -54,6 +61,7 @@
 
 @property (nonatomic, strong) UITextView *posTV;
 @property (nonatomic, strong) UITextView *AddressTV;
+@property (nonatomic, strong) UITextView *reseasonTV;
 
 @property(nonatomic,strong)UITableView *terminalTableView;
 
@@ -62,8 +70,24 @@
 @property(nonatomic,strong) UIView *secondView;
 
 @property (nonatomic, strong) UITextView *UserTV;
+
+@property (nonatomic, strong) UITextView *TerminalTV;
 //售后终端信息
 @property (nonatomic, strong) NSMutableArray *TerminalsArray;
+
+@property (nonatomic, strong) UITextView *nameTV;
+@property (nonatomic, strong) UITextView *phoneTV;
+@property (nonatomic, strong) UITextView *codeTV;
+@property (nonatomic, strong) UITextView *locationTV;
+@property (nonatomic, strong) UITextView *pwdTV;
+@property (nonatomic, strong) UITextView *confpwdTV;
+
+@property (nonatomic, strong) UIPickerView *pickerView;
+//@property (nonatomic, strong) UIToolbar *toolbar;
+@property (nonatomic, strong) NSArray *cityArray;  //pickerView 第二列
+@property (nonatomic, strong) NSString *cityId;
+
+
 
 @end
 
@@ -403,17 +427,17 @@
     reseasonLB.frame = CGRectMake(26, AddressLB.frame.origin.y+ 70, 100, 40);
     [_whiteView addSubview:reseasonLB];
     
-    UITextView *reseasonTV=[[UITextView alloc] init];
-    reseasonTV.layer.masksToBounds=YES;
-    reseasonTV.layer.borderWidth=1.0;
-    reseasonTV.layer.borderColor=[UIColor colorWithHexString:@"a8a8a8"].CGColor;
-    reseasonTV.backgroundColor = [UIColor clearColor];
-    reseasonTV.font = FONT20;
-    reseasonTV.frame = CGRectMake(_posTV.frame.origin.x, reseasonLB.frame.origin.y, 240, 120);
-    [_whiteView addSubview:reseasonTV];
+    _reseasonTV=[[UITextView alloc] init];
+    _reseasonTV.layer.masksToBounds=YES;
+    _reseasonTV.layer.borderWidth=1.0;
+    _reseasonTV.layer.borderColor=[UIColor colorWithHexString:@"a8a8a8"].CGColor;
+    _reseasonTV.backgroundColor = [UIColor clearColor];
+    _reseasonTV.font = FONT20;
+    _reseasonTV.frame = CGRectMake(_posTV.frame.origin.x, reseasonLB.frame.origin.y, 240, 120);
+    [_whiteView addSubview:_reseasonTV];
     
     UIButton *submitBtn=[[UIButton alloc] init];
-    submitBtn.frame=CGRectMake(_whiteView.frame.size.width/2.0-60, reseasonTV.frame.origin.y+120+30, 120, 40);
+    submitBtn.frame=CGRectMake(_whiteView.frame.size.width/2.0-60, _reseasonTV.frame.origin.y+120+30, 120, 40);
     submitBtn.layer.masksToBounds=YES;
     submitBtn.layer.borderWidth=1.0;
     submitBtn.layer.borderColor=[UIColor colorWithHexString:@"006fd5"].CGColor;
@@ -464,7 +488,7 @@
    // [self setupTerminalTableView];
     TerminalSelectViewController *TerminalSC=[[TerminalSelectViewController alloc] init];
     TerminalSC.hidesBottomBarWhenPushed=YES;
-    //TerminalSC.delegate=self;
+    TerminalSC.delegate=self;
      [_findPosView setHidden:YES];
     [self.navigationController pushViewController:TerminalSC animated:YES];
 
@@ -483,19 +507,34 @@
 
 -(void)submitBtnClick:(id)sender
 {
-   /*
-    NSMutableArray *paramList = [[NSMutableArray alloc] init];
-    AppDelegate *delegate = [AppDelegate shareAppDelegate];
-    NSMutableDictionary *params = [[NSMutableDictionary alloc] init];
-    [params setObject:[NSNumber numberWithInt:[delegate.agentID intValue]] forKey:@"customerId"];
-    
-   [params setObject:[NSString stringWithFormat:@"%@",_AddressTV.text]forKey:@"address"];
-   [params setObject:[NSString stringWithFormat:@"%@",_AddressTV.text]forKey:@"reason"];
-    
-   [paramList addObject:params];
-   //2[self submitApplyInfoWithArray:paramList];
-*/
-     [self removePOSView];
+
+    if ([_TerminalsArray count] <= 0) {
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:1.f];
+        hud.labelText = @"请选择终端";
+        return;
+    }
+    if (!_AddressTV.text ||[_AddressTV.text isEqualToString:@""]) {
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:1.f];
+        hud.labelText = @"请选择地址";
+        return;
+    }
+    if (!_reseasonTV.text || [_reseasonTV.text isEqualToString:@""]) {
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:1.f];
+        hud.labelText = @"请输入售后原因";
+        return;
+    }
+   
+      [self submitAfterSale];
+     //[self removePOSView];
     
 }
 
@@ -580,16 +619,16 @@
     TerminalLB.frame = CGRectMake(26, UserLB.frame.origin.y + 80, 100, 40);
     [_whiteView addSubview:TerminalLB];
     
-    UITextView *TerminalTV=[[UITextView alloc] init];
-    TerminalTV.layer.masksToBounds=YES;
-    TerminalTV.layer.borderWidth=1.0;
-    TerminalTV.layer.borderColor=[UIColor colorWithHexString:@"a8a8a8"].CGColor;
-    TerminalTV.backgroundColor = [UIColor clearColor];
-    TerminalTV.frame = CGRectMake(_UserTV.frame.origin.x, TerminalLB.frame.origin.y, 240, 40);
-    [_whiteView addSubview:TerminalTV];
+    _TerminalTV=[[UITextView alloc] init];
+    _TerminalTV.layer.masksToBounds=YES;
+    _TerminalTV.layer.borderWidth=1.0;
+    _TerminalTV.layer.borderColor=[UIColor colorWithHexString:@"a8a8a8"].CGColor;
+    _TerminalTV.backgroundColor = [UIColor clearColor];
+    _TerminalTV.frame = CGRectMake(_UserTV.frame.origin.x, TerminalLB.frame.origin.y, 240, 40);
+    [_whiteView addSubview:_TerminalTV];
     
     UIButton *bindingBtn=[[UIButton alloc] init];
-    bindingBtn.frame=CGRectMake(_whiteView.frame.size.width/2.0-60, TerminalTV.frame.origin.y+40+30, 120, 40);
+    bindingBtn.frame=CGRectMake(_whiteView.frame.size.width/2.0-60, _TerminalTV.frame.origin.y+40+30, 120, 40);
     bindingBtn.layer.masksToBounds=YES;
     bindingBtn.layer.borderWidth=1.0;
     bindingBtn.layer.borderColor=[UIColor colorWithHexString:@"006fd5"].CGColor;
@@ -613,12 +652,32 @@
 
 -(void)bindingBtnClick:(id)sender
 {
+    if (!_UserTV.text ||[_UserTV.text isEqualToString:@""]) {
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:1.f];
+        hud.labelText = @"请选择用户";
+        return;
+    }
+    if (!_TerminalTV.text ||[_TerminalTV.text isEqualToString:@""]) {
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:1.f];
+        hud.labelText = @"请填写终端号";
+        return;
+    }
+
+    [self bindingTerminals];
     [self removePOSView];
     
 }
 
 -(void)terminalBtnPressed:(id)sender
 {
+    touchStatus=200;
+    _string=@"全部";
     [self pickerDisplay:_textView];
 }
 
@@ -675,13 +734,13 @@
     nameLB.frame = CGRectMake(26, CGRectGetMaxY(line.frame) + 30, 100, 40);
     [_secondView addSubview:nameLB];
     
-    UITextView *nameTV=[[UITextView alloc] init];
-    nameTV.layer.masksToBounds=YES;
-    nameTV.layer.borderWidth=1.0;
-    nameTV.layer.borderColor=[UIColor colorWithHexString:@"a8a8a8"].CGColor;
-    nameTV.backgroundColor = [UIColor clearColor];
-    nameTV.frame = CGRectMake(nameLB.frame.origin.x+nameLB.frame.size.width+30, CGRectGetMaxY(line.frame) + 30, 240, 40);
-    [_secondView addSubview:nameTV];
+    _nameTV=[[UITextView alloc] init];
+    _nameTV.layer.masksToBounds=YES;
+    _nameTV.layer.borderWidth=1.0;
+    _nameTV.layer.borderColor=[UIColor colorWithHexString:@"a8a8a8"].CGColor;
+    _nameTV.backgroundColor = [UIColor clearColor];
+    _nameTV.frame = CGRectMake(nameLB.frame.origin.x+nameLB.frame.size.width+30, CGRectGetMaxY(line.frame) + 30, 240, 40);
+    [_secondView addSubview:_nameTV];
     
   
     UILabel *phoneLB = [[UILabel alloc]init];
@@ -691,16 +750,16 @@
     phoneLB.frame = CGRectMake(26, nameLB.frame.origin.y + 60, 100, 40);
     [_secondView addSubview:phoneLB];
     
-    UITextView *phoneTV=[[UITextView alloc] init];
-    phoneTV.layer.masksToBounds=YES;
-    phoneTV.layer.borderWidth=1.0;
-    phoneTV.layer.borderColor=[UIColor colorWithHexString:@"a8a8a8"].CGColor;
-    phoneTV.backgroundColor = [UIColor clearColor];
-    phoneTV.frame = CGRectMake(nameTV.frame.origin.x, phoneLB.frame.origin.y, 240, 40);
-    [_secondView addSubview:phoneTV];
+    _phoneTV=[[UITextView alloc] init];
+    _phoneTV.layer.masksToBounds=YES;
+    _phoneTV.layer.borderWidth=1.0;
+    _phoneTV.layer.borderColor=[UIColor colorWithHexString:@"a8a8a8"].CGColor;
+    _phoneTV.backgroundColor = [UIColor clearColor];
+    _phoneTV.frame = CGRectMake(_nameTV.frame.origin.x, phoneLB.frame.origin.y, 240, 40);
+    [_secondView addSubview:_phoneTV];
     
     UIButton *getcodeBtn=[[UIButton alloc] init];
-    getcodeBtn.frame=CGRectMake(phoneTV.frame.origin.x+160, phoneTV.frame.origin.y, 80, 40);
+    getcodeBtn.frame=CGRectMake(_phoneTV.frame.origin.x+160, _phoneTV.frame.origin.y, 80, 40);
     [getcodeBtn setTitleColor:[UIColor colorWithHexString:@"006fd5"] forState:UIControlStateNormal];
     [getcodeBtn setTitle:@"获取验证码" forState:UIControlStateNormal];
     getcodeBtn.titleLabel.font = FONT15;
@@ -714,13 +773,13 @@
     codeLB.frame = CGRectMake(26, phoneLB.frame.origin.y + 60, 100, 40);
     [_secondView addSubview:codeLB];
     
-    UITextView *codeTV=[[UITextView alloc] init];
-    codeTV.layer.masksToBounds=YES;
-    codeTV.layer.borderWidth=1.0;
-    codeTV.layer.borderColor=[UIColor colorWithHexString:@"a8a8a8"].CGColor;
-    codeTV.backgroundColor = [UIColor clearColor];
-    codeTV.frame = CGRectMake(phoneTV.frame.origin.x, codeLB.frame.origin.y, 240, 40);
-    [_secondView addSubview:codeTV];
+    _codeTV=[[UITextView alloc] init];
+    _codeTV.layer.masksToBounds=YES;
+    _codeTV.layer.borderWidth=1.0;
+    _codeTV.layer.borderColor=[UIColor colorWithHexString:@"a8a8a8"].CGColor;
+    _codeTV.backgroundColor = [UIColor clearColor];
+    _codeTV.frame = CGRectMake(_phoneTV.frame.origin.x, codeLB.frame.origin.y, 240, 40);
+    [_secondView addSubview:_codeTV];
     
     
     UILabel *locationLB = [[UILabel alloc]init];
@@ -730,16 +789,16 @@
     locationLB.frame = CGRectMake(26, codeLB.frame.origin.y + 60, 100, 40);
     [_secondView addSubview:locationLB];
     
-    UITextView *locationTV=[[UITextView alloc] init];
-    locationTV.layer.masksToBounds=YES;
-    locationTV.layer.borderWidth=1.0;
-    locationTV.layer.borderColor=[UIColor colorWithHexString:@"a8a8a8"].CGColor;
-    locationTV.backgroundColor = [UIColor clearColor];
-    locationTV.frame = CGRectMake(codeTV.frame.origin.x, locationLB.frame.origin.y, 240, 40);
-    [_secondView addSubview:locationTV];
+    _locationTV=[[UITextView alloc] init];
+    _locationTV.layer.masksToBounds=YES;
+    _locationTV.layer.borderWidth=1.0;
+    _locationTV.layer.borderColor=[UIColor colorWithHexString:@"a8a8a8"].CGColor;
+    _locationTV.backgroundColor = [UIColor clearColor];
+    _locationTV.frame = CGRectMake(_codeTV.frame.origin.x, locationLB.frame.origin.y, 240, 40);
+    [_secondView addSubview:_locationTV];
     
     UIButton *locationBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    locationBtn.frame = CGRectMake(locationTV.frame.origin.x+150+40, locationTV.frame.origin.y, 50, 40);
+    locationBtn.frame = CGRectMake(_locationTV.frame.origin.x+150+40, _locationTV.frame.origin.y, 50, 40);
     [locationBtn setImage:kImageName(@"arrow_line") forState:UIControlStateNormal];
     [locationBtn  addTarget:self action:@selector(locationBtnclick:) forControlEvents:UIControlEventTouchUpInside];
     [_secondView addSubview:locationBtn];
@@ -752,13 +811,13 @@
     pwdLB.frame = CGRectMake(26, locationLB.frame.origin.y + 60, 100, 40);
     [_secondView addSubview:pwdLB];
     
-    UITextView *pwdTV=[[UITextView alloc] init];
-    pwdTV.layer.masksToBounds=YES;
-    pwdTV.layer.borderWidth=1.0;
-    pwdTV.layer.borderColor=[UIColor colorWithHexString:@"a8a8a8"].CGColor;
-    pwdTV.backgroundColor = [UIColor clearColor];
-    pwdTV.frame = CGRectMake(codeTV.frame.origin.x, pwdLB.frame.origin.y, 240, 40);
-    [_secondView addSubview:pwdTV];
+    _pwdTV=[[UITextView alloc] init];
+    _pwdTV.layer.masksToBounds=YES;
+    _pwdTV.layer.borderWidth=1.0;
+    _pwdTV.layer.borderColor=[UIColor colorWithHexString:@"a8a8a8"].CGColor;
+    _pwdTV.backgroundColor = [UIColor clearColor];
+    _pwdTV.frame = CGRectMake(_codeTV.frame.origin.x, pwdLB.frame.origin.y, 240, 40);
+    [_secondView addSubview:_pwdTV];
 
     UILabel *confpwdLB = [[UILabel alloc]init];
     confpwdLB.text = @"确认密码";
@@ -767,17 +826,17 @@
     confpwdLB.frame = CGRectMake(26, pwdLB.frame.origin.y + 60, 100, 40);
     [_secondView addSubview:confpwdLB];
     
-    UITextView *confirmpwdTV=[[UITextView alloc] init];
-    confirmpwdTV.layer.masksToBounds=YES;
-    confirmpwdTV.layer.borderWidth=1.0;
-    confirmpwdTV.layer.borderColor=[UIColor colorWithHexString:@"a8a8a8"].CGColor;
-    confirmpwdTV.backgroundColor = [UIColor clearColor];
-    confirmpwdTV.frame = CGRectMake(codeTV.frame.origin.x, confpwdLB.frame.origin.y, 240, 40);
-    [_secondView addSubview:confirmpwdTV];
+    _confpwdTV=[[UITextView alloc] init];
+    _confpwdTV.layer.masksToBounds=YES;
+    _confpwdTV.layer.borderWidth=1.0;
+    _confpwdTV.layer.borderColor=[UIColor colorWithHexString:@"a8a8a8"].CGColor;
+    _confpwdTV.backgroundColor = [UIColor clearColor];
+    _confpwdTV.frame = CGRectMake(_codeTV.frame.origin.x, confpwdLB.frame.origin.y, 240, 40);
+    [_secondView addSubview:_confpwdTV];
 
     
     UIButton *bulidBtn=[[UIButton alloc] init];
-    bulidBtn.frame=CGRectMake(_secondView.frame.size.width/2.0-60, confirmpwdTV.frame.origin.y+40+30, 120, 40);
+    bulidBtn.frame=CGRectMake(_secondView.frame.size.width/2.0-60, _confpwdTV.frame.origin.y+40+30, 120, 40);
     bulidBtn.layer.masksToBounds=YES;
     bulidBtn.layer.borderWidth=1.0;
     bulidBtn.layer.borderColor=[UIColor colorWithHexString:@"006fd5"].CGColor;
@@ -792,12 +851,31 @@
 
 -(void)getcodeBtnClick:(id)sender
 {
+    if (!_phoneTV.text ||[_phoneTV.text isEqualToString:@""]) {
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:1.f];
+        hud.labelText = @"请输入手机号";
+        return;
+    }
+    if (![RegularFormat isMobileNumber:_phoneTV.text]) {
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:1.f];
+        hud.labelText = @"请输入正确的手机号";
+        return;
+    }
 
+    [self sendPhoneCode];
 }
 
 -(void)locationBtnclick:(id)sender
 {
-
+    touchStatus=100;
+    //[self pickerDisplay:_locationTV];
+    [self pickerDisplay:_textView];
 }
 
 -(void)leftBackClicked
@@ -807,7 +885,56 @@
 
 -(void)bulidBtnClick:(id)sender
 {
+    if (!_nameTV.text ||[_nameTV.text isEqualToString:@""]) {
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:1.f];
+        hud.labelText = @"填写用户姓名";
+        return;
+    }
+    if (!_phoneTV.text ||[_phoneTV.text isEqualToString:@""]) {
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:1.f];
+        hud.labelText = @"请填写手机号码";
+        return;
+    }
+    if (!_codeTV.text ||[_codeTV.text isEqualToString:@""]) {
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:1.f];
+        hud.labelText = @"请填入验证码";
+        return;
+    }
+    if (!_locationTV.text ||[_locationTV.text isEqualToString:@""]) {
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:1.f];
+        hud.labelText = @"请选择所在地";
+        return;
+    }
+    if (!_pwdTV.text ||[_pwdTV.text isEqualToString:@""]) {
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:1.f];
+        hud.labelText = @"请输入密码";
+        return;
+    }
+    if (!_confpwdTV.text ||[_confpwdTV.text isEqualToString:@""]) {
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:1.f];
+        hud.labelText = @"请确认密码";
+        return;
+    }
 
+    [self addNewUser];
     [_secondView removeFromSuperview];
 }
 
@@ -826,20 +953,24 @@
     
 }
 
--(void)selectTerminal:(NSMutableArray *)array
+
+
+-(void)getSelectedTerminal:(NSMutableArray *)array
 {
+    NSLog(@"youyouyou");
     [_findPosView setHidden:NO];
     [_TerminalsArray removeAllObjects];
     TerminalSelectModel *model=[[TerminalSelectModel alloc] init];
     for (int i=0; i<array.count; i++) {
         model=[ array objectAtIndex:i];
         [_TerminalsArray addObject:model];
+        if (i==0) {
+            NSLog(@"zhongduan%@",model.serial_num);
+            _posTV.text=[NSString stringWithFormat:@"%@等",model.serial_num];
+        }
     }
-    _posTV.text=@"TTTTTTT";
     
-
-
-}
+ }
 
 
 
@@ -961,13 +1092,13 @@
     }];
 }
 
-/*
+
 //加载详情
-- (void)submitAfterSaleWithParm:(NSDictionary *)parm {
+- (void)submitAfterSale {
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
     hud.labelText = @"提交中...";
     AppDelegate *delegate = [AppDelegate shareAppDelegate];
-    [NetworkInterface  submintAgentWithtoken:delegate.agentID customerId:@"132" terminalsQuantity:@"12" address:@"shanghai" reason:@"aaaaaa" terminalsList:nil reciver:@"12" phone:@"1234567890"  finished:^(BOOL success, NSData *response) {
+    [NetworkInterface  submintAgentWithtoken:delegate.token customerId:delegate.agentID terminalsQuantity:_TerminalsArray.count address:_AddressTV.text reason:_reseasonTV.text terminalsList:_TerminalsArray reciver:@"12" phone:@"1234567890"  finished:^(BOOL success, NSData *response) {
         hud.customView = [[UIImageView alloc] init];
         hud.mode = MBProgressHUDModeCustomView;
         [hud hide:YES afterDelay:0.5f];
@@ -980,14 +1111,14 @@
                     hud.labelText = [NSString stringWithFormat:@"%@",[object objectForKey:@"message"]];
                 }
                 else if ([errorCode intValue] == RequestSuccess) {
-                    [hud hide:YES];
-                   // [self parseSubmitWithDictionary:object];
+                    hud.labelText = @"提交申请成功";
+                    [self removePOSView];
+            
                 }
             }
             else {
                 //返回错误数据
                 hud.labelText = kServiceReturnWrong;
-                [self.navigationController popViewControllerAnimated:YES];
             }
         }
         else {
@@ -995,7 +1126,114 @@
         }
     }];
 }
-*/
+
+
+//绑定终端
+- (void)bindingTerminals {
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+    hud.labelText = @"提交中...";
+    AppDelegate *delegate = [AppDelegate shareAppDelegate];
+    [NetworkInterface bindingTerminalWithtoken:delegate.token terminalsNum:_textView.text userId:_UserTV.text  finished:^(BOOL success, NSData *response) {
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:0.5f];
+        if (success) {
+            id object = [NSJSONSerialization JSONObjectWithData:response options:NSJSONReadingMutableLeaves error:nil];
+            if ([object isKindOfClass:[NSDictionary class]]) {
+                NSString *errorCode = [NSString stringWithFormat:@"%@",[object objectForKey:@"code"]];
+                if ([errorCode intValue] == RequestFail) {
+                    //返回错误代码
+                    hud.labelText = [NSString stringWithFormat:@"%@",[object objectForKey:@"message"]];
+                }
+                else if ([errorCode intValue] == RequestSuccess) {
+                    hud.labelText = @"绑定终端成功";
+                   // [self removePOSView];
+                    
+                }
+            }
+            else {
+                //返回错误数据
+                hud.labelText = kServiceReturnWrong;
+            }
+        }
+        else {
+            hud.labelText = kNetworkFailed;
+        }
+    }];
+}
+
+//创建新用户
+- (void)addNewUser {
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+    hud.labelText = @"加载中...";
+    AppDelegate *delegate = [AppDelegate shareAppDelegate];
+    [NetworkInterface  addUserWithtoken:delegate.token AgentId:delegate.agentID username:_nameTV.text password:_pwdTV.text codeNumber:_codeTV.text cityId:_cityId finished:^(BOOL success, NSData *response) {
+        NSLog(@"%@",[[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding]);
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:0.5f];
+        if (success) {
+            id object = [NSJSONSerialization JSONObjectWithData:response options:NSJSONReadingMutableLeaves error:nil];
+            if ([object isKindOfClass:[NSDictionary class]]) {
+                NSString *errorCode = [object objectForKey:@"code"];
+                if ([errorCode intValue] == RequestFail) {
+                    //返回错误代码
+                    hud.labelText = [NSString stringWithFormat:@"%@",[object objectForKey:@"message"]];
+                }
+                else if ([errorCode intValue] == RequestSuccess) {
+                    [hud hide:YES];
+                    hud.labelText = @"添加成功";
+                    
+                }
+            }
+            else {
+                //返回错误数据
+                hud.labelText = kServiceReturnWrong;
+            }
+        }
+        else {
+            hud.labelText = kNetworkFailed;
+        }
+    }];
+}
+
+
+//获取手机验证码
+- (void)sendPhoneCode {
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+    hud.labelText = @"加载中...";
+    [NetworkInterface sendValidateWithMobileNumber:_phoneTV.text finished:^(BOOL success, NSData *response) {
+        NSLog(@"%@",[[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding]);
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:0.5f];
+        if (success) {
+            id object = [NSJSONSerialization JSONObjectWithData:response options:NSJSONReadingMutableLeaves error:nil];
+            if ([object isKindOfClass:[NSDictionary class]]) {
+                NSString *errorCode = [object objectForKey:@"code"];
+                if ([errorCode intValue] == RequestFail) {
+                    //返回错误代码
+                    hud.labelText = [NSString stringWithFormat:@"%@",[object objectForKey:@"message"]];
+                }
+                else if ([errorCode intValue] == RequestSuccess) {
+                    [hud hide:YES];
+                     hud.labelText = @"验证码已发送到您的手机";
+                   // if ([[object objectForKey:@"result"] isKindOfClass:[NSString class]]) {
+                    //    _codeTV.text = [object objectForKey:@"result"];
+                   // }
+                }
+            }
+            else {
+                //返回错误数据
+                hud.labelText = kServiceReturnWrong;
+            }
+        }
+        else {
+            hud.labelText = kNetworkFailed;
+        }
+    }];
+}
+
 
 #pragma mark - Data
 
@@ -1420,6 +1658,16 @@
 
 -(void)modifyStatus:(id)sender
 {
+    [self pickerHide];
+    if (touchStatus==100) {
+        NSInteger index = [_pickerView selectedRowInComponent:1];
+        _cityId = [NSString stringWithFormat:@"%@",[[_cityArray objectAtIndex:index] objectForKey:@"id"]];
+        NSString *cityName = [[_cityArray objectAtIndex:index] objectForKey:@"name"];
+        _locationTV.text=cityName;
+       
+    }
+   else
+   {
     _textView.text=_string;
     if ([_string isEqualToString:@"全部"]) {
         _stringStatus=0;
@@ -1443,8 +1691,8 @@
     {
         _stringStatus=5;
     }
-    [self pickerHide];
     [self firstLoadData];
+    }
     
 }
 
@@ -1469,11 +1717,11 @@
     [toolbar setItems:[NSArray arrayWithObjects:cancelItem,spaceItem,finishItem, nil]];
     [theView addSubview:toolbar];
     
-    UIPickerView *pickerView = [[UIPickerView alloc] initWithFrame:CGRectMake(0, 60, 320, 216)];
-    pickerView.delegate = self;
-    pickerView.dataSource = self;
-    pickerView.showsSelectionIndicator = YES;
-    [theView addSubview:pickerView];
+    _pickerView = [[UIPickerView alloc] initWithFrame:CGRectMake(0, 60, 320, 216)];
+    _pickerView.delegate = self;
+    _pickerView.dataSource = self;
+    _pickerView.showsSelectionIndicator = YES;
+    [theView addSubview:_pickerView];
     
     sortViewController.view = theView;
     
@@ -1493,7 +1741,7 @@
     
 }
 
-
+/*
 #pragma mark - UIPickerView
 
 - (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView {
@@ -1520,6 +1768,84 @@
              , [_statusArray objectAtIndex:row]];
     
 }
+
+ */
+
+#pragma mark - UIPickerView
+
+- (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView {
+    if (touchStatus==100) {
+        return 2;
+    }
+    else
+    {
+    return 1;
+    }
+}
+
+- (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component {
+    
+    
+    if (touchStatus==100) {
+        
+        if (component == 0) {
+            return [[CityHandle shareProvinceList] count];
+        }
+        else {
+            NSInteger provinceIndex = [pickerView selectedRowInComponent:0];
+            NSDictionary *provinceDict = [[CityHandle shareProvinceList] objectAtIndex:provinceIndex];
+            _cityArray = [provinceDict objectForKey:@"cities"];
+            return [_cityArray count];
+        }
+        
+    }
+    
+    else
+    {
+         return _statusArray.count;
+        
+      }
+    
+}
+
+
+- (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component {
+    if (touchStatus==100) {
+        if (component == 0) {
+            //省
+            NSDictionary *provinceDict = [[CityHandle shareProvinceList] objectAtIndex:row];
+            return [provinceDict objectForKey:@"name"];
+        }
+        else {
+            //市
+            return [[_cityArray objectAtIndex:row] objectForKey:@"name"];
+        }
+    }
+    else
+    {
+         return [_statusArray objectAtIndex:row];;
+        
+    }
+}
+
+
+- (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
+    if (touchStatus==100) {
+        if (component == 0) {
+        //
+        [_pickerView reloadComponent:1];
+        }
+    }
+    else
+    {
+        _string=[NSString stringWithFormat:@"%@"
+                 , [_statusArray objectAtIndex:row]];
+        
+    }
+}
+
+
+
 
 
 -(void)viewDidAppear:(BOOL)animated

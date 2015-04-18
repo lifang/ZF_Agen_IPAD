@@ -23,7 +23,7 @@
         
         _selectedImageView = [[UIImageView alloc] init];
         _selectedImageView.translatesAutoresizingMaskIntoConstraints = NO;
-        _selectedImageView.image = kImageName(@"btn_selected.png");
+        _selectedImageView.image = kImageName(@"btn_selected");
         [_backView addSubview:_selectedImageView];
         [_selectedImageView makeConstraints:^(MASConstraintMaker *make) {
             make.centerY.equalTo(_backView.centerY);

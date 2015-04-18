@@ -47,7 +47,7 @@
 @property(nonatomic,strong) UIPopoverController *popViewController;
 
 @property (nonatomic, strong) UITableView *tableView;
-//@property (nonatomic, strong) UISegmentedControl *segmentControl;
+
 @property(nonatomic,strong)NSString *startTime;
 
 @property (nonatomic, assign) OpenApplyType applyType;  //对公 对私
@@ -133,7 +133,8 @@
  //   [self getBankList];
     
 }
-//选择终端tableView懒加载
+
+//选择终端tableView加载
 -(UITableView *)terminalTableView
 {
     if (!_terminalTableView) {
@@ -178,8 +179,8 @@
     if(sexint==102)
     {
         
-        [_infoDict setObject:[NSString stringWithFormat:@"%d",indexPath.row] forKey:key_sex];
-        NSString*accountname=[NSString stringWithFormat:@"%@",[_infoDict objectForKey:key_sex]];
+        [_infoDict setObject:[NSString stringWithFormat:@"%ld",(long)indexPath.row] forKey:key_sex];
+        NSString *accountname=[NSString stringWithFormat:@"%@",[_infoDict objectForKey:key_sex]];
         
         if([accountname isEqualToString:@"0"])
         {
@@ -192,7 +193,6 @@
             
             
         }
-        
         
     }
     else
@@ -252,8 +252,6 @@
     {
         wide=SCREEN_HEIGHT;
         height=SCREEN_WIDTH;
-        
-        
     }
     else
     {  wide=SCREEN_WIDTH;
@@ -325,7 +323,7 @@
             topSpace=40;
 
         }
-        UILabel*newaddress=[[UILabel alloc]initWithFrame:CGRectMake(40+(wide/2-40)*row, height*70+topSpace + labelHeight * 7,140, 40)];
+        UILabel *newaddress=[[UILabel alloc]initWithFrame:CGRectMake(40+(wide/2-40)*row, height*70+topSpace + labelHeight * 7,140, 40)];
         [_scrollView addSubview:newaddress];
         newaddress.textAlignment = NSTextAlignmentCenter;
         newaddress.font=[UIFont systemFontOfSize:18];
@@ -403,7 +401,6 @@
             locationbutton.contentEdgeInsets = UIEdgeInsetsMake(0,-40, 0, 0);
             locationbutton.imageEdgeInsets = UIEdgeInsetsMake(0,270,0,0);//设置image在button上的位置（上top，左left，下bottom，右right）这里可以写负值，对上写－5，那么image就象上移动5个像素
             
-            
             [locationbutton addTarget:self action:@selector(locationbuttonclick) forControlEvents:UIControlEventTouchUpInside];
             [_scrollView addSubview:locationbutton];
         }
@@ -429,14 +426,14 @@
         }
         else if (i==9)
         {
-           bankIdTF=[[UITextField alloc]initWithFrame:CGRectMake(190+(wide/2-40)*row,  height*70+topSpace + labelHeight * 7,280, 40)];
+             bankIdTF=[[UITextField alloc]initWithFrame:CGRectMake(190+(wide/2-40)*row,  height*70+topSpace + labelHeight * 7,280, 40)];
              bankIdTF.delegate=self;
             
              bankIdTF.tag=i+1056;
-            NSString *bankIdname=[NSString stringWithFormat:@"%@",[_infoDict objectForKey:[keynamesarry objectAtIndex:i]]];
+             NSString *bankIdname=[NSString stringWithFormat:@"%@",[_infoDict objectForKey:[keynamesarry objectAtIndex:i]]];
              bankIdTF.text=[NSString stringWithFormat:@"  %@",bankIdname];
              bankIdTF.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
-            [_scrollView addSubview: bankIdTF];
+             [_scrollView addSubview: bankIdTF];
              bankIdTF.layer.masksToBounds=YES;
              bankIdTF.layer.borderWidth=1.0;
              bankIdTF.layer.borderColor=[UIColor grayColor].CGColor;
@@ -447,7 +444,7 @@
         {
             zhifubutton = [UIButton buttonWithType:UIButtonTypeCustom];
             zhifubutton.frame = CGRectMake(190+(wide/2-40)*row,  height*70+topSpace + labelHeight * 7,280, 40);
-            NSString*accountname=[NSString stringWithFormat:@"%@",[_infoDict objectForKey:[keynamesarry objectAtIndex:i]]];
+            NSString *accountname=[NSString stringWithFormat:@"%@",[_infoDict objectForKey:[keynamesarry objectAtIndex:i]]];
             
             [zhifubutton setTitle:accountname forState:UIControlStateNormal];
             [zhifubutton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
@@ -473,7 +470,6 @@
             neworiginaltextfield.text=[NSString stringWithFormat:@"  %@",accountname];
             neworiginaltextfield.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
             [_scrollView addSubview:neworiginaltextfield];
-            //neworiginaltextfield.delegate=self;
             neworiginaltextfield.layer.masksToBounds=YES;
             neworiginaltextfield.layer.borderWidth=1.0;
             neworiginaltextfield.layer.borderColor=[UIColor grayColor].CGColor;
