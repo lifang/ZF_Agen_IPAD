@@ -43,6 +43,8 @@
 @property (nonatomic, assign) int channelsId;
 @property (nonatomic, assign) int minPrice;
 @property (nonatomic, assign) int maxPrice;
+@property (nonatomic, strong) NSString *masterChannel;
+@property (nonatomic, strong) NSString *branchChannel;
 
 @property (nonatomic, strong) UIButton *finishBtn;
 @property (nonatomic, strong) UIButton *selectedBtn;
@@ -57,6 +59,8 @@
 @property (nonatomic, strong) NSArray *pickerArray;  //pickerView 第二列
 
 @property (nonatomic, strong) UILabel *numberLB;
+
+
 
 @end
 
@@ -304,7 +308,8 @@
     [headerView addSubview:termLB];
     [termLB makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(headerView.centerY);
-        make.left.equalTo(headerView.left).offset(26);
+       // make.left.equalTo(headerView.left).offset(26);
+        make.left.equalTo(headerView.left).offset(100);
         make.right.equalTo(headerView.centerX);
         //make.width.equalTo(@120);
         
@@ -320,7 +325,7 @@
     [priLB makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(headerView.centerY);
         make.left.equalTo(headerView.centerX);
-        make.right.equalTo(headerView.right).offset(26);
+        make.right.equalTo(headerView.right).offset(-200);
         //make.width.equalTo(@120);
         
     }];
@@ -425,7 +430,9 @@
 {
     pickerstatus=100;
     [self ChoosePOSData];
-    [self pickerDisplay:_POSTV];
+   // _POStitle=[NSString stringWithFormat:@"%@"
+   //            , [_POSArray[0] objectForKey:@"title"]];
+    //[self pickerDisplay:_POSTV];
     
 }
 
@@ -433,7 +440,7 @@
 {
     pickerstatus=200;
      [self getChannelList];
-    [self pickerDisplay:_channelTV];
+    //[self pickerDisplay:_channelTV];
 
 
 }
@@ -620,15 +627,11 @@
 
 #pragma mark - Request
 //pos机,通道,价格,筛选终端
-
 - (void)FilterTerminals {
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
     hud.labelText = @"加载中...";
     AppDelegate *delegate = [AppDelegate shareAppDelegate];
-    [NetworkInterface screeningTerminalNumWithtoken:delegate.token agentId:delegate.agentID POStitle:_POSTV.text channelsId:1 minPrice:[_minPriceTV.text intValue] maxPrice:[_maxPriceTV.text intValue] finished:^(BOOL success, NSData *response)
-     
-            //  getTerminalManagerUseChannelWithToken:delegate.token posTitle:_selectedPOS.title channelID:_selectedChannel.channelID maxPrice:[_highField.text intValue] minPrice:[_lowField.text intValue] finished:^(BOOL success, NSData *response)
-     
+    [NetworkInterface screeningTerminalNumWithtoken:delegate.token agentId:delegate.agentID POStitle:_POSTV.text channelsId:_channelsId minPrice:[_minPriceTV.text intValue] maxPrice:[_maxPriceTV.text intValue] finished:^(BOOL success, NSData *response)
      {
         NSLog(@"%@",[[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding]);
         hud.customView = [[UIImageView alloc] init];
@@ -709,8 +712,9 @@
    // }
    // NSDictionary *infoDict = [dict objectForKey:@"result"];
     _POSArray=[dict objectForKey:@"result"];
-    NSLog(@"infoDict:%@",_POSArray);
-    
+    _POStitle=[NSString stringWithFormat:@"%@", [_POSArray[0] objectForKey:@"title"]];
+    [self pickerDisplay:_POSTV];
+
     
 }
 
@@ -721,13 +725,21 @@
         return;
     }
     NSArray *list = [dict objectForKey:@"result"];
+    [self pickerDisplay:_channelTV];
     [_channelItems removeAllObjects];
     for (int i = 0; i < [list count]; i++) {
         NSDictionary *channelDict = [list objectAtIndex:i];
         ChannelListModel *model = [[ChannelListModel alloc] initWithParseDictionary:channelDict];
         [_channelItems addObject:model];
         NSLog(@"_channelItem:%@",_channelItems);
+        /*
+        if (i==0) {
+            _channelsId=[model.channelID intValue];
+            _masterChannel=model.channelName;
+        }
+         */
     }
+    
     [_pickerView reloadAllComponents];
 }
 
@@ -765,7 +777,37 @@
 
 -(void)modifyStatus:(id)sender
 {
-
+    if (pickerstatus==100) {
+        NSInteger index = [_pickerView selectedRowInComponent:0];
+       _POSTV.text=[NSString stringWithFormat:@"%@"
+                   , [[_POSArray objectAtIndex:index] objectForKey:@"title"]];
+       
+    }
+    else
+    {
+       
+        NSInteger firstIndex = [_pickerView selectedRowInComponent:0];
+        NSInteger secondIndex = [_pickerView selectedRowInComponent:1];
+        ChannelListModel *channel = nil;
+        BillingModel *model = nil;
+        if (firstIndex < [_channelItems count]) {
+            channel = [_channelItems objectAtIndex:firstIndex];
+            _channelsId=[channel.channelID intValue];
+        }
+        if (secondIndex < [_pickerArray count]) {
+            model = [_pickerArray objectAtIndex:secondIndex];
+        }
+        if (model==nil) {
+            _channelTV.text=[NSString stringWithFormat:@"%@",channel.channelName];
+            
+        }
+        else
+        {
+           _channelTV.text= [NSString stringWithFormat:@"%@ %@",channel.channelName,model.billName];
+        }
+       
+    }
+    [self pickerHide];
 
 }
 
@@ -790,11 +832,11 @@
     [toolbar setItems:[NSArray arrayWithObjects:cancelItem,spaceItem,finishItem, nil]];
     [theView addSubview:toolbar];
     
-    UIPickerView *pickerView = [[UIPickerView alloc] initWithFrame:CGRectMake(0, 60, 320, 216)];
-    pickerView.delegate = self;
-    pickerView.dataSource = self;
-    pickerView.showsSelectionIndicator = YES;
-    [theView addSubview:pickerView];
+    _pickerView = [[UIPickerView alloc] initWithFrame:CGRectMake(0, 60, 320, 216)];
+    _pickerView.delegate = self;
+    _pickerView.dataSource = self;
+    _pickerView.showsSelectionIndicator = YES;
+    [theView addSubview:_pickerView];
     
     sortViewController.view = theView;
     
@@ -814,35 +856,7 @@
     
 }
 
-/*
-#pragma mark - UIPickerView
 
-- (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView {
-    return 1;
-}
-
-- (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component {
-    
-    return _POSArray.count;
-    
-}
-
-
--(NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component
-{
-    
-    return [[_POSArray objectAtIndex:row] objectForKey:@"title"];
-}
-
-- (void)pickerView:(UIPickerView *)pickerView didSelectRow:
-(NSInteger)row inComponent:(NSInteger)component
-{
-    
-    _POSTV.text=[NSString stringWithFormat:@"%@"
-             , [[_POSArray objectAtIndex:row] objectForKey:@"title"]];
-    
-}
-*/
 
 
 #pragma mark - UIPickerView
@@ -916,22 +930,13 @@
 
 
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
-     if (pickerstatus==100) {
-         
-         _POSTV.text=[NSString stringWithFormat:@"%@"
-                      , [[_POSArray objectAtIndex:row] objectForKey:@"title"]];
-         
-     }
-     else{
-    if (component == 0) {
-        //
-        [_pickerView reloadComponent:1];
-   // _channelTV.text=[NSString stringWithFormat:@"%@"
-                   //  , [[_channelItems objectAtIndex:row] objectForKey:@"title"]];
-        
-    }
-  }
-}
+     if (pickerstatus==200) {
+          if (component == 0) {
+              //
+               [_pickerView reloadComponent:1];
+               }
+        }
+   }
 
 
 

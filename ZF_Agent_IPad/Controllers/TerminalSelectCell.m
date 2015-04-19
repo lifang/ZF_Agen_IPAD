@@ -24,8 +24,8 @@
         
         _selectedIMV = [[UIImageView alloc] init];
         _selectedIMV.clipsToBounds = YES;
-        _selectedIMV.layer.cornerRadius = 3.0f;
-        _selectedIMV.backgroundColor=[UIColor grayColor];
+       //_selectedIMV.layer.cornerRadius = 3.0f;
+       //_selectedIMV.backgroundColor=[UIColor grayColor];
         [_selectedIMV setImage:[UIImage imageNamed:@"btn_noselect"]];
         [_backView  addSubview:_selectedIMV];
         [_selectedIMV makeConstraints:^(MASConstraintMaker *make) {
@@ -101,34 +101,19 @@
 }
 
 
-
+/*
 -(void)select:(TerminalSelectModel *)Terminalmodel
 {
     
     _TerminalSelectModel = Terminalmodel;
-   
     _TerminalSelectModel.isSelected = !_TerminalSelectModel.isSelected;
-/*
-    if (_selectedBtn.selected) {
-       // [_selectedBtn setSelected:NO];
-       // Terminalmodel.isSelected=YES;
-        
-    }
-    else
-    {
-       // [_selectedBtn setSelected:YES];
-      //  Terminalmodel.isSelected=NO;
-        
-    }
-  */ 
     if(_superTarget && [_superTarget respondsToSelector:@selector(select:)])
     {
         [_superTarget performSelector:@selector(select:) withObject:Terminalmodel];
     }
     
- 
 }
-
+*/
 
 
 

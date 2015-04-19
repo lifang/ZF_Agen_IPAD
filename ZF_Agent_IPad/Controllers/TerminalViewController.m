@@ -56,7 +56,6 @@
 
 @property (nonatomic, strong) NSMutableArray *statusArray;
 
-@property(strong,nonatomic) NSString *string;
 @property (nonatomic, assign) int stringStatus;
 
 @property (nonatomic, strong) UITextView *posTV;
@@ -72,7 +71,7 @@
 @property (nonatomic, strong) UITextView *UserTV;
 
 @property (nonatomic, strong) UITextView *TerminalTV;
-//售后终端信息
+//售后终端号
 @property (nonatomic, strong) NSMutableArray *TerminalsArray;
 
 @property (nonatomic, strong) UITextView *nameTV;
@@ -86,6 +85,10 @@
 //@property (nonatomic, strong) UIToolbar *toolbar;
 @property (nonatomic, strong) NSArray *cityArray;  //pickerView 第二列
 @property (nonatomic, strong) NSString *cityId;
+
+@property (nonatomic, strong) NSString *reciver;
+
+@property (nonatomic, strong) NSString *phone;
 
 
 
@@ -448,44 +451,11 @@
     
 }
 
-/*
-//选择终端tableView加载
--(UITableView *)terminalTableView
-{
-    if (!_terminalTableView) {
-        _terminalTableView = [[UITableView alloc]init];
-        _terminalTableView.tag = 1111;
-        _terminalTableView.delegate = self;
-        _terminalTableView.dataSource = self;
-    }
-    return _terminalTableView;
-}
-//创建选择终端tableView
--(void)setupTerminalTableView
-{
-   
-        NSInteger numberrow;
-        numberrow=_terminalItems.count;
-        if(numberrow>5)
-        {
-            self.terminalTableView.frame = CGRectMake(_posTV.frame.origin.x, _posTV.frame.origin.y+_posTV.frame.size.height, 200, 5*45);
-            
-        }else
-        {
-            self.terminalTableView.frame = CGRectMake(_posTV.frame.origin.x, _posTV.frame.origin.y+_posTV.frame.size.height, 200, numberrow*45);
 
-        }
-   // }
-    [_whiteView addSubview:_terminalTableView];
-   // if (_applyData.merchantList.count != 0) {
-        [_terminalTableView reloadData];
-  //  }
-}
-*/
 
 -(void)POSBtnclick:(id)sender
 {
-   // [self setupTerminalTableView];
+  
     TerminalSelectViewController *TerminalSC=[[TerminalSelectViewController alloc] init];
     TerminalSC.hidesBottomBarWhenPushed=YES;
     TerminalSC.delegate=self;
@@ -532,6 +502,17 @@
         hud.labelText = @"请输入售后原因";
         return;
     }
+    NSLog(@"count:%d",[_TerminalsArray count]);
+    NSLog(@"array:%@",_TerminalsArray);
+    NSLog(@"reciver:%@",_reciver);
+    NSLog(@"phone:%@",_phone);
+    NSLog(@"address:%@",_AddressTV.text);
+    NSLog(@"reseason:%@",_reseasonTV.text);
+
+
+
+
+    
    
       [self submitAfterSale];
      //[self removePOSView];
@@ -594,6 +575,7 @@
     _UserTV.layer.borderWidth=1.0;
     _UserTV.layer.borderColor=[UIColor colorWithHexString:@"a8a8a8"].CGColor;
     _UserTV.backgroundColor = [UIColor clearColor];
+    _UserTV.font = [UIFont systemFontOfSize:20];
     _UserTV.frame = CGRectMake(UserLB.frame.origin.x+UserLB.frame.size.width+30, CGRectGetMaxY(line.frame) + 30, 240, 40);
     [_whiteView addSubview:_UserTV];
     
@@ -624,6 +606,7 @@
     _TerminalTV.layer.borderWidth=1.0;
     _TerminalTV.layer.borderColor=[UIColor colorWithHexString:@"a8a8a8"].CGColor;
     _TerminalTV.backgroundColor = [UIColor clearColor];
+    _TerminalTV.font = [UIFont systemFontOfSize:20];
     _TerminalTV.frame = CGRectMake(_UserTV.frame.origin.x, TerminalLB.frame.origin.y, 240, 40);
     [_whiteView addSubview:_TerminalTV];
     
@@ -677,7 +660,7 @@
 -(void)terminalBtnPressed:(id)sender
 {
     touchStatus=200;
-    _string=@"全部";
+    //_string=@"全部";
     [self pickerDisplay:_textView];
 }
 
@@ -739,6 +722,7 @@
     _nameTV.layer.borderWidth=1.0;
     _nameTV.layer.borderColor=[UIColor colorWithHexString:@"a8a8a8"].CGColor;
     _nameTV.backgroundColor = [UIColor clearColor];
+    _nameTV.font = FONT20;
     _nameTV.frame = CGRectMake(nameLB.frame.origin.x+nameLB.frame.size.width+30, CGRectGetMaxY(line.frame) + 30, 240, 40);
     [_secondView addSubview:_nameTV];
     
@@ -755,6 +739,7 @@
     _phoneTV.layer.borderWidth=1.0;
     _phoneTV.layer.borderColor=[UIColor colorWithHexString:@"a8a8a8"].CGColor;
     _phoneTV.backgroundColor = [UIColor clearColor];
+    _phoneTV.font = FONT20;
     _phoneTV.frame = CGRectMake(_nameTV.frame.origin.x, phoneLB.frame.origin.y, 240, 40);
     [_secondView addSubview:_phoneTV];
     
@@ -778,6 +763,7 @@
     _codeTV.layer.borderWidth=1.0;
     _codeTV.layer.borderColor=[UIColor colorWithHexString:@"a8a8a8"].CGColor;
     _codeTV.backgroundColor = [UIColor clearColor];
+    _codeTV.font = FONT20;
     _codeTV.frame = CGRectMake(_phoneTV.frame.origin.x, codeLB.frame.origin.y, 240, 40);
     [_secondView addSubview:_codeTV];
     
@@ -794,6 +780,7 @@
     _locationTV.layer.borderWidth=1.0;
     _locationTV.layer.borderColor=[UIColor colorWithHexString:@"a8a8a8"].CGColor;
     _locationTV.backgroundColor = [UIColor clearColor];
+    _locationTV.font = FONT20;
     _locationTV.frame = CGRectMake(_codeTV.frame.origin.x, locationLB.frame.origin.y, 240, 40);
     [_secondView addSubview:_locationTV];
     
@@ -816,6 +803,7 @@
     _pwdTV.layer.borderWidth=1.0;
     _pwdTV.layer.borderColor=[UIColor colorWithHexString:@"a8a8a8"].CGColor;
     _pwdTV.backgroundColor = [UIColor clearColor];
+    _pwdTV.font = FONT20;
     _pwdTV.frame = CGRectMake(_codeTV.frame.origin.x, pwdLB.frame.origin.y, 240, 40);
     [_secondView addSubview:_pwdTV];
 
@@ -831,6 +819,7 @@
     _confpwdTV.layer.borderWidth=1.0;
     _confpwdTV.layer.borderColor=[UIColor colorWithHexString:@"a8a8a8"].CGColor;
     _confpwdTV.backgroundColor = [UIColor clearColor];
+    _confpwdTV.font = FONT20;
     _confpwdTV.frame = CGRectMake(_codeTV.frame.origin.x, confpwdLB.frame.origin.y, 240, 40);
     [_secondView addSubview:_confpwdTV];
 
@@ -944,7 +933,11 @@
     
      [_findPosView setHidden:NO];
     _AddressTV.text=addressModel.address;
-    NSLog(@"chuanzhi");
+    _phone=addressModel.addressPhone;
+    _reciver=addressModel.addressReceiver;
+    NSLog(@"PHONE:%@",addressModel.addressPhone);
+    NSLog(@"RECIVER:%@",addressModel.addressReceiver);
+   
 }
 
 -(void)selectedUser:(UserModel *)model {
@@ -957,15 +950,15 @@
 
 -(void)getSelectedTerminal:(NSMutableArray *)array
 {
-    NSLog(@"youyouyou");
+   
     [_findPosView setHidden:NO];
     [_TerminalsArray removeAllObjects];
     TerminalSelectModel *model=[[TerminalSelectModel alloc] init];
     for (int i=0; i<array.count; i++) {
         model=[ array objectAtIndex:i];
-        [_TerminalsArray addObject:model];
+        //[_TerminalsArray addObject:model];
+        [_TerminalsArray addObject:model.serial_num];
         if (i==0) {
-            NSLog(@"zhongduan%@",model.serial_num);
             _posTV.text=[NSString stringWithFormat:@"%@等",model.serial_num];
         }
     }
@@ -1093,12 +1086,12 @@
 }
 
 
-//加载详情
+//提交售后
 - (void)submitAfterSale {
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
     hud.labelText = @"提交中...";
     AppDelegate *delegate = [AppDelegate shareAppDelegate];
-    [NetworkInterface  submintAgentWithtoken:delegate.token customerId:delegate.agentID terminalsQuantity:_TerminalsArray.count address:_AddressTV.text reason:_reseasonTV.text terminalsList:_TerminalsArray reciver:@"12" phone:@"1234567890"  finished:^(BOOL success, NSData *response) {
+    [NetworkInterface  submintAgentWithtoken:delegate.token customerId:delegate.agentID terminalsQuantity:[_TerminalsArray count] address:_AddressTV.text reason:_reseasonTV.text terminalsList:_TerminalsArray reciver:_reciver phone:_phone  finished:^(BOOL success, NSData *response) {
         hud.customView = [[UIImageView alloc] init];
         hud.mode = MBProgressHUDModeCustomView;
         [hud hide:YES afterDelay:0.5f];
@@ -1430,21 +1423,7 @@
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    /*
-    if (tableView==_terminalTableView) {
-        NSString *ID = @"terminalcell";
-        TerminalViewCell *cell = [tableView dequeueReusableCellWithIdentifier:ID];
-        if (cell == nil) {
-            cell = [[TerminalViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:ID];
-        }
-        cell.backgroundColor = kColor(214, 214, 214, 1.0);
-        TerminalManagerModel *model = [_terminalItems objectAtIndex:indexPath.row];
-        cell.textLabel.text = model.TM_serialNumber;
-        return cell;
-        
-    }
-    else{
-     */
+   
         if (_terminalItems.count == 0) {
             NSString *ID = @"cell";
             TerminalViewCell *cell = [tableView dequeueReusableCellWithIdentifier:ID];
@@ -1486,7 +1465,7 @@
                 cell.cellStates = @"已注销";
             }
             return cell;
-      //  }
+      
     }
 }
 
@@ -1496,16 +1475,7 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    /*
-    if (tableView==_terminalTableView) {
-        TerminalManagerModel *model = [_terminalItems objectAtIndex:indexPath.row];
-         _posTV.text=model.TM_serialNumber;
-        [_terminalTableView removeFromSuperview];
-        
-    }
-    else
-    {
-     */
+ 
     self.isPush = NO;
     TerminalManagerModel *model = [_terminalItems objectAtIndex:indexPath.row];
     if ([model.TM_status intValue] == TerminalStatusOpened && !model.appID) {
@@ -1524,21 +1494,15 @@
         terminalDetailVC.tm_ID = model.TM_ID;
         [self.navigationController pushViewController:terminalDetailVC animated:YES];
     }
-  // }
+  
 }
 
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    /*
-    if (tableView==_terminalTableView) {
-        return 30;
-    }
-    else
-    {
-     */
+   
     return 80;
-    //}
+    
 }
 
  - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -1668,26 +1632,29 @@
     }
    else
    {
-    _textView.text=_string;
-    if ([_string isEqualToString:@"全部"]) {
+    
+    NSInteger index = [_pickerView selectedRowInComponent:0];
+    _textView.text=[NSString stringWithFormat:@"%@",[_statusArray objectAtIndex:index]];
+
+    if ([_textView.text isEqualToString:@"全部"]) {
         _stringStatus=0;
-    }else if ([_string isEqualToString:@"已开通"])
+    }else if ([_textView.text isEqualToString:@"已开通"])
     {
         _stringStatus=1;
     }
-    else if([_string isEqualToString:@"部分开通"])
+    else if([_textView.text isEqualToString:@"部分开通"])
     {
         _stringStatus=2;
     }
-    else if([_string isEqualToString:@"未开通"])
+    else if([_textView.text isEqualToString:@"未开通"])
     {
         _stringStatus=3;
     }
-    else if([_string isEqualToString:@"已注销"])
+    else if([_textView.text isEqualToString:@"已注销"])
     {
         _stringStatus=4;
     }
-    else if([_string isEqualToString:@"已停用"])
+    else if([_textView.text isEqualToString:@"已停用"])
     {
         _stringStatus=5;
     }
@@ -1741,35 +1708,7 @@
     
 }
 
-/*
-#pragma mark - UIPickerView
 
-- (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView {
-    return 1;
-}
-
-- (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component {
-    
-    return _statusArray.count;
-    
-}
-
-
--(NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component
-{
-    
-    return [_statusArray objectAtIndex:row];
-}
-
-- (void)pickerView:(UIPickerView *)pickerView didSelectRow:
-(NSInteger)row inComponent:(NSInteger)component
-{
-    _string=[NSString stringWithFormat:@"%@"
-             , [_statusArray objectAtIndex:row]];
-    
-}
-
- */
 
 #pragma mark - UIPickerView
 
@@ -1836,12 +1775,7 @@
         [_pickerView reloadComponent:1];
         }
     }
-    else
-    {
-        _string=[NSString stringWithFormat:@"%@"
-                 , [_statusArray objectAtIndex:row]];
-        
-    }
+
 }
 
 
