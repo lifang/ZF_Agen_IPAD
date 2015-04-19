@@ -66,26 +66,26 @@
     [self initAndLayoutUI];
     
     
-    //设置间距
-    UIBarButtonItem *spaceItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace
-                                                                               target:nil
-                                                                               action:nil];
-    
-    
-    
-   filterButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    filterButton.frame = CGRectMake(0, 0, 80, 30);
-    
-    [filterButton setTitle:@"设置分润" forState:UIControlStateNormal];
-    [filterButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [filterButton addTarget:self action:@selector(setOPenProfirclick) forControlEvents:UIControlEventTouchUpInside];
-    
-    
-    spaceItem.width = 52;
-    UIBarButtonItem *shoppingItem = [[UIBarButtonItem alloc] initWithCustomView:filterButton];
-
-    
-    self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:spaceItem,shoppingItem,spaceItem,spaceItem,nil];
+//    //设置间距
+//    UIBarButtonItem *spaceItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace
+//                                                                               target:nil
+//                                                                               action:nil];
+//    
+//    
+//    
+//   filterButton = [UIButton buttonWithType:UIButtonTypeCustom];
+//    filterButton.frame = CGRectMake(0, 0, 80, 30);
+//    
+//    [filterButton setTitle:@"设置分润" forState:UIControlStateNormal];
+//    [filterButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+//    [filterButton addTarget:self action:@selector(setOPenProfirclick) forControlEvents:UIControlEventTouchUpInside];
+//    
+//    
+//    spaceItem.width = 52;
+//    UIBarButtonItem *shoppingItem = [[UIBarButtonItem alloc] initWithCustomView:filterButton];
+//
+//    
+//    self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:spaceItem,shoppingItem,spaceItem,spaceItem,nil];
     
     
 }
@@ -677,13 +677,13 @@
     if(_isopen)
     {
         
-        filterButton.hidden=YES;
+//        filterButton.hidden=YES;
         
         [openbutton setImage:kImageName(@"open") forState:UIControlStateNormal];
 
     }else
     {
-        filterButton.hidden=NO;
+//        filterButton.hidden=NO;
 
         [openbutton setImage:kImageName(@"close") forState:UIControlStateNormal];
 

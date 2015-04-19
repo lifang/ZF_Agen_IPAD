@@ -77,6 +77,8 @@
 		0ECA762B1AD5468F0083D373 /* OrderManagerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0ECA762A1AD5468F0083D373 /* OrderManagerController.m */; };
 		0ECA762E1AD546AA0083D373 /* RefreshViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0ECA762D1AD546AA0083D373 /* RefreshViewController.m */; };
 		0ECA76341AD546F80083D373 /* OrderCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0ECA76331AD546F80083D373 /* OrderCell.m */; };
+		0ECA824B1AE354D500EB89E1 /* UserListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0ECA824A1AE354D500EB89E1 /* UserListViewController.m */; };
+		0ECA824E1AE3551700EB89E1 /* MultipleDeleteCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0ECA824D1AE3551700EB89E1 /* MultipleDeleteCell.m */; };
 		0ECB170C1ADE02D100234772 /* PrepareGoodManagerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0ECB170B1ADE02D100234772 /* PrepareGoodManagerController.m */; };
 		0ECB170F1ADE2F2400234772 /* GoodAgentModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0ECB170E1ADE2F2400234772 /* GoodAgentModel.m */; };
 		0ECB17121ADE36C600234772 /* PrepareGoodModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0ECB17111ADE36C600234772 /* PrepareGoodModel.m */; };
@@ -388,6 +390,10 @@
 		0ECA762D1AD546AA0083D373 /* RefreshViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RefreshViewController.m; sourceTree = "<group>"; };
 		0ECA76321AD546F80083D373 /* OrderCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderCell.h; sourceTree = "<group>"; };
 		0ECA76331AD546F80083D373 /* OrderCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrderCell.m; sourceTree = "<group>"; };
+		0ECA82491AE354D500EB89E1 /* UserListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserListViewController.h; sourceTree = "<group>"; };
+		0ECA824A1AE354D500EB89E1 /* UserListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserListViewController.m; sourceTree = "<group>"; };
+		0ECA824C1AE3551700EB89E1 /* MultipleDeleteCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MultipleDeleteCell.h; sourceTree = "<group>"; };
+		0ECA824D1AE3551700EB89E1 /* MultipleDeleteCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MultipleDeleteCell.m; sourceTree = "<group>"; };
 		0ECB170A1ADE02D100234772 /* PrepareGoodManagerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrepareGoodManagerController.h; sourceTree = "<group>"; };
 		0ECB170B1ADE02D100234772 /* PrepareGoodManagerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PrepareGoodManagerController.m; sourceTree = "<group>"; };
 		0ECB170D1ADE2F2400234772 /* GoodAgentModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GoodAgentModel.h; sourceTree = "<group>"; };
@@ -921,6 +927,8 @@
 				0E5099931AE0A2F9008CA305 /* AgentRentViewController.m */,
 				0EC7C15F1ADFCD170076AAC4 /* RentDescriptionController.h */,
 				0EC7C1601ADFCD170076AAC4 /* RentDescriptionController.m */,
+				0ECA82491AE354D500EB89E1 /* UserListViewController.h */,
+				0ECA824A1AE354D500EB89E1 /* UserListViewController.m */,
 			);
 			name = POS;
 			sourceTree = "<group>";
@@ -1027,6 +1035,8 @@
 		1A9654721AD6649000C39B5B /* HCell */ = {
 			isa = PBXGroup;
 			children = (
+				0ECA824C1AE3551700EB89E1 /* MultipleDeleteCell.h */,
+				0ECA824D1AE3551700EB89E1 /* MultipleDeleteCell.m */,
 				0EC723DF1AE1FCA1007A5D48 /* OpenProfitTableViewCell.h */,
 				0EC723E01AE1FCA1007A5D48 /* OpenProfitTableViewCell.m */,
 				0EC7C1591ADFC4E20076AAC4 /* POSAddressTableViewCell.h */,
@@ -1683,6 +1693,7 @@
 				1A9654671AD623C400C39B5B /* StockTerminalCell.m in Sources */,
 				0EC65C091AD8B55400282C04 /* RecordModel.m in Sources */,
 				1AF15B3E1ACCE40400D5C171 /* TreeNode.m in Sources */,
+				0ECA824B1AE354D500EB89E1 /* UserListViewController.m in Sources */,
 				0ED194941AD7AC2100029DE3 /* DealRoadController.m in Sources */,
 				1ABA17CA1ADB5A5E006B8D9B /* ChangePhoneController.m in Sources */,
 				1A790B1A1ADCF32F00EE886A /* AfterSellDetailController.m in Sources */,
@@ -1865,6 +1876,7 @@
 				1AF15A8C1ACCDB8C00D5C171 /* main.m in Sources */,
 				1AA6A05A1AD79FA90025FF1A /* AddressCell.m in Sources */,
 				1A9654791AD6667900C39B5B /* MessageChildViewController.m in Sources */,
+				0ECA824E1AE3551700EB89E1 /* MultipleDeleteCell.m in Sources */,
 				0EC723EA1AE243E4007A5D48 /* TGDetailController.m in Sources */,
 				0D16942F1AD3C15600B50A17 /* README.md in Sources */,
 				0EC7C1551ADFC4180076AAC4 /* OrderConfirmController.m in Sources */,

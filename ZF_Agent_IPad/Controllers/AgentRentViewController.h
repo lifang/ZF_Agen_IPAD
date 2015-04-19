@@ -8,9 +8,12 @@
 
 #import "OrderConfirmController.h"
 #import "GoodDetialModel.h"
+#import "UserModel.h"
 
 @interface AgentRentViewController : OrderConfirmController
 {
+    NSString*namestring;
+    UIButton *locationBtn;
     
     UIButton *defaultbutton;
     BOOL defaultbool;
@@ -20,12 +23,14 @@
     UIButton*blankbutton;
     NSInteger changeB;
     BOOL changeagent;
-    
+    NSInteger cityint;
+
     UIImageView*bigsview;
 }
 //若从购物车跳转过来 保存选中的数据
 @property (nonatomic, strong) NSArray *shoppingCartItem;
 @property (nonatomic, strong) UIView *addressView;   //地址view
+@property (nonatomic, strong) UserModel *defaultUser;
 
 @property (nonatomic, strong) UILabel *nameLabel;  //收件人
 
