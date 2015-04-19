@@ -18,6 +18,9 @@
 #import "TerminalChoseCell.h"
 #import "PrepareGoodCell.h"
 #import "PrepareGoodModel.h"
+#import "TransferGoodModel.h"
+#import "TGDetailController.h"
+
 @interface AdjustGoodsViewController ()<UITableViewDataSource,UITableViewDelegate>
 //确认按钮
 @property(nonatomic,strong)UIButton *startSure;
@@ -52,7 +55,6 @@ static NSString *s_defaultTerminalNum = @"请选择终端号";
     [self.navigationController.navigationBar setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor], NSForegroundColorAttributeName, NavTitle_FONT(NavTitle_FONTSIZE),NSFontAttributeName,nil]];
     
     // Do any additional setup after loading the view.
-    self.title = @"管理下级代理商";
     _dataItem = [[NSMutableArray alloc] init];
     _agentList = [[NSMutableArray alloc] init];
     _prepareList = [[NSMutableArray alloc] init];
@@ -807,7 +809,7 @@ static NSString *s_defaultTerminalNum = @"请选择终端号";
         
         NSLog(@"%d",self.page);
         
-        [NetworkInterface getPrepareGoodListWithAgentID:delegate.agentID token:delegate.token subAgentID:agentid startTime:_startTime endTime:_endTime page:page rows:kPageSize finished:^(BOOL success, NSData *response) {
+     [NetworkInterface getTransferGoodListWithAgentID:delegate.agentID token:delegate.token subAgentID:agentid startTime:_startTime endTime:_endTime page:page rows:kPageSize finished:^(BOOL success, NSData *response) {
             [_tableView footerEndRefreshing];
             [_tableView headerEndRefreshing];
             hud.customView = [[UIImageView alloc] init];
@@ -869,19 +871,15 @@ static NSString *s_defaultTerminalNum = @"请选择终端号";
     }
     id list = [[dict objectForKey:@"result"] objectForKey:@"list"];
     if ([list isKindOfClass:[NSArray class]]) {
-        for (int i = 0; i < [(NSArray *)list count]; i++)
-        {
-            id prepareDict = [list objectAtIndex:i];
-            if ([prepareDict isKindOfClass:[NSDictionary class]])
-            {
-                PrepareGoodModel *model = [[PrepareGoodModel alloc] initWithParseDictionary:prepareDict];
+        for (int i = 0; i < [(NSArray *)list count]; i++) {
+            id transferDict = [list objectAtIndex:i];
+            if ([transferDict isKindOfClass:[NSDictionary class]]) {
+                TransferGoodModel *model = [[TransferGoodModel alloc] initWithParseDictionary:transferDict];
                 [_prepareList addObject:model];
             }
         }
-        [_tableView reloadData];
-        
     }
-}
+    [self.tableView reloadData];}
 
 - (void)parseSubAgentListWithDictionary:(NSDictionary *)dict {
     if (![dict objectForKey:@"result"] || ![[dict objectForKey:@"result"] isKindOfClass:[NSArray class]]) {
@@ -1048,9 +1046,8 @@ static NSString *s_defaultTerminalNum = @"请选择终端号";
         {
             cell = [[PrepareGoodCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
         }
-        PrepareGoodModel *model = [_prepareList objectAtIndex:indexPath.row];
-        [cell setContentWithData:model];
-        
+        TransferGoodModel *model = [_prepareList objectAtIndex:indexPath.row];
+        [cell setContentWithDatas:model];
         
         _tableView.separatorStyle=UITableViewCellSeparatorStyleNone;
         
@@ -1116,24 +1113,13 @@ static NSString *s_defaultTerminalNum = @"请选择终端号";
     }
     else
     {
-        switch (indexPath.section) {
-            case 0: {
-                //默认分润
-                
-            }
-                break;
-            case 1: {
-                //创建下级代理商
-            }
-                break;
-            case 2: {
-                
-            }
-                break;
-            default:
-                break;
-        }
-    }
+        //配货记录
+        TransferGoodModel *model = [_prepareList objectAtIndex:indexPath.row];
+        TGDetailController *detailC = [[TGDetailController alloc] init];
+        detailC.transferID = model.ID;
+        detailC.hidesBottomBarWhenPushed=YES;
+
+        [self.navigationController pushViewController:detailC animated:YES];    }
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {

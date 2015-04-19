@@ -1180,7 +1180,71 @@ static NSString *HTTP_GET  = @"GET";
                       httpMethod:HTTP_POST
                         finished:finish];
 }
-
+//49.
++ (void)getPrepareGoodDetailWithToken:(NSString *)token
+                            prapareID:(NSString *)prepareID
+                             finished:(requestDidFinished)finish {
+    //参数
+    NSMutableDictionary *paramDict = [[NSMutableDictionary alloc] init];
+    if (prepareID) {
+        [paramDict setObject:[NSNumber numberWithInt:[prepareID intValue]] forKey:@"id"];
+    }
+    //url
+    NSString *urlString = [NSString stringWithFormat:@"%@/%@",kServiceURL,s_prepareGoodDetail_method];
+    [[self class] requestWithURL:urlString
+                          params:paramDict
+                      httpMethod:HTTP_POST
+                        finished:finish];
+    
+}
+//54.
++ (void)getTransferGoodListWithAgentID:(NSString *)agentID
+                                 token:(NSString *)token
+                            subAgentID:(NSString *)subAgentID
+                             startTime:(NSString *)startTime
+                               endTime:(NSString *)endTime
+                                  page:(int)page
+                                  rows:(int)rows
+                              finished:(requestDidFinished)finish {
+    //参数
+    NSMutableDictionary *paramDict = [[NSMutableDictionary alloc] init];
+    if (agentID) {
+        [paramDict setObject:[NSNumber numberWithInt:[agentID intValue]] forKey:@"agentId"];
+    }
+    if (subAgentID) {
+        [paramDict setObject:[NSNumber numberWithInt:[subAgentID intValue]] forKey:@"sonAgentId"];
+    }
+    if (startTime) {
+        [paramDict setObject:startTime forKey:@"startTime"];
+    }
+    if (endTime) {
+        [paramDict setObject:endTime forKey:@"endTime"];
+    }
+    [paramDict setObject:[NSNumber numberWithInt:page] forKey:@"page"];
+    [paramDict setObject:[NSNumber numberWithInt:rows] forKey:@"rows"];
+    //url
+    NSString *urlString = [NSString stringWithFormat:@"%@/%@",kServiceURL,s_transferGoodList_method];
+    [[self class] requestWithURL:urlString
+                          params:paramDict
+                      httpMethod:HTTP_POST
+                        finished:finish];
+}
+//55.
++ (void)getTransferGoodDetailWithToken:(NSString *)token
+                            transferID:(NSString *)transferID
+                              finished:(requestDidFinished)finish {
+    //参数
+    NSMutableDictionary *paramDict = [[NSMutableDictionary alloc] init];
+    if (transferID) {
+        [paramDict setObject:[NSNumber numberWithInt:[transferID intValue]] forKey:@"id"];
+    }
+    //url
+    NSString *urlString = [NSString stringWithFormat:@"%@/%@",kServiceURL,s_transferGoodDetail_method];
+    [[self class] requestWithURL:urlString
+                          params:paramDict
+                      httpMethod:HTTP_POST
+                        finished:finish];
+}
 //55.
 + (void)getTradeTerminalListWithAgentID:(NSString *)agentID
                                   token:(NSString *)token

@@ -224,8 +224,17 @@ static NSString *s_stockTerminal_method = @"stock/terminallist";
 static NSString *s_subAgent_method = @"preparegood/getsonagent";
 //48.配货列表
 static NSString *s_prepareGoodList_method = @"preparegood/list";
+
+//49.配货详情
+static NSString *s_prepareGoodDetail_method = @"preparegood/info";
+
+//54.调货列表
+static NSString *s_transferGoodList_method = @"exchangegood/list";
+
 //55.交易流水——获取终端
 static NSString *s_tradeTerminalList_method = @"trade/record/getTerminals";
+//55.调货详情
+static NSString *s_transferGoodDetail_method = @"exchangegood/info";
 //58.交易流水——获取代理商列表
 static NSString *s_tradeAgentList_method = @"trade/record/getAgents";
 //59.交易流水——查询交易流水
@@ -1038,6 +1047,43 @@ static NSString *s_changestaffdetail_method = @"/customerManage/edit";
                                  page:(int)page
                                  rows:(int)rows
                              finished:(requestDidFinished)finish;
+/*!
+ @abstract 49.配货详情
+ @param token    登录返回
+ @param prepareID  配货id
+ @result finish  请求回调结果
+ */
++ (void)getPrepareGoodDetailWithToken:(NSString *)token
+                            prapareID:(NSString *)prepareID
+                             finished:(requestDidFinished)finish;
+/*!
+ @abstract 54.调货列表
+ @param agentID     代理商ID
+ @param token    登录返回
+ @param subAgentID  下级代理商id
+ @param startTime   开始时间
+ @param endTime     结束时间
+ @param page     分页参数 页
+ @param rows     分页参数 行
+ @result finish  请求回调结果
+ */
++ (void)getTransferGoodListWithAgentID:(NSString *)agentID
+                                 token:(NSString *)token
+                            subAgentID:(NSString *)subAgentID
+                             startTime:(NSString *)startTime
+                               endTime:(NSString *)endTime
+                                  page:(int)page
+                                  rows:(int)rows
+                              finished:(requestDidFinished)finish;
+/*!
+ @abstract 55.调货详情
+ @param token    登录返回
+ @param transferID  配货id
+ @result finish  请求回调结果
+ */
++ (void)getTransferGoodDetailWithToken:(NSString *)token
+                            transferID:(NSString *)transferID
+                              finished:(requestDidFinished)finish;
 
 
 /*!

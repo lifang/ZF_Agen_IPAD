@@ -34,8 +34,9 @@ static NSString *key_taxImage = @"key_taxImage";
 
 {    NSString *cityID;
 
-    UIButton* addressbuttons ;
+    UIButton* addressbuttons;
     NSString *cityName;
+    UIButton *filterButton;
     
 
 }

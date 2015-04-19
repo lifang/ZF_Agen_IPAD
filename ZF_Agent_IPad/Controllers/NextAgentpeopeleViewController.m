@@ -7,6 +7,7 @@
 //
 
 #import "NextAgentpeopeleViewController.h"
+#import "OpenProfitViewController.h"
 
 @interface NextAgentpeopeleViewController ()
 @property (nonatomic, strong) UIScrollView *scrollView;
@@ -36,15 +37,49 @@
     
     _scrollView = [[UIScrollView alloc]init];
     _scrollView.frame=CGRectMake(0, 0, wide, height);
-    _scrollView.contentSize=CGSizeMake(wide, 1500);
+    _scrollView.contentSize=CGSizeMake(wide, 1100);
     
     
     [self.view addSubview:_scrollView];
     
     [self createui];
+    //设置间距
+    UIBarButtonItem *spaceItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace
+                                                                               target:nil
+                                                                               action:nil];
     
+    
+    
+    filterButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    filterButton.frame = CGRectMake(0, 0, 80, 30);
+    
+    [filterButton setTitle:@"设置分润" forState:UIControlStateNormal];
+    [filterButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [filterButton addTarget:self action:@selector(setOPenProfirclick) forControlEvents:UIControlEventTouchUpInside];
+    filterButton.hidden=YES;
+
+    
+    spaceItem.width = 52;
+    UIBarButtonItem *shoppingItem = [[UIBarButtonItem alloc] initWithCustomView:filterButton];
+    
+    
+    self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:spaceItem,shoppingItem,spaceItem,spaceItem,nil];
+
     
     // Do any additional setup after loading the view.
+}
+-(void)setOPenProfirclick
+{
+    
+    OpenProfitViewController*openV=[[OpenProfitViewController alloc]init];
+    openV.hidesBottomBarWhenPushed=YES;
+    
+    [self.navigationController pushViewController:openV animated:YES];
+    
+    
+    
+    
+    
 }
 -(void)openclick
 {
@@ -52,11 +87,14 @@
     
     if(_isopen)
     {
+        filterButton.hidden=NO;
+
         [openbutton setImage:kImageName(@"open") forState:UIControlStateNormal];
         
     }else
     {
-        
+        filterButton.hidden=YES;
+
         [openbutton setImage:kImageName(@"close") forState:UIControlStateNormal];
         
         
@@ -117,7 +155,7 @@
         
         
         
-        UILabel*newaddress=[[UILabel alloc]initWithFrame:CGRectMake(60, i*60+100,wide/2-270, 40)];
+        UILabel*newaddress=[[UILabel alloc]initWithFrame:CGRectMake(60, i*60+40,wide/2-270, 40)];
         [_scrollView addSubview:newaddress];
         newaddress.textAlignment = NSTextAlignmentRight;
         newaddress.font=[UIFont systemFontOfSize:18];
@@ -175,9 +213,9 @@
     UIButton* savebutton = [UIButton buttonWithType:UIButtonTypeCustom];
     savebutton.frame = CGRectMake(wide/2-200,1300,280, 40);
     
-    savebutton.center=CGPointMake(wide/2, 860);
+    savebutton.center=CGPointMake(wide/2, 900);
     
-    UILabel*line2=[[UILabel alloc]initWithFrame:CGRectMake(60, 860,wide-120, 1)];
+    UILabel*line2=[[UILabel alloc]initWithFrame:CGRectMake(60, 820,wide-120, 1)];
     
     line2.backgroundColor=[UIColor grayColor];
     

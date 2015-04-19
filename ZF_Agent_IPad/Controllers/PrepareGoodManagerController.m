@@ -18,6 +18,9 @@
 #import "TerminalChoseCell.h"
 #import "PrepareGoodCell.h"
 #import "PrepareGoodModel.h"
+
+#import "PGDetailController.h"
+
 @interface PrepareGoodManagerController ()<UITableViewDataSource,UITableViewDelegate>
 //确认按钮
 @property(nonatomic,strong)UIButton *startSure;
@@ -1039,23 +1042,17 @@ static NSString *s_defaultTerminalNum = @"请选择终端号";
     }
 else
 {
-    switch (indexPath.section) {
-        case 0: {
-            //默认分润
+   
+     
+            //配货记录
+            PrepareGoodModel *model = [_prepareList objectAtIndex:indexPath.row];
+            PGDetailController *detailC = [[PGDetailController alloc] init];
+            detailC.hidesBottomBarWhenPushed=YES;
             
-        }
-            break;
-        case 1: {
-            //创建下级代理商
-        }
-            break;
-        case 2: {
-            
-        }
-            break;
-        default:
-            break;
-    }
+            detailC.prepareID = model.ID;
+            [self.navigationController pushViewController:detailC animated:YES];
+     
+   
 }
 }
 

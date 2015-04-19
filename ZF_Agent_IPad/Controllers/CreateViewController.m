@@ -10,7 +10,7 @@
 #import "RegularFormat.h"
 #import "CityHandle.h"
 #import "KxMenu.h"
-
+#import "OpenProfitViewController.h"
 #define kRegisterInputViewTag   100
 #define kRegisterImageViewTag   101
 
@@ -64,8 +64,44 @@
     _agentType = AgentTypeCompany;
     _registerDict = [[NSMutableDictionary alloc] init];
     [self initAndLayoutUI];
-}
+    
+    
+    //设置间距
+    UIBarButtonItem *spaceItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace
+                                                                               target:nil
+                                                                               action:nil];
+    
+    
+    
+   filterButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    filterButton.frame = CGRectMake(0, 0, 80, 30);
+    
+    [filterButton setTitle:@"设置分润" forState:UIControlStateNormal];
+    [filterButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [filterButton addTarget:self action:@selector(setOPenProfirclick) forControlEvents:UIControlEventTouchUpInside];
+    
+    
+    spaceItem.width = 52;
+    UIBarButtonItem *shoppingItem = [[UIBarButtonItem alloc] initWithCustomView:filterButton];
 
+    
+    self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:spaceItem,shoppingItem,spaceItem,spaceItem,nil];
+    
+    
+}
+-(void)setOPenProfirclick
+{
+
+    OpenProfitViewController*openV=[[OpenProfitViewController alloc]init];
+    openV.hidesBottomBarWhenPushed=YES;
+
+    [self.navigationController pushViewController:openV animated:YES];
+    
+
+
+
+
+}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
@@ -640,11 +676,15 @@
     openbutton.frame = CGRectMake(wide-160,40,80, 46);
     if(_isopen)
     {
+        
+        filterButton.hidden=YES;
+        
         [openbutton setImage:kImageName(@"open") forState:UIControlStateNormal];
 
     }else
     {
-    
+        filterButton.hidden=NO;
+
         [openbutton setImage:kImageName(@"close") forState:UIControlStateNormal];
 
     
@@ -671,7 +711,6 @@
             
             
             UITextField*neworiginaltextfield=[[UITextField alloc]init];
-            neworiginaltextfield.tag=i+404;
 
             neworiginaltextfield.frame = CGRectMake(wide/2-200,  i*60+100,280, 40);
             
@@ -764,7 +803,6 @@
             neworiginaltextfield.frame = CGRectMake(wide/2-200,i*60+heighth,280, 40);
             
             neworiginaltextfield.delegate=self;
-            neworiginaltextfield.tag=i+408;
 
             neworiginaltextfield.tag=i+1056;
             neworiginaltextfield.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
@@ -923,7 +961,6 @@
         
         
         UITextField*neworiginaltextfield=[[UITextField alloc]init];
-        neworiginaltextfield.tag=i+518;
 
         neworiginaltextfield.frame = CGRectMake(wide/2-200,  i*60+heighth,280, 40);
         
