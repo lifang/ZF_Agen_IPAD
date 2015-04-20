@@ -781,10 +781,37 @@ static NSString *s_changestaffdetail_method = @"/customerManage/edit";
             terminalsQuantity:(int)terminalQuantity
                       address:(NSString *)address
                        reason:(NSString *)reason
-                terminalsList:(NSArray *)terminalsList
+                terminalsList:(NSString *)terminalsList
                       reciver:(NSString *)reciver
                         phone:(NSString *)phone
                      finished:(requestDidFinished)finish;
+
+
+
+/*!
+ @abstract 32.终端管理——提交申请售后
+ @param userID   登录用户id
+ @param token    登录返回
+ @param count    终端数量
+ @param address  地址
+ @param receiver 收件人
+ @param phoneNumber 手机号
+ @param reason   售后原因
+ @param terminalList   终端列表字符串
+ @result finish  请求回调结果
+ */
++ (void)submitAfterSaleApplyWithUserID:(NSString *)userID
+                                 token:(NSString *)token
+                         terminalCount:(NSInteger)count
+                               address:(NSString *)address
+                              receiver:(NSString *)receiver
+                           phoneNumber:(NSString *)phoneNumber
+                                reason:(NSString *)reason
+                          terminalList:(NSString *)terminalList
+                              finished:(requestDidFinished)finish;
+
+
+
 
 
 

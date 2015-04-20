@@ -59,7 +59,7 @@
     [addressLB setFont:[UIFont systemFontOfSize:20]];
     addressLB.textColor= [UIColor colorWithHexString:@"292929"];
     addressLB.text=@"地址";
-    addressLB.textAlignment=NSTextAlignmentCenter;
+    addressLB.textAlignment=NSTextAlignmentLeft;
     [headerView addSubview:addressLB];
     [addressLB makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(headerView.centerY);
@@ -78,7 +78,7 @@
     [_tableView makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(headerView.bottom);
         make.left.equalTo(self.view.left);
-        make.right.equalTo(self.view.right);
+        make.right.equalTo(self.view.right).offset(-24);
         make.bottom.equalTo(self.view.bottom).offset(-60);
     }];
    // [self getAddressList];
@@ -165,6 +165,7 @@
         cell = [[AddressSelectCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:identifier];
     }
     [cell setAddressSelectModel:model andTarget:self];
+    
     if ([model.addressID isEqualToString:_addressID]) {
         cell.selectedImageView.hidden = NO;
     }
@@ -179,6 +180,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     AddressModel *model = [_addressItems objectAtIndex:indexPath.row];
+    _addressID=model.addressID;
     if (_delegate && [_delegate respondsToSelector:@selector(getSelectedAddress:)]) {
         [_delegate getSelectedAddress:model];
       [self.navigationController popViewControllerAnimated:YES];

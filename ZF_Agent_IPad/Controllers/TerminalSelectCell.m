@@ -76,6 +76,13 @@
     
     _TerminalSelectModel = TerminalSelectModel;
     _superTarget = target;
+    if (_TerminalSelectModel.isSelected) {
+        [_selectedIMV setImage:[UIImage imageNamed:@"btn_select"]];
+    }
+    else
+    {
+        [_selectedIMV setImage:[UIImage imageNamed:@"btn_noselect"]];
+    }
     [_terminalLB setText:TerminalSelectModel.serial_num];
     [_priceLB setText:TerminalSelectModel.retail_price];
     

@@ -73,6 +73,7 @@
 @property (nonatomic, strong) UITextView *TerminalTV;
 //售后终端号
 @property (nonatomic, strong) NSMutableArray *TerminalsArray;
+@property (nonatomic, strong) NSString *addressId; //当前选择的地址id
 
 @property (nonatomic, strong) UITextView *nameTV;
 @property (nonatomic, strong) UITextView *phoneTV;
@@ -470,6 +471,9 @@
     AddressSC.hidesBottomBarWhenPushed=YES;
     AddressSC.delegate=self;
     [_findPosView setHidden:YES];
+    if (![_AddressTV.text isEqualToString:@""]) {
+        AddressSC.addressID=_addressId;
+    }
     [self.navigationController pushViewController:AddressSC animated:YES];
    
 
@@ -509,12 +513,7 @@
     NSLog(@"address:%@",_AddressTV.text);
     NSLog(@"reseason:%@",_reseasonTV.text);
 
-
-
-
-    
-   
-      [self submitAfterSale];
+     [self submitAfterSale];
      //[self removePOSView];
     
 }
@@ -660,7 +659,6 @@
 -(void)terminalBtnPressed:(id)sender
 {
     touchStatus=200;
-    //_string=@"全部";
     [self pickerDisplay:_textView];
 }
 
@@ -935,6 +933,7 @@
     _AddressTV.text=addressModel.address;
     _phone=addressModel.addressPhone;
     _reciver=addressModel.addressReceiver;
+    _addressId=addressModel.addressID;
     NSLog(@"PHONE:%@",addressModel.addressPhone);
     NSLog(@"RECIVER:%@",addressModel.addressReceiver);
    
@@ -1086,17 +1085,35 @@
 }
 
 
+- (NSString *)terminalStringWithArray:(NSArray *)terminalList {
+    NSString *names = @"";
+    for (int i = 0; i < [terminalList count]; i++) {
+        NSString *str=[terminalList objectAtIndex:i];
+        if (i != [terminalList count] - 1) {
+            names = [str stringByAppendingString:@","];
+        }
+    }
+    return names;
+}
+
+
 //提交售后
 - (void)submitAfterSale {
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
     hud.labelText = @"提交中...";
     AppDelegate *delegate = [AppDelegate shareAppDelegate];
-    [NetworkInterface  submintAgentWithtoken:delegate.token customerId:delegate.agentID terminalsQuantity:[_TerminalsArray count] address:_AddressTV.text reason:_reseasonTV.text terminalsList:_TerminalsArray reciver:_reciver phone:_phone  finished:^(BOOL success, NSData *response) {
+     NSString *terminalString = [self terminalStringWithArray:_TerminalsArray];
+    
+    [NetworkInterface submitAfterSaleApplyWithUserID:delegate.agentID token:delegate.token terminalCount:[_TerminalsArray count] address:_AddressTV.text receiver:_reciver phoneNumber:_phone reason:_textView.text terminalList:terminalString finished:^(BOOL success, NSData *response) {
+/*
+    [NetworkInterface  submintAgentWithtoken:delegate.token customerId:delegate.agentID terminalsQuantity:[_TerminalsArray count] address:_AddressTV.text reason:_reseasonTV.text terminalsList:terminalString reciver:_reciver phone:_phone  finished:^(BOOL success, NSData *response) {
+ */
         hud.customView = [[UIImageView alloc] init];
         hud.mode = MBProgressHUDModeCustomView;
         [hud hide:YES afterDelay:0.5f];
         if (success) {
             id object = [NSJSONSerialization JSONObjectWithData:response options:NSJSONReadingMutableLeaves error:nil];
+            NSLog(@"%@",[[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding]);
             if ([object isKindOfClass:[NSDictionary class]]) {
                 NSString *errorCode = [NSString stringWithFormat:@"%@",[object objectForKey:@"code"]];
                 if ([errorCode intValue] == RequestFail) {
@@ -1104,8 +1121,8 @@
                     hud.labelText = [NSString stringWithFormat:@"%@",[object objectForKey:@"message"]];
                 }
                 else if ([errorCode intValue] == RequestSuccess) {
-                    hud.labelText = @"提交申请成功";
                     [self removePOSView];
+                     hud.labelText = @"提交申请成功";
             
                 }
             }
