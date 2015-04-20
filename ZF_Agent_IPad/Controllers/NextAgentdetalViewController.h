@@ -12,6 +12,7 @@
 
 {UIButton*openbutton;
 
+    UIButton *filterButton;
 
 
 }

@@ -18,7 +18,11 @@
 #import "TerminalChoseCell.h"
 #import "PrepareGoodCell.h"
 #import "PrepareGoodModel.h"
-@interface AdjustGoodsViewController ()<UITableViewDataSource,UITableViewDelegate>
+#import "TransferGoodModel.h"
+#import "TGDetailController.h"
+#import "TerimalChoseViewController.h"
+
+@interface AdjustGoodsViewController ()<UITableViewDataSource,UITableViewDelegate,SelectedTerminalDelegate>
 //确认按钮
 @property(nonatomic,strong)UIButton *startSure;
 @property(nonatomic,strong)UIButton *endSure;
@@ -33,6 +37,9 @@
 @property (nonatomic, strong) UIDatePicker *datePickerEnd;
 //开始日期输入框
 @property(nonatomic,strong)UITextField *dateField1;
+@property(nonatomic,strong)UIButton*agentnumberbutton;
+@property (nonatomic, strong) NSMutableArray *TerminalsArray;
+
 //结束日期输入框
 @property(nonatomic,strong)UITextField *dateField2;
 @property (nonatomic, strong) NSMutableArray *dataItem;
@@ -49,10 +56,11 @@ static NSString *s_defaultTerminalNum = @"请选择终端号";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    _TerminalsArray = [[NSMutableArray alloc]init];
+
     [self.navigationController.navigationBar setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor], NSForegroundColorAttributeName, NavTitle_FONT(NavTitle_FONTSIZE),NSFontAttributeName,nil]];
     
     // Do any additional setup after loading the view.
-    self.title = @"管理下级代理商";
     _dataItem = [[NSMutableArray alloc] init];
     _agentList = [[NSMutableArray alloc] init];
     _prepareList = [[NSMutableArray alloc] init];
@@ -158,6 +166,21 @@ static NSString *s_defaultTerminalNum = @"请选择终端号";
     
 }
 #pragma mark - UI
+-(void)getSelectedTerminal:(NSMutableArray *)array
+{
+    
+    //    [_findPosView setHidden:NO];
+    //    [_TerminalsArray removeAllObjects];
+    _TerminalsArray=array;
+    
+    TerminalSelectModel *model=[array objectAtIndex:0];
+    
+    
+    [_agentnumberbutton setTitle:[NSString stringWithFormat:@"%@等",model.serial_num] forState:UIControlStateNormal];
+    
+    
+}
+
 -(void)createui
 {
     CGFloat wide;
@@ -298,14 +321,14 @@ static NSString *s_defaultTerminalNum = @"请选择终端号";
     BBlable.text=@"选择终端号";
     BBlable.font = [UIFont systemFontOfSize:20.f];
     
-    UIButton*agentnumberbutton = [UIButton buttonWithType:UIButtonTypeCustom];
-    agentnumberbutton.frame = CGRectMake(60,280 ,height/2-120, 40);
+    _agentnumberbutton = [UIButton buttonWithType:UIButtonTypeCustom];
+    _agentnumberbutton.frame = CGRectMake(60,280 ,height/2-120, 40);
     //    [blankbutton setTitle:[self getBankNameWithBankCode:bankCode] forState:UIControlStateNormal];
     
-    [agentnumberbutton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    agentnumberbutton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
-    [agentnumberbutton setImage:kImageName(@"terminal") forState:UIControlStateNormal];
-    CALayer *agentlayer=[agentnumberbutton  layer];
+    [_agentnumberbutton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    _agentnumberbutton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
+    [_agentnumberbutton setImage:kImageName(@"terminal") forState:UIControlStateNormal];
+    CALayer *agentlayer=[_agentnumberbutton  layer];
     //是否设置边框以及是否可见
     [agentlayer setMasksToBounds:YES];
     //设置边框圆角的弧度
@@ -315,11 +338,11 @@ static NSString *s_defaultTerminalNum = @"请选择终端号";
     [agentlayer setBorderWidth:1];
     //设置边框线的颜色
     [agentlayer setBorderColor:[[UIColor grayColor] CGColor]];
-    agentnumberbutton.contentEdgeInsets = UIEdgeInsetsMake(0,10, 0, 0);
-    agentnumberbutton.imageEdgeInsets = UIEdgeInsetsMake(0,height/2-180,0,0);//设置image在button上的位置（上top，左left，下bottom，右right）这里可以写负值，对上写－5，那么image就象上移动5个像素
+    _agentnumberbutton.contentEdgeInsets = UIEdgeInsetsMake(0,10, 0, 0);
+    _agentnumberbutton.imageEdgeInsets = UIEdgeInsetsMake(0,height/2-180,0,0);//设置image在button上的位置（上top，左left，下bottom，右right）这里可以写负值，对上写－5，那么image就象上移动5个像素
     
-    [agentnumberbutton addTarget:self action:@selector(agentclicksss) forControlEvents:UIControlEventTouchUpInside];
-    [witeview addSubview:agentnumberbutton];
+    [_agentnumberbutton addTarget:self action:@selector(terimanlchoseclick) forControlEvents:UIControlEventTouchUpInside];
+    [witeview addSubview:_agentnumberbutton];
     
     
     UIButton*savebutton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -329,9 +352,23 @@ static NSString *s_defaultTerminalNum = @"请选择终端号";
     
     [savebutton setBackgroundImage:kImageName(@"blue") forState:UIControlStateNormal];
     [savebutton setTitle:@"确认" forState:UIControlStateNormal];
-    [savebutton addTarget:self action:@selector(okclick) forControlEvents:UIControlEventTouchUpInside];
+    [savebutton addTarget:self action:@selector(submitTransderGood:) forControlEvents:UIControlEventTouchUpInside];
     [witeview addSubview:savebutton];
 }
+-(void)terimanlchoseclick
+{
+    
+    TerimalChoseViewController*terimal=[[TerimalChoseViewController alloc]init];
+    terimal.hidesBottomBarWhenPushed=YES;
+    terimal.delegate=self;
+    
+    [self.navigationController pushViewController:terimal animated:YES];
+    
+    
+    
+    
+}
+
 -(void)cancelclick
 {
     
@@ -754,6 +791,82 @@ static NSString *s_defaultTerminalNum = @"请选择终端号";
 
 
 #pragma mark - Request
+- (IBAction)submitTransderGood:(id)sender {
+    if (!nextagentid) {
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:1.f];
+        hud.labelText = @"请选择被调货代理商";
+        return;
+    }
+    if (!nextagentids) {
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:1.f];
+        hud.labelText = @"请选择调货代理商";
+        return;
+    }
+    if (!_agentnumberbutton.titleLabel.text)
+    {
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:1.f];
+        hud.labelText = @"请选择终端号";
+        return;
+    }
+    [self submitTransferGood];
+}
+
+
+//调货
+- (void)submitTransferGood {
+    NSMutableArray *terminalNumbers = [[NSMutableArray alloc] init];
+    [terminalNumbers removeAllObjects];
+    
+    for(int i=0;i<_TerminalsArray.count;i++)
+    {
+        TerminalSelectModel *model=[_TerminalsArray objectAtIndex:i];
+        
+        [terminalNumbers addObject:model.serial_num];
+        
+        
+    }
+    
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+    hud.labelText = @"加载中...";
+    AppDelegate *delegate = [AppDelegate shareAppDelegate];
+    [NetworkInterface transferGoodWithUserID:delegate.userID token:delegate.token fromAgentID:nextagentid toAgentID:nextagentids terminalList:terminalNumbers finished:^(BOOL success, NSData *response) {
+        NSLog(@"%@",[[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding]);
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:0.5f];
+        if (success) {
+            id object = [NSJSONSerialization JSONObjectWithData:response options:NSJSONReadingMutableLeaves error:nil];
+            if ([object isKindOfClass:[NSDictionary class]]) {
+                NSString *errorCode = [object objectForKey:@"code"];
+                if ([errorCode intValue] == RequestFail) {
+                    //返回错误代码
+                    hud.labelText = [NSString stringWithFormat:@"%@",[object objectForKey:@"message"]];
+                }
+                else if ([errorCode intValue] == RequestSuccess)
+                {
+                    hud.labelText = @"调货成功";
+                    [bigsview removeFromSuperview];
+                }
+            }
+            else {
+                //返回错误数据
+                hud.labelText = kServiceReturnWrong;
+            }
+        }
+        else {
+            hud.labelText = kNetworkFailed;
+        }
+    }];
+}
 
 //下级代理商列表
 - (void)getSubAgent {
@@ -807,7 +920,7 @@ static NSString *s_defaultTerminalNum = @"请选择终端号";
         
         NSLog(@"%d",self.page);
         
-        [NetworkInterface getPrepareGoodListWithAgentID:delegate.agentID token:delegate.token subAgentID:agentid startTime:_startTime endTime:_endTime page:page rows:kPageSize finished:^(BOOL success, NSData *response) {
+     [NetworkInterface getTransferGoodListWithAgentID:delegate.agentID token:delegate.token subAgentID:agentid startTime:_startTime endTime:_endTime page:page rows:kPageSize finished:^(BOOL success, NSData *response) {
             [_tableView footerEndRefreshing];
             [_tableView headerEndRefreshing];
             hud.customView = [[UIImageView alloc] init];
@@ -869,19 +982,15 @@ static NSString *s_defaultTerminalNum = @"请选择终端号";
     }
     id list = [[dict objectForKey:@"result"] objectForKey:@"list"];
     if ([list isKindOfClass:[NSArray class]]) {
-        for (int i = 0; i < [(NSArray *)list count]; i++)
-        {
-            id prepareDict = [list objectAtIndex:i];
-            if ([prepareDict isKindOfClass:[NSDictionary class]])
-            {
-                PrepareGoodModel *model = [[PrepareGoodModel alloc] initWithParseDictionary:prepareDict];
+        for (int i = 0; i < [(NSArray *)list count]; i++) {
+            id transferDict = [list objectAtIndex:i];
+            if ([transferDict isKindOfClass:[NSDictionary class]]) {
+                TransferGoodModel *model = [[TransferGoodModel alloc] initWithParseDictionary:transferDict];
                 [_prepareList addObject:model];
             }
         }
-        [_tableView reloadData];
-        
     }
-}
+    [self.tableView reloadData];}
 
 - (void)parseSubAgentListWithDictionary:(NSDictionary *)dict {
     if (![dict objectForKey:@"result"] || ![[dict objectForKey:@"result"] isKindOfClass:[NSArray class]]) {
@@ -1048,9 +1157,8 @@ static NSString *s_defaultTerminalNum = @"请选择终端号";
         {
             cell = [[PrepareGoodCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
         }
-        PrepareGoodModel *model = [_prepareList objectAtIndex:indexPath.row];
-        [cell setContentWithData:model];
-        
+        TransferGoodModel *model = [_prepareList objectAtIndex:indexPath.row];
+        [cell setContentWithDatas:model];
         
         _tableView.separatorStyle=UITableViewCellSeparatorStyleNone;
         
@@ -1116,24 +1224,13 @@ static NSString *s_defaultTerminalNum = @"请选择终端号";
     }
     else
     {
-        switch (indexPath.section) {
-            case 0: {
-                //默认分润
-                
-            }
-                break;
-            case 1: {
-                //创建下级代理商
-            }
-                break;
-            case 2: {
-                
-            }
-                break;
-            default:
-                break;
-        }
-    }
+        //配货记录
+        TransferGoodModel *model = [_prepareList objectAtIndex:indexPath.row];
+        TGDetailController *detailC = [[TGDetailController alloc] init];
+        detailC.transferID = model.ID;
+        detailC.hidesBottomBarWhenPushed=YES;
+
+        [self.navigationController pushViewController:detailC animated:YES];    }
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {

@@ -7,6 +7,7 @@
 //
 
 #import "NextAgentdetalViewController.h"
+#import "OpenProfitViewController.h"
 
 @interface NextAgentdetalViewController ()
 @property (nonatomic, strong) UIScrollView *scrollView;
@@ -43,20 +44,57 @@
     
     [self createui];
     
+    //设置间距
+    UIBarButtonItem *spaceItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace
+                                                                               target:nil
+                                                                               action:nil];
     
+    
+    
+    filterButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    filterButton.frame = CGRectMake(0, 0, 80, 30);
+    filterButton.hidden=YES;
+
+    [filterButton setTitle:@"设置分润" forState:UIControlStateNormal];
+    [filterButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [filterButton addTarget:self action:@selector(setOPenProfirclick) forControlEvents:UIControlEventTouchUpInside];
+    
+    
+    spaceItem.width = 52;
+    UIBarButtonItem *shoppingItem = [[UIBarButtonItem alloc] initWithCustomView:filterButton];
+    
+    
+    self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:spaceItem,shoppingItem,spaceItem,spaceItem,nil];
+    
+
     // Do any additional setup after loading the view.
+}
+-(void)setOPenProfirclick
+{
+    
+    OpenProfitViewController*openV=[[OpenProfitViewController alloc]init];
+    openV.hidesBottomBarWhenPushed=YES;
+    
+    [self.navigationController pushViewController:openV animated:YES];
+    
+    
+    
+    
+    
 }
 -(void)openclick
 {
     _isopen=!_isopen;
     
     if(_isopen)
-    {
+    {        filterButton.hidden=NO;
+
         [openbutton setImage:kImageName(@"open") forState:UIControlStateNormal];
         
     }else
     {
-        
+        filterButton.hidden=YES;
+
         [openbutton setImage:kImageName(@"close") forState:UIControlStateNormal];
         
         
@@ -91,7 +129,7 @@
     
     openlable.text=@"开通分润";
     openbutton= [UIButton buttonWithType:UIButtonTypeCustom];
-    openbutton.frame = CGRectMake(wide-160,80,80, 46);
+    openbutton.frame = CGRectMake(wide-160,40,80, 46);
        [openbutton addTarget:self action:@selector(openclick) forControlEvents:UIControlEventTouchUpInside];
     [_scrollView addSubview:openbutton];
 
@@ -114,7 +152,7 @@
     {
         
         
-        UILabel*newaddress=[[UILabel alloc]initWithFrame:CGRectMake(60, i*60+100,wide/2-270, 40)];
+        UILabel*newaddress=[[UILabel alloc]initWithFrame:CGRectMake(60, i*60+40,wide/2-270, 40)];
         [_scrollView addSubview:newaddress];
         newaddress.textAlignment = NSTextAlignmentRight;
         newaddress.font=[UIFont systemFontOfSize:18];

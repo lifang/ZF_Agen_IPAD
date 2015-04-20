@@ -511,12 +511,24 @@
         }
             break;
         case 2: {
+            SubAgentModel *model = [_dataItem objectAtIndex:indexPath.row];
+
+            if (model.agentType == AgentTypeCompany) {
+                NextAgentdetalViewController*agentdetal=[[NextAgentdetalViewController alloc]init];
+                
+                agentdetal.hidesBottomBarWhenPushed=YES;
+                
+                [self.navigationController pushViewController:agentdetal animated:YES];                }
+            else {
+                NextAgentpeopeleViewController*agentdetal=[[NextAgentpeopeleViewController alloc]init];
+                
+                agentdetal.hidesBottomBarWhenPushed=YES;
+                
+                [self.navigationController pushViewController:agentdetal animated:YES];
+            }
+
             
-            NextAgentpeopeleViewController*agentdetal=[[NextAgentpeopeleViewController alloc]init];
-            
-            agentdetal.hidesBottomBarWhenPushed=YES;
-            
-            [self.navigationController pushViewController:agentdetal animated:YES];
+           
             
         }
             break;

@@ -104,6 +104,11 @@
 }
 
 #pragma mark - Data
+- (void)setContentWithDatas:(TransferGoodModel *)model {
+    _agentLabel.text = [NSString stringWithFormat:@"%@ > %@",model.fromAgentName,model.toAgentName];
+    _timeLabel.text = model.createTime;
+    _countLabel.text = [NSString stringWithFormat:@"%d",model.count];
+}
 
 - (void)setContentWithData:(PrepareGoodModel *)model {
     _agentLabel.text = [NSString stringWithFormat:@"%@",model.agentName];

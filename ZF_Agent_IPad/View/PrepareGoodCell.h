@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "PrepareGoodModel.h"
-
+#import "TransferGoodModel.h"
 #define kPrepareGoodCellHeight 80.f
 
 @interface PrepareGoodCell : UITableViewCell
@@ -20,5 +20,6 @@
 @property (nonatomic, strong) UILabel *countLabel;
 
 - (void)setContentWithData:(PrepareGoodModel *)model;
+- (void)setContentWithDatas:(TransferGoodModel *)model;
 
 @end

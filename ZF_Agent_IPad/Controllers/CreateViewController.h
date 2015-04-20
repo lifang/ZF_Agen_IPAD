@@ -33,9 +33,13 @@ static NSString *key_taxImage = @"key_taxImage";
 @interface CreateViewController : ScanImageViewController
 
 {    NSString *cityID;
-
-    UIButton* addressbuttons ;
+    NSInteger pictureunt;
+    NSInteger pictureintCurrent;
+    NSMutableDictionary*mutabledict;
+    
+    UIButton* addressbuttons;
     NSString *cityName;
+    UIButton *filterButton;
     
 
 }
