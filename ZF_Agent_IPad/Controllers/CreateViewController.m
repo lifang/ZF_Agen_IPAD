@@ -58,7 +58,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     _infoDict = [[NSMutableDictionary alloc] init];
+    mutabledict = [[NSMutableDictionary alloc] init];
 
+    
     // Do any additional setup after loading the view.
     self.title = @"申请成为代理商";
     _agentType = AgentTypeCompany;
@@ -314,6 +316,10 @@
                 }
                 else if ([errorCode intValue] == RequestSuccess) {
                     hud.labelText = @"上传成功";
+                    pictureintCurrent=pictureunt;
+            
+                    [mutabledict setObject:[NSString stringWithFormat:@"%d",pictureintCurrent] forKey:[NSString stringWithFormat:@"%d",pictureintCurrent]];
+                    
                     [self parseImageUploadInfo:object];
                 }
             }
@@ -333,7 +339,8 @@
 -(void)pictureclick:(UIButton*)send
 {
     _selectedKey =[NSString stringWithFormat:@"%d", send.tag];
-
+    pictureunt=send.tag;
+    
 
     [self showImageOption];
     
@@ -404,7 +411,8 @@
 #pragma mark - 数据验证
 
 - (void)dataValidation {
-    if (self.agentType == AgentTypeCompany) {
+    if (self.agentType == AgentTypeCompany)
+    {
         if (![_registerDict objectForKey:key_company] || [[_registerDict objectForKey:key_company] isEqualToString:@""]) {
             MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
             hud.customView = [[UIImageView alloc] init];
@@ -849,13 +857,22 @@
             
             
             UIButton* addressbutton = [UIButton buttonWithType:UIButtonTypeCustom];
-            addressbutton.frame = CGRectMake(wide/2-200,i*60+820,180, 40);
             
-            [addressbutton setTitle:@"上传照片" forState:UIControlStateNormal];
             
             //            [addressbutton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-            [addressbutton setBackgroundImage:kImageName(@"blue") forState:UIControlStateNormal];
-            
+            if([[mutabledict objectForKey:[NSString stringWithFormat:@"%d",addressbutton.tag]] isEqualToString:[NSString stringWithFormat:@"%ld",(long)addressbutton.tag] ])
+            {            addressbutton.frame = CGRectMake(wide/2-200,i*60+560,35, 35);
+                
+                [addressbutton setBackgroundImage:kImageName(@"ppicture") forState:UIControlStateNormal];
+                
+            }else
+            {            addressbutton.frame = CGRectMake(wide/2-200,i*60+560,180, 40);
+                
+                [addressbutton setTitle:@"上传照片" forState:UIControlStateNormal];
+                
+                [addressbutton setBackgroundImage:kImageName(@"blue") forState:UIControlStateNormal];
+                
+            }
             
             [addressbutton addTarget:self action:@selector(pictureclick:) forControlEvents:UIControlEventTouchUpInside];
             [_scrollView addSubview:addressbutton];
@@ -889,12 +906,9 @@
             
             
             UIButton* addressbutton = [UIButton buttonWithType:UIButtonTypeCustom];
-            addressbutton.frame = CGRectMake(wide/2-200,i*60+560,180, 40);
             
-            [addressbutton setTitle:@"上传照片" forState:UIControlStateNormal];
             
             //            [addressbutton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-            [addressbutton setBackgroundImage:kImageName(@"blue") forState:UIControlStateNormal];
             
             
             [addressbutton addTarget:self action:@selector(pictureclick:) forControlEvents:UIControlEventTouchUpInside];
@@ -902,6 +916,20 @@
             
             
             addressbutton.tag=i+428;
+            
+            if([[mutabledict objectForKey:[NSString stringWithFormat:@"%d",addressbutton.tag]] isEqualToString:[NSString stringWithFormat:@"%ld",(long)addressbutton.tag] ])
+            {            addressbutton.frame = CGRectMake(wide/2-200,i*60+560,35, 35);
+
+                [addressbutton setBackgroundImage:kImageName(@"ppicture") forState:UIControlStateNormal];
+
+            }else
+            {            addressbutton.frame = CGRectMake(wide/2-200,i*60+560,180, 40);
+
+                [addressbutton setTitle:@"上传照片" forState:UIControlStateNormal];
+
+                [addressbutton setBackgroundImage:kImageName(@"blue") forState:UIControlStateNormal];
+
+            }
 
             
             

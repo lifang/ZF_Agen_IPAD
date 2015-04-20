@@ -379,7 +379,7 @@ static NSString *HTTP_GET  = @"GET";
 + (void)uploadImageWithImage:(UIImage *)image
                     finished:(requestDidFinished)finish {
     //url
-    NSString *urlString = [NSString stringWithFormat:@"%@/%@",kServiceURL,s_loadImage_method];
+    NSString *urlString = [NSString stringWithFormat:@"%@/%@",kServiceURL,s_loadImage_methodls];
     NetworkRequest *request = [[NetworkRequest alloc] initWithRequestURL:urlString
                                                               httpMethod:HTTP_POST
                                                                 finished:finish];

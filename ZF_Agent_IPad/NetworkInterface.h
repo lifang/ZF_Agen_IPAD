@@ -127,6 +127,8 @@ static NSString *s_applySubmit_method = @"apply/addOpeningApply";
 
 //16.申请开通--图片资料上传
 static NSString *s_loadImage_method = @"comment/upload/tempImage";
+//16.申请开通--图片资料上传
+static NSString *s_loadImage_methodls = @"lowerAgent/uploadImg";
 
 //17.申请开通—查看终端详情
 static NSString *s_termainlDetail_method = @"terminal/getTernimalDetails";
