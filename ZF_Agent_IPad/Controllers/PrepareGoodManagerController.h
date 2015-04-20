@@ -11,6 +11,7 @@
 @interface PrepareGoodManagerController : MineCommonController
 
 {
+    UIButton*agentnumberbutton;
     
     UIButton*blankbutton;
     UIView*datepickview;

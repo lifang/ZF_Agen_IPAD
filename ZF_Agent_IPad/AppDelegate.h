@@ -12,6 +12,7 @@
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
+@property (nonatomic, strong) NSString *userID;       //用户id
 
 @property (nonatomic, strong) NSString *agentID;
 @property (nonatomic, strong) NSString *token;

@@ -18,9 +18,13 @@
         if ([dict objectForKey:@"serial_num"]) {
             _serial_num = [NSString stringWithFormat:@"%@",[dict objectForKey:@"serial_num"]];
         }
+        if ([dict objectForKey:@"money"]) {
+            _retail_price = [NSString stringWithFormat:@"%@",[dict objectForKey:@"money"]];
+        }
         if ([dict objectForKey:@"retail_price"]) {
             _retail_price = [NSString stringWithFormat:@"%@",[dict objectForKey:@"retail_price"]];
         }
+
     }
     return self;
 }

@@ -339,7 +339,15 @@ static NSString *s_createstaff_method = @"/customerManage/insert";
 static NSString *s_getstaffdetail_method = @"/customerManage/getInfo";
 //修改员工信息
 static NSString *s_changestaffdetail_method = @"/customerManage/edit";
+//53.配货
+static NSString *s_prepareGood_method = @"preparegood/add";
+//52.配货筛选终端
+static NSString *s_prepareGoodFilter_method = @"preparegood/getterminalslist";
 
+//51.配货支付通道列表
+static NSString *s_prepareGoodChannel_method = @"preparegood/getpaychannellist";
+//57.调货
+static NSString *s_transferGood_method = @"exchangegood/add";
 @interface NetworkInterface : NSObject
 /*!
  @abstract 1.热卖
@@ -1057,6 +1065,54 @@ static NSString *s_changestaffdetail_method = @"/customerManage/edit";
                             prapareID:(NSString *)prepareID
                              finished:(requestDidFinished)finish;
 /*!
+ @abstract 51.配货——支付通道列表
+ @param agentID  代理商id
+ @param token    登录返回
+ @result finish  请求回调结果
+ */
++ (void)getPrepareGoodChannelWithAgentID:(NSString *)agentID
+                                   token:(NSString *)token
+                                finished:(requestDidFinished)finish;
+
+
+/*!
+ @abstract 52.配货——筛选终端
+ @param agentID  代理商id
+ @param token    登录返回
+ @param channelID  支付通道id
+ @param goodID    pos机id
+ @param terminalNumbers  终端号数组
+ @param page     分页参数 页
+ @param rows     分页参数 行
+ @result finish  请求回调结果
+ */
++ (void)getPrepareGoodTerminalListWithAgentID:(NSString *)agentID
+                                        token:(NSString *)token
+                                    channelID:(NSString *)channelID
+                                       goodID:(NSString *)goodID
+                              terminalNumbers:(NSArray *)terminalNumbers
+                                         page:(int)page
+                                         rows:(int)rows
+                                     finished:(requestDidFinished)finish;
+
+/*!
+ @abstract 53.配货
+ @param userID  登录id
+ @param token    登录返回
+ @param subAgentID  下级代理商id
+ @param channelID  支付通道id
+ @param goodID    pos机id
+ @param terminalList  终端号数组
+ @result finish  请求回调结果
+ */
++ (void)prepareGoodWithUserID:(NSString *)userID
+                        token:(NSString *)token
+                   subAgentID:(NSString *)subAgentID
+                    channelID:(NSString *)channelID
+                       goodID:(NSString *)goodID
+                 terminalList:(NSArray *)terminalList
+                     finished:(requestDidFinished)finish;
+/*!
  @abstract 54.调货列表
  @param agentID     代理商ID
  @param token    登录返回
@@ -1095,6 +1151,22 @@ static NSString *s_changestaffdetail_method = @"/customerManage/edit";
 + (void)getTradeTerminalListWithAgentID:(NSString *)agentID
                                   token:(NSString *)token
                                finished:(requestDidFinished)finish;
+/*!
+ @abstract 57.调货
+ @param userID   登录id
+ @param token    登录返回
+ @param fromAgentID  被调货代理商id
+ @param toAgentID    调货代理商id
+ @param terminalList 终端号数组
+ @result finish  请求回调结果
+ */
++ (void)transferGoodWithUserID:(NSString *)userID
+                         token:(NSString *)token
+                   fromAgentID:(NSString *)fromAgentID
+                     toAgentID:(NSString *)toAgentID
+                  terminalList:(NSArray *)terminalList
+                      finished:(requestDidFinished)finish;
+
 /*!
  @abstract 58.交易流水——获取代理商列表
  @param token    登录返回

@@ -1093,6 +1093,7 @@
             //是否设置边框以及是否可见
             [layer setMasksToBounds:YES];
             //设置边框圆角的弧度
+            _cityField.tag=1065;
             
             //设置边框线的宽
             //

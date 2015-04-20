@@ -31,8 +31,8 @@
         [_selectedIMV makeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(_backView.left).offset(120);
             make.centerY.equalTo(_backView.centerY);
-            make.height.equalTo(@40);
-            make.width.equalTo(@(40));
+            make.height.equalTo(@30);
+            make.width.equalTo(@(30));
         }];
 
         

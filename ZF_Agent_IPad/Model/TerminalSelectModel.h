@@ -13,6 +13,9 @@
 @property (nonatomic, strong) NSString *selectId;
 
 @property (nonatomic, strong) NSString *serial_num;
+@property (nonatomic, strong) NSString *goodID;
+@property (nonatomic, strong) NSString *channelID;
+@property (nonatomic, strong) NSString *price;
 
 @property (nonatomic, strong) NSString *retail_price;
 

@@ -124,6 +124,7 @@
 		0ED58F071AD4DAAB0081E8BC /* CommentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0ED58F061AD4DAAB0081E8BC /* CommentCell.m */; };
 		0ED58F0A1AD4DF400081E8BC /* CommentModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0ED58F091AD4DF400081E8BC /* CommentModel.m */; };
 		0ED58F0D1AD4DF600081E8BC /* GoodsCollectionViewCell2.m in Sources */ = {isa = PBXBuildFile; fileRef = 0ED58F0C1AD4DF600081E8BC /* GoodsCollectionViewCell2.m */; };
+		0ED9932D1AE490870040F50E /* TerimalChoseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0ED9932C1AE490870040F50E /* TerimalChoseViewController.m */; };
 		1A55E7761ADB971A0020B0D8 /* AfterSellCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A55E7751ADB971A0020B0D8 /* AfterSellCell.m */; };
 		1A55E7791ADBA4100020B0D8 /* CSModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A55E7781ADBA4100020B0D8 /* CSModel.m */; };
 		1A5C481A1ADB6FB700A3068A /* AfterSellController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A5C48191ADB6FB700A3068A /* AfterSellController.m */; };
@@ -484,6 +485,8 @@
 		0ED58F091AD4DF400081E8BC /* CommentModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommentModel.m; sourceTree = "<group>"; };
 		0ED58F0B1AD4DF600081E8BC /* GoodsCollectionViewCell2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GoodsCollectionViewCell2.h; sourceTree = "<group>"; };
 		0ED58F0C1AD4DF600081E8BC /* GoodsCollectionViewCell2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GoodsCollectionViewCell2.m; sourceTree = "<group>"; };
+		0ED9932B1AE490870040F50E /* TerimalChoseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TerimalChoseViewController.h; sourceTree = "<group>"; };
+		0ED9932C1AE490870040F50E /* TerimalChoseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TerimalChoseViewController.m; sourceTree = "<group>"; };
 		1A55E7741ADB971A0020B0D8 /* AfterSellCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AfterSellCell.h; sourceTree = "<group>"; };
 		1A55E7751ADB971A0020B0D8 /* AfterSellCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AfterSellCell.m; sourceTree = "<group>"; };
 		1A55E7771ADBA4100020B0D8 /* CSModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSModel.h; sourceTree = "<group>"; };
@@ -881,6 +884,8 @@
 				0ECB170B1ADE02D100234772 /* PrepareGoodManagerController.m */,
 				0EC723E21AE23B04007A5D48 /* PGDetailController.h */,
 				0EC723E31AE23B04007A5D48 /* PGDetailController.m */,
+				0ED9932B1AE490870040F50E /* TerimalChoseViewController.h */,
+				0ED9932C1AE490870040F50E /* TerimalChoseViewController.m */,
 			);
 			name = Picking;
 			sourceTree = "<group>";
@@ -1879,6 +1884,7 @@
 				0ECA824E1AE3551700EB89E1 /* MultipleDeleteCell.m in Sources */,
 				0EC723EA1AE243E4007A5D48 /* TGDetailController.m in Sources */,
 				0D16942F1AD3C15600B50A17 /* README.md in Sources */,
+				0ED9932D1AE490870040F50E /* TerimalChoseViewController.m in Sources */,
 				0EC7C1551ADFC4180076AAC4 /* OrderConfirmController.m in Sources */,
 				1AF15AF21ACCE3A400D5C171 /* UIImage+MultiFormat.m in Sources */,
 				0ECB170F1ADE2F2400234772 /* GoodAgentModel.m in Sources */,
