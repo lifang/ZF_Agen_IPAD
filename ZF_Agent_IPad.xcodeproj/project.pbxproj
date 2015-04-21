@@ -86,6 +86,8 @@
 		0ECB5BF91AE5E0B400AF0891 /* SubAgentDetailModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0ECB5BF81AE5E0B400AF0891 /* SubAgentDetailModel.m */; };
 		0ECB5BFC1AE5ED1C00AF0891 /* BenefitModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0ECB5BFB1AE5ED1C00AF0891 /* BenefitModel.m */; };
 		0ECB5BFF1AE5ED4400AF0891 /* TradeTypeModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0ECB5BFE1AE5ED4400AF0891 /* TradeTypeModel.m */; };
+		0ECB5C021AE609C100AF0891 /* CreateBenefitController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0ECB5C011AE609C100AF0891 /* CreateBenefitController.m */; };
+		0ECB5C051AE60DB300AF0891 /* EditBenefitController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0ECB5C041AE60DB300AF0891 /* EditBenefitController.m */; };
 		0ED194661AD7642C00029DE3 /* OrderDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0ED194651AD7642C00029DE3 /* OrderDetailController.m */; };
 		0ED194731AD79F6200029DE3 /* TransferCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0ED194721AD79F6200029DE3 /* TransferCell.m */; };
 		0ED194761AD79F7100029DE3 /* TopDealRoadCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0ED194751AD79F7100029DE3 /* TopDealRoadCell.m */; };
@@ -412,6 +414,10 @@
 		0ECB5BFB1AE5ED1C00AF0891 /* BenefitModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BenefitModel.m; sourceTree = "<group>"; };
 		0ECB5BFD1AE5ED4400AF0891 /* TradeTypeModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TradeTypeModel.h; sourceTree = "<group>"; };
 		0ECB5BFE1AE5ED4400AF0891 /* TradeTypeModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TradeTypeModel.m; sourceTree = "<group>"; };
+		0ECB5C001AE609C100AF0891 /* CreateBenefitController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CreateBenefitController.h; sourceTree = "<group>"; };
+		0ECB5C011AE609C100AF0891 /* CreateBenefitController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CreateBenefitController.m; sourceTree = "<group>"; };
+		0ECB5C031AE60DB300AF0891 /* EditBenefitController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditBenefitController.h; sourceTree = "<group>"; };
+		0ECB5C041AE60DB300AF0891 /* EditBenefitController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditBenefitController.m; sourceTree = "<group>"; };
 		0ED194641AD7642C00029DE3 /* OrderDetailController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderDetailController.h; sourceTree = "<group>"; };
 		0ED194651AD7642C00029DE3 /* OrderDetailController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrderDetailController.m; sourceTree = "<group>"; };
 		0ED194711AD79F6200029DE3 /* TransferCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TransferCell.h; sourceTree = "<group>"; };
@@ -860,6 +866,10 @@
 				0E5099991AE0D533008CA305 /* NextAgentpeopeleViewController.m */,
 				0E5099951AE0AF48008CA305 /* NextAgentdetalViewController.h */,
 				0E5099961AE0AF48008CA305 /* NextAgentdetalViewController.m */,
+				0ECB5C001AE609C100AF0891 /* CreateBenefitController.h */,
+				0ECB5C011AE609C100AF0891 /* CreateBenefitController.m */,
+				0ECB5C031AE60DB300AF0891 /* EditBenefitController.h */,
+				0ECB5C041AE60DB300AF0891 /* EditBenefitController.m */,
 			);
 			name = AgentManager;
 			sourceTree = "<group>";
@@ -1751,6 +1761,7 @@
 				0ECB5BFF1AE5ED4400AF0891 /* TradeTypeModel.m in Sources */,
 				0D1C66E51ADFE15B00CAC1B8 /* AddressSelectCell.m in Sources */,
 				0ED194731AD79F6200029DE3 /* TransferCell.m in Sources */,
+				0ECB5C021AE609C100AF0891 /* CreateBenefitController.m in Sources */,
 				1AF15B0D1ACCE3BC00D5C171 /* GoodListModel.m in Sources */,
 				1AF15AF41ACCE3A400D5C171 /* UIImageView+WebCache.m in Sources */,
 				0EC723E11AE1FCA1007A5D48 /* OpenProfitTableViewCell.m in Sources */,
@@ -1818,6 +1829,7 @@
 				1AF15B0B1ACCE3BC00D5C171 /* TreeDataHandle.m in Sources */,
 				0D16943A1AD3C60800B50A17 /* TerminalViewCell.m in Sources */,
 				0EC696E71ADB6BBC009D544E /* RegularFormat.m in Sources */,
+				0ECB5C051AE60DB300AF0891 /* EditBenefitController.m in Sources */,
 				0D16941D1AD3C14100B50A17 /* MASCompositeConstraint.m in Sources */,
 				1A96548B1AD66F5100C39B5B /* ChooseView.m in Sources */,
 				1A9654981AD6705D00C39B5B /* BaseInformationViewController.m in Sources */,

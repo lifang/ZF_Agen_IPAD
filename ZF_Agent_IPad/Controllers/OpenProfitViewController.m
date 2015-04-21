@@ -13,7 +13,7 @@
 #import "ChannelListModel.h"
 
 #import "BenefitModel.h"
-@interface OpenProfitViewController ()<UITableViewDelegate,UITableViewDataSource>
+@interface OpenProfitViewController ()<UITableViewDelegate,UITableViewDataSource,UIPickerViewDataSource,UIPickerViewDelegate>
 @property(nonatomic,strong)UITableView *tableView;
 @property(nonatomic,strong)NSMutableArray*allarry;
 @property (nonatomic, strong) UIScrollView *scrollView;
@@ -31,11 +31,13 @@
     [super viewDidLoad];
     
     self.view.backgroundColor=[UIColor whiteColor];
+    self.title=@"选择支付通道";
     
     _dataItem = [[NSMutableArray alloc] init];
     _channelList = [[NSMutableArray alloc] init];
     [self getBenefitList];
-    
+    [self getBenefitList];
+
     //设置间距
     UIBarButtonItem *spaceItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace
                                                                                target:nil
@@ -48,7 +50,7 @@
     
     [filterButton setTitle:@"添加支付通道" forState:UIControlStateNormal];
     [filterButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [filterButton addTarget:self action:@selector(setOPenProfirclick) forControlEvents:UIControlEventTouchUpInside];
+    [filterButton addTarget:self action:@selector(addBenefit:) forControlEvents:UIControlEventTouchUpInside];
     
     
     spaceItem.width = 52;
@@ -81,13 +83,86 @@
     _tableView.delegate=self;
     _tableView.dataSource=self;
     [self.view addSubview:_tableView];
+    [self initPickerView];
+
 //    _tableView.backgroundColor=[UIColor colorWithWhite:0.7 alpha:1];
     
     // Do any additional setup after loading the view.
 }
 
 
+- (IBAction)addBenefit:(id)sender {
+  
+        [self pickerScrollIn];
+ 
+}
 
+
+
+- (void)initPickerView {
+    CGFloat wide;
+    CGFloat height;
+    if(iOS7)
+    {
+        wide=SCREEN_HEIGHT;
+        height=SCREEN_WIDTH;
+        
+    }
+    else
+    {  wide=SCREEN_WIDTH;
+        height=SCREEN_HEIGHT;
+        
+    }
+    
+
+    
+    //pickerView
+    _toolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, height, wide, 44)];
+    UIBarButtonItem *cancelItem = [[UIBarButtonItem alloc] initWithTitle:@"取消"
+                                                                   style:UIBarButtonItemStyleDone
+                                                                  target:self
+                                                                  action:@selector(pickerScrollOut)];
+    UIBarButtonItem *finishItem = [[UIBarButtonItem alloc] initWithTitle:@"完成"
+                                                                   style:UIBarButtonItemStyleDone
+                                                                  target:self
+                                                                  action:@selector(selectedChannel:)];
+    UIBarButtonItem *spaceItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace
+                                                                               target:nil
+                                                                               action:nil];
+    [_toolbar setItems:[NSArray arrayWithObjects:cancelItem,spaceItem,finishItem, nil]];
+    [self.view addSubview:_toolbar];
+    
+    
+    _pickerView = [[UIPickerView alloc] initWithFrame:CGRectMake(0, height, wide, 216)];
+    _pickerView.backgroundColor = kColor(244, 243, 243, 1);
+    _pickerView.delegate = self;
+    _pickerView.dataSource = self;
+    
+    [self.view addSubview:_pickerView];
+    
+}
+- (IBAction)selectedChannel:(id)sender {
+    [self pickerScrollOut];
+    NSInteger firstIndex = [_pickerView selectedRowInComponent:0];
+    ChannelListModel *channel = nil;
+    if (firstIndex < [_channelList count]) {
+        channel = [_channelList objectAtIndex:firstIndex];
+    }
+    [self addBenefitForChannel:channel];
+}
+- (void)addBenefitForChannel:(ChannelListModel *)channel {
+    for (BenefitModel *model in _dataItem) {
+        if ([model.ID isEqualToString:channel.channelID]) {
+            MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+            hud.customView = [[UIImageView alloc] init];
+            hud.mode = MBProgressHUDModeCustomView;
+            [hud hide:YES afterDelay:1.f];
+            hud.labelText = @"该通道已设置过分润";
+            return;
+        }
+    }
+   
+}
 
 
 
@@ -172,16 +247,46 @@
 }
 
 - (void)pickerScrollIn {
+    
+    CGFloat wide;
+    CGFloat height;
+    if(iOS7)
+    {
+        wide=SCREEN_HEIGHT;
+        height=SCREEN_WIDTH;
+        
+    }
+    else
+    {  wide=SCREEN_WIDTH;
+        height=SCREEN_HEIGHT;
+        
+    }
+
     [UIView animateWithDuration:.3f animations:^{
-        _toolbar.frame = CGRectMake(0, kScreenHeight - 260, kScreenWidth, 44);
-        _pickerView.frame = CGRectMake(0, kScreenHeight - 216, kScreenWidth, 216);
+        _toolbar.frame = CGRectMake(0, height - 260, wide, 44);
+        _pickerView.frame = CGRectMake(0, height - 216, wide, 216);
     }];
 }
 
 - (void)pickerScrollOut {
+    
+    CGFloat wide;
+    CGFloat height;
+    if(iOS7)
+    {
+        wide=SCREEN_HEIGHT;
+        height=SCREEN_WIDTH;
+        
+    }
+    else
+    {  wide=SCREEN_WIDTH;
+        height=SCREEN_HEIGHT;
+        
+    }
+
     [UIView animateWithDuration:.3f animations:^{
-        _toolbar.frame = CGRectMake(0, kScreenHeight, kScreenWidth, 44);
-        _pickerView.frame = CGRectMake(0, kScreenHeight, kScreenWidth, 216);
+        _toolbar.frame = CGRectMake(0, height, wide, 44);
+        _pickerView.frame = CGRectMake(0, height, wide, 216);
     }];
 }
 
@@ -207,7 +312,9 @@
                 else if ([errorCode intValue] == RequestSuccess) {
                     [hud hide:YES];
                     hud.labelText = @"删除成功";
-                    [[NSNotificationCenter defaultCenter] postNotificationName:RefreshBenefitListNotification object:nil];
+                    [self getBenefitList];
+                    [self createui];
+                    
                 }
             }
             else {
@@ -322,7 +429,19 @@
         neworiginaltextfield=[[UITextField alloc]init];
         
         neworiginaltextfield.frame = CGRectMake(80,  i*60+20,280, 40);
-        neworiginaltextfield.userInteractionEnabled=NO;
+        neworiginaltextfield.userInteractionEnabled=YES;
+        
+        CALayer *layer=[neworiginaltextfield layer];
+        //是否设置边框以及是否可见
+        [layer setMasksToBounds:YES];
+        //设置边框圆角的弧度
+        
+        //设置边框线的宽
+        //
+        [layer setBorderWidth:1];
+        //设置边框线的颜色
+        [layer setBorderColor:[[UIColor grayColor] CGColor]];
+        
         neworiginaltextfield.placeholder=[NSString stringWithFormat:@"%.f%%",tradeModel.percent];
         
         neworiginaltextfield.delegate=self;
@@ -333,54 +452,113 @@
     
     }
 
-    UIButton* savebutton = [UIButton buttonWithType:UIButtonTypeCustom];
-    savebutton.frame = CGRectMake(0,340,80, 40);
+    
+    if(model.tradeList.count!=0)
+    {
+    
+        UIButton* savebutton = [UIButton buttonWithType:UIButtonTypeCustom];
+        savebutton.frame = CGRectMake(0,340,80, 40);
+        
+        
+        
+        
+        
+        [savebutton setTitle:@"保存" forState:UIControlStateNormal];
+        
+        //            [addressbutton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        [savebutton setBackgroundImage:kImageName(@"blue") forState:UIControlStateNormal];
+        
+        
+        [savebutton addTarget:self action:@selector(openprofitclick) forControlEvents:UIControlEventTouchUpInside];
+        [_scrollView addSubview:savebutton];
+        
+
+    }
+    
+
+}
+- (void)modityBenefit {
+    
+    
+    
+    
+    
+    BenefitModel *model = [_dataItem objectAtIndex:numberint];
+    
+    //    NSArray*namesarry=[NSArray arrayWithObjects:@"消费",@"转账",@"还款",@"话费充值",@"生活充值",nil];
+    
+    NSString *string = nil;
+    NSString *lastString = @"";
+    for(int i=0;i<model.tradeList.count;i++)
+    {
+        
+        TradeTypeModel *tradeModel = [model.tradeList objectAtIndex:i];
+        UITextField*textfield=(UITextField*)[self.view viewWithTag:i+1056];
+        
+        
+        NSString *benefitString = [NSString stringWithFormat:@"%.1f_%@",[textfield.text floatValue],tradeModel.ID];
+
+        
+        string = [NSString stringWithFormat:@"%@%@|", lastString, benefitString];
+        
+        lastString = [NSString stringWithFormat:@"%@", string];
+        
+    }
     
     
    
-    
-    
-    [savebutton setTitle:@"编辑" forState:UIControlStateNormal];
-    
-    //            [addressbutton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    [savebutton setBackgroundImage:kImageName(@"blue") forState:UIControlStateNormal];
-    
-    
-    [savebutton addTarget:self action:@selector(openprofitclick) forControlEvents:UIControlEventTouchUpInside];
-    [_scrollView addSubview:savebutton];
+   
 
+    
+    
+    
+    
+    
 
-
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+    hud.labelText = @"提交中...";
+    AppDelegate *delegate = [AppDelegate shareAppDelegate];
+    [NetworkInterface submitBenefitWithAgentID:delegate.agentID token:delegate.token subAgentID:_subAgentID channelID:model.ID profit:lastString type:0 finished:^(BOOL success, NSData *response) {
+        NSLog(@"%@",[[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding]);
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:0.5f];
+        if (success) {
+            id object = [NSJSONSerialization JSONObjectWithData:response options:NSJSONReadingMutableLeaves error:nil];
+            if ([object isKindOfClass:[NSDictionary class]]) {
+                NSString *errorCode = [object objectForKey:@"code"];
+                if ([errorCode intValue] == RequestFail) {
+                    //返回错误代码
+                    hud.labelText = [NSString stringWithFormat:@"%@",[object objectForKey:@"message"]];
+                }
+                else if ([errorCode intValue] == RequestSuccess) {
+                    [hud hide:YES];
+                    [self.navigationController popViewControllerAnimated:YES];
+                    [[NSNotificationCenter defaultCenter] postNotificationName:RefreshBenefitListNotification object:nil];
+                }
+            }
+            else {
+                //返回错误数据
+                hud.labelText = kServiceReturnWrong;
+            }
+        }
+        else {
+            hud.labelText = kNetworkFailed;
+        }
+    }];
 }
+
 -(void)openprofitclick
 {
 
   
     
-        for(int i=0;i<5;i++)
-        {
-            UITextField*text=(UITextField*)[self.view viewWithTag:i+1056];
-            
-
-            text.userInteractionEnabled=YES;
-            
-            CALayer *layer=[text layer];
-            //是否设置边框以及是否可见
-            [layer setMasksToBounds:YES];
-            //设置边框圆角的弧度
-            
-            //设置边框线的宽
-            //
-            [layer setBorderWidth:1];
-            //设置边框线的颜色
-            [layer setBorderColor:[[UIColor grayColor] CGColor]];
-            
-        }
-       
+    
         
 
      
-
+    [self modityBenefit];
+    
        
 
     
@@ -400,6 +578,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+   
     BenefitModel *model = [_dataItem objectAtIndex:indexPath.row];
 
     static NSString *cellIdentifier = @"Cell";
@@ -414,7 +593,8 @@
     cell.textLabel.text=model.channelName;
     [cell.deletebutton addTarget:self action:@selector(deletebuttonclick:) forControlEvents:UIControlEventTouchUpInside];
    
-
+    cell.deletebutton.tag=indexPath.row;
+    
 
     return cell;
     
@@ -437,6 +617,9 @@
 
 {
 
+    BenefitModel *model = [_dataItem objectAtIndex:send.tag];
+    [self deleteBenefitWithModel:model];
+    
 
 
 
