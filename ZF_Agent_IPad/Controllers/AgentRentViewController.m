@@ -583,56 +583,56 @@
         
         
     }
-    //    NSLog(@"%@-%@-%@-%d-%@-%@",delegate.userID,_goodDetail.goodID,_goodDetail.defaultChannel.channelID,_count,addressID,self.reviewField.text);
-    //
-    //    [NetworkInterface createOrderFromGoodRentWithToken:delegate.token userID:delegate.userID goodID:_goodDetail.goodID channelID:_goodDetail.defaultChannel.channelID count:_count addressID:addressID comment:self.reviewField.text needInvoice:0 invoiceType:0 invoiceInfo:nil finished:^(BOOL success, NSData *response) {
-    //        hud.customView = [[UIImageView alloc] init];
-    //        hud.mode = MBProgressHUDModeCustomView;
-    //        [hud hide:YES afterDelay:0.3f];
-    //        if (success)
-    //          {
-    //            NSLog(@"!!%@",[[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding]);
-    //            id object = [NSJSONSerialization JSONObjectWithData:response options:NSJSONReadingMutableLeaves error:nil];
-    //            if ([object isKindOfClass:[NSDictionary class]])
-    //            {
-    //                NSString *errorCode = [object objectForKey:@"code"];
-    //                if ([errorCode intValue] == RequestFail) {
-    //                    //返回错误代码
-    //                    hud.labelText = [NSString stringWithFormat:@"%@",[object objectForKey:@"message"]];
-    //                }
-    //                else if ([errorCode intValue] == RequestSuccess)
-    //                {
-    //                    [hud hide:YES];
-    //                    [[NSNotificationCenter defaultCenter] postNotificationName:RefreshShoppingCartNotification object:nil];
-    //                    PayWayViewController *payWayC = [[PayWayViewController alloc] init];
-    //                    payWayC.totalPrice = [self getSummaryPrice];
-    //                    payWayC.hidesBottomBarWhenPushed =  YES ;
-    //
-    //                    [self.navigationController pushViewController:payWayC animated:YES];
-    //                }
-    //                else if ([errorCode intValue] == -2)
-    //                {
-    //
-    //                    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
-    //                    hud.customView = [[UIImageView alloc] init];
-    //                    hud.mode = MBProgressHUDModeCustomView;
-    //                    [hud hide:YES afterDelay:1.f];
-    //                    hud.labelText = [object objectForKey:@"message"];
-    //
-    //
-    //
-    //                }
-    //            }
-    //            else
-    //            {
-    //                //返回错误数据
-    //                hud.labelText = kServiceReturnWrong;
-    //            }
-    //        }
-    //        else {
-    //            hud.labelText = kNetworkFailed;
-    //        }
-    //    }];
+        NSLog(@"%@-%@-%@-%d-%@-%@",delegate.userID,_goodDetail.goodID,_goodDetail.defaultChannel.channelID,_count,addressID,self.reviewField.text);
+     int a=7;
+      [NetworkInterface createOrderFromGoodBuyWithAgentID:delegate.agentID token:delegate.token userID:delegate.agentUserID createUserID:delegate.userID belongID:delegate.agentUserID confirmType:a goodID:_goodDetail.goodID channelID:_goodDetail.defaultChannel.channelID count:_count addressID:self.defaultAddress.addressID comment:self.reviewField.text needInvoice:0 invoiceType:0 invoiceInfo:nil finished:^(BOOL success, NSData *response) {
+            hud.customView = [[UIImageView alloc] init];
+            hud.mode = MBProgressHUDModeCustomView;
+            [hud hide:YES afterDelay:0.3f];
+            if (success)
+              {
+                NSLog(@"!!%@",[[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding]);
+                id object = [NSJSONSerialization JSONObjectWithData:response options:NSJSONReadingMutableLeaves error:nil];
+                if ([object isKindOfClass:[NSDictionary class]])
+                {
+                    NSString *errorCode = [object objectForKey:@"code"];
+                    if ([errorCode intValue] == RequestFail) {
+                        //返回错误代码
+                        hud.labelText = [NSString stringWithFormat:@"%@",[object objectForKey:@"message"]];
+                    }
+                    else if ([errorCode intValue] == RequestSuccess)
+                    {
+                        [hud hide:YES];
+                        [[NSNotificationCenter defaultCenter] postNotificationName:RefreshShoppingCartNotification object:nil];
+                        PayWayViewController *payWayC = [[PayWayViewController alloc] init];
+                        payWayC.totalPrice = [self getSummaryPrice];
+                        payWayC.hidesBottomBarWhenPushed =  YES ;
+    
+                        [self.navigationController pushViewController:payWayC animated:YES];
+                    }
+                    else if ([errorCode intValue] == -2)
+                    {
+    
+                        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+                        hud.customView = [[UIImageView alloc] init];
+                        hud.mode = MBProgressHUDModeCustomView;
+                        [hud hide:YES afterDelay:1.f];
+                        hud.labelText = [object objectForKey:@"message"];
+    
+    
+    
+                    }
+                }
+                else
+                {
+                    //返回错误数据
+                    hud.labelText = kServiceReturnWrong;
+                }
+            }
+            else {
+                hud.labelText = kNetworkFailed;
+            }
+        }];
 }
 
 #pragma mark - Data
@@ -1100,7 +1100,7 @@
             _cityField.imageEdgeInsets = UIEdgeInsetsMake(0,220,0,0);//设置image在button上的位置（上top，左left，下bottom，右right）这里可以写负值，对上写－5，那么image就象上移动5个像素
             
             
-            [_cityField addTarget:self action:@selector(cityclick) forControlEvents:UIControlEventTouchUpInside];
+            [_cityField addTarget:self action:@selector(cityclick:) forControlEvents:UIControlEventTouchUpInside];
             [witeview addSubview:_cityField];
         }
         else
@@ -1149,9 +1149,21 @@
     [savebutton addTarget:self action:@selector(saveAddress) forControlEvents:UIControlEventTouchUpInside];
     [witeview addSubview:savebutton];
 }
--(void)cityclick
-{
-    _cityField.userInteractionEnabled=NO;
+-(void)cityclick:(UIButton*)send
+{    Okcityint=send.tag;
+    
+    if(send.tag==1023)
+    {
+        
+        locationBtn.userInteractionEnabled=NO;
+        
+    }else
+    {
+        _cityField.userInteractionEnabled=NO;
+        
+        
+    }
+
 
     [self initPickerView];
     
@@ -1343,7 +1355,16 @@
 
 
 - (void)pickerScrollOut {
-    _cityField.userInteractionEnabled=YES;
+    if(Okcityint==1023)
+    {
+        locationBtn.userInteractionEnabled=YES;
+        
+    }else
+    {
+        _cityField.userInteractionEnabled=YES;
+        
+        
+    }
 
     CGFloat wide;
     CGFloat height;

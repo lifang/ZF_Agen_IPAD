@@ -24,6 +24,7 @@
     NSInteger changeB;
     BOOL changeagent;
     NSInteger cityint;
+    NSInteger Okcityint;
 
     UIImageView*bigsview;
 }

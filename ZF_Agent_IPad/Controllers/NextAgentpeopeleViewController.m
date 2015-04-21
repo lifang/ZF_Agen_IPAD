@@ -8,10 +8,13 @@
 
 #import "NextAgentpeopeleViewController.h"
 #import "OpenProfitViewController.h"
-
+#import "NetworkInterface.h"
+#import "AppDelegate.h"
+#import "SubAgentDetailModel.h"
 @interface NextAgentpeopeleViewController ()
 @property (nonatomic, strong) UIScrollView *scrollView;
 @property (nonatomic, assign) BOOL isopen;
+@property (nonatomic, strong) SubAgentDetailModel *agentDetail;
 @end
 
 @implementation NextAgentpeopeleViewController
@@ -42,7 +45,6 @@
     
     [self.view addSubview:_scrollView];
     
-    [self createui];
     //设置间距
     UIBarButtonItem *spaceItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace
                                                                                target:nil
@@ -65,6 +67,7 @@
     
     self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:spaceItem,shoppingItem,spaceItem,spaceItem,nil];
 
+    [self getSubAgentDetail];
     
     // Do any additional setup after loading the view.
 }
@@ -73,7 +76,8 @@
     
     OpenProfitViewController*openV=[[OpenProfitViewController alloc]init];
     openV.hidesBottomBarWhenPushed=YES;
-    
+    openV.subAgentID = _subAgent.agentID;
+
     [self.navigationController pushViewController:openV animated:YES];
     
     
@@ -148,14 +152,14 @@
     
     
     
-    NSArray*namesarry1=[NSArray arrayWithObjects:@"代理商类型",@"负责人姓名",@"负责人身份证号",@"手机", @"邮箱",@"所在地",@"详细地址",nil];
+    NSArray*namesarry1=[NSArray arrayWithObjects:@"代理商类型：个人",[NSString stringWithFormat:@"负责人姓名: %@", _agentDetail.personName],[NSString stringWithFormat:@"负责人身份证号: %@", _agentDetail.personID],[NSString stringWithFormat:@"手机: %@", _agentDetail.mobilePhone],[NSString stringWithFormat:@"邮箱: %@", _agentDetail.email],[NSString stringWithFormat:@"所在地: %@ %@", _agentDetail.provinceName,_agentDetail.cityName],[NSString stringWithFormat:@"详细地址: %@", _agentDetail.address],nil];
     for(int i=0;i<namesarry1.count;i++)
     {
         
         
         
         
-        UILabel*newaddress=[[UILabel alloc]initWithFrame:CGRectMake(60, i*60+40,wide/2-270, 40)];
+        UILabel*newaddress=[[UILabel alloc]initWithFrame:CGRectMake(60, i*60+40,wide/2, 40)];
         [_scrollView addSubview:newaddress];
         newaddress.textAlignment = NSTextAlignmentRight;
         newaddress.font=[UIFont systemFontOfSize:18];
@@ -169,7 +173,7 @@
     {
         
         
-        UILabel*newaddress=[[UILabel alloc]initWithFrame:CGRectMake(60, i*60+600,wide/2-270, 40)];
+        UILabel*newaddress=[[UILabel alloc]initWithFrame:CGRectMake(60, i*60+600,wide/2, 40)];
         [_scrollView addSubview:newaddress];
         newaddress.textAlignment = NSTextAlignmentRight;
         newaddress.font=[UIFont systemFontOfSize:18];
@@ -178,7 +182,7 @@
         
         
         UIButton* addressbutton = [UIButton buttonWithType:UIButtonTypeCustom];
-        addressbutton.frame = CGRectMake(wide/2-200,i*60+600,35, 35);
+        addressbutton.frame = CGRectMake(wide/2+70,i*60+600,35, 35);
         
         
         //            [addressbutton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
@@ -202,10 +206,10 @@
     
     
     
-    UILabel*idlable=[[UILabel alloc]initWithFrame:CGRectMake(60, 720,wide/2-270, 30)];
+    UILabel*idlable=[[UILabel alloc]initWithFrame:CGRectMake(60, 720,wide/2, 30)];
     idlable.textAlignment = NSTextAlignmentRight;
     
-    idlable.text=@"登录ID";
+    idlable.text=[NSString stringWithFormat:@"登录ID: %@", _agentDetail.loginName];
     
     [_scrollView addSubview:idlable];
     
@@ -233,6 +237,51 @@
     
     
     
+}
+#pragma mark - Request
+
+- (void)getSubAgentDetail {
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+    hud.labelText = @"提交中...";
+    AppDelegate *delegate = [AppDelegate shareAppDelegate];
+    [NetworkInterface getSubAgentDetailWithToken:delegate.token subAgentID:_subAgent.agentID finished:^(BOOL success, NSData *response) {
+        NSLog(@"%@",[[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding]);
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:0.5f];
+        if (success) {
+            id object = [NSJSONSerialization JSONObjectWithData:response options:NSJSONReadingMutableLeaves error:nil];
+            if ([object isKindOfClass:[NSDictionary class]]) {
+                NSString *errorCode = [object objectForKey:@"code"];
+                if ([errorCode intValue] == RequestFail) {
+                    //返回错误代码
+                    hud.labelText = [NSString stringWithFormat:@"%@",[object objectForKey:@"message"]];
+                }
+                else if ([errorCode intValue] == RequestSuccess) {
+                    [hud hide:YES];
+                    [self parseAgentDetailWithDictionary:object];
+                }
+            }
+            else {
+                //返回错误数据
+                hud.labelText = kServiceReturnWrong;
+            }
+        }
+        else {
+            hud.labelText = kNetworkFailed;
+        }
+    }];
+}
+
+#pragma mark - Data
+
+- (void)parseAgentDetailWithDictionary:(NSDictionary *)dict {
+    if (![dict objectForKey:@"result"] || ![[dict objectForKey:@"result"] isKindOfClass:[NSDictionary class]]) {
+        return;
+    }
+    _agentDetail = [[SubAgentDetailModel alloc] initWithParseDictionary:[dict objectForKey:@"result"]];
+    [self createui];
+
 }
 
 - (void)didReceiveMemoryWarning {
