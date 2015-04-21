@@ -19,6 +19,7 @@
 @end
 
 @implementation UserListViewController
+@synthesize returnTextBlock;
 
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];

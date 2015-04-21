@@ -8,6 +8,7 @@
 
 #import "RefreshViewController.h"
 #import "UserModel.h"
+typedef void (^ReturnTextBlock)(NSMutableArray *showText);
 
 @protocol SelectedUserDelegate <NSObject>
 
@@ -16,6 +17,7 @@
 @end
 
 @interface UserListViewController : RefreshViewController
+@property (nonatomic, copy) ReturnTextBlock returnTextBlock;
 
 @property (nonatomic, assign) id<SelectedUserDelegate>delegate;
 
