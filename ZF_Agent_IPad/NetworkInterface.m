@@ -505,6 +505,30 @@ static NSString *HTTP_GET  = @"GET";
                         finished:finish];
 }
 
+//21
++ (void)searchTerminalsListWithToken:(NSString *)token
+                               agentID:(NSString *)agentId
+                                  page:(int)page
+                                  rows:(int)rows
+                                serialNum:(NSString*)serialNum
+                              finished:(requestDidFinished)finish {
+    //参数
+    NSMutableDictionary *paramDict = [[NSMutableDictionary alloc] init];
+    if (token && ![token isEqualToString:@""]) {
+        [paramDict setObject:token forKey:@"token"];
+    }
+    [paramDict setObject:[NSNumber numberWithInt:[agentId intValue]] forKey:@"agentId"];
+    [paramDict setObject:[NSNumber numberWithInt:page] forKey:@"page"];
+    [paramDict setObject:[NSNumber numberWithInt:rows] forKey:@"rows"];
+    [paramDict setObject:serialNum forKey:@"serialNum"];
+    //url
+    NSString *urlString = [NSString stringWithFormat:@"%@/%@",kServiceURL,s_terminalStatus_method];
+    [[self class] requestWithURL:urlString
+                          params:paramDict
+                      httpMethod:HTTP_POST
+                        finished:finish];
+}
+
 
 //22.
 
