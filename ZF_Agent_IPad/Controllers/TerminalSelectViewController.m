@@ -12,8 +12,9 @@
 #import "NetworkInterface.h"
 #import "ChannelListModel.h"
 #import "RegularFormat.h"
+#import "SearchTermianlViewController.h"
 
-@interface TerminalSelectViewController ()<UITableViewDelegate,UITableViewDataSource,UITextViewDelegate,UIPickerViewDelegate,UIPickerViewDataSource,UIPopoverControllerDelegate>
+@interface TerminalSelectViewController ()<UITableViewDelegate,UITableViewDataSource,UITextViewDelegate,UIPickerViewDelegate,UIPickerViewDataSource,UIPopoverControllerDelegate,SearchDelegate>
 {
    // BOOL isSelected;
     //CGFloat summaryPrice;
@@ -329,7 +330,19 @@
         //make.width.equalTo(@120);
         
     }];
-
+    
+    
+    UIButton *searchBtn=[[UIButton alloc] init];
+    [searchBtn setBackgroundImage:[UIImage imageNamed:@"searchbar"] forState:UIControlStateNormal];
+    [searchBtn addTarget:self action:@selector(searchBtnPressed:) forControlEvents:UIControlEventTouchUpInside];
+    [headerView addSubview:searchBtn];
+    [searchBtn makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.equalTo(headerView.centerY);
+       // make.left.equalTo(priceLB.right).offset(60);
+        make.right.equalTo(headerView.right).offset(-100);
+        make.width.equalTo(@40);
+        
+    }];
 
     _tableView= [[UITableView alloc] init];
     _tableView.backgroundColor=[UIColor whiteColor];
@@ -462,6 +475,16 @@
 }
 
 
+-(void)searchBtnPressed:(id)sender
+{
+    SearchTermianlViewController *searchTerminalVC=[[SearchTermianlViewController alloc] init];
+    searchTerminalVC.delegate=self;
+    searchTerminalVC.hidesBottomBarWhenPushed=YES;
+    [self.navigationController pushViewController:searchTerminalVC animated:YES];
+
+}
+
+
 - (void)refreshSelectedInfo {
     int selectedCount = 0;
     for (TerminalSelectModel *model in _terminalList) {
@@ -520,10 +543,20 @@
 
 -(void)select:(TerminalSelectModel *)model
 {
-    NSLog(@"2322222");
+    
     [self refreshSelectedInfo];
     
 }
+
+
+#pragma mark -searchTerminalDelegate
+
+- (void)getSearchKeyword:(NSString *)keyword
+{
+    [self searchTerminalWithString:keyword];
+
+}
+
 
 -(void)finishBtnPressed:(id)sender
 {
@@ -665,13 +698,74 @@
     }];
 }
 
+
+//搜索终端
+- (void)searchTerminalWithString:(NSString *)title {
+    NSMutableArray *terminals = [[NSMutableArray alloc] init];
+    if (title && ![title isEqualToString:@""]) {
+        [terminals addObject:title];
+    }
+    NSLog(@"terminals:%@",terminals);
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+    hud.labelText = @"加载中...";
+    AppDelegate *delegate = [AppDelegate shareAppDelegate];
+    [NetworkInterface batchTerminalNumWithtoken:delegate.token agentId:delegate.agentID serialNum:terminals finished:^(BOOL success, NSData *response) {
+        NSLog(@"%@",[[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding]);
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:0.5f];
+        if (success) {
+            id object = [NSJSONSerialization JSONObjectWithData:response options:NSJSONReadingMutableLeaves error:nil];
+            if ([object isKindOfClass:[NSDictionary class]]) {
+                NSString *errorCode = [object objectForKey:@"code"];
+                if ([errorCode intValue] == RequestFail) {
+                    //返回错误代码
+                    hud.labelText = [NSString stringWithFormat:@"%@",[object objectForKey:@"message"]];
+                }
+                else if ([errorCode intValue] == RequestSuccess) {
+                    [hud hide:YES];
+                    [self parseSearchListWithData:object];
+                }
+            }
+            else {
+                //返回错误数据
+                hud.labelText = kServiceReturnWrong;
+            }
+        }
+        else {
+            hud.labelText = kNetworkFailed;
+        }
+    }];
+}
+
+/*
+- (void)parseSearchListWithData:(NSDictionary *)dict {
+    if (![dict objectForKey:@"result"] || ![[dict objectForKey:@"result"] isKindOfClass:[NSArray class]]) {
+        return;
+    }
+    [_terminalList removeAllObjects];
+    NSArray *serialList = [dict objectForKey:@"result"];
+    for (int i = 0; i < [serialList count]; i++) {
+        id serialDict = [serialList objectAtIndex:i];
+        if ([serialDict isKindOfClass:[NSDictionary class]]) {
+            TerminalSelectModel *model = [[TerminalSelectModel alloc] initWithParseDictionary:serialDict];
+            [_terminalList addObject:model];
+        }
+        NSLog(@"terminalList:%@",_terminalList);
+    }
+    [_tableView reloadData];
+ 
+}
+*/
+
+
+
 #pragma mark - Data
 
 - (void)parseSearchListWithData:(NSDictionary *)dict {
     if (![dict objectForKey:@"result"] || ![[dict objectForKey:@"result"] isKindOfClass:[NSArray class]]) {
         return;
     }
-    //NSMutableArray *searchList = [[NSMutableArray alloc] init];
     [ _terminalList removeAllObjects];
     NSArray *serialList = [dict objectForKey:@"result"];
     for (int i = 0; i < [serialList count]; i++) {
@@ -688,29 +782,10 @@
 
 
 
-
-/*
-#pragma mark - Data
-
-- (void)parseMerchantDataWithDictionary:(NSDictionary *)dict {
-    
-    if (![dict objectForKey:@"result"] || ![[dict objectForKey:@"result"] isKindOfClass:[NSDictionary class]]) {
-        return;
-    }
-    _terminalList = [dict objectForKey:@"result"];
-    for (int i = 0; i < [_terminalList count]; i++) {
-        TerminalSelectModel *model = [[TerminalSelectModel alloc] initWithParseDictionary:[_terminalList objectAtIndex:i]];
-        [_terminalItems addObject:model];
-    }
-    NSLog(@"Items:%@",_terminalItems);
-    [_tableView reloadData];
-}
-*/
-
 #pragma mark - Data-POS
 
 - (void)parsePOSDataWithDictionary:(NSDictionary *)dict {
-     NSLog(@"zhihzihzhi");
+    
     //if (![dict objectForKey:@"result"] || ![[dict objectForKey:@"result"] isKindOfClass:[NSDictionary class]]) {
     //    return;
    // }
@@ -736,12 +811,7 @@
         ChannelListModel *model = [[ChannelListModel alloc] initWithParseDictionary:channelDict];
         [_channelItems addObject:model];
         NSLog(@"_channelItem:%@",_channelItems);
-        /*
-        if (i==0) {
-            _channelsId=[model.channelID intValue];
-            _masterChannel=model.channelName;
-        }
-         */
+      
     }
     
     [_pickerView reloadAllComponents];

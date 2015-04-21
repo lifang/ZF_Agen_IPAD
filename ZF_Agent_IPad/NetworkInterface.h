@@ -732,6 +732,7 @@ static NSString *s_transferGood_method = @"exchangegood/add";
  @result finish  请求回调结果
  */
 + (void)batchTerminalNumWithtoken:(NSString *)token
+                          agentId:(NSString *)agentId
                       serialNum:(NSArray *)serialNum
                         finished:(requestDidFinished)finish;
 

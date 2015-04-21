@@ -645,6 +645,7 @@ static NSString *HTTP_GET  = @"GET";
 
 //27
 + (void)batchTerminalNumWithtoken:(NSString *)token
+                          agentId:(NSString *)agentId
                      serialNum:(NSArray *)serialNum
                          finished:(requestDidFinished)finish{
     //参数
@@ -652,6 +653,7 @@ static NSString *HTTP_GET  = @"GET";
     if (token && ![token isEqualToString:@""]) {
         [paramDict setObject:token forKey:@"token"];
     }
+    [paramDict setObject:[NSNumber numberWithInt:[agentId intValue]] forKey:@"agentId"];
     [paramDict setObject:serialNum forKey:@"serialNum"];
     //url
     NSString *urlString = [NSString stringWithFormat:@"%@/%@",kServiceURL,s_batchterminalnum_method];
