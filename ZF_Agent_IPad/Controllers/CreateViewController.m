@@ -10,7 +10,7 @@
 #import "RegularFormat.h"
 #import "CityHandle.h"
 #import "KxMenu.h"
-
+#import "OpenProfitViewController.h"
 #define kRegisterInputViewTag   100
 #define kRegisterImageViewTag   101
 
@@ -58,14 +58,52 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     _infoDict = [[NSMutableDictionary alloc] init];
+    mutabledict = [[NSMutableDictionary alloc] init];
 
+    
     // Do any additional setup after loading the view.
     self.title = @"申请成为代理商";
     _agentType = AgentTypeCompany;
     _registerDict = [[NSMutableDictionary alloc] init];
     [self initAndLayoutUI];
+    
+    
+//    //设置间距
+//    UIBarButtonItem *spaceItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace
+//                                                                               target:nil
+//                                                                               action:nil];
+//    
+//    
+//    
+//   filterButton = [UIButton buttonWithType:UIButtonTypeCustom];
+//    filterButton.frame = CGRectMake(0, 0, 80, 30);
+//    
+//    [filterButton setTitle:@"设置分润" forState:UIControlStateNormal];
+//    [filterButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+//    [filterButton addTarget:self action:@selector(setOPenProfirclick) forControlEvents:UIControlEventTouchUpInside];
+//    
+//    
+//    spaceItem.width = 52;
+//    UIBarButtonItem *shoppingItem = [[UIBarButtonItem alloc] initWithCustomView:filterButton];
+//
+//    
+//    self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:spaceItem,shoppingItem,spaceItem,spaceItem,nil];
+    
+    
 }
+-(void)setOPenProfirclick
+{
 
+    OpenProfitViewController*openV=[[OpenProfitViewController alloc]init];
+    openV.hidesBottomBarWhenPushed=YES;
+
+    [self.navigationController pushViewController:openV animated:YES];
+    
+
+
+
+
+}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
@@ -74,6 +112,8 @@
 #pragma mark - UI
 
 - (IBAction)modifyLocation:(id)sender {
+    addressbuttons.userInteractionEnabled=YES;
+
     [self pickerScrollOut];
     NSInteger index = [_pickerView selectedRowInComponent:1];
     cityID = [NSString stringWithFormat:@"%@",[[_cityArray objectAtIndex:index] objectForKey:@"id"]];
@@ -161,7 +201,8 @@
 
 
 - (void)pickerScrollOut {
-    
+    addressbuttons.userInteractionEnabled=YES;
+
     CGFloat wide;
     CGFloat height;
     if(iOS7)
@@ -275,6 +316,10 @@
                 }
                 else if ([errorCode intValue] == RequestSuccess) {
                     hud.labelText = @"上传成功";
+                    pictureintCurrent=pictureunt;
+            
+                    [mutabledict setObject:[NSString stringWithFormat:@"%d",pictureintCurrent] forKey:[NSString stringWithFormat:@"%d",pictureintCurrent]];
+                    
                     [self parseImageUploadInfo:object];
                 }
             }
@@ -294,7 +339,8 @@
 -(void)pictureclick:(UIButton*)send
 {
     _selectedKey =[NSString stringWithFormat:@"%d", send.tag];
-
+    pictureunt=send.tag;
+    
 
     [self showImageOption];
     
@@ -304,6 +350,8 @@
 -(void)addressclick
 {
 
+    addressbuttons.userInteractionEnabled=NO;
+    
     [self initPickerView];
 
 
@@ -363,7 +411,8 @@
 #pragma mark - 数据验证
 
 - (void)dataValidation {
-    if (self.agentType == AgentTypeCompany) {
+    if (self.agentType == AgentTypeCompany)
+    {
         if (![_registerDict objectForKey:key_company] || [[_registerDict objectForKey:key_company] isEqualToString:@""]) {
             MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
             hud.customView = [[UIImageView alloc] init];
@@ -555,7 +604,9 @@
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 
-{ CGFloat wide;
+{
+    
+    CGFloat wide;
     CGFloat height;
     if(iOS7)
     {
@@ -572,6 +623,7 @@
 
     
     _scrollView = [[UIView alloc]init];
+    
     
     UILabel*newaddress=[[UILabel alloc]initWithFrame:CGRectMake(60,40,wide/2-270, 40)];
     [_scrollView addSubview:newaddress];
@@ -632,11 +684,15 @@
     openbutton.frame = CGRectMake(wide-160,40,80, 46);
     if(_isopen)
     {
+        
+//        filterButton.hidden=YES;
+        
         [openbutton setImage:kImageName(@"open") forState:UIControlStateNormal];
 
     }else
     {
-    
+//        filterButton.hidden=NO;
+
         [openbutton setImage:kImageName(@"close") forState:UIControlStateNormal];
 
     
@@ -663,7 +719,6 @@
             
             
             UITextField*neworiginaltextfield=[[UITextField alloc]init];
-            neworiginaltextfield.tag=i+404;
 
             neworiginaltextfield.frame = CGRectMake(wide/2-200,  i*60+100,280, 40);
             
@@ -756,7 +811,6 @@
             neworiginaltextfield.frame = CGRectMake(wide/2-200,i*60+heighth,280, 40);
             
             neworiginaltextfield.delegate=self;
-            neworiginaltextfield.tag=i+408;
 
             neworiginaltextfield.tag=i+1056;
             neworiginaltextfield.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
@@ -803,13 +857,22 @@
             
             
             UIButton* addressbutton = [UIButton buttonWithType:UIButtonTypeCustom];
-            addressbutton.frame = CGRectMake(wide/2-200,i*60+820,180, 40);
             
-            [addressbutton setTitle:@"上传照片" forState:UIControlStateNormal];
             
             //            [addressbutton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-            [addressbutton setBackgroundImage:kImageName(@"blue") forState:UIControlStateNormal];
-            
+            if([[mutabledict objectForKey:[NSString stringWithFormat:@"%d",addressbutton.tag]] isEqualToString:[NSString stringWithFormat:@"%ld",(long)addressbutton.tag] ])
+            {            addressbutton.frame = CGRectMake(wide/2-200,i*60+560,35, 35);
+                
+                [addressbutton setBackgroundImage:kImageName(@"ppicture") forState:UIControlStateNormal];
+                
+            }else
+            {            addressbutton.frame = CGRectMake(wide/2-200,i*60+560,180, 40);
+                
+                [addressbutton setTitle:@"上传照片" forState:UIControlStateNormal];
+                
+                [addressbutton setBackgroundImage:kImageName(@"blue") forState:UIControlStateNormal];
+                
+            }
             
             [addressbutton addTarget:self action:@selector(pictureclick:) forControlEvents:UIControlEventTouchUpInside];
             [_scrollView addSubview:addressbutton];
@@ -843,12 +906,9 @@
             
             
             UIButton* addressbutton = [UIButton buttonWithType:UIButtonTypeCustom];
-            addressbutton.frame = CGRectMake(wide/2-200,i*60+560,180, 40);
             
-            [addressbutton setTitle:@"上传照片" forState:UIControlStateNormal];
             
             //            [addressbutton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-            [addressbutton setBackgroundImage:kImageName(@"blue") forState:UIControlStateNormal];
             
             
             [addressbutton addTarget:self action:@selector(pictureclick:) forControlEvents:UIControlEventTouchUpInside];
@@ -856,6 +916,20 @@
             
             
             addressbutton.tag=i+428;
+            
+            if([[mutabledict objectForKey:[NSString stringWithFormat:@"%d",addressbutton.tag]] isEqualToString:[NSString stringWithFormat:@"%ld",(long)addressbutton.tag] ])
+            {            addressbutton.frame = CGRectMake(wide/2-200,i*60+560,35, 35);
+
+                [addressbutton setBackgroundImage:kImageName(@"ppicture") forState:UIControlStateNormal];
+
+            }else
+            {            addressbutton.frame = CGRectMake(wide/2-200,i*60+560,180, 40);
+
+                [addressbutton setTitle:@"上传照片" forState:UIControlStateNormal];
+
+                [addressbutton setBackgroundImage:kImageName(@"blue") forState:UIControlStateNormal];
+
+            }
 
             
             
@@ -915,7 +989,6 @@
         
         
         UITextField*neworiginaltextfield=[[UITextField alloc]init];
-        neworiginaltextfield.tag=i+518;
 
         neworiginaltextfield.frame = CGRectMake(wide/2-200,  i*60+heighth,280, 40);
         

@@ -10,7 +10,10 @@
 
 @interface PrepareGoodManagerController : MineCommonController
 
-{    UIButton* blankbutton ;
+{
+    UIButton*agentnumberbutton;
+    
+    UIButton*blankbutton;
     UIView*datepickview;
     UIButton *cancelBtn;
     UIView*datepickviewend;
@@ -24,7 +27,8 @@
     UIImageView*bigsview;
     NSInteger changeB;
     UIButton*nextagentbutton;
-    
+    BOOL changeagent;
+
     UITextField*neworiginaltextfield;
     UILabel*namelable;
 

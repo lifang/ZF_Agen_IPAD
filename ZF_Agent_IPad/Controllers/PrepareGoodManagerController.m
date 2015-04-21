@@ -18,7 +18,10 @@
 #import "TerminalChoseCell.h"
 #import "PrepareGoodCell.h"
 #import "PrepareGoodModel.h"
-@interface PrepareGoodManagerController ()<UITableViewDataSource,UITableViewDelegate>
+#import "TerimalChoseViewController.h"
+#import "PGDetailController.h"
+
+@interface PrepareGoodManagerController ()<UITableViewDataSource,UITableViewDelegate,SelectedTerminalDelegate>
 //确认按钮
 @property(nonatomic,strong)UIButton *startSure;
 @property(nonatomic,strong)UIButton *endSure;
@@ -26,6 +29,7 @@
 @property(nonatomic,strong)NSString *endTime;
 @property (nonatomic, strong) NSMutableArray *agentList;
 @property (nonatomic, strong) NSMutableArray *prepareList;
+@property (nonatomic, strong) NSMutableArray *TerminalsArray;
 
 @property (nonatomic, strong) UITableView *tableView;
 /** 选择日期空间 */
@@ -46,6 +50,8 @@ static NSString *s_defaultTerminalNum = @"请选择终端号";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    _TerminalsArray = [[NSMutableArray alloc]init];
+
     [self.navigationController.navigationBar setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor], NSForegroundColorAttributeName, NavTitle_FONT(NavTitle_FONTSIZE),NSFontAttributeName,nil]];
     
     // Do any additional setup after loading the view.
@@ -129,7 +135,8 @@ static NSString *s_defaultTerminalNum = @"请选择终端号";
 -(void)agentclick:(UIButton*)send
 {
     changeB=send.tag;
-    
+    changeagent=!changeagent;
+
     [self  getSubAgent];
 
 
@@ -251,13 +258,13 @@ static NSString *s_defaultTerminalNum = @"请选择终端号";
     BBlable.text=@"选择终端号";
     BBlable.font = [UIFont systemFontOfSize:20.f];
     
-    UIButton*agentnumberbutton = [UIButton buttonWithType:UIButtonTypeCustom];
+    agentnumberbutton = [UIButton buttonWithType:UIButtonTypeCustom];
     agentnumberbutton.frame = CGRectMake(60,190 ,height/2-120, 40);
     //    [blankbutton setTitle:[self getBankNameWithBankCode:bankCode] forState:UIControlStateNormal];
     
     [agentnumberbutton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     agentnumberbutton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
-    [agentnumberbutton setImage:kImageName(@"arrow_line1") forState:UIControlStateNormal];
+    [agentnumberbutton setImage:kImageName(@"terminal") forState:UIControlStateNormal];
     CALayer *agentlayer=[agentnumberbutton  layer];
     //是否设置边框以及是否可见
     [agentlayer setMasksToBounds:YES];
@@ -271,7 +278,7 @@ static NSString *s_defaultTerminalNum = @"请选择终端号";
     agentnumberbutton.contentEdgeInsets = UIEdgeInsetsMake(0,10, 0, 0);
     agentnumberbutton.imageEdgeInsets = UIEdgeInsetsMake(0,height/2-180,0,0);//设置image在button上的位置（上top，左left，下bottom，右right）这里可以写负值，对上写－5，那么image就象上移动5个像素
     
-    [agentnumberbutton addTarget:self action:@selector(agentclicksss) forControlEvents:UIControlEventTouchUpInside];
+    [agentnumberbutton addTarget:self action:@selector(terimanlchoseclick) forControlEvents:UIControlEventTouchUpInside];
     [witeview addSubview:agentnumberbutton];
 
     
@@ -282,8 +289,88 @@ static NSString *s_defaultTerminalNum = @"请选择终端号";
     
     [savebutton setBackgroundImage:kImageName(@"blue") forState:UIControlStateNormal];
     [savebutton setTitle:@"确认" forState:UIControlStateNormal];
-    [savebutton addTarget:self action:@selector(okclick) forControlEvents:UIControlEventTouchUpInside];
+    [savebutton addTarget:self action:@selector(submitPrepareGood) forControlEvents:UIControlEventTouchUpInside];
     [witeview addSubview:savebutton];
+}
+//配货
+- (void)submitPrepareGood {
+    NSMutableArray *terminalNumbers = [[NSMutableArray alloc] init];
+    [terminalNumbers removeAllObjects];
+    
+    for(int i=0;i<_TerminalsArray.count;i++)
+    {
+        TerminalSelectModel *model=[_TerminalsArray objectAtIndex:i];
+
+        [terminalNumbers addObject:model.serial_num];
+        
+    
+    }
+    
+    
+
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+    hud.labelText = @"加载中...";
+    AppDelegate *delegate = [AppDelegate shareAppDelegate];
+    TerminalSelectModel *model=[_TerminalsArray objectAtIndex:0];
+
+    [NetworkInterface prepareGoodWithUserID:delegate.userID token:delegate.token subAgentID:nextagentid  channelID:model.channelID goodID:model.goodID terminalList:terminalNumbers finished:^(BOOL success, NSData *response) {
+        NSLog(@"%@",[[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding]);
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:0.5f];
+        if (success) {
+            id object = [NSJSONSerialization JSONObjectWithData:response options:NSJSONReadingMutableLeaves error:nil];
+            if ([object isKindOfClass:[NSDictionary class]]) {
+                NSString *errorCode = [object objectForKey:@"code"];
+                if ([errorCode intValue] == RequestFail) {
+                    //返回错误代码
+                    hud.labelText = [NSString stringWithFormat:@"%@",[object objectForKey:@"message"]];
+                }
+                else if ([errorCode intValue] == RequestSuccess)
+                {
+                    hud.labelText = @"配货成功";
+                    [bigsview removeFromSuperview];
+                    
+                }
+            }
+            else {
+                //返回错误数据
+                hud.labelText = kServiceReturnWrong;
+            }
+        }
+        else {
+            hud.labelText = kNetworkFailed;
+        }
+    }];
+}
+
+-(void)getSelectedTerminal:(NSMutableArray *)array
+{
+    
+//    [_findPosView setHidden:NO];
+//    [_TerminalsArray removeAllObjects];
+    _TerminalsArray=array;
+    
+    TerminalSelectModel *model=[array objectAtIndex:0];
+    
+            
+  [agentnumberbutton setTitle:[NSString stringWithFormat:@"%@等",model.serial_num] forState:UIControlStateNormal];
+
+   
+}
+
+-(void)terimanlchoseclick
+{
+
+    TerimalChoseViewController*terimal=[[TerimalChoseViewController alloc]init];
+    terimal.hidesBottomBarWhenPushed=YES;
+    terimal.delegate=self;
+
+    [self.navigationController pushViewController:terimal animated:YES];
+    
+
+
+
 }
 -(void)cancelclick
 {
@@ -358,7 +445,7 @@ static NSString *s_defaultTerminalNum = @"请选择终端号";
     
     starbuttom = [UIButton buttonWithType:UIButtonTypeCustom];
     starbuttom.frame = CGRectMake(280,90 ,220, 40);
-    //    [blankbutton setTitle:[self getBankNameWithBankCode:bankCode] forState:UIControlStateNormal];
+     [starbuttom setTitle:@"开始日期" forState:UIControlStateNormal];
     
     [starbuttom setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     starbuttom.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
@@ -389,7 +476,8 @@ static NSString *s_defaultTerminalNum = @"请选择终端号";
     endbuttom = [UIButton buttonWithType:UIButtonTypeCustom];
     endbuttom.frame = CGRectMake(530,90 ,220, 40);
     //    [blankbutton setTitle:[self getBankNameWithBankCode:bankCode] forState:UIControlStateNormal];
-    
+    [endbuttom setTitle:@"结束日期" forState:UIControlStateNormal];
+
     [endbuttom setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     endbuttom.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
     [endbuttom setImage:kImageName(@"arrow_line1") forState:UIControlStateNormal];
@@ -538,7 +626,8 @@ static NSString *s_defaultTerminalNum = @"请选择终端号";
 }
 -(void)stardateclick
 {
-
+    starbuttom.userInteractionEnabled=NO;
+    
 
     [self setupStartDate];
 
@@ -547,6 +636,8 @@ static NSString *s_defaultTerminalNum = @"请选择终端号";
 }
 -(void)enddateclick
 {
+    endbuttom.userInteractionEnabled=NO;
+
     [self setupEndDate];
 
 
@@ -598,7 +689,8 @@ static NSString *s_defaultTerminalNum = @"请选择终端号";
         [_startSure removeFromSuperview];
         [cancelBtn removeFromSuperview];
         [datepickview removeFromSuperview];
-        
+        starbuttom.userInteractionEnabled=YES;
+
         [self startPick];
     }
     if (button.tag == 1212) {
@@ -606,12 +698,14 @@ static NSString *s_defaultTerminalNum = @"请选择终端号";
         [_startSure removeFromSuperview];
         [cancelBtn removeFromSuperview];
         [datepickview removeFromSuperview];
-        
+        starbuttom.userInteractionEnabled=YES;
+
     }
     if (button.tag == 1312) {
         [_datePickerEnd removeFromSuperview];
         [_endSure removeFromSuperview];
-        
+        endbuttom.userInteractionEnabled=YES;
+
         [cancelBtnend removeFromSuperview];
         [datepickviewend removeFromSuperview];
         
@@ -621,10 +715,13 @@ static NSString *s_defaultTerminalNum = @"请选择终端号";
         [_endSure removeFromSuperview];
         [cancelBtnend removeFromSuperview];
         [datepickviewend removeFromSuperview];
-        
+        endbuttom.userInteractionEnabled=YES;
+
         [self endPick];
         _dateField2.text = self.endTime;
     }
+    
+
 }
 
 
@@ -770,7 +867,7 @@ static NSString *s_defaultTerminalNum = @"请选择终端号";
                         [_dataItem removeAllObjects];
                     }
                     id list = [[object objectForKey:@"result"] objectForKey:@"list"];
-                    if ([list isKindOfClass:[NSArray class]] && [list count] > 0) {
+                    if ([list isKindOfClass:[NSArray class]]/* && [list count] > 0*/) {
                         //有数据
                         [hud hide:YES];
                     }
@@ -844,12 +941,34 @@ static NSString *s_defaultTerminalNum = @"请选择终端号";
         self.agentTableView.frame = CGRectMake(nextagentbutton.frame.origin.x, CGRectGetMaxY(nextagentbutton.frame), nextagentbutton.frame.size.width, 160);
 
         [witeview  addSubview:_agentTableView];
+        if(changeagent)
+        {
+            _agentTableView.hidden=NO;
+            
+        }else
+        {
+            _agentTableView.hidden=YES;
+            
+            
+        }
+
 
     }else
     {
     
         self.agentTableView.frame = CGRectMake(blankbutton.frame.origin.x, CGRectGetMaxY(blankbutton.frame), blankbutton.frame.size.width, 160);
         [self.view addSubview:_agentTableView];
+        if(changeagent)
+        {
+            _agentTableView.hidden=NO;
+            
+        }else
+        {
+            _agentTableView.hidden=YES;
+            
+            
+        }
+
 
     }
     
@@ -990,28 +1109,33 @@ static NSString *s_defaultTerminalNum = @"请选择终端号";
 
         }
         
-        [_agentTableView removeFromSuperview];
+        changeagent=!changeagent;
+        if(changeagent)
+        {
+            _agentTableView.hidden=NO;
+            
+        }else
+        {
+            _agentTableView.hidden=YES;
+            
+            
+        }
+        
         
     }
 else
 {
-    switch (indexPath.section) {
-        case 0: {
-            //默认分润
+   
+     
+            //配货记录
+            PrepareGoodModel *model = [_prepareList objectAtIndex:indexPath.row];
+            PGDetailController *detailC = [[PGDetailController alloc] init];
+            detailC.hidesBottomBarWhenPushed=YES;
             
-        }
-            break;
-        case 1: {
-            //创建下级代理商
-        }
-            break;
-        case 2: {
-            
-        }
-            break;
-        default:
-            break;
-    }
+            detailC.prepareID = model.ID;
+            [self.navigationController pushViewController:detailC animated:YES];
+     
+   
 }
 }
 

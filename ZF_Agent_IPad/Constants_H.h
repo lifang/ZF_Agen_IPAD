@@ -18,11 +18,13 @@
 
 #define kDeviceVersion [[[UIDevice currentDevice] systemVersion] floatValue]
 
-#define kLineHeight   0.5f
+#define kLineHeight   1.0f
 
 #define kPageSize 10   //分页加载每页行数
 
 #define kServiceURL @"http://114.215.149.242:28080/ZFAgent/api"
+//#define kServiceURL @"http://121.40.84.2:28080/ZFAgent/api"
+
 
 #define kImageName(name) [UIImage imageNamed:name]
 #define NavTitle_FONTSIZE  36

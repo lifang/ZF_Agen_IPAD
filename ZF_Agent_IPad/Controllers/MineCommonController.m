@@ -11,6 +11,7 @@
 #import "StaffManagerController.h"
 #import "SubAgentListController.h"
 #import "PrepareGoodManagerController.h"
+#import "AdjustGoodsViewController.h"
 @interface MineCommonController ()
 
 @end
@@ -84,12 +85,14 @@
 
     [self.navigationController pushViewController:baseInformationVC animated:NO];
 }
-////我的商户
-//-(void)shopBtnClick
-//{
-//    MyShopViewController *shopVC = [[MyShopViewController alloc]init];
-//    [self.navigationController pushViewController:shopVC animated:NO];
-//}
+//我的商户
+-(void)shopBtnClick
+{
+    AdjustGoodsViewController *shopVC = [[AdjustGoodsViewController alloc]init];
+    shopVC.navigationController.navigationBarHidden = YES;
+
+    [self.navigationController pushViewController:shopVC animated:NO];
+}
 //员工管理
 -(void)applyBtnClick
 {

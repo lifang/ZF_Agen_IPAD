@@ -7,7 +7,21 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "TerminalSelectModel.h"
+
+@protocol SelectedTerminalDelegate <NSObject>
+
+- (void)getSelectedTerminal:(NSMutableArray *)array;
+
+@end
 
 @interface TerminalSelectViewController : UIViewController
+
+@property (nonatomic, assign) id<SelectedTerminalDelegate>delegate;
+
+@property (nonatomic, strong) NSString *TerminalId;
+
+
+
 
 @end

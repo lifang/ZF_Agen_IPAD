@@ -15,6 +15,7 @@
 #import "MerchantDetailModel.h"
 #import "MerchantSelecteViewController.h"
 #import "BnakSelectViewController.h"
+#import "BankModel.h"
 
 
 #define kTextViewTag   111
@@ -46,7 +47,7 @@
 @property(nonatomic,strong) UIPopoverController *popViewController;
 
 @property (nonatomic, strong) UITableView *tableView;
-//@property (nonatomic, strong) UISegmentedControl *segmentControl;
+
 @property(nonatomic,strong)NSString *startTime;
 
 @property (nonatomic, assign) OpenApplyType applyType;  //对公 对私
@@ -92,6 +93,9 @@
 
 @property (nonatomic, strong) NSMutableArray *channelItems;
 
+@property (nonatomic, strong) NSString *masterChannel;
+@property (nonatomic, strong) NSString *branchChannel;
+
 @end
 
 @implementation ApplyDetailController
@@ -132,7 +136,8 @@
  //   [self getBankList];
     
 }
-//选择终端tableView懒加载
+
+//选择终端tableView加载
 -(UITableView *)terminalTableView
 {
     if (!_terminalTableView) {
@@ -177,8 +182,8 @@
     if(sexint==102)
     {
         
-        [_infoDict setObject:[NSString stringWithFormat:@"%d",indexPath.row] forKey:key_sex];
-        NSString*accountname=[NSString stringWithFormat:@"%@",[_infoDict objectForKey:key_sex]];
+        [_infoDict setObject:[NSString stringWithFormat:@"%ld",(long)indexPath.row] forKey:key_sex];
+        NSString *accountname=[NSString stringWithFormat:@"%@",[_infoDict objectForKey:key_sex]];
         
         if([accountname isEqualToString:@"0"])
         {
@@ -191,7 +196,6 @@
             
             
         }
-        
         
     }
     else
@@ -251,8 +255,6 @@
     {
         wide=SCREEN_HEIGHT;
         height=SCREEN_WIDTH;
-        
-        
     }
     else
     {  wide=SCREEN_WIDTH;
@@ -286,7 +288,8 @@
     accountnamebutton= [UIButton buttonWithType:UIButtonTypeCustom];
     accountnamebutton.frame = CGRectMake(150+wide/2,  topSpace + labelHeight * 2,280, 40);
     
-    NSString*accountname=[_infoDict objectForKey:key_selected];
+    //NSString *accountname=[_infoDict objectForKey:key_selected];
+     NSString *accountname=[_infoDict objectForKey:@"key_merchantName"];
     
     [accountnamebutton setTitle:accountname forState:UIControlStateNormal];
     [accountnamebutton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
@@ -323,7 +326,7 @@
             topSpace=40;
 
         }
-        UILabel*newaddress=[[UILabel alloc]initWithFrame:CGRectMake(40+(wide/2-40)*row, height*70+topSpace + labelHeight * 7,140, 40)];
+        UILabel *newaddress=[[UILabel alloc]initWithFrame:CGRectMake(40+(wide/2-40)*row, height*70+topSpace + labelHeight * 7,140, 40)];
         [_scrollView addSubview:newaddress];
         newaddress.textAlignment = NSTextAlignmentCenter;
         newaddress.font=[UIFont systemFontOfSize:18];
@@ -401,16 +404,50 @@
             locationbutton.contentEdgeInsets = UIEdgeInsetsMake(0,-40, 0, 0);
             locationbutton.imageEdgeInsets = UIEdgeInsetsMake(0,270,0,0);//设置image在button上的位置（上top，左left，下bottom，右right）这里可以写负值，对上写－5，那么image就象上移动5个像素
             
-            
             [locationbutton addTarget:self action:@selector(locationbuttonclick) forControlEvents:UIControlEventTouchUpInside];
             [_scrollView addSubview:locationbutton];
+        }
+        else if(i==8)
+        {
+            bankNameBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+            bankNameBtn.frame = CGRectMake(190+(wide/2-40)*row,  height*70+topSpace + labelHeight * 7,280, 40);
+            
+            NSString *accountname=[NSString stringWithFormat:@"%@",[_infoDict objectForKey:[keynamesarry objectAtIndex:i]]];
+            [bankNameBtn setTitle:accountname forState:UIControlStateNormal];
+            [bankNameBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+            bankNameBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
+            [bankNameBtn setImage:kImageName(@"arrow_line1") forState:UIControlStateNormal];
+            bankNameBtn.layer.masksToBounds=YES;
+            bankNameBtn.layer.borderWidth=1.0;
+            bankNameBtn.layer.borderColor=[UIColor grayColor].CGColor;
+            bankNameBtn.contentEdgeInsets = UIEdgeInsetsMake(0,-40, 0, 0);
+            bankNameBtn.imageEdgeInsets = UIEdgeInsetsMake(0,270,0,0);//设置image在button上的位置（上top，左left，下bottom，右right）这里可以写负值，对上写－5，那么image就象上移动5个像素
+            
+            
+            [bankNameBtn addTarget:self action:@selector(bankNameBtnclick) forControlEvents:UIControlEventTouchUpInside];
+            [_scrollView addSubview:bankNameBtn];
+        }
+        else if (i==9)
+        {
+             bankIdTF=[[UITextField alloc]initWithFrame:CGRectMake(190+(wide/2-40)*row,  height*70+topSpace + labelHeight * 7,280, 40)];
+             bankIdTF.delegate=self;
+            
+             bankIdTF.tag=i+1056;
+             NSString *bankIdname=[NSString stringWithFormat:@"%@",[_infoDict objectForKey:[keynamesarry objectAtIndex:i]]];
+             bankIdTF.text=[NSString stringWithFormat:@"  %@",bankIdname];
+             bankIdTF.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
+             [_scrollView addSubview: bankIdTF];
+             bankIdTF.layer.masksToBounds=YES;
+             bankIdTF.layer.borderWidth=1.0;
+             bankIdTF.layer.borderColor=[UIColor grayColor].CGColor;
+            
         }
         
         else if(i==13)
         {
             zhifubutton = [UIButton buttonWithType:UIButtonTypeCustom];
             zhifubutton.frame = CGRectMake(190+(wide/2-40)*row,  height*70+topSpace + labelHeight * 7,280, 40);
-            NSString*accountname=[NSString stringWithFormat:@"%@",[_infoDict objectForKey:[keynamesarry objectAtIndex:i]]];
+            NSString *accountname=[NSString stringWithFormat:@"%@",[_infoDict objectForKey:[keynamesarry objectAtIndex:i]]];
             
             [zhifubutton setTitle:accountname forState:UIControlStateNormal];
             [zhifubutton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
@@ -428,7 +465,7 @@
         
         else
         {
-            UITextField*neworiginaltextfield=[[UITextField alloc]initWithFrame:CGRectMake(190+(wide/2-40)*row,  height*70+topSpace + labelHeight * 7,280, 40)];
+            UITextField *neworiginaltextfield=[[UITextField alloc]initWithFrame:CGRectMake(190+(wide/2-40)*row,  height*70+topSpace + labelHeight * 7,280, 40)];
             neworiginaltextfield.delegate=self;
             
             neworiginaltextfield.tag=i+1056;
@@ -436,7 +473,6 @@
             neworiginaltextfield.text=[NSString stringWithFormat:@"  %@",accountname];
             neworiginaltextfield.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
             [_scrollView addSubview:neworiginaltextfield];
-            //neworiginaltextfield.delegate=self;
             neworiginaltextfield.layer.masksToBounds=YES;
             neworiginaltextfield.layer.borderWidth=1.0;
             neworiginaltextfield.layer.borderColor=[UIColor grayColor].CGColor;
@@ -711,9 +747,11 @@
     [self pickerDisplay:zhifubutton];
     
 }
+
 -(void)bankclick:(UIButton*)send
 {
     BnakSelectViewController *BnakSC=[[BnakSelectViewController alloc] init];
+    BnakSC.delegate=self;
     BnakSC.hidesBottomBarWhenPushed=YES;
     [self.navigationController pushViewController:BnakSC animated:YES];
   
@@ -722,7 +760,7 @@
 
 -(void)locationbuttonclick
 {
-      sexint=101;
+    sexint=101;
     _selectedKey = key_location;
     [self pickerDisplay:locationbutton];
     
@@ -733,7 +771,6 @@
 -(void)birthdaybuttonclick
 {
     
-    
     [self setupStartDate ];
     
     
@@ -743,8 +780,6 @@
 -(void)sexclick
 {
     sexint=102;
-    
-    
     [self setupTerminalTableView];
     
 }
@@ -752,13 +787,21 @@
 
 -(void)accountnamebuttonclick
 {
-   // sexint=103;
-   // [self setupTerminalTableView];
+  
     MerchantSelecteViewController *MerchantSC=[[MerchantSelecteViewController alloc] init];
-     MerchantSC.hidesBottomBarWhenPushed = YES;
+    MerchantSC.delegate=self;
+    MerchantSC.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:MerchantSC animated:YES];
     
     
+}
+
+-(void)bankNameBtnclick
+{
+    BnakSelectViewController *BnakSC=[[BnakSelectViewController alloc] init];
+    BnakSC.delegate=self;
+    BnakSC.hidesBottomBarWhenPushed=YES;
+    [self.navigationController pushViewController:BnakSC animated:YES];
 }
 
 
@@ -820,6 +863,7 @@
     
     [self.view addSubview:headerView];
 }
+
 #pragma mark - Request
 
 
@@ -852,9 +896,7 @@
 - (void)initAndLayoutUI {
     [self setupNavBar];
     [self setupHeaderView];
-    //[self initUIScrollView];
-    
-   // [self initPickerView];
+   
 }
 
 
@@ -869,59 +911,6 @@
     textField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
 }
 
-
-
-/*
-#pragma mark - Request
-//银行信息
-- (void)getBankList {
-    AppDelegate *delegate = [AppDelegate shareAppDelegate];
-    [NetworkInterface chooseBankWithToken:delegate.token bankName:@"邮政" finished:^(BOOL success, NSData *response) {
-        NSLog(@"!!!!%@",[[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding]);
-        if (success) {
-            id object = [NSJSONSerialization JSONObjectWithData:response options:NSJSONReadingMutableLeaves error:nil];
-            if ([object isKindOfClass:[NSDictionary class]]) {
-                NSString *errorCode = [NSString stringWithFormat:@"%@",[object objectForKey:@"code"]];
-                if ([errorCode intValue] == RequestFail) {
-                    //返回错误代码
-                }
-                else if ([errorCode intValue] == RequestSuccess) {
-                    [self parseBankListWithDictionary:object];
-                }
-            }
-            else {
-                //返回错误数据
-            }
-        }
-        else {
-        }
-    }];
-}
-
-- (NSString *)getBankNameWithBankCode:(NSString *)bankCode {
-    for (BankModel *model in _bankItems) {
-        if ([model.bankCode isEqualToString:bankCode]) {
-            return model.bankName;
-        }
-    }
-    return nil;
-}
-
-- (void)parseBankListWithDictionary:(NSDictionary *)dict {
-    if (![dict objectForKey:@"result"] || ![[dict objectForKey:@"result"] isKindOfClass:[NSArray class]]) {
-        return;
-    }
-    NSArray *bankList = [dict objectForKey:@"result"];
-    for (int i = 0; i < [bankList count]; i++) {
-        id bankDict = [bankList objectAtIndex:i];
-        if ([bankDict isKindOfClass:[NSDictionary class]]) {
-            BankModel *model = [[BankModel alloc] initWithParseDictionary:bankDict];
-            [_bankItems addObject:model];
-        }
-    }
-}
- 
-*/
 
 
 //选择支付通道
@@ -1151,7 +1140,7 @@
     return nil;
 }
 
-
+/*
 //根据银行编码获取银行名
 - (NSString *)getBankNameWithBankCode:(NSString *)bankCode {
     for (BankModel *model in _bankItems) {
@@ -1161,7 +1150,7 @@
     }
     return nil;
 }
-
+*/
 
 
 - (void)parseImageUploadInfo:(NSDictionary *)dict {
@@ -1337,16 +1326,12 @@
         {
             NSLog(@"count:::%lu",(unsigned long)_applyData.merchantList.count);
             return _applyData.merchantList.count;
-            
         }
-        
-        
     }
     
     return 0;
-    
-    
 }
+
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
@@ -1376,9 +1361,6 @@
             cell.textLabel.text = model.merchantName;
             cell.backgroundColor = kColor(214, 214, 214, 1.0);
         }
-        
-        
-        
         
     }
     
@@ -1441,7 +1423,7 @@
     [self startPick];
     
     [_infoDict setObject: self.startTime forKey:key_birth];
-    NSString*accountname=[NSString stringWithFormat:@"%@",[_infoDict objectForKey:key_birth]];
+    NSString *accountname=[NSString stringWithFormat:@"%@",[_infoDict objectForKey:key_birth]];
     
     [birthdaybutton setTitle:accountname forState:UIControlStateNormal];
     
@@ -1593,26 +1575,7 @@
         hud.labelText = @"请选择支付通道";
         return;
     }
-    //    for (MaterialModel *model in _applyData.materialList) {
-    //        if (![_infoDict objectForKey:model.materialID]) {
-    //            NSString *infoString = nil;
-    //            if (model.materialType == MaterialText) {
-    //                infoString = [NSString stringWithFormat:@"请填写%@",model.materialName];
-    //            }
-    //            else if (model.materialType == MaterialList) {
-    //                infoString = [NSString stringWithFormat:@"请选择%@",model.materialName];
-    //            }
-    //            else if (model.materialType == MaterialImage) {
-    //                infoString = [NSString stringWithFormat:@"请上传%@",model.materialName];
-    //            }
-    //            MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
-    //            hud.customView = [[UIImageView alloc] init];
-    //            hud.mode = MBProgressHUDModeCustomView;
-    //            [hud hide:YES afterDelay:1.f];
-    //            hud.labelText = infoString;
-    //            return;
-    //        }
-    //    }
+  
     NSMutableArray *paramList = [[NSMutableArray alloc] init];
     AppDelegate *delegate = [AppDelegate shareAppDelegate];
     NSMutableDictionary *params = [[NSMutableDictionary alloc] init];
@@ -1707,33 +1670,31 @@
 
 
 -(void)displaySelectedMerchant:(MerchantModel *)model{
-    NSLog(@"abd");
+    
     [accountnamebutton setTitle:model.merchantName forState:UIControlStateNormal];
+    NSLog(@"infoDict:%@",_infoDict);
+
 }
 
 
 #pragma mark - ChannelSelectedDelegate
 - (void)getSelectedBank:(BankModel *)model {
+    NSLog(@"yinhang");
     if (model) {
-        //此处没有保存对象 因为infoDict的值都为NSString，防止报错
-        [_infoDict setObject:model.bankCode forKey:_selectedKey];
-        NSLog(@"12333433222");
-        [_tableView reloadData];
+         NSLog(@"model:%@",model);
+        NSLog(@"model.bank:%@",model.bankName);
+    [bankNameBtn setTitle:[NSString stringWithFormat:@"%@",model.bankName] forState:UIControlStateNormal];
+    bankIdTF.text=model.bankCode;
+
+
+        [_infoDict setObject:model.bankCode forKey:@"key_bankID"];
+        [_infoDict setObject:model.bankName forKey:@"key_bank"];
+        NSLog(@"infoDict:%@",_infoDict);
     }
+  
 }
 
-/*
- 
-- (void)getChannelList:(ChannelListModel *)model billModel:(BillingModel *)billModel {
-    NSString *channelInfo = [NSString stringWithFormat:@"%@ %@",model.channelName,billModel.billName];
-    [_infoDict setObject:channelInfo forKey:key_channel];
-    _channelID = model.channelID;
-    _billID = billModel.billID;
-    [zhifubutton setTitle:channelInfo forState:UIControlStateNormal];
-    
-    [_tableView reloadData];
-}
-*/
+
 
 
 #pragma mark - UIPickerView
@@ -1815,10 +1776,32 @@
 
 
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
-    if (component == 0) {
-        //
+    [_pickerView reloadComponent:1];
+    /*
+    if (sexint==101) {
         [_pickerView reloadComponent:1];
+        
     }
+    else{
+        if (component == 0) {
+            //
+            
+            [_pickerView selectRow:0 inComponent:1 animated:NO];
+            [_pickerView reloadComponent:1];
+            ChannelListModel *model=[_channelItems objectAtIndex:row];
+            _masterChannel =model.channelName;
+            _channelID=model.channelID;
+            
+        }else
+        {
+            if ([_cityArray count] > 0){
+                BillingModel *billModel=[_cityArray objectAtIndex:row];
+                _branchChannel=billModel.billName;
+                _billID=billModel.billID;
+            }
+        }
+    }
+     */
 }
 
  
@@ -1878,20 +1861,29 @@
     }
     else if (sexint==105)
     {
-       
+      
         NSString  *channelInfo;
-        NSLog(@"citynArray:%@",_cityArray);
-        NSLog(@"channelItems:%@",_channelItems);
-        NSLog(@"channelInfoWUWUWU");
-        NSInteger index = [_pickerView selectedRowInComponent:1];
-        ChannelListModel *model=[_channelItems objectAtIndex:index];
-        BillingModel *billModel=[_cityArray objectAtIndex:index];
-        channelInfo = [NSString stringWithFormat:@"%@ %@",model.channelName,billModel.billName];
+        NSInteger firstIndex = [_pickerView selectedRowInComponent:0];
+        NSInteger secondIndex = [_pickerView selectedRowInComponent:1];
+        ChannelListModel *channel = nil;
+        BillingModel *model = nil;
+        if (firstIndex < [_channelItems count]) {
+            channel = [_channelItems objectAtIndex:firstIndex];
+        }
+        if (secondIndex < [_cityArray count]) {
+            model = [_cityArray objectAtIndex:secondIndex];
+        }
+        if (model==nil) {
+            
+            channelInfo = [NSString stringWithFormat:@"%@",channel.channelName];
+        }
+        else
+        {
+        channelInfo = [NSString stringWithFormat:@"%@ %@",channel.channelName,model.billName];
+        }
         [zhifubutton setTitle:channelInfo forState:UIControlStateNormal];
         [_infoDict setObject:channelInfo forKey:key_channel];
-        _channelID=model.channelID;
-        _billID = billModel.billID;
-    
+               
     }
     
 }

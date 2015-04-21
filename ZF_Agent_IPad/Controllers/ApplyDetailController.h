@@ -29,17 +29,20 @@ typedef enum {
 }OpenStatus;
 
 @interface ApplyDetailController : ScanImageViewController
-{ UIButton* accountnamebutton;
+{
+    UIButton *accountnamebutton;
     NSInteger sexint;
-    UIButton* _cityField ;
-    UIButton* birthdaybutton;
+    UIButton *_cityField ;
+    UIButton *birthdaybutton;
     UIDatePicker *datePicker;
-    UIButton *makeSureBtn;
-    UIButton* locationbutton;
-    NSArray*keynamesarry;
+    UIButton  *makeSureBtn;
+    UIButton  *locationbutton;
+    NSArray  *keynamesarry;
     NSInteger pickint;
-    UIButton* bankbutton ;
-    UIButton* zhifubutton;
+    UIButton *bankNameBtn ;
+    UITextField *bankIdTF;
+    UIButton  *bankbutton ;
+    UIButton *zhifubutton;
     
     
 }

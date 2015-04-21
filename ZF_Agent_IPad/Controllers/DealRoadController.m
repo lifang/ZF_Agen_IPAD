@@ -24,7 +24,7 @@
 #import "AccountTool.h"
 #import "NetworkInterface.h"
 #import "TradeAgentModel.h"
-
+#import "DealRoadDetailController.h"
 #import "MJRefresh.h"
 #import "DealRoadChildController.h"
 
@@ -575,20 +575,60 @@ static NSString *s_defaultTerminalNum = @"请选择终端号";
 
 -(void)startStatistics
 {
+    
+    
+    
+    if (!_startTime || [_startTime isEqualToString:@"开始时间"]) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示信息"
+                                                        message:@"请选择开始时间"
+                                                       delegate:nil
+                                              cancelButtonTitle:@"确定"
+                                              otherButtonTitles:nil];
+        [alert show];
+        return;
+    }
+    if (!_endTime || [_endTime isEqualToString:@"结束时间"]) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示信息"
+                                                        message:@"请选择结束时间"
+                                                       delegate:nil
+                                              cancelButtonTitle:@"确定"
+                                              otherButtonTitles:nil];
+        [alert show];
+        return;
+    }
+    NSDate *start = [self dateFromString:_startTime];
+    NSDate *end = [self dateFromString:_endTime];
+    if (!([start earlierDate:end] == start)) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示信息"
+                                                        message:@"开始时间不能晚于结束时间"
+                                                       delegate:nil
+                                              cancelButtonTitle:@"确定"
+                                              otherButtonTitles:nil];
+        [alert show];
+        return;
+    }
+
+    
     //    NSLog(@"点击了开始统计！为上排第%d个按钮",_buttonIndex);
-    //    DealRoadDetailController *detailVC = [[DealRoadDetailController alloc]init];
-    //    detailVC.hidesBottomBarWhenPushed = YES;
-    //    detailVC.startTime = _startTime;
-    //    detailVC.endTime = _endTime;
-    //    detailVC.terminalNumber = _terminalField.text;
-    //    detailVC.tradeType = [self tradeTypeFromIndex:_buttonIndex];
-    //    [self.navigationController pushViewController:detailVC animated:YES];
+        DealRoadDetailController *detailVC = [[DealRoadDetailController alloc]init];
+        detailVC.hidesBottomBarWhenPushed = YES;
+    detailVC.nextid = agentid;
+
+    
+        detailVC.startTime = _startTime;
+        detailVC.endTime = _endTime;
+        detailVC.terminalNumber = _terminalField.text;
+        detailVC.tradeType = [self tradeTypeFromIndex:_buttonIndex];
+        [self.navigationController pushViewController:detailVC animated:YES];
     
 }
 
 -(void)rightBtnClicked:(UIButton *)button
 {
     if (button.tag == 1050) {
+        changeD=!changeD;
+        
+        
         NSLog(@"点击了终端号！");
         [self setupTerminalTableView];
     }
@@ -604,6 +644,8 @@ static NSString *s_defaultTerminalNum = @"请选择终端号";
     }
     if (button.tag == 509)
     {
+        changeagent=!changeagent;
+
         [self  downloadAgentList];
 
     }
@@ -1150,7 +1192,19 @@ else if (tableView== _terminalTableView)
     if (tableView.tag == 1111) {
         TerminalModel *model = [_terminalItems objectAtIndex:indexPath.row];
         _terminalField.text = model.terminalNum;
-        [_terminalTableView removeFromSuperview];
+        changeD=!changeD;
+        if(changeD)
+        {
+            _terminalTableView.hidden=NO;
+            
+        }else
+        {
+            _terminalTableView.hidden=YES;
+            
+            
+        }
+        
+        
     }
   else  if (tableView == _agentTableView)
     
@@ -1159,19 +1213,36 @@ else if (tableView== _terminalTableView)
         
         [blankbutton setTitle: model.agentName forState:UIControlStateNormal];
         agentid=model.agentID;
-        
-        [_agentTableView removeFromSuperview];
+        changeagent=!changeagent;
+if(changeagent)
+{
+    _agentTableView.hidden=NO;
+    
+}else
+{
+    _agentTableView.hidden=YES;
+
+
+}
         
     }
     else{
-            //内容点击跳转
-            DealRoadChildController *dealVC = [[DealRoadChildController alloc]init];
-            TradeModel *model = [_tradeRecords objectAtIndex:indexPath.row];
-            TradeType tradeType = [self tradeTypeFromIndex:_buttonIndex];
-            dealVC.tradeID = model.tradeID;
-            dealVC.tradeType = tradeType;
-            dealVC.hidesBottomBarWhenPushed = YES;
-            [self.navigationController pushViewController:dealVC animated:YES];
+          if (indexPath.section == 0) {
+        
+          }else
+          {
+          
+              //内容点击跳转
+              DealRoadChildController *dealVC = [[DealRoadChildController alloc]init];
+              TradeModel *model = [_tradeRecords objectAtIndex:indexPath.row];
+              TradeType tradeType = [self tradeTypeFromIndex:_buttonIndex];
+              dealVC.tradeID = model.tradeID;
+              dealVC.tradeType = tradeType;
+              dealVC.hidesBottomBarWhenPushed = YES;
+              [self.navigationController pushViewController:dealVC animated:YES];
+          
+          }
+        
     }
 }
 
@@ -1227,7 +1298,17 @@ else if (tableView== _terminalTableView)
     }
     self.agentTableView.frame = CGRectMake(blankbutton.frame.origin.x, CGRectGetMaxY(blankbutton.frame) + 80, blankbutton.frame.size.width, 160);
     [self.view addSubview:_agentTableView];
+   if(changeagent)
+   {
+       _agentTableView.hidden=NO;
+       
+   }else
+   {
    
+       _agentTableView.hidden=YES;
+
+   
+   }
         [_agentTableView reloadData];
  
 }
@@ -1371,6 +1452,15 @@ else if (tableView== _terminalTableView)
     
     self.terminalTableView.frame = CGRectMake(_terminalField.frame.origin.x, CGRectGetMaxY(_terminalField.frame) + 80, _terminalField.frame.size.width, 160);
     [self.view addSubview:_terminalTableView];
+    if(changeD)
+    {
+        _terminalTableView.hidden=NO;
+        
+    }else
+    {
+        _terminalTableView.hidden=YES;
+
+    }
     if (_terminalItems.count != 0) {
         [_terminalTableView reloadData];
     }

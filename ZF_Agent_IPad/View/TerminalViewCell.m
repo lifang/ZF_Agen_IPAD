@@ -146,11 +146,11 @@
             //            for (int i = 0; i < 1; i++) {
                            UIButton *button = [[UIButton alloc]init];
                             button.titleLabel.font = [UIFont systemFontOfSize:17];
-                            [button setTitleColor:[UIColor orangeColor] forState:UIControlStateNormal];
+                            [button setTitleColor:[UIColor colorWithHexString:@"006fd5"] forState:UIControlStateNormal];
                             button.layer.masksToBounds=YES;
                             button.layer.cornerRadius=2.0;
                             button.layer.borderWidth=1.0;
-                            button.layer.borderColor=[UIColor orangeColor].CGColor;
+                            button.layer.borderColor=[UIColor colorWithHexString:@"006fd5"].CGColor;
                             button.backgroundColor = [UIColor clearColor];
                             button.tag = 5000;
                             [button addTarget:self action:@selector(buttonClick:) forControlEvents:UIControlEventTouchUpInside];
@@ -184,9 +184,10 @@
     
     _terminalLabel.frame = CGRectMake(0, mainY, mainWidth, mainheight);
     
-    _posLabel.frame = CGRectMake(CGRectGetMaxX(_terminalLabel.frame) + 20, mainY, mainWidth * 0.5, mainheight);
+   // _posLabel.frame = CGRectMake(CGRectGetMaxX(_terminalLabel.frame) + 20, mainY, mainWidth * 0.5, mainheight);
+    _posLabel.frame = CGRectMake(CGRectGetMaxX(_terminalLabel.frame)+10, mainY, mainWidth * 0.3, mainheight);
     
-    _payRoad.frame = CGRectMake(CGRectGetMaxX(_posLabel.frame) + 20, mainY, mainWidth * 0.5 + 30, mainheight);
+    _payRoad.frame = CGRectMake(CGRectGetMaxX(_posLabel.frame) + 50, mainY, mainWidth * 0.5 + 30, mainheight);
     
     _dredgeStatus.frame = CGRectMake(CGRectGetMaxX(_payRoad.frame) + 20, mainY, mainWidth * 0.5, mainheight);
 }

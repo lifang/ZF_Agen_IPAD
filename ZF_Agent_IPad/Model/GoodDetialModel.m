@@ -77,8 +77,19 @@
                 _goodPrice = [[goodInfo objectForKey:@"retail_price"] floatValue] / 100;
             }
             if ([goodInfo objectForKey:@"price"]) {
-                _originalprice = [[goodInfo objectForKey:@"price"] floatValue];
+                _originalprice = [[goodInfo objectForKey:@"price"] floatValue] / 100;
+
             }
+            if ([goodInfo objectForKey:@"retail_price"]) {
+                _procurementPrice = [[goodInfo objectForKey:@"retail_price"] floatValue] / 100;
+            }
+            if ([goodInfo objectForKey:@"purchase_price"]) {
+                _wholesalePrice = [[goodInfo objectForKey:@"purchase_price"] floatValue] / 100;
+            }
+            if ([goodInfo objectForKey:@"floor_purchase_quantity"]) {
+                _minWholesaleNumber = [[goodInfo objectForKey:@"floor_purchase_quantity"] intValue];
+            }
+
             if ([goodInfo objectForKey:@"lease_time"]) {
                 _minTime = [NSString stringWithFormat:@"%@",[goodInfo objectForKey:@"lease_time"]];
             }
