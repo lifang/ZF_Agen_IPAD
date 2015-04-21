@@ -7,9 +7,15 @@
 //
 
 #import "CommonViewController.h"
+static NSString *RefreshBenefitListNotification = @"RefreshBenefitListNotification";
 
 @interface OpenProfitViewController : CommonViewController
 
 { UITextField*neworiginaltextfield;
+    
+    NSInteger  numberint;
+    
 }
+@property (nonatomic, strong) NSString *subAgentID;
+
 @end

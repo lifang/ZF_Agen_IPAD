@@ -494,6 +494,14 @@
 -(void)selectedBtnPressed:(id)sender
 {
     
+    isSelected = !isSelected;
+
+    for (TerminalSelectModel *model in _terminalList) {
+        model.isSelected = isSelected;
+    }
+    [_tableView reloadData];
+    
+    
     if (isSelected) {
         
         [_selectedBtn setImage:kImageName(@"select_height") forState:UIControlStateNormal];

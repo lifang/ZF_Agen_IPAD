@@ -352,6 +352,14 @@ static NSString *s_prepareGoodChannel_method = @"preparegood/getpaychannellist";
 static NSString *s_transferGood_method = @"exchangegood/add";
 //42.创建订单
 static NSString *s_createOrder_method = @"order/agent";
+//93.下级代理商管理——详情
+static NSString *s_subAgentDetail_method = @"lowerAgent/info";
+//96.下级代理商管理——获取分润列表
+static NSString *s_subAgentBenefitList_method = @"lowerAgent/getProfitlist";
+//98.下级代理商管理——删除分润
+static NSString *s_subAgentBenefitDelete_method = @"lowerAgent/delChannel";
+//99.下级代理商管理——获取支付通道列表
+static NSString *s_subAgentChannelList_method = @"lowerAgent/getChannellist";
 @interface NetworkInterface : NSObject
 /*!
  @abstract 1.热卖
@@ -1637,5 +1645,45 @@ static NSString *s_createOrder_method = @"order/agent";
                          Roles:(NSMutableString *)roles
                       Password:(NSString *)password
                       finished:(requestDidFinished)finish;
+/*!
+ @abstract 93.下级代理商管理——详情
+ @param token    登录返回
+ @param subAgentID 下级代理商id
+ @result finish  请求回调结果
+ */
++ (void)getSubAgentDetailWithToken:(NSString *)token
+                        subAgentID:(NSString *)subAgentID
+                          finished:(requestDidFinished)finish;
+/*!
+ @abstract 96.下级代理商管理——获取分润列表
+ @param token    登录返回
+ @param subAgentID  下级代理商id
+ @result finish  请求回调结果
+ */
++ (void)getBenefitListWithToken:(NSString *)token
+                     subAgentID:(NSString *)subAgentID
+                       finished:(requestDidFinished)finish;
+
+/*!
+ @abstract 98.下级代理商管理——删除分润
+ @param agentID  代理商id
+ @param token    登录返回
+ @param subAgentID  下级代理商id
+ @param channelID  支付通道id
+ @result finish  请求回调结果
+ */
++ (void)deleteBenefitWithAgentID:(NSString *)agentID
+                           token:(NSString *)token
+                      subAgentID:(NSString *)subAgentID
+                       channelID:(NSString *)channelID
+                        finished:(requestDidFinished)finish;
+
+/*!
+ @abstract 99.下级代理商管理——支付通道
+ @param token    登录返回
+ @result finish  请求回调结果
+ */
++ (void)getAgentChannelListWithToken:(NSString *)token
+                            finished:(requestDidFinished)finish;
 
 @end

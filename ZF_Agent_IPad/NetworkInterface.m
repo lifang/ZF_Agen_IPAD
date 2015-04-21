@@ -2203,5 +2203,70 @@ static NSString *HTTP_GET  = @"GET";
                       httpMethod:HTTP_POST
                         finished:finish];
 }
+//93.
++ (void)getSubAgentDetailWithToken:(NSString *)token
+                        subAgentID:(NSString *)subAgentID
+                          finished:(requestDidFinished)finish {
+    //参数
+    NSMutableDictionary *paramDict = [[NSMutableDictionary alloc] init];
+    [paramDict setObject:[NSNumber numberWithInt:[subAgentID intValue]] forKey:@"sonAgentsId"];
+    //url
+    NSString *urlString = [NSString stringWithFormat:@"%@/%@",kServiceURL,s_subAgentDetail_method];
+    [[self class] requestWithURL:urlString
+                          params:paramDict
+                      httpMethod:HTTP_POST
+                        finished:finish];
+}
+//96.
++ (void)getBenefitListWithToken:(NSString *)token
+                     subAgentID:(NSString *)subAgentID
+                       finished:(requestDidFinished)finish {
+    //参数
+    NSMutableDictionary *paramDict = [[NSMutableDictionary alloc] init];
+    [paramDict setObject:[NSNumber numberWithInt:[subAgentID intValue]] forKey:@"sonAgentsId"];
+    //url
+    NSString *urlString = [NSString stringWithFormat:@"%@/%@",kServiceURL,s_subAgentBenefitList_method];
+    [[self class] requestWithURL:urlString
+                          params:paramDict
+                      httpMethod:HTTP_POST
+                        finished:finish];
+}
+//98.
++ (void)deleteBenefitWithAgentID:(NSString *)agentID
+                           token:(NSString *)token
+                      subAgentID:(NSString *)subAgentID
+                       channelID:(NSString *)channelID
+                        finished:(requestDidFinished)finish {
+    //参数
+    NSMutableDictionary *paramDict = [[NSMutableDictionary alloc] init];
+    if (agentID) {
+        [paramDict setObject:[NSNumber numberWithInt:[agentID intValue]] forKey:@"agentId"];
+    }
+    if (subAgentID) {
+        [paramDict setObject:[NSNumber numberWithInt:[subAgentID intValue]] forKey:@"sonAgentsId"];
+    }
+    if (channelID) {
+        [paramDict setObject:[NSNumber numberWithInt:[channelID intValue]] forKey:@"payChannelId"];
+    }
+    //url
+    NSString *urlString = [NSString stringWithFormat:@"%@/%@",kServiceURL,s_subAgentBenefitDelete_method];
+    [[self class] requestWithURL:urlString
+                          params:paramDict
+                      httpMethod:HTTP_POST
+                        finished:finish];
+}
+
+//99.
++ (void)getAgentChannelListWithToken:(NSString *)token
+                            finished:(requestDidFinished)finish {
+    //url
+    NSString *urlString = [NSString stringWithFormat:@"%@/%@",kServiceURL,s_subAgentChannelList_method];
+    [[self class] requestWithURL:urlString
+                          params:nil
+                      httpMethod:HTTP_POST
+                        finished:finish];
+}
+
+
 
 @end
