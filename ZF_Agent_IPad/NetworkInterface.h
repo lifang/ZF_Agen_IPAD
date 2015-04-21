@@ -99,7 +99,7 @@ static NSString *s_emailValidate_method = @"agent/sendEmailVerificationCode";
 static NSString *s_findPassword_method = @"agent/updatePassword";
 
 //7.注册图片上传
-static NSString *s_uploadRegisterImage_method = @"comment/upload/tempImage";
+static NSString *s_uploadRegisterImage_method = @"agent/upload/register";
 
 //8.开通申请列表--根据代理商ID获得开通申请列表
 static NSString *s_applyList_method = @"apply/getApplyList";
@@ -749,6 +749,7 @@ static NSString *s_subAgentTradeList_method = @"lowerAgent/getTradelist";
  @result finish  请求回调结果
  */
 + (void)batchTerminalNumWithtoken:(NSString *)token
+                          agentId:(NSString *)agentId
                       serialNum:(NSArray *)serialNum
                         finished:(requestDidFinished)finish;
 

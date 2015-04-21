@@ -7,7 +7,6 @@
 //
 
 #import "SearchTermianlViewController.h"
-//#import "SearchHistoryHelper.h"
 #import "ZFSearchBar.h"
 #import "AppDelegate.h"
 #import "NetworkInterface.h"
@@ -16,17 +15,12 @@
 
 @interface SearchTermianlViewController ()<UITableViewDataSource,UITableViewDelegate,UISearchBarDelegate>
 
-//@property (nonatomic, strong) ZFSearchBar *searchBar;
-
 @property (nonatomic, strong) UISearchBar *searchBar;
 
 @property (nonatomic, strong) UITableView *tableView;
 
 @property (nonatomic, strong) NSMutableArray *historyItems;
-@property (nonatomic, strong) NSMutableArray *dataItem;
-@property (nonatomic, strong) NSMutableArray *dataItemid;
 
-@property (nonatomic, strong) NSMutableArray *terminalList;
 
 
 @end
@@ -35,14 +29,10 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    _dataItem = [[NSMutableArray alloc] initWithCapacity:0];
-    _dataItemid = [[NSMutableArray alloc] initWithCapacity:0];
-    _terminalList = [[NSMutableArray alloc] init];
     
+
     self.view.backgroundColor=[UIColor whiteColor];
     //
-    
-    
     _tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
     _tableView.translatesAutoresizingMaskIntoConstraints = NO;
     _tableView.backgroundColor = kColor(244, 243, 243, 1);
@@ -78,7 +68,7 @@
                                                          multiplier:1.0
                                                            constant:0]];
     
-       [self initAndLayoutUI];
+    [self initAndLayoutUI];
 
 }
 #pragma mark - UI
@@ -86,9 +76,8 @@
 - (void)initAndLayoutUI {
     [self initSearchBar];
    
-    
-   // _historyItems = [[NSMutableArray alloc] init];
-    //[self getSearchHistory];
+    _historyItems = [[NSMutableArray alloc] init];
+    [self getSearchHistory];
 }
 
 - (void)initSearchBar {
@@ -127,9 +116,35 @@
 }
 
 
+- (void)setFooterView {
+    if ([_historyItems count] > 0) {
+        UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 60)];
+        footerView.backgroundColor = [UIColor clearColor];
+        UIButton *cleanButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        cleanButton.frame = CGRectMake((kScreenWidth - 120) / 2, 10, 120, 28);
+        cleanButton.layer.cornerRadius = 4;
+        cleanButton.layer.masksToBounds = YES;
+        cleanButton.layer.borderWidth = 1.f;
+        cleanButton.layer.borderColor = kMainColor.CGColor;
+        [cleanButton setTitleColor:kMainColor forState:UIControlStateNormal];
+        cleanButton.titleLabel.font = [UIFont systemFontOfSize:14.f];
+        [cleanButton setTitle:@"清除历史记录" forState:UIControlStateNormal];
+        [cleanButton setBackgroundImage:[UIImage imageNamed:@"selected.png"] forState:UIControlStateHighlighted];
+        [cleanButton addTarget:self action:@selector(clearSearchHistoy:) forControlEvents:UIControlEventTouchUpInside];
+        [footerView addSubview:cleanButton];
+        _tableView.tableFooterView = footerView;
+    }
+    else {
+        UIView *footerView = [[UIView alloc] init];
+        footerView.backgroundColor = [UIColor clearColor];
+        _tableView.tableFooterView = footerView;
+    }
+}
 
 
 
+
+/*
 //搜索终端
 - (void)searchTerminal {
     NSMutableArray *terminals = [[NSMutableArray alloc] init];
@@ -140,7 +155,7 @@
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
     hud.labelText = @"加载中...";
     AppDelegate *delegate = [AppDelegate shareAppDelegate];
-    [NetworkInterface batchTerminalNumWithtoken:delegate.token serialNum:terminals finished:^(BOOL success, NSData *response) {
+    [NetworkInterface batchTerminalNumWithtoken:delegate.token agentId:delegate.agentID serialNum:terminals finished:^(BOOL success, NSData *response) {
         NSLog(@"%@",[[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding]);
         hud.customView = [[UIImageView alloc] init];
         hud.mode = MBProgressHUDModeCustomView;
@@ -185,80 +200,71 @@
         NSLog(@"terminalList:%@",_terminalList);
     }
     [_tableView reloadData];
-    //[self refreshSelectedInfo];
-}
-
-
-
-
--(void)lastebuttonclick:(UIButton*)send
-{
-    
-    self.searchBar.text = [_historyItems objectAtIndex:send.tag];
-    [self searchWithString:self.searchBar.text];
-    
-    
-}
-#pragma mark - Action
-
-- (void)dismiss:(id)sender {
-    [self searchWithString:nil];
-    [self popoverPresentationController];
-    //[[NSNotificationCenter defaultCenter] postNotificationName:@"showbar" object:self userInfo:nil];
-    
-   // [self dismissViewControllerAnimated:NO completion:nil];
-}
-
-#pragma mark - 数据
-/*
-- (void)getSearchHistory {
-    NSMutableArray *searchArray = [SearchHistoryHelper getGoodsHistory];
-    if (searchArray) {
-        self.historyItems = searchArray;
-    }
-    [_tableView reloadData];
-}
-
-- (void)clearSearchHistoy:(id)sender {
-    [self.historyItems removeAllObjects];
-    [SearchHistoryHelper removeGoodsHistory];
-    [_tableView reloadData];
-}
-
-- (void)saveSearchHistory {
-    if (![self.historyItems containsObject:self.searchBar.text]) {
-        [self.historyItems addObject:self.searchBar.text];
-        //保存搜索历史到本地
-        [SearchHistoryHelper saveGoodsHistory:self.historyItems];
-        [_tableView reloadData];
-    }
+   
 }
 */
 
-- (void)searchWithString:(NSString *)string {
-    if (_delegate && [_delegate respondsToSelector:@selector(getSearchKeyword:)]) {
-        [_delegate getSearchKeyword:string];
-    }
-    [self dismissViewControllerAnimated:NO completion:nil];
+
+
+
+
+
+#pragma mark - 数据
+
+- (void)getSearchHistory {
+   
+    [self getTerminalsHistory];
+    [self setFooterView];
+    [_tableView reloadData];
+
+   
 }
+
+
+- (void)clearSearchHistoy:(id)sender {
+    [_historyItems removeAllObjects];
+    [self removeTerminalsHistory];
+    [self setFooterView];
+    [_tableView reloadData];
+}
+
+ 
+
+- (void)saveSearchHistory {
+    if (![_historyItems containsObject:self.searchBar.text]) {
+        [_historyItems addObject:self.searchBar.text];
+        //保存搜索历史到本地
+        [self saveTerminalsHistory:_historyItems];
+        
+    }
+}
+
+
 
 #pragma mark - SearchBar
 
 - (BOOL)searchBarShouldBeginEditing:(UISearchBar *)searchBar {
-    NSLog(@"search");
+   
     return YES;
 }
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
-    NSLog(@"!!");
-   // [self saveSearchHistory];
-   // [self searchWithString:_searchBar.text];
-   // _keyword = keyword;
-   // _searchBar.text = _keyword;
-     _keyword=_searchBar.text ;
-     [self searchTerminal];
+   
+    [self saveSearchHistory];
+    [self searchRequest];
+   
 }
 
+
+-(void)searchRequest
+{
+    _keyword=_searchBar.text ;
+    if (_delegate && [_delegate respondsToSelector:@selector(getSearchKeyword:)]) {
+        [_delegate getSearchKeyword:_keyword];
+    }
+    [self.navigationController popViewControllerAnimated:YES];
+
+}
 
 
 
@@ -269,27 +275,24 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return _terminalList.count;
+    return _historyItems.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     static NSString *identifier = @"batchTerminal";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
-    TerminalSelectModel *model = [_terminalList objectAtIndex:indexPath.row];
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
     }
-    cell.textLabel.text=model.retail_price;
-    cell.detailTextLabel.text=model.serial_num;
+    cell.textLabel.text=[_historyItems objectAtIndex:indexPath.row];
    
-    
     return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    //self.searchBar.text = [_historyItems objectAtIndex:indexPath.row];
-    //[self searchWithString:self.searchBar.text];
+    _searchBar.text = [_historyItems objectAtIndex:indexPath.row];
+    [self searchRequest];
 }
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -311,10 +314,64 @@
 }
 
 
-- (void)getSearchKeyword:(NSString *)keyword {
-    _keyword = keyword;
-    _searchBar.text = _keyword;
-    [self searchTerminal];
+
+
+-(void)searchHistoyDirectory {
+    NSString *document = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+    NSString *historyDirectory = [document stringByAppendingPathComponent:kHistory];
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    if (![fileManager fileExistsAtPath:historyDirectory]) {
+        [fileManager createDirectoryAtPath:historyDirectory withIntermediateDirectories:YES attributes:nil error:nil];
+    }
 }
+
+-(void)getTerminalsHistory {
+  
+    NSString *document = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+    NSString *historyDirectory = [document stringByAppendingPathComponent:kHistory];
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    if (![fileManager fileExistsAtPath:historyDirectory]) {
+        [fileManager createDirectoryAtPath:historyDirectory withIntermediateDirectories:YES attributes:nil error:nil];
+    }
+
+    NSString *path = [historyDirectory stringByAppendingPathComponent:kHistoryPath];
+    if ([[NSFileManager defaultManager] fileExistsAtPath:path]) {
+        NSMutableData *data = [[NSMutableData alloc] initWithContentsOfFile:path];
+        NSKeyedUnarchiver *unarchiver = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
+        _historyItems = [unarchiver decodeObjectForKey:kKey];
+    }
+}
+
+-(void)saveTerminalsHistory:(NSMutableArray *)terminalsHistory {
+    NSString *document = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+    NSString *historyDirectory = [document stringByAppendingPathComponent:kHistory];
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    if (![fileManager fileExistsAtPath:historyDirectory]) {
+        [fileManager createDirectoryAtPath:historyDirectory withIntermediateDirectories:YES attributes:nil error:nil];
+    }
+
+    NSString *path = [historyDirectory stringByAppendingPathComponent:kHistoryPath];
+    NSMutableData *data = [[NSMutableData alloc] init];
+    NSKeyedArchiver *archiver = [[NSKeyedArchiver alloc] initForWritingWithMutableData:data];
+    [archiver encodeObject:terminalsHistory forKey:kKey];
+    [archiver finishEncoding];
+    [data writeToFile:path atomically:YES];
+}
+
+-(void)removeTerminalsHistory {
+    NSString *document = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+    NSString *historyDirectory = [document stringByAppendingPathComponent:kHistory];
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    if (![fileManager fileExistsAtPath:historyDirectory]) {
+        [fileManager createDirectoryAtPath:historyDirectory withIntermediateDirectories:YES attributes:nil error:nil];
+    }
+
+    NSString *path = [historyDirectory stringByAppendingPathComponent:kHistoryPath];
+    if ([[NSFileManager defaultManager] fileExistsAtPath:path]) {
+        [[NSFileManager defaultManager] removeItemAtPath:path error:nil];
+    }
+}
+
+
 
 @end

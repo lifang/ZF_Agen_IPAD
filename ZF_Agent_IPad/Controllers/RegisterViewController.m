@@ -11,6 +11,7 @@
 #import "PhoneSuccessViewController.h"
 #import "EmailSuccessViewController.h"
 #import "NetworkInterface.h"
+#import "RegularFormat.h"
 
 @interface RegisterViewController ()<UITextFieldDelegate,UIActionSheetDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,UIPopoverPresentationControllerDelegate,UIPickerViewDataSource,UIPickerViewDelegate,UIPopoverControllerDelegate,UITableViewDataSource,UITableViewDelegate>
 
@@ -71,6 +72,8 @@
 @property(nonatomic,strong)NSString *imageStr1;
 @property(nonatomic,strong)NSString *imageStr2;
 @property(nonatomic,strong)NSString *imageStr3;
+
+@property(nonatomic,strong)UISwitch *fenrunSwitch;
 
 @end
 
@@ -137,6 +140,79 @@
     }
     [self.view addSubview:_mainScrollView];
     
+#pragma mark - 开通分润
+    _fenrunSwitch = [[UISwitch alloc]init];
+    _fenrunSwitch.backgroundColor = [UIColor clearColor];
+    _fenrunSwitch.onTintColor = kMainColor;
+    _fenrunSwitch.translatesAutoresizingMaskIntoConstraints = NO;
+    [_fenrunSwitch addTarget:self action:@selector(switchAction:) forControlEvents:UIControlEventValueChanged];
+    [self.view addSubview:_fenrunSwitch];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_fenrunSwitch
+                                                          attribute:NSLayoutAttributeTop
+                                                          relatedBy:NSLayoutRelationEqual
+                                                             toItem:self.view
+                                                          attribute:NSLayoutAttributeTop
+                                                         multiplier:1.0
+                                                           constant:34.f]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_fenrunSwitch
+                                                          attribute:NSLayoutAttributeLeft
+                                                          relatedBy:NSLayoutRelationEqual
+                                                             toItem:self.view
+                                                          attribute:NSLayoutAttributeLeft
+                                                         multiplier:1.0
+                                                           constant:900.f]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_fenrunSwitch
+                                                          attribute:NSLayoutAttributeWidth
+                                                          relatedBy:NSLayoutRelationEqual
+                                                             toItem:nil
+                                                          attribute:NSLayoutAttributeNotAnAttribute
+                                                         multiplier:1.0
+                                                           constant:85]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_fenrunSwitch
+                                                          attribute:NSLayoutAttributeHeight
+                                                          relatedBy:NSLayoutRelationEqual
+                                                             toItem:nil
+                                                          attribute:NSLayoutAttributeNotAnAttribute
+                                                         multiplier:1.0
+                                                           constant:50]];
+    
+    UILabel *fenrunLabel = [[UILabel alloc]init];
+    fenrunLabel.text = @"开通分润";
+    fenrunLabel.textAlignment = NSTextAlignmentRight;
+    fenrunLabel.translatesAutoresizingMaskIntoConstraints = NO;
+    fenrunLabel.backgroundColor = [UIColor clearColor];
+    fenrunLabel.font = [UIFont systemFontOfSize:20.f];
+    fenrunLabel.textColor = kColor(38, 38, 38, 1.0);
+    [self.view addSubview:fenrunLabel];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:fenrunLabel
+                                                          attribute:NSLayoutAttributeTop
+                                                          relatedBy:NSLayoutRelationEqual
+                                                             toItem:self.view
+                                                          attribute:NSLayoutAttributeTop
+                                                         multiplier:1.0
+                                                           constant:30.f]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:fenrunLabel
+                                                          attribute:NSLayoutAttributeLeft
+                                                          relatedBy:NSLayoutRelationEqual
+                                                             toItem:_fenrunSwitch
+                                                          attribute:NSLayoutAttributeRight
+                                                         multiplier:1.0
+                                                           constant: - 200.f]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:fenrunLabel
+                                                          attribute:NSLayoutAttributeWidth
+                                                          relatedBy:NSLayoutRelationEqual
+                                                             toItem:nil
+                                                          attribute:NSLayoutAttributeNotAnAttribute
+                                                         multiplier:1.0
+                                                           constant:85]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:fenrunLabel
+                                                          attribute:NSLayoutAttributeHeight
+                                                          relatedBy:NSLayoutRelationEqual
+                                                             toItem:nil
+                                                          attribute:NSLayoutAttributeNotAnAttribute
+                                                         multiplier:1.0
+                                                           constant:40]];
+    
 #pragma mark - 创建label
     UILabel *agentTypeLable = [[UILabel alloc]init];
     agentTypeLable.text = @"代理商类型";
@@ -167,11 +243,11 @@
     [self setLabel:principalIDLabel withTopView:principalNameLabel middleSpace:mainMargin labelTag:0];
     
     UILabel *principalPhoneOrEmailLabel = [[UILabel alloc]init];
-    principalPhoneOrEmailLabel.text = @"手机/邮箱";
+    principalPhoneOrEmailLabel.text = @"手机";
     [self setLabel:principalPhoneOrEmailLabel withTopView:principalIDLabel middleSpace:mainMargin labelTag:0];
     
     UILabel *authCodeFieldLabel = [[UILabel alloc]init];
-    authCodeFieldLabel.text = @"验证码";
+    authCodeFieldLabel.text = @"邮箱";
     self.authCodeLabel = authCodeFieldLabel;
     [self setLabel:authCodeFieldLabel withTopView:principalPhoneOrEmailLabel middleSpace:mainMargin labelTag:0];
     
@@ -279,6 +355,8 @@
     [_dict setObject:@"YES" forKey:@"3"];
     [_taxregisterImageBtn setTitle:@"上传图片" forState:UIControlStateNormal];
     [self setBtn:_taxregisterImageBtn withTopView:_businesslicenseImageBtn middleSpace:mainMargin buttonTag:5];
+    _makeSureBtn.hidden = YES;
+    _getAuthCodeBtn.hidden = YES;
     
     //创建下方Btn
     UIButton *submitBtn = [[UIButton alloc]init];
@@ -670,10 +748,10 @@
     _isMobile = isMobile;
     if (_isMobile) {
         NSLog(@"是手机！");
-        _authCodeLabel.hidden = NO;
-        _authCodeField.hidden = NO;
-        _makeSureBtn.hidden = NO;
-        _getAuthCodeBtn.hidden = NO;
+        _authCodeLabel.hidden = YES;
+        _authCodeField.hidden = YES;
+        _makeSureBtn.hidden = YES;
+        _getAuthCodeBtn.hidden = YES;
     }
     else {
         NSLog(@"不是手机");
@@ -769,13 +847,13 @@
 {
     NSLog(@"点击了提交！");
     if (_isMobile) {
-        PhoneSuccessViewController *phoneVC = [[PhoneSuccessViewController alloc]init];
-        phoneVC.phoneNum = @"13539897878";
-        [self.navigationController pushViewController:phoneVC animated:YES];
+        [self registeApply];
+       
     }else{
-        EmailSuccessViewController *emilVC = [[EmailSuccessViewController alloc]init];
-        emilVC.email = @"78979879@qq.com";
-        [self.navigationController pushViewController:emilVC animated:YES];
+        [self registeApply];
+//        EmailSuccessViewController *emilVC = [[EmailSuccessViewController alloc]init];
+//        emilVC.email = @"78979879@qq.com";
+//        [self.navigationController pushViewController:emilVC animated:YES];
     }
 }
 
@@ -796,7 +874,16 @@
 {
     if (button.tag == 1334) {
         NSLog(@"点击了验证码！");
-        [self resetStatus];
+        if (!_principalPhoneOrEmailField.text || [_principalPhoneOrEmailField.text isEqualToString:@""]) {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示信息"
+                                                            message:@"手机号不能为空!"
+                                                           delegate:nil
+                                                  cancelButtonTitle:@"确定"
+                                                  otherButtonTitles:nil];
+            [alert show];
+            return;
+        }
+        [self authApply];
     }
     if (button.tag == 1335) {
         NSLog(@"点击了检查！");
@@ -1213,11 +1300,140 @@
 
 #pragma mark - Request
 
--(void)registeWithPhone
+-(void)registeApply
 {
+    if (_agentTypeField.text || [_agentTypeField.text isEqualToString:@""]) {
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:1.f];
+        hud.labelText = @"请选择代理商类型";
+        return;
+    }
+    if (!_companyNameField.text || [_companyNameField.text isEqualToString:@""]) {
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:1.f];
+        hud.labelText = @"请填写公司名称";
+        return;
+    }
+    if (!_companyBusinesslicenseField.text || [_companyBusinesslicenseField.text isEqualToString:@""]) {
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:1.f];
+        hud.labelText = @"请填写公司营业执照登记号";
+        return;
+    }
+    if (!_companyTaxField.text || [_companyTaxField.text isEqualToString:@""]) {
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:1.f];
+        hud.labelText = @"请填写公司税务登记账号";
+        return;
+    }
+    if (!_principalNameField.text || [_principalNameField.text isEqualToString:@""]) {
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:1.f];
+        hud.labelText = @"请填写负责人姓名";
+        return;
+    }
+    if (!_principalCardField.text || [_principalCardField.text isEqualToString:@""]) {
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:1.f];
+        hud.labelText = @"请填写负责人身份证号";
+        return;
+    }
+    if (!_principalPhoneOrEmailField.text || [_principalPhoneOrEmailField.text isEqualToString:@""]) {
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:1.f];
+        hud.labelText = @"请填写手机号";
+        return;
+    }
+    if ([RegularFormat isMobileNumber:_principalPhoneOrEmailField.text]) {
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:1.f];
+        hud.labelText = @"请填写正确的手机号";
+        return;
+    }
+    if (!_authCodeField.text || [_authCodeField.text isEqualToString:@""]) {
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:1.f];
+        hud.labelText = @"请填写邮箱";
+        return;
+    }
+    if ([RegularFormat isCorrectEmail:_authCodeField.text]) {
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:1.f];
+        hud.labelText = @"请填写正确的邮箱号";
+        return;
+    }
+    if (!_locationField.text || [_locationField.text isEqualToString:@""]) {
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:1.f];
+        hud.labelText = @"请选择所在地";
+        return;
+    }if (!_particularLocationField.text || [_particularLocationField.text isEqualToString:@""]) {
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:1.f];
+        hud.labelText = @"请填写详细地址";
+        return;
+    }
+    if (!_imageStr1 || !_imageStr2 || !_imageStr3) {
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:1.f];
+        hud.labelText = @"请完善图片信息";
+        return;
+    }
+    if (!_loginIDField.text || [_loginIDField.text isEqualToString:@""]) {
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:1.f];
+        hud.labelText = @"请填写登录";
+        return;
+    }
+    if (!_loginPasswordField.text || [_loginPasswordField.text isEqualToString:@""]) {
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:1.f];
+        hud.labelText = @"请填写密码";
+        return;
+    }
+    if (!_makeSurePasswordField.text || ![_makeSurePasswordField.text isEqualToString:_loginPasswordField.text]) {
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:1.f];
+        hud.labelText = @"两次输入的密码不一致";
+        return;
+    }
+    
+    
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
     hud.labelText = @"正在登录...";
-    [NetworkInterface registerWithUsername:_loginIDField.text password:_loginPasswordField.text isAlreadyEncrypt:NO agentType:_agentType companyName:_companyNameField.text licenseID:_companyBusinesslicenseField.text taxID:_companyTaxField.text legalPersonName:_principalNameField.text legalPersonID:_principalCardField.text mobileNumber:_principalPhoneOrEmailField.text email:nil cityID:_cityId detailAddress:nil cardImagePath:_imageStr1 licenseImagePath:_imageStr2 taxImagePath:_imageStr3 finished:^(BOOL success, NSData *response) {
+    [NetworkInterface registerWithUsername:_loginIDField.text password:_loginPasswordField.text isAlreadyEncrypt:NO agentType:_agentType companyName:_companyNameField.text licenseID:_companyBusinesslicenseField.text taxID:_companyTaxField.text legalPersonName:_principalNameField.text legalPersonID:_principalCardField.text mobileNumber:_principalPhoneOrEmailField.text email:_authCodeField.text cityID:_cityId detailAddress:nil cardImagePath:_imageStr1 licenseImagePath:_imageStr2 taxImagePath:_imageStr3 finished:^(BOOL success, NSData *response) {
         hud.customView = [[UIImageView alloc] init];
         hud.mode = MBProgressHUDModeCustomView;
         [hud hide:YES afterDelay:0.3f];
@@ -1236,7 +1452,9 @@
                     [alert show];
                 }
                 else if (errorCode == RequestSuccess) {
-//                    [self parseLoginDataWithDictionary:object];
+                    PhoneSuccessViewController *phoneVC = [[PhoneSuccessViewController alloc]init];
+                    phoneVC.phoneNum = _principalPhoneOrEmailField.text;
+                    [self.navigationController pushViewController:phoneVC animated:YES];
                 }
             }
             else {
@@ -1248,6 +1466,50 @@
         }
     }];
 
+}
+
+-(void)authApply
+{
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+    hud.labelText = @"正在发送...";
+    [NetworkInterface sendValidateWithMobileNumber:_principalPhoneOrEmailField.text finished:^(BOOL success, NSData *response) {
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:0.3f];
+        if (success) {
+            id object = [NSJSONSerialization JSONObjectWithData:response options:NSJSONReadingMutableLeaves error:nil];
+            NSLog(@"~~~~~%@",[[NSString alloc]initWithData:response encoding:NSUTF8StringEncoding]);
+            if ([object isKindOfClass:[NSDictionary class]]) {
+                [hud hide:YES];
+                int errorCode = [[object objectForKey:@"code"] intValue];
+                if (errorCode == RequestFail) {
+                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示信息"
+                                                                    message:[object objectForKey:@"message"]
+                                                                   delegate:nil
+                                                          cancelButtonTitle:@"确定"
+                                                          otherButtonTitles:nil];
+                    [alert show];
+                }
+                else if (errorCode == RequestSuccess) {
+                    [self resetStatus];
+                    _authCode = [object objectForKey:@"result"];
+                }
+            }
+            else {
+                hud.labelText = kServiceReturnWrong;
+            }
+        }
+        else {
+            hud.labelText = kNetworkFailed;
+        }
+    }];
+
+}
+
+//分润开关
+-(void)switchAction:(UISwitch *)sender
+{
+    
 }
 
 

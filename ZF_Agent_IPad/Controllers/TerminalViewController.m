@@ -102,6 +102,7 @@
     self.title=@"终端管理";
     self.view.backgroundColor=[UIColor whiteColor];
     
+    /*
     UIButton *searchBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     searchBtn.frame = CGRectMake(0, 0, 44, 44);
     searchBtn.titleLabel.font = IconFontWithSize(22);
@@ -111,7 +112,7 @@
     [searchBtn addTarget:self action:@selector(searchBtnPressed:) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *leftBarBtn = [[UIBarButtonItem alloc] initWithCustomView:searchBtn];
     self.navigationItem.rightBarButtonItem = leftBarBtn;
-
+    */
     
     _terminalItems = [[NSMutableArray alloc]init];
     _TerminalsArray = [[NSMutableArray alloc]init];
