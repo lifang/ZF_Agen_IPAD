@@ -12,6 +12,7 @@
 #import "NetworkInterface.h"
 #import "AppDelegate.h"
 //#import "PayWayViewController.h"
+#import "UserModel.h"
 
 typedef enum {
     BillTypeCompany,
@@ -19,9 +20,9 @@ typedef enum {
 }BillType;
 
 typedef enum {
-    PushFromShoppingCart, //从购物车跳转
-    PushFromGoodDetailBuy,   //从商品详情购买
-    PushFormGoodDetailRent,    //从商品详情租赁
+    OrderConfirmTypeProcurementBuy = 3, //代购买
+    OrderConfirmTypeProcurementRent,    //代租赁
+    OrderConfirmTypeWholesale,    //从商品详情租赁
 }PushWay;
 
 static NSString *RefreshShoppingCartNotification = @"RefreshShoppingCartNotification";
@@ -46,6 +47,7 @@ static NSString *RefreshShoppingCartNotification = @"RefreshShoppingCartNotifica
 @property (nonatomic, strong) UIButton *billBtn;   //是否需要发票按钮
 
 @property (nonatomic, strong) UITextField *billField;  //发票抬头
+//@property (nonatomic, strong) UserModel *defaultUser;
 
 @property (nonatomic, assign) BillType billType;
 

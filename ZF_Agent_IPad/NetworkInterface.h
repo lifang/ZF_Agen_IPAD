@@ -350,6 +350,16 @@ static NSString *s_prepareGoodFilter_method = @"preparegood/getterminalslist";
 static NSString *s_prepareGoodChannel_method = @"preparegood/getpaychannellist";
 //57.调货
 static NSString *s_transferGood_method = @"exchangegood/add";
+//42.创建订单
+static NSString *s_createOrder_method = @"order/agent";
+//93.下级代理商管理——详情
+static NSString *s_subAgentDetail_method = @"lowerAgent/info";
+//96.下级代理商管理——获取分润列表
+static NSString *s_subAgentBenefitList_method = @"lowerAgent/getProfitlist";
+//98.下级代理商管理——删除分润
+static NSString *s_subAgentBenefitDelete_method = @"lowerAgent/delChannel";
+//99.下级代理商管理——获取支付通道列表
+static NSString *s_subAgentChannelList_method = @"lowerAgent/getChannellist";
 @interface NetworkInterface : NSObject
 /*!
  @abstract 1.热卖
@@ -1009,6 +1019,40 @@ static NSString *s_transferGood_method = @"exchangegood/add";
                             goodID:(NSString *)goodID
                           goodName:(NSString *)goodName
                           finished:(requestDidFinished)finish;
+/*!
+ @abstract 42.创建订单
+ @param agentID     代理商id
+ @param token       登录返回
+ @param userID      选择的用户id，默认为登录返回的agentUserID
+ @param createUserID  登录返回的id
+ @param belongID    agentUserID
+ @param confirmType  OrderConfirmType类型
+ @param goodID     商品id
+ @param channelID  支付通道id
+ @param count      数量
+ @param addressID   地址id
+ @param comment     留言
+ @param needInvoice 是否需要发票 0.不要 1.要
+ @param invoiceType 发票类型 0.公司 1.个人
+ @param invoiceTitle  发票抬头
+ @result finish  请求回调结果
+ */
++ (void)createOrderFromGoodBuyWithAgentID:(NSString *)agentID
+                                    token:(NSString *)token
+                                   userID:(NSString *)userID
+                             createUserID:(NSString *)createUserID
+                                 belongID:(NSString *)belongID
+                              confirmType:(int)confirmType
+                                   goodID:(NSString *)goodID
+                                channelID:(NSString *)channelID
+                                    count:(int)count
+                                addressID:(NSString *)addressID
+                                  comment:(NSString *)comment
+                              needInvoice:(int)needInvoice
+                              invoiceType:(int)invoiceType
+                              invoiceInfo:(NSString *)invoiceTitle
+                                 finished:(requestDidFinished)finish;
+
 
 /*!
  @abstract 42.库存管理详情——下级代理商列表
@@ -1601,5 +1645,45 @@ static NSString *s_transferGood_method = @"exchangegood/add";
                          Roles:(NSMutableString *)roles
                       Password:(NSString *)password
                       finished:(requestDidFinished)finish;
+/*!
+ @abstract 93.下级代理商管理——详情
+ @param token    登录返回
+ @param subAgentID 下级代理商id
+ @result finish  请求回调结果
+ */
++ (void)getSubAgentDetailWithToken:(NSString *)token
+                        subAgentID:(NSString *)subAgentID
+                          finished:(requestDidFinished)finish;
+/*!
+ @abstract 96.下级代理商管理——获取分润列表
+ @param token    登录返回
+ @param subAgentID  下级代理商id
+ @result finish  请求回调结果
+ */
++ (void)getBenefitListWithToken:(NSString *)token
+                     subAgentID:(NSString *)subAgentID
+                       finished:(requestDidFinished)finish;
+
+/*!
+ @abstract 98.下级代理商管理——删除分润
+ @param agentID  代理商id
+ @param token    登录返回
+ @param subAgentID  下级代理商id
+ @param channelID  支付通道id
+ @result finish  请求回调结果
+ */
++ (void)deleteBenefitWithAgentID:(NSString *)agentID
+                           token:(NSString *)token
+                      subAgentID:(NSString *)subAgentID
+                       channelID:(NSString *)channelID
+                        finished:(requestDidFinished)finish;
+
+/*!
+ @abstract 99.下级代理商管理——支付通道
+ @param token    登录返回
+ @result finish  请求回调结果
+ */
++ (void)getAgentChannelListWithToken:(NSString *)token
+                            finished:(requestDidFinished)finish;
 
 @end

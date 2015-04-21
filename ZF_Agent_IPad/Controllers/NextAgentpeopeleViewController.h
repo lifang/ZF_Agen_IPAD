@@ -7,6 +7,7 @@
 //
 
 #import "ScanImageViewController.h"
+#import "SubAgentModel.h"
 
 @interface NextAgentpeopeleViewController : ScanImageViewController
 
@@ -16,4 +17,6 @@
 
     
 }
+@property (nonatomic, strong) SubAgentModel *subAgent;
+
 @end

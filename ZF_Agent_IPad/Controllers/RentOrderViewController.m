@@ -209,6 +209,10 @@
 - (void)createOrderForBuy {
     
     //是否需要发票
+    int needInvoice = 0;
+    if (isneedpp) {
+        needInvoice = 1;
+    }
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
     hud.labelText = @"加载中...";
     AppDelegate *delegate = [AppDelegate shareAppDelegate];
@@ -237,56 +241,61 @@
         
     
     }
-//    NSLog(@"%@-%@-%@-%d-%@-%@",delegate.userID,_goodDetail.goodID,_goodDetail.defaultChannel.channelID,_count,addressID,self.reviewField.text);
-//
-//    [NetworkInterface createOrderFromGoodRentWithToken:delegate.token userID:delegate.userID goodID:_goodDetail.goodID channelID:_goodDetail.defaultChannel.channelID count:_count addressID:addressID comment:self.reviewField.text needInvoice:0 invoiceType:0 invoiceInfo:nil finished:^(BOOL success, NSData *response) {
-//        hud.customView = [[UIImageView alloc] init];
-//        hud.mode = MBProgressHUDModeCustomView;
-//        [hud hide:YES afterDelay:0.3f];
-//        if (success)
-//          {
-//            NSLog(@"!!%@",[[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding]);
-//            id object = [NSJSONSerialization JSONObjectWithData:response options:NSJSONReadingMutableLeaves error:nil];
-//            if ([object isKindOfClass:[NSDictionary class]])
-//            {
-//                NSString *errorCode = [object objectForKey:@"code"];
-//                if ([errorCode intValue] == RequestFail) {
-//                    //返回错误代码
-//                    hud.labelText = [NSString stringWithFormat:@"%@",[object objectForKey:@"message"]];
-//                }
-//                else if ([errorCode intValue] == RequestSuccess)
-//                {
-//                    [hud hide:YES];
-//                    [[NSNotificationCenter defaultCenter] postNotificationName:RefreshShoppingCartNotification object:nil];
-//                    PayWayViewController *payWayC = [[PayWayViewController alloc] init];
-//                    payWayC.totalPrice = [self getSummaryPrice];
-//                    payWayC.hidesBottomBarWhenPushed =  YES ;
-//
-//                    [self.navigationController pushViewController:payWayC animated:YES];
-//                }
-//                else if ([errorCode intValue] == -2)
-//                {
-//                
-//                    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
-//                    hud.customView = [[UIImageView alloc] init];
-//                    hud.mode = MBProgressHUDModeCustomView;
-//                    [hud hide:YES afterDelay:1.f];
-//                    hud.labelText = [object objectForKey:@"message"];
-//                    
-//                
-//                
-//                }
-//            }
-//            else
-//            {
-//                //返回错误数据
-//                hud.labelText = kServiceReturnWrong;
-//            }
-//        }
-//        else {
-//            hud.labelText = kNetworkFailed;
-//        }
-//    }];
+    NSLog(@"%@-%@-%@-%d-%@-%@",delegate.userID,_goodDetail.goodID,_goodDetail.defaultChannel.channelID,_count,addressID,self.reviewField.text);
+
+    int a=6;
+    
+    
+    [NetworkInterface createOrderFromGoodBuyWithAgentID:delegate.agentID token:delegate.token userID:delegate.userID createUserID:delegate.userID belongID:agentUserIDs confirmType:a goodID:_goodDetail.goodID channelID:_goodDetail.defaultChannel.channelID count:_count addressID:self.defaultAddress.addressID comment:self.reviewField.text needInvoice:needInvoice invoiceType:self.billType invoiceInfo:self.billField.text finished:^(BOOL success, NSData *response) {
+        
+
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:0.3f];
+        if (success)
+          {
+            NSLog(@"!!%@",[[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding]);
+            id object = [NSJSONSerialization JSONObjectWithData:response options:NSJSONReadingMutableLeaves error:nil];
+            if ([object isKindOfClass:[NSDictionary class]])
+            {
+                NSString *errorCode = [object objectForKey:@"code"];
+                if ([errorCode intValue] == RequestFail) {
+                    //返回错误代码
+                    hud.labelText = [NSString stringWithFormat:@"%@",[object objectForKey:@"message"]];
+                }
+                else if ([errorCode intValue] == RequestSuccess)
+                {
+                    [hud hide:YES];
+                    [[NSNotificationCenter defaultCenter] postNotificationName:RefreshShoppingCartNotification object:nil];
+                    PayWayViewController *payWayC = [[PayWayViewController alloc] init];
+                    payWayC.totalPrice = [self getSummaryPrice];
+                    payWayC.hidesBottomBarWhenPushed =  YES ;
+
+                    [self.navigationController pushViewController:payWayC animated:YES];
+                }
+                else if ([errorCode intValue] == -2)
+                {
+                
+                    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+                    hud.customView = [[UIImageView alloc] init];
+                    hud.mode = MBProgressHUDModeCustomView;
+                    [hud hide:YES afterDelay:1.f];
+                    hud.labelText = [object objectForKey:@"message"];
+                    
+                
+                
+                }
+            }
+            else
+            {
+                //返回错误数据
+                hud.labelText = kServiceReturnWrong;
+            }
+        }
+        else {
+            hud.labelText = kNetworkFailed;
+        }
+    }];
 }
 
 #pragma mark - Data
@@ -606,6 +615,7 @@
 
 - (void)selectedUser:(UserModel *)model {
     _defaultUser = model;
+    agentUserIDs=model.agentID;
     
     namestring=model.userName;
     [self.tableView reloadData];
@@ -1154,8 +1164,20 @@
     [witeview addSubview:savebutton];
 }
 -(void)cityclick:(UIButton*)send
-{
-    _cityField.userInteractionEnabled=NO;
+{        Okcityint=send.tag;
+
+    if(send.tag==1023)
+    {
+        
+        locationBtn.userInteractionEnabled=NO;
+
+    }else
+    {
+        _cityField.userInteractionEnabled=NO;
+
+    
+    }
+
     cityint=send.tag;
     
     [self initPickerView];
@@ -1306,7 +1328,8 @@
         return [_cityArray count];
     }
 }
-- (IBAction)modifyLocation:(id)sender {
+- (IBAction)modifyLocation:(id)sender
+{
     [self pickerScrollOut];
     NSInteger index = [_pickerView selectedRowInComponent:1];
     NSString *cityName = [[_cityArray objectAtIndex:index] objectForKey:@"name"];
@@ -1349,7 +1372,17 @@
 
 
 - (void)pickerScrollOut {
-    _cityField.userInteractionEnabled=YES;
+    if(Okcityint==1023)
+    {
+        locationBtn.userInteractionEnabled=YES;
+        
+    }else
+    {
+        _cityField.userInteractionEnabled=YES;
+        
+        
+    }
+
 
     CGFloat wide;
     CGFloat height;

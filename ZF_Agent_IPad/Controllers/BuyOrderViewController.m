@@ -209,7 +209,8 @@
         for (int i = 0; i < [addressarry count]; i++) {
             AddressModel *model =[addressarry objectAtIndex:i];
             
-            if ([model.isDefault intValue] == AddressDefault) {
+            if ([model.isDefault intValue] == AddressDefault)
+            {
                 addressID=model.addressID;
                 
                 break;
@@ -231,52 +232,64 @@
 
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
     hud.labelText = @"加载中...";
-//    AppDelegate *delegate = [AppDelegate shareAppDelegate];
-//    [NetworkInterface createOrderFromGoodBuyWithToken:delegate.token userID:delegate.userID goodID:_goodDetail.goodID channelID:_goodDetail.defaultChannel.channelID count:_count addressID:addressID comment:@"" needInvoice:needInvoice invoiceType:self.billType invoiceInfo:self.billField.text finished:^(BOOL success, NSData *response) {
-//        hud.customView = [[UIImageView alloc] init];
-//        hud.mode = MBProgressHUDModeCustomView;
-//        [hud hide:YES afterDelay:0.3f];
-//        if (success) {
-//           // NSLog(@"!!%@",[[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding]);
-//            id object = [NSJSONSerialization JSONObjectWithData:response options:NSJSONReadingMutableLeaves error:nil];
-//            if ([object isKindOfClass:[NSDictionary class]]) {
-//                NSString *errorCode = [object objectForKey:@"code"];
-//                if ([errorCode intValue] == RequestFail) {
-//                    //返回错误代码
-//                    hud.labelText = [NSString stringWithFormat:@"%@",[object objectForKey:@"message"]];
-//                }
-//                else if ([errorCode intValue] == RequestSuccess) {
-//                    [hud hide:YES];
-//                    [[NSNotificationCenter defaultCenter] postNotificationName:RefreshShoppingCartNotification object:nil];
-//                    PayWayViewController *payWayC = [[PayWayViewController alloc] init];
-//                    payWayC.totalPrice = [self getSummaryPrice];
-//                    payWayC.hidesBottomBarWhenPushed =  YES ;
-//
-//                    [self.navigationController pushViewController:payWayC animated:YES];
-//                }
-//                else if ([errorCode intValue] == -2)
-//                {
-//                    
-//                    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
-//                    hud.customView = [[UIImageView alloc] init];
-//                    hud.mode = MBProgressHUDModeCustomView;
-//                    [hud hide:YES afterDelay:1.f];
-//                    hud.labelText = [object objectForKey:@"message"];
-//                    
-//                    
-//                    
-//                }
-//
-//            }
-//            else {
-//                //返回错误数据
-//                hud.labelText = kServiceReturnWrong;
-//            }
-//        }
-//        else {
-//            hud.labelText = kNetworkFailed;
-//        }
-//    }];
+    AppDelegate *delegate = [AppDelegate shareAppDelegate];
+    
+    
+    NSString *userID = delegate.agentUserID;
+    
+    
+    int a=5;
+    
+    
+    [NetworkInterface createOrderFromGoodBuyWithAgentID:delegate.agentID token:delegate.token userID:userID createUserID:delegate.userID belongID:delegate.agentUserID confirmType:a goodID:_goodDetail.goodID channelID:_goodDetail.defaultChannel.channelID count:_count addressID:self.defaultAddress.addressID comment:self.reviewField.text needInvoice:needInvoice invoiceType:self.billType invoiceInfo:self.billField.text finished:^(BOOL success, NSData *response) {
+
+    
+    
+   
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:0.3f];
+        if (success) {
+           // NSLog(@"!!%@",[[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding]);
+            id object = [NSJSONSerialization JSONObjectWithData:response options:NSJSONReadingMutableLeaves error:nil];
+            if ([object isKindOfClass:[NSDictionary class]]) {
+                NSString *errorCode = [object objectForKey:@"code"];
+                if ([errorCode intValue] == RequestFail) {
+                    //返回错误代码
+                    hud.labelText = [NSString stringWithFormat:@"%@",[object objectForKey:@"message"]];
+                }
+                else if ([errorCode intValue] == RequestSuccess) {
+                    [hud hide:YES];
+                    [[NSNotificationCenter defaultCenter] postNotificationName:RefreshShoppingCartNotification object:nil];
+                    PayWayViewController *payWayC = [[PayWayViewController alloc] init];
+                    payWayC.totalPrice = [self getSummaryPrice];
+                    payWayC.hidesBottomBarWhenPushed =  YES ;
+
+                    [self.navigationController pushViewController:payWayC animated:YES];
+                }
+                else if ([errorCode intValue] == -2)
+                {
+                    
+                    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+                    hud.customView = [[UIImageView alloc] init];
+                    hud.mode = MBProgressHUDModeCustomView;
+                    [hud hide:YES afterDelay:1.f];
+                    hud.labelText = [object objectForKey:@"message"];
+                    
+                    
+                    
+                }
+
+            }
+            else {
+                //返回错误数据
+                hud.labelText = kServiceReturnWrong;
+            }
+        }
+        else {
+            hud.labelText = kNetworkFailed;
+        }
+    }];
 }
 
 #pragma mark - Data

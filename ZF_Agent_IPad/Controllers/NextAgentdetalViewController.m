@@ -8,10 +8,13 @@
 
 #import "NextAgentdetalViewController.h"
 #import "OpenProfitViewController.h"
-
+#import "NetworkInterface.h"
+#import "AppDelegate.h"
+#import "SubAgentDetailModel.h"
 @interface NextAgentdetalViewController ()
 @property (nonatomic, strong) UIScrollView *scrollView;
 @property (nonatomic, assign) BOOL isopen;
+@property (nonatomic, strong) SubAgentDetailModel *agentDetail;
 
 @end
 
@@ -42,7 +45,6 @@
     
     [self.view addSubview:_scrollView];
     
-    [self createui];
     
     //设置间距
     UIBarButtonItem *spaceItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace
@@ -145,7 +147,7 @@
         
     }
 
-    NSArray*namesarry=[NSArray arrayWithObjects:@"代理商类型",@"公司名称",@"公司营业执照登记号",@"公司税务登记号", nil];
+    NSArray*namesarry=[NSArray arrayWithObjects:@"代理商类型: 公司",[NSString stringWithFormat:@"公司名称: %@", _agentDetail.companyName],[NSString stringWithFormat:@"公司营业执照登记号: %@", _agentDetail.licenseNumber],[NSString stringWithFormat:@"公司税务登记号: %@", _agentDetail.taxNumber], nil];
 
 
     for(int i=0;i<namesarry.count;i++)
@@ -168,8 +170,7 @@
     }
 
 
-    
-    NSArray*namesarry1=[NSArray arrayWithObjects:@"负责人姓名",@"负责人身份证号",@"手机", @"邮箱",@"所在地",@"详细地址",nil];
+     NSArray*namesarry1=[NSArray arrayWithObjects:[NSString stringWithFormat:@"负责人姓名: %@", _agentDetail.personName],[NSString stringWithFormat:@"负责人身份证号: %@", _agentDetail.personID],[NSString stringWithFormat:@"手机: %@", _agentDetail.mobilePhone],[NSString stringWithFormat:@"邮箱: %@", _agentDetail.email],[NSString stringWithFormat:@"所在地: %@ %@", _agentDetail.provinceName,_agentDetail.cityName],[NSString stringWithFormat:@"详细地址: %@", _agentDetail.address],nil];
     for(int i=0;i<namesarry1.count;i++)
     {
         NSInteger heighth;
@@ -229,7 +230,7 @@
     UILabel*idlable=[[UILabel alloc]initWithFrame:CGRectMake(60, 1030,wide/2-270, 30)];
     idlable.textAlignment = NSTextAlignmentRight;
 
-    idlable.text=@"登录ID";
+    idlable.text=[NSString stringWithFormat:@"登录ID: %@", _agentDetail.loginName];
     
     [_scrollView addSubview:idlable];
     
@@ -258,6 +259,52 @@
 
 
 }
+#pragma mark - Request
+
+- (void)getSubAgentDetail {
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+    hud.labelText = @"提交中...";
+    AppDelegate *delegate = [AppDelegate shareAppDelegate];
+    [NetworkInterface getSubAgentDetailWithToken:delegate.token subAgentID:_subAgent.agentID finished:^(BOOL success, NSData *response) {
+        NSLog(@"%@",[[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding]);
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:0.5f];
+        if (success) {
+            id object = [NSJSONSerialization JSONObjectWithData:response options:NSJSONReadingMutableLeaves error:nil];
+            if ([object isKindOfClass:[NSDictionary class]]) {
+                NSString *errorCode = [object objectForKey:@"code"];
+                if ([errorCode intValue] == RequestFail) {
+                    //返回错误代码
+                    hud.labelText = [NSString stringWithFormat:@"%@",[object objectForKey:@"message"]];
+                }
+                else if ([errorCode intValue] == RequestSuccess) {
+                    [hud hide:YES];
+                    [self parseAgentDetailWithDictionary:object];
+                }
+            }
+            else {
+                //返回错误数据
+                hud.labelText = kServiceReturnWrong;
+            }
+        }
+        else {
+            hud.labelText = kNetworkFailed;
+        }
+    }];
+}
+
+#pragma mark - Data
+
+- (void)parseAgentDetailWithDictionary:(NSDictionary *)dict {
+    if (![dict objectForKey:@"result"] || ![[dict objectForKey:@"result"] isKindOfClass:[NSDictionary class]]) {
+        return;
+    }
+    _agentDetail = [[SubAgentDetailModel alloc] initWithParseDictionary:[dict objectForKey:@"result"]];
+    [self createui];
+    
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

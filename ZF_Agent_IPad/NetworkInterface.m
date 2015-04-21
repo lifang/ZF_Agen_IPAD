@@ -1133,6 +1133,52 @@ static NSString *HTTP_GET  = @"GET";
                       httpMethod:HTTP_POST
                         finished:finish];
 }
+//42
++ (void)createOrderFromGoodBuyWithAgentID:(NSString *)agentID
+                                    token:(NSString *)token
+                                   userID:(NSString *)userID
+                             createUserID:(NSString *)createUserID
+                                 belongID:(NSString *)belongID
+                              confirmType:(int)confirmType
+                                   goodID:(NSString *)goodID
+                                channelID:(NSString *)channelID
+                                    count:(int)count
+                                addressID:(NSString *)addressID
+                                  comment:(NSString *)comment
+                              needInvoice:(int)needInvoice
+                              invoiceType:(int)invoiceType
+                              invoiceInfo:(NSString *)invoiceTitle
+                                 finished:(requestDidFinished)finish {
+    //参数
+    NSMutableDictionary *paramDict = [[NSMutableDictionary alloc] init];
+    [paramDict setObject:[NSNumber numberWithInt:[agentID intValue]] forKey:@"agentId"];
+    [paramDict setObject:[NSNumber numberWithInt:[userID intValue]] forKey:@"customerId"];
+    [paramDict setObject:[NSNumber numberWithInt:[createUserID intValue]] forKey:@"creatid"];
+    [paramDict setObject:[NSNumber numberWithInt:[belongID intValue]] forKey:@"belongId"];
+    
+    [paramDict setObject:[NSNumber numberWithInt:confirmType] forKey:@"orderType"];
+    [paramDict setObject:[NSNumber numberWithInt:[goodID intValue]] forKey:@"goodId"];
+    [paramDict setObject:[NSNumber numberWithInt:[channelID intValue]] forKey:@"paychannelId"];
+    [paramDict setObject:[NSNumber numberWithInt:count] forKey:@"quantity"];
+    [paramDict setObject:[NSNumber numberWithInt:[addressID intValue]] forKey:@"addressId"];
+    if (comment) {
+        [paramDict setObject:comment forKey:@"comment"];
+    }
+    [paramDict setObject:[NSNumber numberWithInt:needInvoice] forKey:@"isNeedInvoice"];
+    if (needInvoice == 1) {
+        [paramDict setObject:[NSNumber numberWithInt:invoiceType] forKey:@"invoice_type"];
+        if (invoiceTitle) {
+            [paramDict setObject:invoiceTitle forKey:@"invoice_info"];
+        }
+    }
+    //url
+    NSString *urlString = [NSString stringWithFormat:@"%@/%@",kServiceURL,s_createOrder_method];
+    [[self class] requestWithURL:urlString
+                          params:paramDict
+                      httpMethod:HTTP_POST
+                        finished:finish];
+    
+}
 
 //42.
 + (void)getStockDetailWithAgentID:(NSString *)agentID
@@ -2157,5 +2203,70 @@ static NSString *HTTP_GET  = @"GET";
                       httpMethod:HTTP_POST
                         finished:finish];
 }
+//93.
++ (void)getSubAgentDetailWithToken:(NSString *)token
+                        subAgentID:(NSString *)subAgentID
+                          finished:(requestDidFinished)finish {
+    //参数
+    NSMutableDictionary *paramDict = [[NSMutableDictionary alloc] init];
+    [paramDict setObject:[NSNumber numberWithInt:[subAgentID intValue]] forKey:@"sonAgentsId"];
+    //url
+    NSString *urlString = [NSString stringWithFormat:@"%@/%@",kServiceURL,s_subAgentDetail_method];
+    [[self class] requestWithURL:urlString
+                          params:paramDict
+                      httpMethod:HTTP_POST
+                        finished:finish];
+}
+//96.
++ (void)getBenefitListWithToken:(NSString *)token
+                     subAgentID:(NSString *)subAgentID
+                       finished:(requestDidFinished)finish {
+    //参数
+    NSMutableDictionary *paramDict = [[NSMutableDictionary alloc] init];
+    [paramDict setObject:[NSNumber numberWithInt:[subAgentID intValue]] forKey:@"sonAgentsId"];
+    //url
+    NSString *urlString = [NSString stringWithFormat:@"%@/%@",kServiceURL,s_subAgentBenefitList_method];
+    [[self class] requestWithURL:urlString
+                          params:paramDict
+                      httpMethod:HTTP_POST
+                        finished:finish];
+}
+//98.
++ (void)deleteBenefitWithAgentID:(NSString *)agentID
+                           token:(NSString *)token
+                      subAgentID:(NSString *)subAgentID
+                       channelID:(NSString *)channelID
+                        finished:(requestDidFinished)finish {
+    //参数
+    NSMutableDictionary *paramDict = [[NSMutableDictionary alloc] init];
+    if (agentID) {
+        [paramDict setObject:[NSNumber numberWithInt:[agentID intValue]] forKey:@"agentId"];
+    }
+    if (subAgentID) {
+        [paramDict setObject:[NSNumber numberWithInt:[subAgentID intValue]] forKey:@"sonAgentsId"];
+    }
+    if (channelID) {
+        [paramDict setObject:[NSNumber numberWithInt:[channelID intValue]] forKey:@"payChannelId"];
+    }
+    //url
+    NSString *urlString = [NSString stringWithFormat:@"%@/%@",kServiceURL,s_subAgentBenefitDelete_method];
+    [[self class] requestWithURL:urlString
+                          params:paramDict
+                      httpMethod:HTTP_POST
+                        finished:finish];
+}
+
+//99.
++ (void)getAgentChannelListWithToken:(NSString *)token
+                            finished:(requestDidFinished)finish {
+    //url
+    NSString *urlString = [NSString stringWithFormat:@"%@/%@",kServiceURL,s_subAgentChannelList_method];
+    [[self class] requestWithURL:urlString
+                          params:nil
+                      httpMethod:HTTP_POST
+                        finished:finish];
+}
+
+
 
 @end
