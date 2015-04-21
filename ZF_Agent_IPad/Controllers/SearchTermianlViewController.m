@@ -11,9 +11,8 @@
 #import "ZFSearchBar.h"
 #import "AppDelegate.h"
 #import "NetworkInterface.h"
-//#import "GoodListModel.h"
-//#import "GoodDetailViewController.h"
 #import "BasicNagigationController.h"
+#import "TerminalSelectModel.h"
 
 @interface SearchTermianlViewController ()<UITableViewDataSource,UITableViewDelegate,UISearchBarDelegate>
 
@@ -27,6 +26,8 @@
 @property (nonatomic, strong) NSMutableArray *dataItem;
 @property (nonatomic, strong) NSMutableArray *dataItemid;
 
+@property (nonatomic, strong) NSMutableArray *terminalList;
+
 
 @end
 
@@ -36,9 +37,11 @@
     [super viewDidLoad];
     _dataItem = [[NSMutableArray alloc] initWithCapacity:0];
     _dataItemid = [[NSMutableArray alloc] initWithCapacity:0];
+    _terminalList = [[NSMutableArray alloc] init];
+    
     self.view.backgroundColor=[UIColor whiteColor];
     //
-    //[self gethotname];
+    
     
     _tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
     _tableView.translatesAutoresizingMaskIntoConstraints = NO;
@@ -104,7 +107,6 @@
         
     }
  
-    
     //导航条的搜索条
     _searchBar = [[UISearchBar alloc]initWithFrame:CGRectMake(0,0,wide-300,44)];
     _searchBar.backgroundColor=[UIColor colorWithHexString:@"006fd5"];
@@ -126,45 +128,38 @@
 
 
 
--(void)hotdetalbuttonclick:(UIButton*)send
-{
-   
-    /*
-    GoodDetailViewController *detailC = [[GoodDetailViewController alloc] init];
-    
-    detailC.hidesBottomBarWhenPushed =  YES ;
-    
-    detailC.goodID =[_dataItemid objectAtIndex:send.tag-502];
-    [self.navigationController pushViewController:detailC animated:YES];
-    */
-    
-}
 
-//搜索
--(void)gethotname
-{
+
+//搜索终端
+- (void)searchTerminal {
+    NSMutableArray *terminals = [[NSMutableArray alloc] init];
+    if (_keyword && ![_keyword isEqualToString:@""]) {
+        [terminals addObject:_keyword];
+    }
+    NSLog(@"terminals:%@",terminals);
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
-    hud.labelText = @"正在发送...";
-    [NetworkInterface hotget: nil finished:^(BOOL success, NSData *response) {
+    hud.labelText = @"加载中...";
+    AppDelegate *delegate = [AppDelegate shareAppDelegate];
+    [NetworkInterface batchTerminalNumWithtoken:delegate.token serialNum:terminals finished:^(BOOL success, NSData *response) {
         NSLog(@"%@",[[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding]);
         hud.customView = [[UIImageView alloc] init];
         hud.mode = MBProgressHUDModeCustomView;
-        [hud hide:YES afterDelay:0.3f];
+        [hud hide:YES afterDelay:0.5f];
         if (success) {
             id object = [NSJSONSerialization JSONObjectWithData:response options:NSJSONReadingMutableLeaves error:nil];
             if ([object isKindOfClass:[NSDictionary class]]) {
-                if ([[object objectForKey:@"code"] intValue] == RequestSuccess) {
-                    [hud setHidden:YES];
-                    [self parseDataWithDictionary:object];
-                    
-                    
-                }
-                else {
+                NSString *errorCode = [object objectForKey:@"code"];
+                if ([errorCode intValue] == RequestFail) {
+                    //返回错误代码
                     hud.labelText = [NSString stringWithFormat:@"%@",[object objectForKey:@"message"]];
                 }
+                else if ([errorCode intValue] == RequestSuccess) {
+                    [hud hide:YES];
+                    [self parseSearchListWithData:object];
+                }
             }
-            else
-            {
+            else {
+                //返回错误数据
                 hud.labelText = kServiceReturnWrong;
             }
         }
@@ -172,28 +167,29 @@
             hud.labelText = kNetworkFailed;
         }
     }];
-    
 }
 
-- (void)parseDataWithDictionary:(NSDictionary *)dict {
-    
-    if (![dict objectForKey:@"result"] ) {
+
+- (void)parseSearchListWithData:(NSDictionary *)dict {
+    if (![dict objectForKey:@"result"] || ![[dict objectForKey:@"result"] isKindOfClass:[NSArray class]]) {
         return;
     }
-    
-    NSArray *goodList = [dict objectForKey:@"result"];
-    
-    
-    for (int i = 0; i < [goodList count]; i++)
-        
-    {
-        [_dataItem addObject:[[goodList objectAtIndex:i] objectForKey:@"title"]];
-        [_dataItemid addObject:[[goodList objectAtIndex:i] objectForKey:@"id"]];
-        
+    [_terminalList removeAllObjects];
+    NSArray *serialList = [dict objectForKey:@"result"];
+    for (int i = 0; i < [serialList count]; i++) {
+        id serialDict = [serialList objectAtIndex:i];
+        if ([serialDict isKindOfClass:[NSDictionary class]]) {
+            TerminalSelectModel *model = [[TerminalSelectModel alloc] initWithParseDictionary:serialDict];
+            [_terminalList addObject:model];
+        }
+        NSLog(@"terminalList:%@",_terminalList);
     }
-    
     [_tableView reloadData];
+    //[self refreshSelectedInfo];
 }
+
+
+
 
 -(void)lastebuttonclick:(UIButton*)send
 {
@@ -256,8 +252,15 @@
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
     NSLog(@"!!");
    // [self saveSearchHistory];
-    [self searchWithString:_searchBar.text];
+   // [self searchWithString:_searchBar.text];
+   // _keyword = keyword;
+   // _searchBar.text = _keyword;
+     _keyword=_searchBar.text ;
+     [self searchTerminal];
 }
+
+
+
 
 #pragma mark - TableView
 
@@ -266,24 +269,27 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 0;
+    return _terminalList.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    static NSString *identifier = @"History";
+    static NSString *identifier = @"batchTerminal";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
+    TerminalSelectModel *model = [_terminalList objectAtIndex:indexPath.row];
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
     }
-    _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    cell.textLabel.text=model.retail_price;
+    cell.detailTextLabel.text=model.serial_num;
+   
     
     return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    self.searchBar.text = [_historyItems objectAtIndex:indexPath.row];
-    [self searchWithString:self.searchBar.text];
+    //self.searchBar.text = [_historyItems objectAtIndex:indexPath.row];
+    //[self searchWithString:self.searchBar.text];
 }
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -304,5 +310,11 @@
     }
 }
 
+
+- (void)getSearchKeyword:(NSString *)keyword {
+    _keyword = keyword;
+    _searchBar.text = _keyword;
+    [self searchTerminal];
+}
 
 @end

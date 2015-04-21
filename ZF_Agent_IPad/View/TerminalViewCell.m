@@ -146,11 +146,11 @@
             //            for (int i = 0; i < 1; i++) {
                            UIButton *button = [[UIButton alloc]init];
                             button.titleLabel.font = [UIFont systemFontOfSize:17];
-                            [button setTitleColor:[UIColor orangeColor] forState:UIControlStateNormal];
+                            [button setTitleColor:[UIColor colorWithHexString:@"006fd5"] forState:UIControlStateNormal];
                             button.layer.masksToBounds=YES;
                             button.layer.cornerRadius=2.0;
                             button.layer.borderWidth=1.0;
-                            button.layer.borderColor=[UIColor orangeColor].CGColor;
+                            button.layer.borderColor=[UIColor colorWithHexString:@"006fd5"].CGColor;
                             button.backgroundColor = [UIColor clearColor];
                             button.tag = 5000;
                             [button addTarget:self action:@selector(buttonClick:) forControlEvents:UIControlEventTouchUpInside];

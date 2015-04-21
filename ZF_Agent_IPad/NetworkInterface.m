@@ -756,7 +756,7 @@ static NSString *HTTP_GET  = @"GET";
             terminalsQuantity:(int)terminalQuantity
                       address:(NSString *)address
                        reason:(NSString *)reason
-                terminalsList:(NSArray *)terminalsList
+                terminalsList:(NSString *)terminalsList
                       reciver:(NSString *)reciver
                         phone:(NSString *)phone
                      finished:(requestDidFinished)finish{
@@ -767,12 +767,31 @@ static NSString *HTTP_GET  = @"GET";
     }
     
     [paramDict setObject:[NSNumber numberWithInt:[customerId intValue]] forKey:@"customerId"];
-    [paramDict setObject:[NSNumber numberWithInt:terminalQuantity ] forKey:@"terminalQuantity"];
+    [paramDict setObject:[NSNumber numberWithInt:terminalQuantity]forKey:@"terminalsQuantity"];
+    /*
     [paramDict setObject:address forKey:@"address"];
     [paramDict setObject:reason forKey:@"reason"];
     [paramDict setObject:terminalsList forKey:@"terminalsList"];
     [paramDict setObject:reciver forKey:@"reciver"];
     [paramDict setObject:phone forKey:@"phone"];
+     */
+    if (address) {
+        [paramDict setObject:address forKey:@"address"];
+    }
+    if (reciver) {
+        [paramDict setObject:reciver forKey:@"reciver"];
+    }
+    if (phone) {
+        [paramDict setObject:phone forKey:@"phone"];
+    }
+    if (reason) {
+        [paramDict setObject:reason forKey:@"reason"];
+    }
+    if (terminalsList) {
+        [paramDict setObject:terminalsList forKey:@"terminalsList"];
+    }
+
+    
     //url
     NSString *urlString = [NSString stringWithFormat:@"%@/%@",kServiceURL,s_submitAgent_method];
     [[self class] requestWithURL:urlString
@@ -783,6 +802,43 @@ static NSString *HTTP_GET  = @"GET";
 
 }
 
+//32.
++ (void)submitAfterSaleApplyWithUserID:(NSString *)userID
+                                 token:(NSString *)token
+                         terminalCount:(NSInteger)count
+                               address:(NSString *)address
+                              receiver:(NSString *)receiver
+                           phoneNumber:(NSString *)phoneNumber
+                                reason:(NSString *)reason
+                          terminalList:(NSString *)terminalList
+                              finished:(requestDidFinished)finish {
+    //参数
+    NSMutableDictionary *paramDict = [[NSMutableDictionary alloc] init];
+    [paramDict setObject:[NSNumber numberWithInt:[userID intValue]] forKey:@"customerId"];
+    [paramDict setObject:[NSNumber numberWithInteger:count] forKey:@"terminalsQuantity"];
+    if (address) {
+        [paramDict setObject:address forKey:@"address"];
+    }
+    if (receiver) {
+        [paramDict setObject:receiver forKey:@"reciver"];
+    }
+    if (phoneNumber) {
+        [paramDict setObject:phoneNumber forKey:@"phone"];
+    }
+    if (reason) {
+        [paramDict setObject:reason forKey:@"reason"];
+    }
+    if (terminalList) {
+        [paramDict setObject:terminalList forKey:@"terminalsList"];
+    }
+    
+    //url
+    NSString *urlString = [NSString stringWithFormat:@"%@/%@",kServiceURL,s_submitAgent_method];
+    [[self class] requestWithURL:urlString
+                          params:paramDict
+                      httpMethod:HTTP_POST
+                        finished:finish];
+}
 
 
 

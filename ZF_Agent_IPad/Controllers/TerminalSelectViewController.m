@@ -15,7 +15,7 @@
 
 @interface TerminalSelectViewController ()<UITableViewDelegate,UITableViewDataSource,UITextViewDelegate,UIPickerViewDelegate,UIPickerViewDataSource,UIPopoverControllerDelegate>
 {
-    BOOL isSelected;
+   // BOOL isSelected;
     //CGFloat summaryPrice;
     NSInteger sumall;
      NSInteger pickerstatus;
@@ -372,14 +372,15 @@
     
     //选中按钮
     _selectedBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    //_selectedBtn.frame=CGRectMake(35, 15, 30, 30);
     [_selectedBtn addTarget:self action:@selector(selectedBtnPressed:) forControlEvents:UIControlEventTouchUpInside];
+    [_selectedBtn setImage:kImageName(@"btn_noselect") forState:UIControlStateNormal];
+    //[_selectedBtn setSelected:NO];
     [FooterView addSubview:_selectedBtn];
     [_selectedBtn makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(FooterView.centerY);
         make.left.equalTo(self.view.left).offset(100);
         make.height.equalTo(@42);
-        make.width.equalTo(@120);
+        make.width.equalTo(@42);
     }];
     
     //全选文字
@@ -396,22 +397,11 @@
         make.height.equalTo(@42);
         make.width.equalTo(@120);
     }];
-    
-    if (isSelected) {
-        
-        [_selectedBtn setImage:kImageName(@"select_height") forState:UIControlStateNormal];
-        selectedLB.textColor = [UIColor blackColor];
-    }
-    else {
-        
-        [_selectedBtn setImage:kImageName(@"select_normal") forState:UIControlStateNormal];
-        selectedLB.textColor = kColor(128, 126, 126, 1);
-    }
-    
+   
+  
    
     _numberLB = [[UILabel alloc] init];
     _numberLB.font = [UIFont boldSystemFontOfSize:16.f];
-    //numberLB.text = [NSString stringWithFormat:@"已选中%d台",sumall];
     _numberLB.text = [NSString stringWithFormat:@"已选中0台"];
     [FooterView addSubview:_numberLB];
     [_numberLB makeConstraints:^(MASConstraintMaker *make) {
@@ -496,18 +486,32 @@
 
 -(void)selectedBtnPressed:(id)sender
 {
-
-    if (isSelected) {
-        
-        [_selectedBtn setImage:kImageName(@"select_height") forState:UIControlStateNormal];
-        //selectedLB.textColor = [UIColor blackColor];
-    }
-    else {
-        
-        [_selectedBtn setImage:kImageName(@"select_normal") forState:UIControlStateNormal];
-        //selectedLB.textColor = kColor(128, 126, 126, 1);
-    }
     
+    
+    int Count = 0;
+    if (_selectedBtn.isSelected) {
+        for (TerminalSelectModel *model in _terminalList) {
+            if (!model.isSelected) {
+                model.isSelected = !model.isSelected;
+            }
+            Count++;
+        }
+        [_selectedBtn setSelected:NO];
+        [_selectedBtn setImage:kImageName(@"btn_select") forState:UIControlStateNormal];
+            }
+    else {
+        Count =0;
+        for (TerminalSelectModel *model in _terminalList) {
+            if (model.isSelected) {
+                model.isSelected = !model.isSelected;
+            }
+        }
+        [_selectedBtn setSelected:YES];
+        [_selectedBtn setImage:kImageName(@"btn_noselect") forState:UIControlStateNormal];
+        
+    }
+    _numberLB.text = [NSString stringWithFormat:@"已选中%d台",Count];
+    [_tableView reloadData];
 
 }
 
@@ -685,7 +689,7 @@
 
 
 
-
+/*
 #pragma mark - Data
 
 - (void)parseMerchantDataWithDictionary:(NSDictionary *)dict {
@@ -701,7 +705,7 @@
     NSLog(@"Items:%@",_terminalItems);
     [_tableView reloadData];
 }
-
+*/
 
 #pragma mark - Data-POS
 
