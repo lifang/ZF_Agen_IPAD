@@ -855,6 +855,8 @@ static NSString *s_defaultTerminalNum = @"请选择终端号";
                 {
                     hud.labelText = @"调货成功";
                     [bigsview removeFromSuperview];
+                    [self firstLoadData];
+
                 }
             }
             else {

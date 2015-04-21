@@ -29,6 +29,10 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(refreshAgentList)
+                                                 name:@"agentshaxin"
+                                               object:nil];
     [self.navigationController.navigationBar setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor], NSForegroundColorAttributeName, NavTitle_FONT(NavTitle_FONTSIZE),NSFontAttributeName,nil]];
 
     // Do any additional setup after loading the view.
@@ -136,7 +140,10 @@
     [self initAndLayoutUI];
     [self firstLoadData];
 }
+- (void)refreshAgentList {
+    [self firstLoadData];
 
+}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
@@ -515,7 +522,6 @@
 
             if (model.agentType == AgentTypeCompany) {
                 NextAgentdetalViewController*agentdetal=[[NextAgentdetalViewController alloc]init];
-                SubAgentModel *model = [_dataItem objectAtIndex:indexPath.row];
                 agentdetal.subAgent = model;
 
                 agentdetal.hidesBottomBarWhenPushed=YES;
