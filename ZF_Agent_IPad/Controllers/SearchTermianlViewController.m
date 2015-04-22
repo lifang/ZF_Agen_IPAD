@@ -97,9 +97,10 @@
     }
  
     //导航条的搜索条
-    _searchBar = [[UISearchBar alloc]initWithFrame:CGRectMake(0,0,wide-300,44)];
-    _searchBar.backgroundColor=[UIColor colorWithHexString:@"006fd5"];
-    [_searchBar setBarTintColor:[UIColor colorWithHexString:@"006fd5"]];
+    _searchBar = [[UISearchBar alloc]initWithFrame:CGRectMake(0,5,wide-300,30)];
+
+    _searchBar.backgroundColor =kColor(3, 112, 214, 1);
+//    [_searchBar setBarTintColor:[UIColor clearColor]];
     _searchBar.delegate = self;
     _searchBar.text = _keyword;
     [_searchBar setPlaceholder:@"搜索"];
@@ -107,7 +108,7 @@
     //将搜索条放在一个UIView上
     UIView *searchView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, wide-300, 44)];
     //searchView.backgroundColor = [UIColor colorWithHexString:@"006fd5"];
-    searchView.backgroundColor = [UIColor clearColor];
+//    searchView.backgroundColor = kColor(3, 112, 214, 1);
     [searchView addSubview:_searchBar];
     self.navigationItem.titleView = searchView;
     self.navigationItem.titleView.backgroundColor=[UIColor clearColor];

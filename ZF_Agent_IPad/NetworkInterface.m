@@ -2416,6 +2416,18 @@ static NSString *HTTP_GET  = @"GET";
                       httpMethod:HTTP_POST
                         finished:finish];
 }
++ (void)orderConfirmWithOrderID:(NSString *)orderID
+                       finished:(requestDidFinished)finish {
+    //参数
+    NSMutableDictionary *paramDict = [[NSMutableDictionary alloc] init];
+    [paramDict setObject:[NSNumber numberWithInt:[orderID intValue]] forKey:@"id"];
+    //url
+    NSString *urlString = [NSString stringWithFormat:@"%@/%@",kServiceURL,s_orderConfirm_method];
+    [[self class] requestWithURL:urlString
+                          params:paramDict
+                      httpMethod:HTTP_POST
+                        finished:finish];
+}
 
 
 @end

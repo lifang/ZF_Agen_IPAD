@@ -367,6 +367,8 @@ static NSString *s_subAgentChannelList_method = @"lowerAgent/getChannellist";
 
 //下级代理商管理——根据支付通道获取消费类型
 static NSString *s_subAgentTradeList_method = @"lowerAgent/getTradelist";
+//订单信息
+static NSString *s_orderConfirm_method = @"order/payOrder";
 @interface NetworkInterface : NSObject
 /*!
  @abstract 1.热卖
@@ -1779,5 +1781,12 @@ static NSString *s_subAgentTradeList_method = @"lowerAgent/getTradelist";
 + (void)getTradeTypeWithToken:(NSString *)token
                     channelID:(NSString *)channelID
                      finished:(requestDidFinished)finish;
+/*!
+ @abstract 订单信息
+ @result finish  请求回调结果
+ */
++ (void)orderConfirmWithOrderID:(NSString *)orderID
+                       finished:(requestDidFinished)finish;
+
 
 @end

@@ -389,6 +389,10 @@ typedef enum {
                         
                         UILabel *userLabel = [[UILabel alloc] initWithFrame:CGRectMake(wide * 0.4 + 5, 30, wide * 0.4 - originX, 20)];
                         [self setLabel:userLabel withString:_orderDetail.belongUser];
+                        NSLog(@"%@",_orderDetail.belongUser);
+                        
+                        [cell.contentView addSubview:userLabel];
+
                     }
                     
                     
@@ -587,9 +591,9 @@ typedef enum {
                     terminalBtn.frame = CGRectMake(50, 5, 100, 30);
                     terminalBtn.layer.masksToBounds = YES;
                     terminalBtn.layer.borderWidth = 1.f;
-                    terminalBtn.layer.borderColor = kColor(255, 102, 36, 1).CGColor;
-                    [terminalBtn setTitleColor:kColor(255, 102, 36, 1) forState:UIControlStateNormal];
-                    [terminalBtn setTitleColor:kColor(134, 56, 0, 1) forState:UIControlStateHighlighted];
+                    terminalBtn.layer.borderColor = kColor(3, 112, 214, 1).CGColor;
+                    [terminalBtn setTitleColor:kColor(3, 112, 214, 1) forState:UIControlStateNormal];
+                    [terminalBtn setTitleColor:kColor(3, 112, 214, 1) forState:UIControlStateHighlighted];
                     terminalBtn.titleLabel.font = [UIFont boldSystemFontOfSize:14.f];
                     [terminalBtn setTitle:@"查看终端号" forState:UIControlStateNormal];
                     [terminalBtn addTarget:self action:@selector(scanTerminalNumber:) forControlEvents:UIControlEventTouchUpInside];
@@ -702,6 +706,7 @@ typedef enum {
 - (IBAction)payDeposit:(id)sender
 {
     PayWayViewController *payC = [[PayWayViewController alloc] init];
+    
     payC.orderID = _orderDetail.orderID;
     payC.totalPrice = _orderDetail.totalDeposit;
     payC.fromType = PayWayFromOrderWholesale;
@@ -754,6 +759,8 @@ typedef enum {
 
 //付款
 - (IBAction)payProcurementOrder:(id)sender {
+    NSLog(@"%@", _orderDetail.orderID);
+
     PayWayViewController *payC = [[PayWayViewController alloc] init];
     payC.orderID = _orderDetail.orderID;
     payC.totalPrice = _orderDetail.actualPrice;

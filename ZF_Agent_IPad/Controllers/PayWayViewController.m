@@ -7,8 +7,13 @@
 //
 
 #import "PayWayViewController.h"
+#import "NetworkInterface.h"
+#import "AlipayHelper.h"
+#import "OrderDetailController.h"
+
 
 @interface PayWayViewController ()<UITableViewDataSource,UITableViewDelegate>
+@property (nonatomic, strong) NSString *payNumber;  //支付单号
 
 @property (nonatomic, strong) UITableView *tableView;
 
@@ -18,6 +23,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self getOrderInfo];
+
     // Do any additional setup after loading the view.
     self.view.backgroundColor=[UIColor whiteColor];
     NSDictionary *attributes = [NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor],NSForegroundColorAttributeName,[UIFont boldSystemFontOfSize:22],NSFontAttributeName, nil];
@@ -25,7 +32,60 @@
     self.title = @"选择支付方式";
     NSLog(@"!!!!!!!!!!%@~~~~~~~~~~~~~%f",_orderID,_totalPrice);
     
-   [self setHeaderAndFooterView];
+}
+- (void)getOrderInfo {
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+    hud.labelText = @"加载中...";
+
+    
+    [NetworkInterface orderConfirmWithOrderID:_orderID finished:^(BOOL success, NSData *response) {
+        NSLog(@"%@",[[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding]);
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:0.5f];
+        if (success) {
+            id object = [NSJSONSerialization JSONObjectWithData:response options:NSJSONReadingMutableLeaves error:nil];
+            if ([object isKindOfClass:[NSDictionary class]]) {
+                NSString *errorCode = [object objectForKey:@"code"];
+                if ([errorCode intValue] == RequestFail) {
+                    //返回错误代码
+                    hud.labelText = [NSString stringWithFormat:@"%@",[object objectForKey:@"message"]];
+                }
+                else if ([errorCode intValue] == RequestSuccess) {
+                    [hud hide:YES];
+                    [self parseOrderDataWithDictionary:object];
+                }
+            }
+            else {
+                //返回错误数据
+                hud.labelText = kServiceReturnWrong;
+            }
+        }
+        else {
+            hud.labelText = kNetworkFailed;
+        }
+    }];
+}
+#pragma mark - Data
+
+- (void)parseOrderDataWithDictionary:(NSDictionary *)dict {
+    NSLog(@"%f",_totalPrice);
+
+    if (![dict objectForKey:@"result"] || ![[dict objectForKey:@"result"] isKindOfClass:[NSDictionary class]]) {
+        return;
+    }
+    id infoDict = [dict objectForKey:@"result"];
+    if ([infoDict isKindOfClass:[NSDictionary class]]) {
+        if (_fromType == PayWayFromGoodWholesale || _fromType == PayWayFromOrderWholesale) {
+            _totalPrice = [[infoDict objectForKey:@"price_dingjin"] floatValue] / 100;
+        }
+        else {
+            _totalPrice = [[infoDict objectForKey:@"order_totalPrice"] floatValue] / 100;
+        }
+        _payNumber = [infoDict objectForKey:@"order_number"];
+    }
+    
+    [self setHeaderAndFooterView];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -82,7 +142,7 @@
     priceLabel.textColor = [UIColor whiteColor];
     priceLabel.font = [UIFont boldSystemFontOfSize:48.f];
     priceLabel.adjustsFontSizeToFitWidth = YES;
-    priceLabel.text = [NSString stringWithFormat:@"￥%.2f",_totalPrice/100];
+    priceLabel.text = [NSString stringWithFormat:@"￥%.2f",_totalPrice];
     [blackView addSubview:priceLabel];
     
     UILabel *typeLabel = [[UILabel alloc] initWithFrame:CGRectMake(leftSpace, hearderHeight +40, wide - leftSpace - rightSpace, 20.f)];
@@ -94,15 +154,18 @@
     
     
     
-    UIButton *zhifubao = [[UIButton alloc]init];
+    UIButton *zhifubao = [UIButton buttonWithType:UIButtonTypeCustom];
    
     [zhifubao addTarget:self action:@selector(zhifubaoclick) forControlEvents:UIControlEventTouchUpInside];
-    zhifubao.backgroundColor = [UIColor clearColor];
     [zhifubao setBackgroundImage:[UIImage imageNamed:@"zhifubao"] forState:UIControlStateNormal];
-       zhifubao.frame = CGRectMake(0,0,200,62);
-    zhifubao.center=CGPointMake(wide/4, hearderHeight +40+80);
+    zhifubao.frame = CGRectMake(0,0,200,62);
+    zhifubao.center=CGPointMake(wide/4, hearderHeight +40+100);
+    zhifubao.userInteractionEnabled=YES;
     
-    [headerView addSubview:zhifubao];
+    [self.view addSubview:zhifubao];
+    
+    
+    
     UIButton *yinlianbutton = [[UIButton alloc]init];
     
     [yinlianbutton addTarget:self action:@selector(yinlianclick) forControlEvents:UIControlEventTouchUpInside];
@@ -112,13 +175,72 @@
     yinlianbutton.center=CGPointMake(wide/4*3, hearderHeight +40+80);
     
     [headerView addSubview:yinlianbutton];
+    headerView.userInteractionEnabled=YES;
+    
 
 }
 -(void)zhifubaoclick
 {
+    //支付宝
+    if (_payNumber) {
+        [AlipayHelper alipayWithOrderNumber:_payNumber goodName:_goodName totalPrice:_totalPrice payResult:^(NSDictionary *resultDict) {
+            int resultCode = [[resultDict objectForKey:@"resultStatus"] intValue];
+            NSString *tipString = @"";
+            if (resultCode == 9000) {
+                //                [self performSelector:@selector(updatOrderAfterPay) withObject:nil afterDelay:0.1f];
+                tipString = @"订单支付成功";
+                [self performSelector:@selector(showDetail) withObject:nil afterDelay:0.5];
+            }
+            else {
+                if (resultCode == 8000) {
+                    tipString = @"正在处理中";
+                }
+                else if (resultCode == 4000) {
+                    tipString = @"订单支付失败";
+                }
+                else if (resultCode == 6001) {
+                    tipString = @"用户中途取消";
+                }
+                else if (resultCode == 6002) {
+                    tipString = @"网络连接出错";
+                }
+                MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+                hud.customView = [[UIImageView alloc] init];
+                hud.mode = MBProgressHUDModeCustomView;
+                [hud hide:YES afterDelay:1.f];
+                hud.labelText = tipString;
+            }
+        }];
+    }
+    else {
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:1.f];
+        hud.labelText = @"获取订单号失败";
+    }
 
 
 }
+- (void)showDetail {
+    OrderDetailController *detailC = [[OrderDetailController alloc] init];
+    detailC.fromType = _fromType;
+    detailC.orderID = _orderID;
+    detailC.goodID = _goodID;
+    detailC.goodName = _goodName;
+    if (_fromType == PayWayFromOrderWholesale ||
+        _fromType == PayWayFromGoodWholesale)
+    {
+        detailC.supplyType = SupplyGoodsWholesale;
+    }
+    else if (_fromType == PayWayFromOrderProcurement ||
+             _fromType == PayWayFromGoodProcurementBuy ||
+             _fromType == PayWayFromGoodProcurementRent) {
+        detailC.supplyType = SupplyGoodsProcurement;
+    }
+    [self.navigationController pushViewController:detailC animated:YES];
+}
+
 -(void)yinlianclick
 {
     

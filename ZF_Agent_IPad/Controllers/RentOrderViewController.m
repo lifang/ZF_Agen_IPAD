@@ -1934,8 +1934,13 @@
             
             
             UIImageView*imageview=[[UIImageView alloc]initWithFrame:CGRectMake(20, 20,80, 80)];
-            [imageview sd_setImageWithURL:[NSURL URLWithString:[_goodDetail.goodImageList objectAtIndex:0]]
-                         placeholderImage:kImageName(@"test1.png")];
+            if ([_goodDetail.goodImageList count] > 0)
+            {
+                [imageview sd_setImageWithURL:[NSURL URLWithString:[_goodDetail.goodImageList objectAtIndex:0]]
+                             placeholderImage:kImageName(@"test1.png")];
+            }
+
+           
             [cell.contentView addSubview:imageview];
             
             UILabel *namelable = [[UILabel alloc] initWithFrame:CGRectMake(110, 20, 130, 30)];

@@ -12,7 +12,11 @@
 #import "NetworkInterface.h"
 #import "ChannelListModel.h"
 #import "RegularFormat.h"
-@interface TerimalChoseViewController ()<UITableViewDelegate,UITableViewDataSource,UITextViewDelegate,UIPickerViewDelegate,UIPickerViewDataSource,UIPopoverControllerDelegate>
+#import "SearchTermianlViewController.h"
+#import "MJRefresh.h"
+
+
+@interface TerimalChoseViewController ()<UITableViewDelegate,UITableViewDataSource,UITextViewDelegate,UIPickerViewDelegate,UIPickerViewDataSource,UIPopoverControllerDelegate,SearchDelegate>
 {
     BOOL isSelected;
     //CGFloat summaryPrice;
@@ -345,6 +349,19 @@
         
     }];
     
+    UIButton *searchBtn=[UIButton buttonWithType:UIButtonTypeCustom];
+    [searchBtn setBackgroundImage:[UIImage imageNamed:@"searchbar"] forState:UIControlStateNormal];
+    [searchBtn addTarget:self action:@selector(searchBtnPressed:) forControlEvents:UIControlEventTouchUpInside];
+    [headerView addSubview:searchBtn];
+    [searchBtn makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.equalTo(headerView.centerY);
+        // make.left.equalTo(priceLB.right).offset(60);
+        make.right.equalTo(headerView.right).offset(-100);
+        make.width.equalTo(@40);
+        
+    }];
+
+    
     
     _tableView= [[UITableView alloc] init];
     _tableView.backgroundColor=[UIColor whiteColor];
@@ -358,7 +375,19 @@
         make.bottom.equalTo(self.view.bottom).offset(-60);
     }];
     
+    [_tableView addHeaderWithTarget:self action:@selector(loadNewStatuses:) dateKey:@"table"];
+    [_tableView headerBeginRefreshing];
+    //上拉
+    [_tableView addFooterWithTarget:self action:@selector(loadMoreStatuses)];
     
+    // 设置文字(也可以不设置,默认的文字在MJRefreshConst中修改)
+    _tableView.headerPullToRefreshText = @"下拉可以刷新了";
+    _tableView.headerReleaseToRefreshText = @"松开马上刷新了";
+    _tableView.headerRefreshingText = @">.< 正在努力加载中!";
+    
+    _tableView.footerPullToRefreshText = @"上拉可以加载更多数据了";
+    _tableView.footerReleaseToRefreshText = @"松开马上加载更多数据了";
+    _tableView.footerRefreshingText = @">.< 正在努力加载中!";
     
     //创建头部View
     UIView *FooterView = [[UIView alloc]init];
@@ -440,7 +469,14 @@
     
 }
 
-
+-(void)searchBtnPressed:(id)sender
+{
+    SearchTermianlViewController *searchTerminalVC=[[SearchTermianlViewController alloc] init];
+    searchTerminalVC.delegate=self;
+    searchTerminalVC.hidesBottomBarWhenPushed=YES;
+    [self.navigationController pushViewController:searchTerminalVC animated:YES];
+    
+}
 -(void)POSBtnPressed:(id)sender
 {
     pickerstatus=100;
@@ -463,8 +499,8 @@
 -(void)confirmBtnPressed:(id)sender
 {
   
-    self.page = 1;
-    [self downloadDataWithPage:self.page isMore:NO];
+    [self firstLoadData];
+    
     
 }
 
@@ -515,9 +551,53 @@
     
     
 }
+- (void)firstLoadData {
+    _page = 1;
+    [self downloadDataWithPage:_page isMore:NO];
+}
+
+//下拉刷新加载更多微博数据
+-(void)loadNewStatuses:(UIRefreshControl *)refreshControl
+{
+    
+    [self firstLoadData];
+    
+    
+    //上拉加载
+    
+    
+    
+    
+    //    });
+}
+
+//上拉刷新加载更多微博数据
+-(void)loadMoreStatuses
+{
+    [self downloadDataWithPage:self.page isMore:YES];
+    
+    
+    
+    
+    //    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+    //        [_Seatchtable footerEndRefreshing];
+    //
+    //    });
+}
 
 
+#pragma mark -searchTerminalDelegate
 
+- (void)getSearchKeyword:(NSString *)keyword
+{
+    [_terminalFilter removeAllObjects];
+    if (keyword && ![keyword isEqualToString:@""]) {
+        [_terminalFilter addObject:keyword];
+    }
+   [self firstLoadData];
+    
+    
+}
 
 -(void)select:(TerminalSelectModel *)model
 {
@@ -663,7 +743,8 @@
     [NetworkInterface getPrepareGoodTerminalListWithAgentID:delegate.agentID token:delegate.token channelID:[NSString stringWithFormat:@"%d",_channelsId] goodID:[NSString stringWithFormat:@"%d",_goodid] terminalNumbers:_terminalFilter page:page rows:kPageSize * 2 finished:^(BOOL success, NSData *response) {
     
     
-    
+        [_tableView footerEndRefreshing];
+        [_tableView headerEndRefreshing];
     
 //    [NetworkInterface screeningTerminalNumWithtoken:delegate.token agentId:delegate.agentID POStitle:_POSTV.text channelsId:_channelsId minPrice:[_minPriceTV.text intValue] maxPrice:[_maxPriceTV.text intValue] finished:^(BOOL success, NSData *response)
 //     {
