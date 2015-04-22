@@ -18,6 +18,7 @@
 @property (nonatomic, strong) NSString *agentID;
 @property (nonatomic, strong) NSString *token;
 @property (nonatomic, strong) NSString *cityID;
+@property (nonatomic, strong) NSMutableDictionary *authDict;   //权限
 
 @property (nonatomic, strong) RootViewController *rootViewController;
 

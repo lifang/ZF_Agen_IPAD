@@ -824,6 +824,13 @@ headerView.backgroundColor = [UIColor whiteColor];
     OrderDetailController *detailC = [[OrderDetailController alloc] init];
     detailC.hidesBottomBarWhenPushed=YES;
     
+    
+    detailC.goodID = model.orderGood.goodID;
+    detailC.goodName = model.orderGood.goodName;
+    detailC.fromType = PayWayFromNone;
+    
+    
+    
     detailC.supplyType = _supplyType;
     detailC.orderID = model.orderID;
     [self.navigationController pushViewController:detailC animated:YES];

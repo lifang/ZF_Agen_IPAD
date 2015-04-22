@@ -234,8 +234,10 @@
     hud.labelText = @"加载中...";
     AppDelegate *delegate = [AppDelegate shareAppDelegate];
     
-    
     NSString *userID = delegate.agentUserID;
+    if (self.defaultUserhh) {
+        userID = self.defaultUserhh.userID;
+    }
     
     
     int a=5;
