@@ -615,16 +615,33 @@
 
 -(void)deletebuttonclick:(UIButton*)send
 
-{
+{ UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"温馨提示" message:@"您确定删除吗？" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+    [alert show];
+    
 
-    BenefitModel *model = [_dataItem objectAtIndex:send.tag];
-    [self deleteBenefitWithModel:model];
+
+    alertint=send.tag;
+    
     
 
 
 
 
 }
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    //回调方法把alert本身传过来是为了区分多个alertView时，哪个alert进行的回调
+    
+  if (buttonIndex==1)
+    {
+            BenefitModel *model = [_dataItem objectAtIndex:alertint];
+            [self deleteBenefitWithModel:model];
+        
+            
+    }
+    
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

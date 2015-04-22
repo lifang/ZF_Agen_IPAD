@@ -137,13 +137,13 @@
     CGFloat height;
     if(iOS7)
     {
-        wide=SCREEN_HEIGHT-64;
+        wide=SCREEN_HEIGHT;
         height=SCREEN_WIDTH;
         
         
     }
     else
-    {  wide=SCREEN_WIDTH-64;
+    {  wide=SCREEN_WIDTH;
         height=SCREEN_HEIGHT;
         
     }
@@ -215,13 +215,13 @@
     CGFloat height;
     if(iOS7)
     {
-        wide=SCREEN_HEIGHT-64;
+        wide=SCREEN_HEIGHT;
         height=SCREEN_WIDTH;
         
         
     }
     else
-    {  wide=SCREEN_WIDTH-64;
+    {  wide=SCREEN_WIDTH;
         height=SCREEN_HEIGHT;
         
     }
@@ -1108,6 +1108,7 @@
             
             self.passwordField=neworiginaltextfield;
             
+            neworiginaltextfield.secureTextEntry=YES;
             
             
         } if(i==2)
@@ -1115,7 +1116,8 @@
             
             self.confirmField=neworiginaltextfield;
             
-            
+            neworiginaltextfield.secureTextEntry=YES;
+
             
         }
         neworiginaltextfield.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;

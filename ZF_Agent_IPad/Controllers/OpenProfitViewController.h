@@ -14,7 +14,8 @@ static NSString *RefreshBenefitListNotification = @"RefreshBenefitListNotificati
 { UITextField*neworiginaltextfield;
     
     NSInteger  numberint;
-    
+    NSInteger  alertint;
+
 }
 @property (nonatomic, strong) NSString *subAgentID;
 

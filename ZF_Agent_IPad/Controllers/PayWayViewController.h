@@ -7,13 +7,24 @@
 //
 
 #import "CommonViewController.h"
+typedef enum {
+    PayWayFromNone = 0,
+    PayWayFromOrderWholesale,       //批购订单
+    PayWayFromOrderProcurement,     //代购订单
+    PayWayFromGoodWholesale,        //批购商品
+    PayWayFromGoodProcurementBuy,   //代购买
+    PayWayFromGoodProcurementRent,  //代租赁
+}PayWayFromType;
 
 //订单、购物车、商品详情、维修记录可跳转此类
 
 @interface PayWayViewController : CommonViewController
+@property (nonatomic, assign) PayWayFromType fromType; //跳转来源
 
 @property (nonatomic, assign) CGFloat totalPrice;
 
 @property (nonatomic, strong) NSString *orderID;
+@property (nonatomic, strong) NSString *goodID;
 
+@property (nonatomic, strong) NSString *goodName;
 @end
