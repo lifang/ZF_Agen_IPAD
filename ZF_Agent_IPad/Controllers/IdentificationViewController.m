@@ -13,8 +13,14 @@
 #import "IdentificationModel.h"
 #import "TerminalManagerModel.h"
 #import "ApplyDetailController.h"
+#import "SearchTermianlViewController.h"
 
-@interface IdentificationViewController ()<RefreshDelegate,LoginSuccessDelegate,UITableViewDelegate,UITableViewDataSource>
+@interface IdentificationViewController ()<RefreshDelegate,LoginSuccessDelegate,UITableViewDelegate,UITableViewDataSource,SearchDelegate>
+{
+    
+    NSInteger touchStatus;
+    
+}
 
 @property(nonatomic,strong)UIView *headerView;
 @property(nonatomic,strong)UITableView *tableView;
@@ -33,6 +39,7 @@
 //终端信息数据
 @property (nonatomic, strong) NSMutableArray *applyList;
 
+@property(nonatomic,strong)NSString *serialNum;
 
 @end
 
@@ -44,6 +51,20 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"开通认证";
+    
+    touchStatus=100;
+    
+    UIButton *searchBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    searchBtn.frame = CGRectMake(0, 0, 30, 30);
+    //searchBtn.titleLabel.font = IconFontWithSize();
+    [searchBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    //[searchBtn setTitle:@"\U0000E62f" forState:UIControlStateNormal];
+    [searchBtn setBackgroundImage:[UIImage imageNamed:@"searchbar.png"] forState:UIControlStateNormal];
+    [searchBtn addTarget:self action:@selector(searchBtnPressed:) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem *rightBarBtn = [[UIBarButtonItem alloc] initWithCustomView:searchBtn];
+    self.navigationItem.rightBarButtonItem = rightBarBtn;
+
+    
     self.view.backgroundColor = [UIColor whiteColor];
     _applyList = [[NSMutableArray alloc]init];
     [self setupHeaderAndFooterView];
@@ -143,6 +164,25 @@
 
 
 
+-(void)searchBtnPressed:(id)sender
+{
+    SearchTermianlViewController *searchTerminalVC=[[SearchTermianlViewController alloc] init];
+    searchTerminalVC.delegate=self;
+    searchTerminalVC.hidesBottomBarWhenPushed=YES;
+    [self.navigationController pushViewController:searchTerminalVC animated:YES];
+    
+}
+
+#pragma mark - searchTerminal
+- (void)getSearchKeyword:(NSString *)keyword
+{
+    touchStatus=200;
+    _serialNum=keyword;
+    [self firstLoadData];
+    
+}
+
+
 
 -(void)backHome
 {
@@ -157,7 +197,17 @@
 
 - (void)firstLoadData {
     _page = 1;
+    if (touchStatus==100) {
+        
     [self downloadDataWithPage:_page isMore:NO];
+        
+    }
+    else
+    {
+        
+    [self searchTermianlsWithPage:_page Termianls:_serialNum isMore:NO];
+    
+    }
 }
 
 - (void)downloadDataWithPage:(int)page isMore:(BOOL)isMore {
@@ -215,20 +265,77 @@
     }];
 }
 
+- (void)searchTermianlsWithPage:(int)page Termianls:(NSString *)string isMore:(BOOL)isMore {
+    
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+    hud.labelText = @"加载中...";
+    AppDelegate *delegate = [AppDelegate shareAppDelegate];
+    NSLog(@"%@-%@-%d-%d",delegate.token,delegate.agentID,page,kPageSize);
+    
+    [NetworkInterface  searchApplyListWithToken:delegate.token agentID:delegate.agentID page:page rows:kPageSize serialNum:string finished:^(BOOL success, NSData *response) {
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:0.3f];
+        if (success) {
+            NSLog(@"!!%@",[[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding]);
+            id object = [NSJSONSerialization JSONObjectWithData:response options:NSJSONReadingMutableLeaves error:nil];
+            if ([object isKindOfClass:[NSDictionary class]]) {
+                NSString *errorCode = [object objectForKey:@"code"];
+                if ([errorCode intValue] == RequestFail) {
+                    //返回错误代码
+                    hud.labelText = [NSString stringWithFormat:@"%@",[object objectForKey:@"message"]];
+                }
+                else if ([errorCode intValue] == RequestSuccess) {
+                    if (!isMore) {
+                        [_applyList removeAllObjects];
+                    }
+                    if ([[object objectForKey:@"result"] count] > 0) {
+                        //有数据
+                        self.page++;
+                        [hud hide:YES];
+                    }
+                    else {
+                        //无数据
+                        hud.labelText = @"没有更多数据了...";
+                    }
+                    NSLog(@"object:%@",object);
+                    [self parseApplyDataWithDictionary:object];
+                    
+                }
+            }
+            else {
+                //返回错误数据
+                hud.labelText = kServiceReturnWrong;
+            }
+        }
+        else {
+            hud.labelText = kNetworkFailed;
+        }
+        if (!isMore) {
+            [self refreshViewFinishedLoadingWithDirection:PullFromTop];
+        }
+        else {
+            [self refreshViewFinishedLoadingWithDirection:PullFromBottom];
+        }
+    }];
+}
+
+
+
 #pragma mark - Data
 
 - (void)parseApplyDataWithDictionary:(NSDictionary *)dict {
-    if (![dict objectForKey:@"result"] || ![[dict objectForKey:@"result"] isKindOfClass:[NSArray class]]) {
-       // return;
-   // }
+    if (![dict objectForKey:@"result"]) {
+        return;
+   }
     NSArray *TM_List = [[dict objectForKey:@"result"] objectForKey:@"applyList"];
     for (int i = 0; i < [TM_List count]; i++) {
         IdentificationModel *IF_Model = [[IdentificationModel alloc] initWithParseDictionary:[TM_List objectAtIndex:i]];
         [_applyList addObject:IF_Model];
         NSLog(@"_applyList:%@",_applyList);
-    }
-    }
-    [self.tableView reloadData];
+
+      }
+    [_tableView reloadData];
 }
 
 #pragma mark - Refresh
