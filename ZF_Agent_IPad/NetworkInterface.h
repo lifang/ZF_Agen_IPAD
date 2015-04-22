@@ -653,6 +653,24 @@ static NSString *s_subAgentTradeList_method = @"lowerAgent/getTradelist";
                                 status:(int)status
                               finished:(requestDidFinished)finish;
 
+/*!
+ @abstract 21.终端管理--根据状态选择查询
+ @param Token       登录返回
+ @param agentID     代理商ID
+ @param page        分页参数 页
+ @param rows        分页参数 行
+ @result finish  请求回调结果
+ */
+
++ (void)searchTerminalsListWithToken:(NSString *)token
+                               agentID:(NSString *)agentId
+                                  page:(int)page
+                                  rows:(int)rows
+                              serialNum:(NSString*)serialNum
+                              finished:(requestDidFinished)finish;
+
+
+
 
 /*!
  @abstract 22.终端管理--终端详情

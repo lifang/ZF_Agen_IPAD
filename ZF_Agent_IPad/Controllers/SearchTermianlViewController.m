@@ -259,9 +259,9 @@
 -(void)searchRequest
 {
     _keyword=_searchBar.text ;
-    if (_delegate && [_delegate respondsToSelector:@selector(getSearchKeyword:)]) {
+   // if (_delegate && [_delegate respondsToSelector:@selector(getSearchKeyword:)]) {
         [_delegate getSearchKeyword:_keyword];
-    }
+   // }
     [self.navigationController popViewControllerAnimated:YES];
 
 }

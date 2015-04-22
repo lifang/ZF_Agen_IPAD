@@ -554,6 +554,7 @@
 - (void)getSearchKeyword:(NSString *)keyword
 {
     [self searchTerminalWithString:keyword];
+    
 
 }
 
@@ -776,6 +777,7 @@
         }
     }
     [_tableView reloadData];
+    [self refreshSelectedInfo];
    
 }
 
