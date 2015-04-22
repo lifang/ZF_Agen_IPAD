@@ -104,8 +104,8 @@
     
     
     UIButton *searchBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    searchBtn.frame = CGRectMake(0, 0, 44, 44);
-    searchBtn.titleLabel.font = IconFontWithSize(22);
+    searchBtn.frame = CGRectMake(0, 0, 30, 30);
+    //searchBtn.titleLabel.font = IconFontWithSize(22);
     [searchBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     //[searchBtn setTitle:@"\U0000E62f" forState:UIControlStateNormal];
     [searchBtn setBackgroundImage:[UIImage imageNamed:@"searchbar.png"] forState:UIControlStateNormal];

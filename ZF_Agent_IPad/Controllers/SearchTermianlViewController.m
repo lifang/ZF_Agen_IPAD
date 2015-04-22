@@ -97,23 +97,57 @@
     }
  
     //导航条的搜索条
-    _searchBar = [[UISearchBar alloc]initWithFrame:CGRectMake(0,0,wide-300,44)];
-    _searchBar.backgroundColor=[UIColor colorWithHexString:@"006fd5"];
+    _searchBar = [[UISearchBar alloc]initWithFrame:CGRectMake(0,0,wide-200,44)];
+    //_searchBar.backgroundColor=[UIColor colorWithHexString:@"006fd5"];
     [_searchBar setBarTintColor:[UIColor colorWithHexString:@"006fd5"]];
     _searchBar.delegate = self;
     _searchBar.text = _keyword;
-    [_searchBar setPlaceholder:@"搜索"];
+    [_searchBar setPlaceholder:@"搜索终端"];
+    
+    for (UIView *subview in _searchBar.subviews)
+    {
+        if ([subview isKindOfClass:NSClassFromString(@"UISearchBarBackground")])
+        {
+            [subview removeFromSuperview];
+            break;  
+        }
+        // for later iOS7.0(include)
+        if ([subview isKindOfClass:NSClassFromString(@"UIView")] && subview.subviews.count > 0) {
+            [[subview.subviews objectAtIndex:0] removeFromSuperview];
+            break;
+        }
+    }
+ 
     
     //将搜索条放在一个UIView上
     UIView *searchView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, wide-300, 44)];
-    //searchView.backgroundColor = [UIColor colorWithHexString:@"006fd5"];
-    searchView.backgroundColor = [UIColor clearColor];
+    searchView.backgroundColor = [UIColor colorWithHexString:@"006fd5"];
+    //searchView.backgroundColor = [UIColor clearColor];
     [searchView addSubview:_searchBar];
     self.navigationItem.titleView = searchView;
     self.navigationItem.titleView.backgroundColor=[UIColor clearColor];
     [_searchBar becomeFirstResponder];
     
 }
+
+/*
+- (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar
+{
+    searchBar.showsCancelButton = YES;
+    UIButton *cancelButton;
+    UIView *topView = self.searchBar.subviews[0];
+    for (UIView *subView in topView.subviews) {
+        if ([subView isKindOfClass:NSClassFromString(@"UINavigationButton")]) {
+            cancelButton = (UIButton*)subView;
+        }
+    }
+    if (cancelButton) {
+        //Set the new title of the cancel button
+        [cancelButton setTitle:@"取消" forState:UIControlStateNormal];
+        cancelButton.tintColor = [UIColor whiteColor];
+    }
+}
+*/
 
 
 - (void)setFooterView {
@@ -140,70 +174,6 @@
         _tableView.tableFooterView = footerView;
     }
 }
-
-
-
-
-/*
-//搜索终端
-- (void)searchTerminal {
-    NSMutableArray *terminals = [[NSMutableArray alloc] init];
-    if (_keyword && ![_keyword isEqualToString:@""]) {
-        [terminals addObject:_keyword];
-    }
-    NSLog(@"terminals:%@",terminals);
-    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
-    hud.labelText = @"加载中...";
-    AppDelegate *delegate = [AppDelegate shareAppDelegate];
-    [NetworkInterface batchTerminalNumWithtoken:delegate.token agentId:delegate.agentID serialNum:terminals finished:^(BOOL success, NSData *response) {
-        NSLog(@"%@",[[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding]);
-        hud.customView = [[UIImageView alloc] init];
-        hud.mode = MBProgressHUDModeCustomView;
-        [hud hide:YES afterDelay:0.5f];
-        if (success) {
-            id object = [NSJSONSerialization JSONObjectWithData:response options:NSJSONReadingMutableLeaves error:nil];
-            if ([object isKindOfClass:[NSDictionary class]]) {
-                NSString *errorCode = [object objectForKey:@"code"];
-                if ([errorCode intValue] == RequestFail) {
-                    //返回错误代码
-                    hud.labelText = [NSString stringWithFormat:@"%@",[object objectForKey:@"message"]];
-                }
-                else if ([errorCode intValue] == RequestSuccess) {
-                    [hud hide:YES];
-                    [self parseSearchListWithData:object];
-                }
-            }
-            else {
-                //返回错误数据
-                hud.labelText = kServiceReturnWrong;
-            }
-        }
-        else {
-            hud.labelText = kNetworkFailed;
-        }
-    }];
-}
-
-
-- (void)parseSearchListWithData:(NSDictionary *)dict {
-    if (![dict objectForKey:@"result"] || ![[dict objectForKey:@"result"] isKindOfClass:[NSArray class]]) {
-        return;
-    }
-    [_terminalList removeAllObjects];
-    NSArray *serialList = [dict objectForKey:@"result"];
-    for (int i = 0; i < [serialList count]; i++) {
-        id serialDict = [serialList objectAtIndex:i];
-        if ([serialDict isKindOfClass:[NSDictionary class]]) {
-            TerminalSelectModel *model = [[TerminalSelectModel alloc] initWithParseDictionary:serialDict];
-            [_terminalList addObject:model];
-        }
-        NSLog(@"terminalList:%@",_terminalList);
-    }
-    [_tableView reloadData];
-   
-}
-*/
-
 
 
 
