@@ -214,6 +214,9 @@
 
     delegate.agentUserID = [NSString stringWithFormat:@"%@",[infoDict objectForKey:@"agentUserId"]];
     delegate.cityID = [NSString stringWithFormat:@"%@",[infoDict objectForKey:@"cityId"]];
+    
+    [[AppDelegate shareAppDelegate] saveLoginInfo:infoDict];
+
     AccountModel *account = [[AccountModel alloc]init];
     account.username = username;
     account.token = token;

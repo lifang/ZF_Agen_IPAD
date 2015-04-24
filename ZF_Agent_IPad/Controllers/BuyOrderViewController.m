@@ -263,8 +263,19 @@
                 else if ([errorCode intValue] == RequestSuccess) {
                     [hud hide:YES];
                     [[NSNotificationCenter defaultCenter] postNotificationName:RefreshShoppingCartNotification object:nil];
+                    NSString *orderID = [NSString stringWithFormat:@"%@",[object objectForKey:@"result"]];
+
                     PayWayViewController *payWayC = [[PayWayViewController alloc] init];
+                    
+                    
+                    
+                    
+                    payWayC.orderID = orderID;
+                    payWayC.goodID = _goodDetail.goodID;
+                    payWayC.goodName = _goodDetail.goodName;
                     payWayC.totalPrice = [self getSummaryPrice];
+                    payWayC.fromType = PayWayFromGoodWholesale;
+                    
                     payWayC.hidesBottomBarWhenPushed =  YES ;
 
                     [self.navigationController pushViewController:payWayC animated:YES];
@@ -297,7 +308,7 @@
 #pragma mark - Data
 
 - (CGFloat)getSummaryPrice {
-    return (_goodDetail.goodPrice + _goodDetail.defaultChannel.openCost) * _count;
+    return (_goodDetail.wholesalePrice + _goodDetail.defaultChannel.openCost) * _count;
 }
 
 #pragma mark - Data

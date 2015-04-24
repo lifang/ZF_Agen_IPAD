@@ -21,10 +21,11 @@
 @property (nonatomic, strong) NSMutableDictionary *authDict;   //权限
 
 @property (nonatomic, strong) RootViewController *rootViewController;
-
+@property (nonatomic, assign) BOOL hasProfit;         //是否有分润
 + (AppDelegate *)shareAppDelegate;
 
 + (RootViewController *)shareRootViewController;
+- (void)saveLoginInfo:(NSDictionary *)dict;
 
 
 @end

@@ -626,7 +626,12 @@
                         [hud hide:YES];
                         [[NSNotificationCenter defaultCenter] postNotificationName:RefreshShoppingCartNotification object:nil];
                         PayWayViewController *payWayC = [[PayWayViewController alloc] init];
+                        NSString *orderID = [NSString stringWithFormat:@"%@",[object objectForKey:@"result"]];
+                        payWayC.orderID = orderID;
+                        payWayC.goodID = _goodDetail.goodID;
+                        payWayC.goodName = _goodDetail.goodName;
                         payWayC.totalPrice = [self getSummaryPrice];
+                        payWayC.fromType = PayWayFromGoodProcurementRent;
                         payWayC.hidesBottomBarWhenPushed =  YES ;
     
                         [self.navigationController pushViewController:payWayC animated:YES];
@@ -1955,7 +1960,7 @@
             UILabel *actualPriceLabel = [[UILabel alloc] initWithFrame:CGRectMake(wide/2, 60, 130, 20)];
             actualPriceLabel.backgroundColor = [UIColor clearColor];
             actualPriceLabel.font = [UIFont systemFontOfSize:14.f];
-            actualPriceLabel.text =  [NSString stringWithFormat:@"￥%.2f",(_goodDetail.procurementPrice + _goodDetail.defaultChannel.openCost)];
+            actualPriceLabel.text =  [NSString stringWithFormat:@"￥%.2f",(_goodDetail.deposit*_count )];
             
             
             [cell.contentView addSubview:actualPriceLabel];

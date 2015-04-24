@@ -22,7 +22,8 @@
 }
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    
+    _authDict = [[NSMutableDictionary alloc] init];
+
     
        [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
@@ -38,6 +39,31 @@
 //    _userID = @"1";
 
     return YES;
+}
+- (void)saveLoginInfo:(NSDictionary *)dict {
+    self.agentID = [NSString stringWithFormat:@"%@",[dict objectForKey:@"agentId"]];
+    self.userID = [NSString stringWithFormat:@"%@",[dict objectForKey:@"id"]];
+    self.agentUserID = [NSString stringWithFormat:@"%@",[dict objectForKey:@"agentUserId"]];
+    self.cityID = [NSString stringWithFormat:@"%@",[dict objectForKey:@"cityId"]];
+    if ([[dict objectForKey:@"is_have_profit"] intValue] == 2) {
+        self.hasProfit = YES;
+    }
+    id authList = [dict objectForKey:@"machtigingen"];
+    if ([authList isKindOfClass:[NSArray class]]) {
+        for (int i = 0; i < [authList count]; i++) {
+            id object = [authList objectAtIndex:i];
+            if ([object isKindOfClass:[NSDictionary class]]) {
+                int authIndex = [[object objectForKey:@"role_id"] intValue];
+                [_authDict setObject:[NSNumber numberWithBool:YES] forKey:[NSNumber numberWithInt:authIndex]];
+            }
+        }
+    }
+    if ([[dict objectForKey:@"parent_id"] intValue] == 0) {
+        //一级代理商
+        for (int i = 1; i < 10; i++) {
+            [_authDict setObject:[NSNumber numberWithBool:YES] forKey:[NSNumber numberWithInt:i]];
+        }
+    }
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {
