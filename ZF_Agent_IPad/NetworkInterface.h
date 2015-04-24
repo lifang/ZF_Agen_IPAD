@@ -82,7 +82,8 @@ typedef enum {
     AddressDefault,    //默认地址
     AddressOther,      //非默认地址
 }AddressType;
-
+//下级代理商管理——获取默认分润
+static NSString *s_subAgentGetDefault_method = @"lowerAgent/getDefaultProfit";
 //1.登录
 static NSString *s_login_method = @"agent/agentLogin";
 
@@ -369,6 +370,10 @@ static NSString *s_subAgentChannelList_method = @"lowerAgent/getChannellist";
 static NSString *s_subAgentTradeList_method = @"lowerAgent/getTradelist";
 //订单信息
 static NSString *s_orderConfirm_method = @"order/payOrder";
+
+
+//首页轮播
+static NSString *s_homeImageList_method = @"index/sysshufflingfigure";
 @interface NetworkInterface : NSObject
 /*!
  @abstract 1.热卖
@@ -1787,6 +1792,21 @@ static NSString *s_orderConfirm_method = @"order/payOrder";
  */
 + (void)orderConfirmWithOrderID:(NSString *)orderID
                        finished:(requestDidFinished)finish;
+
+/*!
+ @abstract 下级代理商管理——获取默认分润
+ @param agentID  代理商id
+ @param token    登录返回
+ @result finish  请求回调结果
+ */
++ (void)getDefaultBenefitWithAgentID:(NSString *)agentID
+                               token:(NSString *)token
+                            finished:(requestDidFinished)finish;
+/*!
+ @abstract 首页轮播图
+ @result finish  请求回调结果
+ */
++ (void)getHomeImageListFinished:(requestDidFinished)finish;
 
 
 @end

@@ -625,7 +625,14 @@ typedef enum {
 - (IBAction)scanTerminalNumber:(id)sender
 {
     
-    
+    if([self isBlankString:_orderDetail.terminals])
+    {
+        
+        _orderDetail.terminals=@"暂无终端号";
+        
+        
+        
+    }
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"终端号"
                                                     message:_orderDetail.terminals
                                                    delegate:self
@@ -633,7 +640,18 @@ typedef enum {
                                           otherButtonTitles:nil];
     [alert show];
 }
-
+- (BOOL) isBlankString:(NSString *)string {
+    if (string == nil || string == NULL) {
+        return YES;
+    }
+    if ([string isKindOfClass:[NSNull class]]) {
+        return YES;
+    }
+    if ([[string stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]] length]==0) {
+        return YES;
+    }
+    return NO;
+}
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     CGFloat height = 0.f;
     switch (indexPath.section) {

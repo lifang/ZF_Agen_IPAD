@@ -102,7 +102,7 @@
     _POSTV.clipsToBounds = YES;
     _POSTV.layer.borderColor = [UIColor colorWithHexString:@"a8a8a8"].CGColor;
     _POSTV.layer.borderWidth = 1.0f;
-    _POSTV.layer.cornerRadius = 3.0f;
+//    _POSTV.layer.cornerRadius = 3.0f;
     _POSTV.font = FONT20;
     _POSTV.textAlignment=NSTextAlignmentLeft;
     _POSTV.textColor = [UIColor colorWithHexString:@"6c6c6c"];
@@ -148,7 +148,7 @@
     _channelTV.clipsToBounds = YES;
     _channelTV.layer.borderColor = [UIColor colorWithHexString:@"a8a8a8"].CGColor;
     _channelTV.layer.borderWidth = 1.0f;
-    _channelTV.layer.cornerRadius = 3.0f;
+//    _channelTV.layer.cornerRadius = 3.0f;
     _channelTV.font = FONT20;
     _channelTV.textAlignment=NSTextAlignmentLeft;
     _channelTV.textColor = [UIColor colorWithHexString:@"6c6c6c"];
@@ -192,7 +192,7 @@
     _terminalTV.clipsToBounds = YES;
     _terminalTV.layer.borderColor = [UIColor colorWithHexString:@"a8a8a8"].CGColor;
     _terminalTV.layer.borderWidth = 1.0f;
-    _terminalTV.layer.cornerRadius = 3.0f;
+//    _terminalTV.layer.cornerRadius = 3.0f;
     _terminalTV.font = FONT20;
     _terminalTV.textAlignment=NSTextAlignmentLeft;
     _terminalTV.textColor = [UIColor colorWithHexString:@"6c6c6c"];
@@ -350,7 +350,7 @@
     }];
     
     UIButton *searchBtn=[UIButton buttonWithType:UIButtonTypeCustom];
-    [searchBtn setBackgroundImage:[UIImage imageNamed:@"searchbar"] forState:UIControlStateNormal];
+    [searchBtn setImage:[UIImage imageNamed:@"searchbars"] forState:UIControlStateNormal];
     [searchBtn addTarget:self action:@selector(searchBtnPressed:) forControlEvents:UIControlEventTouchUpInside];
     [headerView addSubview:searchBtn];
     [searchBtn makeConstraints:^(MASConstraintMaker *make) {

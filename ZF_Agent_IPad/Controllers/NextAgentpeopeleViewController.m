@@ -15,6 +15,8 @@
 @property (nonatomic, strong) UIScrollView *scrollView;
 @property (nonatomic, assign) BOOL isopen;
 @property (nonatomic, strong) SubAgentDetailModel *agentDetail;
+@property (nonatomic, assign) CGRect imageRect;
+
 @end
 
 @implementation NextAgentpeopeleViewController
@@ -265,7 +267,14 @@
 -(void)pictureclick:(UIButton*)send
 {
     
+    _imageRect = [[send superview] convertRect:send.frame toView:self.view];
     
+   
+        [self showDetailImageWithURL:_agentDetail.cardImagePath  imageRect:_imageRect WithIdentifier:@""];
+        
+        
+       
+
     
     
 }

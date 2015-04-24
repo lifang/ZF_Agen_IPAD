@@ -149,77 +149,82 @@
 -(void)loginClick:(UIButton *)sender
 {
     //进入首页
-    [[AppDelegate shareRootViewController] showMainViewController];
     
-//    if (!_userField.text || [_userField.text isEqualToString:@""] || !_passwordField.text || [_passwordField.text isEqualToString:@""]) {
-//        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示信息"
-//                                                        message:@"用户名或密码不能为空!"
-//                                                       delegate:nil
-//                                              cancelButtonTitle:@"确定"
-//                                              otherButtonTitles:nil];
-//        [alert show];
-//        return;
-//    }
-//
-//    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
-//    hud.labelText = @"正在登录...";
-//    [NetworkInterface loginWithUsername:_userField.text password:_passwordField.text isAlreadyEncrypt:NO finished:^(BOOL success, NSData *response) {
-//        hud.customView = [[UIImageView alloc] init];
-//        hud.mode = MBProgressHUDModeCustomView;
-//        [hud hide:YES afterDelay:0.3f];
-//        if (success) {
-//            id object = [NSJSONSerialization JSONObjectWithData:response options:NSJSONReadingMutableLeaves error:nil];
-//            NSLog(@"~~~~~%@",[[NSString alloc]initWithData:response encoding:NSUTF8StringEncoding]);
-//            if ([object isKindOfClass:[NSDictionary class]]) {
-//                [hud hide:YES];
-//                int errorCode = [[object objectForKey:@"code"] intValue];
-//                if (errorCode == RequestFail) {
-//                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示信息"
-//                                                                    message:[object objectForKey:@"message"]
-//                                                                   delegate:nil
-//                                                          cancelButtonTitle:@"确定"
-//                                                          otherButtonTitles:nil];
-//                    [alert show];
-//                }
-//                else if (errorCode == RequestSuccess) {
-////                    [self parseLoginDataWithDictionary:object];
-//                }
-//            }
-//            else {
-//                hud.labelText = kServiceReturnWrong;
-//            }
-//        }
-//        else {
-//            hud.labelText = kNetworkFailed;
-//        }
-//    }];
+    if (!_userField.text || [_userField.text isEqualToString:@""] || !_passwordField.text || [_passwordField.text isEqualToString:@""]) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示信息"
+                                                        message:@"用户名或密码不能为空!"
+                                                       delegate:nil
+                                              cancelButtonTitle:@"确定"
+                                              otherButtonTitles:nil];
+        [alert show];
+        return;
+    }
+
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+    hud.labelText = @"正在登录...";
+    [NetworkInterface loginWithUsername:_userField.text password:_passwordField.text isAlreadyEncrypt:NO finished:^(BOOL success, NSData *response) {
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:0.3f];
+        if (success) {
+            id object = [NSJSONSerialization JSONObjectWithData:response options:NSJSONReadingMutableLeaves error:nil];
+            NSLog(@"~~~~~%@",[[NSString alloc]initWithData:response encoding:NSUTF8StringEncoding]);
+            if ([object isKindOfClass:[NSDictionary class]]) {
+                [hud hide:YES];
+                int errorCode = [[object objectForKey:@"code"] intValue];
+                if (errorCode == RequestFail) {
+                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示信息"
+                                                                    message:[object objectForKey:@"message"]
+                                                                   delegate:nil
+                                                          cancelButtonTitle:@"确定"
+                                                          otherButtonTitles:nil];
+                    [alert show];
+                }
+                else if (errorCode == RequestSuccess) {
+                    [[AppDelegate shareRootViewController] showMainViewController];
+
+                    [self parseLoginDataWithDictionary:object];
+                }
+            }
+            else {
+                hud.labelText = kServiceReturnWrong;
+            }
+        }
+        else {
+            hud.labelText = kNetworkFailed;
+        }
+    }];
     
 }
 
-//-(void)parseLoginDataWithDictionary:(NSDictionary *)dict
-//{
-//    if (![dict objectForKey:@"result"] || ![[dict objectForKey:@"result"]isKindOfClass:[NSDictionary class]
-//       ]) {
-//        return;
-//    }
-//    NSDictionary *infoDict = [dict objectForKey:@"result"];
-//    NSString *token = @"123";
-//    NSString *userID = [NSString stringWithFormat:@"%@",[infoDict objectForKey:@"id"]];
-//    NSString *username = [NSString stringWithFormat:@"%@",[infoDict objectForKey:@"username"]];
-//    AppDelegate *delegate = [AppDelegate shareAppDelegate];
-//    delegate.token = token;
-//    delegate.userID = userID;
-//    AccountModel *account = [[AccountModel alloc]init];
-//    account.username = username;
-//    account.token = token;
-//    account.password = _passwordField.text;
-//    account.userID = userID;
-//    account.token = token;
-//    [AccountTool save:account];
-//    if (_LoginSuccessDelegate && [_LoginSuccessDelegate respondsToSelector:@selector(LoginSuccess)]) {
-//        [self.LoginSuccessDelegate LoginSuccess];
-//    }
-//    [self dismissViewControllerAnimated:YES completion:nil];
-//}
+-(void)parseLoginDataWithDictionary:(NSDictionary *)dict
+{
+    if (![dict objectForKey:@"result"] || ![[dict objectForKey:@"result"]isKindOfClass:[NSDictionary class]
+       ]) {
+        return;
+    }
+    NSDictionary *infoDict = [dict objectForKey:@"result"];
+    NSString *token = @"123";
+    NSString *userID = [NSString stringWithFormat:@"%@",[infoDict objectForKey:@"id"]];
+    NSString *username = [NSString stringWithFormat:@"%@",[infoDict objectForKey:@"username"]];
+    AppDelegate *delegate = [AppDelegate shareAppDelegate];
+    delegate.token = token;
+    delegate.userID = userID;
+    delegate.agentID = [NSString stringWithFormat:@"%@",[infoDict objectForKey:@"agentId"]];
+
+    delegate.agentUserID = [NSString stringWithFormat:@"%@",[infoDict objectForKey:@"agentUserId"]];
+    delegate.cityID = [NSString stringWithFormat:@"%@",[infoDict objectForKey:@"cityId"]];
+    AccountModel *account = [[AccountModel alloc]init];
+    account.username = username;
+    account.token = token;
+    account.password = _passwordField.text;
+    account.userID = userID;
+    account.token = token;
+    [AccountTool save:account];
+    if (_LoginSuccessDelegate && [_LoginSuccessDelegate respondsToSelector:@selector(LoginSuccess)]) {
+        [self.LoginSuccessDelegate LoginSuccess];
+    }
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
 
 @end

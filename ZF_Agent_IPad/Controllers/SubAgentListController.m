@@ -19,6 +19,7 @@
 #import "NextAgentpeopeleViewController.h"
 @interface SubAgentListController ()<UITableViewDataSource,UITableViewDelegate>
 @property (nonatomic, strong) UITableView *tableView;
+@property (nonatomic, assign) CGFloat defaultBenefit;
 
 @property (nonatomic, strong) NSMutableArray *dataItem;
 @property (nonatomic, assign) int page;
@@ -29,6 +30,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self getDefaultBenefit];
+
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(refreshAgentList)
                                                  name:@"agentshaxin"
@@ -42,13 +45,13 @@
     [self setLeftViewWith:ChooseViewAfterSell];
 
     namelable=[[UILabel alloc]init];
-    namelable.frame=CGRectMake(180, 40,  160, 30);
+    namelable.frame=CGRectMake(180, 40,  200, 30);
     namelable.font=[UIFont systemFontOfSize:20];
-    
-    namelable.text=@"默认分润比例:1%";
+    [self.view addSubview:namelable];
+
     UIButton *setbutton = [[UIButton alloc]init];
     [setbutton addTarget:self action:@selector(resetclick) forControlEvents:UIControlEventTouchUpInside];
-   setbutton.frame = CGRectMake(360, 35, 120, 40);
+   setbutton.frame = CGRectMake(400, 35, 120, 40);
     [setbutton setTitle:@"重置" forState:UIControlStateNormal];
     [setbutton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [setbutton setBackgroundColor:kMainColor];
@@ -114,7 +117,6 @@
 
     
     }
-    [self.view addSubview:namelable];
     [self.view addSubview:setbutton];
 
 
@@ -317,6 +319,40 @@
 
 }
 #pragma mark - Request
+
+
+
+
+//获取默认分润
+- (void)getDefaultBenefit {
+    AppDelegate *delegate = [AppDelegate shareAppDelegate];
+    [NetworkInterface getDefaultBenefitWithAgentID:delegate.agentID token:delegate.token finished:^(BOOL success, NSData *response) {
+        NSLog(@"!!%@",[[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding]);
+        if (success) {
+            id object = [NSJSONSerialization JSONObjectWithData:response options:NSJSONReadingMutableLeaves error:nil];
+            if ([object isKindOfClass:[NSDictionary class]]) {
+                NSString *errorCode = [object objectForKey:@"code"];
+                if ([errorCode intValue] == RequestFail) {
+                    //返回错误代码
+                }
+                else if ([errorCode intValue] == RequestSuccess) {
+                    _defaultBenefit = 5.0;
+                  
+
+                    NSString*st=@"%";
+                    
+                    namelable.text=[NSString stringWithFormat:@"默认分润比例:%f%@",_defaultBenefit,st];
+                }
+            }
+            else {
+                //返回错误数据
+            }
+        }
+        else {
+        }
+    }];
+}
+
 - (void)setDefaultBenefit {
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
     hud.labelText = @"提交中...";

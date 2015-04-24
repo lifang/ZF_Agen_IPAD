@@ -360,6 +360,13 @@
     if(textField==self.billField )
     {
         [self  closeKeyboard];
+        billnsstring=textField.text;
+        
+        
+    }
+    if(textField==self.reviewField)
+    {
+        textnsstring=textField.text;
         
         
     }
@@ -1088,7 +1095,8 @@
         self.reviewField .delegate = self;
         self.reviewField .placeholder = @"留言";
         self.reviewField .font = [UIFont systemFontOfSize:14.f];
-        
+        reviewField.text=textnsstring;
+
         [footerView addSubview:self.reviewField ];
 
         
@@ -1258,7 +1266,8 @@
     self.billField = [[UITextField alloc] initWithFrame:CGRectMake(wide/2+90, 20, wide/2 - 120, billHeight)];
     self.billField .delegate = self;
     self.billField .placeholder = @"     请输入发票抬头";
-    
+    self.billField.text=billnsstring;
+
     //  self.billField.textInputMode= UIEdgeInsetsMake(0, 0, 0, 10);
     
     self.billField .font = [UIFont systemFontOfSize:16.f];

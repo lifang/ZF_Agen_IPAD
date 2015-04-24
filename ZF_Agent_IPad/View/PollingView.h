@@ -12,11 +12,19 @@
 #import "SMPageControl.h"
 @interface PollingView : UIView<UIScrollViewDelegate>
 
+{
+
+
+    int          _move;
+
+    NSTimer*_scrollcententtimer;
+}
 @property (nonatomic, strong) UIScrollView *scrollView;
 
 @property (nonatomic, strong) SMPageControl *pageControl;
 
 @property (nonatomic, assign) NSInteger totalPage;
+
 
 - (void)downloadImageWithURLs:(NSArray *)urlArray
                        target:(id)target

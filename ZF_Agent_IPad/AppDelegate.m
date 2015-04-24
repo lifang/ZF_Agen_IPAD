@@ -31,11 +31,11 @@
     self.window.rootViewController = _rootViewController;
     [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
     [self.window makeKeyAndVisible];
-    _agentID = @"1";
-    _token = @"123";
-    _cityID = @"1";
-    _agentUserID = @"413";
-    _userID = @"1";
+//    _agentID = @"1";
+//    _token = @"123";
+//    _cityID = @"1";
+//    _agentUserID = @"413";
+//    _userID = @"1";
 
     return YES;
 }

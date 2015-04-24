@@ -15,6 +15,7 @@
 @property (nonatomic, strong) UIScrollView *scrollView;
 @property (nonatomic, assign) BOOL isopen;
 @property (nonatomic, strong) SubAgentDetailModel *agentDetail;
+@property (nonatomic, assign) CGRect imageRect;
 
 @end
 
@@ -297,11 +298,32 @@
 }
 -(void)pictureclick:(UIButton*)send
 {
+    _imageRect = [[send superview] convertRect:send.frame toView:self.view];
 
+if(send.tag==418)
+{
+    [self showDetailImageWithURL:_agentDetail.cardImagePath  imageRect:_imageRect WithIdentifier:@""];
+
+
+}
+   else if(send.tag==419)
+    {
+        [self showDetailImageWithURL:_agentDetail.licenseImagePath  imageRect:_imageRect WithIdentifier:@""];
+        
+        
+    }
+else
+{
+    [self showDetailImageWithURL:_agentDetail.taxImagePath  imageRect:_imageRect WithIdentifier:@""];
+
+
+}
+    
 
 
 
 }
+
 #pragma mark - Request
 
 - (void)getSubAgentDetail {

@@ -758,13 +758,27 @@
         cell.salesVolumeLabel.text = [NSString stringWithFormat:@"%d",good.goodSaleNumber];
         cell.brandLabel.text = [NSString stringWithFormat:@"品牌型号   %@%@",good.goodBrand,good.goodModel];
         cell.channelLabel.text = [NSString stringWithFormat:@"支付通道   %@",good.goodChannel];
-        if (good.isRent)
-            
+        
+        if(_supplyType==SupplyGoodsProcurement)
         {
-            cell.attrView.hidden = NO;
-        }
-        else {
+        
+            if (good.isRent)
+                
+            {
+                cell.attrView.hidden = NO;
+            }
+            else {
+                cell.attrView.hidden = YES;
+            }
+
+        
+        }else
+        {
+        
             cell.attrView.hidden = YES;
+
+        
+        
         }
         
         return cell;

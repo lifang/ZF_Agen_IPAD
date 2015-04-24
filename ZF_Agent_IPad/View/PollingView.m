@@ -12,13 +12,38 @@
 @implementation PollingView
 
 - (id)initWithFrame:(CGRect)frame {
-    if (self = [super initWithFrame:frame]) {
+    if (self = [super initWithFrame:frame])
+    {
+        _scrollcententtimer = [NSTimer scheduledTimerWithTimeInterval:3 target:self selector:@selector(scrollcententtimerhandle) userInfo:nil repeats:YES];
+
         [self initAndLayoutUI];
     }
     return self;
 }
 
 #pragma mark - UI
+-(void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView{
+    int page;
+    page = _scrollView.contentOffset.x/_scrollView.frame.size.width;
+    _pageControl.currentPage = page;
+}
+-(void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView{
+    int page;
+    page = _scrollView.contentOffset.x/_scrollView.frame.size.width;
+    _pageControl.currentPage = page;
+}
+-(void)scrollcententtimerhandle
+{
+    
+    if (_scrollView.contentOffset.x >=( _scrollView.frame.size.width*(_totalPage-1))) {
+        [_scrollView setContentOffset:CGPointMake(0, 0) animated:YES];
+    }else{
+        [_scrollView setContentOffset:CGPointMake(_scrollView.contentOffset.x + _move, 0) animated:YES];
+    }
+    int page;
+    page = _scrollView.contentOffset.x/_scrollView.frame.size.width ;
+    _pageControl.currentPage = page;
+}
 
 - (void)initAndLayoutUI {
     _scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, self.bounds.size.width, self.bounds.size.height)];
@@ -28,7 +53,8 @@
     _scrollView.delegate = self;
     _scrollView.backgroundColor = [UIColor blackColor];
     [self addSubview:_scrollView];
-    
+    _move = _scrollView.frame.size.width;
+
     _pageControl = [[SMPageControl alloc] initWithFrame:CGRectMake(0, self.bounds.size.height - 20, self.bounds.size.width, 20)];
     _pageControl.userInteractionEnabled = NO;
     [_pageControl setPageIndicatorImage:[UIImage imageNamed:@"pagL"]];

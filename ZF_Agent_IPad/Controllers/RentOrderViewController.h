@@ -28,7 +28,8 @@
     NSInteger cityint;
     NSInteger Okcityint;
      NSString *agentUserIDs;  //代理商对应的用户id
-
+    NSString*textnsstring;
+    NSString*billnsstring;
     UIImageView*bigsview;
 }
 //若从购物车跳转过来 保存选中的数据

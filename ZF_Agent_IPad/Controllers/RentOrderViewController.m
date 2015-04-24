@@ -24,8 +24,8 @@
 @property (nonatomic, strong) UITextView *phoneTV;
 @property (nonatomic, strong) UITextView *codeTV;
 @property (nonatomic, strong) UITextView *locationTV;
-@property (nonatomic, strong) UITextView *pwdTV;
-@property (nonatomic, strong) UITextView *confpwdTV;
+@property (nonatomic, strong) UITextField *pwdTV;
+@property (nonatomic, strong) UITextField *confpwdTV;
 
 @property (nonatomic, strong) UIPickerView *pickerViews;
 @property (nonatomic, strong) UIButton *typeBtn;
@@ -399,7 +399,23 @@
 }
 
 #pragma mark - UITextField
-
+-(void)textFieldDidEndEditing:(UITextField *)textField
+{
+    
+    if(textField==self.billField )
+    {
+        billnsstring=textField.text;
+        
+        
+    }
+    if(textField==self.reviewField)
+    {
+        textnsstring=textField.text;
+        
+        
+    }
+    
+}
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
     [textField resignFirstResponder];
     
@@ -850,7 +866,7 @@
     pwdLB.frame = CGRectMake(26, locationLB.frame.origin.y + 60, 100, 40);
     [_secondView addSubview:pwdLB];
     
-    _pwdTV=[[UITextView alloc] init];
+    _pwdTV=[[UITextField alloc] init];
     _pwdTV.layer.masksToBounds=YES;
     _pwdTV.layer.borderWidth=1.0;
     _pwdTV.layer.borderColor=[UIColor colorWithHexString:@"a8a8a8"].CGColor;
@@ -858,7 +874,8 @@
     _pwdTV.font = FONT20;
     _pwdTV.frame = CGRectMake(_codeTV.frame.origin.x, pwdLB.frame.origin.y, 240, 40);
     [_secondView addSubview:_pwdTV];
-    
+    _pwdTV.secureTextEntry=YES;
+
     UILabel *confpwdLB = [[UILabel alloc]init];
     confpwdLB.text = @"确认密码";
     confpwdLB.textColor = kColor(56, 56, 56, 1.0);
@@ -866,7 +883,9 @@
     confpwdLB.frame = CGRectMake(26, pwdLB.frame.origin.y + 60, 100, 40);
     [_secondView addSubview:confpwdLB];
     
-    _confpwdTV=[[UITextView alloc] init];
+    _confpwdTV=[[UITextField alloc] init];
+    _confpwdTV.secureTextEntry=YES;
+    
     _confpwdTV.layer.masksToBounds=YES;
     _confpwdTV.layer.borderWidth=1.0;
     _confpwdTV.layer.borderColor=[UIColor colorWithHexString:@"a8a8a8"].CGColor;
@@ -939,6 +958,15 @@
         hud.labelText = @"请确认密码";
         return;
     }
+    if (![_confpwdTV.text isEqualToString:_pwdTV.text]) {
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:1.f];
+        hud.labelText = @"两次密码不一致";
+        return;
+    }
+
     
     [self addNewUser];
 }
@@ -1569,6 +1597,7 @@
         self.reviewField .delegate = self;
         self.reviewField .placeholder = @"留言";
         self.reviewField .font = [UIFont systemFontOfSize:14.f];
+        reviewField.text=textnsstring;
 
         [footerView addSubview:self.reviewField ];
 
@@ -1745,7 +1774,8 @@
     self.billField .placeholder = @"     请输入发票抬头";
     
     //  self.billField.textInputMode= UIEdgeInsetsMake(0, 0, 0, 10);
-    
+    self.billField.text=billnsstring;
+
     self.billField .font = [UIFont systemFontOfSize:16.f];
     self.billField .clearButtonMode = UITextFieldViewModeWhileEditing;
     [billView addSubview:self.billField ];
