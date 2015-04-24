@@ -14,7 +14,7 @@
 #import "TerminalManagerModel.h"
 #import "ApplyDetailController.h"
 #import "SearchTermianlViewController.h"
-
+#import "VideoAuthController.h"
 @interface IdentificationViewController ()<RefreshDelegate,LoginSuccessDelegate,UITableViewDelegate,UITableViewDataSource,SearchDelegate>
 {
     
@@ -503,14 +503,21 @@
     }
     [cell.vedioConfirmBtn setTitle:@"视频认证" forState:UIControlStateNormal];
     [cell.vedioConfirmBtn addTarget:self action:@selector(vedioConfirmClick:) forControlEvents:UIControlEventTouchUpInside];
+    cell.vedioConfirmBtn.tag=indexPath.row;
     
     return cell;
 }
 
 -(void)vedioConfirmClick:(UIButton *)button
 {
-    NSLog(@"%d",button.tag);
-}
+    IdentificationModel *model = [_applyList objectAtIndex:button.tag];
+
+    VideoAuthController *videoAuthC = [[VideoAuthController alloc] init];
+    videoAuthC.terminalID = model.TM_ID;
+    videoAuthC.hidesBottomBarWhenPushed=YES;
+    
+    
+    [self.navigationController pushViewController:videoAuthC animated:YES];}
 
 -(void)applicationClick:(UIButton *)button
 {
