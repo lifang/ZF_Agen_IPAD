@@ -13,8 +13,9 @@
 #import "ChannelListModel.h"
 #import "RegularFormat.h"
 #import "SearchTermianlViewController.h"
+#import "RefreshView.h"
 
-@interface TerminalSelectViewController ()<UITableViewDelegate,UITableViewDataSource,UITextViewDelegate,UIPickerViewDelegate,UIPickerViewDataSource,UIPopoverControllerDelegate,SearchDelegate>
+@interface TerminalSelectViewController ()<UITableViewDelegate,UITableViewDataSource,UITextViewDelegate,UIPickerViewDelegate,UIPickerViewDataSource,UIPopoverControllerDelegate,SearchDelegate,RefreshDelegate>
 {
    // BOOL isSelected;
     //CGFloat summaryPrice;
@@ -60,6 +61,14 @@
 @property (nonatomic, strong) NSArray *pickerArray;  //pickerView 第二列
 
 @property (nonatomic, strong) UILabel *numberLB;
+
+/***************上下拉刷新**********/
+@property (nonatomic, strong) RefreshView *topRefreshView;
+@property (nonatomic, strong) RefreshView *bottomRefreshView;
+@property (nonatomic, assign) BOOL reloading;
+@property (nonatomic, assign) CGFloat primaryOffsetY;
+@property (nonatomic, assign) int page;
+/********************************/
 
 
 
@@ -356,6 +365,36 @@
         make.bottom.equalTo(self.view.bottom).offset(-60);
     }];
     
+    
+    //_topRefreshView = [[RefreshView alloc] initWithFrame:CGRectMake(_tableView.frame.origin.x+_tableView.frame.size.width/2.0, _tableView.frame.origin.y-60,_tableView.frame.size.width, 60)];
+    _topRefreshView = [[RefreshView alloc] init];
+    _topRefreshView.direction = PullFromTop;
+    _topRefreshView.delegate = self;
+    [_tableView addSubview:_topRefreshView];
+    [_topRefreshView makeConstraints:^(MASConstraintMaker *make) {
+        make.bottom.equalTo(_tableView.top);
+        make.left.equalTo(_tableView.centerX);
+        make.right.equalTo(_tableView.right);
+        //make.bottom.equalTo(self.view.bottom).offset(-60);
+        make.height.equalTo(@60);
+    }];
+    
+    
+    // _bottomRefreshView = [[RefreshView alloc] initWithFrame:CGRectMake(0, _tableView.frame.origin.y, _tableView.frame.size.width, 60)];
+    _bottomRefreshView.direction = PullFromBottom;
+    _bottomRefreshView.delegate = self;
+    _bottomRefreshView.hidden = YES;
+    [_tableView addSubview:_bottomRefreshView];
+    [_bottomRefreshView makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(_tableView.bottom);
+        make.left.equalTo(_tableView.centerX);
+        make.right.equalTo(_tableView.right);
+        make.height.equalTo(@60);
+    }];
+    
+
+    
+    
 
     
     //创建头部View
@@ -469,7 +508,8 @@
         hud.labelText = @"最低价不能超过最高价";
         return;
     }
-    [self FilterTerminals];
+   // [self FilterTerminals];
+     [self firstLoadData];
 
 
 }
@@ -665,6 +705,74 @@
 
 #pragma mark - Request
 //pos机,通道,价格,筛选终端
+#pragma mark - Request
+//pos机,通道,价格,筛选终端
+
+- (void)firstLoadData {
+    _page = 1;
+    
+    
+    
+    [self FilterTerminalsWithPage:_page isMore:NO];
+    
+}
+
+- (void)FilterTerminalsWithPage:(int)page isMore:(BOOL)isMore {
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+    hud.labelText = @"加载中...";
+    AppDelegate *delegate = [AppDelegate shareAppDelegate];
+    [NetworkInterface screeningTerminalNumWithtoken:delegate.token agentId:delegate.agentID POStitle:_POSTV.text channelsId:_channelsId minPrice:[_minPriceTV.text intValue] maxPrice:[_maxPriceTV.text intValue] page:page rows:kPageSize finished:^(BOOL success, NSData *response)
+     {
+         hud.customView = [[UIImageView alloc] init];
+         hud.mode = MBProgressHUDModeCustomView;
+         [hud hide:YES afterDelay:0.3f];
+         if (success) {
+             NSLog(@"!!%@",[[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding]);
+             id object = [NSJSONSerialization JSONObjectWithData:response options:NSJSONReadingMutableLeaves error:nil];
+             if ([object isKindOfClass:[NSDictionary class]]) {
+                 NSString *errorCode = [object objectForKey:@"code"];
+                 if ([errorCode intValue] == RequestFail) {
+                     //返回错误代码
+                     hud.labelText = [NSString stringWithFormat:@"%@",[object objectForKey:@"message"]];
+                 }
+                 else if ([errorCode intValue] == RequestSuccess) {
+                     if (!isMore) {
+                         [_terminalItems removeAllObjects];
+                     }
+                     //id list = [[object objectForKey:@"result"] objectForKey:@"terminalList"];
+                     id list = [object objectForKey:@"result"];
+                     if ([list isKindOfClass:[NSArray class]] && [list count] > 0) {
+                         //有数据
+                         self.page++;
+                         [hud hide:YES];
+                     }
+                     else {
+                         //无数据
+                         hud.labelText = @"没有更多数据了...";
+                     }
+                     [self parseSearchListWithData:object];
+                 }
+             }
+             else {
+                 //返回错误数据
+                 hud.labelText = kServiceReturnWrong;
+             }
+         }
+         else {
+             hud.labelText = kNetworkFailed;
+         }
+         if (!isMore) {
+             [self refreshViewFinishedLoadingWithDirection:PullFromTop];
+         }
+         else {
+             [self refreshViewFinishedLoadingWithDirection:PullFromBottom];
+         }
+     }];
+}
+
+
+
+/*
 - (void)FilterTerminals {
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
     hud.labelText = @"加载中...";
@@ -698,7 +806,7 @@
         }
     }];
 }
-
+*/
 
 //搜索终端
 - (void)searchTerminalWithString:(NSString *)title {
@@ -1013,6 +1121,103 @@
                }
         }
    }
+
+
+
+
+#pragma mark - Refresh
+
+- (void)refreshViewReloadData {
+    _reloading = YES;
+}
+
+- (void)refreshViewFinishedLoadingWithDirection:(PullDirection)direction {
+    _reloading = NO;
+    if (direction == PullFromTop) {
+        [_topRefreshView refreshViewDidFinishedLoading:self.tableView];
+    }
+    else if (direction == PullFromBottom) {
+        _bottomRefreshView.frame = CGRectMake(0, self.tableView.contentSize.height+self.tableView.frame.origin.y, self.tableView.bounds.size.width, 60);
+        [_bottomRefreshView refreshViewDidFinishedLoading:self.tableView];
+    }
+    [self updateFooterViewFrame];
+}
+
+- (BOOL)refreshViewIsLoading:(RefreshView *)view {
+    return _reloading;
+}
+
+- (void)refreshViewDidEndTrackingForRefresh:(RefreshView *)view {
+    [self refreshViewReloadData];
+    //loading...
+    if (view == _topRefreshView) {
+        [self pullDownToLoadData];
+    }
+    else if (view == _bottomRefreshView) {
+        [self pullUpToLoadData];
+    }
+}
+
+- (void)updateFooterViewFrame {
+    //_bottomRefreshView.frame = CGRectMake(0, self.tableView.contentSize.height, self.tableView.bounds.size.width, 60);
+    _bottomRefreshView.frame = CGRectMake(0, self.tableView.contentSize.height+self.tableView.frame.origin.y, self.tableView.bounds.size.width, 60);
+    _bottomRefreshView.hidden = NO;
+    if (self.tableView.contentSize.height < self.tableView.frame.size.height) {
+        _bottomRefreshView.hidden = YES;
+    }
+}
+
+#pragma mark - UIScrollView
+
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
+    _primaryOffsetY = scrollView.contentOffset.y;
+}
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    if (scrollView == self.tableView) {
+        CGPoint newPoint = scrollView.contentOffset;
+        if (_primaryOffsetY < newPoint.y) {
+            //上拉
+            if (_bottomRefreshView.hidden) {
+                return;
+            }
+            [_bottomRefreshView refreshViewDidScroll:scrollView];
+        }
+        else {
+            //下拉
+            [_topRefreshView refreshViewDidScroll:scrollView];
+        }
+    }
+}
+
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
+    if (scrollView == self.tableView) {
+        CGPoint newPoint = scrollView.contentOffset;
+        if (_primaryOffsetY < newPoint.y) {
+            //上拉
+            if (_bottomRefreshView.hidden) {
+                return;
+            }
+            [_bottomRefreshView refreshViewDidEndDragging:scrollView];
+        }
+        else {
+            //下拉
+            [_topRefreshView refreshViewDidEndDragging:scrollView];
+        }
+    }
+}
+
+#pragma mark - 上下拉刷新
+//下拉刷新
+- (void)pullDownToLoadData {
+    [self firstLoadData];
+}
+
+//上拉加载
+- (void)pullUpToLoadData {
+    
+    [self  FilterTerminalsWithPage:self.page isMore:YES];
+}
 
 
 

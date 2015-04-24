@@ -789,11 +789,14 @@ static NSString *s_homeImageList_method = @"index/sysshufflingfigure";
  */
 + (void)screeningTerminalNumWithtoken:(NSString *)token
                               agentId:(NSString *)agentId
-                                POStitle:(NSString *)POStitle
+                             POStitle:(NSString *)POStitle
                            channelsId:(int)channelsId
                              minPrice:(int)minPrice
                              maxPrice:(int)maxPrice
-                         finished:(requestDidFinished)finish;
+                                 page:(int)page
+                                 rows:(int)rows
+                             finished:(requestDidFinished)finish;
+
 
 /*!
  @abstract 29.终端管理--Pos机选择

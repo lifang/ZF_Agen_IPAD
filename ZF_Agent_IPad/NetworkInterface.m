@@ -687,14 +687,15 @@ static NSString *HTTP_GET  = @"GET";
                         finished:finish];
 
 }
-
 //28
 + (void)screeningTerminalNumWithtoken:(NSString *)token
                               agentId:(NSString *)agentId
-                                POStitle:(NSString *)POStitle
+                             POStitle:(NSString *)POStitle
                            channelsId:(int)channelsId
                              minPrice:(int)minPrice
                              maxPrice:(int)maxPrice
+                                 page:(int)page
+                                 rows:(int)rows
                              finished:(requestDidFinished)finish{
     //参数
     NSMutableDictionary *paramDict = [[NSMutableDictionary alloc] init];
@@ -706,14 +707,18 @@ static NSString *HTTP_GET  = @"GET";
     [paramDict setObject:[NSNumber numberWithInt:channelsId] forKey:@"channelsId"];
     [paramDict setObject:[NSNumber numberWithInt:minPrice] forKey:@"minPrice"];
     [paramDict setObject:[NSNumber numberWithInt:maxPrice] forKey:@"maxPrice"];
+    [paramDict setObject:[NSNumber numberWithInt:page] forKey:@"page"];
+    [paramDict setObject:[NSNumber numberWithInt:rows] forKey:@"rows"];
+    
+    
     //url
     NSString *urlString = [NSString stringWithFormat:@"%@/%@",kServiceURL,s_screeningterminalnum_method];
     [[self class] requestWithURL:urlString
                           params:paramDict
                       httpMethod:HTTP_POST
                         finished:finish];
-
-
+    
+    
 }
 
 //29
