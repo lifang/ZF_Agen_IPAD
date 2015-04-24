@@ -12,7 +12,7 @@
 #import "OrderDetailController.h"
 
 
-@interface PayWayViewController ()<UITableViewDataSource,UITableViewDelegate>
+@interface PayWayViewController ()
 @property (nonatomic, strong) NSString *payNumber;  //支付单号
 
 @property (nonatomic, strong) UITableView *tableView;
@@ -238,6 +238,8 @@
              _fromType == PayWayFromGoodProcurementRent) {
         detailC.supplyType = SupplyGoodsProcurement;
     }
+    detailC.hidesBottomBarWhenPushed=YES;
+    
     [self.navigationController pushViewController:detailC animated:YES];
 }
 
