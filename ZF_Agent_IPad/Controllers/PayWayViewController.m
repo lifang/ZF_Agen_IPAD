@@ -24,15 +24,74 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self getOrderInfo];
-
+ 
     // Do any additional setup after loading the view.
     self.view.backgroundColor=[UIColor whiteColor];
     NSDictionary *attributes = [NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor],NSForegroundColorAttributeName,[UIFont boldSystemFontOfSize:22],NSFontAttributeName, nil];
     [self.navigationController.navigationBar setTitleTextAttributes:attributes];
     self.title = @"选择支付方式";
     NSLog(@"!!!!!!!!!!%@~~~~~~~~~~~~~%f",_orderID,_totalPrice);
+    UIBarButtonItem *spaceItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace
+                                                                               target:nil
+                                                                               action:nil];
+    spaceItem.width = 52;
+    UIImage *image=[UIImage imageNamed:@"back_btn_white"];
+    
+    UIButton *btn=[UIButton buttonWithType:UIButtonTypeCustom];
+    
+    btn.frame=CGRectMake(0, 0, 25, 40);
+    
+    [btn setImage :image forState:UIControlStateNormal];
+    
+    [btn addTarget:self action:@selector(popself) forControlEvents:UIControlEventTouchUpInside];
+    
+    UIBarButtonItem *backItem = [[UIBarButtonItem alloc] initWithCustomView:btn];
+    
+    self.navigationItem.leftBarButtonItems = [NSArray arrayWithObjects:spaceItem,backItem,spaceItem,nil];
+    
+    // Do any additional setup after loading the view.
+}
+-(void)popself
+
+{
+    
+    UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:@"放弃付款？"
+                                                       delegate:self
+                                              cancelButtonTitle:@"取消"
+                                         destructiveButtonTitle:@"确定"
+                                              otherButtonTitles:nil];
+    [sheet showInView:self.view];
     
 }
+
+
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if (buttonIndex != actionSheet.cancelButtonIndex) {
+        [self showDetail];
+    }
+}
+
+#pragma mark - 跳转详情
+- (void)showDetail {
+    OrderDetailController *detailC = [[OrderDetailController alloc] init];
+    detailC.fromType = _fromType;
+    detailC.orderID = _orderID;
+    detailC.goodID = _goodID;
+    detailC.goodName = _goodName;
+    if (_fromType == PayWayFromOrderWholesale ||
+        _fromType == PayWayFromGoodWholesale) {
+        detailC.supplyType = SupplyGoodsWholesale;
+    }
+    else if (_fromType == PayWayFromOrderProcurement ||
+             _fromType == PayWayFromGoodProcurementBuy ||
+             _fromType == PayWayFromGoodProcurementRent) {
+        detailC.supplyType = SupplyGoodsProcurement;
+    }
+    detailC.hidesBottomBarWhenPushed=YES;
+    
+    [self.navigationController pushViewController:detailC animated:YES];
+}
+
 - (void)getOrderInfo {
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
     hud.labelText = @"加载中...";
@@ -221,26 +280,6 @@
     }
 
 
-}
-- (void)showDetail {
-    OrderDetailController *detailC = [[OrderDetailController alloc] init];
-    detailC.fromType = _fromType;
-    detailC.orderID = _orderID;
-    detailC.goodID = _goodID;
-    detailC.goodName = _goodName;
-    if (_fromType == PayWayFromOrderWholesale ||
-        _fromType == PayWayFromGoodWholesale)
-    {
-        detailC.supplyType = SupplyGoodsWholesale;
-    }
-    else if (_fromType == PayWayFromOrderProcurement ||
-             _fromType == PayWayFromGoodProcurementBuy ||
-             _fromType == PayWayFromGoodProcurementRent) {
-        detailC.supplyType = SupplyGoodsProcurement;
-    }
-    detailC.hidesBottomBarWhenPushed=YES;
-    
-    [self.navigationController pushViewController:detailC animated:YES];
 }
 
 -(void)yinlianclick

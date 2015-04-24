@@ -321,6 +321,8 @@
         return;
     }
     _agentDetail = [[SubAgentDetailModel alloc] initWithParseDictionary:[dict objectForKey:@"result"]];
+    _isopen=_agentDetail.hasProfit;
+
     [self createui];
 
 }

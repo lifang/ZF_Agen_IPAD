@@ -23,7 +23,7 @@
 #import "TerminalSelectModel.h"
 #import "RegularFormat.h"
 #import "CityHandle.h"
-
+#import "VideoAuthController.h"
 
 @interface TerminalViewController ()<UITableViewDelegate,UITableViewDataSource,RefreshDelegate,terminalCellSendBtnClicked,UITextViewDelegate,UIPickerViewDataSource,UIPickerViewDelegate,UIPopoverControllerDelegate,UIPopoverPresentationControllerDelegate,SelectedAddressDelegate,SelectedUserDelegate,SelectedTerminalDelegate,SearchDelegate>
 {
@@ -1364,11 +1364,22 @@
     }
     if (btnTag == 1001) {
         NSLog(@"点击了视频认证(已开通) 信息ID为%@",selectedID);
-       
+        VideoAuthController *videoAuthC = [[VideoAuthController alloc] init];
+        videoAuthC.terminalID =selectedID;
+        videoAuthC.hidesBottomBarWhenPushed=YES;
+        
+        
+        [self.navigationController pushViewController:videoAuthC animated:YES];
     }
     if (btnTag == 2000) {
         NSLog(@"点击了视频认证(未开通) 信息ID为%@",selectedID);
+        VideoAuthController *videoAuthC = [[VideoAuthController alloc] init];
+        videoAuthC.terminalID =selectedID;
+        videoAuthC.hidesBottomBarWhenPushed=YES;
         
+        
+        [self.navigationController pushViewController:videoAuthC animated:YES];
+
     }
     if (btnTag == 2001) {
         NSLog(@"点击了申请开通");
@@ -1384,7 +1395,13 @@
     }
     if (btnTag == 3001) {
         NSLog(@"点击了视频认证(部分开通) 信息ID为%@",selectedID);
+        VideoAuthController *videoAuthC = [[VideoAuthController alloc] init];
+        videoAuthC.terminalID =selectedID;
+        videoAuthC.hidesBottomBarWhenPushed=YES;
         
+        
+        [self.navigationController pushViewController:videoAuthC animated:YES];
+
     }
     if (btnTag == 3002) {
         NSLog(@"点击了重新申请开通");

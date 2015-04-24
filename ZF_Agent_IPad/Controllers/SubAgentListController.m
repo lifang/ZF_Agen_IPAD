@@ -284,7 +284,7 @@
         hud.customView = [[UIImageView alloc] init];
         hud.mode = MBProgressHUDModeCustomView;
         [hud hide:YES afterDelay:1.f];
-        hud.labelText = @"请输入正确的分润比例";
+        hud.labelText = @"分润比例必须介于1-100之间";
         return;
     }
     [self setDefaultBenefit];

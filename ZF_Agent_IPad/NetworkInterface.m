@@ -587,6 +587,21 @@ static NSString *HTTP_GET  = @"GET";
                       httpMethod:HTTP_POST
                         finished:finish];
 }
+//25.
++ (void)sendBindingValidateWithMobileNumber:(NSString *)mobileNumber
+                                   finished:(requestDidFinished)finish {
+    //参数
+    NSMutableDictionary *paramDict = [[NSMutableDictionary alloc] init];
+    if (mobileNumber) {
+        [paramDict setObject:mobileNumber forKey:@"codeNumber"];
+    }
+    //url
+    NSString *urlString = [NSString stringWithFormat:@"%@/%@",kServiceURL,s_addUserValidate_method];
+    [[self class] requestWithURL:urlString
+                          params:paramDict
+                      httpMethod:HTTP_POST
+                        finished:finish];
+}
 
 //25
 + (void)getUserTerminalListWithtoken:(NSString *)token

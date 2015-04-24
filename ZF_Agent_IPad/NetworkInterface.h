@@ -371,7 +371,8 @@ static NSString *s_subAgentTradeList_method = @"lowerAgent/getTradelist";
 //订单信息
 static NSString *s_orderConfirm_method = @"order/payOrder";
 
-
+//25.终端管理——添加用户验证码
+static NSString *s_addUserValidate_method = @"terminal/sendPhoneVerificationCodeReg";
 //首页轮播
 static NSString *s_homeImageList_method = @"index/sysshufflingfigure";
 @interface NetworkInterface : NSObject
@@ -718,6 +719,13 @@ static NSString *s_homeImageList_method = @"index/sysshufflingfigure";
 
 
 
+/*!
+ @abstract 25.添加用户手机验证码
+ @param mobileNumber  手机号
+ @result finish  请求回调结果
+ */
++ (void)sendBindingValidateWithMobileNumber:(NSString *)mobileNumber
+                                   finished:(requestDidFinished)finish;
 
 
 /*!

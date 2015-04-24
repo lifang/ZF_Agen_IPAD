@@ -340,20 +340,20 @@
 //    [self.navigationController pushViewController:descC animated:YES];
 //}
 - (IBAction)ensureOrder:(id)sender {
-    if([self isBlankString:blankbutton.titleLabel.text])
-    {
-        
-        
-        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
-        hud.customView = [[UIImageView alloc] init];
-        hud.mode = MBProgressHUDModeCustomView;
-        [hud hide:YES afterDelay:1.f];
-        hud.labelText = @"请选择已有用户";
-        return;
-        
-        
-        
-    }
+//    if([self isBlankString:blankbutton.titleLabel.text])
+//    {
+//        
+//        
+//        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+//        hud.customView = [[UIImageView alloc] init];
+//        hud.mode = MBProgressHUDModeCustomView;
+//        [hud hide:YES afterDelay:1.f];
+//        hud.labelText = @"请选择已有用户";
+//        return;
+//        
+//        
+//        
+//    }
 
     [self createOrderForBuy];
 }
@@ -1037,9 +1037,14 @@
 }
 //获取手机验证码
 - (void)sendPhoneCode {
+    
+    
+    
+    
+    
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
     hud.labelText = @"加载中...";
-    [NetworkInterface sendValidateWithMobileNumber:_phoneTV.text finished:^(BOOL success, NSData *response) {
+    [NetworkInterface sendBindingValidateWithMobileNumber:_phoneTV.text finished:^(BOOL success, NSData *response) {
         NSLog(@"%@",[[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding]);
         hud.customView = [[UIImageView alloc] init];
         hud.mode = MBProgressHUDModeCustomView;
@@ -1055,9 +1060,7 @@
                 else if ([errorCode intValue] == RequestSuccess) {
                     [hud hide:YES];
                     hud.labelText = @"验证码已发送到您的手机";
-                    // if ([[object objectForKey:@"result"] isKindOfClass:[NSString class]]) {
-                    //    _codeTV.text = [object objectForKey:@"result"];
-                    // }
+
                 }
             }
             else {
@@ -1069,6 +1072,17 @@
             hud.labelText = kNetworkFailed;
         }
     }];
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+   
 }
 
 -(void)leftBackClicked
@@ -1675,7 +1689,7 @@
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
     hud.labelText = @"加载中...";
     AppDelegate *delegate = [AppDelegate shareAppDelegate];
-    [NetworkInterface getAddressListWithAgentID:delegate.agentID token:delegate.token finished:^(BOOL success, NSData *response) {
+    [NetworkInterface getAddressListWithAgentID:delegate.agentUserID token:delegate.token finished:^(BOOL success, NSData *response) {
         NSLog(@"%@",[[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding]);
         hud.customView = [[UIImageView alloc] init];
         hud.mode = MBProgressHUDModeCustomView;

@@ -37,6 +37,7 @@
         height=SCREEN_HEIGHT;
         
     }
+    
     self.view.backgroundColor=[UIColor whiteColor];
     
     _scrollView = [[UIScrollView alloc]init];
@@ -69,7 +70,7 @@
     
     self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:spaceItem,shoppingItem,spaceItem,spaceItem,nil];
     [self getSubAgentDetail];
-
+    
 
     // Do any additional setup after loading the view.
 }
@@ -366,6 +367,8 @@ else
         return;
     }
     _agentDetail = [[SubAgentDetailModel alloc] initWithParseDictionary:[dict objectForKey:@"result"]];
+    _isopen=_agentDetail.hasProfit;
+    
     [self createui];
     
 }

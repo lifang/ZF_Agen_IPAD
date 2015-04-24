@@ -16,7 +16,7 @@
 #import "PayWayViewController.h"
 #import "RegularFormat.h"
 #import "GoodDetailViewController.h"
-
+#import "GoodListViewController.h"
 
 
 typedef enum {
@@ -47,7 +47,63 @@ typedef enum {
     }
     self.view.backgroundColor = kColor(244, 243, 243, 1);
     [self downloadDetail];
+    UIBarButtonItem *spaceItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace
+                                                                               target:nil
+                                                                               action:nil];
+    spaceItem.width = 52;
+    UIImage *image=[UIImage imageNamed:@"back_btn_white"];
+    
+    UIButton *btn=[UIButton buttonWithType:UIButtonTypeCustom];
+    
+    btn.frame=CGRectMake(0, 0, 25, 40);
+    
+    [btn setImage :image forState:UIControlStateNormal];
+    
+    [btn addTarget:self action:@selector(goPervious:) forControlEvents:UIControlEventTouchUpInside];
+    
+    UIBarButtonItem *backItem = [[UIBarButtonItem alloc] initWithCustomView:btn];
+    
+    self.navigationItem.leftBarButtonItems = [NSArray arrayWithObjects:spaceItem,backItem,spaceItem,nil];
 }
+- (IBAction)goPervious:(id)sender {
+    if (_fromType == PayWayFromNone) {
+        [self.navigationController popViewControllerAnimated:YES];
+    }
+    else if (_fromType == PayWayFromOrderProcurement ||
+             _fromType == PayWayFromOrderWholesale) {
+        UIViewController *controller = nil;
+        for (UIViewController *listC in self.navigationController.childViewControllers) {
+            if ([listC isMemberOfClass:[OrderManagerController class]]) {
+                controller = listC;
+                break;
+            }
+        }
+        if (controller) {
+            [self.navigationController popToViewController:controller animated:YES];
+        }
+        else {
+            [self.navigationController popToRootViewControllerAnimated:YES];
+        }
+    }
+    else if (_fromType == PayWayFromGoodWholesale ||
+             _fromType == PayWayFromGoodProcurementBuy ||
+             _fromType == PayWayFromGoodProcurementRent) {
+        UIViewController *controller = nil;
+        for (UIViewController *listC in self.navigationController.childViewControllers) {
+            if ([listC isMemberOfClass:[GoodListViewController class]]) {
+                controller = listC;
+                break;
+            }
+        }
+        if (controller) {
+            [self.navigationController popToViewController:controller animated:YES];
+        }
+        else {
+            [self.navigationController popToRootViewControllerAnimated:YES];
+        }
+    }
+}
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -344,10 +400,10 @@ typedef enum {
                     statusView.image = kImageName(@"order.png");
                     [cell.contentView addSubview:statusView];
                     //状态
-                    UILabel *statusLabel = [[UILabel alloc] initWithFrame:CGRectMake(originX + 30, 10, wide / 2, 20.f)];
+                    UILabel *statusLabel = [[UILabel alloc] initWithFrame:CGRectMake(originX , 10, wide / 2, 20.f)];
                     statusLabel.backgroundColor = [UIColor clearColor];
                     statusLabel.font = [UIFont boldSystemFontOfSize:16.f];
-                    statusLabel.text = [_orderDetail getStatusStringWithSupplyType:_supplyType];
+                    statusLabel.text = [NSString stringWithFormat:@"订单状态:  %@",[_orderDetail getStatusStringWithSupplyType:_supplyType]];
                     [cell.contentView addSubview:statusLabel];
                     //批购
                     if (_supplyType == SupplyGoodsWholesale) {
@@ -580,7 +636,7 @@ typedef enum {
                 priceLabel.backgroundColor = [UIColor clearColor];
                 priceLabel.font = [UIFont systemFontOfSize:15.f];
                 priceLabel.textAlignment = NSTextAlignmentRight;
-                priceLabel.text = [NSString stringWithFormat:@"实付金额:%.2f",_orderDetail.actualPrice];
+                priceLabel.text = [NSString stringWithFormat:@"实付金额:￥%.2f",_orderDetail.actualPrice];
                 [cell.contentView addSubview:priceLabel];
                 
                 
