@@ -46,7 +46,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     _pictureItem = [[NSMutableArray alloc] init];
-//    [self loadHomeImageList];
+    [self loadHomeImageList];
     
     UIView*vei=[[UIView alloc]initWithFrame:CGRectMake(0, 0,SCREEN_WIDTH -60, SCREEN_HEIGHT )];
     [self.view addSubview:vei];
@@ -66,32 +66,32 @@
     [self initNavigationView];
 }
 //#pragma mark - Request
-//
-//- (void)loadHomeImageList {
-//    [NetworkInterface getHomeImageListFinished:^(BOOL success, NSData *response) {
-//        NSLog(@"%@",[[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding]);
-//        if (success) {
-//            id object = [NSJSONSerialization JSONObjectWithData:response options:NSJSONReadingMutableLeaves error:nil];
-//            if ([object isKindOfClass:[NSDictionary class]]) {
-//                NSString *errorCode = [NSString stringWithFormat:@"%@",[object objectForKey:@"code"]];
-//                if ([errorCode intValue] == RequestFail) {
-//                    //返回错误代码
-//                }
-//                else if ([errorCode intValue] == RequestSuccess) {
-//                    [self parseImageDataWithDict:object];
-//                }
-//            }
-//        }
-//    }];
-//}
+
+- (void)loadHomeImageList {
+    [NetworkInterface getHomeImageListFinished:^(BOOL success, NSData *response) {
+        NSLog(@"%@",[[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding]);
+        if (success) {
+            id object = [NSJSONSerialization JSONObjectWithData:response options:NSJSONReadingMutableLeaves error:nil];
+            if ([object isKindOfClass:[NSDictionary class]]) {
+                NSString *errorCode = [NSString stringWithFormat:@"%@",[object objectForKey:@"code"]];
+                if ([errorCode intValue] == RequestFail) {
+                    //返回错误代码
+                }
+                else if ([errorCode intValue] == RequestSuccess) {
+                    [self parseImageDataWithDict:object];
+                }
+            }
+        }
+    }];
+}
 
 #pragma mark - Data
 
 - (void)parseImageDataWithDict:(NSDictionary *)dict {
-    if (![dict objectForKey:@"result"] || ![[dict objectForKey:@"result"] isKindOfClass:[NSArray class]]) {
+    if (![dict objectForKey:@"result"] || ![[dict objectForKey:@"result"] isKindOfClass:[NSDictionary class]]) {
         return;
     }
-    NSArray *imageList = [dict objectForKey:@"result"];
+    id imageList = [[dict objectForKey:@"result"] objectForKey:@"list"];
     [_pictureItem removeAllObjects];
     for (int i = 0; i < [imageList count]; i++) {
         id imageDict = [imageList objectAtIndex:i];

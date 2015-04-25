@@ -19,6 +19,7 @@
 @property (nonatomic, strong) NSString *phoneNumber; //手机号
 
 @property (nonatomic, strong) NSString *address;     //地址
+@property (nonatomic, strong) NSString *terminals;       //终端号
 
 @property (nonatomic, strong) NSString *comment;     //留言
 

@@ -18,13 +18,16 @@
 @property (nonatomic, strong) NSString *agentID;
 @property (nonatomic, strong) NSString *token;
 @property (nonatomic, strong) NSString *cityID;
+@property (nonatomic, strong) NSMutableDictionary *authDict;   //权限
 
 @property (nonatomic, strong) RootViewController *rootViewController;
-
+@property (nonatomic, assign) BOOL hasProfit;         //是否有分润
 + (AppDelegate *)shareAppDelegate;
 
 + (RootViewController *)shareRootViewController;
-
+- (void)saveLoginInfo:(NSDictionary *)dict;
+//登录后返回
+-(void)clearLoginInfo;
 
 @end
 

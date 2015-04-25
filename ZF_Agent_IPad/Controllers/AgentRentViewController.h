@@ -25,6 +25,7 @@
     BOOL changeagent;
     NSInteger cityint;
     NSInteger Okcityint;
+    NSString*textnsstring;
 
     UIImageView*bigsview;
 }

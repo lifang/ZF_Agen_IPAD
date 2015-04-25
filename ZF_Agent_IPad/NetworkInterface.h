@@ -82,7 +82,8 @@ typedef enum {
     AddressDefault,    //默认地址
     AddressOther,      //非默认地址
 }AddressType;
-
+//下级代理商管理——获取默认分润
+static NSString *s_subAgentGetDefault_method = @"lowerAgent/getDefaultProfit";
 //1.登录
 static NSString *s_login_method = @"agent/agentLogin";
 
@@ -354,12 +355,26 @@ static NSString *s_transferGood_method = @"exchangegood/add";
 static NSString *s_createOrder_method = @"order/agent";
 //93.下级代理商管理——详情
 static NSString *s_subAgentDetail_method = @"lowerAgent/info";
+//94.下级代理商管理——创建
+static NSString *s_subAgentCreate_method = @"lowerAgent/createNew";
 //96.下级代理商管理——获取分润列表
 static NSString *s_subAgentBenefitList_method = @"lowerAgent/getProfitlist";
+//97.下级代理商管理——设置分润
+static NSString *s_subAgentBenefitSet_method = @"lowerAgent/saveOrEdit";
 //98.下级代理商管理——删除分润
 static NSString *s_subAgentBenefitDelete_method = @"lowerAgent/delChannel";
 //99.下级代理商管理——获取支付通道列表
 static NSString *s_subAgentChannelList_method = @"lowerAgent/getChannellist";
+
+//下级代理商管理——根据支付通道获取消费类型
+static NSString *s_subAgentTradeList_method = @"lowerAgent/getTradelist";
+//订单信息
+static NSString *s_orderConfirm_method = @"order/payOrder";
+
+//25.终端管理——添加用户验证码
+static NSString *s_addUserValidate_method = @"terminal/sendPhoneVerificationCodeReg";
+//首页轮播
+static NSString *s_homeImageList_method = @"index/sysshufflingfigure";
 @interface NetworkInterface : NSObject
 /*!
  @abstract 1.热卖
@@ -646,6 +661,24 @@ static NSString *s_subAgentChannelList_method = @"lowerAgent/getChannellist";
                                 status:(int)status
                               finished:(requestDidFinished)finish;
 
+/*!
+ @abstract 21.终端管理--根据状态选择查询
+ @param Token       登录返回
+ @param agentID     代理商ID
+ @param page        分页参数 页
+ @param rows        分页参数 行
+ @result finish  请求回调结果
+ */
+
++ (void)searchTerminalsListWithToken:(NSString *)token
+                               agentID:(NSString *)agentId
+                                  page:(int)page
+                                  rows:(int)rows
+                              serialNum:(NSString*)serialNum
+                              finished:(requestDidFinished)finish;
+
+
+
 
 /*!
  @abstract 22.终端管理--终端详情
@@ -686,6 +719,13 @@ static NSString *s_subAgentChannelList_method = @"lowerAgent/getChannellist";
 
 
 
+/*!
+ @abstract 25.添加用户手机验证码
+ @param mobileNumber  手机号
+ @result finish  请求回调结果
+ */
++ (void)sendBindingValidateWithMobileNumber:(NSString *)mobileNumber
+                                   finished:(requestDidFinished)finish;
 
 
 /*!
@@ -742,6 +782,7 @@ static NSString *s_subAgentChannelList_method = @"lowerAgent/getChannellist";
  @result finish  请求回调结果
  */
 + (void)batchTerminalNumWithtoken:(NSString *)token
+                          agentId:(NSString *)agentId
                       serialNum:(NSArray *)serialNum
                         finished:(requestDidFinished)finish;
 
@@ -756,11 +797,14 @@ static NSString *s_subAgentChannelList_method = @"lowerAgent/getChannellist";
  */
 + (void)screeningTerminalNumWithtoken:(NSString *)token
                               agentId:(NSString *)agentId
-                                POStitle:(NSString *)POStitle
+                             POStitle:(NSString *)POStitle
                            channelsId:(int)channelsId
                              minPrice:(int)minPrice
                              maxPrice:(int)maxPrice
-                         finished:(requestDidFinished)finish;
+                                 page:(int)page
+                                 rows:(int)rows
+                             finished:(requestDidFinished)finish;
+
 
 /*!
  @abstract 29.终端管理--Pos机选择
@@ -1655,6 +1699,49 @@ static NSString *s_subAgentChannelList_method = @"lowerAgent/getChannellist";
                         subAgentID:(NSString *)subAgentID
                           finished:(requestDidFinished)finish;
 /*!
+ @abstract 94.下级代理商管理——创建
+ @param agentID      登录代理商id
+ @param token        登录返回
+ @param username      用户名
+ @param password      密码
+ @param encrypt       是否已加密
+ @param agentType     1.公司  2.个人
+ @param companyName   公司名称
+ @param licenseID     公司营业执照号
+ @param taxID         公司税务证号
+ @param legalPersonName  负责人姓名
+ @param legalPersonID    负责人身份证号
+ @param mobileNumber     手机
+ @param email            邮箱
+ @param cityID        城市id
+ @param address       详细地址
+ @param cardImagePath    身份证照片
+ @param licenseImagePath 营业执照照片
+ @param taxImagePath     税务证照片
+ @result finish  请求回调结果
+ */
++ (void)createSubAgentWithAgentID:(NSString *)agentID
+                            token:(NSString *)token
+                         username:(NSString *)username
+                         password:(NSString *)password
+                          confirm:(NSString *)confirm
+                        agentType:(AgentType)agentType
+                      companyName:(NSString *)companyName
+                        licenseID:(NSString *)licenseID
+                            taxID:(NSString *)taxID
+                  legalPersonName:(NSString *)legalPersonName
+                    legalPersonID:(NSString *)legalPersonID
+                     mobileNumber:(NSString *)mobileNumber
+                            email:(NSString *)email
+                           cityID:(NSString *)cityID
+                    detailAddress:(NSString *)address
+                    cardImagePath:(NSString *)cardImagePath
+                 licenseImagePath:(NSString *)licenseImagePath
+                     taxImagePath:(NSString *)taxImagePath
+                        hasPorfit:(int)hasProfit
+                         finished:(requestDidFinished)finish;
+
+/*!
  @abstract 96.下级代理商管理——获取分润列表
  @param token    登录返回
  @param subAgentID  下级代理商id
@@ -1663,6 +1750,23 @@ static NSString *s_subAgentChannelList_method = @"lowerAgent/getChannellist";
 + (void)getBenefitListWithToken:(NSString *)token
                      subAgentID:(NSString *)subAgentID
                        finished:(requestDidFinished)finish;
+/*!
+ @abstract 97.下级代理商管理——设置分润
+ @param agentID  代理商id
+ @param token    登录返回
+ @param subAgentID  下级代理商id
+ @param channelID   支付通道id
+ @param profit     分润比例
+ @param type     0.修改分润  1.新增分润
+ @result finish  请求回调结果
+ */
++ (void)submitBenefitWithAgentID:(NSString *)agentID
+                           token:(NSString *)token
+                      subAgentID:(NSString *)subAgentID
+                       channelID:(NSString *)channelID
+                          profit:(NSString *)profit
+                            type:(int)benefitType
+                        finished:(requestDidFinished)finish;
 
 /*!
  @abstract 98.下级代理商管理——删除分润
@@ -1685,5 +1789,35 @@ static NSString *s_subAgentChannelList_method = @"lowerAgent/getChannellist";
  */
 + (void)getAgentChannelListWithToken:(NSString *)token
                             finished:(requestDidFinished)finish;
+/*!
+ @abstract 下级代理商管理——获取消费类型
+ @param token    登录返回
+ @result finish  请求回调结果
+ */
++ (void)getTradeTypeWithToken:(NSString *)token
+                    channelID:(NSString *)channelID
+                     finished:(requestDidFinished)finish;
+/*!
+ @abstract 订单信息
+ @result finish  请求回调结果
+ */
++ (void)orderConfirmWithOrderID:(NSString *)orderID
+                       finished:(requestDidFinished)finish;
+
+/*!
+ @abstract 下级代理商管理——获取默认分润
+ @param agentID  代理商id
+ @param token    登录返回
+ @result finish  请求回调结果
+ */
++ (void)getDefaultBenefitWithAgentID:(NSString *)agentID
+                               token:(NSString *)token
+                            finished:(requestDidFinished)finish;
+/*!
+ @abstract 首页轮播图
+ @result finish  请求回调结果
+ */
++ (void)getHomeImageListFinished:(requestDidFinished)finish;
+
 
 @end

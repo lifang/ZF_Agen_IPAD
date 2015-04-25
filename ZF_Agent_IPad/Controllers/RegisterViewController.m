@@ -328,9 +328,11 @@
     [self setField:_loginIDField withTopView:thirdLine middleSpace:40.f fieldTag:0];
     
     _loginPasswordField = [[UITextField alloc]init];
+    _loginPasswordField.secureTextEntry = YES;
     [self setField:_loginPasswordField withTopView:_loginIDField middleSpace:mainMargin fieldTag:0];
     
     _makeSurePasswordField = [[UITextField alloc]init];
+    _makeSurePasswordField.secureTextEntry = YES;
     [self setField:_makeSurePasswordField withTopView:_loginPasswordField middleSpace:mainMargin fieldTag:0];
 
 #pragma mark - 创建Button
@@ -743,46 +745,46 @@
 
 }
 
-#pragma mark - 判断是手机还是邮箱
--(void)setIsMobile:(BOOL)isMobile
-{
-    _isMobile = isMobile;
-    if (_isMobile) {
-        NSLog(@"是手机！");
-        _authCodeLabel.hidden = YES;
-        _authCodeField.hidden = YES;
-        _makeSureBtn.hidden = YES;
-        _getAuthCodeBtn.hidden = YES;
-    }
-    else {
-        NSLog(@"不是手机");
-        _authCodeLabel.hidden = YES;
-        _authCodeField.hidden = YES;
-        _makeSureBtn.hidden = YES;
-        _getAuthCodeBtn.hidden = YES;
-    }
-}
-
-#pragma mark - UITextField
-
-- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
-    if ([string isEqualToString:@""]) {
-        //删除
-        if ([textField.text length] > 0 && [[textField.text substringToIndex:[textField.text length] - 1] rangeOfString:@"@"].length != 0) {
-            self.isMobile = NO;
-        }
-        else {
-            self.isMobile = YES;
-        }
-    }
-    else if ([textField.text rangeOfString:@"@"].length != 0 || [string rangeOfString:@"@"].length != 0) {
-        self.isMobile = NO;
-    }
-    else {
-        self.isMobile = YES;
-    }
-    return YES;
-}
+//#pragma mark - 判断是手机还是邮箱
+//-(void)setIsMobile:(BOOL)isMobile
+//{
+//    _isMobile = isMobile;
+//    if (_isMobile) {
+//        NSLog(@"是手机！");
+//        _authCodeLabel.hidden = YES;
+//        _authCodeField.hidden = YES;
+//        _makeSureBtn.hidden = YES;
+//        _getAuthCodeBtn.hidden = YES;
+//    }
+//    else {
+//        NSLog(@"不是手机");
+//        _authCodeLabel.hidden = YES;
+//        _authCodeField.hidden = YES;
+//        _makeSureBtn.hidden = YES;
+//        _getAuthCodeBtn.hidden = YES;
+//    }
+//}
+//
+//#pragma mark - UITextField
+//
+//- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
+//    if ([string isEqualToString:@""]) {
+//        //删除
+//        if ([textField.text length] > 0 && [[textField.text substringToIndex:[textField.text length] - 1] rangeOfString:@"@"].length != 0) {
+//            self.isMobile = NO;
+//        }
+//        else {
+//            self.isMobile = YES;
+//        }
+//    }
+//    else if ([textField.text rangeOfString:@"@"].length != 0 || [string rangeOfString:@"@"].length != 0) {
+//        self.isMobile = NO;
+//    }
+//    else {
+//        self.isMobile = YES;
+//    }
+//    return YES;
+//}
 
 - (BOOL)textFieldShouldClear:(UITextField *)textField {
     
@@ -1351,6 +1353,7 @@
         hud.labelText = @"请填写负责人身份证号";
         return;
     }
+    NSLog(@"%@",_principalPhoneOrEmailField.text);
     if (!_principalPhoneOrEmailField.text || [_principalPhoneOrEmailField.text isEqualToString:@""]) {
         MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
         hud.customView = [[UIImageView alloc] init];
@@ -1359,7 +1362,7 @@
         hud.labelText = @"请填写手机号";
         return;
     }
-    if ([RegularFormat isMobileNumber:_principalPhoneOrEmailField.text]) {
+    if (![RegularFormat isMobileNumber:_principalPhoneOrEmailField.text]) {
         MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
         hud.customView = [[UIImageView alloc] init];
         hud.mode = MBProgressHUDModeCustomView;
@@ -1367,6 +1370,7 @@
         hud.labelText = @"请填写正确的手机号";
         return;
     }
+    NSLog(@"%@",_authCodeField.text);
     if (!_authCodeField.text || [_authCodeField.text isEqualToString:@""]) {
         MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
         hud.customView = [[UIImageView alloc] init];
@@ -1375,7 +1379,7 @@
         hud.labelText = @"请填写邮箱";
         return;
     }
-    if ([RegularFormat isCorrectEmail:_authCodeField.text]) {
+    if (![RegularFormat isCorrectEmail:_authCodeField.text]) {
         MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
         hud.customView = [[UIImageView alloc] init];
         hud.mode = MBProgressHUDModeCustomView;

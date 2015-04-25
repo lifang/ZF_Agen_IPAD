@@ -15,6 +15,7 @@
 @property (nonatomic, strong) UIScrollView *scrollView;
 @property (nonatomic, assign) BOOL isopen;
 @property (nonatomic, strong) SubAgentDetailModel *agentDetail;
+@property (nonatomic, assign) CGRect imageRect;
 
 @end
 
@@ -36,6 +37,7 @@
         height=SCREEN_HEIGHT;
         
     }
+    
     self.view.backgroundColor=[UIColor whiteColor];
     
     _scrollView = [[UIScrollView alloc]init];
@@ -67,6 +69,7 @@
     
     
     self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:spaceItem,shoppingItem,spaceItem,spaceItem,nil];
+    [self getSubAgentDetail];
     
 
     // Do any additional setup after loading the view.
@@ -154,7 +157,7 @@
     {
         
         
-        UILabel*newaddress=[[UILabel alloc]initWithFrame:CGRectMake(60, i*60+40,wide/2-270, 40)];
+        UILabel*newaddress=[[UILabel alloc]initWithFrame:CGRectMake(60, i*60+40,wide/2, 40)];
         [_scrollView addSubview:newaddress];
         newaddress.textAlignment = NSTextAlignmentRight;
         newaddress.font=[UIFont systemFontOfSize:18];
@@ -180,7 +183,7 @@
             
         
         
-        UILabel*newaddress=[[UILabel alloc]initWithFrame:CGRectMake(60, i*60+heighth,wide/2-270, 40)];
+        UILabel*newaddress=[[UILabel alloc]initWithFrame:CGRectMake(60, i*60+heighth,wide/2, 40)];
         [_scrollView addSubview:newaddress];
         newaddress.textAlignment = NSTextAlignmentRight;
         newaddress.font=[UIFont systemFontOfSize:18];
@@ -194,7 +197,7 @@
     {
         
         
-        UILabel*newaddress=[[UILabel alloc]initWithFrame:CGRectMake(60, i*60+820,wide/2-270, 40)];
+        UILabel*newaddress=[[UILabel alloc]initWithFrame:CGRectMake(60, i*60+820,wide/2, 40)];
         [_scrollView addSubview:newaddress];
         newaddress.textAlignment = NSTextAlignmentRight;
         newaddress.font=[UIFont systemFontOfSize:18];
@@ -203,7 +206,7 @@
         
         
         UIButton* addressbutton = [UIButton buttonWithType:UIButtonTypeCustom];
-        addressbutton.frame = CGRectMake(wide/2-200,i*60+820,35, 35);
+        addressbutton.frame = CGRectMake(wide/2+70,i*60+820,35, 35);
         
         
         //            [addressbutton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
@@ -227,7 +230,7 @@
 
     
     
-    UILabel*idlable=[[UILabel alloc]initWithFrame:CGRectMake(60, 1030,wide/2-270, 30)];
+    UILabel*idlable=[[UILabel alloc]initWithFrame:CGRectMake(60, 1030,wide/2, 30)];
     idlable.textAlignment = NSTextAlignmentRight;
 
     idlable.text=[NSString stringWithFormat:@"登录ID: %@", _agentDetail.loginName];
@@ -235,30 +238,93 @@
     [_scrollView addSubview:idlable];
     
     
-    UIButton* savebutton = [UIButton buttonWithType:UIButtonTypeCustom];
-    savebutton.frame = CGRectMake(wide/2-200,1300,280, 40);
     
-     savebutton.center=CGPointMake(wide/2, 1300);
+    
+    NSArray*namesarry6=[NSArray arrayWithObjects:[NSString stringWithFormat:@"加入时间: %@", _agentDetail.createTime],[NSString stringWithFormat:@"已售出: %d", _agentDetail.saleCount],[NSString stringWithFormat:@"剩余库存: %d", _agentDetail.remainCount],[NSString stringWithFormat:@"终端开通量: %d", _agentDetail.openCount], nil];
+    
+    
+    for(int i=0;i<namesarry6.count;i++)
+    {
         
-    UILabel*line2=[[UILabel alloc]initWithFrame:CGRectMake(60, 1080,wide-120, 1)];
+        
+        UILabel*newaddress=[[UILabel alloc]initWithFrame:CGRectMake(60, i*60+1080,wide/2, 40)];
+        [_scrollView addSubview:newaddress];
+        newaddress.textAlignment = NSTextAlignmentRight;
+        newaddress.font=[UIFont systemFontOfSize:18];
+        
+        newaddress.text=[namesarry6 objectAtIndex:i];
+        
+        
+        
+        
+        
+        
+        
+    }
     
-    line2.backgroundColor=[UIColor grayColor];
-    
-    [_scrollView addSubview:line2];
+ 
     
     
-    [savebutton setTitle:@"保存" forState:UIControlStateNormal];
-    
-    //            [addressbutton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    [savebutton setBackgroundImage:kImageName(@"blue") forState:UIControlStateNormal];
     
     
-    [savebutton addTarget:self action:@selector(sexclick) forControlEvents:UIControlEventTouchUpInside];
-    [_scrollView addSubview:savebutton];
+    
+    
+    
+    
+    
+    
+//    UIButton* savebutton = [UIButton buttonWithType:UIButtonTypeCustom];
+//    savebutton.frame = CGRectMake(wide/2-200,1300,280, 40);
+//    
+//     savebutton.center=CGPointMake(wide/2, 1300);
+//        
+//    UILabel*line2=[[UILabel alloc]initWithFrame:CGRectMake(60, 1080,wide-120, 1)];
+//    
+//    line2.backgroundColor=[UIColor grayColor];
+//    
+//    [_scrollView addSubview:line2];
+//    
+//    
+//    [savebutton setTitle:@"保存" forState:UIControlStateNormal];
+//    
+//    //            [addressbutton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+//    [savebutton setBackgroundImage:kImageName(@"blue") forState:UIControlStateNormal];
+//    
+//    
+//    [savebutton addTarget:self action:@selector(sexclick) forControlEvents:UIControlEventTouchUpInside];
+//    [_scrollView addSubview:savebutton];
 
 
 
 }
+-(void)pictureclick:(UIButton*)send
+{
+    _imageRect = [[send superview] convertRect:send.frame toView:self.view];
+
+if(send.tag==418)
+{
+    [self showDetailImageWithURL:_agentDetail.cardImagePath  imageRect:_imageRect WithIdentifier:@""];
+
+
+}
+   else if(send.tag==419)
+    {
+        [self showDetailImageWithURL:_agentDetail.licenseImagePath  imageRect:_imageRect WithIdentifier:@""];
+        
+        
+    }
+else
+{
+    [self showDetailImageWithURL:_agentDetail.taxImagePath  imageRect:_imageRect WithIdentifier:@""];
+
+
+}
+    
+
+
+
+}
+
 #pragma mark - Request
 
 - (void)getSubAgentDetail {
@@ -301,6 +367,8 @@
         return;
     }
     _agentDetail = [[SubAgentDetailModel alloc] initWithParseDictionary:[dict objectForKey:@"result"]];
+    _isopen=_agentDetail.hasProfit;
+    
     [self createui];
     
 }

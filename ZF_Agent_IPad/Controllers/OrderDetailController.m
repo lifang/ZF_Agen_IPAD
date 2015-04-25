@@ -13,6 +13,11 @@
 #import "StringFormat.h"
 #import "OrderDetailCell.h"
 #import "OrderManagerController.h"
+#import "PayWayViewController.h"
+#import "RegularFormat.h"
+#import "GoodDetailViewController.h"
+#import "GoodListViewController.h"
+
 
 typedef enum {
     OrderDetailBtnStyleFirst = 1,
@@ -42,7 +47,63 @@ typedef enum {
     }
     self.view.backgroundColor = kColor(244, 243, 243, 1);
     [self downloadDetail];
+    UIBarButtonItem *spaceItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace
+                                                                               target:nil
+                                                                               action:nil];
+    spaceItem.width = 52;
+    UIImage *image=[UIImage imageNamed:@"back_btn_white"];
+    
+    UIButton *btn=[UIButton buttonWithType:UIButtonTypeCustom];
+    
+    btn.frame=CGRectMake(0, 0, 25, 40);
+    
+    [btn setImage :image forState:UIControlStateNormal];
+    
+    [btn addTarget:self action:@selector(goPervious:) forControlEvents:UIControlEventTouchUpInside];
+    
+    UIBarButtonItem *backItem = [[UIBarButtonItem alloc] initWithCustomView:btn];
+    
+    self.navigationItem.leftBarButtonItems = [NSArray arrayWithObjects:spaceItem,backItem,spaceItem,nil];
 }
+- (IBAction)goPervious:(id)sender {
+    if (_fromType == PayWayFromNone) {
+        [self.navigationController popViewControllerAnimated:YES];
+    }
+    else if (_fromType == PayWayFromOrderProcurement ||
+             _fromType == PayWayFromOrderWholesale) {
+        UIViewController *controller = nil;
+        for (UIViewController *listC in self.navigationController.childViewControllers) {
+            if ([listC isMemberOfClass:[OrderManagerController class]]) {
+                controller = listC;
+                break;
+            }
+        }
+        if (controller) {
+            [self.navigationController popToViewController:controller animated:YES];
+        }
+        else {
+            [self.navigationController popToRootViewControllerAnimated:YES];
+        }
+    }
+    else if (_fromType == PayWayFromGoodWholesale ||
+             _fromType == PayWayFromGoodProcurementBuy ||
+             _fromType == PayWayFromGoodProcurementRent) {
+        UIViewController *controller = nil;
+        for (UIViewController *listC in self.navigationController.childViewControllers) {
+            if ([listC isMemberOfClass:[GoodListViewController class]]) {
+                controller = listC;
+                break;
+            }
+        }
+        if (controller) {
+            [self.navigationController popToViewController:controller animated:YES];
+        }
+        else {
+            [self.navigationController popToRootViewControllerAnimated:YES];
+        }
+    }
+}
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -339,10 +400,10 @@ typedef enum {
                     statusView.image = kImageName(@"order.png");
                     [cell.contentView addSubview:statusView];
                     //状态
-                    UILabel *statusLabel = [[UILabel alloc] initWithFrame:CGRectMake(originX + 30, 10, wide / 2, 20.f)];
+                    UILabel *statusLabel = [[UILabel alloc] initWithFrame:CGRectMake(originX , 10, wide / 2, 20.f)];
                     statusLabel.backgroundColor = [UIColor clearColor];
                     statusLabel.font = [UIFont boldSystemFontOfSize:16.f];
-                    statusLabel.text = [_orderDetail getStatusStringWithSupplyType:_supplyType];
+                    statusLabel.text = [NSString stringWithFormat:@"订单状态:  %@",[_orderDetail getStatusStringWithSupplyType:_supplyType]];
                     [cell.contentView addSubview:statusLabel];
                     //批购
                     if (_supplyType == SupplyGoodsWholesale) {
@@ -384,6 +445,10 @@ typedef enum {
                         
                         UILabel *userLabel = [[UILabel alloc] initWithFrame:CGRectMake(wide * 0.4 + 5, 30, wide * 0.4 - originX, 20)];
                         [self setLabel:userLabel withString:_orderDetail.belongUser];
+                        NSLog(@"%@",_orderDetail.belongUser);
+                        
+                        [cell.contentView addSubview:userLabel];
+
                     }
                     
                     
@@ -571,8 +636,31 @@ typedef enum {
                 priceLabel.backgroundColor = [UIColor clearColor];
                 priceLabel.font = [UIFont systemFontOfSize:15.f];
                 priceLabel.textAlignment = NSTextAlignmentRight;
-                priceLabel.text = [NSString stringWithFormat:@"实付金额:%.2f",_orderDetail.actualPrice];
+                priceLabel.text = [NSString stringWithFormat:@"实付金额:￥%.2f",_orderDetail.actualPrice];
                 [cell.contentView addSubview:priceLabel];
+                
+                
+                
+                int status = _orderDetail.orderStatus ;
+                if (status == WholesaleStatusPartPaid || status == WholesaleStatusFinish || status == ProcurementStatusPaid || status == ProcurementStatusSend || status == ProcurementStatusReview) {
+                    UIButton *terminalBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+                    terminalBtn.frame = CGRectMake(50, 5, 100, 30);
+                    terminalBtn.layer.masksToBounds = YES;
+                    terminalBtn.layer.borderWidth = 1.f;
+                    terminalBtn.layer.borderColor = kColor(3, 112, 214, 1).CGColor;
+                    [terminalBtn setTitleColor:kColor(3, 112, 214, 1) forState:UIControlStateNormal];
+                    [terminalBtn setTitleColor:kColor(3, 112, 214, 1) forState:UIControlStateHighlighted];
+                    terminalBtn.titleLabel.font = [UIFont boldSystemFontOfSize:14.f];
+                    [terminalBtn setTitle:@"查看终端号" forState:UIControlStateNormal];
+                    [terminalBtn addTarget:self action:@selector(scanTerminalNumber:) forControlEvents:UIControlEventTouchUpInside];
+                    
+                    [cell.contentView addSubview:terminalBtn];
+                    
+                }
+
+                
+                
+                
             }
             else {
                 static NSString *orderIdentifier = @"orderIdentifier";
@@ -590,7 +678,36 @@ typedef enum {
     }
     return cell;
 }
-
+- (IBAction)scanTerminalNumber:(id)sender
+{
+    
+    if([self isBlankString:_orderDetail.terminals])
+    {
+        
+        _orderDetail.terminals=@"暂无终端号";
+        
+        
+        
+    }
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"终端号"
+                                                    message:_orderDetail.terminals
+                                                   delegate:self
+                                          cancelButtonTitle:@"确定"
+                                          otherButtonTitles:nil];
+    [alert show];
+}
+- (BOOL) isBlankString:(NSString *)string {
+    if (string == nil || string == NULL) {
+        return YES;
+    }
+    if ([string isKindOfClass:[NSNull class]]) {
+        return YES;
+    }
+    if ([[string stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]] length]==0) {
+        return YES;
+    }
+    return NO;
+}
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     CGFloat height = 0.f;
     switch (indexPath.section) {
@@ -660,18 +777,53 @@ typedef enum {
 }
 
 //支付定金
-- (IBAction)payDeposit:(id)sender {
+- (IBAction)payDeposit:(id)sender
+{
+    PayWayViewController *payC = [[PayWayViewController alloc] init];
     
+    payC.orderID = _orderDetail.orderID;
+    payC.totalPrice = _orderDetail.totalDeposit;
+    payC.fromType = PayWayFromOrderWholesale;
+    payC.goodID = _goodID;
+    payC.hidesBottomBarWhenPushed=YES;
+
+    payC.goodName = _goodName;
+    [self.navigationController pushViewController:payC animated:YES];
 }
 
 //付款
 - (IBAction)payWholesaleOrder:(id)sender {
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil
+                                                                                            message:@"填写付款金额"
+                                                                                           delegate:self
+                                                                                  cancelButtonTitle:@"取消"
+                                                                                  otherButtonTitles:@"确定", nil];
+    alert.tag = AlertTagPayMoney;
+    alert.alertViewStyle = UIAlertViewStylePlainTextInput;
+    [alert show];
+
     
 }
 
 //再次批购
 - (IBAction)repeatWholesale:(id)sender {
-    
+    AppDelegate *delegate = [AppDelegate shareAppDelegate];
+    if ([[delegate.authDict objectForKey:[NSNumber numberWithInt:1]] boolValue]) {
+        GoodDetailViewController *detailC = [[GoodDetailViewController alloc] init];
+        detailC.supplyType = SupplyGoodsWholesale;
+        detailC.hidesBottomBarWhenPushed=YES;
+
+        detailC.goodID = _goodID;
+        [self.navigationController pushViewController:detailC animated:YES];
+    }
+    else {
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:1.f];
+        hud.labelText = @"没有批购权限";
+    }
+
 }
 
 //代购
@@ -681,12 +833,79 @@ typedef enum {
 
 //付款
 - (IBAction)payProcurementOrder:(id)sender {
-    
+    NSLog(@"%@", _orderDetail.orderID);
+
+    PayWayViewController *payC = [[PayWayViewController alloc] init];
+    payC.orderID = _orderDetail.orderID;
+    payC.totalPrice = _orderDetail.actualPrice;
+    payC.fromType = PayWayFromOrderProcurement;
+    payC.goodID = _goodID;
+    payC.goodName = _goodName;
+    payC.hidesBottomBarWhenPushed=YES;
+
+    [self.navigationController pushViewController:payC animated:YES];
 }
 
 //再次代购
 - (IBAction)repeatProcurement:(id)sender {
+    AppDelegate *delegate = [AppDelegate shareAppDelegate];
+    if ([[delegate.authDict objectForKey:[NSNumber numberWithInt:2]] boolValue]) {
+        GoodDetailViewController *detailC = [[GoodDetailViewController alloc] init];
+        detailC.supplyType = SupplyGoodsProcurement;
+        detailC.goodID = _goodID;
+        detailC.hidesBottomBarWhenPushed=YES;
+
+        [self.navigationController pushViewController:detailC animated:YES];
+    }
+    else {
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:1.f];
+        hud.labelText = @"没有代购权限";
+    }
+
     
 }
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if (buttonIndex != alertView.cancelButtonIndex) {
+        if (alertView.tag == AlertTagPayMoney) {
+            //支付
+            UITextField *textField = [alertView textFieldAtIndex:0];
+            if (![RegularFormat isFloat:textField.text]) {
+                MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+                hud.customView = [[UIImageView alloc] init];
+                hud.mode = MBProgressHUDModeCustomView;
+                [hud hide:YES afterDelay:1.f];
+                hud.labelText = @"请输入数字";
+                return;
+            }
+            if ([textField.text floatValue] <= 0) {
+                MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+                hud.customView = [[UIImageView alloc] init];
+                hud.mode = MBProgressHUDModeCustomView;
+                [hud hide:YES afterDelay:1.f];
+                hud.labelText = @"输入金额必须大于0";
+                return;
+            }
+            if ([textField.text floatValue] > _orderDetail.actualPrice) {
+                MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+                hud.customView = [[UIImageView alloc] init];
+                hud.mode = MBProgressHUDModeCustomView;
+                [hud hide:YES afterDelay:1.f];
+                hud.labelText = @"金额必须小于付款金额";
+                return;
+            }
+            PayWayViewController *payC = [[PayWayViewController alloc] init];
+            payC.orderID = _orderDetail.orderID;
+            payC.goodID = _goodID;
+            payC.goodName = _goodName;
+            payC.totalPrice = [textField.text floatValue];
+            payC.fromType = PayWayFromOrderWholesale;
+            [self.navigationController pushViewController:payC animated:YES];
+        }
+    }
+}
+
 
 @end

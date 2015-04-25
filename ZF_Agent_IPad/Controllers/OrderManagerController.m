@@ -13,6 +13,14 @@
 #import "OrderCell.h"
 #import "KxMenu.h"
 #import "OrderDetailController.h"
+#import "GoodDetailViewController.h"
+#import "GoodDetailViewController.h"
+#import "RegularFormat.h"
+
+
+
+
+
 @interface OrderManagerController ()<OrderCellDelegate>
 
 @property (nonatomic, strong) UISegmentedControl *segmentControl;
@@ -493,7 +501,7 @@ headerView.backgroundColor = [UIColor whiteColor];
     AppDelegate *delegate = [AppDelegate shareAppDelegate];
     NSLog(@"%@",_numberField.text);
     
-    [NetworkInterface getOrderListWithAgentID:delegate.agentID token:delegate.token orderType:_currentType keyword:_numberField.text status:_currentStatus page:page rows:kPageSize finished:^(BOOL success, NSData *response) {
+    [NetworkInterface getOrderListWithAgentID:delegate.agentUserID token:delegate.token orderType:_currentType keyword:_numberField.text status:_currentStatus page:page rows:kPageSize finished:^(BOOL success, NSData *response) {
         hud.customView = [[UIImageView alloc] init];
         hud.mode = MBProgressHUDModeCustomView;
         [hud hide:YES afterDelay:0.3f];
@@ -824,7 +832,16 @@ headerView.backgroundColor = [UIColor whiteColor];
     OrderDetailController *detailC = [[OrderDetailController alloc] init];
     detailC.hidesBottomBarWhenPushed=YES;
     
+    
+    detailC.goodID = model.orderGood.goodID;
+    detailC.goodName = model.orderGood.goodName;
+    detailC.fromType = PayWayFromNone;
+    
+    
+    
     detailC.supplyType = _supplyType;
+    NSLog(@"%@", model.orderID);
+
     detailC.orderID = model.orderID;
     [self.navigationController pushViewController:detailC animated:YES];
 }
@@ -923,16 +940,52 @@ headerView.backgroundColor = [UIColor whiteColor];
     [alert show];
 }
 
-- (void)orderCellPayWholesaleOrder:(OrderModel *)model {
-    
+- (void)orderCellPayWholesaleOrder:(OrderModel *)model
+{
+    _selectedOrder = model;
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil
+                                                    message:@"填写付款金额"
+                                                   delegate:self
+                                          cancelButtonTitle:@"取消"
+                                          otherButtonTitles:@"确定", nil];
+    alert.tag = AlertTagPayMoney;
+    alert.alertViewStyle = UIAlertViewStylePlainTextInput;
+    [alert show];
+ 
 }
 
-- (void)orderCellPayDepositOrder:(OrderModel *)model {
-    
+- (void)orderCellPayDepositOrder:(OrderModel *)model
+{
+    PayWayViewController *payC = [[PayWayViewController alloc] init];
+    payC.orderID = model.orderID;
+    payC.totalPrice = model.totalDeposit;
+    payC.fromType = PayWayFromOrderWholesale;
+    payC.goodID = model.orderGood.goodID;
+    payC.goodName = model.orderGood.goodName;
+    payC.hidesBottomBarWhenPushed=YES;
+
+    [self.navigationController pushViewController:payC animated:YES];
+
 }
 
 - (void)orderCellWholesaleRepeat:(OrderModel *)model {
-    
+    AppDelegate *delegate = [AppDelegate shareAppDelegate];
+    if ([[delegate.authDict objectForKey:[NSNumber numberWithInt:1]] boolValue]) {
+        GoodDetailViewController *detailC = [[GoodDetailViewController alloc] init];
+        detailC.supplyType = SupplyGoodsWholesale;
+        detailC.goodID = model.orderGood.goodID;
+        detailC.hidesBottomBarWhenPushed=YES;
+
+        [self.navigationController pushViewController:detailC animated:YES];
+    }
+    else {
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:1.f];
+        hud.labelText = @"没有批购权限";
+    }
+
 }
 
 //代购
@@ -950,11 +1003,53 @@ headerView.backgroundColor = [UIColor whiteColor];
 }
 
 - (void)orderCellPayProcurementOrder:(OrderModel *)model {
+ 
+  
+    PayWayViewController *payC = [[PayWayViewController alloc] init];
+    
+    payC.orderID = model.orderID;
+    payC.totalPrice = model.actualMoney;
+    payC.fromType = PayWayFromOrderProcurement;
+    payC.goodID =  model.orderGood.goodID;;
+    payC.hidesBottomBarWhenPushed=YES;
+    
+    payC.goodName =  model.orderGood.goodName;
+    [self.navigationController pushViewController:payC animated:YES];
+
+    
+    
+    
+    
+    
+  
+    
+    
+  
+    
+    
+    
+    
     
 }
 
 - (void)orderCellProcurementRepeat:(OrderModel *)model {
-    
+    AppDelegate *delegate = [AppDelegate shareAppDelegate];
+    if ([[delegate.authDict objectForKey:[NSNumber numberWithInt:2]] boolValue]) {
+        GoodDetailViewController *detailC = [[GoodDetailViewController alloc] init];
+        detailC.supplyType = SupplyGoodsProcurement;
+        detailC.goodID = model.orderGood.goodID;
+        detailC.hidesBottomBarWhenPushed=YES;
+
+        [self.navigationController pushViewController:detailC animated:YES];
+    }
+    else {
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:1.f];
+        hud.labelText = @"没有代购权限";
+    }
+
 }
 
 #pragma mark - AlertView
@@ -970,6 +1065,45 @@ headerView.backgroundColor = [UIColor whiteColor];
             [self cancelProcurementOrder];
         }
     }
+    else if (alertView.tag == AlertTagPayMoney) {
+        //支付
+        UITextField *textField = [alertView textFieldAtIndex:0];
+        if (![RegularFormat isFloat:textField.text]) {
+            MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+            hud.customView = [[UIImageView alloc] init];
+            hud.mode = MBProgressHUDModeCustomView;
+            [hud hide:YES afterDelay:1.f];
+            hud.labelText = @"请输入数字";
+            return;
+        }
+        if ([textField.text floatValue] <= 0) {
+            MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+            hud.customView = [[UIImageView alloc] init];
+            hud.mode = MBProgressHUDModeCustomView;
+            [hud hide:YES afterDelay:1.f];
+            hud.labelText = @"输入金额必须大于0";
+            return;
+        }
+        if ([textField.text floatValue] > _selectedOrder.totalMoney) {
+            MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+            hud.customView = [[UIImageView alloc] init];
+            hud.mode = MBProgressHUDModeCustomView;
+            [hud hide:YES afterDelay:1.f];
+            hud.labelText = @"金额必须小于付款金额";
+            return;
+        }
+        PayWayViewController *payC = [[PayWayViewController alloc] init];
+        payC.orderID = _selectedOrder.orderID;
+        payC.totalPrice = [textField.text floatValue];
+        payC.fromType = PayWayFromOrderWholesale;
+        payC.goodID = _selectedOrder.orderGood.goodID;
+        payC.goodName = _selectedOrder.orderGood.goodName;
+        payC.hidesBottomBarWhenPushed=YES;
+
+        [self.navigationController pushViewController:payC animated:YES];
+    }
+
+
 }
 
 #pragma mark - 上下拉刷新重写

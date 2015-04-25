@@ -113,6 +113,9 @@
     //图标
     _attrView = [[UIImageView alloc] init];
     _attrView.image = kImageName(@"good_rent.png");
+    
+  [_attrView setContentMode:UIViewContentModeScaleAspectFit];
+
     _attrView.translatesAutoresizingMaskIntoConstraints = NO;
     [self.contentView addSubview:_attrView];
     [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_attrView

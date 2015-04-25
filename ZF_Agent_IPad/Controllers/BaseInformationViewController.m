@@ -14,7 +14,7 @@
 #import "ChangePhoneController.h"
 #import "ChangeEmailController.h"
 
-@interface BaseInformationViewController ()<UITextFieldDelegate>
+@interface BaseInformationViewController ()<UITextFieldDelegate,UIAlertViewDelegate>
 
 @property (nonatomic, strong) PersonModel *personInfo;
 
@@ -77,7 +77,7 @@
     AppDelegate *delegate = [AppDelegate shareAppDelegate];
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
     hud.labelText = @"加载中...";
-    [NetworkInterface getPersonDetailWithAgentID:delegate.agentID token:delegate.token finished:^(BOOL success, NSData *response) {
+    [NetworkInterface getPersonDetailWithAgentID:delegate.agentUserID token:delegate.token finished:^(BOOL success, NSData *response) {
         NSLog(@"%@",[[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding]);
         hud.customView = [[UIImageView alloc] init];
         hud.mode = MBProgressHUDModeCustomView;
@@ -638,13 +638,27 @@
                                                          multiplier:1.0
                                                            constant:lineHeight]];
     
+    
 }
 
 #pragma mark - Action
 -(void)presentClick
 {
     //退出按钮
+    AppDelegate *delegate = [AppDelegate shareAppDelegate];
+    [delegate clearLoginInfo];
+    UIAlertView *alertV = [[UIAlertView alloc]initWithTitle:nil message:@"确定要退出？" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:@"取消", nil];
+    alertV.tag = 8900;
+    [alertV show];
 }
+
+-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (alertView.tag == 8900&&buttonIndex == 0) {
+        [[AppDelegate shareRootViewController] showLoginViewController];
+    }
+}
+
 -(void)BlueBtnClicked:(UIButton *)sender
 {
     if (sender.tag == 1336) {

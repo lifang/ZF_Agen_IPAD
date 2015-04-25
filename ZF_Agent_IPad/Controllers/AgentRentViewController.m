@@ -41,8 +41,8 @@
 @property (nonatomic, strong) UITextView *phoneTV;
 @property (nonatomic, strong) UITextView *codeTV;
 @property (nonatomic, strong) UITextView *locationTV;
-@property (nonatomic, strong) UITextView *pwdTV;
-@property (nonatomic, strong) UITextView *confpwdTV;
+@property (nonatomic, strong) UITextField *pwdTV;
+@property (nonatomic, strong) UITextField *confpwdTV;
 @property (nonatomic, assign) int count;
 
 @property (nonatomic, strong) UITextField *numberField;
@@ -336,7 +336,9 @@
     pwdLB.frame = CGRectMake(26, locationLB.frame.origin.y + 60, 100, 40);
     [_secondView addSubview:pwdLB];
     
-    _pwdTV=[[UITextView alloc] init];
+    _pwdTV=[[UITextField alloc] init];
+    _pwdTV.secureTextEntry=YES;
+
     _pwdTV.layer.masksToBounds=YES;
     _pwdTV.layer.borderWidth=1.0;
     _pwdTV.layer.borderColor=[UIColor colorWithHexString:@"a8a8a8"].CGColor;
@@ -352,7 +354,9 @@
     confpwdLB.frame = CGRectMake(26, pwdLB.frame.origin.y + 60, 100, 40);
     [_secondView addSubview:confpwdLB];
     
-    _confpwdTV=[[UITextView alloc] init];
+    _confpwdTV=[[UITextField alloc] init];
+    _confpwdTV.secureTextEntry=YES;
+
     _confpwdTV.layer.masksToBounds=YES;
     _confpwdTV.layer.borderWidth=1.0;
     _confpwdTV.layer.borderColor=[UIColor colorWithHexString:@"a8a8a8"].CGColor;
@@ -435,6 +439,23 @@
         hud.labelText = @"请确认密码";
         return;
     }
+    if (!_confpwdTV.text ||[_confpwdTV.text isEqualToString:@""]) {
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:1.f];
+        hud.labelText = @"请确认密码";
+        return;
+    }
+    if (![_confpwdTV.text isEqualToString:_pwdTV.text]) {
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:1.f];
+        hud.labelText = @"两次密码不一致";
+        return;
+    }
+
     
     [self addNewUser];
 }
@@ -605,7 +626,12 @@
                         [hud hide:YES];
                         [[NSNotificationCenter defaultCenter] postNotificationName:RefreshShoppingCartNotification object:nil];
                         PayWayViewController *payWayC = [[PayWayViewController alloc] init];
+                        NSString *orderID = [NSString stringWithFormat:@"%@",[object objectForKey:@"result"]];
+                        payWayC.orderID = orderID;
+                        payWayC.goodID = _goodDetail.goodID;
+                        payWayC.goodName = _goodDetail.goodName;
                         payWayC.totalPrice = [self getSummaryPrice];
+                        payWayC.fromType = PayWayFromGoodProcurementRent;
                         payWayC.hidesBottomBarWhenPushed =  YES ;
     
                         [self.navigationController pushViewController:payWayC animated:YES];
@@ -708,7 +734,18 @@
 }
 
 #pragma mark - UITextField
-
+-(void)textFieldDidEndEditing:(UITextField *)textField
+{
+    
+   
+    if(textField==self.reviewField)
+    {
+        textnsstring=textField.text;
+        
+        
+    }
+    
+}
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
     [textField resignFirstResponder];
     
@@ -1164,6 +1201,7 @@
         
     }
 
+    cityint=send.tag;
 
     [self initPickerView];
     
@@ -1525,7 +1563,8 @@
         self.reviewField .delegate = self;
         self.reviewField .placeholder = @"留言";
         self.reviewField .font = [UIFont systemFontOfSize:14.f];
-        
+        reviewField.text=textnsstring;
+
         [footerView addSubview:self.reviewField ];
         
         
@@ -1890,8 +1929,12 @@
             
             
             UIImageView*imageview=[[UIImageView alloc]initWithFrame:CGRectMake(20, 20,80, 80)];
-            [imageview sd_setImageWithURL:[NSURL URLWithString:[_goodDetail.goodImageList objectAtIndex:0]]
-                         placeholderImage:kImageName(@"test1.png")];
+            if ([_goodDetail.goodImageList count] > 0)
+            {
+                [imageview sd_setImageWithURL:[NSURL URLWithString:[_goodDetail.goodImageList objectAtIndex:0]]
+                             placeholderImage:kImageName(@"test1.png")];}
+            
+            
             [cell.contentView addSubview:imageview];
             
             UILabel *namelable = [[UILabel alloc] initWithFrame:CGRectMake(110, 20, 130, 30)];
@@ -1917,7 +1960,7 @@
             UILabel *actualPriceLabel = [[UILabel alloc] initWithFrame:CGRectMake(wide/2, 60, 130, 20)];
             actualPriceLabel.backgroundColor = [UIColor clearColor];
             actualPriceLabel.font = [UIFont systemFontOfSize:14.f];
-            actualPriceLabel.text =  [NSString stringWithFormat:@"￥%.2f",(_goodDetail.procurementPrice + _goodDetail.defaultChannel.openCost)];
+            actualPriceLabel.text =  [NSString stringWithFormat:@"￥%.2f",(_goodDetail.deposit*_count )];
             
             
             [cell.contentView addSubview:actualPriceLabel];

@@ -1457,47 +1457,6 @@
                                                            constant:25.f]];
 }
 
-/*
--(void)get
-{
-   for (int i = 0; i < [_openItems count]; i++) {
-        id dict = [_openItems objectAtIndex:i];
-        if ([dict isKindOfClass:[NSDictionary class]]) {
-    
-     if ([dict objectForKey:@"头像照片wm"]) {
-        [_frontIMGBtn setHidden:NO];
-    }
-    if ([dict objectForKey:@"营业执照wm"]) {
-        [_backIMGBtn setHidden:NO];
-    }
-    if ([dict objectForKey:@"头像照片wm"]) {
-        [_bodyIMGBtn setHidden:NO];
-    }
-    if ([dict objectForKey:@"头像照片wm"]) {
-        [_licenseIMGBtn setHidden:NO];
-    }
-    if ([dict objectForKey:@"头像照片wm"]) {
-        [_taxIMGBtn setHidden:NO];
-    }
-    if ([dict objectForKey:@"头像照片wm"]) {
-        [_bankIMGBtn setHidden:NO];
-    }
-    if ([dict objectForKey:@"头像照片wm"]) {
-        [_organzationIMGBtn setHidden:NO];
-    }
-    if ([dict objectForKey:@"头像照片wm"]) {
-        [_organzationIMGBtn setHidden:NO];
-    }
-    if ([dict objectForKey:@"头像照片wm"]) {
-        [_organzationIMGBtn setHidden:NO];
-    }
-    if ([dict objectForKey:@"头像照片wm"]) {
-        [_organzationIMGBtn setHidden:NO];
-    }
-     }
-   }
-}
-*/
 
 #pragma mark ---按钮点击时间
 

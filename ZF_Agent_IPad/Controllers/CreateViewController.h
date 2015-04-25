@@ -40,7 +40,11 @@ static NSString *key_taxImage = @"key_taxImage";
     UIButton* addressbuttons;
     NSString *cityName;
     UIButton *filterButton;
-    
+    NSString *picture;
+    NSString *picture1;
+    NSString *picture2;
+    NSString *picture3;
+
 
 }
 @property (nonatomic, strong) UITableView *tableView;

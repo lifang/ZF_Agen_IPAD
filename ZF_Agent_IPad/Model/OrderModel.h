@@ -82,6 +82,7 @@ static NSString *procurementThirdIdentifier = @"procurementThirdIdentifier";
 @property (nonatomic, assign) CGFloat orderDeposit; //定金
 @property (nonatomic, assign) CGFloat remainingMoney; //剩余金额
 @property (nonatomic, assign) CGFloat totalMoney;   //合计
+@property (nonatomic, assign) CGFloat totalDeposit; //定金总额
 
 /*代购字段*/
 @property (nonatomic, strong) NSString *belongUser; //归属用户

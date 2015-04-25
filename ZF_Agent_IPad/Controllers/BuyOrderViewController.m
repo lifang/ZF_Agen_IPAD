@@ -234,8 +234,10 @@
     hud.labelText = @"加载中...";
     AppDelegate *delegate = [AppDelegate shareAppDelegate];
     
-    
     NSString *userID = delegate.agentUserID;
+    if (self.defaultUserhh) {
+        userID = self.defaultUserhh.userID;
+    }
     
     
     int a=5;
@@ -261,8 +263,19 @@
                 else if ([errorCode intValue] == RequestSuccess) {
                     [hud hide:YES];
                     [[NSNotificationCenter defaultCenter] postNotificationName:RefreshShoppingCartNotification object:nil];
+                    NSString *orderID = [NSString stringWithFormat:@"%@",[object objectForKey:@"result"]];
+
                     PayWayViewController *payWayC = [[PayWayViewController alloc] init];
+                    
+                    
+                    
+                    
+                    payWayC.orderID = orderID;
+                    payWayC.goodID = _goodDetail.goodID;
+                    payWayC.goodName = _goodDetail.goodName;
                     payWayC.totalPrice = [self getSummaryPrice];
+                    payWayC.fromType = PayWayFromGoodWholesale;
+                    
                     payWayC.hidesBottomBarWhenPushed =  YES ;
 
                     [self.navigationController pushViewController:payWayC animated:YES];
@@ -295,7 +308,7 @@
 #pragma mark - Data
 
 - (CGFloat)getSummaryPrice {
-    return (_goodDetail.goodPrice + _goodDetail.defaultChannel.openCost) * _count;
+    return (_goodDetail.wholesalePrice + _goodDetail.defaultChannel.openCost) * _count;
 }
 
 #pragma mark - Data
@@ -358,6 +371,13 @@
     if(textField==self.billField )
     {
         [self  closeKeyboard];
+        billnsstring=textField.text;
+        
+        
+    }
+    if(textField==self.reviewField)
+    {
+        textnsstring=textField.text;
         
         
     }
@@ -1086,7 +1106,8 @@
         self.reviewField .delegate = self;
         self.reviewField .placeholder = @"留言";
         self.reviewField .font = [UIFont systemFontOfSize:14.f];
-        
+        reviewField.text=textnsstring;
+
         [footerView addSubview:self.reviewField ];
 
         
@@ -1256,7 +1277,8 @@
     self.billField = [[UITextField alloc] initWithFrame:CGRectMake(wide/2+90, 20, wide/2 - 120, billHeight)];
     self.billField .delegate = self;
     self.billField .placeholder = @"     请输入发票抬头";
-    
+    self.billField.text=billnsstring;
+
     //  self.billField.textInputMode= UIEdgeInsetsMake(0, 0, 0, 10);
     
     self.billField .font = [UIFont systemFontOfSize:16.f];
@@ -1431,8 +1453,13 @@
             
             
             UIImageView*imageview=[[UIImageView alloc]initWithFrame:CGRectMake(20, 20,80, 80)];
-            [imageview sd_setImageWithURL:[NSURL URLWithString:[_goodDetail.goodImageList objectAtIndex:0]]
-                                          placeholderImage:kImageName(@"test1.png")];
+            if ([_goodDetail.goodImageList count] > 0)
+            {
+                [imageview sd_setImageWithURL:[NSURL URLWithString:[_goodDetail.goodImageList objectAtIndex:0]]
+                             placeholderImage:kImageName(@"test1.png")];
+            }
+            
+            
             [cell.contentView addSubview:imageview];
 
             UILabel *namelable = [[UILabel alloc] initWithFrame:CGRectMake(110, 20, 130, 30)];

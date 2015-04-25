@@ -50,6 +50,14 @@
 @property (nonatomic, assign) BOOL isPorS;
 @property(nonatomic,strong) UIPopoverController *popViewController;
 @property (nonatomic, strong) NSMutableDictionary *infoDict;
+@property (nonatomic, strong) UITextField *FXtextfield;
+@property (nonatomic, strong) UITextField *SFZtextfield;
+@property (nonatomic, strong) UITextField *Ptextfield;
+@property (nonatomic, strong) UITextField *Etextfield;
+@property (nonatomic, strong) UITextField *Addresstextfield;
+@property (nonatomic, strong) UITextField *ComapantNametextfield;
+@property (nonatomic, strong) UITextField *NmuberComapantNametextfield;
+@property (nonatomic, strong) UITextField *TaxComapantNametextfield;
 
 @end
 
@@ -59,11 +67,11 @@
     [super viewDidLoad];
     _infoDict = [[NSMutableDictionary alloc] init];
     mutabledict = [[NSMutableDictionary alloc] init];
+    self.agentType=AgentTypePerson;
 
     
     // Do any additional setup after loading the view.
     self.title = @"申请成为代理商";
-    _agentType = AgentTypeCompany;
     _registerDict = [[NSMutableDictionary alloc] init];
     [self initAndLayoutUI];
     
@@ -118,7 +126,7 @@
     NSInteger index = [_pickerView selectedRowInComponent:1];
     cityID = [NSString stringWithFormat:@"%@",[[_cityArray objectAtIndex:index] objectForKey:@"id"]];
    cityName = [[_cityArray objectAtIndex:index] objectForKey:@"name"];
-    [_tableView reloadData];
+    [addressbuttons setTitle:cityName forState:UIControlStateNormal];
     
     
 }
@@ -129,13 +137,13 @@
     CGFloat height;
     if(iOS7)
     {
-        wide=SCREEN_HEIGHT-64;
+        wide=SCREEN_HEIGHT;
         height=SCREEN_WIDTH;
         
         
     }
     else
-    {  wide=SCREEN_WIDTH-64;
+    {  wide=SCREEN_WIDTH;
         height=SCREEN_HEIGHT;
         
     }
@@ -207,20 +215,20 @@
     CGFloat height;
     if(iOS7)
     {
-        wide=SCREEN_HEIGHT-64;
+        wide=SCREEN_HEIGHT;
         height=SCREEN_WIDTH;
         
         
     }
     else
-    {  wide=SCREEN_WIDTH-64;
+    {  wide=SCREEN_WIDTH;
         height=SCREEN_HEIGHT;
         
     }
     
     [UIView animateWithDuration:.3f animations:^{
-        _toolbar.frame = CGRectMake(0, kScreenHeight, wide, 44);
-        _pickerView.frame = CGRectMake(0, kScreenHeight, wide, 216);
+        _toolbar.frame = CGRectMake(0, height, wide, 44);
+        _pickerView.frame = CGRectMake(0, height, wide, 216);
     }];
 }
 
@@ -291,9 +299,29 @@
     }
     NSString *urlString = [dict objectForKey:@"result"];
     if (urlString && ![urlString isEqualToString:@""]) {
+        if(pictureunt==418)
+        {
+            picture1=urlString;
+            
+        
+        } if(pictureunt==419)
+        {            picture2=urlString;
+
+            
+        }
+        if(pictureunt==420)
+        {            picture3=urlString;
+
+            
+        }
+        if(pictureunt==428)
+        {            picture1=urlString;
+            
+            
+        }
         [_infoDict setObject:urlString forKey:_selectedKey];
     }
-    [_tableView reloadData];
+//    [_tableView reloadData];
 }
 
 - (void)uploadPictureWithImage:(UIImage *)image
@@ -317,7 +345,11 @@
                 else if ([errorCode intValue] == RequestSuccess) {
                     hud.labelText = @"上传成功";
                     pictureintCurrent=pictureunt;
-            
+                    UIButton*button=(UIButton*)[self.view viewWithTag:pictureunt];
+                           [button setImage:kImageName(@"ppicture") forState:UIControlStateNormal];
+                    [button setTitle:@"" forState:UIControlStateNormal];
+                    [button setBackgroundColor:[UIColor clearColor]];
+
                     [mutabledict setObject:[NSString stringWithFormat:@"%d",pictureintCurrent] forKey:[NSString stringWithFormat:@"%d",pictureintCurrent]];
                     
                     [self parseImageUploadInfo:object];
@@ -382,12 +414,15 @@
     if (sender.tag == 1)
     {
         _isPorS=YES;
-    
+
+        self.agentType=AgentTypeCompany;
+        
     }
     else
     
     {
         _isPorS=NO;
+        self.agentType=AgentTypePerson;
 
     }
     [_tableView reloadData];
@@ -413,7 +448,7 @@
 - (void)dataValidation {
     if (self.agentType == AgentTypeCompany)
     {
-        if (![_registerDict objectForKey:key_company] || [[_registerDict objectForKey:key_company] isEqualToString:@""]) {
+        if (!_ComapantNametextfield.text || [_ComapantNametextfield.text isEqualToString:@""]) {
             MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
             hud.customView = [[UIImageView alloc] init];
             hud.mode = MBProgressHUDModeCustomView;
@@ -421,7 +456,7 @@
             hud.labelText = @"请填写公司名称";
             return;
         }
-        if (![_registerDict objectForKey:key_license] || [[_registerDict objectForKey:key_license] isEqualToString:@""]) {
+        if (!_NmuberComapantNametextfield.text || [_NmuberComapantNametextfield.text isEqualToString:@""]) {
             MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
             hud.customView = [[UIImageView alloc] init];
             hud.mode = MBProgressHUDModeCustomView;
@@ -429,7 +464,7 @@
             hud.labelText = @"请填写营业执照登记号";
             return;
         }
-        if (![_registerDict objectForKey:key_tax] || [[_registerDict objectForKey:key_tax] isEqualToString:@""]) {
+        if (!_TaxComapantNametextfield.text || [_TaxComapantNametextfield.text isEqualToString:@""]) {
             MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
             hud.customView = [[UIImageView alloc] init];
             hud.mode = MBProgressHUDModeCustomView;
@@ -437,7 +472,7 @@
             hud.labelText = @"请填写税务登记证号";
             return;
         }
-        if (![_registerDict objectForKey:key_licenseImage] || [[_registerDict objectForKey:key_licenseImage] isEqualToString:@""]) {
+        if (!picture2 || [picture2 isEqualToString:@""]) {
             MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
             hud.customView = [[UIImageView alloc] init];
             hud.mode = MBProgressHUDModeCustomView;
@@ -445,7 +480,7 @@
             hud.labelText = @"请上传营业执照照片";
             return;
         }
-        if (![_registerDict objectForKey:key_taxImage] || [[_registerDict objectForKey:key_taxImage] isEqualToString:@""]) {
+        if (!picture3 || [picture3 isEqualToString:@""]) {
             MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
             hud.customView = [[UIImageView alloc] init];
             hud.mode = MBProgressHUDModeCustomView;
@@ -454,7 +489,7 @@
             return;
         }
     }
-    if (![_registerDict objectForKey:key_person] || [[_registerDict objectForKey:key_person] isEqualToString:@""]) {
+    if (!_FXtextfield.text || [_FXtextfield.text isEqualToString:@""]) {
         MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
         hud.customView = [[UIImageView alloc] init];
         hud.mode = MBProgressHUDModeCustomView;
@@ -462,7 +497,7 @@
         hud.labelText = @"请填写负责人姓名";
         return;
     }
-    if (![_registerDict objectForKey:key_personCardID] || [[_registerDict objectForKey:key_personCardID] isEqualToString:@""]) {
+    if (!_SFZtextfield.text || [_SFZtextfield.text isEqualToString:@""]) {
         MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
         hud.customView = [[UIImageView alloc] init];
         hud.mode = MBProgressHUDModeCustomView;
@@ -470,7 +505,7 @@
         hud.labelText = @"请填写负责人身份证号";
         return;
     }
-    if (![_registerDict objectForKey:key_phone] || [[_registerDict objectForKey:key_phone] isEqualToString:@""]) {
+    if (!_Ptextfield.text || [_Ptextfield.text isEqualToString:@""]) {
         MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
         hud.customView = [[UIImageView alloc] init];
         hud.mode = MBProgressHUDModeCustomView;
@@ -478,7 +513,7 @@
         hud.labelText = @"请填写手机";
         return;
     }
-    if (![_registerDict objectForKey:key_email] || [[_registerDict objectForKey:key_email] isEqualToString:@""]) {
+    if (!_Etextfield.text || [_Etextfield.text isEqualToString:@""]) {
         MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
         hud.customView = [[UIImageView alloc] init];
         hud.mode = MBProgressHUDModeCustomView;
@@ -486,7 +521,7 @@
         hud.labelText = @"请填写邮箱";
         return;
     }
-    if (![_registerDict objectForKey:key_city] || [[_registerDict objectForKey:key_city] isEqualToString:@""]) {
+    if (!addressbuttons.titleLabel.text || [addressbuttons.titleLabel.text isEqualToString:@""]) {
         MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
         hud.customView = [[UIImageView alloc] init];
         hud.mode = MBProgressHUDModeCustomView;
@@ -494,7 +529,7 @@
         hud.labelText = @"请选择城市";
         return;
     }
-    if (![_registerDict objectForKey:key_address] || [[_registerDict objectForKey:key_address] isEqualToString:@""]) {
+    if (!_Addresstextfield.text || [_Addresstextfield.text isEqualToString:@""]) {
         MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
         hud.customView = [[UIImageView alloc] init];
         hud.mode = MBProgressHUDModeCustomView;
@@ -502,7 +537,7 @@
         hud.labelText = @"请填写详细地址";
         return;
     }
-    if (![_registerDict objectForKey:key_cardImage] || [[_registerDict objectForKey:key_cardImage] isEqualToString:@""]) {
+    if (!picture1 || [picture1 isEqualToString:@""]) {
         MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
         hud.customView = [[UIImageView alloc] init];
         hud.mode = MBProgressHUDModeCustomView;
@@ -534,7 +569,7 @@
         hud.labelText = @"请填写确认密码";
         return;
     }
-    if (![RegularFormat isMobileNumber:[_registerDict objectForKey:key_phone]]) {
+    if (![RegularFormat isMobileNumber:_Ptextfield.text]) {
         MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
         hud.customView = [[UIImageView alloc] init];
         hud.mode = MBProgressHUDModeCustomView;
@@ -542,7 +577,7 @@
         hud.labelText = @"请填写正确的手机";
         return;
     }
-    if (![RegularFormat isCorrectEmail:[_registerDict objectForKey:key_email]]) {
+    if (![RegularFormat isCorrectEmail:_Etextfield.text]) {
         MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
         hud.customView = [[UIImageView alloc] init];
         hud.mode = MBProgressHUDModeCustomView;
@@ -560,6 +595,9 @@
             return;
         }
     }
+    
+    [self submitForCreate];
+    
 }
 
 
@@ -782,7 +820,6 @@
            addressbuttons = [UIButton buttonWithType:UIButtonTypeCustom];
             addressbuttons.frame = CGRectMake(wide/2-200,i*60+heighth,280, 40);
             
-            [addressbuttons setTitle:cityName forState:UIControlStateNormal];
 
             [addressbuttons setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
             addressbuttons.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
@@ -811,7 +848,61 @@
             neworiginaltextfield.frame = CGRectMake(wide/2-200,i*60+heighth,280, 40);
             
             neworiginaltextfield.delegate=self;
+       
+            if(i==0)
 
+            {
+
+
+
+
+                _FXtextfield=neworiginaltextfield;
+    
+
+
+
+            }
+            if(i==1)
+            {
+                
+                
+                
+                _SFZtextfield=neworiginaltextfield;
+                
+                
+                
+            }
+            if(i==2)
+            {
+                
+                
+                
+                _Ptextfield=neworiginaltextfield;
+                
+                
+                
+            }
+            if(i==3)
+            {
+                
+                
+                
+                _Etextfield=neworiginaltextfield;
+                
+                
+                
+            }
+            if(i==5)
+            {
+                
+                
+                
+                _Addresstextfield=neworiginaltextfield;
+                
+                
+                
+            }
+           
             neworiginaltextfield.tag=i+1056;
             neworiginaltextfield.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
             [_scrollView addSubview:neworiginaltextfield];
@@ -857,22 +948,26 @@
             
             
             UIButton* addressbutton = [UIButton buttonWithType:UIButtonTypeCustom];
+                 [addressbutton setTitle:@"上传照片" forState:UIControlStateNormal];
+                addressbutton.frame = CGRectMake(wide/2-200,i*60+820,180, 40);
+            [addressbutton setBackgroundColor:kColor(3, 112, 214, 1)];
             
-            
-            //            [addressbutton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-            if([[mutabledict objectForKey:[NSString stringWithFormat:@"%d",addressbutton.tag]] isEqualToString:[NSString stringWithFormat:@"%ld",(long)addressbutton.tag] ])
-            {            addressbutton.frame = CGRectMake(wide/2-200,i*60+560,35, 35);
-                
-                [addressbutton setBackgroundImage:kImageName(@"ppicture") forState:UIControlStateNormal];
-                
-            }else
-            {            addressbutton.frame = CGRectMake(wide/2-200,i*60+560,180, 40);
-                
-                [addressbutton setTitle:@"上传照片" forState:UIControlStateNormal];
-                
-                [addressbutton setBackgroundImage:kImageName(@"blue") forState:UIControlStateNormal];
-                
-            }
+
+
+//            //            [addressbutton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+//            if([[mutabledict objectForKey:[NSString stringWithFormat:@"%d",addressbutton.tag]] isEqualToString:[NSString stringWithFormat:@"%ld",(long)addressbutton.tag] ])
+//            {            addressbutton.frame = CGRectMake(wide/2-200,i*60+820,35, 35);
+//                
+//                [addressbutton setBackgroundImage:kImageName(@"ppicture") forState:UIControlStateNormal];
+//                
+//            }else
+//            {            addressbutton.frame = CGRectMake(wide/2-200,i*60+820,180, 40);
+//                
+//                [addressbutton setTitle:@"上传照片" forState:UIControlStateNormal];
+//                
+//                [addressbutton setBackgroundImage:kImageName(@"blue") forState:UIControlStateNormal];
+//                
+//            }
             
             [addressbutton addTarget:self action:@selector(pictureclick:) forControlEvents:UIControlEventTouchUpInside];
             [_scrollView addSubview:addressbutton];
@@ -916,20 +1011,25 @@
             
             
             addressbutton.tag=i+428;
+            [addressbutton setTitle:@"上传照片" forState:UIControlStateNormal];
+             addressbutton.frame = CGRectMake(wide/2-200,i*60+560,180, 40);
+            [addressbutton setBackgroundColor:kColor(3, 112, 214, 1)];
             
-            if([[mutabledict objectForKey:[NSString stringWithFormat:@"%d",addressbutton.tag]] isEqualToString:[NSString stringWithFormat:@"%ld",(long)addressbutton.tag] ])
-            {            addressbutton.frame = CGRectMake(wide/2-200,i*60+560,35, 35);
 
-                [addressbutton setBackgroundImage:kImageName(@"ppicture") forState:UIControlStateNormal];
-
-            }else
-            {            addressbutton.frame = CGRectMake(wide/2-200,i*60+560,180, 40);
-
-                [addressbutton setTitle:@"上传照片" forState:UIControlStateNormal];
-
-                [addressbutton setBackgroundImage:kImageName(@"blue") forState:UIControlStateNormal];
-
-            }
+            
+//            if([[mutabledict objectForKey:[NSString stringWithFormat:@"%d",addressbutton.tag]] isEqualToString:[NSString stringWithFormat:@"%ld",(long)addressbutton.tag] ])
+//            {            addressbutton.frame = CGRectMake(wide/2-200,i*60+560,35, 35);
+//
+//                [addressbutton setBackgroundImage:kImageName(@"ppicture") forState:UIControlStateNormal];
+//
+//            }else
+//            {            addressbutton.frame = CGRectMake(wide/2-200,i*60+560,180, 40);
+//
+//                [addressbutton setTitle:@"上传照片" forState:UIControlStateNormal];
+//
+//                [addressbutton setBackgroundImage:kImageName(@"blue") forState:UIControlStateNormal];
+//
+//            }
 
             
             
@@ -995,6 +1095,31 @@
         neworiginaltextfield.delegate=self;
         
         neworiginaltextfield.tag=i+1056;
+        if(i==0)
+        {
+        
+            self.usernameField=neworiginaltextfield;
+            
+
+        
+        }
+        if(i==1)
+        {
+            
+            self.passwordField=neworiginaltextfield;
+            
+            neworiginaltextfield.secureTextEntry=YES;
+            
+            
+        } if(i==2)
+        {
+            
+            self.confirmField=neworiginaltextfield;
+            
+            neworiginaltextfield.secureTextEntry=YES;
+
+            
+        }
         neworiginaltextfield.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
         [_scrollView addSubview:neworiginaltextfield];
         //        neworiginaltextfield.delegate=self;
@@ -1037,7 +1162,7 @@
     [savebutton setBackgroundImage:kImageName(@"blue") forState:UIControlStateNormal];
     
     
-    [savebutton addTarget:self action:@selector(sexclick) forControlEvents:UIControlEventTouchUpInside];
+    [savebutton addTarget:self action:@selector(createTT) forControlEvents:UIControlEventTouchUpInside];
     [_scrollView addSubview:savebutton];
 
     
@@ -1049,6 +1174,70 @@
     return _scrollView;
     
 }
+-(void)createTT
+{
+
+
+    [self dataValidation];
+}
+- (void)submitForCreate {
+    int benefit = 1;
+    if (_isopen) {
+        benefit = 2;
+    }
+    AppDelegate *delegate = [AppDelegate shareAppDelegate];
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+    hud.labelText = @"提交中...";
+    [NetworkInterface createSubAgentWithAgentID:delegate.agentID
+                                          token:delegate.token
+                                       username:self.usernameField.text
+                                       password:self.passwordField.text
+                                        confirm:self.confirmField.text
+                                      agentType:self.agentType
+                                    companyName:_ComapantNametextfield.text
+                                      licenseID:_NmuberComapantNametextfield.text
+                                          taxID:_TaxComapantNametextfield.text
+                                legalPersonName: _FXtextfield.text
+                                  legalPersonID:_SFZtextfield.text
+                                   mobileNumber:_Ptextfield.text
+                                          email:_Etextfield.text
+                                         cityID:cityID
+                                  detailAddress:_Addresstextfield.text
+                                  cardImagePath:picture1
+                               licenseImagePath:picture2
+                                   taxImagePath:picture3
+                                      hasPorfit:benefit
+                                       finished:^(BOOL success, NSData *response) {
+                                           NSLog(@"!!!!%@",[[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding]);
+                                           hud.customView = [[UIImageView alloc] init];
+                                           hud.mode = MBProgressHUDModeCustomView;
+                                           [hud hide:YES afterDelay:0.5f];
+                                           if (success) {
+                                               id object = [NSJSONSerialization JSONObjectWithData:response options:NSJSONReadingMutableLeaves error:nil];
+                                               if ([object isKindOfClass:[NSDictionary class]]) {
+                                                   NSString *errorCode = [NSString stringWithFormat:@"%@",[object objectForKey:@"code"]];
+                                                   if ([errorCode intValue] == RequestFail) {
+                                                       //返回错误代码
+                                                       hud.labelText = [NSString stringWithFormat:@"%@",[object objectForKey:@"message"]];
+                                                   }
+                                                   else if ([errorCode intValue] == RequestSuccess) {
+                                                       [hud hide:YES];
+                                                       hud.labelText = @"创建成功";
+                                                       [self.navigationController popViewControllerAnimated:YES];
+                                                       [[NSNotificationCenter defaultCenter] postNotificationName:@"agentshaxin" object:nil];
+                                                   }
+                                               }
+                                               else {
+                                                   //返回错误数据
+                                                   hud.labelText = kServiceReturnWrong;
+                                               }
+                                           }
+                                           else {
+                                               hud.labelText = kNetworkFailed;
+                                           }
+                                       }];
+}
+
 
 #pragma mark - UITextField
 

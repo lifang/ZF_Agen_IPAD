@@ -7,7 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "ZFSearchBar.h"
+
+
+#define kHistory      @"searchHistory"
+#define kHistoryPath  @"History"
+#define kKey          @"key"
+
 
 @protocol SearchDelegate <NSObject>
 

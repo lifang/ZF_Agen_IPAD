@@ -23,9 +23,9 @@
 #import "TerminalSelectModel.h"
 #import "RegularFormat.h"
 #import "CityHandle.h"
+#import "VideoAuthController.h"
 
-
-@interface TerminalViewController ()<UITableViewDelegate,UITableViewDataSource,RefreshDelegate,terminalCellSendBtnClicked,UITextViewDelegate,UIPickerViewDataSource,UIPickerViewDelegate,UIPopoverControllerDelegate,UIPopoverPresentationControllerDelegate,SelectedAddressDelegate,SelectedUserDelegate,SelectedTerminalDelegate>
+@interface TerminalViewController ()<UITableViewDelegate,UITableViewDataSource,RefreshDelegate,terminalCellSendBtnClicked,UITextViewDelegate,UIPickerViewDataSource,UIPickerViewDelegate,UIPopoverControllerDelegate,UIPopoverPresentationControllerDelegate,SelectedAddressDelegate,SelectedUserDelegate,SelectedTerminalDelegate,SearchDelegate>
 {
 
      NSInteger touchStatus;
@@ -91,7 +91,7 @@
 
 @property (nonatomic, strong) NSString *phone;
 
-
+@property (nonatomic, strong) NSString *serialNum;
 
 @end
 
@@ -102,16 +102,17 @@
     self.title=@"终端管理";
     self.view.backgroundColor=[UIColor whiteColor];
     
+    
     UIButton *searchBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    searchBtn.frame = CGRectMake(0, 0, 44, 44);
-    searchBtn.titleLabel.font = IconFontWithSize(22);
+    searchBtn.frame = CGRectMake(0, 0, 30, 30);
+    //searchBtn.titleLabel.font = IconFontWithSize(22);
     [searchBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     //[searchBtn setTitle:@"\U0000E62f" forState:UIControlStateNormal];
     [searchBtn setBackgroundImage:[UIImage imageNamed:@"searchbar.png"] forState:UIControlStateNormal];
     [searchBtn addTarget:self action:@selector(searchBtnPressed:) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *leftBarBtn = [[UIBarButtonItem alloc] initWithCustomView:searchBtn];
     self.navigationItem.rightBarButtonItem = leftBarBtn;
-
+    
     
     _terminalItems = [[NSMutableArray alloc]init];
     _TerminalsArray = [[NSMutableArray alloc]init];
@@ -328,6 +329,7 @@
 -(void)searchBtnPressed:(id)sender
 {
     SearchTermianlViewController *searchVC=[[SearchTermianlViewController alloc] init];
+    searchVC.delegate=self;
     searchVC.hidesBottomBarWhenPushed=YES;
     [self.navigationController pushViewController:searchVC animated:YES];
 
@@ -506,7 +508,7 @@
         hud.labelText = @"请输入售后原因";
         return;
     }
-    NSLog(@"count:%d",[_TerminalsArray count]);
+    NSLog(@"count:%lu",(unsigned long)[_TerminalsArray count]);
     NSLog(@"array:%@",_TerminalsArray);
     NSLog(@"reciver:%@",_reciver);
     NSLog(@"phone:%@",_phone);
@@ -973,6 +975,10 @@
     if (_stringStatus==0) {
         [self downloadDataWithPage:_page isMore:NO];
     }
+    else if(_stringStatus==6)
+    {
+        [self searchTermianlsWithPage:_page serialNum:_serialNum isMore:NO];
+    }
     else
     {
         [self downloadDataWithPage:_page status:_stringStatus isMore:NO];
@@ -1083,6 +1089,63 @@
         }
     }];
 }
+
+
+//搜索终端
+- (void)searchTermianlsWithPage:(int)page serialNum:(NSString *)string isMore:(BOOL)isMore {
+    
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+    hud.labelText = @"加载中...";
+    AppDelegate *delegate = [AppDelegate shareAppDelegate];
+    [NetworkInterface searchTerminalsListWithToken:delegate.token agentID:delegate.agentID page:page rows:kPageSize serialNum:string finished:^(BOOL success, NSData *response){
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:0.3f];
+        if (success) {
+            NSLog(@"!!%@",[[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding]);
+            id object = [NSJSONSerialization JSONObjectWithData:response options:NSJSONReadingMutableLeaves error:nil];
+            if ([object isKindOfClass:[NSDictionary class]]) {
+                NSString *errorCode = [object objectForKey:@"code"];
+                if ([errorCode intValue] == RequestFail) {
+                    //返回错误代码
+                    hud.labelText = [NSString stringWithFormat:@"%@",[object objectForKey:@"message"]];
+                }
+                else if ([errorCode intValue] == RequestSuccess) {
+                    if (!isMore) {
+                        [_terminalItems removeAllObjects];
+                    }
+                    
+                    id list = [[object objectForKey:@"result"] objectForKey:@"applyList"];
+                    if ([list isKindOfClass:[NSArray class]] && [list count] > 0) {
+                        //有数据
+                        self.page++;
+                        [hud hide:YES];
+                    }
+                    else {
+                        //无数据
+                        hud.labelText = @"没有更多数据了...";
+                    }
+                    [self parseSearchTerminalDataWithDictionary:object];
+                }
+            }
+            else {
+                //返回错误数据
+                hud.labelText = kServiceReturnWrong;
+            }
+        }
+        else {
+            hud.labelText = kNetworkFailed;
+        }
+        if (!isMore) {
+            [self refreshViewFinishedLoadingWithDirection:PullFromTop];
+        }
+        else {
+            [self refreshViewFinishedLoadingWithDirection:PullFromBottom];
+        }
+    }];
+}
+
+
 
 
 - (NSString *)terminalStringWithArray:(NSArray *)terminalList {
@@ -1265,6 +1328,7 @@
         return;
     }
     NSArray *TM_List = [[dict objectForKey:@"result"] objectForKey:@"applyList"];
+    [_terminalItems removeAllObjects];
     for (int i = 0; i < [TM_List count]; i++) {
         TerminalManagerModel *tm_Model = [[TerminalManagerModel alloc] initWithParseDictionary:[TM_List objectAtIndex:i]];
         [_terminalItems addObject:tm_Model];
@@ -1272,6 +1336,22 @@
     NSLog(@"terminalItems:%@",_terminalItems);
     [_tableView reloadData];
 }
+
+- (void)parseSearchTerminalDataWithDictionary:(NSDictionary *)dict {
+    if (![dict objectForKey:@"result"] || ![[dict objectForKey:@"result"] isKindOfClass:[NSDictionary class]]) {
+        return;
+    }
+    NSArray *TM_List = [[dict objectForKey:@"result"] objectForKey:@"applyList"];
+    [_terminalItems removeAllObjects];
+    for (int i = 0; i < [TM_List count]; i++) {
+        TerminalManagerModel *tm_Model = [[TerminalManagerModel alloc] initWithParseDictionary:[TM_List objectAtIndex:i]];
+        [_terminalItems addObject:tm_Model];
+    }
+    NSLog(@"terminalItems:%@",_terminalItems);
+    _textView.text=@"全部";
+    [_tableView reloadData];
+}
+
 
 
 
@@ -1284,11 +1364,22 @@
     }
     if (btnTag == 1001) {
         NSLog(@"点击了视频认证(已开通) 信息ID为%@",selectedID);
-       
+        VideoAuthController *videoAuthC = [[VideoAuthController alloc] init];
+        videoAuthC.terminalID =selectedID;
+        videoAuthC.hidesBottomBarWhenPushed=YES;
+        
+        
+        [self.navigationController pushViewController:videoAuthC animated:YES];
     }
     if (btnTag == 2000) {
         NSLog(@"点击了视频认证(未开通) 信息ID为%@",selectedID);
+        VideoAuthController *videoAuthC = [[VideoAuthController alloc] init];
+        videoAuthC.terminalID =selectedID;
+        videoAuthC.hidesBottomBarWhenPushed=YES;
         
+        
+        [self.navigationController pushViewController:videoAuthC animated:YES];
+
     }
     if (btnTag == 2001) {
         NSLog(@"点击了申请开通");
@@ -1304,7 +1395,13 @@
     }
     if (btnTag == 3001) {
         NSLog(@"点击了视频认证(部分开通) 信息ID为%@",selectedID);
+        VideoAuthController *videoAuthC = [[VideoAuthController alloc] init];
+        videoAuthC.terminalID =selectedID;
+        videoAuthC.hidesBottomBarWhenPushed=YES;
         
+        
+        [self.navigationController pushViewController:videoAuthC animated:YES];
+
     }
     if (btnTag == 3002) {
         NSLog(@"点击了重新申请开通");
@@ -1426,6 +1523,22 @@
      [self.navigationController pushViewController:detailVC animated:YES];
     
 }
+
+
+#pragma mark - searchTerminal
+- (void)getSearchKeyword:(NSString *)keyword
+{
+    
+    NSLog(@"ffffffffhhhhHHHHH");
+    _stringStatus=6;
+    _serialNum=keyword;
+    [self firstLoadData];
+   //  _page=1;
+   //  [self searchTermianlsWithPage:_page serialNum:keyword isMore:NO];
+    
+}
+
+
 
 
 #pragma mark - Table view data source
