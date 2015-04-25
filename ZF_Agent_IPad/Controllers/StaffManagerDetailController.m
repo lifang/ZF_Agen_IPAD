@@ -372,6 +372,15 @@
         [alert show];
         return;
     }
+    if (_passwordField.text.length <= 5) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示信息"
+                                                        message:@"密码长度过短!"
+                                                       delegate:nil
+                                              cancelButtonTitle:@"确定"
+                                              otherButtonTitles:nil];
+        [alert show];
+        return;
+    }
     if (!_makeSureField.text || [_makeSureField.text isEqualToString:@""]) {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示信息"
                                                         message:@"确认密码不能为空!"

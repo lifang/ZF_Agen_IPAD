@@ -221,6 +221,8 @@
     [_tabView addSubview:button5];
     [button5 setImage:[UIImage imageNamed:@"set"] forState:UIControlStateNormal];
     [button5 addTarget:self action:@selector(setclick) forControlEvents:UIControlEventTouchUpInside];
+    [self initBackView];
+    _backView.hidden = YES;
 }
 
 - (void)setSeletedIndex:(int)aIndex
@@ -456,7 +458,7 @@
 #pragma mark - setting Clicked
 -(void)setclick
 {
-    [self initBackView];
+    _backView.hidden = NO;
 }
 #pragma mark - setting Clicked UI
 -(void)initBackView
@@ -558,7 +560,7 @@
 
 -(void)cancelClicked
 {
-    [_backView removeFromSuperview];
+    _backView.hidden = YES;
 }
 
 -(void)switchAction:(id)sender

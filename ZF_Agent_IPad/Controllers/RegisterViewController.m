@@ -111,6 +111,7 @@
     _bussinessImg = [[UIImage alloc]init];
     _taxImg = [[UIImage alloc]init];
     _dict = [NSMutableDictionary dictionaryWithCapacity:3];
+    self.agentType = AgentTypeNone;
     [self setupNavBar];
     [self initAndLayoutUI];
     [self initPickerView];
@@ -1302,7 +1303,7 @@
 
 -(void)registeApply
 {
-    if (_agentTypeField.text || [_agentTypeField.text isEqualToString:@""]) {
+    if (_agentType == AgentTypeNone) {
         MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
         hud.customView = [[UIImageView alloc] init];
         hud.mode = MBProgressHUDModeCustomView;
