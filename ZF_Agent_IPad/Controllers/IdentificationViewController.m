@@ -512,12 +512,14 @@
 -(void)vedioConfirmClick:(UIButton *)button
 {
     IdentificationModel *model = [_applyList objectAtIndex:button.tag];
-    VideoAuthViewController *videoAuthC = [[VideoAuthViewController alloc] init];
-    videoAuthC.terminalID = model.TM_ID;
-    videoAuthC.hidesBottomBarWhenPushed=YES;
-    [self.navigationController pushViewController:videoAuthC animated:YES];
+    VideoAuthViewController *videoAuthVC = [[VideoAuthViewController alloc] init];
+    videoAuthVC.terminalID = model.TM_ID;
+    videoAuthVC.hidesBottomBarWhenPushed=YES;
+    [self.navigationController pushViewController:videoAuthVC animated:YES];
 
 }
+
+
 
 -(void)applicationClick:(UIButton *)button
 {

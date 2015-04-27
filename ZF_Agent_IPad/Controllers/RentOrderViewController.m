@@ -918,6 +918,7 @@
 }
 -(void)bulidBtnClick:(id)sender
 {
+    NSLog(@"chuangjian");
     if (!_nameTV.text ||[_nameTV.text isEqualToString:@""]) {
         MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
         hud.customView = [[UIImageView alloc] init];

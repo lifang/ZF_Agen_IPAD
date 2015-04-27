@@ -108,7 +108,6 @@
 {
     //初始化anyChatSDK
     [AnyChatPlatform InitSDK:0];
-    // _anychat = [AnyChatPlatform new];
     
     //注册通知中心
     [[NSNotificationCenter  defaultCenter] addObserver:self  selector:@selector(AnyChatNotifyHandler:)
@@ -122,12 +121,12 @@
     [AnyChatPlatform Connect:kVideoAuthIP:kVideoAuthPort];
     
     //用户登录(userName 变量:登录用户名)
-    //AppDelegate *delegate = [AppDelegate shareAppDelegate];
-    //[AnyChatPlatform Login:delegate.agentID :@"111"];
-    //[AnyChatPlatform Login:@"123":@"123"];
-    [AnyChatPlatform Login:_terminalID:@"111"];
+    AppDelegate *delegate = [AppDelegate shareAppDelegate];
+    [AnyChatPlatform Login:delegate.agentID :@""];
+   // [AnyChatPlatform Login:@"0":@""];
     //进入房间
-    [AnyChatPlatform EnterRoom:1 :@"1"];
+    //[AnyChatPlatform EnterRoom:1 :@"1"];
+    //[AnyChatPlatform EnterRoom:[_terminalID intValue]:@""];
     
     //设置本地视频采用 Overlay 模式
     [AnyChatPlatform SetSDKOptionInt:BRAC_SO_LOCALVIDEO_OVERLAY :1];
@@ -157,7 +156,7 @@
     [AnyChatPlatform SetVideoPos:userid: self.remoteVideoSurface:0:0:0:0];
     [AnyChatPlatform UserCameraControl:userid : YES];
     
-    // self.iRemoteUserId = userid;
+    //self.iRemoteUserId = userid;
     //远程视频显示时随设备的方向改变而旋转（参数为int型， 0表示关闭， 1 开启[默认]，视频旋转时需要参考本地视频设备方向参数）
     [AnyChatPlatform SetSDKOptionInt:BRAC_SO_LOCALVIDEO_ORIENTATION : self.interfaceOrientation];
 }
@@ -181,6 +180,7 @@
     _theLocalView.layer.transform = CATransform3DMakeRotation(-1.5707963267949, 0.0, 0.0, 1.0);
     
 }
+/*
 
 //请求远程视频
 - (void)OnReomtVideoInit
@@ -198,8 +198,9 @@
     [AnyChatPlatform UserCameraControl:111 :YES];
 
 }
+ */
 
-
+/*
 -(void)closeLocalVideo
 {
     //关闭本地音频
@@ -218,7 +219,7 @@
     [AnyChatPlatform UserCameraControl: 111 : NO];
     
 }
-
+*/
 
 - (void)FinishVideoChat
 {
@@ -263,12 +264,13 @@
     NSLog(@"连接服务器！");
     if (bSuccess)
     {
-        //theStateInfo.text = @"• Success connected to server";
         _statusLB.text=@"已成功连接，正等待客服";
+        
     }
     
 
 }
+
 // 用户登陆消息
 - (void) OnAnyChatLogin:(int) dwUserId : (int) dwErrorCode
 {
@@ -278,7 +280,11 @@
     if(dwErrorCode == GV_ERR_SUCCESS)
     {
        
-        
+     NSLog(@"OK");
+     _myUserID = dwUserId;
+    [AnyChatPlatform EnterRoom:[_terminalID intValue] :@""];
+      
+    
     }
 
 }
@@ -287,15 +293,6 @@
 {
 
      NSLog(@"用户进入房间成功！");
-    /*
-    //打开本地音频(参数“-1”表示本地用户,也可以用本地的真实 userid)
-    [AnyChatPlatform UserSpeakControl: -1:YES];
-    //设置本地视频 UI(“0”为默认适配视频显示位置与尺寸大小)
-    [AnyChatPlatform SetVideoPos:-1 :self :0 :0 :0 :0];
-    //打开本地视频(参数“-1”表示本地用户,也可以用本地的真实 userid)
-    [AnyChatPlatform UserCameraControl:-1 : YES];
-     */
-   // [self StartVideoChat:111];
     [self StartVideoChat:_remoteID];
 
 }
@@ -308,7 +305,7 @@
         int selectID = [[_onlineUserMArray objectAtIndex:0] intValue];
         _remoteID=selectID;
     }
-    //[onLineUserList insertObject:[NSString stringWithFormat:@"%i",self.theMyUserID] atIndex:0];
+   
     
 
 }
@@ -322,13 +319,14 @@
 // 用户退出房间消息
 - (void) OnAnyChatUserLeaveRoom:(int) dwUserId
 {
-    
+    NSLog(@"用户退出房间！");
 
 }
 // 网络断开消息
 - (void) OnAnyChatLinkClose:(int) dwErrorCode
 {
 
+     NSLog(@"断开网络！");
 }
 
 

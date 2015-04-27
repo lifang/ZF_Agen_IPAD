@@ -869,6 +869,41 @@
     }];
 }
 
+//同步
+- (void)getTerminalSynchronous {
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+    hud.labelText = @"提交中...";
+    AppDelegate *delegate = [AppDelegate shareAppDelegate];
+    [NetworkInterface getTerminalSynchronousWithToken:delegate.token finished:^(BOOL success, NSData *response) {
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:0.5f];
+        if (success) {
+            id object = [NSJSONSerialization JSONObjectWithData:response options:NSJSONReadingMutableLeaves error:nil];
+            if ([object isKindOfClass:[NSDictionary class]]) {
+                NSString *errorCode = [NSString stringWithFormat:@"%@",[object objectForKey:@"code"]];
+                if ([errorCode intValue] == RequestFail) {
+                    //返回错误代码
+                    hud.labelText = [NSString stringWithFormat:@"%@",[object objectForKey:@"message"]];
+                }
+                else if ([errorCode intValue] == RequestSuccess) {
+                    hud.labelText = @"同步成功";
+                    
+                }
+            }
+            else {
+                //返回错误数据
+                hud.labelText = kServiceReturnWrong;
+            }
+        }
+        else {
+            hud.labelText = kNetworkFailed;
+        }
+    }];
+}
+
+
+
 #pragma mark - Data
 
 - (void)parseTerminalDetailDataWithDictionary:(NSDictionary *)dict {
@@ -1070,7 +1105,7 @@
             break;
         case 3334:
             NSLog(@"点击了视频认证（已开通）");
-            
+            [self VideoVCWithSelectedID:_tm_ID];
             break;
         case 4444:
             NSLog(@"点击了找回POS密码（部分开通）");
@@ -1078,6 +1113,7 @@
             break;
         case 4445:
             NSLog(@"点击了视频认证（部分开通）");
+             [self VideoVCWithSelectedID:_tm_ID];
             break;
         case 4446:
             NSLog(@"点击了重新申请通（部分开通）");
@@ -1089,6 +1125,7 @@
             break;
         case 5555:
             NSLog(@"点击了视频认证（未开通）");
+            [self VideoVCWithSelectedID:_tm_ID];
             break;
         case 5556:
             NSLog(@"点击了申请开通（未开通）");
@@ -1126,21 +1163,12 @@
     
 }
 
--(void)vedioConfirmClick:(UIButton *)button
-{
-    /*
-    IdentificationModel *model = [_applyList objectAtIndex:button.tag];
-    VideoAuthViewController *videoAuthC = [[VideoAuthViewController alloc] init];
-    videoAuthC.terminalID = model.TM_ID;
-    videoAuthC.hidesBottomBarWhenPushed=YES;
-    [self.navigationController pushViewController:videoAuthC animated:YES];
-    */
-}
+
 
 //同步
 - (void)synchronization:(id)sender
 {
-    
+    [self getTerminalSynchronous];
     
     
 }

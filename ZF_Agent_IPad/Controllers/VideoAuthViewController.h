@@ -10,7 +10,7 @@
 
 @interface VideoAuthViewController : UIViewController
 
-//终端id，作为视频认证的room id
+//终端记录id，作为视频认证的room id
 @property (nonatomic, strong) NSString *terminalID;
 
 
