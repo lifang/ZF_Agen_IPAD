@@ -248,10 +248,10 @@
     }
     
 
-    int a=6;
+    int a=3;
     
     
-    [NetworkInterface createOrderFromGoodBuyWithAgentID:delegate.agentID token:delegate.token userID:userID createUserID:delegate.userID belongID:agentUserIDs confirmType:a goodID:_goodDetail.goodID channelID:_goodDetail.defaultChannel.channelID count:_count addressID:self.defaultAddress.addressID comment:self.reviewField.text needInvoice:needInvoice invoiceType:self.billType invoiceInfo:self.billField.text finished:^(BOOL success, NSData *response) {
+    [NetworkInterface createOrderFromGoodBuyWithAgentID:delegate.agentID token:delegate.token userID:userID createUserID:delegate.userID belongID:delegate.agentUserID confirmType:a goodID:_goodDetail.goodID channelID:_goodDetail.defaultChannel.channelID count:_count addressID:self.defaultAddress.addressID comment:self.reviewField.text needInvoice:needInvoice invoiceType:self.billType invoiceInfo:self.billField.text finished:^(BOOL success, NSData *response) {
         
 
         hud.customView = [[UIImageView alloc] init];
@@ -340,20 +340,20 @@
 //    [self.navigationController pushViewController:descC animated:YES];
 //}
 - (IBAction)ensureOrder:(id)sender {
-//    if([self isBlankString:blankbutton.titleLabel.text])
-//    {
-//        
-//        
-//        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
-//        hud.customView = [[UIImageView alloc] init];
-//        hud.mode = MBProgressHUDModeCustomView;
-//        [hud hide:YES afterDelay:1.f];
-//        hud.labelText = @"请选择已有用户";
-//        return;
-//        
-//        
-//        
-//    }
+    if([self isBlankString:blankbutton.titleLabel.text])
+    {
+        
+        
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:1.f];
+        hud.labelText = @"请选择已有用户";
+        return;
+        
+        
+        
+    }
 
     [self createOrderForBuy];
 }
@@ -668,7 +668,9 @@
     agentUserIDs=model.agentID;
     
     namestring=model.userName;
-    [self.tableView reloadData];
+    
+ 
+      [self getAddressLists];
 
     
 }
@@ -1690,7 +1692,25 @@
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
     hud.labelText = @"加载中...";
     AppDelegate *delegate = [AppDelegate shareAppDelegate];
-    [NetworkInterface getAddressListWithAgentID:delegate.agentUserID token:delegate.token finished:^(BOOL success, NSData *response) {
+    
+    NSString*idstring;
+    
+    
+    if([self isBlankString:agentUserIDs])
+    {
+        
+        idstring=delegate.agentUserID;
+        
+    }
+    else
+    {
+        
+        idstring=agentUserIDs;
+        
+        
+        
+    }
+    [NetworkInterface getAddressListWithAgentID:idstring token:delegate.token finished:^(BOOL success, NSData *response) {
         NSLog(@"%@",[[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding]);
         hud.customView = [[UIImageView alloc] init];
         hud.mode = MBProgressHUDModeCustomView;

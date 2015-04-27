@@ -11,6 +11,7 @@
 #import "NetworkInterface.h"
 #import "AppDelegate.h"
 #import "ChannelListModel.h"
+#import "CreateBenefitController.h"
 
 #import "BenefitModel.h"
 @interface OpenProfitViewController ()<UITableViewDelegate,UITableViewDataSource,UIPickerViewDataSource,UIPickerViewDelegate>
@@ -36,14 +37,15 @@
     _dataItem = [[NSMutableArray alloc] init];
     _channelList = [[NSMutableArray alloc] init];
     [self getBenefitList];
-    [self getBenefitList];
-
-    //设置间距
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(refreshBenefitList)
+                                                 name:@"refresh"
+                                               object:nil];    //设置间距
     UIBarButtonItem *spaceItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace
                                                                                target:nil
                                                                                action:nil];
     
-    
+
     
     UIButton*filterButton = [UIButton buttonWithType:UIButtonTypeCustom];
     filterButton.frame = CGRectMake(0, 0, 120, 30);
@@ -90,10 +92,22 @@
     // Do any additional setup after loading the view.
 }
 
+-(void)refreshBenefitList
+{
 
+    [self getBenefitList];
+
+
+
+}
 - (IBAction)addBenefit:(id)sender {
   
+    if ([_channelList count] <= 0) {
+        [self getChannelList];
+    }
+    else {
         [self pickerScrollIn];
+    }
  
 }
 
@@ -161,7 +175,13 @@
             return;
         }
     }
-   
+    CreateBenefitController *createC = [[CreateBenefitController alloc] init];
+    createC.channel = channel;
+    createC.subAgentID = _subAgentID;
+    createC.hidesBottomBarWhenPushed=YES;
+    
+    [self.navigationController pushViewController:createC animated:YES];
+
 }
 
 
@@ -218,11 +238,11 @@
               
 
                 ChannelListModel *model = [[ChannelListModel alloc] init];
-                if ([dict objectForKey:@"id"]) {
-                    model.channelID = [NSString stringWithFormat:@"%@",[dict objectForKey:@"id"]];
+                if ([channelDict objectForKey:@"id"]) {
+                    model.channelID = [NSString stringWithFormat:@"%@",[channelDict objectForKey:@"id"]];
                 }
-                if ([dict objectForKey:@"name"]) {
-                    model.channelName = [NSString stringWithFormat:@"%@",[dict objectForKey:@"name"]];
+                if ([channelDict objectForKey:@"name"]) {
+                    model.channelName = [NSString stringWithFormat:@"%@",[channelDict objectForKey:@"name"]];
                 }
                 [_channelList addObject:model];
             }
@@ -554,9 +574,18 @@
   
     
     
-        
-
-     
+//    if ([neworiginaltextfield.text floatValue] < 0 ||
+//        [neworiginaltextfield.text floatValue] > 100)
+//    {
+//        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+//        hud.customView = [[UIImageView alloc] init];
+//        hud.mode = MBProgressHUDModeCustomView;
+//        [hud hide:YES afterDelay:1.f];
+//        hud.labelText = @"分润比例必须介于1-100之间";
+//        return;
+//
+//    }
+    
     [self modityBenefit];
     
        

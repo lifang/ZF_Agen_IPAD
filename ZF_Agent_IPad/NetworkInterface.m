@@ -2470,5 +2470,19 @@ static NSString *HTTP_GET  = @"GET";
                       httpMethod:HTTP_POST
                         finished:finish];
 }
+//100.
++ (void)uploadSubAgentImageWithAgentID:(NSString *)agentID
+                                 image:(UIImage *)image
+                              finished:(requestDidFinished)finish {
+    //url
+    NSString *urlString = [NSString stringWithFormat:@"%@/%@/%@",kServiceURL,s_subAgentUpload_method,agentID];
+    NetworkRequest *request = [[NetworkRequest alloc] initWithRequestURL:urlString
+                                                              httpMethod:HTTP_POST
+                                                                finished:finish];
+    [request uploadImageData:UIImagePNGRepresentation(image)
+                   imageName:nil
+                         key:@"img"];
+    [request start];
+}
 
 @end

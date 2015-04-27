@@ -380,6 +380,8 @@ static NSString *s_orderConfirm_method = @"order/payOrder";
 static NSString *s_addUserValidate_method = @"terminal/sendPhoneVerificationCodeReg";
 //首页轮播
 static NSString *s_homeImageList_method = @"index/sysshufflingfigure";
+//100.下级代理商管理——上传图片
+static NSString *s_subAgentUpload_method = @"lowerAgent/uploadImg";
 @interface NetworkInterface : NSObject
 /*!
  @abstract 1.热卖
@@ -1824,5 +1826,13 @@ static NSString *s_homeImageList_method = @"index/sysshufflingfigure";
  */
 + (void)getHomeImageListFinished:(requestDidFinished)finish;
 
+/*!
+ @abstract 100.下级代理商管理——上传图片
+ @param image       图片
+ @result finish  请求回调结果
+ */
++ (void)uploadSubAgentImageWithAgentID:(NSString *)agentID
+                                 image:(UIImage *)image
+                              finished:(requestDidFinished)finish;
 
 @end
