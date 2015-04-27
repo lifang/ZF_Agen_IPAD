@@ -33,6 +33,8 @@
 @property (nonatomic, strong) NSString *goodImagePath;
 ///商品已售数量
 @property (nonatomic, assign) int goodSaleNumber;
+///商品已售数量
+@property (nonatomic, assign) int goodSaleNumbers;
 ///最小批购量
 @property (nonatomic, assign) int minWholesaleNumber;
 

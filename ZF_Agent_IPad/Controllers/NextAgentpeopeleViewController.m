@@ -140,11 +140,13 @@
     [_scrollView addSubview:openbutton];
     
     if(_isopen)
-    {
+    {        filterButton.hidden=NO;
+        
         [openbutton setImage:kImageName(@"open") forState:UIControlStateNormal];
         
     }else
     {
+        filterButton.hidden=YES;
         
         [openbutton setImage:kImageName(@"close") forState:UIControlStateNormal];
         
@@ -321,7 +323,7 @@
         return;
     }
     _agentDetail = [[SubAgentDetailModel alloc] initWithParseDictionary:[dict objectForKey:@"result"]];
-    _isopen=_agentDetail.hasProfit;
+    _isopen=[[[dict objectForKey:@"result"] objectForKey:@"is_have_profit"] integerValue];
 
     [self createui];
 

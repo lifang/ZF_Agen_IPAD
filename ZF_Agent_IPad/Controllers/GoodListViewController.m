@@ -689,10 +689,20 @@
         [cell.pictureView sd_setImageWithURL:[NSURL URLWithString:good.goodImagePath]
                             placeholderImage:kImageName(@"test1.png")];
         cell.titleLabel.text = good.goodName;
-        cell.priceLabel.text = [NSString stringWithFormat:@"￥%.2f",good.goodPrimaryPrice];
+
+        if(_supplyType==SupplyGoodsWholesale)
+        {
+            cell.salesVolumeLabel.text = [NSString stringWithFormat:@"已售%d",good.goodSaleNumbers];
+            cell.priceLabel.text = [NSString stringWithFormat:@"%.2f",good.goodWholesalePrice];
+
+        }else
+        {
         
-        
-       cell.salesVolumeLabel.text = [NSString stringWithFormat:@"已售%d",good.goodSaleNumber];
+            cell.salesVolumeLabel.text = [NSString stringWithFormat:@"已售%d",good.goodSaleNumber];
+
+            cell.priceLabel.text = [NSString stringWithFormat:@"￥%.2f",good.goodPrimaryPrice];
+
+        }
         cell.brandLabel.text = [NSString stringWithFormat:@"品牌型号   %@%@",good.goodBrand,good.goodModel];
         cell.channelLabel.text = [NSString stringWithFormat:@"支付通道   %@",good.goodChannel];
         if (good.isRent)

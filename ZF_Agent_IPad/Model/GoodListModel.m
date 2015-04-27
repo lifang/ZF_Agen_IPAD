@@ -53,7 +53,7 @@
             _goodSaleNumber = [[dict objectForKey:@"volume_number"] intValue];
         }
         if ([dict objectForKey:@"purchase_number"]) {
-            _goodSaleNumber = [[dict objectForKey:@"purchase_number"] intValue];
+            _goodSaleNumbers = [[dict objectForKey:@"purchase_number"] intValue];
         }
         
         _minWholesaleNumber = [[dict objectForKey:@"floor_purchase_quantity"] intValue];
