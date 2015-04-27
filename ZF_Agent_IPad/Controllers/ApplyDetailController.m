@@ -289,6 +289,7 @@
     accountnamebutton.frame = CGRectMake(150+wide/2,  topSpace + labelHeight * 2,280, 40);
     
     //NSString *accountname=[_infoDict objectForKey:key_selected];
+   
      NSString *accountname=[_infoDict objectForKey:@"key_merchantName"];
     
     [accountnamebutton setTitle:accountname forState:UIControlStateNormal];
@@ -303,11 +304,35 @@
     
     [accountnamebutton addTarget:self action:@selector(accountnamebuttonclick) forControlEvents:UIControlEventTouchUpInside];
     [_scrollView addSubview:accountnamebutton];
-    
+    NSLog(@"applyData.brandName:%@",_applyData.brandName);
+    if (_applyData.brandName==nil) {
+        _brandLabel.text = @"POS品牌";
+    }
+    else
+    {
     _brandLabel.text = [NSString stringWithFormat:@"POS品牌   %@",_applyData.brandName];
+    }
+    if (_applyData.modelNumber==nil) {
+         _modelLabel.text = @"POS型号";
+    }
+    else
+    {
     _modelLabel.text = [NSString stringWithFormat:@"POS型号   %@",_applyData.modelNumber];
+    }
+    if (_applyData.terminalNumber==nil) {
+         _terminalLabel.text = @"终  端  号";
+    }
+    else
+    {
     _terminalLabel.text = [NSString stringWithFormat:@"终  端  号   %@",_applyData.terminalNumber];
+    }
+    if (_applyData.channelName==nil) {
+         _channelLabel.text = @"支付通道";
+    }
+    else
+    {
     _channelLabel.text = [NSString stringWithFormat:@"支付通道   %@",_applyData.channelName];
+    }
     
     UILabel*firestline = [[UILabel alloc] initWithFrame:CGRectMake(borderSpace+18, topSpace + labelHeight * 4+30, wide - 138, 1)];
     firestline.backgroundColor = [UIColor grayColor];
@@ -369,9 +394,10 @@
         {
             birthdaybutton = [UIButton buttonWithType:UIButtonTypeCustom];
             birthdaybutton.frame = CGRectMake(190+(wide/2-40)*row,  height*70+topSpace + labelHeight * 7,280, 40);
-            NSString*accountname=[NSString stringWithFormat:@"%@",[_infoDict objectForKey:[keynamesarry objectAtIndex:i]]];
-            
-            [birthdaybutton setTitle:accountname forState:UIControlStateNormal];
+            NSString *accountname=[NSString stringWithFormat:@"%@",[_infoDict objectForKey:[keynamesarry objectAtIndex:i]]];
+            if (![accountname isEqualToString:@"(null)"]) {
+               [birthdaybutton setTitle:accountname forState:UIControlStateNormal];
+            }
             [birthdaybutton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
             birthdaybutton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
             [birthdaybutton setImage:kImageName(@"arrow_line1") forState:UIControlStateNormal];
@@ -413,7 +439,10 @@
             bankNameBtn.frame = CGRectMake(190+(wide/2-40)*row,  height*70+topSpace + labelHeight * 7,280, 40);
             
             NSString *accountname=[NSString stringWithFormat:@"%@",[_infoDict objectForKey:[keynamesarry objectAtIndex:i]]];
-            [bankNameBtn setTitle:accountname forState:UIControlStateNormal];
+            
+            if (![accountname isEqualToString:@"(null)"]) {
+                [bankNameBtn setTitle:accountname forState:UIControlStateNormal];
+            }
             [bankNameBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
             bankNameBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
             [bankNameBtn setImage:kImageName(@"arrow_line1") forState:UIControlStateNormal];
@@ -434,7 +463,10 @@
             
              bankIdTF.tag=i+1056;
              NSString *bankIdname=[NSString stringWithFormat:@"%@",[_infoDict objectForKey:[keynamesarry objectAtIndex:i]]];
-             bankIdTF.text=[NSString stringWithFormat:@"  %@",bankIdname];
+            if (![bankIdname isEqualToString:@"(null)"]) {
+                bankIdTF.text=[NSString stringWithFormat:@"  %@",bankIdname];
+
+            }
              bankIdTF.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
              [_scrollView addSubview: bankIdTF];
              bankIdTF.layer.masksToBounds=YES;
@@ -448,8 +480,9 @@
             zhifubutton = [UIButton buttonWithType:UIButtonTypeCustom];
             zhifubutton.frame = CGRectMake(190+(wide/2-40)*row,  height*70+topSpace + labelHeight * 7,280, 40);
             NSString *accountname=[NSString stringWithFormat:@"%@",[_infoDict objectForKey:[keynamesarry objectAtIndex:i]]];
-            
-            [zhifubutton setTitle:accountname forState:UIControlStateNormal];
+            if (![accountname isEqualToString:@"(null)"]) {
+                [zhifubutton setTitle:accountname forState:UIControlStateNormal];
+            }
             [zhifubutton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
             zhifubutton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
             [zhifubutton setImage:kImageName(@"arrow_line") forState:UIControlStateNormal];
@@ -469,8 +502,11 @@
             neworiginaltextfield.delegate=self;
             
             neworiginaltextfield.tag=i+1056;
-            NSString*accountname=[NSString stringWithFormat:@"%@",[_infoDict objectForKey:[keynamesarry objectAtIndex:i]]];
-            neworiginaltextfield.text=[NSString stringWithFormat:@"  %@",accountname];
+            NSString *accountname=[NSString stringWithFormat:@"%@",[_infoDict objectForKey:[keynamesarry objectAtIndex:i]]];
+            NSLog(@"accountname:%@",accountname);
+            if (![accountname isEqualToString:@"(null)"]) {
+                 neworiginaltextfield.text=[NSString stringWithFormat:@"  %@",accountname];
+            }
             neworiginaltextfield.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
             [_scrollView addSubview:neworiginaltextfield];
             neworiginaltextfield.layer.masksToBounds=YES;
@@ -480,7 +516,7 @@
             if(i==1)
             {
                 
-                UILabel*newaddress=[[UILabel alloc]initWithFrame:CGRectMake(200+(wide/2-40)*row,  height*70+topSpace + labelHeight * 7+45,280, 20)];
+                UILabel *newaddress=[[UILabel alloc]initWithFrame:CGRectMake(200+(wide/2-40)*row,  height*70+topSpace + labelHeight * 7+45,280, 20)];
                 [_scrollView addSubview:newaddress];
                 newaddress.textAlignment = NSTextAlignmentLeft;
                 newaddress.font=[UIFont systemFontOfSize:12];
@@ -1324,7 +1360,7 @@
         
         else
         {
-            NSLog(@"count:::%lu",(unsigned long)_applyData.merchantList.count);
+            NSLog(@"count%lu",(unsigned long)_applyData.merchantList.count);
             return _applyData.merchantList.count;
         }
     }
@@ -1567,7 +1603,7 @@
         hud.labelText = @"请填写组织机构号";
         return;
     }
-    if (!_channelID || !_billID) {
+    if (!_channelID && !_billID) {
         MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
         hud.customView = [[UIImageView alloc] init];
         hud.mode = MBProgressHUDModeCustomView;
@@ -1876,10 +1912,15 @@
         if (model==nil) {
             
             channelInfo = [NSString stringWithFormat:@"%@",channel.channelName];
+            _channelID=channel.channelID;
+
         }
         else
         {
         channelInfo = [NSString stringWithFormat:@"%@ %@",channel.channelName,model.billName];
+            _channelID=channel.channelID;
+            _billID=model.billID;
+            
         }
         [zhifubutton setTitle:channelInfo forState:UIControlStateNormal];
         [_infoDict setObject:channelInfo forKey:key_channel];

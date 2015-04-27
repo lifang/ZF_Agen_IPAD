@@ -160,6 +160,11 @@ static NSString *s_terminalsynchronous_method = @"terminal/synchronous";
 //25.终端管理--获取代理商下面的用户
 static NSString *s_terminalgetMerchants_method = @"terminal/getMerchants";
 
+//25.终端管理--为用户绑定终端—添加用户发送短信
+static NSString *s_sendPhoneVerification_method = @"terminal/sendPhoneVerificationCodeReg";
+
+
+
 //26.终端管理——添加用户
 static NSString *s_addUser_method = @"terminal/addCustomer";
 
