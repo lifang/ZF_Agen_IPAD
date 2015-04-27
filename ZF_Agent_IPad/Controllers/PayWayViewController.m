@@ -12,7 +12,7 @@
 #import "OrderDetailController.h"
 
 
-@interface PayWayViewController ()
+@interface PayWayViewController ()<UIActionSheetDelegate>
 @property (nonatomic, strong) NSString *payNumber;  //支付单号
 
 @property (nonatomic, strong) UITableView *tableView;
