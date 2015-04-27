@@ -23,7 +23,8 @@
 #import "TerminalSelectModel.h"
 #import "RegularFormat.h"
 #import "CityHandle.h"
-#import "VideoAuthController.h"
+//#import "VideoAuthController.h"
+#import "VideoAuthViewController.h"
 
 @interface TerminalViewController ()<UITableViewDelegate,UITableViewDataSource,RefreshDelegate,terminalCellSendBtnClicked,UITextViewDelegate,UIPickerViewDataSource,UIPickerViewDelegate,UIPopoverControllerDelegate,UIPopoverPresentationControllerDelegate,SelectedAddressDelegate,SelectedUserDelegate,SelectedTerminalDelegate,SearchDelegate>
 {
@@ -1364,21 +1365,21 @@
     }
     if (btnTag == 1001) {
         NSLog(@"点击了视频认证(已开通) 信息ID为%@",selectedID);
-        VideoAuthController *videoAuthC = [[VideoAuthController alloc] init];
-        videoAuthC.terminalID =selectedID;
-        videoAuthC.hidesBottomBarWhenPushed=YES;
-        
-        
-        [self.navigationController pushViewController:videoAuthC animated:YES];
+       // VideoAuthController *videoAuthC = [[VideoAuthController alloc] init];
+       // videoAuthC.terminalID =selectedID;
+       // videoAuthC.hidesBottomBarWhenPushed=YES;
+        //[self.navigationController pushViewController:videoAuthC animated:YES];
+        [self VideoVCWithSelectedID:selectedID];
     }
     if (btnTag == 2000) {
         NSLog(@"点击了视频认证(未开通) 信息ID为%@",selectedID);
-        VideoAuthController *videoAuthC = [[VideoAuthController alloc] init];
-        videoAuthC.terminalID =selectedID;
-        videoAuthC.hidesBottomBarWhenPushed=YES;
+        [self VideoVCWithSelectedID:selectedID];
+       // VideoAuthController *videoAuthC = [[VideoAuthController alloc] init];
+       // videoAuthC.terminalID =selectedID;
+       // videoAuthC.hidesBottomBarWhenPushed=YES;
         
         
-        [self.navigationController pushViewController:videoAuthC animated:YES];
+       // [self.navigationController pushViewController:videoAuthC animated:YES];
 
     }
     if (btnTag == 2001) {
@@ -1387,6 +1388,8 @@
     }
     if (btnTag == 2002) {
         NSLog(@"点击了同步(未开通)");
+        [self synchronization:nil];
+
     }
     if (btnTag == 3000) {
         NSLog(@"点击了找回POS密码（部分开通）");
@@ -1395,12 +1398,11 @@
     }
     if (btnTag == 3001) {
         NSLog(@"点击了视频认证(部分开通) 信息ID为%@",selectedID);
-        VideoAuthController *videoAuthC = [[VideoAuthController alloc] init];
-        videoAuthC.terminalID =selectedID;
-        videoAuthC.hidesBottomBarWhenPushed=YES;
-        
-        
-        [self.navigationController pushViewController:videoAuthC animated:YES];
+         [self VideoVCWithSelectedID:selectedID];
+       // VideoAuthController *videoAuthC = [[VideoAuthController alloc] init];
+       // videoAuthC.terminalID =selectedID;
+       // videoAuthC.hidesBottomBarWhenPushed=YES;
+        //[self.navigationController pushViewController:videoAuthC animated:YES];
 
     }
     if (btnTag == 3002) {
@@ -1409,12 +1411,15 @@
     }
     if (btnTag == 3003) {
         NSLog(@"点击了同步（部分开通）");
+        [self synchronization:nil];
+
     }
     if (btnTag == 4000) {
         NSLog(@"点击了更新资料");
     }
     if (btnTag == 4001) {
         NSLog(@"点击了同步（已停用）");
+        [self synchronization:nil];
     }
     if (btnTag == 5000) {
         NSLog(@"点击了租赁退换（已注销）");
@@ -1496,6 +1501,26 @@
 -(void)removePOSView
 {
     [_findPosView removeFromSuperview];
+}
+
+
+//视频认证
+-(void)VideoVCWithSelectedID:(NSString *)selectedID
+{
+    VideoAuthViewController *VideoVC = [[VideoAuthViewController alloc] init];
+    VideoVC.terminalID=selectedID;
+    VideoVC.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:VideoVC animated:YES];
+    
+}
+
+
+//同步
+- (void)synchronization:(id)sender
+{
+    
+    
+    
 }
 
 

@@ -7,6 +7,7 @@
 //
 
 #import "AppDelegate.h"
+#import "AccountTool.h"
 #import <AlipaySDK/AlipaySDK.h>
 
 @interface AppDelegate ()
@@ -40,6 +41,18 @@
 //    _userID = @"1";
 
     return YES;
+}
+
+-(void)clearLoginInfo
+{
+    _agentID = nil;
+    _token = nil;
+    _agentUserID = nil;
+    _userID = nil;
+    AccountModel *account = [AccountTool userModel];
+    account.userID = nil;
+    account.password = nil;
+    [AccountTool save:account];
 }
 - (void)saveLoginInfo:(NSDictionary *)dict {
     self.agentID = [NSString stringWithFormat:@"%@",[dict objectForKey:@"agentId"]];

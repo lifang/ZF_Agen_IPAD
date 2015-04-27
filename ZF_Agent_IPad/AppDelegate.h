@@ -26,7 +26,8 @@
 
 + (RootViewController *)shareRootViewController;
 - (void)saveLoginInfo:(NSDictionary *)dict;
-
+//登录后返回
+-(void)clearLoginInfo;
 
 @end
 
