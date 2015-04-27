@@ -341,7 +341,7 @@
 
                     NSString*st=@"%";
                     
-                    namelable.text=[NSString stringWithFormat:@"默认分润比例:%f%@",_defaultBenefit,st];
+                    namelable.text=[NSString stringWithFormat:@"默认分润比例:%.2f%@",_defaultBenefit,st];
                 }
             }
             else {

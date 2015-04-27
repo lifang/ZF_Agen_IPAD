@@ -741,15 +741,7 @@
         
         
         
-        NSString *primaryPrice = [NSString stringWithFormat:@"原价 ￥%.2f",good.goodPrimaryPrice];
-        NSMutableAttributedString *priceAttrString = [[NSMutableAttributedString alloc] initWithString:primaryPrice];
-        NSDictionary *priceAttr = [NSDictionary dictionaryWithObjectsAndKeys:
-                                   [UIFont systemFontOfSize:15.f],NSFontAttributeName,
-                                   [NSNumber numberWithInt:2],NSStrikethroughStyleAttributeName,
-                                   nil];
-        [priceAttrString addAttributes:priceAttr range:NSMakeRange(0, [priceAttrString length])];
-        cell.priceLabel.attributedText = priceAttrString;
-
+       
         
         cell.lastnumber.text = [NSString stringWithFormat:@"最小起批量￥%d件",good.minWholesaleNumber];
         cell.newpriceLabel.text = [NSString stringWithFormat:@"￥%.2f",good.goodWholesalePrice];
@@ -777,7 +769,15 @@
         
             cell.attrView.hidden = YES;
 
-        
+            NSString *primaryPrice = [NSString stringWithFormat:@"原价 ￥%.2f",good.goodPrimaryPrice];
+            NSMutableAttributedString *priceAttrString = [[NSMutableAttributedString alloc] initWithString:primaryPrice];
+            NSDictionary *priceAttr = [NSDictionary dictionaryWithObjectsAndKeys:
+                                       [UIFont systemFontOfSize:15.f],NSFontAttributeName,
+                                       [NSNumber numberWithInt:2],NSStrikethroughStyleAttributeName,
+                                       nil];
+            [priceAttrString addAttributes:priceAttr range:NSMakeRange(0, [priceAttrString length])];
+            cell.priceLabel.attributedText = priceAttrString;
+
         
         }
         
