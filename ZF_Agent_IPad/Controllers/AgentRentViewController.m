@@ -606,8 +606,8 @@
         
     }
         NSLog(@"%@-%@-%@-%d-%@-%@",delegate.userID,_goodDetail.goodID,_goodDetail.defaultChannel.channelID,_count,addressID,self.reviewField.text);
-     int a=7;
-      [NetworkInterface createOrderFromGoodBuyWithAgentID:delegate.agentID token:delegate.token userID:delegate.agentUserID createUserID:delegate.userID belongID:agentUserIDs confirmType:a goodID:_goodDetail.goodID channelID:_goodDetail.defaultChannel.channelID count:_count addressID:self.defaultAddress.addressID comment:self.reviewField.text needInvoice:0 invoiceType:0 invoiceInfo:nil finished:^(BOOL success, NSData *response) {
+     int a=4;
+      [NetworkInterface createOrderFromGoodBuyWithAgentID:delegate.agentID token:delegate.token userID:delegate.agentUserID createUserID:delegate.userID belongID:delegate.agentUserID confirmType:a goodID:_goodDetail.goodID channelID:_goodDetail.defaultChannel.channelID count:_count addressID:self.defaultAddress.addressID comment:self.reviewField.text needInvoice:0 invoiceType:0 invoiceInfo:nil finished:^(BOOL success, NSData *response) {
             hud.customView = [[UIImageView alloc] init];
             hud.mode = MBProgressHUDModeCustomView;
             [hud hide:YES afterDelay:0.3f];
