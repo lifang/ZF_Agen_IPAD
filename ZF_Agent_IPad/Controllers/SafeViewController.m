@@ -326,7 +326,7 @@
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
     hud.labelText = @"提交中...";
     AppDelegate *delegate = [AppDelegate shareAppDelegate];
-    [NetworkInterface modifyPasswordWithAgentID:delegate.agentID token:delegate.token primaryPassword:_oldPasswordField.text newPassword:_newsPasswordField.text finished:^(BOOL success, NSData *response) {
+    [NetworkInterface modifyPasswordWithAgentID:delegate.agentUserID token:delegate.token primaryPassword:_oldPasswordField.text newPassword:_newsPasswordField.text finished:^(BOOL success, NSData *response) {
         hud.customView = [[UIImageView alloc] init];
         hud.mode = MBProgressHUDModeCustomView;
         [hud hide:YES afterDelay:0.5f];

@@ -23,7 +23,12 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self getOrderInfo];
+    if (_fromType == PayWayFromGoodWholesale || _fromType == PayWayFromOrderWholesale) {
+        [self getOrderInfo];
+    }
+    else {
+        [self getProcurementOrderInfo];
+    }
  
     // Do any additional setup after loading the view.
     self.view.backgroundColor=[UIColor whiteColor];
@@ -51,6 +56,52 @@
     
     // Do any additional setup after loading the view.
 }
+//代购
+- (void)getProcurementOrderInfo {
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+    hud.labelText = @"加载中...";
+    [NetworkInterface payProcurementWithOrderID:_orderID finished:^(BOOL success, NSData *response) {
+        NSLog(@"%@",[[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding]);
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:0.5f];
+        if (success) {
+            id object = [NSJSONSerialization JSONObjectWithData:response options:NSJSONReadingMutableLeaves error:nil];
+            if ([object isKindOfClass:[NSDictionary class]]) {
+                NSString *errorCode = [object objectForKey:@"code"];
+                if ([errorCode intValue] == RequestFail) {
+                    //返回错误代码
+                    hud.labelText = [NSString stringWithFormat:@"%@",[object objectForKey:@"message"]];
+                }
+                else if ([errorCode intValue] == RequestSuccess) {
+                    [hud hide:YES];
+                    [self parseProcurementDataWithDictionary:object];
+                }
+            }
+            else {
+                //返回错误数据
+                hud.labelText = kServiceReturnWrong;
+            }
+        }
+        else {
+            hud.labelText = kNetworkFailed;
+        }
+    }];
+}
+//代购
+- (void)parseProcurementDataWithDictionary:(NSDictionary *)dict {
+    if (![dict objectForKey:@"result"] || ![[dict objectForKey:@"result"] isKindOfClass:[NSDictionary class]]) {
+        return;
+    }
+    id infoDict = [dict objectForKey:@"result"];
+    if ([infoDict isKindOfClass:[NSDictionary class]]) {
+        _totalPrice = [[infoDict objectForKey:@"total_price"] floatValue] / 100;
+        _payNumber = [infoDict objectForKey:@"order_number"];
+    }
+    [self setHeaderAndFooterView];
+
+}
+
 -(void)popself
 
 {

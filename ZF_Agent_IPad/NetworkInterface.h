@@ -382,14 +382,34 @@ static NSString *s_addUserValidate_method = @"terminal/sendPhoneVerificationCode
 static NSString *s_homeImageList_method = @"index/sysshufflingfigure";
 //100.下级代理商管理——上传图片
 static NSString *s_subAgentUpload_method = @"lowerAgent/uploadImg";
+//代购订单支付
+static NSString *s_procurementPay_method = @"shop/payOrder";
 @interface NetworkInterface : NSObject
 /*!
  @abstract 1.热卖
  
  
  */
+
+
+
 + (void)hotget:(NSString *)tolen
       finished:(requestDidFinished)finish;
++ (void)addUserWithtoken:(NSString *)token
+           phoneyanzheng:(NSString*)phoneyangzheng
+                 AgentId:(NSString *)agentId
+                username:(NSString *)name
+                password:(NSString *)password
+              codeNumber:(NSString *)codeNumber
+                  cityId:(NSString *)cityId
+                finished:(requestDidFinished)finish;
+/*!
+ @abstract 代购订单信息
+ @result finish  请求回调结果
+ */
++ (void)payProcurementWithOrderID:(NSString *)orderID
+                         finished:(requestDidFinished)finish;
+
 /*!
 
 
