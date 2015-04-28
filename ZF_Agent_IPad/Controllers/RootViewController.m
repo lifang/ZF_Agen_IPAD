@@ -9,6 +9,7 @@
 #import "RootViewController.h"
 #import "NavigationBarAttr.h"
 
+
 @interface RootViewController ()
 
 @end
@@ -19,6 +20,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     [self showLoginViewController];
+   
 }
 
 - (void)didReceiveMemoryWarning {

@@ -9,6 +9,7 @@
 #import "AppDelegate.h"
 #import "AccountTool.h"
 #import <AlipaySDK/AlipaySDK.h>
+#import "GuideUIViewController.h"
 
 @interface AppDelegate ()
 
@@ -24,6 +25,7 @@
 }
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    
     _authDict = [[NSMutableDictionary alloc] init];
 
     
@@ -34,12 +36,13 @@
     self.window.rootViewController = _rootViewController;
     [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
     [self.window makeKeyAndVisible];
+     
 //    _agentID = @"1";
 //    _token = @"123";
 //    _cityID = @"1";
 //    _agentUserID = @"413";
 //    _userID = @"1";
-
+   
     return YES;
 }
 

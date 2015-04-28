@@ -7,6 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0D024F241AEF1F6A005BB925 /* pad1.png in Resources */ = {isa = PBXBuildFile; fileRef = 0D024F231AEF1F6A005BB925 /* pad1.png */; };
+		0D024F261AEF1F6E005BB925 /* pad2.png in Resources */ = {isa = PBXBuildFile; fileRef = 0D024F251AEF1F6E005BB925 /* pad2.png */; };
+		0D024F281AEF1F74005BB925 /* pad3.png in Resources */ = {isa = PBXBuildFile; fileRef = 0D024F271AEF1F74005BB925 /* pad3.png */; };
+		0D024F2A1AEF1F7A005BB925 /* pad4.png in Resources */ = {isa = PBXBuildFile; fileRef = 0D024F291AEF1F7A005BB925 /* pad4.png */; };
+		0D024F2C1AEF2A20005BB925 /* pad1@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0D024F2B1AEF2A20005BB925 /* pad1@2x.png */; };
+		0D024F2E1AEF2A24005BB925 /* pad2@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0D024F2D1AEF2A24005BB925 /* pad2@2x.png */; };
+		0D024F301AEF2A29005BB925 /* pad3@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0D024F2F1AEF2A29005BB925 /* pad3@2x.png */; };
+		0D024F321AEF2A2F005BB925 /* pad4@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0D024F311AEF2A2F005BB925 /* pad4@2x.png */; };
 		0D12AF8A1ADE063A00229D13 /* TerminalSelectCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D12AF891ADE063A00229D13 /* TerminalSelectCell.m */; };
 		0D12AF901ADE081900229D13 /* TerminalSelectModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D12AF8F1ADE081900229D13 /* TerminalSelectModel.m */; };
 		0D16941C1AD3C14100B50A17 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 0D1694021AD3C14100B50A17 /* LICENSE */; };
@@ -305,6 +313,14 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0D024F231AEF1F6A005BB925 /* pad1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pad1.png; sourceTree = "<group>"; };
+		0D024F251AEF1F6E005BB925 /* pad2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pad2.png; sourceTree = "<group>"; };
+		0D024F271AEF1F74005BB925 /* pad3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pad3.png; sourceTree = "<group>"; };
+		0D024F291AEF1F7A005BB925 /* pad4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pad4.png; sourceTree = "<group>"; };
+		0D024F2B1AEF2A20005BB925 /* pad1@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pad1@2x.png"; sourceTree = "<group>"; };
+		0D024F2D1AEF2A24005BB925 /* pad2@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pad2@2x.png"; sourceTree = "<group>"; };
+		0D024F2F1AEF2A29005BB925 /* pad3@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pad3@2x.png"; sourceTree = "<group>"; };
+		0D024F311AEF2A2F005BB925 /* pad4@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pad4@2x.png"; sourceTree = "<group>"; };
 		0D12AF881ADE063A00229D13 /* TerminalSelectCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TerminalSelectCell.h; path = ../Controllers/TerminalSelectCell.h; sourceTree = "<group>"; };
 		0D12AF891ADE063A00229D13 /* TerminalSelectCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TerminalSelectCell.m; path = ../Controllers/TerminalSelectCell.m; sourceTree = "<group>"; };
 		0D12AF8E1ADE081900229D13 /* TerminalSelectModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TerminalSelectModel.h; sourceTree = "<group>"; };
@@ -977,6 +993,21 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0D024F221AEF1F14005BB925 /* Image */ = {
+			isa = PBXGroup;
+			children = (
+				0D024F2B1AEF2A20005BB925 /* pad1@2x.png */,
+				0D024F2D1AEF2A24005BB925 /* pad2@2x.png */,
+				0D024F2F1AEF2A29005BB925 /* pad3@2x.png */,
+				0D024F311AEF2A2F005BB925 /* pad4@2x.png */,
+				0D024F231AEF1F6A005BB925 /* pad1.png */,
+				0D024F251AEF1F6E005BB925 /* pad2.png */,
+				0D024F271AEF1F74005BB925 /* pad3.png */,
+				0D024F291AEF1F7A005BB925 /* pad4.png */,
+			);
+			name = Image;
+			sourceTree = "<group>";
+		};
 		0D1694011AD3C14100B50A17 /* Masonry */ = {
 			isa = PBXGroup;
 			children = (
@@ -1648,6 +1679,7 @@
 				1AF15AB31ACCE33300D5C171 /* Model */,
 				1AF15AB51ACCE33300D5C171 /* Tools */,
 				1AF15AB61ACCE33300D5C171 /* View */,
+				0D024F221AEF1F14005BB925 /* Image */,
 				1AF15A8D1ACCDB8C00D5C171 /* AppDelegate.h */,
 				1AF15A8E1ACCDB8C00D5C171 /* AppDelegate.m */,
 				1AF15A981ACCDB8C00D5C171 /* LaunchScreen.xib */,
@@ -2128,12 +2160,20 @@
 			buildActionMask = 2147483647;
 			files = (
 				1AF15AB81ACCE34C00D5C171 /* city.js in Resources */,
+				0D024F321AEF2A2F005BB925 /* pad4@2x.png in Resources */,
+				0D024F281AEF1F74005BB925 /* pad3.png in Resources */,
+				0D024F241AEF1F6A005BB925 /* pad1.png in Resources */,
+				0D024F261AEF1F6E005BB925 /* pad2.png in Resources */,
+				0D024F2A1AEF1F7A005BB925 /* pad4.png in Resources */,
 				0D16942E1AD3C15600B50A17 /* LICENCE in Resources */,
 				0ED589FF1AE7682F00EFD931 /* AlipaySDK.bundle in Resources */,
 				0ED58F041AD4DA880081E8BC /* MJRefresh.bundle in Resources */,
+				0D024F301AEF2A29005BB925 /* pad3@2x.png in Resources */,
 				1AF15A9A1ACCDB8C00D5C171 /* LaunchScreen.xib in Resources */,
 				0D16941C1AD3C14100B50A17 /* LICENSE in Resources */,
+				0D024F2C1AEF2A20005BB925 /* pad1@2x.png in Resources */,
 				1AF15A971ACCDB8C00D5C171 /* Images.xcassets in Resources */,
+				0D024F2E1AEF2A24005BB925 /* pad2@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
