@@ -658,6 +658,38 @@ static NSString *HTTP_GET  = @"GET";
                         finished:finish];
 }
 
+//27.
++ (void)addUserWithtoken:(NSString *)token
+                   phoneyanzheng:(NSString*)phoneyangzheng
+                 AgentId:(NSString *)agentId
+                username:(NSString *)name
+                password:(NSString *)password
+              codeNumber:(NSString *)codeNumber
+                  cityId:(NSString *)cityId
+                finished:(requestDidFinished)finish {
+    //参数
+    NSMutableDictionary *paramDict = [[NSMutableDictionary alloc] init];
+    [paramDict setObject:[NSNumber numberWithInt:[agentId intValue]] forKey:@"agentId"];
+    if (name) {
+        [paramDict setObject:name forKey:@"name"];
+    }
+    if (password) {
+        [paramDict setObject:[EncryptHelper MD5_encryptWithString:password] forKey:@"password"];
+    }
+    if (codeNumber) {
+        [paramDict setObject:codeNumber forKey:@"code"];
+    }
+    [paramDict setObject:[NSNumber numberWithInt:[cityId intValue]] forKey:@"cityId"];
+    [paramDict setObject:phoneyangzheng forKey:@"codeNumber"];
+
+    //url
+    NSString *urlString = [NSString stringWithFormat:@"%@/%@",kServiceURL,s_addUser_method];
+    [[self class] requestWithURL:urlString
+                          params:paramDict
+                      httpMethod:HTTP_POST
+                        finished:finish];
+}
+
 
 
 //26
@@ -2467,6 +2499,32 @@ static NSString *HTTP_GET  = @"GET";
     NSString *urlString = [NSString stringWithFormat:@"%@/%@",kServiceURL,s_homeImageList_method];
     [[self class] requestWithURL:urlString
                           params:nil
+                      httpMethod:HTTP_POST
+                        finished:finish];
+}
+//100.
++ (void)uploadSubAgentImageWithAgentID:(NSString *)agentID
+                                 image:(UIImage *)image
+                              finished:(requestDidFinished)finish {
+    //url
+    NSString *urlString = [NSString stringWithFormat:@"%@/%@/%@",kServiceURL,s_subAgentUpload_method,agentID];
+    NetworkRequest *request = [[NetworkRequest alloc] initWithRequestURL:urlString
+                                                              httpMethod:HTTP_POST
+                                                                finished:finish];
+    [request uploadImageData:UIImagePNGRepresentation(image)
+                   imageName:nil
+                         key:@"img"];
+    [request start];
+}
++ (void)payProcurementWithOrderID:(NSString *)orderID
+                         finished:(requestDidFinished)finish {
+    //参数
+    NSMutableDictionary *paramDict = [[NSMutableDictionary alloc] init];
+    [paramDict setObject:[NSNumber numberWithInt:[orderID intValue]] forKey:@"id"];
+    //url
+    NSString *urlString = [NSString stringWithFormat:@"%@/%@",kServiceURL,s_procurementPay_method];
+    [[self class] requestWithURL:urlString
+                          params:paramDict
                       httpMethod:HTTP_POST
                         finished:finish];
 }

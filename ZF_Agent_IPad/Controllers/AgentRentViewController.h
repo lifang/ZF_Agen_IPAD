@@ -26,6 +26,7 @@
     NSInteger cityint;
     NSInteger Okcityint;
     NSString*textnsstring;
+    NSString *agentUserIDs;  //代理商对应的用户id
 
     UIImageView*bigsview;
 }

@@ -327,9 +327,11 @@
 - (void)uploadPictureWithImage:(UIImage *)image
 
 {
+    AppDelegate *delegate = [AppDelegate shareAppDelegate];
+
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
     hud.labelText = @"上传中...";
-    [NetworkInterface uploadImageWithImage:image finished:^(BOOL success, NSData *response) {
+    [NetworkInterface uploadSubAgentImageWithAgentID:delegate.agentID image:image finished:^(BOOL success, NSData *response) {
         NSLog(@"!!!!%@",[[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding]);
         hud.customView = [[UIImageView alloc] init];
         hud.mode = MBProgressHUDModeCustomView;
@@ -1259,7 +1261,7 @@
 //点击图片行调用
 - (void)showImageOption {
     UIActionSheet *sheet = nil;
-    NSString *value = [_registerDict objectForKey:_selectedKey];
+    NSString *value = [_infoDict objectForKey:_selectedKey];
     if (value && ![value isEqualToString:@""]) {
         sheet = [[UIActionSheet alloc] initWithTitle:@""
                                             delegate:self
@@ -1279,7 +1281,7 @@
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
     NSInteger sourceType = UIImagePickerControllerSourceTypeCamera;
-    NSString *value = [_registerDict objectForKey:_selectedKey];
+    NSString *value = [_infoDict objectForKey:_selectedKey];
     if (value && ![value isEqualToString:@""]) {
         if (buttonIndex == 0) {
             //查看大图
@@ -1338,7 +1340,7 @@
 
 //查看大图
 - (void)scanBigImage {
-    NSString *urlString = [_registerDict objectForKey:_selectedKey];
+    NSString *urlString = [_infoDict objectForKey:_selectedKey];
     
     
     [self showDetailImageWithURL:urlString imageRect:self.imageRect WithIdentifier:nil];

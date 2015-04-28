@@ -7,6 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0D024F241AEF1F6A005BB925 /* pad1.png in Resources */ = {isa = PBXBuildFile; fileRef = 0D024F231AEF1F6A005BB925 /* pad1.png */; };
+		0D024F261AEF1F6E005BB925 /* pad2.png in Resources */ = {isa = PBXBuildFile; fileRef = 0D024F251AEF1F6E005BB925 /* pad2.png */; };
+		0D024F281AEF1F74005BB925 /* pad3.png in Resources */ = {isa = PBXBuildFile; fileRef = 0D024F271AEF1F74005BB925 /* pad3.png */; };
+		0D024F2A1AEF1F7A005BB925 /* pad4.png in Resources */ = {isa = PBXBuildFile; fileRef = 0D024F291AEF1F7A005BB925 /* pad4.png */; };
+		0D024F2C1AEF2A20005BB925 /* pad1@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0D024F2B1AEF2A20005BB925 /* pad1@2x.png */; };
+		0D024F2E1AEF2A24005BB925 /* pad2@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0D024F2D1AEF2A24005BB925 /* pad2@2x.png */; };
+		0D024F301AEF2A29005BB925 /* pad3@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0D024F2F1AEF2A29005BB925 /* pad3@2x.png */; };
+		0D024F321AEF2A2F005BB925 /* pad4@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0D024F311AEF2A2F005BB925 /* pad4@2x.png */; };
 		0D12AF8A1ADE063A00229D13 /* TerminalSelectCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D12AF891ADE063A00229D13 /* TerminalSelectCell.m */; };
 		0D12AF901ADE081900229D13 /* TerminalSelectModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D12AF8F1ADE081900229D13 /* TerminalSelectModel.m */; };
 		0D16941C1AD3C14100B50A17 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 0D1694021AD3C14100B50A17 /* LICENSE */; };
@@ -29,6 +37,7 @@
 		0D1C66DF1ADFE0E000CAC1B8 /* AddressSelectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D1C66DE1ADFE0E000CAC1B8 /* AddressSelectViewController.m */; };
 		0D1C66E21ADFE10A00CAC1B8 /* UserSelectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D1C66E11ADFE10A00CAC1B8 /* UserSelectViewController.m */; };
 		0D1C66E51ADFE15B00CAC1B8 /* AddressSelectCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D1C66E41ADFE15B00CAC1B8 /* AddressSelectCell.m */; };
+		0D6D01391AEDC5B00019E500 /* VideoAuthViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D6D01381AEDC5B00019E500 /* VideoAuthViewController.m */; };
 		0D885FA51AD7D34A002CDA15 /* IdentificationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D885FA41AD7D34A002CDA15 /* IdentificationViewController.m */; };
 		0D885FA81AD7D358002CDA15 /* ApplyDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D885FA71AD7D358002CDA15 /* ApplyDetailController.m */; };
 		0D885FAB1AD7D4F6002CDA15 /* IdentificationViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D885FAA1AD7D4F6002CDA15 /* IdentificationViewCell.m */; };
@@ -304,6 +313,14 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0D024F231AEF1F6A005BB925 /* pad1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pad1.png; sourceTree = "<group>"; };
+		0D024F251AEF1F6E005BB925 /* pad2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pad2.png; sourceTree = "<group>"; };
+		0D024F271AEF1F74005BB925 /* pad3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pad3.png; sourceTree = "<group>"; };
+		0D024F291AEF1F7A005BB925 /* pad4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pad4.png; sourceTree = "<group>"; };
+		0D024F2B1AEF2A20005BB925 /* pad1@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pad1@2x.png"; sourceTree = "<group>"; };
+		0D024F2D1AEF2A24005BB925 /* pad2@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pad2@2x.png"; sourceTree = "<group>"; };
+		0D024F2F1AEF2A29005BB925 /* pad3@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pad3@2x.png"; sourceTree = "<group>"; };
+		0D024F311AEF2A2F005BB925 /* pad4@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pad4@2x.png"; sourceTree = "<group>"; };
 		0D12AF881ADE063A00229D13 /* TerminalSelectCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TerminalSelectCell.h; path = ../Controllers/TerminalSelectCell.h; sourceTree = "<group>"; };
 		0D12AF891ADE063A00229D13 /* TerminalSelectCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TerminalSelectCell.m; path = ../Controllers/TerminalSelectCell.m; sourceTree = "<group>"; };
 		0D12AF8E1ADE081900229D13 /* TerminalSelectModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TerminalSelectModel.h; sourceTree = "<group>"; };
@@ -349,6 +366,8 @@
 		0D1C66E11ADFE10A00CAC1B8 /* UserSelectViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserSelectViewController.m; sourceTree = "<group>"; };
 		0D1C66E31ADFE15500CAC1B8 /* AddressSelectCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddressSelectCell.h; sourceTree = "<group>"; };
 		0D1C66E41ADFE15B00CAC1B8 /* AddressSelectCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddressSelectCell.m; sourceTree = "<group>"; };
+		0D6D01371AEDC59F0019E500 /* VideoAuthViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoAuthViewController.h; sourceTree = "<group>"; };
+		0D6D01381AEDC5B00019E500 /* VideoAuthViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VideoAuthViewController.m; sourceTree = "<group>"; };
 		0D885FA31AD7D341002CDA15 /* IdentificationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IdentificationViewController.h; sourceTree = "<group>"; };
 		0D885FA41AD7D34A002CDA15 /* IdentificationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IdentificationViewController.m; sourceTree = "<group>"; };
 		0D885FA61AD7D352002CDA15 /* ApplyDetailController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ApplyDetailController.h; sourceTree = "<group>"; };
@@ -974,6 +993,21 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0D024F221AEF1F14005BB925 /* Image */ = {
+			isa = PBXGroup;
+			children = (
+				0D024F2B1AEF2A20005BB925 /* pad1@2x.png */,
+				0D024F2D1AEF2A24005BB925 /* pad2@2x.png */,
+				0D024F2F1AEF2A29005BB925 /* pad3@2x.png */,
+				0D024F311AEF2A2F005BB925 /* pad4@2x.png */,
+				0D024F231AEF1F6A005BB925 /* pad1.png */,
+				0D024F251AEF1F6E005BB925 /* pad2.png */,
+				0D024F271AEF1F74005BB925 /* pad3.png */,
+				0D024F291AEF1F7A005BB925 /* pad4.png */,
+			);
+			name = Image;
+			sourceTree = "<group>";
+		};
 		0D1694011AD3C14100B50A17 /* Masonry */ = {
 			isa = PBXGroup;
 			children = (
@@ -1141,6 +1175,8 @@
 			children = (
 				0ECEB58F1AEA190B00CE217D /* VideoAuthController.h */,
 				0ECEB5901AEA190B00CE217D /* VideoAuthController.m */,
+				0D6D01371AEDC59F0019E500 /* VideoAuthViewController.h */,
+				0D6D01381AEDC5B00019E500 /* VideoAuthViewController.m */,
 			);
 			name = Video;
 			sourceTree = "<group>";
@@ -1643,6 +1679,7 @@
 				1AF15AB31ACCE33300D5C171 /* Model */,
 				1AF15AB51ACCE33300D5C171 /* Tools */,
 				1AF15AB61ACCE33300D5C171 /* View */,
+				0D024F221AEF1F14005BB925 /* Image */,
 				1AF15A8D1ACCDB8C00D5C171 /* AppDelegate.h */,
 				1AF15A8E1ACCDB8C00D5C171 /* AppDelegate.m */,
 				1AF15A981ACCDB8C00D5C171 /* LaunchScreen.xib */,
@@ -2123,12 +2160,20 @@
 			buildActionMask = 2147483647;
 			files = (
 				1AF15AB81ACCE34C00D5C171 /* city.js in Resources */,
+				0D024F321AEF2A2F005BB925 /* pad4@2x.png in Resources */,
+				0D024F281AEF1F74005BB925 /* pad3.png in Resources */,
+				0D024F241AEF1F6A005BB925 /* pad1.png in Resources */,
+				0D024F261AEF1F6E005BB925 /* pad2.png in Resources */,
+				0D024F2A1AEF1F7A005BB925 /* pad4.png in Resources */,
 				0D16942E1AD3C15600B50A17 /* LICENCE in Resources */,
 				0ED589FF1AE7682F00EFD931 /* AlipaySDK.bundle in Resources */,
 				0ED58F041AD4DA880081E8BC /* MJRefresh.bundle in Resources */,
+				0D024F301AEF2A29005BB925 /* pad3@2x.png in Resources */,
 				1AF15A9A1ACCDB8C00D5C171 /* LaunchScreen.xib in Resources */,
 				0D16941C1AD3C14100B50A17 /* LICENSE in Resources */,
+				0D024F2C1AEF2A20005BB925 /* pad1@2x.png in Resources */,
 				1AF15A971ACCDB8C00D5C171 /* Images.xcassets in Resources */,
+				0D024F2E1AEF2A24005BB925 /* pad2@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2270,6 +2315,7 @@
 				1A790B171ADCEF7D00EE886A /* CSDataHandle.m in Sources */,
 				0ECB5BFC1AE5ED1C00AF0891 /* BenefitModel.m in Sources */,
 				0DC032481AD68C2F000532EF /* TerminalDetailViewController.m in Sources */,
+				0D6D01391AEDC5B00019E500 /* VideoAuthViewController.m in Sources */,
 				1AF15B0B1ACCE3BC00D5C171 /* TreeDataHandle.m in Sources */,
 				0D16943A1AD3C60800B50A17 /* TerminalViewCell.m in Sources */,
 				0EC696E71ADB6BBC009D544E /* RegularFormat.m in Sources */,
@@ -2503,7 +2549,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Sen Ye (FE46ZS29LM)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/ZF_Agent_IPad/Labrary",
@@ -2526,7 +2572,7 @@
 					"$(PROJECT_DIR)/ZF_Agent_IPad/Labrary/Alipay",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "581e490b-dced-49f5-9ddc-6dcdc4bb4daa";
+				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = 2;
 			};
 			name = Debug;
@@ -2536,7 +2582,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Sen Ye (FE46ZS29LM)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/ZF_Agent_IPad/Labrary",
@@ -2559,7 +2605,7 @@
 					"$(PROJECT_DIR)/ZF_Agent_IPad/Labrary/Alipay",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "581e490b-dced-49f5-9ddc-6dcdc4bb4daa";
+				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = 2;
 			};
 			name = Release;

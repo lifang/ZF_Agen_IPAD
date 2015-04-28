@@ -1447,7 +1447,7 @@
     
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
     hud.labelText = @"正在登录...";
-    [NetworkInterface registerWithUsername:_loginIDField.text password:_loginPasswordField.text isAlreadyEncrypt:NO agentType:_agentType companyName:_companyNameField.text licenseID:_companyBusinesslicenseField.text taxID:_companyTaxField.text legalPersonName:_principalNameField.text legalPersonID:_principalCardField.text mobileNumber:_principalPhoneOrEmailField.text email:_authCodeField.text cityID:_cityId detailAddress:nil cardImagePath:_imageStr1 licenseImagePath:_imageStr2 taxImagePath:_imageStr3 finished:^(BOOL success, NSData *response) {
+    [NetworkInterface registerWithUsername:_loginIDField.text password:_loginPasswordField.text isAlreadyEncrypt:NO agentType:_agentType companyName:_companyNameField.text licenseID:_companyBusinesslicenseField.text taxID:_companyTaxField.text legalPersonName:_principalNameField.text legalPersonID:_principalCardField.text mobileNumber:_principalPhoneOrEmailField.text email:_authCodeField.text cityID:_selectedCityID detailAddress:nil cardImagePath:_imageStr1 licenseImagePath:_imageStr2 taxImagePath:_imageStr3 finished:^(BOOL success, NSData *response) {
         hud.customView = [[UIImageView alloc] init];
         hud.mode = MBProgressHUDModeCustomView;
         [hud hide:YES afterDelay:0.3f];

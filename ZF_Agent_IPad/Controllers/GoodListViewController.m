@@ -689,10 +689,20 @@
         [cell.pictureView sd_setImageWithURL:[NSURL URLWithString:good.goodImagePath]
                             placeholderImage:kImageName(@"test1.png")];
         cell.titleLabel.text = good.goodName;
-        cell.priceLabel.text = [NSString stringWithFormat:@"￥%.2f",good.goodPrimaryPrice];
+
+        if(_supplyType==SupplyGoodsWholesale)
+        {
+            cell.salesVolumeLabel.text = [NSString stringWithFormat:@"已售%d",good.goodSaleNumbers];
+            cell.priceLabel.text = [NSString stringWithFormat:@"%.2f",good.goodWholesalePrice];
+
+        }else
+        {
         
-        
-       cell.salesVolumeLabel.text = [NSString stringWithFormat:@"已售%d",good.goodSaleNumber];
+            cell.salesVolumeLabel.text = [NSString stringWithFormat:@"已售%d",good.goodSaleNumber];
+
+            cell.priceLabel.text = [NSString stringWithFormat:@"￥%.2f",good.goodPrimaryPrice];
+
+        }
         cell.brandLabel.text = [NSString stringWithFormat:@"品牌型号   %@%@",good.goodBrand,good.goodModel];
         cell.channelLabel.text = [NSString stringWithFormat:@"支付通道   %@",good.goodChannel];
         if (good.isRent)
@@ -741,15 +751,7 @@
         
         
         
-        NSString *primaryPrice = [NSString stringWithFormat:@"原价 ￥%.2f",good.goodPrimaryPrice];
-        NSMutableAttributedString *priceAttrString = [[NSMutableAttributedString alloc] initWithString:primaryPrice];
-        NSDictionary *priceAttr = [NSDictionary dictionaryWithObjectsAndKeys:
-                                   [UIFont systemFontOfSize:15.f],NSFontAttributeName,
-                                   [NSNumber numberWithInt:2],NSStrikethroughStyleAttributeName,
-                                   nil];
-        [priceAttrString addAttributes:priceAttr range:NSMakeRange(0, [priceAttrString length])];
-        cell.priceLabel.attributedText = priceAttrString;
-
+       
         
         cell.lastnumber.text = [NSString stringWithFormat:@"最小起批量￥%d件",good.minWholesaleNumber];
         cell.newpriceLabel.text = [NSString stringWithFormat:@"￥%.2f",good.goodWholesalePrice];
@@ -777,7 +779,15 @@
         
             cell.attrView.hidden = YES;
 
-        
+            NSString *primaryPrice = [NSString stringWithFormat:@"原价 ￥%.2f",good.goodPrimaryPrice];
+            NSMutableAttributedString *priceAttrString = [[NSMutableAttributedString alloc] initWithString:primaryPrice];
+            NSDictionary *priceAttr = [NSDictionary dictionaryWithObjectsAndKeys:
+                                       [UIFont systemFontOfSize:15.f],NSFontAttributeName,
+                                       [NSNumber numberWithInt:2],NSStrikethroughStyleAttributeName,
+                                       nil];
+            [priceAttrString addAttributes:priceAttr range:NSMakeRange(0, [priceAttrString length])];
+            cell.priceLabel.attributedText = priceAttrString;
+
         
         }
         

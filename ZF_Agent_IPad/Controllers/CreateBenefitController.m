@@ -163,6 +163,8 @@
                 }
                 else if ([errorCode intValue] == RequestSuccess) {
                     [hud hide:YES];
+                    [[NSNotificationCenter defaultCenter] postNotificationName:@"refresh" object:nil];
+
                     [self.navigationController popViewControllerAnimated:YES];
                 }
             }
@@ -242,6 +244,8 @@
         EditBenefitController *editC = [[EditBenefitController alloc] init];
         editC.type = BenefitPercentCreate;
         editC.tradeModel = tradeModel;
+        editC.hidesBottomBarWhenPushed=YES;
+
         [self.navigationController pushViewController:editC animated:YES];
     }
 }

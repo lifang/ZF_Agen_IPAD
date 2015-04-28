@@ -24,6 +24,7 @@
 #import "RegularFormat.h"
 #import "CityHandle.h"
 #import "VideoAuthController.h"
+#import "VideoAuthViewController.h"
 
 @interface TerminalViewController ()<UITableViewDelegate,UITableViewDataSource,RefreshDelegate,terminalCellSendBtnClicked,UITextViewDelegate,UIPickerViewDataSource,UIPickerViewDelegate,UIPopoverControllerDelegate,UIPopoverPresentationControllerDelegate,SelectedAddressDelegate,SelectedUserDelegate,SelectedTerminalDelegate,SearchDelegate>
 {
@@ -92,6 +93,8 @@
 @property (nonatomic, strong) NSString *phone;
 
 @property (nonatomic, strong) NSString *serialNum;
+
+@property (nonatomic, strong) UITextView *blackTV;
 
 @end
 
@@ -294,6 +297,20 @@
 
 - (void)initAndLayoutUI {
     
+
+   
+    
+   
+    /*
+    UIView *blackView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 440, 500)];
+    blackView.center = CGPointMake(SCREEN_WIDTH / 2, (SCREEN_HEIGHT - 100) / 2);
+    blackView.backgroundColor = [UIColor whiteColor];
+    [self.view addSubview:blackView];
+    
+    _blackTV=[UITextView alloc];
+    _blackTV.frame = CGRectMake(156, 270, 240, 40);
+    [blackView addSubview:_blackTV];
+    */
     
     if(iOS7)
     {
@@ -841,7 +858,7 @@
 -(void)getcodeBtnClick:(id)sender
 {
     if (!_phoneTV.text ||[_phoneTV.text isEqualToString:@""]) {
-        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:_secondView animated:YES];
         hud.customView = [[UIImageView alloc] init];
         hud.mode = MBProgressHUDModeCustomView;
         [hud hide:YES afterDelay:1.f];
@@ -849,7 +866,7 @@
         return;
     }
     if (![RegularFormat isMobileNumber:_phoneTV.text]) {
-        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:_secondView animated:YES];
         hud.customView = [[UIImageView alloc] init];
         hud.mode = MBProgressHUDModeCustomView;
         [hud hide:YES afterDelay:1.f];
@@ -865,6 +882,7 @@
     touchStatus=100;
     //[self pickerDisplay:_locationTV];
     [self pickerDisplay:_textView];
+   // [self pickerDisplay:_blackTV];
 }
 
 -(void)leftBackClicked
@@ -874,8 +892,9 @@
 
 -(void)bulidBtnClick:(id)sender
 {
+    NSLog(@"chuangjian");
     if (!_nameTV.text ||[_nameTV.text isEqualToString:@""]) {
-        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:_secondView animated:YES];
         hud.customView = [[UIImageView alloc] init];
         hud.mode = MBProgressHUDModeCustomView;
         [hud hide:YES afterDelay:1.f];
@@ -883,7 +902,7 @@
         return;
     }
     if (!_phoneTV.text ||[_phoneTV.text isEqualToString:@""]) {
-        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:_secondView animated:YES];
         hud.customView = [[UIImageView alloc] init];
         hud.mode = MBProgressHUDModeCustomView;
         [hud hide:YES afterDelay:1.f];
@@ -891,7 +910,7 @@
         return;
     }
     if (!_codeTV.text ||[_codeTV.text isEqualToString:@""]) {
-        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:_secondView animated:YES];
         hud.customView = [[UIImageView alloc] init];
         hud.mode = MBProgressHUDModeCustomView;
         [hud hide:YES afterDelay:1.f];
@@ -899,7 +918,7 @@
         return;
     }
     if (!_locationTV.text ||[_locationTV.text isEqualToString:@""]) {
-        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:_secondView animated:YES];
         hud.customView = [[UIImageView alloc] init];
         hud.mode = MBProgressHUDModeCustomView;
         [hud hide:YES afterDelay:1.f];
@@ -907,7 +926,7 @@
         return;
     }
     if (!_pwdTV.text ||[_pwdTV.text isEqualToString:@""]) {
-        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:_secondView animated:YES];
         hud.customView = [[UIImageView alloc] init];
         hud.mode = MBProgressHUDModeCustomView;
         [hud hide:YES afterDelay:1.f];
@@ -915,7 +934,7 @@
         return;
     }
     if (!_confpwdTV.text ||[_confpwdTV.text isEqualToString:@""]) {
-        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:_secondView animated:YES];
         hud.customView = [[UIImageView alloc] init];
         hud.mode = MBProgressHUDModeCustomView;
         [hud hide:YES afterDelay:1.f];
@@ -924,7 +943,7 @@
     }
 
     [self addNewUser];
-    [_secondView removeFromSuperview];
+    //[_secondView removeFromSuperview];
 }
 
 #pragma mark - SelectedAddressDelegate
@@ -1237,7 +1256,7 @@
 
 //创建新用户
 - (void)addNewUser {
-    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:_secondView animated:YES];
     hud.labelText = @"加载中...";
     AppDelegate *delegate = [AppDelegate shareAppDelegate];
     [NetworkInterface  addUserWithtoken:delegate.token AgentId:delegate.agentID username:_nameTV.text password:_pwdTV.text codeNumber:_codeTV.text cityId:_cityId finished:^(BOOL success, NSData *response) {
@@ -1256,6 +1275,7 @@
                 else if ([errorCode intValue] == RequestSuccess) {
                     [hud hide:YES];
                     hud.labelText = @"添加成功";
+                   [_secondView removeFromSuperview];
                     
                 }
             }
@@ -1273,9 +1293,9 @@
 
 //获取手机验证码
 - (void)sendPhoneCode {
-    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:_secondView animated:YES];
     hud.labelText = @"加载中...";
-    [NetworkInterface sendValidateWithMobileNumber:_phoneTV.text finished:^(BOOL success, NSData *response) {
+    [NetworkInterface  sendBindingValidateWithMobileNumber:_phoneTV.text finished:^(BOOL success, NSData *response) {
         NSLog(@"%@",[[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding]);
         hud.customView = [[UIImageView alloc] init];
         hud.mode = MBProgressHUDModeCustomView;
@@ -1306,6 +1326,41 @@
         }
     }];
 }
+
+
+//同步
+- (void)getTerminalSynchronous {
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+    hud.labelText = @"提交中...";
+    AppDelegate *delegate = [AppDelegate shareAppDelegate];
+    [NetworkInterface getTerminalSynchronousWithToken:delegate.token finished:^(BOOL success, NSData *response) {
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:0.5f];
+        if (success) {
+            id object = [NSJSONSerialization JSONObjectWithData:response options:NSJSONReadingMutableLeaves error:nil];
+            if ([object isKindOfClass:[NSDictionary class]]) {
+                NSString *errorCode = [NSString stringWithFormat:@"%@",[object objectForKey:@"code"]];
+                if ([errorCode intValue] == RequestFail) {
+                    //返回错误代码
+                    hud.labelText = [NSString stringWithFormat:@"%@",[object objectForKey:@"message"]];
+                }
+                else if ([errorCode intValue] == RequestSuccess) {
+                    hud.labelText = @"同步成功";
+                    
+                }
+            }
+            else {
+                //返回错误数据
+                hud.labelText = kServiceReturnWrong;
+            }
+        }
+        else {
+            hud.labelText = kNetworkFailed;
+        }
+    }];
+}
+
 
 
 #pragma mark - Data
@@ -1363,23 +1418,13 @@
         [self initFindPosViewWithSelectedID:selectedID WithIndexNum:indexNum];
     }
     if (btnTag == 1001) {
-        NSLog(@"点击了视频认证(已开通) 信息ID为%@",selectedID);
-        VideoAuthController *videoAuthC = [[VideoAuthController alloc] init];
-        videoAuthC.terminalID =selectedID;
-        videoAuthC.hidesBottomBarWhenPushed=YES;
-        
-        
-        [self.navigationController pushViewController:videoAuthC animated:YES];
+        NSLog(@"点击了视频认证(已开通) 信息ID为%@&&&& %d",selectedID,indexNum);
+        //[self VideoVCWithSelectedID:selectedID];
+        [self VideoVCWithSelectedID:indexNum];
     }
     if (btnTag == 2000) {
-        NSLog(@"点击了视频认证(未开通) 信息ID为%@",selectedID);
-        VideoAuthController *videoAuthC = [[VideoAuthController alloc] init];
-        videoAuthC.terminalID =selectedID;
-        videoAuthC.hidesBottomBarWhenPushed=YES;
-        
-        
-        [self.navigationController pushViewController:videoAuthC animated:YES];
-
+        NSLog(@"点击了视频认证(未开通) 信息ID为%@&&&& %d",selectedID,indexNum);
+        [self VideoVCWithSelectedID:indexNum];
     }
     if (btnTag == 2001) {
         NSLog(@"点击了申请开通");
@@ -1387,6 +1432,8 @@
     }
     if (btnTag == 2002) {
         NSLog(@"点击了同步(未开通)");
+        [self synchronization:nil];
+
     }
     if (btnTag == 3000) {
         NSLog(@"点击了找回POS密码（部分开通）");
@@ -1394,14 +1441,8 @@
 
     }
     if (btnTag == 3001) {
-        NSLog(@"点击了视频认证(部分开通) 信息ID为%@",selectedID);
-        VideoAuthController *videoAuthC = [[VideoAuthController alloc] init];
-        videoAuthC.terminalID =selectedID;
-        videoAuthC.hidesBottomBarWhenPushed=YES;
-        
-        
-        [self.navigationController pushViewController:videoAuthC animated:YES];
-
+        NSLog(@"点击了视频认证(部分开通) 信息ID为%@&&&& %d",selectedID,indexNum);
+         [self VideoVCWithSelectedID:indexNum];
     }
     if (btnTag == 3002) {
         NSLog(@"点击了重新申请开通");
@@ -1409,12 +1450,15 @@
     }
     if (btnTag == 3003) {
         NSLog(@"点击了同步（部分开通）");
+        [self synchronization:nil];
+
     }
     if (btnTag == 4000) {
         NSLog(@"点击了更新资料");
     }
     if (btnTag == 4001) {
         NSLog(@"点击了同步（已停用）");
+        [self synchronization:nil];
     }
     if (btnTag == 5000) {
         NSLog(@"点击了租赁退换（已注销）");
@@ -1496,6 +1540,29 @@
 -(void)removePOSView
 {
     [_findPosView removeFromSuperview];
+}
+
+
+//视频认证
+-(void)VideoVCWithSelectedID:(int)indexNum
+{
+   
+    TerminalManagerModel *model = [_terminalItems objectAtIndex:indexNum];
+    VideoAuthViewController *videoAuthVC = [[VideoAuthViewController alloc] init];
+    videoAuthVC.terminalID = model.TM_ID;
+    videoAuthVC.hidesBottomBarWhenPushed=YES;
+    [self.navigationController pushViewController:videoAuthVC animated:YES];
+
+    
+}
+
+
+//同步
+- (void)synchronization:(id)sender
+{
+    
+    [self getTerminalSynchronous];
+    
 }
 
 

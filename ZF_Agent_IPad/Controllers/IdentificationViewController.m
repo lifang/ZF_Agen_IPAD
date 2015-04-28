@@ -14,7 +14,8 @@
 #import "TerminalManagerModel.h"
 #import "ApplyDetailController.h"
 #import "SearchTermianlViewController.h"
-#import "VideoAuthController.h"
+#import "VideoAuthViewController.h"
+
 @interface IdentificationViewController ()<RefreshDelegate,LoginSuccessDelegate,UITableViewDelegate,UITableViewDataSource,SearchDelegate>
 {
     
@@ -511,26 +512,25 @@
 -(void)vedioConfirmClick:(UIButton *)button
 {
     IdentificationModel *model = [_applyList objectAtIndex:button.tag];
+    VideoAuthViewController *videoAuthVC = [[VideoAuthViewController alloc] init];
+    videoAuthVC.terminalID = model.TM_ID;
+    videoAuthVC.hidesBottomBarWhenPushed=YES;
+    [self.navigationController pushViewController:videoAuthVC animated:YES];
 
-    VideoAuthController *videoAuthC = [[VideoAuthController alloc] init];
-    videoAuthC.terminalID = model.TM_ID;
-    videoAuthC.hidesBottomBarWhenPushed=YES;
-    
-    
-    [self.navigationController pushViewController:videoAuthC animated:YES];}
+}
+
+
 
 -(void)applicationClick:(UIButton *)button
 {
     
     TerminalManagerModel *model = [_applyList objectAtIndex:button.tag];
-    
     ApplyDetailController *detailVC = [[ApplyDetailController alloc] init];
     detailVC.terminalID =[NSString stringWithFormat:@"%d",button.tag];
     detailVC.hidesBottomBarWhenPushed = YES;
     if(  [model.TM_status  isEqualToString:@"2"])
     {
         detailVC.openStatus = OpenStatusReopen;
-        
         
     }else
     {

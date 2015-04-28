@@ -139,11 +139,13 @@
     [_scrollView addSubview:openbutton];
 
     if(_isopen)
-    {
+    {        filterButton.hidden=NO;
+        
         [openbutton setImage:kImageName(@"open") forState:UIControlStateNormal];
         
     }else
     {
+        filterButton.hidden=YES;
         
         [openbutton setImage:kImageName(@"close") forState:UIControlStateNormal];
         

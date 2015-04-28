@@ -285,7 +285,7 @@
             hud.customView = [[UIImageView alloc] init];
             hud.mode = MBProgressHUDModeCustomView;
             [hud hide:YES afterDelay:1.f];
-            hud.labelText = @"请输入正确的手机号";
+            hud.labelText = @"请输入正确的邮箱号";
         }
     }
 }

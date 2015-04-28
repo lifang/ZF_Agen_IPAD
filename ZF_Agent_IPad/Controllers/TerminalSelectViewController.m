@@ -637,7 +637,7 @@
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
     hud.labelText = @"加载中...";
     AppDelegate *delegate = [AppDelegate shareAppDelegate];
-    [NetworkInterface  screeningPOSNameWithtoken:delegate.token customerId:delegate.agentID finished:^(BOOL success, NSData *response) {
+    [NetworkInterface  screeningPOSNameWithtoken:delegate.token customerId:delegate.agentUserID finished:^(BOOL success, NSData *response) {
         NSLog(@"POS：%@",[[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding]);
         hud.customView = [[UIImageView alloc] init];
         hud.mode = MBProgressHUDModeCustomView;
