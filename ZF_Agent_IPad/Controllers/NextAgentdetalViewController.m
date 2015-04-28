@@ -87,6 +87,44 @@
     
     
 }
+- (void)setHasBenefit {
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+    hud.labelText = @"提交中...";
+    AppDelegate *delegate = [AppDelegate shareAppDelegate];
+    int benefit = 1;
+    if (_isopen) {
+        benefit = 2;
+    }
+    [NetworkInterface setHasBenefitWithAgentID:delegate.agentID subAgentID:_subAgent.agentID hasBenefit:benefit finished:^(BOOL success, NSData *response) {
+        NSLog(@"%@",[[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding]);
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:0.5f];
+        if (success) {
+            id object = [NSJSONSerialization JSONObjectWithData:response options:NSJSONReadingMutableLeaves error:nil];
+            if ([object isKindOfClass:[NSDictionary class]]) {
+                NSString *errorCode = [object objectForKey:@"code"];
+                if ([errorCode intValue] == RequestFail) {
+                    //返回错误代码
+                    hud.labelText = [NSString stringWithFormat:@"%@",[object objectForKey:@"message"]];
+                }
+                else if ([errorCode intValue] == RequestSuccess) {
+                    [hud hide:YES];
+                    hud.labelText = @"设置成功";
+                    
+                }
+            }
+            else {
+                //返回错误数据
+                hud.labelText = kServiceReturnWrong;
+            }
+        }
+        else {
+            hud.labelText = kNetworkFailed;
+        }
+    }];
+}
+
 -(void)openclick
 {
     _isopen=!_isopen;
@@ -105,7 +143,8 @@
         
     }
 
-    
+    [self setHasBenefit];
+
     
     
 }
@@ -369,7 +408,16 @@ else
         return;
     }
     _agentDetail = [[SubAgentDetailModel alloc] initWithParseDictionary:[dict objectForKey:@"result"]];
-    _isopen=_agentDetail.hasProfit;
+    if([[[dict objectForKey:@"result"] objectForKey:@"is_have_profit"] integerValue]==2)
+    {
+        _isopen=YES;
+        
+    }else
+    {
+        _isopen=NO;
+        
+        
+    }
     
     [self createui];
     

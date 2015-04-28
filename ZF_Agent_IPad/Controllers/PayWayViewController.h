@@ -19,12 +19,17 @@ typedef enum {
 //订单、购物车、商品详情、维修记录可跳转此类
 
 @interface PayWayViewController : CommonViewController
+{    CGFloat payMoney ;
+
+
+}
 @property (nonatomic, assign) PayWayFromType fromType; //跳转来源
 
 @property (nonatomic, assign) CGFloat totalPrice;
 
 @property (nonatomic, strong) NSString *orderID;
 @property (nonatomic, strong) NSString *goodID;
+@property (nonatomic, assign) BOOL isPayPartMoney;
 
 @property (nonatomic, strong) NSString *goodName;
 @end

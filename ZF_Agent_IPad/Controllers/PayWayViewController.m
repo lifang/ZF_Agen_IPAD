@@ -10,10 +10,12 @@
 #import "NetworkInterface.h"
 #import "AlipayHelper.h"
 #import "OrderDetailController.h"
+#import "OrderManagerController.h"
 
 
 @interface PayWayViewController ()<UIActionSheetDelegate>
 @property (nonatomic, strong) NSString *payNumber;  //支付单号
+@property (nonatomic, assign) CGFloat remainPrice;  //剩余金额 批购付款用到
 
 @property (nonatomic, strong) UITableView *tableView;
 
@@ -185,16 +187,24 @@
         return;
     }
     id infoDict = [dict objectForKey:@"result"];
-    if ([infoDict isKindOfClass:[NSDictionary class]]) {
+    payMoney = _totalPrice;
+
+    if ([infoDict isKindOfClass:[NSDictionary class]])
+    {
         if (_fromType == PayWayFromGoodWholesale || _fromType == PayWayFromOrderWholesale) {
-            _totalPrice = [[infoDict objectForKey:@"price_dingjin"] floatValue] / 100;
-        }
+            payMoney = [[infoDict objectForKey:@"price_dingjin"] floatValue] / 100;
+            _remainPrice = [[infoDict objectForKey:@"shengyu_price"] floatValue] / 100;        }
         else {
-            _totalPrice = [[infoDict objectForKey:@"order_totalPrice"] floatValue] / 100;
+            payMoney = [[infoDict objectForKey:@"order_totalPrice"] floatValue] / 100;
         }
         _payNumber = [infoDict objectForKey:@"order_number"];
     }
-    
+    if (_isPayPartMoney)
+    {
+        payMoney = _totalPrice;
+    }
+    _totalPrice = payMoney;
+
     [self setHeaderAndFooterView];
 }
 
@@ -252,7 +262,7 @@
     priceLabel.textColor = [UIColor whiteColor];
     priceLabel.font = [UIFont boldSystemFontOfSize:48.f];
     priceLabel.adjustsFontSizeToFitWidth = YES;
-    priceLabel.text = [NSString stringWithFormat:@"￥%.2f",_totalPrice];
+    priceLabel.text = [NSString stringWithFormat:@"￥%.2f",payMoney];
     [blackView addSubview:priceLabel];
     
     UILabel *typeLabel = [[UILabel alloc] initWithFrame:CGRectMake(leftSpace, hearderHeight +40, wide - leftSpace - rightSpace, 20.f)];
@@ -293,12 +303,20 @@
 {
     //支付宝
     if (_payNumber) {
-        [AlipayHelper alipayWithOrderNumber:_payNumber goodName:_goodName totalPrice:_totalPrice payResult:^(NSDictionary *resultDict) {
+        
+        BOOL isWholesale = NO;
+        if (_fromType == PayWayFromGoodWholesale || _fromType == PayWayFromOrderWholesale) {
+            isWholesale = YES;
+        }
+        [AlipayHelper alipayWithOrderNumber:_payNumber goodName:_goodName totalPrice:_totalPrice isWholesale:isWholesale payResult:^(NSDictionary *resultDict) {
+
             int resultCode = [[resultDict objectForKey:@"resultStatus"] intValue];
             NSString *tipString = @"";
             if (resultCode == 9000) {
                 //                [self performSelector:@selector(updatOrderAfterPay) withObject:nil afterDelay:0.1f];
                 tipString = @"订单支付成功";
+                [[NSNotificationCenter defaultCenter] postNotificationName:RefreshOrderListNotification object:nil];
+
                 [self performSelector:@selector(showDetail) withObject:nil afterDelay:0.5];
             }
             else {

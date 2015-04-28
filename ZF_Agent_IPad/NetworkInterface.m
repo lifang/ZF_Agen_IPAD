@@ -1377,6 +1377,22 @@ static NSString *HTTP_GET  = @"GET";
                         finished:finish];
     
 }
+//50.
++ (void)getPrepareGoodPOSWithAgentID:(NSString *)agentID
+                               token:(NSString *)token
+                            finished:(requestDidFinished)finish {
+    //参数
+    NSMutableDictionary *paramDict = [[NSMutableDictionary alloc] init];
+    if (agentID) {
+        [paramDict setObject:[NSNumber numberWithInt:[agentID intValue]] forKey:@"agentId"];
+    }
+    //url
+    NSString *urlString = [NSString stringWithFormat:@"%@/%@",kServiceURL,s_prepareGoodPOS_method];
+    [[self class] requestWithURL:urlString
+                          params:paramDict
+                      httpMethod:HTTP_POST
+                        finished:finish];
+}
 //51.
 + (void)getPrepareGoodChannelWithAgentID:(NSString *)agentID
                                    token:(NSString *)token
@@ -2523,6 +2539,22 @@ static NSString *HTTP_GET  = @"GET";
     [paramDict setObject:[NSNumber numberWithInt:[orderID intValue]] forKey:@"id"];
     //url
     NSString *urlString = [NSString stringWithFormat:@"%@/%@",kServiceURL,s_procurementPay_method];
+    [[self class] requestWithURL:urlString
+                          params:paramDict
+                      httpMethod:HTTP_POST
+                        finished:finish];
+}
++ (void)setHasBenefitWithAgentID:(NSString *)agentID
+                      subAgentID:(NSString *)subAgentID
+                      hasBenefit:(int)benefit
+                        finished:(requestDidFinished)finish {
+    //参数
+    NSMutableDictionary *paramDict = [[NSMutableDictionary alloc] init];
+    [paramDict setObject:[NSNumber numberWithInt:[agentID intValue]] forKey:@"agentsId"];
+    [paramDict setObject:[NSNumber numberWithInt:[subAgentID intValue]] forKey:@"sonAgentsId"];
+    [paramDict setObject:[NSNumber numberWithInt:benefit] forKey:@"isProfit"];
+    //url
+    NSString *urlString = [NSString stringWithFormat:@"%@/%@",kServiceURL,s_setHasBenefit_method];
     [[self class] requestWithURL:urlString
                           params:paramDict
                       httpMethod:HTTP_POST

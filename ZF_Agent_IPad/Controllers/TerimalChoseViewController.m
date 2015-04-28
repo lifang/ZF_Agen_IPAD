@@ -14,7 +14,7 @@
 #import "RegularFormat.h"
 #import "SearchTermianlViewController.h"
 #import "MJRefresh.h"
-
+#import "POSModel.h"
 
 @interface TerimalChoseViewController ()<UITableViewDelegate,UITableViewDataSource,UITextViewDelegate,UIPickerViewDelegate,UIPickerViewDataSource,UIPopoverControllerDelegate,SearchDelegate>
 {
@@ -644,7 +644,7 @@
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
     hud.labelText = @"加载中...";
     AppDelegate *delegate = [AppDelegate shareAppDelegate];
-    [NetworkInterface  screeningPOSNameWithtoken:delegate.token customerId:delegate.agentID finished:^(BOOL success, NSData *response) {
+    [NetworkInterface getPrepareGoodPOSWithAgentID:delegate.agentID token:delegate.token finished:^(BOOL success, NSData *response) {
         NSLog(@"POS：%@",[[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding]);
         hud.customView = [[UIImageView alloc] init];
         hud.mode = MBProgressHUDModeCustomView;
@@ -840,15 +840,32 @@
 #pragma mark - Data-POS
 
 - (void)parsePOSDataWithDictionary:(NSDictionary *)dict {
-    NSLog(@"zhihzihzhi");
-    //if (![dict objectForKey:@"result"] || ![[dict objectForKey:@"result"] isKindOfClass:[NSDictionary class]]) {
+    if (![dict objectForKey:@"result"] || ![[dict objectForKey:@"result"] isKindOfClass:[NSArray class]]) {
+        return;
+    }    //if (![dict objectForKey:@"result"] || ![[dict objectForKey:@"result"] isKindOfClass:[NSDictionary class]]) {
     //    return;
     // }
     // NSDictionary *infoDict = [dict objectForKey:@"result"];
-    _POSArray=[dict objectForKey:@"result"];
-    _POStitle=[NSString stringWithFormat:@"%@", [_POSArray[0] objectForKey:@"title"]];
+    NSArray *POSList = [dict objectForKey:@"result"];
+    for (int i = 0; i < [POSList count]; i++) {
+        id POSDict = [POSList objectAtIndex:i];
+        if ([POSDict isKindOfClass:[NSDictionary class]])
+        {
+            POSModel *model = [[POSModel alloc] initWithParsePrepareGoodDictionary:POSDict];
+            [_POSArray addObject:model];
+            
+        }
+    }
+    if ([_POSArray count] <= 0) {
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:1.f];
+        hud.labelText = @"没有数据";
+    }
+//        _POStitle=[NSString stringWithFormat:@"%@", [_POSArray[0] objectForKey:@"goodname"]];
     [self pickerDisplay:_POSTV];
-    
+ 
     
 }
 
@@ -924,9 +941,12 @@
 {
     if (pickerstatus==100) {
         NSInteger index = [_pickerView selectedRowInComponent:0];
-        _POSTV.text=[NSString stringWithFormat:@"%@"
-                     , [[_POSArray objectAtIndex:index] objectForKey:@"title"]];
-        _goodid=[[[_POSArray objectAtIndex:index] objectForKey:@"id"] integerValue];
+        POSModel *model =[_POSArray objectAtIndex:index]  ;
+
+        
+        _POSTV.text=model.title;
+        _goodid=[model.ID integerValue];
+        
         
         
     }
@@ -1051,8 +1071,9 @@
 
 - (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component {
     if (pickerstatus==100) {
-        
-        return [[_POSArray objectAtIndex:row] objectForKey:@"title"];
+        POSModel *model =[_POSArray objectAtIndex:row]  ;
+
+        return model.title;
         
     }
     else

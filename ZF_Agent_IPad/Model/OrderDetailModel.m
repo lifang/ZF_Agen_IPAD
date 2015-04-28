@@ -76,6 +76,8 @@
             _createTime = @"";
         }
         _orderStatus = [[dict objectForKey:@"order_status"] intValue];
+        _payStatus = [[dict objectForKey:@"pay_status"] intValue];
+
         _actualPrice = [[dict objectForKey:@"order_totalPrice"] floatValue] / 100;
         _totalDeposit = [[dict objectForKey:@"total_dingjin"] floatValue] / 100;
         _paidDeposit = [[dict objectForKey:@"zhifu_dingjin"] floatValue] / 100;
@@ -123,10 +125,15 @@
     if (supplyType == SupplyGoodsWholesale) {
         switch (_orderStatus) {
             case WholesaleStatusUnPaid:
-                statusString = @"未付款";
+                if (_payStatus == 2) {
+                    statusString = @"已付定金";
+                }
+                else {
+                    statusString = @"未付款";
+                }
                 break;
-            case WholesaleStatusPartPaid:
-                statusString = @"已付定金";
+            case 2:
+                statusString = @"已付款";
                 break;
             case WholesaleStatusFinish:
                 statusString = @"已完成";
