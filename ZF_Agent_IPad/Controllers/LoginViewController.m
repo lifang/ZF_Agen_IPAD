@@ -16,6 +16,9 @@
 @interface LoginViewController ()<UITextFieldDelegate>
 @property(nonatomic,strong)UITextField *userField;
 @property(nonatomic,strong)UITextField *passwordField;
+@property(nonatomic,strong)UIView *GuideView;
+@property(nonatomic,strong)UIImageView *imageV;
+
 @end
 #define iOS7 ([UIDevice currentDevice].systemVersion.floatValue >= 7.0&&8.0>[UIDevice currentDevice].systemVersion.floatValue )
 #define iOS8 ([UIDevice currentDevice].systemVersion.floatValue >= 8.0)
@@ -32,18 +35,29 @@
     [super viewDidLoad];
     self.view.backgroundColor = kColor(144, 144, 144, 0.7);
     [self setLoginView];
+    
+    //判断是不是第一次启动应用
+    if(![[NSUserDefaults standardUserDefaults] boolForKey:@"firstLaunch"])
+    {
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"firstLaunch"];
+        NSLog(@"第一次启动");
+        
+        [self setGuideUI];
+    }
+ 
+
 }
 
 -(void)setLoginView
 {
-    UIImageView *imageV = [[UIImageView alloc]init];
-    imageV.userInteractionEnabled = YES;
-    imageV.image = kImageName(@"login_Bg");
-    imageV.frame = CGRectMake(0, 0, kScreenWidth, kScreenHeight);
+    _imageV = [[UIImageView alloc]init];
+    _imageV.userInteractionEnabled = YES;
+    _imageV.image = kImageName(@"login_Bg");
+    _imageV.frame = CGRectMake(0, 0, kScreenWidth, kScreenHeight);
     if (iOS7) {
-        imageV.frame = CGRectMake(0, 0, kScreenHeight, kScreenWidth);
+        _imageV.frame = CGRectMake(0, 0, kScreenHeight, kScreenWidth);
     }
-    [self.view addSubview:imageV];
+    [self.view addSubview:_imageV];
     
     UIView *loginView = [[UIView alloc]init];
     loginView.frame = CGRectMake(300, 140, 430, 380);
@@ -130,9 +144,95 @@
     [registerBtn addTarget:self action:@selector(registers:) forControlEvents:UIControlEventTouchUpInside];
     registerBtn.frame = CGRectMake(loginView.frame.size.width - 60, findPasswordBtn.frame.origin.y, 40, 20);
     [loginView addSubview:registerBtn];
-    [self.view addSubview:imageV];
-    [imageV addSubview:loginView];
+    [self.view addSubview:_imageV];
+    [_imageV addSubview:loginView];
 }
+
+-(void)setGuideUI
+{
+    float wide;
+    float high;
+    
+    if (iOS7) {
+        wide=SCREEN_HEIGHT;
+        high=SCREEN_WIDTH;
+        
+    }
+    else
+    {
+        wide=SCREEN_WIDTH;
+        high=SCREEN_HEIGHT;
+        
+    }
+    _GuideView = [[UIView alloc]init];
+    _GuideView.frame = CGRectMake(0, 0, wide, high);
+    _GuideView.backgroundColor = [UIColor whiteColor];
+    [_imageV addSubview:_GuideView];
+    
+    
+    NSArray *arr=[NSArray arrayWithObjects:@"pad1",@"pad2",@"pad3",@"pad4", nil];
+    //数组内存放的是我要显示的假引导页面图片
+    UIScrollView *scrollView=[[UIScrollView alloc] initWithFrame:self.view.bounds];
+    scrollView.contentSize=CGSizeMake(wide*arr.count, high);
+    scrollView.pagingEnabled=YES;
+    scrollView.showsVerticalScrollIndicator = NO;
+    scrollView.showsHorizontalScrollIndicator = NO;
+    
+    [_GuideView addSubview:scrollView];
+    for (int i=0; i<arr.count; i++) {
+        UIImageView *img=[[UIImageView alloc] initWithFrame:CGRectMake(i*wide, 0, wide, high)];
+        img.image=[UIImage imageNamed:arr[i]];
+        [scrollView addSubview:img];
+    }
+    
+    
+    UIButton *useBtn=[[UIButton alloc] init];
+    useBtn.frame=CGRectMake(254+wide*3, high-78-50, (wide-507-77)/2.0, 50);
+    useBtn.layer.masksToBounds=YES;
+    useBtn.layer.borderWidth=10.0;
+    useBtn.layer.cornerRadius=8.0;
+    useBtn.layer.borderColor=[UIColor colorWithHexString:@"006fd5"].CGColor;
+    [useBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [useBtn setTitle:@"马上使用" forState:UIControlStateNormal];
+    [useBtn setBackgroundColor:[UIColor colorWithHexString:@"006fd5"]];
+    [useBtn addTarget:self action:@selector(useBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+    [scrollView addSubview:useBtn];
+    
+    
+    UIButton *applyBtn=[[UIButton alloc] init];
+    applyBtn.frame=CGRectMake(254+wide*3+(wide-507-77)/2.0+77, high-78-50, (wide-507-77)/2.0, 50);
+    applyBtn.layer.masksToBounds=YES;
+    applyBtn.layer.borderWidth=10.0;
+    applyBtn.layer.cornerRadius=8.0;
+    applyBtn.layer.borderColor=[UIColor colorWithHexString:@"006fd5"].CGColor;
+    [applyBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [applyBtn setTitle:@"申请成为代理商" forState:UIControlStateNormal];
+    [applyBtn setBackgroundColor:[UIColor colorWithHexString:@"006fd5"]];
+    [applyBtn addTarget:self action:@selector(applyBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+    [scrollView addSubview:applyBtn];
+
+}
+
+-(void)useBtnClick:(id)sender
+{
+    [_GuideView removeFromSuperview];
+   
+}
+
+-(void)applyBtnClick:(id)sender
+{
+    [_GuideView removeFromSuperview];
+    [self gotoregister];
+
+}
+
+
+-(void)gotoregister
+{
+    RegisterViewController *registerV = [[RegisterViewController alloc]init];
+    [self.navigationController pushViewController:registerV animated:YES];
+}
+
 
 -(void)registers:(UIButton *)sender
 {
