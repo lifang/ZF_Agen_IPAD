@@ -1426,6 +1426,15 @@
         hud.labelText = @"请填写密码";
         return;
     }
+    if (_loginPasswordField.text.length <= 5) {
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:1.f];
+        hud.labelText = @"密码长度过短";
+        return;
+    }
+    
     if (!_makeSurePasswordField.text || ![_makeSurePasswordField.text isEqualToString:_loginPasswordField.text]) {
         MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
         hud.customView = [[UIImageView alloc] init];
