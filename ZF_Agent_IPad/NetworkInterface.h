@@ -580,7 +580,10 @@ static NSString *s_setHasBenefit_method = @"lowerAgent/setDefaultProfit";
  @result finish  请求回调结果
  */
 + (void)chooseBankWithToken:(NSString *)token
-                   bankName:(NSString *)bankName
+                    keyword:(NSString *)keyword
+                       page:(int)page
+                       pageSize:(int)pageSize
+                     terminalId:(NSString *)terminalId
                    finished:(requestDidFinished)finish;
 /*!
  @abstract 14.申请开通--对公对私材料名称
@@ -748,6 +751,7 @@ static NSString *s_setHasBenefit_method = @"lowerAgent/setDefaultProfit";
  */
 
 + (void)getTerminalSynchronousWithToken:(NSString *)token
+                       terminalsId:(NSString *)terminalsId
                         finished:(requestDidFinished)finish;
 
 
@@ -791,6 +795,7 @@ static NSString *s_setHasBenefit_method = @"lowerAgent/setDefaultProfit";
                   password:(NSString *)password
                 codeNumber:(NSString *)codeNumber
                     cityId:(NSString *)cityId
+                    code:(NSString *)code
                   finished:(requestDidFinished)finish;
 
 

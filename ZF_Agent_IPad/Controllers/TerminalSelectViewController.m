@@ -709,9 +709,7 @@
 //pos机,通道,价格,筛选终端
 
 - (void)firstLoadData {
-    _page = 1;
-    
-    
+     _page = 1;
     
     [self FilterTerminalsWithPage:_page isMore:NO];
     

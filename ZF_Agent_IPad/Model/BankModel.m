@@ -18,6 +18,10 @@
         if ([dict objectForKey:@"code"]) {
             _bankCode = [NSString stringWithFormat:@"%@",[dict objectForKey:@"code"]];
         }
+        if ([dict objectForKey:@"no"]) {
+            _bankCode = [NSString stringWithFormat:@"%@",[dict objectForKey:@"no"]];
+        }
+
     }
     return self;
 }

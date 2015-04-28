@@ -96,6 +96,8 @@
 
 @property (nonatomic, strong) UITextView *blackTV;
 
+@property (nonatomic, strong) NSString *userId;
+
 @end
 
 @implementation TerminalViewController
@@ -501,8 +503,8 @@
 -(void)submitBtnClick:(id)sender
 {
 
-    if ([_TerminalsArray count] <= 0) {
-        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+    if ((!_posTV.text||[_AddressTV.text isEqualToString:@""])&&([_TerminalsArray count] <= 0)) {
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:_whiteView animated:YES];
         hud.customView = [[UIImageView alloc] init];
         hud.mode = MBProgressHUDModeCustomView;
         [hud hide:YES afterDelay:1.f];
@@ -510,7 +512,7 @@
         return;
     }
     if (!_AddressTV.text ||[_AddressTV.text isEqualToString:@""]) {
-        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:_whiteView animated:YES];
         hud.customView = [[UIImageView alloc] init];
         hud.mode = MBProgressHUDModeCustomView;
         [hud hide:YES afterDelay:1.f];
@@ -518,7 +520,7 @@
         return;
     }
     if (!_reseasonTV.text || [_reseasonTV.text isEqualToString:@""]) {
-        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:_whiteView animated:YES];
         hud.customView = [[UIImageView alloc] init];
         hud.mode = MBProgressHUDModeCustomView;
         [hud hide:YES afterDelay:1.f];
@@ -654,7 +656,7 @@
 -(void)bindingBtnClick:(id)sender
 {
     if (!_UserTV.text ||[_UserTV.text isEqualToString:@""]) {
-        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:_whiteView animated:YES];
         hud.customView = [[UIImageView alloc] init];
         hud.mode = MBProgressHUDModeCustomView;
         [hud hide:YES afterDelay:1.f];
@@ -662,7 +664,7 @@
         return;
     }
     if (!_TerminalTV.text ||[_TerminalTV.text isEqualToString:@""]) {
-        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:_whiteView animated:YES];
         hud.customView = [[UIImageView alloc] init];
         hud.mode = MBProgressHUDModeCustomView;
         [hud hide:YES afterDelay:1.f];
@@ -671,7 +673,7 @@
     }
 
     [self bindingTerminals];
-    [self removePOSView];
+    //[self removePOSView];
     
 }
 
@@ -821,6 +823,7 @@
     _pwdTV.layer.borderColor=[UIColor colorWithHexString:@"a8a8a8"].CGColor;
     _pwdTV.backgroundColor = [UIColor clearColor];
     _pwdTV.font = FONT20;
+    _pwdTV.secureTextEntry = YES;
     _pwdTV.frame = CGRectMake(_codeTV.frame.origin.x, pwdLB.frame.origin.y, 240, 40);
     [_secondView addSubview:_pwdTV];
 
@@ -837,6 +840,7 @@
     _confpwdTV.layer.borderColor=[UIColor colorWithHexString:@"a8a8a8"].CGColor;
     _confpwdTV.backgroundColor = [UIColor clearColor];
     _confpwdTV.font = FONT20;
+    _confpwdTV.secureTextEntry = YES;
     _confpwdTV.frame = CGRectMake(_codeTV.frame.origin.x, confpwdLB.frame.origin.y, 240, 40);
     [_secondView addSubview:_confpwdTV];
 
@@ -963,6 +967,8 @@
 -(void)selectedUser:(UserModel *)model {
     [_findPosView setHidden:NO];
     _UserTV.text=model.userName;
+    _userId=model.userID;
+   
     
 }
 
@@ -1181,7 +1187,7 @@
 
 //提交售后
 - (void)submitAfterSale {
-    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:_whiteView animated:YES];
     hud.labelText = @"提交中...";
     AppDelegate *delegate = [AppDelegate shareAppDelegate];
      NSString *terminalString = [self terminalStringWithArray:_TerminalsArray];
@@ -1222,10 +1228,10 @@
 
 //绑定终端
 - (void)bindingTerminals {
-    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:_whiteView animated:YES];
     hud.labelText = @"提交中...";
     AppDelegate *delegate = [AppDelegate shareAppDelegate];
-    [NetworkInterface bindingTerminalWithtoken:delegate.token terminalsNum:_textView.text userId:_UserTV.text  finished:^(BOOL success, NSData *response) {
+    [NetworkInterface bindingTerminalWithtoken:delegate.token terminalsNum:_TerminalTV.text userId:_userId  finished:^(BOOL success, NSData *response) {
         hud.customView = [[UIImageView alloc] init];
         hud.mode = MBProgressHUDModeCustomView;
         [hud hide:YES afterDelay:0.5f];
@@ -1239,7 +1245,7 @@
                 }
                 else if ([errorCode intValue] == RequestSuccess) {
                     hud.labelText = @"绑定终端成功";
-                   // [self removePOSView];
+                    [self removePOSView];
                     
                 }
             }
@@ -1256,10 +1262,16 @@
 
 //创建新用户
 - (void)addNewUser {
+    
+    NSLog(@"username:%@",_nameTV.text);
+    NSLog(@"pwd:%@",_pwdTV.text);
+    NSLog(@"codeNumber:%@",_phoneTV.text);
+    NSLog(@"cityId:%@",_cityId);
+    NSLog(@"code:%@",_codeTV.text);
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:_secondView animated:YES];
     hud.labelText = @"加载中...";
     AppDelegate *delegate = [AppDelegate shareAppDelegate];
-    [NetworkInterface  addUserWithtoken:delegate.token AgentId:delegate.agentID username:_nameTV.text password:_pwdTV.text codeNumber:_codeTV.text cityId:_cityId finished:^(BOOL success, NSData *response) {
+    [NetworkInterface  addUserWithtoken:delegate.token AgentId:delegate.agentID username:_nameTV.text password:_pwdTV.text codeNumber:_phoneTV.text cityId:_cityId code:_codeTV.text finished:^(BOOL success, NSData *response) {
         NSLog(@"%@",[[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding]);
         hud.customView = [[UIImageView alloc] init];
         hud.mode = MBProgressHUDModeCustomView;
@@ -1329,11 +1341,11 @@
 
 
 //同步
-- (void)getTerminalSynchronous {
+- (void)getTerminalSynchronous:(NSString *)string {
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
     hud.labelText = @"提交中...";
     AppDelegate *delegate = [AppDelegate shareAppDelegate];
-    [NetworkInterface getTerminalSynchronousWithToken:delegate.token finished:^(BOOL success, NSData *response) {
+    [NetworkInterface getTerminalSynchronousWithToken:delegate.token terminalsId:string finished:^(BOOL success, NSData *response) {
         hud.customView = [[UIImageView alloc] init];
         hud.mode = MBProgressHUDModeCustomView;
         [hud hide:YES afterDelay:0.5f];
@@ -1432,7 +1444,7 @@
     }
     if (btnTag == 2002) {
         NSLog(@"点击了同步(未开通)");
-        [self synchronization:nil];
+        [self synchronization:indexNum];
 
     }
     if (btnTag == 3000) {
@@ -1450,7 +1462,7 @@
     }
     if (btnTag == 3003) {
         NSLog(@"点击了同步（部分开通）");
-        [self synchronization:nil];
+        [self synchronization:indexNum];
 
     }
     if (btnTag == 4000) {
@@ -1458,7 +1470,7 @@
     }
     if (btnTag == 4001) {
         NSLog(@"点击了同步（已停用）");
-        [self synchronization:nil];
+        [self synchronization:indexNum];
     }
     if (btnTag == 5000) {
         NSLog(@"点击了租赁退换（已注销）");
@@ -1468,7 +1480,7 @@
 }
 
 
-//找回PS密码
+//找回POS密码
 -(void)initFindPosViewWithSelectedID:(NSString *)selectedID WithIndexNum:(int)indexP
 {
     CGFloat width;
@@ -1549,7 +1561,7 @@
    
     TerminalManagerModel *model = [_terminalItems objectAtIndex:indexNum];
     VideoAuthViewController *videoAuthVC = [[VideoAuthViewController alloc] init];
-    videoAuthVC.terminalID = model.TM_ID;
+    videoAuthVC.terminalID = model.TM_ID;//终端记录id
     videoAuthVC.hidesBottomBarWhenPushed=YES;
     [self.navigationController pushViewController:videoAuthVC animated:YES];
 
@@ -1558,10 +1570,12 @@
 
 
 //同步
-- (void)synchronization:(id)sender
+- (void)synchronization:(int)indexNum
 {
     
-    [self getTerminalSynchronous];
+    TerminalManagerModel *model = [_terminalItems objectAtIndex:indexNum];
+    //终端号 model.TM_serialNumber
+    [self getTerminalSynchronous:model.TM_serialNumber];
     
 }
 
