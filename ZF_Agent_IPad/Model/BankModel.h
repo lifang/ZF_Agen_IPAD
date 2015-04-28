@@ -14,6 +14,8 @@
 
 @property (nonatomic, strong) NSString *bankCode;
 
+@property (nonatomic, strong) NSString *bankNo;
+
 @property (nonatomic, assign) BOOL isSelected;
 
 - (id)initWithParseDictionary:(NSDictionary *)dict;

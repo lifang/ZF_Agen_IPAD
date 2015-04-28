@@ -870,11 +870,11 @@
 }
 
 //同步
-- (void)getTerminalSynchronous {
+- (void)getTerminalSynchronous:(NSString *)string {
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
     hud.labelText = @"提交中...";
     AppDelegate *delegate = [AppDelegate shareAppDelegate];
-    [NetworkInterface getTerminalSynchronousWithToken:delegate.token finished:^(BOOL success, NSData *response) {
+    [NetworkInterface getTerminalSynchronousWithToken:delegate.token terminalsId:string finished:^(BOOL success, NSData *response) {
         hud.customView = [[UIImageView alloc] init];
         hud.mode = MBProgressHUDModeCustomView;
         [hud hide:YES afterDelay:0.5f];
@@ -1168,7 +1168,8 @@
 //同步
 - (void)synchronization:(id)sender
 {
-    [self getTerminalSynchronous];
+    
+    [self getTerminalSynchronous:_tm_ID];
     
     
 }

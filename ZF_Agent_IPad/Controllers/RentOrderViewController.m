@@ -986,7 +986,7 @@
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
     hud.labelText = @"加载中...";
     AppDelegate *delegate = [AppDelegate shareAppDelegate];
-    [NetworkInterface  addUserWithtoken:delegate.token AgentId:delegate.agentID username:_nameTV.text password:_pwdTV.text codeNumber:_codeTV.text cityId:_selectedCityID finished:^(BOOL success, NSData *response) {
+    [NetworkInterface  addUserWithtoken:delegate.token AgentId:delegate.agentID username:_nameTV.text password:_pwdTV.text codeNumber:_phoneTV.text cityId:_selectedCityID code:_codeTV.text finished:^(BOOL success, NSData *response) {
         NSLog(@"%@",[[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding]);
         hud.customView = [[UIImageView alloc] init];
         hud.mode = MBProgressHUDModeCustomView;

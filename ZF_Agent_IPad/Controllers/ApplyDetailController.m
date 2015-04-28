@@ -189,11 +189,13 @@
         {
             [_cityField setTitle:@"女" forState:UIControlStateNormal];
             
+           // [_infoDict setObject:@"0" forKey:@"key_sex"];
+
         }else
         {
             
             [_cityField setTitle:@"男" forState:UIControlStateNormal];
-            
+             //[_infoDict setObject:@"1" forKey:@"key_sex"];
             
         }
         
@@ -362,19 +364,17 @@
         {
             _cityField = [UIButton buttonWithType:UIButtonTypeCustom];
             _cityField.frame = CGRectMake(190+(wide/2-40)*row,  height*70+topSpace + labelHeight * 7,280, 40);
-            NSString*accountname=[NSString stringWithFormat:@"%@",[_infoDict objectForKey:[keynamesarry objectAtIndex:i]]];
+            NSString *accountname=[NSString stringWithFormat:@"%@",[_infoDict objectForKey:[keynamesarry objectAtIndex:i]]];
             
             if([accountname isEqualToString:@"0"])
             {
                 [_cityField setTitle:@"女" forState:UIControlStateNormal];
                 
                 
-            }else
+            }else if([accountname isEqualToString:@"1"])
             {
-                
                 [_cityField setTitle:@"男" forState:UIControlStateNormal];
-                
-                
+        
             }
             
             [_cityField setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
@@ -384,8 +384,7 @@
             _cityField.layer.borderWidth=1.0;
             _cityField.layer.borderColor=[UIColor grayColor].CGColor;
             _cityField.contentEdgeInsets = UIEdgeInsetsMake(0,-40, 0, 0);
-            _cityField.imageEdgeInsets = UIEdgeInsetsMake(0,270,0,0);//设置image在button上的位置（上top，左left，下bottom，右right）这里可以写负值，对上写－5，那么image就象上移动5个像素
-            
+            _cityField.imageEdgeInsets = UIEdgeInsetsMake(0,270,0,0);
             
             [_cityField addTarget:self action:@selector(sexclick) forControlEvents:UIControlEventTouchUpInside];
             [_scrollView addSubview:_cityField];
@@ -405,8 +404,7 @@
             birthdaybutton.layer.borderWidth=1.0;
             birthdaybutton.layer.borderColor=[UIColor grayColor].CGColor;
             birthdaybutton.contentEdgeInsets = UIEdgeInsetsMake(0,-40, 0, 0);
-            birthdaybutton.imageEdgeInsets = UIEdgeInsetsMake(0,270,0,0);//设置image在button上的位置（上top，左left，下bottom，右right）这里可以写负值，对上写－5，那么image就象上移动5个像素
-            
+            birthdaybutton.imageEdgeInsets = UIEdgeInsetsMake(0,270,0,0);
             
             [birthdaybutton addTarget:self action:@selector(birthdaybuttonclick) forControlEvents:UIControlEventTouchUpInside];
             [_scrollView addSubview:birthdaybutton];
@@ -531,7 +529,7 @@
     
     
     
-    UILabel*twoline = [[UILabel alloc] initWithFrame:CGRectMake(borderSpace+18,  4*70+topSpace + labelHeight *5+10, wide - 138, 1)];
+    UILabel *twoline = [[UILabel alloc] initWithFrame:CGRectMake(borderSpace+18,  4*70+topSpace + labelHeight *5+10, wide - 138, 1)];
     twoline.backgroundColor = [UIColor grayColor];
     [_scrollView addSubview:twoline];
     UILabel*threeline = [[UILabel alloc] initWithFrame:CGRectMake(borderSpace+18,  670, wide - 138, 1)];
@@ -1092,6 +1090,7 @@
     
     
 }
+
 //保存获取的内容
 - (void)setPrimaryData {
     if (_applyData.personName) {
@@ -1448,8 +1447,9 @@
     [makeSureBtn setTitle:@"确认" forState:UIControlStateNormal];
     makeSureBtn.titleLabel.font = [UIFont systemFontOfSize:20];
     makeSureBtn.frame = CGRectMake(datePicker.frame.origin.x + datePicker.frame.size.width * 0.6, CGRectGetMaxY(datePicker.frame), datePicker.frame.size.width * 0.4, 30);
-    [_scrollView addSubview:makeSureBtn];
     [_scrollView addSubview:datePicker];
+    [_scrollView addSubview:makeSureBtn];
+    
 }
 
 -(void)makeSureClick:(UIButton *)button

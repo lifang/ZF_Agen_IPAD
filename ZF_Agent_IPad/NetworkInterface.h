@@ -554,7 +554,10 @@ static NSString *s_subAgentUpload_method = @"lowerAgent/uploadImg";
  @result finish  请求回调结果
  */
 + (void)chooseBankWithToken:(NSString *)token
-                   bankName:(NSString *)bankName
+                    keyword:(NSString *)keyword
+                       page:(int)page
+                       pageSize:(int)pageSize
+                     terminalId:(NSString *)terminalId
                    finished:(requestDidFinished)finish;
 /*!
  @abstract 14.申请开通--对公对私材料名称
@@ -722,6 +725,7 @@ static NSString *s_subAgentUpload_method = @"lowerAgent/uploadImg";
  */
 
 + (void)getTerminalSynchronousWithToken:(NSString *)token
+                       terminalsId:(NSString *)terminalsId
                         finished:(requestDidFinished)finish;
 
 
@@ -765,6 +769,7 @@ static NSString *s_subAgentUpload_method = @"lowerAgent/uploadImg";
                   password:(NSString *)password
                 codeNumber:(NSString *)codeNumber
                     cityId:(NSString *)cityId
+                    code:(NSString *)code
                   finished:(requestDidFinished)finish;
 
 
