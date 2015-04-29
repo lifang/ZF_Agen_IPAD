@@ -1400,6 +1400,8 @@
                     
                     //id list = [[object objectForKey:@"result"] objectForKey:@"applyList"];
                    // [self parseSearchTerminalDataWithDictionary:object];
+                    
+                    
                 }
             }
             else {
