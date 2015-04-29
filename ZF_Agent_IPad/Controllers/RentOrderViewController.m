@@ -666,7 +666,7 @@
 
 - (void)selectedUser:(UserModel *)model {
     _defaultUser = model;
-    agentUserIDs=model.agentID;
+    agentUserIDs=model.userID;
     
     namestring=model.userName;
     

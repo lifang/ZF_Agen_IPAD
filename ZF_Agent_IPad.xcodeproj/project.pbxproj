@@ -97,6 +97,7 @@
 		0ECB5BFF1AE5ED4400AF0891 /* TradeTypeModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0ECB5BFE1AE5ED4400AF0891 /* TradeTypeModel.m */; };
 		0ECB5C021AE609C100AF0891 /* CreateBenefitController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0ECB5C011AE609C100AF0891 /* CreateBenefitController.m */; };
 		0ECB5C051AE60DB300AF0891 /* EditBenefitController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0ECB5C041AE60DB300AF0891 /* EditBenefitController.m */; };
+		0ECB82F11AEF5DC500986D0E /* POSModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0ECB82F01AEF5DC500986D0E /* POSModel.m */; };
 		0ECEB57F1AEA17A100CE217D /* libc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 0ECEB57E1AEA17A100CE217D /* libc++.dylib */; };
 		0ECEB5821AEA17C400CE217D /* libstdc++.6.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 0ECEB5801AEA17C400CE217D /* libstdc++.6.dylib */; };
 		0ECEB5831AEA17C400CE217D /* libstdc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 0ECEB5811AEA17C400CE217D /* libstdc++.dylib */; };
@@ -486,6 +487,8 @@
 		0ECB5C011AE609C100AF0891 /* CreateBenefitController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CreateBenefitController.m; sourceTree = "<group>"; };
 		0ECB5C031AE60DB300AF0891 /* EditBenefitController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditBenefitController.h; sourceTree = "<group>"; };
 		0ECB5C041AE60DB300AF0891 /* EditBenefitController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditBenefitController.m; sourceTree = "<group>"; };
+		0ECB82EF1AEF5DC500986D0E /* POSModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = POSModel.h; sourceTree = "<group>"; };
+		0ECB82F01AEF5DC500986D0E /* POSModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = POSModel.m; sourceTree = "<group>"; };
 		0ECEB57E1AEA17A100CE217D /* libc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libc++.dylib"; path = "usr/lib/libc++.dylib"; sourceTree = SDKROOT; };
 		0ECEB5801AEA17C400CE217D /* libstdc++.6.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libstdc++.6.dylib"; path = "usr/lib/libstdc++.6.dylib"; sourceTree = SDKROOT; };
 		0ECEB5811AEA17C400CE217D /* libstdc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libstdc++.dylib"; path = "usr/lib/libstdc++.dylib"; sourceTree = SDKROOT; };
@@ -1760,6 +1763,8 @@
 		1AF15AB31ACCE33300D5C171 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				0ECB82EF1AEF5DC500986D0E /* POSModel.h */,
+				0ECB82F01AEF5DC500986D0E /* POSModel.m */,
 				0ECB5BFD1AE5ED4400AF0891 /* TradeTypeModel.h */,
 				0ECB5BFE1AE5ED4400AF0891 /* TradeTypeModel.m */,
 				0ECB5BFA1AE5ED1C00AF0891 /* BenefitModel.h */,
@@ -2429,6 +2434,7 @@
 				1AF15B3F1ACCE40400D5C171 /* TreeNodeCollection.m in Sources */,
 				0EC696EC1ADB913F009D544E /* CreateViewController.m in Sources */,
 				1A9654921AD66FD200C39B5B /* MyMessageViewController.m in Sources */,
+				0ECB82F11AEF5DC500986D0E /* POSModel.m in Sources */,
 				0ED58EBD1AD4D78A0081E8BC /* GoodListViewController.m in Sources */,
 				1A9EEBA41AD7768E00DA6E0D /* UserManagerChildController.m in Sources */,
 			);

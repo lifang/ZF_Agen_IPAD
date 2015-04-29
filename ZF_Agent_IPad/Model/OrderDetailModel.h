@@ -30,6 +30,7 @@
 @property (nonatomic, strong) NSString *orderNumber; //订单号
 
 @property (nonatomic, strong) NSString *payType;     //支付类型
+@property (nonatomic, assign) int payStatus;         //定金状态
 
 @property (nonatomic, strong) NSString *createTime;  //订单日期
 

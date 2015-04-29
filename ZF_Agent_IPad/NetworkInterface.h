@@ -387,6 +387,12 @@ static NSString *s_homeImageList_method = @"index/sysshufflingfigure";
 static NSString *s_subAgentUpload_method = @"lowerAgent/uploadImg";
 //代购订单支付
 static NSString *s_procurementPay_method = @"shop/payOrder";
+
+//50.配货POS列表
+static NSString *s_prepareGoodPOS_method = @"preparegood/getgoodlist";
+//设置是否分润
+static NSString *s_setHasBenefit_method = @"lowerAgent/setDefaultProfit";
+
 @interface NetworkInterface : NSObject
 /*!
  @abstract 1.热卖
@@ -1877,5 +1883,25 @@ static NSString *s_procurementPay_method = @"shop/payOrder";
 + (void)uploadSubAgentImageWithAgentID:(NSString *)agentID
                                  image:(UIImage *)image
                               finished:(requestDidFinished)finish;
+/*!
+ @abstract 50.配货——POS列表
+ @param agentID  代理商id
+ @param token    登录返回
+ @result finish  请求回调结果
+ */
++ (void)getPrepareGoodPOSWithAgentID:(NSString *)agentID
+                               token:(NSString *)token
+                            finished:(requestDidFinished)finish;
+/*!
+ @abstract 设置是否分润
+ @param agentID  代理商id
+ @param subAgentID    登录返回
+ @param benefit  1.无 2.有
+ @result finish  请求回调结果
+ */
++ (void)setHasBenefitWithAgentID:(NSString *)agentID
+                      subAgentID:(NSString *)subAgentID
+                      hasBenefit:(int)benefit
+                        finished:(requestDidFinished)finish;
 
 @end

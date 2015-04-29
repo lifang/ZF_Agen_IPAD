@@ -347,6 +347,7 @@ typedef enum {
         return;
     }
     _orderDetail = [[OrderDetailModel alloc] initWithParseDictionary:[dict objectForKey:@"result"]];
+    
     [self initAndLayoutUI];
 }
 
@@ -902,6 +903,9 @@ typedef enum {
             payC.goodName = _goodName;
             payC.totalPrice = [textField.text floatValue];
             payC.fromType = PayWayFromOrderWholesale;
+            
+            payC.isPayPartMoney = YES; //部分付款
+
             [self.navigationController pushViewController:payC animated:YES];
         }
     }

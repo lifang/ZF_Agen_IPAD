@@ -761,6 +761,20 @@
             UITextField*neworiginaltextfield=[[UITextField alloc]init];
 
             neworiginaltextfield.frame = CGRectMake(wide/2-200,  i*60+100,280, 40);
+            if(i==0)
+            {
+                _ComapantNametextfield=neworiginaltextfield;
+                
+            }if(i==1)
+            {                _NmuberComapantNametextfield=neworiginaltextfield;
+
+            
+            }if(i==2)
+            {
+                _TaxComapantNametextfield=neworiginaltextfield;
+
+            
+            }
             
             neworiginaltextfield.delegate=self;
             
