@@ -813,6 +813,7 @@ static NSString *s_setHasBenefit_method = @"lowerAgent/setDefaultProfit";
  @result finish  请求回调结果
  */
 + (void)bindingTerminalWithtoken:(NSString *)token
+                         AgentId:(NSString *)agentId
                     terminalsNum:(NSString *)terminalsNum
                           userId:(NSString *)userId
                         finished:(requestDidFinished)finish;

@@ -709,6 +709,7 @@ static NSString *HTTP_GET  = @"GET";
 
 //26
 + (void)bindingTerminalWithtoken:(NSString *)token
+                         AgentId:(NSString *)agentId
                     terminalsNum:(NSString *)terminalsNum
                           userId:(NSString *)userId
                         finished:(requestDidFinished)finish{

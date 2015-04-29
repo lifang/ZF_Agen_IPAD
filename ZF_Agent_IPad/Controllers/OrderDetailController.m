@@ -462,23 +462,38 @@ typedef enum {
                     if (_supplyType == SupplyGoodsWholesale) {
                         //批购
                         if (_orderDetail.orderStatus == WholesaleStatusUnPaid) {
+                            
+                            if (_orderDetail.payStatus == 2)
+                            {
+                                //已付定金
+                                UIButton *cancelBtn = [self buttonWithTitle:@"取消订单" action:@selector(cancelWholesaleOrder:) style:OrderDetailBtnStyleFirst];
+                                cancelBtn.frame = CGRectMake(wide-150, 12, 100, 40);
+                                UIButton *payBtn = [self buttonWithTitle:@"付款" action:@selector(payWholesaleOrder:) style:OrderDetailBtnStyleSecond];
+                                payBtn.frame = CGRectMake(wide-150-120, 12, 100, 40);
+                                [cell.contentView addSubview:payBtn];
+                                [cell.contentView addSubview:cancelBtn];
+                                
+                            }
+                            else
+                            {
+                                UIButton *cancelBtn = [self buttonWithTitle:@"取消订单" action:@selector(cancelWholesaleOrder:) style:OrderDetailBtnStyleFirst];
+                                cancelBtn.frame = CGRectMake(wide-150, 12, 100, 40);
+                                UIButton *depositBtn = [self buttonWithTitle:@"支付定金" action:@selector(payDeposit:) style:OrderDetailBtnStyleSecond];
+                                depositBtn.frame = CGRectMake(wide-150-120, 12, 100, 40);
+                                [cell.contentView addSubview:depositBtn];
+                                [cell.contentView addSubview:cancelBtn];
+                            
+                            }
+                            
+                            
+                            
+                            
                             //未付款
-                            UIButton *cancelBtn = [self buttonWithTitle:@"取消订单" action:@selector(cancelWholesaleOrder:) style:OrderDetailBtnStyleFirst];
-                            cancelBtn.frame = CGRectMake(wide-150, 12, 100, 40);
-                            UIButton *depositBtn = [self buttonWithTitle:@"支付定金" action:@selector(payDeposit:) style:OrderDetailBtnStyleSecond];
-                            depositBtn.frame = CGRectMake(wide-150-120, 12, 100, 40);
-                            [cell.contentView addSubview:depositBtn];
-                            [cell.contentView addSubview:cancelBtn];
+                          
                         }
-                        else if (_orderDetail.orderStatus == WholesaleStatusPartPaid) {
-                            //已付定金
-                            UIButton *cancelBtn = [self buttonWithTitle:@"取消订单" action:@selector(cancelWholesaleOrder:) style:OrderDetailBtnStyleFirst];
-                            cancelBtn.frame = CGRectMake(wide-150, 12, 100, 40);
-                            UIButton *payBtn = [self buttonWithTitle:@"付款" action:@selector(payWholesaleOrder:) style:OrderDetailBtnStyleSecond];
-                            payBtn.frame = CGRectMake(wide-150-120, 12, 100, 40);
-                            [cell.contentView addSubview:payBtn];
-                            [cell.contentView addSubview:cancelBtn];
-                        }
+//                        else if (_orderDetail.orderStatus == WholesaleStatusPartPaid) {
+//                            
+//                        }
                         else if (_orderDetail.orderStatus == WholesaleStatusFinish) {
                             //再次批购
                             UIButton *repeatBtn = [self buttonWithTitle:@"再次批购" action:@selector(repeatWholesale:) style:OrderDetailBtnStyleSecond];

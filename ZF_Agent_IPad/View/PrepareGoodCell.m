@@ -34,40 +34,6 @@
     CGFloat leftSpace = 20.f;
     CGFloat rightSpace = 20.f;
     CGFloat labelHeight = 30;
-    
-    _agentLabel = [[UILabel alloc] init];
-    _agentLabel.translatesAutoresizingMaskIntoConstraints = NO;
-    _agentLabel.backgroundColor = [UIColor clearColor];
-    _agentLabel.font = [UIFont boldSystemFontOfSize:16.f];
-    [self.contentView addSubview:_agentLabel];
-    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_agentLabel
-                                                                 attribute:NSLayoutAttributeTop
-                                                                 relatedBy:NSLayoutRelationEqual
-                                                                    toItem:self.contentView
-                                                                 attribute:NSLayoutAttributeTop
-                                                                multiplier:1.0
-                                                                  constant:topSpace]];
-    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_agentLabel
-                                                                 attribute:NSLayoutAttributeLeft
-                                                                 relatedBy:NSLayoutRelationEqual
-                                                                    toItem:self.contentView
-                                                                 attribute:NSLayoutAttributeLeft
-                                                                multiplier:1.0
-                                                                  constant:80]];
-    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_agentLabel
-                                                                 attribute:NSLayoutAttributeRight
-                                                                 relatedBy:NSLayoutRelationEqual
-                                                                    toItem:self.contentView
-                                                                 attribute:NSLayoutAttributeRight
-                                                                multiplier:1.0
-                                                                  constant:-rightSpace]];
-    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_agentLabel
-                                                                 attribute:NSLayoutAttributeHeight
-                                                                 relatedBy:NSLayoutRelationEqual
-                                                                    toItem:nil
-                                                                 attribute:NSLayoutAttributeNotAnAttribute
-                                                                multiplier:0.0
-                                                                  constant:labelHeight]];
     CGFloat wide;
     CGFloat height;
     if(iOS7)
@@ -82,6 +48,43 @@
         
     }
 
+    _agentLabel = [[UILabel alloc] init];
+//    _agentLabel.translatesAutoresizingMaskIntoConstraints = NO;
+    _agentLabel.backgroundColor = [UIColor clearColor];
+    _agentLabel.font = [UIFont boldSystemFontOfSize:16.f];
+    [self.contentView addSubview:_agentLabel];
+    _agentLabel.frame=CGRectMake(60, 15, wide/2-240, 30);
+    
+    
+//    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_agentLabel
+//                                                                 attribute:NSLayoutAttributeTop
+//                                                                 relatedBy:NSLayoutRelationEqual
+//                                                                    toItem:self.contentView
+//                                                                 attribute:NSLayoutAttributeTop
+//                                                                multiplier:1.0
+//                                                                  constant:topSpace]];
+//    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_agentLabel
+//                                                                 attribute:NSLayoutAttributeLeft
+//                                                                 relatedBy:NSLayoutRelationEqual
+//                                                                    toItem:self.contentView
+//                                                                 attribute:NSLayoutAttributeLeft
+//                                                                multiplier:1.0
+//                                                                  constant:80]];
+//    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_agentLabel
+//                                                                 attribute:NSLayoutAttributeRight
+//                                                                 relatedBy:NSLayoutRelationEqual
+//                                                                    toItem:self.contentView
+//                                                                 attribute:NSLayoutAttributeRight
+//                                                                multiplier:1.0
+//                                                                  constant:-rightSpace]];
+//    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_agentLabel
+//                                                                 attribute:NSLayoutAttributeHeight
+//                                                                 relatedBy:NSLayoutRelationEqual
+//                                                                    toItem:nil
+//                                                                 attribute:NSLayoutAttributeNotAnAttribute
+//                                                                multiplier:0.0
+//                                                                  constant:labelHeight]];
+//
  
     
  
@@ -105,7 +108,7 @@
 
 #pragma mark - Data
 - (void)setContentWithDatas:(TransferGoodModel *)model {
-    _agentLabel.text = [NSString stringWithFormat:@"%@ > %@",model.fromAgentName,model.toAgentName];
+    _agentLabel.text = [NSString stringWithFormat:@"%@ > %@     ",model.fromAgentName,model.toAgentName];
     _timeLabel.text = model.createTime;
     _countLabel.text = [NSString stringWithFormat:@"%d",model.count];
 }
