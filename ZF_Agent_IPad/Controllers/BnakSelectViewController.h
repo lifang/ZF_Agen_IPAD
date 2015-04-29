@@ -21,5 +21,7 @@
 
 @property (nonatomic, strong) NSMutableArray *bankItems;
 
+@property (nonatomic, strong) NSString *terminalID;
+
 
 @end

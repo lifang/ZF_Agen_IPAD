@@ -122,7 +122,7 @@
             }
         }
         if ([reuseIdentifier isEqualToString:@"cell-5"]) {
-            for (int i = 0; i < 2; i++) {
+            //for (int i = 0; i < 2; i++) {
                 UIButton *button = [[UIButton alloc]init];
                 button.titleLabel.font = [UIFont systemFontOfSize:15];
                 [button setTitleColor:[UIColor colorWithHexString:@"006fd5"] forState:UIControlStateNormal];
@@ -130,19 +130,22 @@
                 button.layer.borderWidth=1.0;
                 button.layer.borderColor=[UIColor colorWithHexString:@"006fd5"].CGColor;
                 button.backgroundColor = [UIColor clearColor];
-                button.tag = i + 4000;
+               // button.tag = i + 4000;
+                button.tag = 4000;
                 [button addTarget:self action:@selector(buttonClick:) forControlEvents:UIControlEventTouchUpInside];
-                button.frame = CGRectMake(mainBtnX - (i * 115), mainBtnY, mainBtnW, mainBtnH);
+               // button.frame = CGRectMake(mainBtnX - (i * 115), mainBtnY, mainBtnW, mainBtnH);
+                button.frame = CGRectMake(mainBtnX , mainBtnY, mainBtnW, mainBtnH);
                 [self addSubview:button];
-                if (i == 0) {
-                    [button setTitle:@"更新资料" forState:UIControlStateNormal];
-                }
-                if (i == 1) {
+              //  if (i == 0) {
+              //      [button setTitle:@"更新资料" forState:UIControlStateNormal];
+              //  }
+               // if (i == 0) {
                     [button setTitle:@"同步" forState:UIControlStateNormal];
-                }
-            }
+               // }
+            //}
         }
         if ([reuseIdentifier isEqualToString:@"cell-4"]) {
+            /*
             //            for (int i = 0; i < 1; i++) {
                            UIButton *button = [[UIButton alloc]init];
                             button.titleLabel.font = [UIFont systemFontOfSize:17];
@@ -160,6 +163,7 @@
                                [button setTitle:@"租凭退换" forState:UIControlStateNormal];
             //                }
             //            }
+             */
         }
     }
     return self;

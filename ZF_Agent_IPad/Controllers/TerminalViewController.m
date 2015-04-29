@@ -97,6 +97,7 @@
 @property (nonatomic, strong) UITextView *blackTV;
 
 @property (nonatomic, strong) NSString *userId;
+@property (nonatomic, strong) UILabel *passwordLabel;//POS机密码
 
 @end
 
@@ -891,6 +892,7 @@
     //[self pickerDisplay:_locationTV];
     [self pickerDisplay:_textView];
    // [self pickerDisplay:_findPosView];
+    // [self pickerDisplay:_tableView];
 }
 
 -(void)leftBackClicked
@@ -1378,12 +1380,12 @@
 }
 
 //找回POS机密码
-- (void)findPOSpwd {
+- (void)findPOSpwd:(NSString *)string {
     
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
     hud.labelText = @"加载中...";
     AppDelegate *delegate = [AppDelegate shareAppDelegate];
-    [NetworkInterface findPOSpwdWithtoken:delegate.token terminalid:@"123" finished:^(BOOL success, NSData *response){
+    [NetworkInterface findPOSpwdWithtoken:delegate.token terminalid:string finished:^(BOOL success, NSData *response){
         hud.customView = [[UIImageView alloc] init];
         hud.mode = MBProgressHUDModeCustomView;
         [hud hide:YES afterDelay:0.3f];
@@ -1400,7 +1402,7 @@
                     
                     //id list = [[object objectForKey:@"result"] objectForKey:@"applyList"];
                    // [self parseSearchTerminalDataWithDictionary:object];
-                    
+                    _passwordLabel.text = [object objectForKey:@"result"];
                     
                 }
             }
@@ -1511,16 +1513,18 @@
         [self synchronization:indexNum];
 
     }
+    //if (btnTag == 4000) {
+   //     NSLog(@"点击了更新资料");
+        
+    //}
     if (btnTag == 4000) {
-        NSLog(@"点击了更新资料");
-    }
-    if (btnTag == 4001) {
         NSLog(@"点击了同步（已停用）");
         [self synchronization:indexNum];
     }
-    if (btnTag == 5000) {
-        NSLog(@"点击了租赁退换（已注销）");
-    }
+   // if (btnTag == 5000) {
+   //     NSLog(@"点击了租赁退换（已注销）");
+        
+  //  }
 
     
 }
@@ -1580,12 +1584,13 @@
     POSLable.frame = CGRectMake(FindPOSLable.frame.origin.x - 40, CGRectGetMaxY(line.frame) + 50, 120, 30);
     [whiteView addSubview:POSLable];
     
-    UILabel *passwordLabel = [[UILabel alloc]init];
-    passwordLabel.textColor = kColor(132, 132, 132, 1.0);
-    passwordLabel.font = [UIFont systemFontOfSize:20];
+    _passwordLabel = [[UILabel alloc]init];
+    _passwordLabel.textColor = kColor(132, 132, 132, 1.0);
+    _passwordLabel.font = [UIFont systemFontOfSize:20];
     //passwordLabel.text = @"asdasdas";
-    passwordLabel.frame = CGRectMake(CGRectGetMaxX(POSLable.frame), POSLable.frame.origin.y, 300, 30);
-    [whiteView addSubview:passwordLabel];
+    _passwordLabel.frame = CGRectMake(CGRectGetMaxX(POSLable.frame), POSLable.frame.origin.y, 300, 30);
+    [whiteView addSubview:_passwordLabel];
+    [self findPOSpwd:selectedID];
     
 }
 
