@@ -100,6 +100,7 @@
         _totalPrice = [[infoDict objectForKey:@"total_price"] floatValue] / 100;
         _payNumber = [infoDict objectForKey:@"order_number"];
     }
+    
     [self setHeaderAndFooterView];
 
 }
@@ -262,7 +263,7 @@
     priceLabel.textColor = [UIColor whiteColor];
     priceLabel.font = [UIFont boldSystemFontOfSize:48.f];
     priceLabel.adjustsFontSizeToFitWidth = YES;
-    priceLabel.text = [NSString stringWithFormat:@"￥%.2f",payMoney];
+    priceLabel.text = [NSString stringWithFormat:@"￥%.2f",_totalPrice];
     [blackView addSubview:priceLabel];
     
     UILabel *typeLabel = [[UILabel alloc] initWithFrame:CGRectMake(leftSpace, hearderHeight +40, wide - leftSpace - rightSpace, 20.f)];
