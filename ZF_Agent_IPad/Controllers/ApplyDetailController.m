@@ -280,6 +280,7 @@
     _terminalLabel.font = [UIFont systemFontOfSize:18.f];
     [_scrollView addSubview:_terminalLabel];
     
+    
     UILabel*accountnamelable=[[UILabel alloc]initWithFrame:CGRectMake(wide/2,topSpace + labelHeight * 2,140, 40)];
     [_scrollView addSubview:accountnamelable];
     accountnamelable.textAlignment = NSTextAlignmentCenter;
@@ -302,7 +303,7 @@
     accountnamebutton.layer.borderWidth=1.0;
     accountnamebutton.layer.borderColor=[UIColor grayColor].CGColor;
     accountnamebutton.contentEdgeInsets = UIEdgeInsetsMake(0,-40, 0,0);
-    accountnamebutton.imageEdgeInsets = UIEdgeInsetsMake(0,270,0,0);//设置image在button上的位置（上top，左left，下bottom，右right）这里可以写负值，对上写－5，那么image就象上移动5个像素
+    accountnamebutton.imageEdgeInsets = UIEdgeInsetsMake(0,270,0,0);
     
     [accountnamebutton addTarget:self action:@selector(accountnamebuttonclick) forControlEvents:UIControlEventTouchUpInside];
     [_scrollView addSubview:accountnamebutton];
@@ -426,7 +427,7 @@
             locationbutton.layer.borderWidth=1.0;
             locationbutton.layer.borderColor=[UIColor grayColor].CGColor;
             locationbutton.contentEdgeInsets = UIEdgeInsetsMake(0,-40, 0, 0);
-            locationbutton.imageEdgeInsets = UIEdgeInsetsMake(0,270,0,0);//设置image在button上的位置（上top，左left，下bottom，右right）这里可以写负值，对上写－5，那么image就象上移动5个像素
+            locationbutton.imageEdgeInsets = UIEdgeInsetsMake(0,270,0,0);
             
             [locationbutton addTarget:self action:@selector(locationbuttonclick) forControlEvents:UIControlEventTouchUpInside];
             [_scrollView addSubview:locationbutton];
@@ -488,7 +489,7 @@
             zhifubutton.layer.borderWidth=1.0;
             zhifubutton.layer.borderColor=[UIColor grayColor].CGColor;
             zhifubutton.contentEdgeInsets = UIEdgeInsetsMake(0,-40, 0, 0);
-            zhifubutton.imageEdgeInsets = UIEdgeInsetsMake(0,270,0,0);//设置image在button上的位置（上top，左left，下bottom，右right）这里可以写负值，对上写－5，那么image就象上移动5个像素
+            zhifubutton.imageEdgeInsets = UIEdgeInsetsMake(0,270,0,0);
             
             [zhifubutton addTarget:self action:@selector(zhifuclick) forControlEvents:UIControlEventTouchUpInside];
             [_scrollView addSubview:zhifubutton];
@@ -768,7 +769,7 @@
     _imageRect = [[send superview] convertRect:send.frame toView:self.view];
     
     
-    _selectedKey =[NSString stringWithFormat:@"%d", send.tag];
+    _selectedKey =[NSString stringWithFormat:@"%ld", (long)send.tag];
     
     [self showImageOption];
     
@@ -824,6 +825,7 @@
   
     MerchantSelecteViewController *MerchantSC=[[MerchantSelecteViewController alloc] init];
     MerchantSC.delegate=self;
+    MerchantSC.terminalID=_terminalID;
     MerchantSC.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:MerchantSC animated:YES];
     
