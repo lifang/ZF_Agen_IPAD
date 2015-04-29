@@ -42,7 +42,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.title = @"选择银行";
-    
+    self.view.backgroundColor=[UIColor whiteColor];
     
     //if (!_bankItems) {
     _bankItems = [[NSMutableArray alloc] init];
@@ -170,7 +170,7 @@
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
     hud.labelText = @"加载中...";
     AppDelegate *delegate = [AppDelegate shareAppDelegate];
-    [NetworkInterface chooseBankWithToken:delegate.token keyword:_bankField.text page:1 pageSize:kPageSize terminalId:@"6" finished:^(BOOL success, NSData *response) {
+    [NetworkInterface chooseBankWithToken:delegate.token keyword:_bankField.text page:1 pageSize:15 terminalId:_terminalID finished:^(BOOL success, NSData *response) {
         NSLog(@"!!!!%@",[[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding]);
         hud.customView = [[UIImageView alloc] init];
         hud.mode = MBProgressHUDModeCustomView;

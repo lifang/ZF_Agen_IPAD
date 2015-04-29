@@ -231,7 +231,7 @@
     }
     if ([_dealStatus isEqualToString:@"5"]) {
         //已停用
-        for (int i = 0; i < 2; i++) {
+       // for (int i = 0; i < 2; i++) {
             UIButton *button = [[UIButton alloc]init];
             button.titleLabel.font = [UIFont systemFontOfSize:17];
             [button setTitleColor:[UIColor colorWithHexString:@"006df5"] forState:UIControlStateNormal];
@@ -239,17 +239,19 @@
             button.layer.borderWidth=1.0;
             button.layer.borderColor=[UIColor colorWithHexString:@"006df5"].CGColor;
             button.backgroundColor = [UIColor clearColor];
-            button.tag = i + 7777;
+            //button.tag = i + 7777;
+             button.tag = 7777;
             [button addTarget:self action:@selector(buttonClick:) forControlEvents:UIControlEventTouchUpInside];
-            button.frame = CGRectMake(mainBtnX - (i * 120), mainBtnY, mainBtnW, mainBtnH);
+           // button.frame = CGRectMake(mainBtnX - (i * 120), mainBtnY, mainBtnW, mainBtnH);
+            button.frame = CGRectMake(mainBtnX, mainBtnY, mainBtnW, mainBtnH);
             [self.scrollView addSubview:button];
-            if (i == 0) {
-                [button setTitle:@"更新资料" forState:UIControlStateNormal];
-            }
-            if (i == 1) {
+          //  if (i == 0) {
+          //      [button setTitle:@"更新资料" forState:UIControlStateNormal];
+          //  }
+           // if (i == 0) {
                 [button setTitle:@"同步" forState:UIControlStateNormal];
-            }
-        }
+           // }
+        //}
     }
 }
 

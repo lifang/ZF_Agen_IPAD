@@ -34,6 +34,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = kColor(144, 144, 144, 0.7);
+    [NSThread sleepForTimeInterval:3.0]; //LaunchImage 延长3秒
     [self setLoginView];
     
     //判断是不是第一次启动应用

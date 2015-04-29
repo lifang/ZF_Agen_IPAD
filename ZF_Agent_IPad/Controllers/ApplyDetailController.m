@@ -787,6 +787,7 @@
 {
     BnakSelectViewController *BnakSC=[[BnakSelectViewController alloc] init];
     BnakSC.delegate=self;
+    BnakSC.terminalID=_terminalID;
     BnakSC.hidesBottomBarWhenPushed=YES;
     [self.navigationController pushViewController:BnakSC animated:YES];
   
@@ -1642,16 +1643,26 @@
     for (MaterialModel *model in _applyData.materialList) {
         NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
         NSString *value = nil;
+        value = [_infoDict objectForKey:model.materialID];
+        if (model.materialName) {
+            [dict setObject:model.materialName forKey:@"key"];
+        }
+        if (value) {
+            [dict setObject:value forKey:@"value"];
+        }
+        /*
         if (model.materialType == MaterialList) {
             value = _bankID;
         }
         else {
             value = [_infoDict objectForKey:model.materialID];
         }
+         
         [dict setObject:model.materialName forKey:@"Key"];
         if (value) {
             [dict setObject:value forKey:@"Value"];
         }
+         */
         [dict setObject:[NSNumber numberWithInt:model.materialType] forKey:@"types"];
         [dict setObject:[NSNumber numberWithInt:[model.materialID intValue]] forKey:@"targetId"];
         [dict setObject:[NSNumber numberWithInt:[model.levelID intValue]] forKey:@"openingRequirementId"];
