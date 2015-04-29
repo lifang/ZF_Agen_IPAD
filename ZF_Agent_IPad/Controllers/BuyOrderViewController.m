@@ -330,6 +330,23 @@
     [self createOrderForBuy];
 }
 - (IBAction)countMinus:(id)sender {
+    
+    
+    
+    
+    if(_count<=_goodDetail.minWholesaleNumber)
+    {
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        
+        hud.labelText=@"不能小于最小批购";
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:0.3f];
+        return;
+        
+    }
+    
+    
     BOOL isNumber = [RegularFormat isNumber:_numberField.text];
     if (isNumber) {
         int currentCount = [_numberField.text intValue];
@@ -347,6 +364,8 @@
     else {
         _numberField.text = [NSString stringWithFormat:@"%d",_count];
     }
+    
+   
 }
 
 - (IBAction)countAdd:(id)sender {
