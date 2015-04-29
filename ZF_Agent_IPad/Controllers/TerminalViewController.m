@@ -26,7 +26,7 @@
 #import "VideoAuthController.h"
 #import "VideoAuthViewController.h"
 
-@interface TerminalViewController ()<UITableViewDelegate,UITableViewDataSource,RefreshDelegate,terminalCellSendBtnClicked,UITextViewDelegate,UIPickerViewDataSource,UIPickerViewDelegate,UIPopoverControllerDelegate,UIPopoverPresentationControllerDelegate,SelectedAddressDelegate,SelectedUserDelegate,SelectedTerminalDelegate,SearchDelegate>
+@interface TerminalViewController ()<UITableViewDelegate,UITableViewDataSource,RefreshDelegate,terminalCellSendBtnClicked,UITextViewDelegate,UITextFieldDelegate,UIPickerViewDataSource,UIPickerViewDelegate,UIPopoverControllerDelegate,UIPopoverPresentationControllerDelegate,SelectedAddressDelegate,SelectedUserDelegate,SelectedTerminalDelegate,SearchDelegate>
 {
 
      NSInteger touchStatus;
@@ -80,8 +80,8 @@
 @property (nonatomic, strong) UITextView *phoneTV;
 @property (nonatomic, strong) UITextView *codeTV;
 @property (nonatomic, strong) UITextView *locationTV;
-@property (nonatomic, strong) UITextView *pwdTV;
-@property (nonatomic, strong) UITextView *confpwdTV;
+@property (nonatomic, strong) UITextField *pwdTF;
+@property (nonatomic, strong) UITextField *confpwdTF;
 
 @property (nonatomic, strong) UIPickerView *pickerView;
 //@property (nonatomic, strong) UIToolbar *toolbar;
@@ -817,15 +817,17 @@
     pwdLB.frame = CGRectMake(26, locationLB.frame.origin.y + 60, 100, 40);
     [_secondView addSubview:pwdLB];
     
-    _pwdTV=[[UITextView alloc] init];
-    _pwdTV.layer.masksToBounds=YES;
-    _pwdTV.layer.borderWidth=1.0;
-    _pwdTV.layer.borderColor=[UIColor colorWithHexString:@"a8a8a8"].CGColor;
-    _pwdTV.backgroundColor = [UIColor clearColor];
-    _pwdTV.font = FONT20;
-    _pwdTV.secureTextEntry = YES;
-    _pwdTV.frame = CGRectMake(_codeTV.frame.origin.x, pwdLB.frame.origin.y, 240, 40);
-    [_secondView addSubview:_pwdTV];
+    _pwdTF=[[UITextField alloc] init];
+    _pwdTF.layer.masksToBounds=YES;
+    _pwdTF.layer.borderWidth=1.0;
+    _pwdTF.layer.borderColor=[UIColor colorWithHexString:@"a8a8a8"].CGColor;
+    _pwdTF.backgroundColor = [UIColor clearColor];
+    _pwdTF.font = FONT20;
+    _pwdTF.delegate=self;
+    _pwdTF.clearButtonMode = UITextFieldViewModeWhileEditing;
+    _pwdTF.secureTextEntry = YES;
+    _pwdTF.frame = CGRectMake(_codeTV.frame.origin.x, pwdLB.frame.origin.y, 240, 40);
+    [_secondView addSubview:_pwdTF];
 
     UILabel *confpwdLB = [[UILabel alloc]init];
     confpwdLB.text = @"确认密码";
@@ -834,19 +836,21 @@
     confpwdLB.frame = CGRectMake(26, pwdLB.frame.origin.y + 60, 100, 40);
     [_secondView addSubview:confpwdLB];
     
-    _confpwdTV=[[UITextView alloc] init];
-    _confpwdTV.layer.masksToBounds=YES;
-    _confpwdTV.layer.borderWidth=1.0;
-    _confpwdTV.layer.borderColor=[UIColor colorWithHexString:@"a8a8a8"].CGColor;
-    _confpwdTV.backgroundColor = [UIColor clearColor];
-    _confpwdTV.font = FONT20;
-    _confpwdTV.secureTextEntry = YES;
-    _confpwdTV.frame = CGRectMake(_codeTV.frame.origin.x, confpwdLB.frame.origin.y, 240, 40);
-    [_secondView addSubview:_confpwdTV];
+    _confpwdTF=[[UITextField alloc] init];
+    _confpwdTF.layer.masksToBounds=YES;
+    _confpwdTF.layer.borderWidth=1.0;
+    _confpwdTF.layer.borderColor=[UIColor colorWithHexString:@"a8a8a8"].CGColor;
+    _confpwdTF.backgroundColor = [UIColor clearColor];
+    _confpwdTF.font = FONT20;
+    _confpwdTF.delegate=self;
+    _confpwdTF.clearButtonMode = UITextFieldViewModeWhileEditing;
+    _confpwdTF.secureTextEntry = YES;
+    _confpwdTF.frame = CGRectMake(_codeTV.frame.origin.x, confpwdLB.frame.origin.y, 240, 40);
+    [_secondView addSubview:_confpwdTF];
 
     
     UIButton *bulidBtn=[[UIButton alloc] init];
-    bulidBtn.frame=CGRectMake(_secondView.frame.size.width/2.0-60, _confpwdTV.frame.origin.y+40+30, 120, 40);
+    bulidBtn.frame=CGRectMake(_secondView.frame.size.width/2.0-60, _confpwdTF.frame.origin.y+40+30, 120, 40);
     bulidBtn.layer.masksToBounds=YES;
     bulidBtn.layer.borderWidth=1.0;
     bulidBtn.layer.borderColor=[UIColor colorWithHexString:@"006fd5"].CGColor;
@@ -886,7 +890,7 @@
     touchStatus=100;
     //[self pickerDisplay:_locationTV];
     [self pickerDisplay:_textView];
-   // [self pickerDisplay:_blackTV];
+   // [self pickerDisplay:_findPosView];
 }
 
 -(void)leftBackClicked
@@ -929,7 +933,7 @@
         hud.labelText = @"请选择所在地";
         return;
     }
-    if (!_pwdTV.text ||[_pwdTV.text isEqualToString:@""]) {
+    if (!_pwdTF.text ||[_pwdTF.text isEqualToString:@""]) {
         MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:_secondView animated:YES];
         hud.customView = [[UIImageView alloc] init];
         hud.mode = MBProgressHUDModeCustomView;
@@ -937,7 +941,7 @@
         hud.labelText = @"请输入密码";
         return;
     }
-    if (!_confpwdTV.text ||[_confpwdTV.text isEqualToString:@""]) {
+    if (!_confpwdTF.text ||[_confpwdTF.text isEqualToString:@""]) {
         MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:_secondView animated:YES];
         hud.customView = [[UIImageView alloc] init];
         hud.mode = MBProgressHUDModeCustomView;
@@ -1264,14 +1268,14 @@
 - (void)addNewUser {
     
     NSLog(@"username:%@",_nameTV.text);
-    NSLog(@"pwd:%@",_pwdTV.text);
+    NSLog(@"pwd:%@",_pwdTF.text);
     NSLog(@"codeNumber:%@",_phoneTV.text);
     NSLog(@"cityId:%@",_cityId);
     NSLog(@"code:%@",_codeTV.text);
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:_secondView animated:YES];
     hud.labelText = @"加载中...";
     AppDelegate *delegate = [AppDelegate shareAppDelegate];
-    [NetworkInterface  addUserWithtoken:delegate.token AgentId:delegate.agentID username:_nameTV.text password:_pwdTV.text codeNumber:_phoneTV.text cityId:_cityId code:_codeTV.text finished:^(BOOL success, NSData *response) {
+    [NetworkInterface  addUserWithtoken:delegate.token AgentId:delegate.agentID username:_nameTV.text password:_pwdTF.text codeNumber:_phoneTV.text cityId:_cityId code:_codeTV.text finished:^(BOOL success, NSData *response) {
         NSLog(@"%@",[[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding]);
         hud.customView = [[UIImageView alloc] init];
         hud.mode = MBProgressHUDModeCustomView;
@@ -1372,6 +1376,48 @@
         }
     }];
 }
+
+//找回POS机密码
+- (void)findPOSpwd {
+    
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+    hud.labelText = @"加载中...";
+    AppDelegate *delegate = [AppDelegate shareAppDelegate];
+    [NetworkInterface findPOSpwdWithtoken:delegate.token terminalid:@"123" finished:^(BOOL success, NSData *response){
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:0.3f];
+        if (success) {
+            NSLog(@"!!%@",[[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding]);
+            id object = [NSJSONSerialization JSONObjectWithData:response options:NSJSONReadingMutableLeaves error:nil];
+            if ([object isKindOfClass:[NSDictionary class]]) {
+                NSString *errorCode = [object objectForKey:@"code"];
+                if ([errorCode intValue] == RequestFail) {
+                    //返回错误代码
+                    hud.labelText = [NSString stringWithFormat:@"%@",[object objectForKey:@"message"]];
+                }
+                else if ([errorCode intValue] == RequestSuccess) {
+                    
+                    //id list = [[object objectForKey:@"result"] objectForKey:@"applyList"];
+                   // [self parseSearchTerminalDataWithDictionary:object];
+                    
+                    
+                }
+            }
+            else {
+                //返回错误数据
+                hud.labelText = kServiceReturnWrong;
+            }
+        }
+        else {
+            hud.labelText = kNetworkFailed;
+        }
+       
+    }];
+}
+
+
+
 
 
 
@@ -1537,7 +1583,7 @@
     UILabel *passwordLabel = [[UILabel alloc]init];
     passwordLabel.textColor = kColor(132, 132, 132, 1.0);
     passwordLabel.font = [UIFont systemFontOfSize:20];
-    passwordLabel.text = @"asdasdas";
+    //passwordLabel.text = @"asdasdas";
     passwordLabel.frame = CGRectMake(CGRectGetMaxX(POSLable.frame), POSLable.frame.origin.y, 300, 30);
     [whiteView addSubview:passwordLabel];
     

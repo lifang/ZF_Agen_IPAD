@@ -163,7 +163,8 @@ static NSString *s_terminalgetMerchants_method = @"terminal/getMerchants";
 //25.终端管理--为用户绑定终端—添加用户发送短信
 static NSString *s_sendPhoneVerification_method = @"terminal/sendPhoneVerificationCodeReg";
 
-
+//26.找回POS密码
+static NSString *s_findPOSpwd_method = @"terminal/encrption";
 
 //26.终端管理——添加用户
 static NSString *s_addUser_method = @"terminal/addCustomer";
@@ -206,6 +207,8 @@ static NSString *s_goodSearch_method = @"good/search";
 
 //35.商品列表
 static NSString *s_goodList_method = @"good/list";
+
+
 
 //36.商品详细
 static NSString *s_goodDetail_method = @"good/goodinfo";
@@ -639,9 +642,10 @@ static NSString *s_setHasBenefit_method = @"lowerAgent/setDefaultProfit";
  @result finish  请求回调结果
  */
 + (void)getMerchantListWithToken:(NSString *)token
-                           AgentID:(NSString *)agentID
+                           terminalId:(NSString *)terminalId
                               page:(int)page
                               rows:(int)rows
+                           title:(NSString *)title
                           finished:(requestDidFinished)finish;
 
 /*!
@@ -812,6 +816,20 @@ static NSString *s_setHasBenefit_method = @"lowerAgent/setDefaultProfit";
                     terminalsNum:(NSString *)terminalsNum
                           userId:(NSString *)userId
                         finished:(requestDidFinished)finish;
+
+
+/*!
+@abstract 26.终端管理--为用户绑定终端号
+
+@param token    登录返回
+@param terminalid   终端号
+@result finish  请求回调结果
+*/
++ (void)findPOSpwdWithtoken:(NSString *)token
+                    terminalid:(NSString *)terminalid
+                        finished:(requestDidFinished)finish;
+
+
 
 /*!
  @abstract 27.终端管理—申请售后批量终端号筛选

@@ -14,6 +14,8 @@
 
 @property (nonatomic, strong) NSString *merchantName;
 
+@property (nonatomic, strong) NSString *merchantTitle;
+
 //@property (nonatomic, strong) NSString *merchantLegal;
 
 - (id)initWithParseDictionary:(NSDictionary *)dict;

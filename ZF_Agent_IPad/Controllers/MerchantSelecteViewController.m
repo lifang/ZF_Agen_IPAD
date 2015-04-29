@@ -90,7 +90,9 @@
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
     hud.labelText = @"加载中...";
     AppDelegate *delegate = [AppDelegate shareAppDelegate];
-    [NetworkInterface getMerchantListWithToken:delegate.token AgentID:delegate.agentID page:page rows:kPageSize finished:^(BOOL success, NSData *response) {
+    NSLog(@"Are you OK");
+    
+    [NetworkInterface getMerchantListWithToken:delegate.token terminalId:_terminalID page:page rows:kPageSize title:@"" finished:^(BOOL success, NSData *response) {
         hud.customView = [[UIImageView alloc] init];
         hud.mode = MBProgressHUDModeCustomView;
         [hud hide:YES afterDelay:0.3f];
@@ -113,7 +115,6 @@
                     id list = [[object objectForKey:@"result"] objectForKey:@"terminalList"];
                     if ([list isKindOfClass:[NSArray class]] && [list count] > 0) {
                         //有数据
-                        //self.page++;
                         _page++;
                         [hud hide:YES];
                     }
@@ -140,6 +141,7 @@
             [self refreshViewFinishedLoadingWithDirection:PullFromBottom];
         }
     }];
+    
 }
 
 
@@ -153,6 +155,7 @@
         hud.mode = MBProgressHUDModeCustomView;
         [hud hide:YES afterDelay:0.5f];
         if (success) {
+             NSLog(@"数据是%@",[[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding]);
             id object = [NSJSONSerialization JSONObjectWithData:response options:NSJSONReadingMutableLeaves error:nil];
             if ([object isKindOfClass:[NSDictionary class]]) {
                 NSString *errorCode = [NSString stringWithFormat:@"%@",[object objectForKey:@"code"]];
@@ -280,8 +283,8 @@
     if (cell == nil) {
         cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:identifier];
     }
-    cell.textLabel.text=model.merchantName;
-    NSLog(@"text:%@",model.merchantName);
+    cell.textLabel.text=model.merchantTitle;
+    NSLog(@"text:%@",model.merchantTitle);
     
     return cell;
     
@@ -301,7 +304,7 @@
         [tableView deselectRowAtIndexPath:indexPath animated:YES];
         MerchantModel *model = [_MerchantItems objectAtIndex:indexPath.row];
         [_delegate displaySelectedMerchant:model];
-         [self getMerchantDetailWithMerchant:model];
+        [self getMerchantDetailWithMerchant:model];
 }
 
 
@@ -365,13 +368,21 @@
     [self firstLoadData];
 }
 
-
+/*
 -(void)viewWillAppear:(BOOL)animated
 {
+    NSLog(@"terminalId:%@",_terminalID);
    [self firstLoadData];
 
 }
+*/
 
+-(void)viewDidAppear:(BOOL)animated
+{
+    NSLog(@"terminalId:%@",_terminalID);
+    [self firstLoadData];
+    
+}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
