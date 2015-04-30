@@ -599,18 +599,11 @@
     {
         if(addressarry.count>0)
         {
-            if(addressarry.count==1)
-            {
-                AddressModel *model =[addressarry objectAtIndex:0];
+           
+                AddressModel *model =[addressarry objectAtIndex:B-1];
                 
                 addressID=model.addressID;
-            }
-            else
-            {
-                AddressModel *model =[addressarry objectAtIndex:B];
-                
-                addressID=model.addressID;
-            }
+           
             
             
         }
