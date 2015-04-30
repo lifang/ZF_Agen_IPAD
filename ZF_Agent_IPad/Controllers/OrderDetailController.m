@@ -462,23 +462,38 @@ typedef enum {
                     if (_supplyType == SupplyGoodsWholesale) {
                         //批购
                         if (_orderDetail.orderStatus == WholesaleStatusUnPaid) {
+                            
+                            if (_orderDetail.payStatus == 2)
+                            {
+                                //已付定金
+                                UIButton *cancelBtn = [self buttonWithTitle:@"取消订单" action:@selector(cancelWholesaleOrder:) style:OrderDetailBtnStyleFirst];
+                                cancelBtn.frame = CGRectMake(wide-150, 12, 100, 40);
+                                UIButton *payBtn = [self buttonWithTitle:@"付款" action:@selector(payWholesaleOrder:) style:OrderDetailBtnStyleSecond];
+                                payBtn.frame = CGRectMake(wide-150-120, 12, 100, 40);
+                                [cell.contentView addSubview:payBtn];
+                                [cell.contentView addSubview:cancelBtn];
+                                
+                            }
+                            else
+                            {
+                                UIButton *cancelBtn = [self buttonWithTitle:@"取消订单" action:@selector(cancelWholesaleOrder:) style:OrderDetailBtnStyleFirst];
+                                cancelBtn.frame = CGRectMake(wide-150, 12, 100, 40);
+                                UIButton *depositBtn = [self buttonWithTitle:@"支付定金" action:@selector(payDeposit:) style:OrderDetailBtnStyleSecond];
+                                depositBtn.frame = CGRectMake(wide-150-120, 12, 100, 40);
+                                [cell.contentView addSubview:depositBtn];
+                                [cell.contentView addSubview:cancelBtn];
+                            
+                            }
+                            
+                            
+                            
+                            
                             //未付款
-                            UIButton *cancelBtn = [self buttonWithTitle:@"取消订单" action:@selector(cancelWholesaleOrder:) style:OrderDetailBtnStyleFirst];
-                            cancelBtn.frame = CGRectMake(wide-150, 12, 100, 40);
-                            UIButton *depositBtn = [self buttonWithTitle:@"支付定金" action:@selector(payDeposit:) style:OrderDetailBtnStyleSecond];
-                            depositBtn.frame = CGRectMake(wide-150-120, 12, 100, 40);
-                            [cell.contentView addSubview:depositBtn];
-                            [cell.contentView addSubview:cancelBtn];
+                          
                         }
-                        else if (_orderDetail.orderStatus == WholesaleStatusPartPaid) {
-                            //已付定金
-                            UIButton *cancelBtn = [self buttonWithTitle:@"取消订单" action:@selector(cancelWholesaleOrder:) style:OrderDetailBtnStyleFirst];
-                            cancelBtn.frame = CGRectMake(wide-150, 12, 100, 40);
-                            UIButton *payBtn = [self buttonWithTitle:@"付款" action:@selector(payWholesaleOrder:) style:OrderDetailBtnStyleSecond];
-                            payBtn.frame = CGRectMake(wide-150-120, 12, 100, 40);
-                            [cell.contentView addSubview:payBtn];
-                            [cell.contentView addSubview:cancelBtn];
-                        }
+//                        else if (_orderDetail.orderStatus == WholesaleStatusPartPaid) {
+//                            
+//                        }
                         else if (_orderDetail.orderStatus == WholesaleStatusFinish) {
                             //再次批购
                             UIButton *repeatBtn = [self buttonWithTitle:@"再次批购" action:@selector(repeatWholesale:) style:OrderDetailBtnStyleSecond];
@@ -546,7 +561,28 @@ typedef enum {
                     typeLabel.backgroundColor = [UIColor clearColor];
                     typeLabel.font = [UIFont systemFontOfSize:15.f];
 //                    typeLabel.textColor = kColor(116, 116, 116, 1);
-                    typeLabel.text = [NSString stringWithFormat:@"支付方式：%@",_orderDetail.payType];
+                    
+                    if([_orderDetail.payType  isEqualToString:@"1"])
+                    {
+                        typeLabel.text = [NSString stringWithFormat:@"支付方式 :支付宝"];
+
+                    
+                    }
+                    if([_orderDetail.payType  isEqualToString:@"2"])
+                    {
+                        typeLabel.text = [NSString stringWithFormat:@"支付方式：银联"];
+                        
+                        
+                    }
+
+                    if([_orderDetail.payType  isEqualToString:@"3"])
+                    {
+                        typeLabel.text = [NSString stringWithFormat:@"支付方式：现金"];
+                        
+                        
+                    }
+
+                    
                     [cell.contentView addSubview:typeLabel];
                     //订单日期
                     UILabel *dateLabel = [[UILabel alloc] initWithFrame:CGRectMake(originX, 50, wide - originX * 2 - btnWidth, 20)];
@@ -903,7 +939,8 @@ typedef enum {
             payC.goodName = _goodName;
             payC.totalPrice = [textField.text floatValue];
             payC.fromType = PayWayFromOrderWholesale;
-            
+            payC.hidesBottomBarWhenPushed =  YES ;
+
             payC.isPayPartMoney = YES; //部分付款
 
             [self.navigationController pushViewController:payC animated:YES];

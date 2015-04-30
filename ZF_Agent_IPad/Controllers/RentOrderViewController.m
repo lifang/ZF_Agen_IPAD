@@ -205,7 +205,18 @@
 }
 
 #pragma mark - Request
-
+- (BOOL) isBlankString:(NSString *)string {
+    if (string == nil || string == NULL) {
+        return YES;
+    }
+    if ([string isKindOfClass:[NSNull class]]) {
+        return YES;
+    }
+    if ([[string stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]] length]==0) {
+        return YES;
+    }
+    return NO;
+}
 - (void)createOrderForBuy {
     
     //是否需要发票
@@ -213,9 +224,7 @@
     if (isneedpp) {
         needInvoice = 1;
     }
-    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
-    hud.labelText = @"加载中...";
-    AppDelegate *delegate = [AppDelegate shareAppDelegate];
+   
     NSString*addressID;
     if(B==0)
     {
@@ -235,12 +244,40 @@
     
     }else
     {
-        AddressModel *model =[addressarry objectAtIndex:B];
-
-        addressID=model.addressID;
+        if(addressarry.count>0)
+        {
+            if(addressarry.count==1)
+            {
+                AddressModel *model =[addressarry objectAtIndex:0];
+                
+                addressID=model.addressID;
+            }
+            else
+            {
+                AddressModel *model =[addressarry objectAtIndex:B];
+                
+                addressID=model.addressID;
+            }
+           
+        
+        }
+       
         
     
     }
+    if([self isBlankString:addressID])
+    {
+        
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:1.f];
+        hud.labelText = @"请选择地址";
+        return;
+        
+        
+    }
+    AppDelegate *delegate = [AppDelegate shareAppDelegate];
 
     NSString *userID = delegate.agentUserID;
     if (self.defaultUserhh) {
@@ -250,7 +287,8 @@
 
     int a=3;
     
-    
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+    hud.labelText = @"加载中...";
     [NetworkInterface createOrderFromGoodBuyWithAgentID:delegate.agentID token:delegate.token userID:userID createUserID:delegate.userID belongID:delegate.agentUserID confirmType:a goodID:_goodDetail.goodID channelID:_goodDetail.defaultChannel.channelID count:_count addressID:self.defaultAddress.addressID comment:self.reviewField.text needInvoice:needInvoice invoiceType:self.billType invoiceInfo:self.billField.text finished:^(BOOL success, NSData *response) {
         
 
@@ -282,7 +320,8 @@
                     payWayC.fromType = PayWayFromGoodProcurementBuy;
                     NSLog(@"%f",[self getSummaryPrice]);
                     
-                    
+                    payWayC.hidesBottomBarWhenPushed =  YES ;
+
                     
                     
                     [self.navigationController pushViewController:payWayC animated:YES];
@@ -358,18 +397,7 @@
 
     [self createOrderForBuy];
 }
-- (BOOL) isBlankString:(NSString *)string {
-    if (string == nil || string == NULL) {
-        return YES;
-    }
-    if ([string isKindOfClass:[NSNull class]]) {
-        return YES;
-    }
-    if ([[string stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]] length]==0) {
-        return YES;
-    }
-    return NO;
-}
+
 
 
 - (IBAction)countMinus:(id)sender {
@@ -1889,6 +1917,7 @@
            // cell = [[AddressTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier] ;
              cell = [[POSAddressTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier] ;
         }
+        
         AddressModel *model =[addressarry objectAtIndex:indexPath.row];
         
         cell.namelabel.text=model.addressReceiver;

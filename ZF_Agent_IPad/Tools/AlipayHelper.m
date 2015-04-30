@@ -10,8 +10,8 @@
 #import "Order.h"
 #import "DataSigner.h"
 
-static NSString *whalesaleCallBackURL = @"http://121.40.84.2:28080/ZFAgent/deposit_app_notify_url.jsp";
-static NSString *procurementCallBackURL = @"http://121.40.84.2:28080/ZFAgent/app_notify_url.jsp";
+//static NSString *whalesaleCallBackURL = @"http://121.40.84.2:28080/ZFAgent/deposit_app_notify_url.jsp";
+//static NSString *procurementCallBackURL = @"http://121.40.84.2:28080/ZFAgent/app_notify_url.jsp";
 
 @implementation AlipayHelper
 
@@ -29,10 +29,10 @@ static NSString *procurementCallBackURL = @"http://121.40.84.2:28080/ZFAgent/app
     order.productDescription = goodName; //商品描述
     order.amount = [NSString stringWithFormat:@"%.2f",0.01f]; //商品价格
     if (isWholesale) {
-        order.notifyURL = whalesaleCallBackURL; //回调URL
+        order.notifyURL = kWhalesaleCallBackURL; //回调URL
     }
     else {
-        order.notifyURL = procurementCallBackURL;
+        order.notifyURL = kProcurementCallBackURL;
     }
     
     order.service = @"mobile.securitypay.pay";

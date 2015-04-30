@@ -577,9 +577,7 @@
 - (void)createOrderForBuy {
     
     //是否需要发票
-    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
-    hud.labelText = @"加载中...";
-    AppDelegate *delegate = [AppDelegate shareAppDelegate];
+  
     NSString*addressID;
     if(B==0)
     {
@@ -599,12 +597,41 @@
         
     }else
     {
-        AddressModel *model =[addressarry objectAtIndex:B];
-        
-        addressID=model.addressID;
+        if(addressarry.count>0)
+        {
+            if(addressarry.count==1)
+            {
+                AddressModel *model =[addressarry objectAtIndex:0];
+                
+                addressID=model.addressID;
+            }
+            else
+            {
+                AddressModel *model =[addressarry objectAtIndex:B];
+                
+                addressID=model.addressID;
+            }
+            
+            
+        }
         
         
     }
+    if([self isBlankString:addressID])
+    {
+        
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:1.f];
+        hud.labelText = @"请选择地址";
+        return;
+        
+        
+    }
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+    hud.labelText = @"加载中...";
+    AppDelegate *delegate = [AppDelegate shareAppDelegate];
         NSLog(@"%@-%@-%@-%d-%@-%@",delegate.userID,_goodDetail.goodID,_goodDetail.defaultChannel.channelID,_count,addressID,self.reviewField.text);
      int a=4;
       [NetworkInterface createOrderFromGoodBuyWithAgentID:delegate.agentID token:delegate.token userID:delegate.agentUserID createUserID:delegate.userID belongID:delegate.agentUserID confirmType:a goodID:_goodDetail.goodID channelID:_goodDetail.defaultChannel.channelID count:_count addressID:self.defaultAddress.addressID comment:self.reviewField.text needInvoice:0 invoiceType:0 invoiceInfo:nil finished:^(BOOL success, NSData *response) {

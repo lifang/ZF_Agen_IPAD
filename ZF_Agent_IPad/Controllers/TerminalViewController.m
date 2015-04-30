@@ -1237,7 +1237,7 @@
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:_whiteView animated:YES];
     hud.labelText = @"提交中...";
     AppDelegate *delegate = [AppDelegate shareAppDelegate];
-    [NetworkInterface bindingTerminalWithtoken:delegate.token terminalsNum:_TerminalTV.text userId:_userId  finished:^(BOOL success, NSData *response) {
+    [NetworkInterface bindingTerminalWithtoken:delegate.token AgentId:delegate.agentID  terminalsNum:_TerminalTV.text userId:_userId  finished:^(BOOL success, NSData *response) {
         hud.customView = [[UIImageView alloc] init];
         hud.mode = MBProgressHUDModeCustomView;
         [hud hide:YES afterDelay:0.5f];

@@ -23,7 +23,8 @@
 #define kPageSize 10   //分页加载每页行数
 
 //#define kServiceURL @"http://114.215.149.242:28080/ZFAgent/api"
-#define kServiceURL @"http://121.40.84.2:28080/ZFAgent/api"
+//#define kServiceURL @"http://121.40.84.2:28080/ZFAgent/api"
+#define kServiceURL @"http://agent.ebank007.com/api"
 
 
 #define kImageName(name) [UIImage imageNamed:name]
@@ -38,7 +39,8 @@
 #define SCREEN_HEIGHT [[UIScreen mainScreen] bounds].size.height
 #define SCREEN_WIDTH [[UIScreen mainScreen] bounds].size.width
 
+#define kWhalesaleCallBackURL    @"http://agent.ebank007.com/deposit_app_notify_url.jsp"
+#define kProcurementCallBackURL  @"http://agent.ebank007.com/app_notify_url.jsp"
 
-
-#define kVideoAuthIP    @"121.40.84.2"
+#define kVideoAuthIP      @"121.40.64.120"   //线上
 #define kVideoAuthPort  8906
