@@ -564,7 +564,7 @@
                 
             }
             //选项 银行
-            UILabel*newaddress=[[UILabel alloc]initWithFrame:CGRectMake(40, 710+lastheight*70,140, 40)];
+            UILabel *newaddress=[[UILabel alloc]initWithFrame:CGRectMake(40, 710+lastheight*70,140, 40)];
             [_scrollView addSubview:newaddress];
             newaddress.textAlignment = NSTextAlignmentCenter;
             newaddress.font=[UIFont systemFontOfSize:18];
@@ -586,8 +586,7 @@
             bankbutton.layer.borderWidth=1.0;
             bankbutton.layer.borderColor=[UIColor grayColor].CGColor;
             bankbutton.contentEdgeInsets = UIEdgeInsetsMake(0,10, 0, 0);
-            bankbutton.imageEdgeInsets = UIEdgeInsetsMake(0,220,0,0);//设置image在button上的位置（上top，左left，下bottom，右right）这里可以写负值，对上写－5，那么image就象上移动5个像素
-            
+            bankbutton.imageEdgeInsets = UIEdgeInsetsMake(0,220,0,0);
             bankbutton.tag=[model.materialID integerValue];
             
             [bankbutton addTarget:self action:@selector(bankclick:) forControlEvents:UIControlEventTouchUpInside];
