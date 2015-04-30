@@ -348,7 +348,7 @@
                                                  width:wide - leftSpace - rightSpace
                                               fontSize:16.f];
     descriptionHeight = descriptionHeight < labelHeight ? labelHeight : descriptionHeight;
-    UILabel *descriptionLabel = [[UILabel alloc] initWithFrame:CGRectMake(leftSpace, originY, wide - leftSpace - rightSpace, openHeight)];
+    UILabel *descriptionLabel = [[UILabel alloc] initWithFrame:CGRectMake(leftSpace, originY, wide - leftSpace - rightSpace, descriptionHeight)];
     descriptionLabel.numberOfLines = 0;
     [self setLabels:descriptionLabel withTitle:_detailModel.goodDescription font:[UIFont systemFontOfSize:13.f]];
     

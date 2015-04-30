@@ -932,11 +932,14 @@ headerView.backgroundColor = [UIColor whiteColor];
 //批购
 - (void)orderCellCancelWholesaleOrder:(OrderModel *)model {
     _selectedOrder = model;
+    
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示信息"
                                                     message:@"确定取消此订单？"
                                                    delegate:self
                                           cancelButtonTitle:@"取消"
                                           otherButtonTitles:@"确定", nil];
+    alert.tag=1022;
+    
     [alert show];
 }
 
@@ -998,6 +1001,8 @@ headerView.backgroundColor = [UIColor whiteColor];
                                                    delegate:self
                                           cancelButtonTitle:@"取消"
                                           otherButtonTitles:@"确定", nil];
+    alert.tag=1026;
+    
     [alert show];
 
 }
@@ -1055,17 +1060,25 @@ headerView.backgroundColor = [UIColor whiteColor];
 #pragma mark - AlertView
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-    if (buttonIndex != alertView.cancelButtonIndex) {
-        if (_supplyType == SupplyGoodsWholesale) {
-            //批购
-            [self cancelWholesaleOrder];
-        }
-        else {
-            //代购
-            [self cancelProcurementOrder];
-        }
+    
+    if(alertView.tag==1022||alertView.tag==1026)
+    {
+        if (buttonIndex != alertView.cancelButtonIndex) {
+            if (_supplyType == SupplyGoodsWholesale) {
+                //批购
+                [self cancelWholesaleOrder];
+            }
+            else {
+                //代购
+                [self cancelProcurementOrder];
+            }
+
+    
+    
+    
     }
-    else if (alertView.tag == AlertTagPayMoney) {
+       }
+    else {
         //支付
         UITextField *textField = [alertView textFieldAtIndex:0];
         if (![RegularFormat isFloat:textField.text]) {
@@ -1089,7 +1102,7 @@ headerView.backgroundColor = [UIColor whiteColor];
             hud.customView = [[UIImageView alloc] init];
             hud.mode = MBProgressHUDModeCustomView;
             [hud hide:YES afterDelay:1.f];
-            hud.labelText = @"金额必须小于付款金额";
+            hud.labelText = @"金额必须小于剩余金额";
             return;
         }
         PayWayViewController *payC = [[PayWayViewController alloc] init];

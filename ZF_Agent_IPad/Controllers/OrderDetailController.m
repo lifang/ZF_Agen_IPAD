@@ -561,7 +561,28 @@ typedef enum {
                     typeLabel.backgroundColor = [UIColor clearColor];
                     typeLabel.font = [UIFont systemFontOfSize:15.f];
 //                    typeLabel.textColor = kColor(116, 116, 116, 1);
-                    typeLabel.text = [NSString stringWithFormat:@"支付方式：%@",_orderDetail.payType];
+                    
+                    if([_orderDetail.payType  isEqualToString:@"1"])
+                    {
+                        typeLabel.text = [NSString stringWithFormat:@"支付方式 :支付宝"];
+
+                    
+                    }
+                    if([_orderDetail.payType  isEqualToString:@"2"])
+                    {
+                        typeLabel.text = [NSString stringWithFormat:@"支付方式：银联"];
+                        
+                        
+                    }
+
+                    if([_orderDetail.payType  isEqualToString:@"3"])
+                    {
+                        typeLabel.text = [NSString stringWithFormat:@"支付方式：现金"];
+                        
+                        
+                    }
+
+                    
                     [cell.contentView addSubview:typeLabel];
                     //订单日期
                     UILabel *dateLabel = [[UILabel alloc] initWithFrame:CGRectMake(originX, 50, wide - originX * 2 - btnWidth, 20)];
@@ -918,7 +939,8 @@ typedef enum {
             payC.goodName = _goodName;
             payC.totalPrice = [textField.text floatValue];
             payC.fromType = PayWayFromOrderWholesale;
-            
+            payC.hidesBottomBarWhenPushed =  YES ;
+
             payC.isPayPartMoney = YES; //部分付款
 
             [self.navigationController pushViewController:payC animated:YES];

@@ -39,7 +39,20 @@
     
     CGFloat priceWidth = 120.f;
     
-    
+    CGFloat wide;
+    CGFloat height;
+    if(iOS7)
+    {
+        wide=SCREEN_HEIGHT;
+        height=SCREEN_WIDTH;
+        
+    }
+    else
+    {  wide=SCREEN_WIDTH;
+        height=SCREEN_HEIGHT;
+        
+    }
+
     
     
     //图片框
@@ -104,7 +117,7 @@
                                                                     toItem:self.contentView
                                                                  attribute:NSLayoutAttributeRight
                                                                 multiplier:1.0
-                                                                  constant:-rightSpace]];
+                                                                  constant:-wide/2-60]];
     [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_titleLabel
                                                                  attribute:NSLayoutAttributeHeight
                                                                  relatedBy:NSLayoutRelationEqual
