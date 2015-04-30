@@ -30,6 +30,9 @@
 @property (nonatomic, strong) UIView *theLocalView;
 
 @property (nonatomic, strong) UIButton *endBtn;
+
+@property (nonatomic, strong) UIButton *changeCameraBtn;
+
 @property (nonatomic, strong) UILabel *statusLB;
 
 @property (strong, nonatomic) NSMutableArray  *onlineUserMArray;
@@ -60,12 +63,12 @@
     _statusLB = [[UILabel alloc] init];
     _statusLB.text=@"正在连接";
     _statusLB.font=FONT20;
-    _statusLB.backgroundColor = [UIColor whiteColor];
+   // _statusLB.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:_statusLB];
     [_statusLB makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.view.top).offset(80);
-        make.right.equalTo(self.view.right);
-        make.width.equalTo(@200);
+        make.right.equalTo(self.view.right).offset(30);
+        make.width.equalTo(@300);
         
     }];
 
@@ -78,7 +81,7 @@
     [self.view addSubview:_theLocalView];
     [_theLocalView makeConstraints:^(MASConstraintMaker *make) {
         make.right.equalTo(self.view.right).offset(-5);
-        make.bottom.equalTo(self.view.bottom).offset(-45);
+        make.bottom.equalTo(self.view.bottom).offset(-60);
         make.width.equalTo(@400);
         make.height.equalTo(@400);
     }];
@@ -100,6 +103,23 @@
         make.height.equalTo(@40);
     }];
 
+    _changeCameraBtn = [[UIButton alloc] init];
+    _changeCameraBtn.clipsToBounds = YES;
+    _changeCameraBtn.layer.masksToBounds=YES;
+    _changeCameraBtn.layer.borderWidth=1.0;
+    _changeCameraBtn.layer.borderColor=[UIColor colorWithHexString:@"006df5"].CGColor;
+    [_changeCameraBtn setTitle:@"切换摄像头" forState:UIControlStateNormal];
+    _changeCameraBtn.backgroundColor=[UIColor colorWithHexString:@"006df5"];
+    [_changeCameraBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [_changeCameraBtn addTarget:self action:@selector(changeCameraBtnPressed:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:_changeCameraBtn];
+    [_changeCameraBtn makeConstraints:^(MASConstraintMaker *make) {
+       // make.right.equalTo(self.view.right).offset(-10);
+        make.centerX.equalTo(_theLocalView.centerX);
+        make.bottom.equalTo(self.view.bottom).offset(-2);
+        make.width.equalTo(@200);
+        make.height.equalTo(@40);
+    }];
     
 
 }
@@ -391,6 +411,21 @@
     //self.remoteVideoSurface.frame = CGRectMake(0, 0, kSelfView_Width, kSelfView_Height);
    // self.theLocalView.frame = kLocalVideoLandscape_CGRect;
 }
+
+
+-(void)changeCameraBtnPressed:(id)sender
+{
+  
+    static int CurrentCameraDevice = 1;
+    NSMutableArray *cameraDeviceArray = [AnyChatPlatform EnumVideoCapture];
+    if(cameraDeviceArray.count == 2)
+    {
+        CurrentCameraDevice = (CurrentCameraDevice+1) % 2;
+        [AnyChatPlatform SelectVideoCapture:[cameraDeviceArray objectAtIndex:CurrentCameraDevice]];
+    }
+
+}
+
 
 
 -(void)endBtnPressed:(id)sender
