@@ -234,7 +234,8 @@
         
     }else
     {
-        AddressModel *model =[addressarry objectAtIndex:B];
+       
+        AddressModel *model =[addressarry objectAtIndex:B-1];
         
         addressID=model.addressID;
         
