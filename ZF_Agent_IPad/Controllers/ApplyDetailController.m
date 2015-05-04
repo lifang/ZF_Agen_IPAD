@@ -280,6 +280,11 @@
     _terminalLabel.font = [UIFont systemFontOfSize:18.f];
     [_scrollView addSubview:_terminalLabel];
     
+    _channelLabel = [[UILabel alloc] initWithFrame:CGRectMake(borderSpace+18, topSpace + labelHeight * 3+20, wide/2 - borderSpace, labelHeight)];
+    _channelLabel.backgroundColor = [UIColor clearColor];
+     _channelLabel.font = [UIFont systemFontOfSize:18.f];
+    [_scrollView addSubview: _channelLabel];
+    
     
     UILabel*accountnamelable=[[UILabel alloc]initWithFrame:CGRectMake(wide/2,topSpace + labelHeight * 2,140, 40)];
     [_scrollView addSubview:accountnamelable];
@@ -335,6 +340,8 @@
     else
     {
     _channelLabel.text = [NSString stringWithFormat:@"支付通道   %@",_applyData.channelName];
+    _channelID=_applyData.channelID;
+        NSLog(@"_channelID:%@",_applyData.channelID);
     }
     
     UILabel*firestline = [[UILabel alloc] initWithFrame:CGRectMake(borderSpace+18, topSpace + labelHeight * 4+30, wide - 138, 1)];
@@ -836,6 +843,7 @@
 {
     BnakSelectViewController *BnakSC=[[BnakSelectViewController alloc] init];
     BnakSC.delegate=self;
+    BnakSC.terminalID=_terminalID;
     BnakSC.hidesBottomBarWhenPushed=YES;
     [self.navigationController pushViewController:BnakSC animated:YES];
 }
@@ -995,7 +1003,10 @@
     for (int i = 0; i < [list count]; i++) {
         NSDictionary *channelDict = [list objectAtIndex:i];
         ChannelListModel *model = [[ChannelListModel alloc] initWithParseDictionary:channelDict];
-        [_channelItems addObject:model];
+        if ([model.channelID isEqualToString:_channelID]) {
+             [_channelItems addObject:model];
+        }
+       
         NSLog(@"_channelItem:%@",_channelItems);
     }
     [_pickerView reloadAllComponents];

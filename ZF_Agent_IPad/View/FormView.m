@@ -482,6 +482,7 @@
     for (int i = 0; i < itemCount; i++) {
         CGFloat contentOriginY = kLineHeight * 2 + menuHeight + i * (contentHeight + kLineHeight);
         NSDictionary *dict = [itemArray objectAtIndex:i];
+     
         for (int j = 0; j < columnCount; j++) {
             CGFloat contentOriginX = borderSpace + j * (itemWidth + kLineHeight);
             
@@ -522,7 +523,8 @@
                                                              attribute:NSLayoutAttributeNotAnAttribute
                                                             multiplier:0.0
                                                               constant:contentHeight]];
-        }
+          }
+        
     }
 }
 
@@ -532,17 +534,18 @@
     NSMutableArray *contentArray = [[NSMutableArray alloc] init];
     for (RateModel *model in rateItems) {
         NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
-        if (model.tradeType) {
-            [dict setObject:model.tradeType forKey:@"0"];
+        if (model.tradeValue) {
+            [dict setObject:model.tradeValue forKey:@"0"];
         }
         else {
             [dict setObject:@"" forKey:@"0"];
         }
         CGFloat rate = model.rateTerminal;
-        if ([model.tradeType isEqualToString:@"消费"]) {
+        if ([model.tradeValue isEqualToString:@"消费"]) {
             rate = model.rateService + model.rateBase;
         }
-        [dict setObject:[NSString stringWithFormat:@"%2.f‰",rate] forKey:@"1"];
+        [dict setObject:[NSString stringWithFormat:@"%.2f‰",rate] forKey:@"1"];
+        NSLog(@"rate:%f",rate);
         if ([model statusString]) {
             [dict setObject:[model statusString] forKey:@"2"];
         }

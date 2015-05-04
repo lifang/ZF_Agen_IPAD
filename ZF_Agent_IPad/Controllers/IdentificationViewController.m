@@ -526,7 +526,8 @@
     
     TerminalManagerModel *model = [_applyList objectAtIndex:button.tag];
     ApplyDetailController *detailVC = [[ApplyDetailController alloc] init];
-    detailVC.terminalID =[NSString stringWithFormat:@"%d",button.tag];
+   //detailVC.terminalID =[NSString stringWithFormat:@"%d",button.tag];
+    
     detailVC.hidesBottomBarWhenPushed = YES;
     if(  [model.TM_status  isEqualToString:@"2"])
     {
