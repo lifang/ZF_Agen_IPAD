@@ -330,7 +330,7 @@
     CGFloat btnWidth = (wide - leftSpace - rightSpace - leftLabelWidth - firstSpace - 2 * hSpace) / 3;
     CGFloat originY =vSpace;
     //商品名
-    UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(leftSpace, originY, leftSpace - rightSpace, labelHeight)];
+    UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(leftSpace, originY, leftSpace - rightSpace-30, labelHeight)];
     titleLabel.backgroundColor = [UIColor clearColor];
     titleLabel.font = [UIFont boldSystemFontOfSize:20.f];
     titleLabel.text = _detailModel.goodName;
@@ -338,7 +338,7 @@
     
     originY += vSpace + labelHeight;
     //商品简介
-    UILabel *summaryLabel = [[UILabel alloc] initWithFrame:CGRectMake(leftSpace, originY, leftSpace- rightSpace, labelHeight)];
+    UILabel *summaryLabel = [[UILabel alloc] initWithFrame:CGRectMake(leftSpace, originY, leftSpace- rightSpace-30, labelHeight)];
     summaryLabel.backgroundColor = [UIColor clearColor];
     summaryLabel.font = [UIFont systemFontOfSize:17.f];
     summaryLabel.textColor = [UIColor lightGrayColor];
@@ -489,9 +489,10 @@
     CGFloat summaryHeight = [self heightWithString:_detailModel.factorySummary
                                              width:wide - leftSpace - rightSpace
                                           fontSize:13.f];
-    UILabel *factorySummaryLabel = [[UILabel alloc] initWithFrame:CGRectMake(leftSpace+80, originY, leftSpace - 40, summaryHeight)];
+    UILabel *factorySummaryLabel = [[UILabel alloc] initWithFrame:CGRectMake(leftSpace+80, originY-15, leftSpace - 140, summaryHeight)];
     [self setLabel:factorySummaryLabel withTitle:_detailModel.defaultChannel.channelFactoryDescription font:[UIFont systemFontOfSize:13.f]];
-
+    factorySummaryLabel.numberOfLines=2;
+    
     
     int rows = (int)([_detailModel.channelItem count] - 1) / 3 + 1;
     originY += rows * (btnHeight + hSpace);

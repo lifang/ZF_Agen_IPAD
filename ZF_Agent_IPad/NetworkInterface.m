@@ -2289,6 +2289,8 @@ static NSString *HTTP_GET  = @"GET";
         [paramDict setObject:cardImagePath forKey:@"cardPhotoPath"];
     }
     [paramDict setObject:[NSNumber numberWithInt:hasProfit] forKey:@"isProfit"];
+    [paramDict setObject:[NSNumber numberWithBool:YES] forKey:@"isEncrypt"];
+
     //url
     NSString *urlString = [NSString stringWithFormat:@"%@/%@",kServiceURL,s_subAgentCreate_method];
     [[self class] requestWithURL:urlString
