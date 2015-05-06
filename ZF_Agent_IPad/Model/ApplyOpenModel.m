@@ -24,6 +24,7 @@
         if ([dict objectForKey:@"opening_requirements_id"]) {
             _levelID = [NSString stringWithFormat:@"%@",[dict objectForKey:@"opening_requirements_id"]];
         }
+    
     }
     return self;
 }
@@ -73,6 +74,11 @@
             if ([terminalDict objectForKey:@"channelName"]) {
                 _channelName = [NSString stringWithFormat:@"%@",[terminalDict objectForKey:@"channelName"]];
             }
+            if ([terminalDict objectForKey:@"channelId"]) {
+                _channelID = [NSString stringWithFormat:@"%@",[terminalDict objectForKey:@"channelId"]];
+            }
+
+
         }
         id primaryDict = [dict objectForKey:@"openingInfos"];
         if ([primaryDict isKindOfClass:[NSDictionary class]]) {

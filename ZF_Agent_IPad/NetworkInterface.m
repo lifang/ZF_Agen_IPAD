@@ -330,7 +330,10 @@ static NSString *HTTP_GET  = @"GET";
     if (keyword) {
         [paramDict setObject:keyword forKey:@"keyword"];
     }
-    [paramDict setObject:[NSNumber numberWithInt:[terminalId intValue]] forKey:@"terminalId"];
+    //[paramDict setObject:[NSNumber numberWithInt:[terminalId intValue]] forKey:@"terminalId"];
+     if (terminalId) {
+    [paramDict setObject:terminalId forKey:@"terminalId"];
+     }
     [paramDict setObject:[NSNumber numberWithInt:page] forKey:@"page"];
     [paramDict setObject:[NSNumber numberWithInt:pageSize] forKey:@"pageSize"];
     //url
@@ -340,6 +343,7 @@ static NSString *HTTP_GET  = @"GET";
                       httpMethod:HTTP_POST
                         finished:finish];
 }
+
 
 //14
 + (void)getMaterinalNameWithToken:(NSString *)token

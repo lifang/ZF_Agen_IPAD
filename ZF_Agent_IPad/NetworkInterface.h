@@ -579,7 +579,10 @@ static NSString *s_setHasBenefit_method = @"lowerAgent/setDefaultProfit";
 /*!
  @abstract 13.申请开通--选择银行
  @param token       登录返回
- @param bankName    银行名称
+ @param terminalID  终端号
+ @param keyword  关键字
+ @param page     分页参数 页
+ @param rows     分页参数 行
  @result finish  请求回调结果
  */
 + (void)chooseBankWithToken:(NSString *)token
@@ -588,6 +591,10 @@ static NSString *s_setHasBenefit_method = @"lowerAgent/setDefaultProfit";
                        pageSize:(int)pageSize
                      terminalId:(NSString *)terminalId
                    finished:(requestDidFinished)finish;
+
+
+
+
 /*!
  @abstract 14.申请开通--对公对私材料名称
  @param token       登录返回

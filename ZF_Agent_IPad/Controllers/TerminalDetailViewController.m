@@ -72,7 +72,7 @@
     _ratesItems = [[NSMutableArray alloc] init];
     _openItems = [[NSMutableArray alloc] init];
     [self initAndLayoutUI];
-   [self downloadDataWithPage:self.page isMore:YES];
+    [self downloadTerminalDetail];
 
     
 }
@@ -837,7 +837,7 @@
 
 #pragma mark - Request
 
-- (void)downloadDataWithPage:(int)page isMore:(BOOL)isMore {
+- (void)downloadTerminalDetail{
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
     hud.labelText = @"加载中...";
     AppDelegate *delegate = [AppDelegate shareAppDelegate];
@@ -958,18 +958,20 @@
         }
     }
     //费率
+    [_ratesItems removeAllObjects];
     id rateObject = [infoDict objectForKey:@"rates"];
     if ([rateObject isKindOfClass:[NSArray class]]) {
         for (int i = 0; i < [rateObject count]; i++) {
             id dict = [rateObject objectAtIndex:i];
             if ([dict isKindOfClass:[NSDictionary class]]) {
                 RateModel *model = [[RateModel alloc] initWithParseDictionary:dict];
-                [self.ratesItems addObject:model];
+                [_ratesItems addObject:model];
             }
         }
     }
     
     //开通资料
+    [_openItems removeAllObjects];
     id openObject = [infoDict objectForKey:@"openingDetails"];
     NSLog(@"opemObject:%@",openObject);
     if ([openObject isKindOfClass:[NSArray class]]) {
@@ -978,8 +980,8 @@
             id dict = [openObject objectAtIndex:i];
             if ([dict isKindOfClass:[NSDictionary class]]) {
                 _openDetails= [[OpeningDetailsModel alloc] initWithParseDictionary:dict];
-                [self.openItems addObject:_openDetails];
-                NSLog(@"opemItems:%@",self.openItems);
+                [_openItems addObject:_openDetails];
+                NSLog(@"opemItems:%@",_openItems);
             }
         }
     }
@@ -987,18 +989,19 @@
  
     
     //跟踪记录
+    [_records removeAllObjects];
     id recordObject = [infoDict objectForKey:@"trackRecord"];
     if ([recordObject isKindOfClass:[NSArray class]]) {
         for (int i = 0; i < [recordObject count]; i++) {
             id dict = [recordObject objectAtIndex:i];
             if ([dict isKindOfClass:[NSDictionary class]]) {
                 RecordModel *model = [[RecordModel alloc] initWithParseTerminalDictionary:dict];
-                [self.records addObject:model];
+                [_records addObject:model];
             }
         }
     }
     [self initSubViews];
-   // [self get];
+   
 }
 
 
@@ -1298,6 +1301,7 @@
 
 -(void)viewDidAppear:(BOOL)animated
 {
+   // [self downloadTerminalDetail];
     /*
     if (iOS8) {
         

@@ -25,6 +25,8 @@ typedef enum {
 @property (nonatomic, assign) RateStatus rateStatus;
 @property (nonatomic, strong) NSString *tradeType;
 
+@property (nonatomic, strong) NSString *tradeValue;
+
 - (id)initWithParseDictionary:(NSDictionary *)dict;
 
 - (NSString *)statusString;

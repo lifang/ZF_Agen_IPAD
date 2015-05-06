@@ -280,6 +280,11 @@
     _terminalLabel.font = [UIFont systemFontOfSize:18.f];
     [_scrollView addSubview:_terminalLabel];
     
+    _channelLabel = [[UILabel alloc] initWithFrame:CGRectMake(borderSpace+18, topSpace + labelHeight * 3+20, wide/2 - borderSpace, labelHeight)];
+    _channelLabel.backgroundColor = [UIColor clearColor];
+     _channelLabel.font = [UIFont systemFontOfSize:18.f];
+    [_scrollView addSubview: _channelLabel];
+    
     
     UILabel*accountnamelable=[[UILabel alloc]initWithFrame:CGRectMake(wide/2,topSpace + labelHeight * 2,140, 40)];
     [_scrollView addSubview:accountnamelable];
@@ -335,6 +340,8 @@
     else
     {
     _channelLabel.text = [NSString stringWithFormat:@"支付通道   %@",_applyData.channelName];
+    _channelID=_applyData.channelID;
+        NSLog(@"_channelID:%@",_applyData.channelID);
     }
     
     UILabel*firestline = [[UILabel alloc] initWithFrame:CGRectMake(borderSpace+18, topSpace + labelHeight * 4+30, wide - 138, 1)];
@@ -564,7 +571,7 @@
                 
             }
             //选项 银行
-            UILabel*newaddress=[[UILabel alloc]initWithFrame:CGRectMake(40, 710+lastheight*70,140, 40)];
+            UILabel *newaddress=[[UILabel alloc]initWithFrame:CGRectMake(40, 710+lastheight*70,140, 40)];
             [_scrollView addSubview:newaddress];
             newaddress.textAlignment = NSTextAlignmentCenter;
             newaddress.font=[UIFont systemFontOfSize:18];
@@ -586,8 +593,7 @@
             bankbutton.layer.borderWidth=1.0;
             bankbutton.layer.borderColor=[UIColor grayColor].CGColor;
             bankbutton.contentEdgeInsets = UIEdgeInsetsMake(0,10, 0, 0);
-            bankbutton.imageEdgeInsets = UIEdgeInsetsMake(0,220,0,0);//设置image在button上的位置（上top，左left，下bottom，右right）这里可以写负值，对上写－5，那么image就象上移动5个像素
-            
+            bankbutton.imageEdgeInsets = UIEdgeInsetsMake(0,220,0,0);
             bankbutton.tag=[model.materialID integerValue];
             
             [bankbutton addTarget:self action:@selector(bankclick:) forControlEvents:UIControlEventTouchUpInside];
@@ -837,6 +843,7 @@
 {
     BnakSelectViewController *BnakSC=[[BnakSelectViewController alloc] init];
     BnakSC.delegate=self;
+    BnakSC.terminalID=_terminalID;
     BnakSC.hidesBottomBarWhenPushed=YES;
     [self.navigationController pushViewController:BnakSC animated:YES];
 }
@@ -996,7 +1003,10 @@
     for (int i = 0; i < [list count]; i++) {
         NSDictionary *channelDict = [list objectAtIndex:i];
         ChannelListModel *model = [[ChannelListModel alloc] initWithParseDictionary:channelDict];
-        [_channelItems addObject:model];
+        if ([model.channelID isEqualToString:_channelID]) {
+             [_channelItems addObject:model];
+        }
+       
         NSLog(@"_channelItem:%@",_channelItems);
     }
     [_pickerView reloadAllComponents];

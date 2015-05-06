@@ -99,6 +99,8 @@
 @property (nonatomic, strong) NSString *userId;
 @property (nonatomic, strong) UILabel *passwordLabel;//POS机密码
 
+@property (nonatomic, strong) UIButton *getcodeBtn;
+
 @end
 
 @implementation TerminalViewController
@@ -763,13 +765,13 @@
     _phoneTV.frame = CGRectMake(_nameTV.frame.origin.x, phoneLB.frame.origin.y, 240, 40);
     [_secondView addSubview:_phoneTV];
     
-    UIButton *getcodeBtn=[[UIButton alloc] init];
-    getcodeBtn.frame=CGRectMake(_phoneTV.frame.origin.x+160, _phoneTV.frame.origin.y, 80, 40);
-    [getcodeBtn setTitleColor:[UIColor colorWithHexString:@"006fd5"] forState:UIControlStateNormal];
-    [getcodeBtn setTitle:@"获取验证码" forState:UIControlStateNormal];
-    getcodeBtn.titleLabel.font = FONT15;
-    [getcodeBtn addTarget:self action:@selector(getcodeBtnClick:) forControlEvents:UIControlEventTouchUpInside];
-    [_secondView addSubview:getcodeBtn];
+    _getcodeBtn=[[UIButton alloc] init];
+    _getcodeBtn.frame=CGRectMake(_phoneTV.frame.origin.x+160, _phoneTV.frame.origin.y, 80, 40);
+    [_getcodeBtn setTitleColor:[UIColor colorWithHexString:@"006fd5"] forState:UIControlStateNormal];
+    [_getcodeBtn setTitle:@"获取验证码" forState:UIControlStateNormal];
+    _getcodeBtn.titleLabel.font = FONT15;
+    [_getcodeBtn addTarget:self action:@selector(getcodeBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+    [_secondView addSubview:_getcodeBtn];
     
     UILabel *codeLB = [[UILabel alloc]init];
     codeLB.text = @"验证码";
@@ -885,6 +887,43 @@
 
     [self sendPhoneCode];
 }
+
+
+
+//倒计时
+- (void)TimeCountStart {
+    __block int timeout = 120; //倒计时时间
+    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+    dispatch_source_t _timer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, queue);
+    dispatch_source_set_timer(_timer,dispatch_walltime(NULL, 0),1.0 * NSEC_PER_SEC, 0); //每秒执行
+    dispatch_source_set_event_handler(_timer, ^{
+        if(timeout <= 0){
+            //倒计时结束，关闭
+            dispatch_source_cancel(_timer);
+            dispatch_async(dispatch_get_main_queue(), ^{
+                //UI更新
+                _getcodeBtn.userInteractionEnabled = YES;
+                [_getcodeBtn setTitleColor:[UIColor colorWithHexString:@"006fd5"] forState:UIControlStateNormal];
+                [_getcodeBtn setTitle:@"获取验证码" forState:UIControlStateNormal];
+            });
+        }
+        else {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                _getcodeBtn.userInteractionEnabled = NO;
+                NSString *title = [NSString stringWithFormat:@"%d秒",timeout];
+                [_getcodeBtn setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
+                [_getcodeBtn setTitle:title forState:UIControlStateNormal];
+                
+            });
+            timeout--;
+            
+        }
+    });
+    dispatch_resume(_timer);
+}
+
+
+
 
 -(void)locationBtnclick:(id)sender
 {
@@ -1199,9 +1238,7 @@
      NSString *terminalString = [self terminalStringWithArray:_TerminalsArray];
     
     [NetworkInterface submitAfterSaleApplyWithUserID:delegate.agentID token:delegate.token terminalCount:[_TerminalsArray count] address:_AddressTV.text receiver:_reciver phoneNumber:_phone reason:_textView.text terminalList:terminalString finished:^(BOOL success, NSData *response) {
-/*
-    [NetworkInterface  submintAgentWithtoken:delegate.token customerId:delegate.agentID terminalsQuantity:[_TerminalsArray count] address:_AddressTV.text reason:_reseasonTV.text terminalsList:terminalString reciver:_reciver phone:_phone  finished:^(BOOL success, NSData *response) {
- */
+
         hud.customView = [[UIImageView alloc] init];
         hud.mode = MBProgressHUDModeCustomView;
         [hud hide:YES afterDelay:0.5f];
@@ -1329,9 +1366,7 @@
                 else if ([errorCode intValue] == RequestSuccess) {
                     [hud hide:YES];
                      hud.labelText = @"验证码已发送到您的手机";
-                   // if ([[object objectForKey:@"result"] isKindOfClass:[NSString class]]) {
-                    //    _codeTV.text = [object objectForKey:@"result"];
-                   // }
+                    [self TimeCountStart];
                 }
             }
             else {

@@ -170,7 +170,9 @@
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
     hud.labelText = @"加载中...";
     AppDelegate *delegate = [AppDelegate shareAppDelegate];
+    
     [NetworkInterface chooseBankWithToken:delegate.token keyword:_bankField.text page:1 pageSize:15 terminalId:_terminalID finished:^(BOOL success, NSData *response) {
+
         NSLog(@"!!!!%@",[[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding]);
         hud.customView = [[UIImageView alloc] init];
         hud.mode = MBProgressHUDModeCustomView;
@@ -189,7 +191,11 @@
                         [_bankItems removeAllObjects];
                     }
                     
-                    id list = [[object objectForKey:@"result"] objectForKey:@"content"];
+                   // id list = [[object objectForKey:@"result"] objectForKey:@"content"];
+                    id list = nil;
+                    if ([[object objectForKey:@"result"] isKindOfClass:[NSDictionary class]]) {
+                        list = [[object objectForKey:@"result"] objectForKey:@"content"];
+                    }
                     if ([list isKindOfClass:[NSArray class]] && [list count] > 0) {
                         //有数据
                         self.page++;
@@ -223,7 +229,7 @@
 
 - (void)parseBankListWithDictionary:(NSDictionary *)dict {
     if (![dict objectForKey:@"result"] || ![[dict objectForKey:@"result"] isKindOfClass:[NSArray class]]) {
-       // return;
+        return;
     }
     NSArray *bankList = [[dict objectForKey:@"result"] objectForKey:@"content"];
     for (int i = 0; i < [bankList count]; i++) {
@@ -444,7 +450,10 @@
 }
 
 
+-(void)viewWillAppear:(BOOL)animated
+{
+    NSLog(@"terminaliD:%@",_terminalID);
 
-
+}
 
 @end

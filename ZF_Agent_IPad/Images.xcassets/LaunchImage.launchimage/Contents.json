@@ -29,6 +29,20 @@
       "minimum-system-version" : "7.0",
       "filename" : "landscape@2x.png",
       "scale" : "2x"
+    },
+    {
+      "orientation" : "landscape",
+      "idiom" : "ipad",
+      "extent" : "full-screen",
+      "filename" : "Default_Landscape-1.png",
+      "scale" : "1x"
+    },
+    {
+      "orientation" : "landscape",
+      "idiom" : "ipad",
+      "extent" : "full-screen",
+      "filename" : "landscape@2x-1.png",
+      "scale" : "2x"
     }
   ],
   "info" : {
