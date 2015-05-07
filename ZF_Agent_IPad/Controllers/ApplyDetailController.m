@@ -16,6 +16,7 @@
 #import "MerchantSelecteViewController.h"
 #import "BnakSelectViewController.h"
 #import "BankModel.h"
+#import "RegularFormat.h"
 
 
 #define kTextViewTag   111
@@ -107,7 +108,8 @@
     _channelItems = [[NSMutableArray alloc] init];
     
     keynamesarry=[NSArray arrayWithObjects:@"key_name",@"key_merchantName",@"key_sex",@"key_birth",@"key_cardID",@"key_phone",@"key_email",@"key_location",@"key_bank",@"key_bankID",@"key_bankAccount",@"key_taxID",@"key_organID",@"key_channel", nil];
-    //Do any additional setup after loading the view.
+    
+    
     _applyType = OpenApplyPublic;
     _infoDict = [[NSMutableDictionary alloc] init];
     _tempField = [[UITextField alloc] init];
@@ -240,9 +242,9 @@
     {
         
         _scrollView.frame = CGRectMake(0, 0, SCREEN_WIDTH,
-                                       500+lastheightY*70);
+                                       700+lastheightY*70);
         
-        
+
     }
     
     
@@ -344,7 +346,7 @@
         NSLog(@"_channelID:%@",_applyData.channelID);
     }
     
-    UILabel*firestline = [[UILabel alloc] initWithFrame:CGRectMake(borderSpace+18, topSpace + labelHeight * 4+30, wide - 138, 1)];
+    UILabel *firestline = [[UILabel alloc] initWithFrame:CGRectMake(borderSpace+18, topSpace + labelHeight * 4+30, wide - 138, 1)];
     firestline.backgroundColor = [UIColor grayColor];
     [_scrollView addSubview:firestline];
     
@@ -422,9 +424,9 @@
             locationbutton = [UIButton buttonWithType:UIButtonTypeCustom];
             locationbutton.frame = CGRectMake(190+(wide/2-40)*row,  height*70+topSpace + labelHeight * 7,280, 40);
             
-            NSString*strId=[_infoDict objectForKey:[keynamesarry objectAtIndex:i]];
+            NSString *strId=[_infoDict objectForKey:[keynamesarry objectAtIndex:i]];
             
-            NSString*accountname= [CityHandle getCityNameWithCityID:strId];
+            NSString *accountname= [CityHandle getCityNameWithCityID:strId];
             
             [locationbutton setTitle:accountname forState:UIControlStateNormal];
             [locationbutton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
@@ -435,7 +437,7 @@
             locationbutton.layer.borderColor=[UIColor grayColor].CGColor;
             locationbutton.contentEdgeInsets = UIEdgeInsetsMake(0,-40, 0, 0);
             locationbutton.imageEdgeInsets = UIEdgeInsetsMake(0,270,0,0);
-            
+           
             [locationbutton addTarget:self action:@selector(locationbuttonclick) forControlEvents:UIControlEventTouchUpInside];
             [_scrollView addSubview:locationbutton];
         }
@@ -506,7 +508,11 @@
         {
             UITextField *neworiginaltextfield=[[UITextField alloc]initWithFrame:CGRectMake(190+(wide/2-40)*row,  height*70+topSpace + labelHeight * 7,280, 40)];
             neworiginaltextfield.delegate=self;
-            
+            neworiginaltextfield.leftViewMode = UITextFieldViewModeAlways;
+            UIView *leftView = [[UIView alloc]init];
+            leftView.frame = CGRectMake(0, 0, 10, 40);
+            neworiginaltextfield.leftView =leftView;
+            neworiginaltextfield.clearButtonMode = UITextFieldViewModeWhileEditing;
             neworiginaltextfield.tag=i+1056;
             NSString *accountname=[NSString stringWithFormat:@"%@",[_infoDict objectForKey:[keynamesarry objectAtIndex:i]]];
             NSLog(@"accountname:%@",accountname);
@@ -583,8 +589,6 @@
             bankbutton.frame = CGRectMake(wide/2-40-280,710+lastheight*70 ,280, 40);
            // NSString *bankCode = [self getApplyValueForKey:model.materialID];
            // [bankbutton setTitle:[self getBankNameWithBankCode:bankCode] forState:UIControlStateNormal];
-            
-            
             // [_cityField setTitle:@"123" forState:UIControlStateNormal];
             [bankbutton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
             bankbutton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
@@ -604,8 +608,8 @@
         else if (model.materialType == MaterialText)
         {
             
-            NSMutableArray*typeArry=[[NSMutableArray alloc]initWithCapacity:0];
-            NSMutableArray*MaterialTexttypeArry=[[NSMutableArray alloc]initWithCapacity:0];
+            NSMutableArray *typeArry=[[NSMutableArray alloc]initWithCapacity:0];
+            NSMutableArray *MaterialTexttypeArry=[[NSMutableArray alloc]initWithCapacity:0];
             
             for(int i=0;i<_applyData.materialList.count;i++)
                 
@@ -626,12 +630,7 @@
             }
             
             if ([typeArry containsObject: @"3"])
-                
-                
-                
-                
             {
-                
                 
                 NSInteger lastheight;
                 lastheight=_applyData.materialList.count-2;
@@ -667,7 +666,6 @@
                     neworiginaltextfield.layer.masksToBounds=YES;
                     neworiginaltextfield.layer.borderWidth=1.0;
                     neworiginaltextfield.layer.borderColor=[UIColor grayColor].CGColor;
-                    
                     
                 }
                 
@@ -760,7 +758,9 @@
     submitBtn.backgroundColor=[UIColor colorWithHexString:@"006fd5"];
     [submitBtn addTarget:self action:@selector(submitApply:) forControlEvents:UIControlEventTouchUpInside];
     [_scrollView addSubview:submitBtn];
+    
     _scrollView.userInteractionEnabled=YES;
+    
     return _scrollView;
     
     
@@ -806,8 +806,8 @@
     _selectedKey = key_location;
     [self pickerDisplay:locationbutton];
     
-    
 }
+
 //选择生日
 
 -(void)birthdaybuttonclick
@@ -1438,7 +1438,8 @@
             
         }
         
-        return    1000+lastheightY*70;
+        //return    1000+lastheightY*70;
+        return    1200+lastheightY*70;
         
         
     }
@@ -1475,8 +1476,6 @@
     NSString *accountname=[NSString stringWithFormat:@"%@",[_infoDict objectForKey:key_birth]];
     
     [birthdaybutton setTitle:accountname forState:UIControlStateNormal];
-    
-    
     
     
 }
@@ -1560,6 +1559,15 @@
         hud.labelText = @"请填写电话";
         return;
     }
+    if (![RegularFormat isMobileNumber:[_infoDict objectForKey:key_phone]]) {
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:1.f];
+        hud.labelText = @"请输入正确的手机号";
+        return;
+    }
+    
     if (![_infoDict objectForKey:key_email]) {
         MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
         hud.customView = [[UIImageView alloc] init];
@@ -1681,6 +1689,7 @@
     [self submitApplyInfoWithArray:paramList];
 }
 
+
 #pragma mark - UITextFieldDelegate
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
@@ -1690,16 +1699,21 @@
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField {
     //[self pickerScrollOut];
+    [makeSureBtn removeFromSuperview];
+    [datePicker removeFromSuperview];
+    [_terminalTableView removeFromSuperview];
+   
 }
 
 - (void)textFieldDidEndEditing:(UITextField *)textField {
     if (textField.text && ![textField.text isEqualToString:@""]) {
         
-        
-        [_infoDict setObject:textField.text forKey:[keynamesarry objectAtIndex:textField.tag-1056]];
+    [_infoDict setObject:textField.text forKey:[keynamesarry objectAtIndex:textField.tag-1056]];
     }
+   
     
 }
+
 
 #pragma mark - ApplyMerchantSelectedDelegate
 //选中商户后 带入商户的一些信息
@@ -1951,6 +1965,8 @@
     }
     
 }
+
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

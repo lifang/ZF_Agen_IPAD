@@ -354,6 +354,7 @@
     }];
 
     _tableView= [[UITableView alloc] init];
+    _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     _tableView.backgroundColor=[UIColor whiteColor];
     _tableView.delegate = self;
     _tableView.dataSource = self;
@@ -431,8 +432,8 @@
     [_selectedBtn makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(FooterView.centerY);
         make.left.equalTo(self.view.left).offset(100);
-        make.height.equalTo(@42);
-        make.width.equalTo(@42);
+        make.height.equalTo(@35);
+        make.width.equalTo(@35);
     }];
     
     //全选文字
@@ -532,15 +533,19 @@
             selectedCount++;
         }
     }
-    if (selectedCount == [_terminalList count]) {
+    if (selectedCount > 0) {
+        
+      if (selectedCount == [_terminalList count]) {
     
-        [_selectedBtn setImage:kImageName(@"select_height") forState:UIControlStateNormal];
-    }
-    else {
-        [_selectedBtn setImage:kImageName(@"select_normal") forState:UIControlStateNormal];
+       // [_selectedBtn setImage:kImageName(@"select_height") forState:UIControlStateNormal];
+        [_selectedBtn setImage:kImageName(@"btn_select") forState:UIControlStateNormal];
+      }
+      else {
+       // [_selectedBtn setImage:kImageName(@"select_normal") forState:UIControlStateNormal];
+        [_selectedBtn setImage:kImageName(@"btn_noselect") forState:UIControlStateNormal];
 
+      }
     }
-    
     _numberLB.text = [NSString stringWithFormat:@"已选中%d台",selectedCount];
    
 }
