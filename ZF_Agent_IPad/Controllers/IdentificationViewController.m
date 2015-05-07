@@ -23,7 +23,7 @@
     
 }
 
-@property(nonatomic,strong)UIView *headerView;
+//@property(nonatomic,strong)UIView *headerView;
 @property(nonatomic,strong)UITableView *tableView;
 
 /***************上下拉刷新**********/
@@ -57,9 +57,7 @@
     
     UIButton *searchBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     searchBtn.frame = CGRectMake(0, 0, 30, 30);
-    //searchBtn.titleLabel.font = IconFontWithSize();
     [searchBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    //[searchBtn setTitle:@"\U0000E62f" forState:UIControlStateNormal];
     [searchBtn setBackgroundImage:[UIImage imageNamed:@"searchbar.png"] forState:UIControlStateNormal];
     [searchBtn addTarget:self action:@selector(searchBtnPressed:) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *rightBarBtn = [[UIBarButtonItem alloc] initWithCustomView:searchBtn];
@@ -77,54 +75,42 @@
 -(void)setupHeaderAndFooterView
 {
     UIView *headerView = [[UIView alloc]init];
-    headerView.backgroundColor = [UIColor whiteColor];
-    headerView.frame = CGRectMake(0, 0, SCREEN_WIDTH, 28);
+    headerView.backgroundColor=[UIColor colorWithHexString:@"f2f1f1"];
+    [self.view addSubview:headerView];
+  
+    headerView.frame = CGRectMake(0, 60, SCREEN_WIDTH, 28);
     if (iOS7) {
-        headerView.frame = CGRectMake(0, 0, SCREEN_HEIGHT, 28);
+        headerView.frame = CGRectMake(0, 60, SCREEN_HEIGHT, 28);
     }
-    UIView *bottomView = [[UIView alloc]init];
+
     UIFont *mainFont = [UIFont systemFontOfSize:14];
     
     UILabel *first = [[UILabel alloc]init];
+    first.backgroundColor=[UIColor clearColor];
     first.font = mainFont;
     first.text = @"终端号";
-    first.frame = CGRectMake(110, 0, 70, 25);
-    [bottomView addSubview:first];
-    bottomView.backgroundColor = kColor(226, 226, 226, 1.0);
+    first.frame = CGRectMake(120,2, 70, 25);
+    [headerView addSubview:first];
+ 
     
     UILabel *second = [[UILabel alloc]init];
     second.font = mainFont;
     second.text = @"POS机";
-    second.frame = CGRectMake(CGRectGetMaxX(first.frame) + 130, 0, 70, 25);
-    [bottomView addSubview:second];
+    second.frame = CGRectMake(CGRectGetMaxX(first.frame) + 140, 2, 70, 25);
+    [headerView addSubview:second];
     
     UILabel *third = [[UILabel alloc]init];
     third.font = mainFont;
     third.text = @"支付通道";
-    third.frame = CGRectMake(CGRectGetMaxX(second.frame) + 100, 0, 90, 25);
-    [bottomView addSubview:third];
+    third.frame = CGRectMake(CGRectGetMaxX(second.frame) + 110, 2, 90, 25);
+    [headerView addSubview:third];
     
     UILabel *fourth = [[UILabel alloc]init];
     fourth.font = mainFont;
     fourth.text = @"开通状态";
-    fourth.frame = CGRectMake(CGRectGetMaxX(third.frame) + 80, 0, 90, 25);
-    [bottomView addSubview:fourth];
-    
-    bottomView.frame = CGRectMake(0, 36, SCREEN_WIDTH, 24);
-    if (iOS7) {
-        bottomView.frame = CGRectMake(0, 36, SCREEN_HEIGHT, 24);
-    }
-    [headerView addSubview:bottomView];
-    self.headerView = headerView;
-    
-    UIView *footerView = [[UIView alloc]init];
-    footerView.backgroundColor = kColor(210, 210, 210, 1.0);
-    footerView.frame = CGRectMake(0, 0, SCREEN_WIDTH, 1);
-    if (iOS7) {
-        footerView.frame = CGRectMake(0, 0, SCREEN_HEIGHT, 1);
-    }
-    _tableView.tableFooterView = footerView;
-    
+    fourth.frame = CGRectMake(CGRectGetMaxX(third.frame) + 80, 2, 90, 25);
+    [headerView addSubview:fourth];
+   
 }
 
 #pragma mark - UI
@@ -135,15 +121,16 @@
     
     if(iOS7)
     {
-        _tableView = [[UITableView alloc] initWithFrame:CGRectMake(20, 28, SCREEN_HEIGHT-20*2, SCREEN_WIDTH-28)];
+        _tableView = [[UITableView alloc] initWithFrame:CGRectMake(20, 28+60, SCREEN_HEIGHT-20*2, SCREEN_WIDTH-28)];
         
     }else
     {
         
-        _tableView = [[UITableView alloc] initWithFrame:CGRectMake(20, 28, SCREEN_WIDTH-20*2, SCREEN_HEIGHT-28)];
+        _tableView = [[UITableView alloc] initWithFrame:CGRectMake(20, 28+60, SCREEN_WIDTH-20*2, SCREEN_HEIGHT-28)];
         
     }
     
+    _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     _tableView.backgroundColor = [UIColor whiteColor];
     _tableView.delegate = self;
     _tableView.dataSource = self;
@@ -465,6 +452,7 @@
     return _applyList.count;
 }
 
+/*
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
     return _headerView;
@@ -472,9 +460,10 @@
 
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    return 60;
+   // return 60;
+      return 40;
 }
-
+*/
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     IdentificationViewCell *cell = [IdentificationViewCell cellWithTableView:tableView];

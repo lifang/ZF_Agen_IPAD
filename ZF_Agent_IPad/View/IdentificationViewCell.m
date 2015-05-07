@@ -58,6 +58,16 @@
         [_vedioConfirmBtn setBackgroundColor:[UIColor colorWithHexString:@"006fd5"]];
         [self addSubview:_vedioConfirmBtn];
         
+        UILabel * line1 = [[UILabel alloc] init];
+        [line1 setBackgroundColor:[UIColor colorWithHexString:LineColor]];
+        [self.contentView addSubview:line1];
+        [line1 makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(self.contentView.left);
+            make.right.equalTo(self.contentView.right);
+            make.bottom.equalTo(self.contentView.bottom);
+            make.height.equalTo(@1);
+        }];
+        
     }
     return self;
 }

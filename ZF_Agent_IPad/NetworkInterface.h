@@ -164,7 +164,7 @@ static NSString *s_terminalgetMerchants_method = @"terminal/getMerchants";
 static NSString *s_sendPhoneVerification_method = @"terminal/sendPhoneVerificationCodeReg";
 
 //26.找回POS密码
-static NSString *s_findPOSpwd_method = @"terminal/encrption";
+static NSString *s_findPOSpwd_method = @"terminal/encryption";
 
 //26.终端管理——添加用户
 static NSString *s_addUser_method = @"terminal/addCustomer";

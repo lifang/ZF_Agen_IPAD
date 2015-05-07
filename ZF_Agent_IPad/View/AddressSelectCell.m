@@ -32,8 +32,8 @@
         [_selectedImageView makeConstraints:^(MASConstraintMaker *make) {
             make.centerY.equalTo(_backView.centerY);
             make.left.equalTo(_backView.left).offset(40);
-            make.width.equalTo(@42);
-            make.height.equalTo(@42);
+            make.width.equalTo(@30);
+            make.height.equalTo(@30);
         }];
         
         
@@ -42,7 +42,7 @@
         _defaultLabel.backgroundColor = [UIColor clearColor];
         _defaultLabel.font = [UIFont systemFontOfSize:20];
         _defaultLabel.textAlignment = NSTextAlignmentCenter;
-        _defaultLabel.textColor = kColor(255, 102, 36, 1);
+        _defaultLabel.textColor = [UIColor colorWithHexString:@"005df6"];
         _defaultLabel.text = @"默认";
         [_backView addSubview:_defaultLabel];
         [_defaultLabel makeConstraints:^(MASConstraintMaker *make) {
@@ -56,7 +56,7 @@
         _reciverLB = [[UILabel alloc] init];
         [_reciverLB setBackgroundColor:[UIColor clearColor]];
         [_reciverLB setFont:[UIFont systemFontOfSize:21]];
-        _reciverLB.textColor= [UIColor colorWithHexString:@"292929"];
+        _reciverLB.textColor= [UIColor colorWithHexString:@"6c6c6c"];
         _reciverLB.textAlignment=NSTextAlignmentCenter;
         //_reciverLB.backgroundColor=[UIColor redColor];
         [_backView addSubview:_reciverLB];
@@ -72,7 +72,7 @@
         _addressLB = [[UILabel alloc] init];
         [_addressLB  setBackgroundColor:[UIColor clearColor]];
         [_addressLB  setFont:[UIFont systemFontOfSize:21]];
-        _addressLB .textColor= [UIColor colorWithHexString:@"292929"];
+        _addressLB .textColor= [UIColor colorWithHexString:@"6c6c6c"];
         _addressLB .textAlignment=NSTextAlignmentLeft;
         [_backView addSubview:_addressLB ];
         [_addressLB  makeConstraints:^(MASConstraintMaker *make) {
@@ -81,6 +81,17 @@
             make.right.equalTo(self.right).offset(80);
         }];
         
+        
+        UILabel * line1 = [[UILabel alloc] init];
+        [line1 setBackgroundColor:[UIColor colorWithHexString:LineColor]];
+        [self.contentView addSubview:line1];
+        [line1 makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(self.contentView.left);
+            make.right.equalTo(self.contentView.right);
+            make.bottom.equalTo(self.contentView.bottom);
+            make.height.equalTo(@1);
+        }];
+
         
     }
     

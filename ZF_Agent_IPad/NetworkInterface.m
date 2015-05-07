@@ -747,7 +747,8 @@ static NSString *HTTP_GET  = @"GET";
     if (token && ![token isEqualToString:@""]) {
         [paramDict setObject:token forKey:@"token"];
     }
-    [paramDict setObject:terminalid forKey:@"terminalid"];
+    //[paramDict setObject:terminalid forKey:@"terminalid"];
+    [paramDict setObject:[NSNumber numberWithInt:[terminalid intValue]] forKey:@"terminalid"];
     
     //url
     NSString *urlString = [NSString stringWithFormat:@"%@/%@",kServiceURL,s_findPOSpwd_method];
