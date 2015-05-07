@@ -14,6 +14,7 @@
 @interface ZYCustomTabBarViewController()
 @property(nonatomic,strong)UIImageView *backView;
 @property(nonatomic,strong)UISwitch *noticeSwitch;
+@property(nonatomic,strong)UILabel *memoryLabel;
 - (void)test;
 @end
 @implementation ZYCustomTabBarViewController
@@ -539,6 +540,15 @@
     _noticeSwitch.backgroundColor = [UIColor clearColor];
     _noticeSwitch.onTintColor = kMainColor;
     _noticeSwitch.frame = CGRectMake(CGRectGetMaxX(getNews.frame) + 50, CGRectGetMaxY(line.frame) + 24, 85, 50);
+    NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+    BOOL isOn = NO;
+    if (![userDefault objectForKey:@"PushStatus"]) {
+        isOn = YES;
+    }
+    else {
+        isOn = [[userDefault objectForKey:@"PushStatus"] boolValue];
+    }
+    _noticeSwitch.on = isOn;
     [_noticeSwitch addTarget:self action:@selector(switchAction:) forControlEvents:UIControlEventValueChanged];
     [whiteView addSubview:_noticeSwitch];
     
@@ -549,13 +559,26 @@
     versionsLabel.frame = CGRectMake(CGRectGetMaxX(getNews.frame) + 50, CGRectGetMaxY(line2.frame) + 15, 85, 50);
     [whiteView addSubview:versionsLabel];
     
-    UILabel *memoryLabel = [[UILabel alloc]init];
-    memoryLabel.textColor = kColor(156, 155, 154, 1.0);
-    memoryLabel.font = [UIFont systemFontOfSize:20];
-    memoryLabel.text = @"200M";
-    memoryLabel.frame = CGRectMake(CGRectGetMaxX(getNews.frame) + 50, CGRectGetMaxY(line3.frame) + 15, 85, 50);
-    [whiteView addSubview:memoryLabel];
+    _memoryLabel = [[UILabel alloc]init];
+    _memoryLabel.textColor = kColor(156, 155, 154, 1.0);
+    _memoryLabel.font = [UIFont systemFontOfSize:20];
+    NSUInteger bitSize = [[SDImageCache sharedImageCache] getSize];
+    long MB = 1024 * 1024;
+    _memoryLabel.text = [NSString stringWithFormat:@"%.2fM",((float)bitSize / MB)];
+    _memoryLabel.frame = CGRectMake(CGRectGetMaxX(getNews.frame) + 50, CGRectGetMaxY(line3.frame) + 15, 85, 50);
+    [whiteView addSubview:_memoryLabel];
+    UIButton *clearBtn = [[UIButton alloc]init];
+    [clearBtn setBackgroundColor:[UIColor clearColor]];
+    clearBtn.frame = CGRectMake(CGRectGetMaxX(getNews.frame) + 50, CGRectGetMaxY(line3.frame) + 15, 85, 50);
+    [whiteView addSubview:clearBtn];
+    [clearBtn addTarget:self action:@selector(clearImage) forControlEvents:UIControlEventTouchUpInside];
     
+}
+
+-(void)clearImage
+{
+      [[SDImageCache sharedImageCache] clearDisk];
+    _memoryLabel.text = @"0 M";
 }
 
 -(void)cancelClicked
@@ -563,13 +586,23 @@
     _backView.hidden = YES;
 }
 
--(void)switchAction:(id)sender
+-(void)switchAction:(UISwitch *)sender
 {
-    UISwitch *switchV = sender;
-    if (switchV.isOn) {
-        NSLog(@"开!");
-    }else{
-        NSLog(@"关!");
+    NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+    [userDefault setObject:[NSNumber numberWithBool:sender.isOn] forKey:@"PushStatus"];
+    [userDefault synchronize];
+    NSString *message = @"";
+    if (sender.isOn) {
+        message = @"您已成功开启消息推送，请确保在iPhone的“设置”-“通知”中也开启推送通知！";
     }
+    else {
+        message = @"您已成功关闭消息推送，在应用进入后台后您将不会收到推送消息！";
+    }
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示信息"
+                                                    message:message
+                                                   delegate:nil
+                                          cancelButtonTitle:@"确定"
+                                          otherButtonTitles:nil];
+    [alert show];
 }
 @end

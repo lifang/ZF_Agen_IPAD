@@ -2418,7 +2418,9 @@ static NSString *HTTP_GET  = @"GET";
     NSMutableDictionary *paramDict = [[NSMutableDictionary alloc] init];
     [paramDict setObject:roles forKey:@"roles"];
     [paramDict setObject:loginID forKey:@"loginId"];
-    [paramDict setObject:password forKey:@"pwd"];
+    if (password) {
+        [paramDict setObject:password forKey:@"pwd"];
+    }
     [paramDict setObject:[NSNumber numberWithInt:[agentID intValue]] forKey:@"agentsId"];
     //url
     NSString *urlString = [NSString stringWithFormat:@"%@/%@",kServiceURL,s_changestaffdetail_method];
