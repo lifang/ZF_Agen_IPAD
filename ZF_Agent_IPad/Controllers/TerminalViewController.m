@@ -59,8 +59,8 @@
 
 @property (nonatomic, assign) int stringStatus;
 
-@property (nonatomic, strong) UITextView *posTV;
-@property (nonatomic, strong) UITextView *AddressTV;
+@property (nonatomic, strong) UITextField *posTF;
+@property (nonatomic, strong) UITextField *AddressTF;
 @property (nonatomic, strong) UITextView *reseasonTV;
 
 @property(nonatomic,strong)UITableView *terminalTableView;
@@ -69,17 +69,17 @@
 
 @property(nonatomic,strong) UIView *secondView;
 
-@property (nonatomic, strong) UITextView *UserTV;
+@property (nonatomic, strong) UITextField *UserTF;
 
-@property (nonatomic, strong) UITextView *TerminalTV;
+@property (nonatomic, strong) UITextField *TerminalTF;
 //售后终端号
 @property (nonatomic, strong) NSMutableArray *TerminalsArray;
 @property (nonatomic, strong) NSString *addressId; //当前选择的地址id
 
-@property (nonatomic, strong) UITextView *nameTV;
-@property (nonatomic, strong) UITextView *phoneTV;
-@property (nonatomic, strong) UITextView *codeTV;
-@property (nonatomic, strong) UITextView *locationTV;
+@property (nonatomic, strong) UITextField *nameTF;
+@property (nonatomic, strong) UITextField *phoneTF;
+@property (nonatomic, strong) UITextField *codeTF;
+@property (nonatomic, strong) UITextField *locationTF;
 @property (nonatomic, strong) UITextField *pwdTF;
 @property (nonatomic, strong) UITextField *confpwdTF;
 
@@ -328,7 +328,7 @@
         
     }
     
-
+    _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     _tableView.backgroundColor = [UIColor whiteColor];
     _tableView.delegate = self;
     _tableView.dataSource = self;
@@ -411,14 +411,20 @@
     POSLB.frame = CGRectMake(26, CGRectGetMaxY(line.frame) + 30, 100, 40);
     [_whiteView addSubview:POSLB];
     
-    _posTV=[[UITextView alloc] init];
-    _posTV.layer.masksToBounds=YES;
-    _posTV.layer.borderWidth=1.0;
-    _posTV.layer.borderColor=[UIColor colorWithHexString:@"a8a8a8"].CGColor;
-    _posTV.backgroundColor = [UIColor clearColor];
-    _posTV.font = FONT20;
-    _posTV.frame = CGRectMake(POSLB.frame.origin.x+POSLB.frame.size.width+30, CGRectGetMaxY(line.frame) + 30, 240, 40);
-    [_whiteView addSubview:_posTV];
+    _posTF=[[UITextField alloc] init];
+    _posTF.layer.masksToBounds=YES;
+    _posTF.layer.borderWidth=1.0;
+    _posTF.layer.borderColor=[UIColor colorWithHexString:@"a8a8a8"].CGColor;
+    _posTF.backgroundColor = [UIColor clearColor];
+    _posTF.textColor=[UIColor colorWithHexString:@"6c6c6c"];
+    _posTF.font = FONT20;
+    _posTF.userInteractionEnabled = NO;
+    _posTF.frame = CGRectMake(POSLB.frame.origin.x+POSLB.frame.size.width+30, CGRectGetMaxY(line.frame) + 30, 240, 40);
+    _posTF.leftViewMode = UITextFieldViewModeAlways;
+    UIView *PTFLView = [[UIView alloc]init];
+    PTFLView.frame = CGRectMake(0, 0, 10, 40);
+    _posTF.leftView =PTFLView;
+    [_whiteView addSubview:_posTF];
     
     UIButton *POSBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     POSBtn.frame = CGRectMake(POSLB.frame.origin.x+POSLB.frame.size.width+30+150+40, CGRectGetMaxY(line.frame) + 30, 50, 40);
@@ -433,17 +439,23 @@
     AddressLB.frame = CGRectMake(26, POSLB.frame.origin.y + 70, 100, 40);
     [_whiteView addSubview:AddressLB];
     
-    _AddressTV=[[UITextView alloc] init];
-    _AddressTV.layer.masksToBounds=YES;
-    _AddressTV.layer.borderWidth=1.0;
-    _AddressTV.layer.borderColor=[UIColor colorWithHexString:@"a8a8a8"].CGColor;
-    _AddressTV.backgroundColor = [UIColor clearColor];
-    _AddressTV.font = FONT20;
-    _AddressTV.frame = CGRectMake(_posTV.frame.origin.x, AddressLB.frame.origin.y, 240, 40);
-    [_whiteView addSubview:_AddressTV];
+    _AddressTF=[[UITextField alloc] init];
+    _AddressTF.layer.masksToBounds=YES;
+    _AddressTF.layer.borderWidth=1.0;
+    _AddressTF.layer.borderColor=[UIColor colorWithHexString:@"a8a8a8"].CGColor;
+    _AddressTF.backgroundColor = [UIColor clearColor];
+    _AddressTF.textColor=[UIColor colorWithHexString:@"6c6c6c"];
+    _AddressTF.font = FONT20;
+    _AddressTF.userInteractionEnabled = NO;
+    _AddressTF.frame = CGRectMake(_posTF.frame.origin.x, AddressLB.frame.origin.y, 240, 40);
+    _AddressTF.leftViewMode = UITextFieldViewModeAlways;
+    UIView *ATFLView = [[UIView alloc]init];
+    ATFLView.frame = CGRectMake(0, 0, 10, 40);
+    _AddressTF.leftView =ATFLView;
+    [_whiteView addSubview:_AddressTF];
     
     UIButton *AddressBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    AddressBtn.frame = CGRectMake(POSLB.frame.origin.x+POSLB.frame.size.width+30+150+40,  _AddressTV.frame.origin.y, 50, 40);
+    AddressBtn.frame = CGRectMake(POSLB.frame.origin.x+POSLB.frame.size.width+30+150+40,  _AddressTF.frame.origin.y, 50, 40);
     [AddressBtn setImage:kImageName(@"arrow_line") forState:UIControlStateNormal];
     [AddressBtn  addTarget:self action:@selector(AddressBtnclick:) forControlEvents:UIControlEventTouchUpInside];
     [_whiteView addSubview:AddressBtn];
@@ -460,8 +472,10 @@
     _reseasonTV.layer.borderWidth=1.0;
     _reseasonTV.layer.borderColor=[UIColor colorWithHexString:@"a8a8a8"].CGColor;
     _reseasonTV.backgroundColor = [UIColor clearColor];
+    _reseasonTV.textColor=[UIColor colorWithHexString:@"6c6c6c"];
     _reseasonTV.font = FONT20;
-    _reseasonTV.frame = CGRectMake(_posTV.frame.origin.x, reseasonLB.frame.origin.y, 240, 120);
+    _reseasonTV.delegate=self;
+    _reseasonTV.frame = CGRectMake(_posTF.frame.origin.x, reseasonLB.frame.origin.y, 240, 120);
     [_whiteView addSubview:_reseasonTV];
     
     UIButton *submitBtn=[[UIButton alloc] init];
@@ -495,7 +509,7 @@
     AddressSC.hidesBottomBarWhenPushed=YES;
     AddressSC.delegate=self;
     [_findPosView setHidden:YES];
-    if (![_AddressTV.text isEqualToString:@""]) {
+    if (![_AddressTF.text isEqualToString:@""]) {
         AddressSC.addressID=_addressId;
     }
     [self.navigationController pushViewController:AddressSC animated:YES];
@@ -506,7 +520,7 @@
 -(void)submitBtnClick:(id)sender
 {
 
-    if ((!_posTV.text||[_AddressTV.text isEqualToString:@""])&&([_TerminalsArray count] <= 0)) {
+    if ((!_posTF.text||[_AddressTF.text isEqualToString:@""])&&([_TerminalsArray count] <= 0)) {
         MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:_whiteView animated:YES];
         hud.customView = [[UIImageView alloc] init];
         hud.mode = MBProgressHUDModeCustomView;
@@ -514,7 +528,7 @@
         hud.labelText = @"请选择终端";
         return;
     }
-    if (!_AddressTV.text ||[_AddressTV.text isEqualToString:@""]) {
+    if (!_AddressTF.text ||[_AddressTF.text isEqualToString:@""]) {
         MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:_whiteView animated:YES];
         hud.customView = [[UIImageView alloc] init];
         hud.mode = MBProgressHUDModeCustomView;
@@ -534,7 +548,7 @@
     NSLog(@"array:%@",_TerminalsArray);
     NSLog(@"reciver:%@",_reciver);
     NSLog(@"phone:%@",_phone);
-    NSLog(@"address:%@",_AddressTV.text);
+    NSLog(@"address:%@",_AddressTF.text);
     NSLog(@"reseason:%@",_reseasonTV.text);
 
      [self submitAfterSale];
@@ -564,7 +578,8 @@
     _findPosView.userInteractionEnabled=YES;
     
     _whiteView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 440, 320)];
-    _whiteView.center = CGPointMake(width / 2, (height - 100) / 2);
+   // _whiteView.center = CGPointMake(width / 2, (height - 100) / 2);
+     _whiteView.center = CGPointMake(width / 2, (height - 130) / 2);
     _whiteView.backgroundColor = [UIColor whiteColor];
     [_findPosView addSubview:_whiteView];
     
@@ -593,23 +608,30 @@
     UserLB.frame = CGRectMake(26, CGRectGetMaxY(line.frame) + 30, 100, 40);
     [_whiteView addSubview:UserLB];
     
-    _UserTV=[[UITextView alloc] init];
-    _UserTV.layer.masksToBounds=YES;
-    _UserTV.layer.borderWidth=1.0;
-    _UserTV.layer.borderColor=[UIColor colorWithHexString:@"a8a8a8"].CGColor;
-    _UserTV.backgroundColor = [UIColor clearColor];
-    _UserTV.font = [UIFont systemFontOfSize:20];
-    _UserTV.frame = CGRectMake(UserLB.frame.origin.x+UserLB.frame.size.width+30, CGRectGetMaxY(line.frame) + 30, 240, 40);
-    [_whiteView addSubview:_UserTV];
+  
+    _UserTF=[[UITextField alloc] init];
+    _UserTF.layer.masksToBounds=YES;
+    _UserTF.layer.borderWidth=1.0;
+    _UserTF.layer.borderColor=[UIColor colorWithHexString:@"a8a8a8"].CGColor;
+    _UserTF.backgroundColor = [UIColor clearColor];
+    _UserTF.textColor=[UIColor colorWithHexString:@"6c6c6c"];
+    _UserTF.font = [UIFont systemFontOfSize:20];
+    _UserTF.userInteractionEnabled = NO;
+    _UserTF.frame = CGRectMake(UserLB.frame.origin.x+UserLB.frame.size.width+30, CGRectGetMaxY(line.frame) + 30, 240, 40);
+    _UserTF.leftViewMode = UITextFieldViewModeAlways;
+    UIView *UTFLView = [[UIView alloc]init];
+    UTFLView.frame = CGRectMake(0, 0, 10, 40);
+    _UserTF.leftView =UTFLView;
+    [_whiteView addSubview:_UserTF];
     
     UIButton *UserBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    UserBtn.frame = CGRectMake(_UserTV.frame.origin.x+150+40, _UserTV.frame.origin.y,50, 40);
+    UserBtn.frame = CGRectMake(_UserTF.frame.origin.x+150+40, _UserTF.frame.origin.y,50, 40);
     [UserBtn setImage:kImageName(@"arrow_line") forState:UIControlStateNormal];
     [UserBtn  addTarget:self action:@selector(UserBtnclick:) forControlEvents:UIControlEventTouchUpInside];
     [_whiteView addSubview:UserBtn];
     
     UIButton *newBtn=[[UIButton alloc] init];
-    newBtn.frame=CGRectMake(_UserTV.frame.origin.x, _UserTV.frame.origin.y+40+10, 100, 20);
+    newBtn.frame=CGRectMake(_UserTF.frame.origin.x, _UserTF.frame.origin.y+40+10, 100, 20);
     [newBtn setTitleColor:[UIColor colorWithHexString:@"006fd5"] forState:UIControlStateNormal];
     [newBtn setTitle:@"创建新用户" forState:UIControlStateNormal];
     newBtn.titleLabel.font = FONT15;
@@ -624,17 +646,23 @@
     TerminalLB.frame = CGRectMake(26, UserLB.frame.origin.y + 80, 100, 40);
     [_whiteView addSubview:TerminalLB];
     
-    _TerminalTV=[[UITextView alloc] init];
-    _TerminalTV.layer.masksToBounds=YES;
-    _TerminalTV.layer.borderWidth=1.0;
-    _TerminalTV.layer.borderColor=[UIColor colorWithHexString:@"a8a8a8"].CGColor;
-    _TerminalTV.backgroundColor = [UIColor clearColor];
-    _TerminalTV.font = [UIFont systemFontOfSize:20];
-    _TerminalTV.frame = CGRectMake(_UserTV.frame.origin.x, TerminalLB.frame.origin.y, 240, 40);
-    [_whiteView addSubview:_TerminalTV];
+    _TerminalTF=[[UITextField alloc] init];
+    _TerminalTF.layer.masksToBounds=YES;
+    _TerminalTF.layer.borderWidth=1.0;
+    _TerminalTF.layer.borderColor=[UIColor colorWithHexString:@"a8a8a8"].CGColor;
+    _TerminalTF.backgroundColor = [UIColor clearColor];
+    _TerminalTF.textColor=[UIColor colorWithHexString:@"6c6c6c"];
+    _TerminalTF.clearButtonMode = UITextFieldViewModeWhileEditing;
+    _TerminalTF.font = [UIFont systemFontOfSize:20];
+    _TerminalTF.frame = CGRectMake(_UserTF.frame.origin.x, TerminalLB.frame.origin.y, 240, 40);
+    _TerminalTF.leftViewMode = UITextFieldViewModeAlways;
+    UIView *TTFLView = [[UIView alloc]init];
+    TTFLView.frame = CGRectMake(0, 0, 10, 40);
+    _TerminalTF.leftView =TTFLView;
+    [_whiteView addSubview:_TerminalTF];
     
     UIButton *bindingBtn=[[UIButton alloc] init];
-    bindingBtn.frame=CGRectMake(_whiteView.frame.size.width/2.0-60, _TerminalTV.frame.origin.y+40+30, 120, 40);
+    bindingBtn.frame=CGRectMake(_whiteView.frame.size.width/2.0-60, _TerminalTF.frame.origin.y+40+30, 120, 40);
     bindingBtn.layer.masksToBounds=YES;
     bindingBtn.layer.borderWidth=1.0;
     bindingBtn.layer.borderColor=[UIColor colorWithHexString:@"006fd5"].CGColor;
@@ -658,7 +686,7 @@
 
 -(void)bindingBtnClick:(id)sender
 {
-    if (!_UserTV.text ||[_UserTV.text isEqualToString:@""]) {
+    if (!_UserTF.text ||[_UserTF.text isEqualToString:@""]) {
         MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:_whiteView animated:YES];
         hud.customView = [[UIImageView alloc] init];
         hud.mode = MBProgressHUDModeCustomView;
@@ -666,7 +694,7 @@
         hud.labelText = @"请选择用户";
         return;
     }
-    if (!_TerminalTV.text ||[_TerminalTV.text isEqualToString:@""]) {
+    if (!_TerminalTF.text ||[_TerminalTF.text isEqualToString:@""]) {
         MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:_whiteView animated:YES];
         hud.customView = [[UIImageView alloc] init];
         hud.mode = MBProgressHUDModeCustomView;
@@ -736,37 +764,58 @@
     nameLB.text = @"用户姓名";
     nameLB.textColor = kColor(56, 56, 56, 1.0);
     nameLB.font = [UIFont systemFontOfSize:20];
-    nameLB.frame = CGRectMake(26, CGRectGetMaxY(line.frame) + 30, 100, 40);
+    //nameLB.frame = CGRectMake(26, CGRectGetMaxY(line.frame) + 30, 100, 40);
+    nameLB.frame = CGRectMake(26, CGRectGetMaxY(line.frame) + 30, 80, 40);
     [_secondView addSubview:nameLB];
     
-    _nameTV=[[UITextView alloc] init];
-    _nameTV.layer.masksToBounds=YES;
-    _nameTV.layer.borderWidth=1.0;
-    _nameTV.layer.borderColor=[UIColor colorWithHexString:@"a8a8a8"].CGColor;
-    _nameTV.backgroundColor = [UIColor clearColor];
-    _nameTV.font = FONT20;
-    _nameTV.frame = CGRectMake(nameLB.frame.origin.x+nameLB.frame.size.width+30, CGRectGetMaxY(line.frame) + 30, 240, 40);
-    [_secondView addSubview:_nameTV];
+    _nameTF=[[UITextField alloc] init];
+    _nameTF.layer.masksToBounds=YES;
+    _nameTF.layer.borderWidth=1.0;
+    _nameTF.layer.borderColor=[UIColor colorWithHexString:@"a8a8a8"].CGColor;
+    _nameTF.backgroundColor = [UIColor clearColor];
+    _nameTF.textColor=[UIColor colorWithHexString:@"6c6c6c"];
+    _nameTF.clearButtonMode = UITextFieldViewModeWhileEditing;
+    _nameTF.font = FONT20;
+    _nameTF.frame = CGRectMake(nameLB.frame.origin.x+nameLB.frame.size.width+30, CGRectGetMaxY(line.frame) + 30, 260, 40);
+    _nameTF.leftViewMode = UITextFieldViewModeAlways;
+    UIView *NTFLView = [[UIView alloc]init];
+    NTFLView.frame = CGRectMake(0, 0, 10, 40);
+     _nameTF.leftView =NTFLView;
+    [_secondView addSubview:_nameTF];
     
   
     UILabel *phoneLB = [[UILabel alloc]init];
     phoneLB.text = @"手机号码";
     phoneLB.textColor = kColor(56, 56, 56, 1.0);
     phoneLB.font = [UIFont systemFontOfSize:20];
-    phoneLB.frame = CGRectMake(26, nameLB.frame.origin.y + 60, 100, 40);
+    phoneLB.frame = CGRectMake(26, nameLB.frame.origin.y + 60, 80, 40);
     [_secondView addSubview:phoneLB];
     
-    _phoneTV=[[UITextView alloc] init];
-    _phoneTV.layer.masksToBounds=YES;
-    _phoneTV.layer.borderWidth=1.0;
-    _phoneTV.layer.borderColor=[UIColor colorWithHexString:@"a8a8a8"].CGColor;
-    _phoneTV.backgroundColor = [UIColor clearColor];
-    _phoneTV.font = FONT20;
-    _phoneTV.frame = CGRectMake(_nameTV.frame.origin.x, phoneLB.frame.origin.y, 240, 40);
-    [_secondView addSubview:_phoneTV];
+    UITextView *phoneTV=[[UITextView alloc] init];
+    phoneTV.layer.masksToBounds=YES;
+    phoneTV.layer.borderWidth=1.0;
+    phoneTV.layer.borderColor=[UIColor colorWithHexString:@"a8a8a8"].CGColor;
+    phoneTV.backgroundColor = [UIColor clearColor];
+    phoneTV.font = FONT20;
+    phoneTV.frame = CGRectMake(_nameTF.frame.origin.x, phoneLB.frame.origin.y, 260, 40);
+    [_secondView addSubview:phoneTV];
+
+  
+    
+    _phoneTF=[[UITextField alloc] init];
+    _phoneTF.backgroundColor = [UIColor clearColor];
+    _phoneTF.textColor=[UIColor colorWithHexString:@"6c6c6c"];
+    _phoneTF.font = FONT20;
+    _phoneTF.clearButtonMode = UITextFieldViewModeWhileEditing;
+    _phoneTF.frame = CGRectMake(_nameTF.frame.origin.x, phoneLB.frame.origin.y, 180, 40);
+    _phoneTF.leftViewMode = UITextFieldViewModeAlways;
+    UIView *PTFLView = [[UIView alloc]init];
+    PTFLView.frame = CGRectMake(0, 0, 10, 40);
+    _phoneTF.leftView =PTFLView;
+    [_secondView addSubview:_phoneTF];
     
     _getcodeBtn=[[UIButton alloc] init];
-    _getcodeBtn.frame=CGRectMake(_phoneTV.frame.origin.x+160, _phoneTV.frame.origin.y, 80, 40);
+    _getcodeBtn.frame=CGRectMake(_phoneTF.frame.origin.x+180, _phoneTF.frame.origin.y, 80, 40);
     [_getcodeBtn setTitleColor:[UIColor colorWithHexString:@"006fd5"] forState:UIControlStateNormal];
     [_getcodeBtn setTitle:@"获取验证码" forState:UIControlStateNormal];
     _getcodeBtn.titleLabel.font = FONT15;
@@ -777,37 +826,53 @@
     codeLB.text = @"验证码";
     codeLB.textColor = kColor(56, 56, 56, 1.0);
     codeLB.font = [UIFont systemFontOfSize:20];
-    codeLB.frame = CGRectMake(26, phoneLB.frame.origin.y + 60, 100, 40);
+    codeLB.frame = CGRectMake(26, phoneLB.frame.origin.y + 60, 80, 40);
     [_secondView addSubview:codeLB];
     
-    _codeTV=[[UITextView alloc] init];
-    _codeTV.layer.masksToBounds=YES;
-    _codeTV.layer.borderWidth=1.0;
-    _codeTV.layer.borderColor=[UIColor colorWithHexString:@"a8a8a8"].CGColor;
-    _codeTV.backgroundColor = [UIColor clearColor];
-    _codeTV.font = FONT20;
-    _codeTV.frame = CGRectMake(_phoneTV.frame.origin.x, codeLB.frame.origin.y, 240, 40);
-    [_secondView addSubview:_codeTV];
+    _codeTF=[[UITextField alloc] init];
+    _codeTF.layer.masksToBounds=YES;
+    _codeTF.layer.borderWidth=1.0;
+    _codeTF.layer.borderColor=[UIColor colorWithHexString:@"a8a8a8"].CGColor;
+    _codeTF.backgroundColor = [UIColor clearColor];
+    _codeTF.textColor=[UIColor colorWithHexString:@"6c6c6c"];
+    _codeTF.clearButtonMode = UITextFieldViewModeWhileEditing;
+    _codeTF.font = FONT20;
+    _codeTF.frame = CGRectMake(_phoneTF.frame.origin.x, codeLB.frame.origin.y, 260, 40);
+    _codeTF.leftViewMode = UITextFieldViewModeAlways;
+    UIView *CTFLView = [[UIView alloc]init];
+    CTFLView.frame = CGRectMake(0, 0, 10, 40);
+    _codeTF.leftView =CTFLView;
+    [_secondView addSubview:_codeTF];
     
     
     UILabel *locationLB = [[UILabel alloc]init];
     locationLB.text = @"所在地";
     locationLB.textColor = kColor(56, 56, 56, 1.0);
     locationLB.font = [UIFont systemFontOfSize:20];
-    locationLB.frame = CGRectMake(26, codeLB.frame.origin.y + 60, 100, 40);
+    locationLB.frame = CGRectMake(26, codeLB.frame.origin.y + 60, 80, 40);
     [_secondView addSubview:locationLB];
     
-    _locationTV=[[UITextView alloc] init];
-    _locationTV.layer.masksToBounds=YES;
-    _locationTV.layer.borderWidth=1.0;
-    _locationTV.layer.borderColor=[UIColor colorWithHexString:@"a8a8a8"].CGColor;
-    _locationTV.backgroundColor = [UIColor clearColor];
-    _locationTV.font = FONT20;
-    _locationTV.frame = CGRectMake(_codeTV.frame.origin.x, locationLB.frame.origin.y, 240, 40);
-    [_secondView addSubview:_locationTV];
+    UITextView *locationTV=[[UITextView alloc] init];
+    locationTV.layer.masksToBounds=YES;
+    locationTV.layer.borderWidth=1.0;
+    locationTV.layer.borderColor=[UIColor colorWithHexString:@"a8a8a8"].CGColor;
+    locationTV.backgroundColor = [UIColor clearColor];
+    locationTV.userInteractionEnabled = NO;
+    locationTV.frame = CGRectMake(_codeTF.frame.origin.x, locationLB.frame.origin.y, 260, 40);
+    [_secondView addSubview:locationTV];
+
+    
+    _locationTF=[[UITextField alloc] init];
+    _locationTF.backgroundColor = [UIColor clearColor];
+    _locationTF.textColor=[UIColor colorWithHexString:@"6c6c6c"];
+    _locationTF.font = FONT20;
+    _locationTF.textAlignment=NSTextAlignmentCenter;
+    _locationTF.userInteractionEnabled = NO;
+    _locationTF.frame = CGRectMake(_codeTF.frame.origin.x, locationLB.frame.origin.y, 210, 40);
+    [_secondView addSubview:_locationTF];
     
     UIButton *locationBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    locationBtn.frame = CGRectMake(_locationTV.frame.origin.x+150+40, _locationTV.frame.origin.y, 50, 40);
+    locationBtn.frame = CGRectMake(_locationTF.frame.origin.x+150+40+20, _locationTF.frame.origin.y, 50, 40);
     [locationBtn setImage:kImageName(@"arrow_line") forState:UIControlStateNormal];
     [locationBtn  addTarget:self action:@selector(locationBtnclick:) forControlEvents:UIControlEventTouchUpInside];
     [_secondView addSubview:locationBtn];
@@ -817,7 +882,7 @@
     pwdLB.text = @"密码";
     pwdLB.textColor = kColor(56, 56, 56, 1.0);
     pwdLB.font = [UIFont systemFontOfSize:20];
-    pwdLB.frame = CGRectMake(26, locationLB.frame.origin.y + 60, 100, 40);
+    pwdLB.frame = CGRectMake(26, locationLB.frame.origin.y + 60, 80, 40);
     [_secondView addSubview:pwdLB];
     
     _pwdTF=[[UITextField alloc] init];
@@ -825,18 +890,23 @@
     _pwdTF.layer.borderWidth=1.0;
     _pwdTF.layer.borderColor=[UIColor colorWithHexString:@"a8a8a8"].CGColor;
     _pwdTF.backgroundColor = [UIColor clearColor];
+    _pwdTF.textColor=[UIColor colorWithHexString:@"6c6c6c"];
     _pwdTF.font = FONT20;
     _pwdTF.delegate=self;
     _pwdTF.clearButtonMode = UITextFieldViewModeWhileEditing;
     _pwdTF.secureTextEntry = YES;
-    _pwdTF.frame = CGRectMake(_codeTV.frame.origin.x, pwdLB.frame.origin.y, 240, 40);
+    _pwdTF.frame = CGRectMake(_codeTF.frame.origin.x, pwdLB.frame.origin.y, 260, 40);
+    _pwdTF.leftViewMode = UITextFieldViewModeAlways;
+    UIView *PWTFLView = [[UIView alloc]init];
+    PWTFLView.frame = CGRectMake(0, 0, 10, 40);
+    _pwdTF.leftView =PWTFLView;
     [_secondView addSubview:_pwdTF];
 
     UILabel *confpwdLB = [[UILabel alloc]init];
     confpwdLB.text = @"确认密码";
     confpwdLB.textColor = kColor(56, 56, 56, 1.0);
     confpwdLB.font = [UIFont systemFontOfSize:20];
-    confpwdLB.frame = CGRectMake(26, pwdLB.frame.origin.y + 60, 100, 40);
+    confpwdLB.frame = CGRectMake(26, pwdLB.frame.origin.y + 60, 80, 40);
     [_secondView addSubview:confpwdLB];
     
     _confpwdTF=[[UITextField alloc] init];
@@ -844,11 +914,16 @@
     _confpwdTF.layer.borderWidth=1.0;
     _confpwdTF.layer.borderColor=[UIColor colorWithHexString:@"a8a8a8"].CGColor;
     _confpwdTF.backgroundColor = [UIColor clearColor];
+    _confpwdTF.textColor=[UIColor colorWithHexString:@"6c6c6c"];
     _confpwdTF.font = FONT20;
     _confpwdTF.delegate=self;
     _confpwdTF.clearButtonMode = UITextFieldViewModeWhileEditing;
     _confpwdTF.secureTextEntry = YES;
-    _confpwdTF.frame = CGRectMake(_codeTV.frame.origin.x, confpwdLB.frame.origin.y, 240, 40);
+    _confpwdTF.frame = CGRectMake(_codeTF.frame.origin.x, confpwdLB.frame.origin.y, 260, 40);
+    _confpwdTF.leftViewMode = UITextFieldViewModeAlways;
+    UIView *CPTFLView = [[UIView alloc]init];
+    CPTFLView.frame = CGRectMake(0, 0, 10, 40);
+    _confpwdTF.leftView =CPTFLView;
     [_secondView addSubview:_confpwdTF];
 
     
@@ -868,7 +943,7 @@
 
 -(void)getcodeBtnClick:(id)sender
 {
-    if (!_phoneTV.text ||[_phoneTV.text isEqualToString:@""]) {
+    if (!_phoneTF.text ||[_phoneTF.text isEqualToString:@""]) {
         MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:_secondView animated:YES];
         hud.customView = [[UIImageView alloc] init];
         hud.mode = MBProgressHUDModeCustomView;
@@ -876,7 +951,7 @@
         hud.labelText = @"请输入手机号";
         return;
     }
-    if (![RegularFormat isMobileNumber:_phoneTV.text]) {
+    if (![RegularFormat isMobileNumber:_phoneTF.text]) {
         MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:_secondView animated:YES];
         hud.customView = [[UIImageView alloc] init];
         hud.mode = MBProgressHUDModeCustomView;
@@ -942,7 +1017,7 @@
 -(void)bulidBtnClick:(id)sender
 {
     NSLog(@"chuangjian");
-    if (!_nameTV.text ||[_nameTV.text isEqualToString:@""]) {
+    if (!_nameTF.text ||[_nameTF.text isEqualToString:@""]) {
         MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:_secondView animated:YES];
         hud.customView = [[UIImageView alloc] init];
         hud.mode = MBProgressHUDModeCustomView;
@@ -950,7 +1025,7 @@
         hud.labelText = @"填写用户姓名";
         return;
     }
-    if (!_phoneTV.text ||[_phoneTV.text isEqualToString:@""]) {
+    if (!_phoneTF.text ||[_phoneTF.text isEqualToString:@""]) {
         MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:_secondView animated:YES];
         hud.customView = [[UIImageView alloc] init];
         hud.mode = MBProgressHUDModeCustomView;
@@ -958,7 +1033,16 @@
         hud.labelText = @"请填写手机号码";
         return;
     }
-    if (!_codeTV.text ||[_codeTV.text isEqualToString:@""]) {
+    if (![RegularFormat isMobileNumber:_phoneTF.text]) {
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:_secondView animated:YES];
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:1.f];
+        hud.labelText = @"请输入正确的手机号";
+        return;
+    }
+
+    if (!_codeTF.text ||[_codeTF.text isEqualToString:@""]) {
         MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:_secondView animated:YES];
         hud.customView = [[UIImageView alloc] init];
         hud.mode = MBProgressHUDModeCustomView;
@@ -966,7 +1050,7 @@
         hud.labelText = @"请填入验证码";
         return;
     }
-    if (!_locationTV.text ||[_locationTV.text isEqualToString:@""]) {
+    if (!_locationTF.text ||[_locationTF.text isEqualToString:@""]) {
         MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:_secondView animated:YES];
         hud.customView = [[UIImageView alloc] init];
         hud.mode = MBProgressHUDModeCustomView;
@@ -1000,7 +1084,7 @@
 - (void)getSelectedAddress:(AddressModel *)addressModel {
     
      [_findPosView setHidden:NO];
-    _AddressTV.text=addressModel.address;
+    _AddressTF.text=addressModel.address;
     _phone=addressModel.addressPhone;
     _reciver=addressModel.addressReceiver;
     _addressId=addressModel.addressID;
@@ -1011,7 +1095,7 @@
 
 -(void)selectedUser:(UserModel *)model {
     [_findPosView setHidden:NO];
-    _UserTV.text=model.userName;
+    _UserTF.text=model.userName;
     _userId=model.userID;
    
     
@@ -1030,7 +1114,7 @@
         //[_TerminalsArray addObject:model];
         [_TerminalsArray addObject:model.serial_num];
         if (i==0) {
-            _posTV.text=[NSString stringWithFormat:@"%@等",model.serial_num];
+            _posTF.text=[NSString stringWithFormat:@"%@等",model.serial_num];
         }
     }
     
@@ -1237,7 +1321,7 @@
     AppDelegate *delegate = [AppDelegate shareAppDelegate];
      NSString *terminalString = [self terminalStringWithArray:_TerminalsArray];
     
-    [NetworkInterface submitAfterSaleApplyWithUserID:delegate.agentID token:delegate.token terminalCount:[_TerminalsArray count] address:_AddressTV.text receiver:_reciver phoneNumber:_phone reason:_textView.text terminalList:terminalString finished:^(BOOL success, NSData *response) {
+    [NetworkInterface submitAfterSaleApplyWithUserID:delegate.agentID token:delegate.token terminalCount:[_TerminalsArray count] address:_AddressTF.text receiver:_reciver phoneNumber:_phone reason:_textView.text terminalList:terminalString finished:^(BOOL success, NSData *response) {
 
         hud.customView = [[UIImageView alloc] init];
         hud.mode = MBProgressHUDModeCustomView;
@@ -1274,7 +1358,7 @@
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:_whiteView animated:YES];
     hud.labelText = @"提交中...";
     AppDelegate *delegate = [AppDelegate shareAppDelegate];
-    [NetworkInterface bindingTerminalWithtoken:delegate.token AgentId:delegate.agentID  terminalsNum:_TerminalTV.text userId:_userId  finished:^(BOOL success, NSData *response) {
+    [NetworkInterface bindingTerminalWithtoken:delegate.token AgentId:delegate.agentID  terminalsNum:_TerminalTF.text userId:_userId  finished:^(BOOL success, NSData *response) {
         hud.customView = [[UIImageView alloc] init];
         hud.mode = MBProgressHUDModeCustomView;
         [hud hide:YES afterDelay:0.5f];
@@ -1306,15 +1390,15 @@
 //创建新用户
 - (void)addNewUser {
     
-    NSLog(@"username:%@",_nameTV.text);
+    NSLog(@"username:%@",_nameTF.text);
     NSLog(@"pwd:%@",_pwdTF.text);
-    NSLog(@"codeNumber:%@",_phoneTV.text);
+    NSLog(@"codeNumber:%@",_phoneTF.text);
     NSLog(@"cityId:%@",_cityId);
-    NSLog(@"code:%@",_codeTV.text);
+    NSLog(@"code:%@",_codeTF.text);
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:_secondView animated:YES];
     hud.labelText = @"加载中...";
     AppDelegate *delegate = [AppDelegate shareAppDelegate];
-    [NetworkInterface  addUserWithtoken:delegate.token AgentId:delegate.agentID username:_nameTV.text password:_pwdTF.text codeNumber:_phoneTV.text cityId:_cityId code:_codeTV.text finished:^(BOOL success, NSData *response) {
+    [NetworkInterface  addUserWithtoken:delegate.token AgentId:delegate.agentID username:_nameTF.text password:_pwdTF.text codeNumber:_phoneTF.text cityId:_cityId code:_codeTF.text finished:^(BOOL success, NSData *response) {
         NSLog(@"%@",[[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding]);
         hud.customView = [[UIImageView alloc] init];
         hud.mode = MBProgressHUDModeCustomView;
@@ -1350,7 +1434,7 @@
 - (void)sendPhoneCode {
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:_secondView animated:YES];
     hud.labelText = @"加载中...";
-    [NetworkInterface  sendBindingValidateWithMobileNumber:_phoneTV.text finished:^(BOOL success, NSData *response) {
+    [NetworkInterface  sendBindingValidateWithMobileNumber:_phoneTF.text finished:^(BOOL success, NSData *response) {
         NSLog(@"%@",[[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding]);
         hud.customView = [[UIImageView alloc] init];
         hud.mode = MBProgressHUDModeCustomView;
@@ -1435,8 +1519,6 @@
                 }
                 else if ([errorCode intValue] == RequestSuccess) {
                     
-                    //id list = [[object objectForKey:@"result"] objectForKey:@"applyList"];
-                   // [self parseSearchTerminalDataWithDictionary:object];
                     _passwordLabel.text = [object objectForKey:@"result"];
                     
                 }
@@ -1444,10 +1526,12 @@
             else {
                 //返回错误数据
                 hud.labelText = kServiceReturnWrong;
+                _passwordLabel.text = @"请求数据错误";
             }
         }
         else {
             hud.labelText = kNetworkFailed;
+            _passwordLabel.text = @"网络连接失败";
         }
        
     }];
@@ -1613,17 +1697,18 @@
     [whiteView addSubview:line];
     
     UILabel *POSLable = [[UILabel alloc]init];
-    POSLable.text = @"POS机密码";
+    POSLable.text = @"密码";
     POSLable.textColor = kColor(56, 56, 56, 1.0);
     POSLable.font = [UIFont systemFontOfSize:20];
-    POSLable.frame = CGRectMake(FindPOSLable.frame.origin.x - 40, CGRectGetMaxY(line.frame) + 50, 120, 30);
+   // POSLable.frame = CGRectMake(FindPOSLable.frame.origin.x - 40, CGRectGetMaxY(line.frame) + 50, 120, 30);
+     POSLable.frame = CGRectMake(FindPOSLable.frame.origin.x - 140, CGRectGetMaxY(line.frame) + 50, 50, 30);
     [whiteView addSubview:POSLable];
     
     _passwordLabel = [[UILabel alloc]init];
     _passwordLabel.textColor = kColor(132, 132, 132, 1.0);
     _passwordLabel.font = [UIFont systemFontOfSize:20];
     //passwordLabel.text = @"asdasdas";
-    _passwordLabel.frame = CGRectMake(CGRectGetMaxX(POSLable.frame), POSLable.frame.origin.y, 300, 30);
+    _passwordLabel.frame = CGRectMake(CGRectGetMaxX(POSLable.frame), POSLable.frame.origin.y, 400, 30);
     [whiteView addSubview:_passwordLabel];
     [self findPOSpwd:selectedID];
     
@@ -1728,6 +1813,7 @@
             TerminalViewCell *cell = [tableView dequeueReusableCellWithIdentifier:ID];
             if (cell == nil) {
                 cell = [[TerminalViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:ID];
+                
             }
             return cell;
         }else{
@@ -1804,6 +1890,7 @@
     
 }
 
+/*
  - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
  if ([tableView respondsToSelector:@selector(setSeparatorInset:)]) {
  [tableView setSeparatorInset:UIEdgeInsetsZero];
@@ -1815,7 +1902,7 @@
  [cell setLayoutMargins:UIEdgeInsetsZero];
  }
  }
-
+*/
 
 
 #pragma mark - Refresh
@@ -1926,7 +2013,7 @@
         NSInteger index = [_pickerView selectedRowInComponent:1];
         _cityId = [NSString stringWithFormat:@"%@",[[_cityArray objectAtIndex:index] objectForKey:@"id"]];
         NSString *cityName = [[_cityArray objectAtIndex:index] objectForKey:@"name"];
-        _locationTV.text=cityName;
+        _locationTF.text=cityName;
        
     }
    else
@@ -2078,6 +2165,81 @@
 }
 
 
+
+//处理键盘
+-(void)textFieldDidBeginEditing:(UITextField *)textField
+{
+    if (textField == _confpwdTF||textField == _pwdTF) {
+       
+        CGRect frame = CGRectMake(_confpwdTF.frame.origin.x, _confpwdTF.frame.origin.y + 330, _confpwdTF.frame.size.width, _confpwdTF.frame.size.height);
+        int offset = frame.origin.y + 32 - (_findPosView.frame.size.height - 216.0);
+        NSTimeInterval animationDuration = 0.30f;
+        [UIView beginAnimations:@"ResizeForKeyboard" context:nil];
+        [UIView setAnimationDuration:animationDuration];
+        if (offset > 0) {
+             _findPosView.frame = CGRectMake(0.0f, -offset, self.view.frame.size.width, self.view.frame.size.height);
+            [UIView commitAnimations];
+        }
+    }
+ 
+
+}
+
+-(void)textFieldDidEndEditing:(UITextField *)textField
+{
+    CGFloat width;
+    CGFloat height;
+    if(iOS7)
+    {
+        width = SCREEN_HEIGHT;
+        height = SCREEN_WIDTH;
+    }
+    else
+    {
+        width = SCREEN_WIDTH;
+        height = SCREEN_HEIGHT;
+    }
+    _findPosView.frame = CGRectMake(0, 0, width, height);
+
+}
+
+
+//售后原因输入框
+- (void)textViewDidBeginEditing:(UITextView *)textView
+{
+    
+    if (textView ==_reseasonTV) {
+        
+        CGRect frame = CGRectMake(_reseasonTV.frame.origin.x, _reseasonTV.frame.origin.y + 330 + 120, _reseasonTV.frame.size.width, _reseasonTV.frame.size.height);
+        int offset = frame.origin.y + 32 - (_findPosView.frame.size.height - 216.0);
+        NSTimeInterval animationDuration = 0.30f;
+        [UIView beginAnimations:@"ResizeForKeyboard" context:nil];
+        [UIView setAnimationDuration:animationDuration];
+        if (offset > 0) {
+            _findPosView.frame = CGRectMake(0.0f, -offset, self.view.frame.size.width, self.view.frame.size.height);
+            [UIView commitAnimations];
+        }
+    }
+
+}
+- (void)textViewDidEndEditing:(UITextView *)textView
+{
+    CGFloat width;
+    CGFloat height;
+    if(iOS7)
+    {
+        width = SCREEN_HEIGHT;
+        height = SCREEN_WIDTH;
+    }
+    else
+    {
+        width = SCREEN_WIDTH;
+        height = SCREEN_HEIGHT;
+    }
+    _findPosView.frame = CGRectMake(0, 0, width, height);
+
+
+}
 
 
 

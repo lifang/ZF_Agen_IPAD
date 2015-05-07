@@ -60,6 +60,17 @@
         }];
         
         
+        UILabel * line1 = [[UILabel alloc] init];
+        [line1 setBackgroundColor:[UIColor colorWithHexString:LineColor]];
+        [self.contentView addSubview:line1];
+        [line1 makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(self.contentView.left);
+            make.right.equalTo(self.contentView.right);
+            make.bottom.equalTo(self.contentView.bottom);
+            make.height.equalTo(@1);
+        }];
+
+        
         _TAP = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(touchPressed:)];
         [_backView setUserInteractionEnabled:YES];
         [_backView addGestureRecognizer:_TAP];
