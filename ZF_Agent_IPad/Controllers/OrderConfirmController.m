@@ -29,15 +29,7 @@
     self.navigationController.navigationBarHidden = NO;
     ZYCustomTabBarViewController *tarbar=[[ZYCustomTabBarViewController alloc] init];
     tarbar.tabBarController.tabBar.hidden=YES;
-    [[NSNotificationCenter defaultCenter]addObserver:self
-                                            selector:@selector(handleKeyboardDidShow:)
-                                                name:UIKeyboardDidShowNotification
-                                              object:nil];
-    //注册通知，监听键盘消失事件
-    [[NSNotificationCenter defaultCenter]addObserver:self
-                                            selector:@selector(handleKeyboardDidHidden)
-                                                name:UIKeyboardDidHideNotification
-                                              object:nil];
+   
 
 }
 
@@ -159,7 +151,8 @@
     _tableView.delegate = self;
     _tableView.dataSource = self;
     [self.view addSubview:_tableView];
-    
+    _tableView.tableFooterView = [[UIView alloc]init];
+
     [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_tableView
                                                           attribute:NSLayoutAttributeTop
                                                           relatedBy:NSLayoutRelationEqual

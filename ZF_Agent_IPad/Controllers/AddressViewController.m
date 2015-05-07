@@ -61,6 +61,8 @@
             _addressTableView.frame = CGRectMake(160, 140, SCREEN_HEIGHT - 160, SCREEN_WIDTH - 140);
         }
  }
+    _addressTableView.tableFooterView = [[UIView alloc]init];
+
     return _addressTableView;
 }
 

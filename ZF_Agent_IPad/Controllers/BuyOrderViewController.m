@@ -458,30 +458,32 @@
 
 -(void)closeKeyboard
 {
-    NSTimeInterval animationDuration = 0.30f;
-    [UIView beginAnimations:@"ResizeForKeyboard" context:nil];
-    [UIView setAnimationDuration:animationDuration];
-    if(iOS7)
-    {
-        
-        self.tableView.frame=CGRectMake(0, 0, SCREEN_HEIGHT, SCREEN_WIDTH-64-60);
-        
-    }
-    
-    else
-        
-    {
-        
-        self.tableView.frame=CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT-64-60);
-        
-        
-        
-    }
-    
-    
-    [UIView commitAnimations];
+//    NSTimeInterval animationDuration = 0.30f;
+//    [UIView beginAnimations:@"ResizeForKeyboard" context:nil];
+//    [UIView setAnimationDuration:animationDuration];
+//    if(iOS7)
+//    {
+//        
+//        self.tableView.frame=CGRectMake(0, 0, SCREEN_HEIGHT, SCREEN_WIDTH-64-60);
+//        
+//    }
+//    
+//    else
+//        
+//    {
+//        
+//        self.tableView.frame=CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT-64-60);
+//        
+//        
+//        
+//    }
+//    
+//    
+//    [UIView commitAnimations];
 }
 - (BOOL)textFieldShouldBeginEditing:(UITextField *)textField {
+    [self pickerScrollOut];
+
     self.editingField = textField;
     return YES;
 }
@@ -490,37 +492,37 @@
 {
     
     
-    
-    NSTimeInterval animationDuration = 0.30f;
-    [UIView beginAnimations:@"ResizeForKeyboard" context:nil];
-    [UIView setAnimationDuration:animationDuration];
-    
-    if(textField==self.billField )
-    {
-        if(iOS7)
-        {
-            
-            self.tableView.frame=CGRectMake(0, -360, SCREEN_HEIGHT, SCREEN_WIDTH-64);
-            
-        }
-        
-        else
-            
-        {
-            
-            self.tableView.frame=CGRectMake(0, -360, SCREEN_WIDTH, SCREEN_HEIGHT-64);
-            
-            
-            
-        }
-  
-        
-    }
-
-    
-    
-    
-    [UIView commitAnimations];
+//    
+//    NSTimeInterval animationDuration = 0.30f;
+//    [UIView beginAnimations:@"ResizeForKeyboard" context:nil];
+//    [UIView setAnimationDuration:animationDuration];
+//    
+//    if(textField==self.billField )
+//    {
+//        if(iOS7)
+//        {
+//            
+//            self.tableView.frame=CGRectMake(0, -360, SCREEN_HEIGHT, SCREEN_WIDTH-64);
+//            
+//        }
+//        
+//        else
+//            
+//        {
+//            
+//            self.tableView.frame=CGRectMake(0, -360, SCREEN_WIDTH, SCREEN_HEIGHT-64);
+//            
+//            
+//            
+//        }
+//  
+//        
+//    }
+//
+//    
+//    
+//    
+//    [UIView commitAnimations];
     
     
 }
@@ -752,8 +754,8 @@
             [layer setBorderWidth:1];
             //设置边框线的颜色
             [layer setBorderColor:[[UIColor grayColor] CGColor]];
-            _cityField.contentEdgeInsets = UIEdgeInsetsMake(0,10, 0, 0);
-            _cityField.imageEdgeInsets = UIEdgeInsetsMake(0,220,0,0);//设置image在button上的位置（上top，左left，下bottom，右right）这里可以写负值，对上写－5，那么image就象上移动5个像素
+            _cityField.contentEdgeInsets = UIEdgeInsetsMake(0,-40, 0, 0);
+            _cityField.imageEdgeInsets = UIEdgeInsetsMake(0,270,0,0);//设置image在button上的位置（上top，左left，下bottom，右right）这里可以写负值，对上写－5，那么image就象上移动5个像素
             
             
             [_cityField addTarget:self action:@selector(cityclick) forControlEvents:UIControlEventTouchUpInside];
@@ -763,7 +765,11 @@
         {
             UITextField*neworiginaltextfield=[[UITextField alloc]initWithFrame:CGRectMake(140, i*50+60,280, 40)];
             neworiginaltextfield.tag=i+1056;
-            
+            neworiginaltextfield.delegate=self;
+            neworiginaltextfield.leftViewMode = UITextFieldViewModeAlways;
+            UIView *v = [[UIView alloc]init];
+            v.frame = CGRectMake(0, 0, 10, 40);
+            neworiginaltextfield.leftView = v;
             [witeview addSubview:neworiginaltextfield];
             //        neworiginaltextfield.delegate=self;
             
@@ -809,8 +815,10 @@
 {
     _cityField.userInteractionEnabled=NO;
 
-    [self initPickerView];
     
+    [self initPickerView];
+    [self.editingField resignFirstResponder];
+
     
 }
 - (void)setDefaultAddress {

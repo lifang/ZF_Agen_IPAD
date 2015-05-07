@@ -489,9 +489,9 @@
     CGFloat summaryHeight = [self heightWithString:_detailModel.factorySummary
                                              width:wide - leftSpace - rightSpace
                                           fontSize:13.f];
-    UILabel *factorySummaryLabel = [[UILabel alloc] initWithFrame:CGRectMake(leftSpace+80, originY-15, leftSpace - 140, summaryHeight)];
+    UILabel *factorySummaryLabel = [[UILabel alloc] initWithFrame:CGRectMake(leftSpace+80, originY-15, leftSpace - 140, 60)];
     [self setLabel:factorySummaryLabel withTitle:_detailModel.defaultChannel.channelFactoryDescription font:[UIFont systemFontOfSize:13.f]];
-    factorySummaryLabel.numberOfLines=2;
+    factorySummaryLabel.numberOfLines=3;
     
     
     int rows = (int)([_detailModel.channelItem count] - 1) / 3 + 1;

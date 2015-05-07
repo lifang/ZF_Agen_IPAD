@@ -21,6 +21,34 @@
         self.edgesForExtendedLayout = UIRectEdgeNone;
     }
 }
+- (void)viewWillAppear:(BOOL)animated
+{
+    
+    
+    [super viewWillAppear:animated];
+    self.navigationController.navigationBarHidden = NO;
+    ZYCustomTabBarViewController *tarbar=[[ZYCustomTabBarViewController alloc] init];
+    tarbar.tabBarController.tabBar.hidden=YES;
+    [[NSNotificationCenter defaultCenter]addObserver:self
+                                            selector:@selector(handleKeyboardDidShow:)
+                                                name:UIKeyboardDidShowNotification
+                                              object:nil];
+    //注册通知，监听键盘消失事件
+    [[NSNotificationCenter defaultCenter]addObserver:self
+                                            selector:@selector(handleKeyboardDidHidden)
+                                                name:UIKeyboardDidHideNotification
+                                              object:nil];
+    
+}
+
+//监听事件  子类重写
+- (void)handleKeyboardDidShow:(NSNotification*)paramNotification {
+    
+}
+
+- (void)handleKeyboardDidHidden {
+    
+}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

@@ -85,7 +85,7 @@
                                                                   action:nil];
 
     spaceItem.width = 52;
-    UIBarButtonItem *shoppingItem = [[UIBarButtonItem alloc] initWithCustomView:shoppingButton];
+//    UIBarButtonItem *shoppingItem = [[UIBarButtonItem alloc] initWithCustomView:shoppingButton];
     UIBarButtonItem *filterItem = [[UIBarButtonItem alloc] initWithCustomView:filterButton];
     self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:spaceItem,spaceItem,filterItem,spaceItem,nil];
     self.navigationItem.leftBarButtonItems = [NSArray arrayWithObjects:spaceItem,spaceItem, rightItems,nil];
@@ -753,17 +753,17 @@
         
        
         
-        cell.lastnumber.text = [NSString stringWithFormat:@"最小起批量￥%d件",good.minWholesaleNumber];
+        cell.lastnumber.text = [NSString stringWithFormat:@"最小起批量%d件",good.minWholesaleNumber];
         cell.newpriceLabel.text = [NSString stringWithFormat:@"￥%.2f",good.goodWholesalePrice];
-
+      
         
-        cell.salesVolumeLabel.text = [NSString stringWithFormat:@"%d",good.goodSaleNumber];
         cell.brandLabel.text = [NSString stringWithFormat:@"品牌型号   %@%@",good.goodBrand,good.goodModel];
         cell.channelLabel.text = [NSString stringWithFormat:@"支付通道   %@",good.goodChannel];
         
         if(_supplyType==SupplyGoodsProcurement)
         {
-        
+            cell.salesVolumeLabel.text = [NSString stringWithFormat:@"%d",good.goodSaleNumber];
+
             if (good.isRent)
                 
             {
@@ -776,7 +776,8 @@
         
         }else
         {
-        
+            cell.salesVolumeLabel.text = [NSString stringWithFormat:@"%d",good.goodSaleNumbers];
+
             cell.attrView.hidden = YES;
 
             NSString *primaryPrice = [NSString stringWithFormat:@"原价 ￥%.2f",good.goodPrimaryPrice];

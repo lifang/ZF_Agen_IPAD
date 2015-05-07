@@ -1199,6 +1199,8 @@
             //            [_cityField setTitle:@"123" forState:UIControlStateNormal];
             [_cityField setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
             _cityField.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
+            _cityField.contentEdgeInsets = UIEdgeInsetsMake(0,-40, 0, 0);
+            _cityField.imageEdgeInsets = UIEdgeInsetsMake(0,270,0,0);//设置image在button上的位置（上top，左left，下bottom，右right）这里可以写负值，对上写－5，那么image就象上移动5个像素
             [_cityField setImage:kImageName(@"arrow_line1") forState:UIControlStateNormal];
             CALayer *layer=[_cityField  layer];
             //是否设置边框以及是否可见
@@ -1211,8 +1213,7 @@
             [layer setBorderWidth:1];
             //设置边框线的颜色
             [layer setBorderColor:[[UIColor grayColor] CGColor]];
-            _cityField.contentEdgeInsets = UIEdgeInsetsMake(0,10, 0, 0);
-            _cityField.imageEdgeInsets = UIEdgeInsetsMake(0,220,0,0);//设置image在button上的位置（上top，左left，下bottom，右right）这里可以写负值，对上写－5，那么image就象上移动5个像素
+           
             
             
             [_cityField addTarget:self action:@selector(cityclick:) forControlEvents:UIControlEventTouchUpInside];
@@ -1224,8 +1225,11 @@
             neworiginaltextfield.tag=i+1056;
             
             [witeview addSubview:neworiginaltextfield];
-            //        neworiginaltextfield.delegate=self;
-            
+         neworiginaltextfield.delegate=self;
+            neworiginaltextfield.leftViewMode = UITextFieldViewModeAlways;
+            UIView *v = [[UIView alloc]init];
+            v.frame = CGRectMake(0, 0, 10, 40);
+            neworiginaltextfield.leftView = v;
             CALayer *layer=[neworiginaltextfield layer];
             //是否设置边框以及是否可见
             [layer setMasksToBounds:YES];
@@ -1280,7 +1284,8 @@
     }
 
     cityint=send.tag;
-    
+    [self.editingField resignFirstResponder];
+
     [self initPickerView];
     
     
@@ -2137,6 +2142,8 @@
     
 }
 - (BOOL)textFieldShouldBeginEditing:(UITextField *)textField {
+    [self pickerScrollOut];
+
     self.editingField = textField;
     return YES;
 }

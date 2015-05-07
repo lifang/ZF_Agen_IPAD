@@ -96,7 +96,8 @@ static NSString *s_defaultTerminalNum = @"请选择终端号";
         
         
     }
-    
+    _tableView.tableFooterView = [[UIView alloc]init];
+
     
     _tableView.backgroundColor = [UIColor whiteColor];
     _tableView.delegate = self;
