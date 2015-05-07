@@ -1047,6 +1047,8 @@
         _agentTableView.backgroundColor = kColor(214, 214, 214, 1.0);
         _agentTableView.delegate = self;
         _agentTableView.dataSource = self;
+        _agentTableView.tableFooterView = [[UIView alloc]init];
+
     }
     return _agentTableView;
 }
@@ -1154,8 +1156,8 @@
             [layer setBorderWidth:1];
             //设置边框线的颜色
             [layer setBorderColor:[[UIColor grayColor] CGColor]];
-            _cityField.contentEdgeInsets = UIEdgeInsetsMake(0,10, 0, 0);
-            _cityField.imageEdgeInsets = UIEdgeInsetsMake(0,220,0,0);//设置image在button上的位置（上top，左left，下bottom，右right）这里可以写负值，对上写－5，那么image就象上移动5个像素
+            _cityField.contentEdgeInsets = UIEdgeInsetsMake(0,-40, 0, 0);
+            _cityField.imageEdgeInsets = UIEdgeInsetsMake(0,270,0,0);//设置image在button上的位置（上top，左left，下bottom，右right）这里可以写负值，对上写－5，那么image就象上移动5个像素
             
             
             [_cityField addTarget:self action:@selector(cityclick:) forControlEvents:UIControlEventTouchUpInside];
@@ -1165,9 +1167,13 @@
         {
             UITextField*neworiginaltextfield=[[UITextField alloc]initWithFrame:CGRectMake(140, i*50+60,280, 40)];
             neworiginaltextfield.tag=i+1056;
-            
+            neworiginaltextfield.leftViewMode = UITextFieldViewModeAlways;
+            UIView *v = [[UIView alloc]init];
+            v.frame = CGRectMake(0, 0, 10, 40);
+            neworiginaltextfield.leftView = v;
+
             [witeview addSubview:neworiginaltextfield];
-            //        neworiginaltextfield.delegate=self;
+            neworiginaltextfield.delegate=self;
             
             CALayer *layer=[neworiginaltextfield layer];
             //是否设置边框以及是否可见
@@ -1221,6 +1227,7 @@
         
         
     }
+    [self.editingField resignFirstResponder];
 
     cityint=send.tag;
 
@@ -2088,7 +2095,8 @@
     
 }
 - (BOOL)textFieldShouldBeginEditing:(UITextField *)textField {
-    self.editingField = textField;
+    [self pickerScrollOut];
+self.editingField = textField;
     return YES;
 }
 #pragma mark - 键盘

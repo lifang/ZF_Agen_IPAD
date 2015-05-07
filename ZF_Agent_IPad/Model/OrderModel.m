@@ -107,7 +107,7 @@
                 }
                 break;
             case WholesaleStatusPartPaid:
-                identifier = wholesaleDepositIdentifier;
+                identifier = wholesaleCancelIdentifier;
                 break;
             case WholesaleStatusFinish:
                 identifier = wholesaleFinishIdentifier;

@@ -72,7 +72,7 @@
         button.tag = i + 1;
         button.titleLabel.font = [UIFont systemFontOfSize:18.f];
         [button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-        [button setTitleColor:kColor(255, 102, 36, 1) forState:UIControlStateHighlighted];
+        [button setTitleColor:kColor(247, 250, 251, 1) forState:UIControlStateHighlighted];
         [button setTitle:[itemNames objectAtIndex:i] forState:UIControlStateNormal];
         [button addTarget:self action:@selector(selectedButton:) forControlEvents:UIControlEventTouchDown];
         [self addSubview:button];

@@ -133,7 +133,7 @@
                                                                   constant:20.f]];
     _nameLabel = [[UILabel alloc] init];
     _nameLabel.backgroundColor = [UIColor clearColor];
-    _nameLabel.font = [UIFont boldSystemFontOfSize:14.f];
+    _nameLabel.font = [UIFont boldSystemFontOfSize:16.f];
     _nameLabel.translatesAutoresizingMaskIntoConstraints = NO;
     [self.contentView addSubview:_nameLabel];
 

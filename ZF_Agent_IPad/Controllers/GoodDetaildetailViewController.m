@@ -49,7 +49,8 @@
     [super viewDidLoad];
     _reviewItem = [[NSMutableArray alloc] init];
     [self downloadGoodDetail];
-
+    self.view.backgroundColor=[UIColor whiteColor];
+    
     [self initAndLayoutUIpp];
     [self initAndLayoutUIfl];
     [self initAndLayoutUIrent];
@@ -382,10 +383,11 @@
         
         rect.origin.x += relateViewWidth + middleSpace;
     }
-    
+    if ([_detailModel.relativeItem count] > 0) {
+
     int relateRow = (int)([_detailModel.relativeItem count] - 1) / 4 + 1;
-    originY += relateRow * (relateViewHeight + middleSpace);
-    
+    originY += relateRow * (relateViewHeight + 20);
+    }
     _mainScrollView.userInteractionEnabled=YES;
     
     _mainScrollView.contentSize = CGSizeMake(wide, originY+130);
@@ -409,7 +411,7 @@
 - (void)initAndLayoutUIpp {
     _tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStyleGrouped];
     _tableView.translatesAutoresizingMaskIntoConstraints = NO;
-    _tableView.backgroundColor = kColor(244, 243, 243, 1);
+    _tableView.backgroundColor = [UIColor whiteColor];
     _tableView.delegate = self;
     _tableView.dataSource = self;
     [self setHeaderAndFooterView];
@@ -427,14 +429,14 @@
                                                              toItem:self.view
                                                           attribute:NSLayoutAttributeLeft
                                                          multiplier:1.0
-                                                           constant:0]];
+                                                           constant:30]];
     [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_tableView
                                                           attribute:NSLayoutAttributeRight
                                                           relatedBy:NSLayoutRelationEqual
                                                              toItem:self.view
                                                           attribute:NSLayoutAttributeRight
                                                          multiplier:1.0
-                                                           constant:0]];
+                                                           constant:-30]];
     [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_tableView
                                                           attribute:NSLayoutAttributeBottom
                                                           relatedBy:NSLayoutRelationEqual
@@ -1322,7 +1324,7 @@
     rateLabel.backgroundColor = [UIColor clearColor];
     rateLabel.font = [UIFont systemFontOfSize:15.f];
     rateLabel.textAlignment = NSTextAlignmentCenter;
-    rateLabel.text = [NSString stringWithFormat:@"%.3f%%",rate];
+    rateLabel.text = [NSString stringWithFormat:@"%.1f%%",rate];
     [_scrollView addSubview:rateLabel];
     [self.view addConstraint:[NSLayoutConstraint constraintWithItem:rateLabel
                                                           attribute:NSLayoutAttributeTop

@@ -445,7 +445,7 @@
 #pragma mark - Action
 
 - (IBAction)dismiss:(id)sender {
-    [self searchWithString:nil];
+//    [self searchWithString:nil];
 
     [[NSNotificationCenter defaultCenter] postNotificationName:@"showbar" object:self userInfo:nil];
 

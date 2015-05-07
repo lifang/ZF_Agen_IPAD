@@ -61,9 +61,9 @@
     _priceLabel.textColor = kColor(255, 102, 36, 1);
     [self.contentView addSubview:_priceLabel];
 
-    _salesVolumeLabel = [[UILabel alloc] initWithFrame:CGRectMake(_priceLabel.frame.origin.x+_channelLabel.frame.size.width-60, _channelLabel.frame.origin.y+_priceLabel.frame.size.height, 70, 25)];
+    _salesVolumeLabel = [[UILabel alloc] initWithFrame:CGRectMake(_priceLabel.frame.origin.x+_channelLabel.frame.size.width-70, _channelLabel.frame.origin.y+_priceLabel.frame.size.height, 80, 25)];
     _salesVolumeLabel.backgroundColor = [UIColor clearColor];
-    _salesVolumeLabel.font = [UIFont systemFontOfSize:16.f];
+    _salesVolumeLabel.font = [UIFont systemFontOfSize:14.f];
     _salesVolumeLabel.textColor = kColor(177, 176, 176, 1);
     [self.contentView addSubview:_salesVolumeLabel];
     

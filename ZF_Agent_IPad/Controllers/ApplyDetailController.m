@@ -129,6 +129,8 @@
                                                                     SCREEN_HEIGHT) style:UITableViewStyleGrouped];
         
     }
+    _tableView.tableFooterView = [[UIView alloc]init];
+
     _tableView.backgroundColor=[UIColor whiteColor];
     
     _tableView.delegate = self;

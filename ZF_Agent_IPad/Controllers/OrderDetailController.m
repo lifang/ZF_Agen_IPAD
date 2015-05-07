@@ -158,23 +158,25 @@ typedef enum {
 
 - (void)initAndLayoutUI {
     CGFloat footerHeight = 0.f;
-    if ((_supplyType == SupplyGoodsWholesale && (_orderDetail.orderStatus == WholesaleStatusUnPaid ||
-                                                 _orderDetail.orderStatus == WholesaleStatusPartPaid ||
-                                                 _orderDetail.orderStatus == WholesaleStatusFinish)) ||
-        (_supplyType == SupplyGoodsProcurement && (_orderDetail.orderStatus == ProcurementStatusUnPaid ||
-                                                   _orderDetail.orderStatus == ProcurementStatusSend ||
-                                                   _orderDetail.orderStatus == ProcurementStatusCancel ||
-                                                   _orderDetail.orderStatus == ProcurementStatusClosed))) {
-        footerHeight = 60.f;
-        //底部按钮
-       
-        
-    }
+//    if ((_supplyType == SupplyGoodsWholesale && (_orderDetail.orderStatus == WholesaleStatusUnPaid ||
+//                                                 _orderDetail.orderStatus == WholesaleStatusPartPaid ||
+//                                                 _orderDetail.orderStatus == WholesaleStatusFinish)) ||
+//        (_supplyType == SupplyGoodsProcurement && (_orderDetail.orderStatus == ProcurementStatusUnPaid ||
+//                                                   _orderDetail.orderStatus == ProcurementStatusSend ||
+//                                                   _orderDetail.orderStatus == ProcurementStatusCancel ||
+//                                                   _orderDetail.orderStatus == ProcurementStatusClosed))) {
+//        footerHeight = 60.f;
+//        //底部按钮
+//       
+//        
+//    }
     _tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStyleGrouped];
     _tableView.translatesAutoresizingMaskIntoConstraints = NO;
     _tableView.backgroundColor = kColor(244, 243, 243, 1);
     _tableView.delegate = self;
     _tableView.dataSource = self;
+    _tableView.tableFooterView = [[UIView alloc]init];
+
     [self setHeaderAndFooterView];
     [self.view addSubview:_tableView];
     if (kDeviceVersion >= 7.0) {

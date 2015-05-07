@@ -68,6 +68,8 @@
     _tableView.delegate = self;
     _tableView.dataSource = self;
     [self setHeaderAndFooterView];
+    _tableView.tableFooterView = [[UIView alloc]init];
+
     [self.view addSubview:_tableView];
     [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_tableView
                                                           attribute:NSLayoutAttributeTop

@@ -222,7 +222,8 @@ static NSString *s_defaultTerminalNum = @"请选择终端号";
     UIView *headerView = [[UIView alloc]init];
     headerView.backgroundColor = kColor(226, 226, 226, 1.0);
     self.tableView=[[UITableView alloc]init];
-    
+    _tableView.tableFooterView = [[UIView alloc]init];
+
     self.tableView.delegate=self;
     self.tableView.dataSource=self;
     UIView *view = [UIView new];
