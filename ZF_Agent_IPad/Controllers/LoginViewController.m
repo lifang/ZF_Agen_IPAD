@@ -29,6 +29,12 @@
 {
     [super viewWillAppear:animated];
     self.navigationController.navigationBarHidden = YES;
+    AccountModel *account = [AccountTool userModel];
+    if (account.password) {
+        _userField.text = account.username;
+        _passwordField.text = account.password;
+        [self loginApply];
+    }
 }
 
 - (void)viewDidLoad {
@@ -260,7 +266,14 @@
         [alert show];
         return;
     }
+    
+    [self loginApply];
 
+    
+}
+
+-(void)loginApply
+{
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
     hud.labelText = @"正在登录...";
     [NetworkInterface loginWithUsername:_userField.text password:_passwordField.text isAlreadyEncrypt:NO finished:^(BOOL success, NSData *response) {
@@ -283,7 +296,7 @@
                 }
                 else if (errorCode == RequestSuccess) {
                     [[AppDelegate shareRootViewController] showMainViewController];
-
+                    
                     [self parseLoginDataWithDictionary:object];
                 }
             }
@@ -295,7 +308,6 @@
             hud.labelText = kNetworkFailed;
         }
     }];
-    
 }
 
 -(void)parseLoginDataWithDictionary:(NSDictionary *)dict

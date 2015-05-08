@@ -268,7 +268,7 @@
     int a=5;
     
     
-    [NetworkInterface createOrderFromGoodBuyWithAgentID:delegate.agentID token:delegate.token userID:userID createUserID:delegate.userID belongID:delegate.agentUserID confirmType:a goodID:_goodDetail.goodID channelID:_goodDetail.defaultChannel.channelID count:_count addressID:self.defaultAddress.addressID comment:self.reviewField.text needInvoice:needInvoice invoiceType:self.billType invoiceInfo:self.billField.text finished:^(BOOL success, NSData *response) {
+    [NetworkInterface createOrderFromGoodBuyWithAgentID:delegate.agentID token:delegate.token userID:userID createUserID:delegate.userID belongID:delegate.agentUserID confirmType:a goodID:_goodDetail.goodID channelID:_goodDetail.defaultChannel.channelID count:_count addressID:addressID comment:self.reviewField.text needInvoice:needInvoice invoiceType:self.billType invoiceInfo:self.billField.text finished:^(BOOL success, NSData *response) {
 
     
     
@@ -458,30 +458,32 @@
 
 -(void)closeKeyboard
 {
-    NSTimeInterval animationDuration = 0.30f;
-    [UIView beginAnimations:@"ResizeForKeyboard" context:nil];
-    [UIView setAnimationDuration:animationDuration];
-    if(iOS7)
-    {
-        
-        self.tableView.frame=CGRectMake(0, 0, SCREEN_HEIGHT, SCREEN_WIDTH-64-60);
-        
-    }
-    
-    else
-        
-    {
-        
-        self.tableView.frame=CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT-64-60);
-        
-        
-        
-    }
-    
-    
-    [UIView commitAnimations];
+//    NSTimeInterval animationDuration = 0.30f;
+//    [UIView beginAnimations:@"ResizeForKeyboard" context:nil];
+//    [UIView setAnimationDuration:animationDuration];
+//    if(iOS7)
+//    {
+//        
+//        self.tableView.frame=CGRectMake(0, 0, SCREEN_HEIGHT, SCREEN_WIDTH-64-60);
+//        
+//    }
+//    
+//    else
+//        
+//    {
+//        
+//        self.tableView.frame=CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT-64-60);
+//        
+//        
+//        
+//    }
+//    
+//    
+//    [UIView commitAnimations];
 }
 - (BOOL)textFieldShouldBeginEditing:(UITextField *)textField {
+    [self pickerScrollOut];
+
     self.editingField = textField;
     return YES;
 }
@@ -490,37 +492,37 @@
 {
     
     
-    
-    NSTimeInterval animationDuration = 0.30f;
-    [UIView beginAnimations:@"ResizeForKeyboard" context:nil];
-    [UIView setAnimationDuration:animationDuration];
-    
-    if(textField==self.billField )
-    {
-        if(iOS7)
-        {
-            
-            self.tableView.frame=CGRectMake(0, -360, SCREEN_HEIGHT, SCREEN_WIDTH-64);
-            
-        }
-        
-        else
-            
-        {
-            
-            self.tableView.frame=CGRectMake(0, -360, SCREEN_WIDTH, SCREEN_HEIGHT-64);
-            
-            
-            
-        }
-  
-        
-    }
-
-    
-    
-    
-    [UIView commitAnimations];
+//    
+//    NSTimeInterval animationDuration = 0.30f;
+//    [UIView beginAnimations:@"ResizeForKeyboard" context:nil];
+//    [UIView setAnimationDuration:animationDuration];
+//    
+//    if(textField==self.billField )
+//    {
+//        if(iOS7)
+//        {
+//            
+//            self.tableView.frame=CGRectMake(0, -360, SCREEN_HEIGHT, SCREEN_WIDTH-64);
+//            
+//        }
+//        
+//        else
+//            
+//        {
+//            
+//            self.tableView.frame=CGRectMake(0, -360, SCREEN_WIDTH, SCREEN_HEIGHT-64);
+//            
+//            
+//            
+//        }
+//  
+//        
+//    }
+//
+//    
+//    
+//    
+//    [UIView commitAnimations];
     
     
 }
@@ -752,8 +754,8 @@
             [layer setBorderWidth:1];
             //设置边框线的颜色
             [layer setBorderColor:[[UIColor grayColor] CGColor]];
-            _cityField.contentEdgeInsets = UIEdgeInsetsMake(0,10, 0, 0);
-            _cityField.imageEdgeInsets = UIEdgeInsetsMake(0,220,0,0);//设置image在button上的位置（上top，左left，下bottom，右right）这里可以写负值，对上写－5，那么image就象上移动5个像素
+            _cityField.contentEdgeInsets = UIEdgeInsetsMake(0,-40, 0, 0);
+            _cityField.imageEdgeInsets = UIEdgeInsetsMake(0,270,0,0);//设置image在button上的位置（上top，左left，下bottom，右right）这里可以写负值，对上写－5，那么image就象上移动5个像素
             
             
             [_cityField addTarget:self action:@selector(cityclick) forControlEvents:UIControlEventTouchUpInside];
@@ -763,7 +765,11 @@
         {
             UITextField*neworiginaltextfield=[[UITextField alloc]initWithFrame:CGRectMake(140, i*50+60,280, 40)];
             neworiginaltextfield.tag=i+1056;
-            
+            neworiginaltextfield.delegate=self;
+            neworiginaltextfield.leftViewMode = UITextFieldViewModeAlways;
+            UIView *v = [[UIView alloc]init];
+            v.frame = CGRectMake(0, 0, 10, 40);
+            neworiginaltextfield.leftView = v;
             [witeview addSubview:neworiginaltextfield];
             //        neworiginaltextfield.delegate=self;
             
@@ -809,8 +815,10 @@
 {
     _cityField.userInteractionEnabled=NO;
 
-    [self initPickerView];
     
+    [self initPickerView];
+    [self.editingField resignFirstResponder];
+
     
 }
 - (void)setDefaultAddress {
@@ -1028,7 +1036,7 @@
     
     
     
-     [NetworkInterface addAddressWithAgentID:delegate.agentID token:delegate.token cityID:_selectedCityID receiverName:_nameField.text phoneNumber:_phoneField.text zipCode:_zipField.text address:_detailField.text isDefault:isDefault finished:^(BOOL success, NSData *response) {
+     [NetworkInterface addAddressWithAgentID:delegate.agentUserID token:delegate.token cityID:_selectedCityID receiverName:_nameField.text phoneNumber:_phoneField.text zipCode:_zipField.text address:_detailField.text isDefault:isDefault finished:^(BOOL success, NSData *response) {
     
     
         hud.customView = [[UIImageView alloc] init];
@@ -1155,7 +1163,11 @@
         self.reviewField .placeholder = @"留言";
         self.reviewField .font = [UIFont systemFontOfSize:14.f];
         reviewField.text=textnsstring;
-
+        reviewField.leftViewMode = UITextFieldViewModeAlways;
+        
+        UIView *v = [[UIView alloc]init];
+        v.frame = CGRectMake(0, 0, 10, 40);
+        reviewField.leftView = v;
         [footerView addSubview:self.reviewField ];
 
         
@@ -1220,7 +1232,9 @@
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
     hud.labelText = @"加载中...";
     AppDelegate *delegate = [AppDelegate shareAppDelegate];
-    [NetworkInterface getAddressListWithAgentID:delegate.agentID token:delegate.token finished:^(BOOL success, NSData *response) {
+    NSLog(@"%@",delegate.agentUserID);
+
+    [NetworkInterface getAddressListWithAgentID:delegate.agentUserID token:delegate.token finished:^(BOOL success, NSData *response) {
         NSLog(@"%@",[[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding]);
         hud.customView = [[UIImageView alloc] init];
         hud.mode = MBProgressHUDModeCustomView;
@@ -1331,6 +1345,11 @@
     
     self.billField .font = [UIFont systemFontOfSize:16.f];
     self.billField .clearButtonMode = UITextFieldViewModeWhileEditing;
+    billField.leftViewMode = UITextFieldViewModeAlways;
+    
+    UIView *v = [[UIView alloc]init];
+    v.frame = CGRectMake(0, 0, 10, 40);
+    billField.leftView = v;
     [billView addSubview:self.billField ];
     CALayer *layer=[self.billField  layer];
     //是否设置边框以及是否可见

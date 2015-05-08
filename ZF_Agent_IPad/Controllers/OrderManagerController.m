@@ -287,7 +287,7 @@ headerView.backgroundColor = [UIColor whiteColor];
         _numberField.textAlignment = NSTextAlignmentCenter;
         _numberField.leftViewMode = UITextFieldViewModeAlways;
         _numberField.rightViewMode = UITextFieldViewModeAlways;
-        
+        _numberField.placeholder=@"请输入订单号";
         _addButton = [UIButton buttonWithType:UIButtonTypeCustom];
         _addButton.frame = CGRectMake(0, 0, 50, 35);
     [_addButton setImage:kImageName(@"textsearch") forState:UIControlStateNormal];

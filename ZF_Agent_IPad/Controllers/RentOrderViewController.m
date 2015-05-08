@@ -1199,6 +1199,8 @@
             //            [_cityField setTitle:@"123" forState:UIControlStateNormal];
             [_cityField setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
             _cityField.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
+            _cityField.contentEdgeInsets = UIEdgeInsetsMake(0,-40, 0, 0);
+            _cityField.imageEdgeInsets = UIEdgeInsetsMake(0,270,0,0);//设置image在button上的位置（上top，左left，下bottom，右right）这里可以写负值，对上写－5，那么image就象上移动5个像素
             [_cityField setImage:kImageName(@"arrow_line1") forState:UIControlStateNormal];
             CALayer *layer=[_cityField  layer];
             //是否设置边框以及是否可见
@@ -1211,8 +1213,7 @@
             [layer setBorderWidth:1];
             //设置边框线的颜色
             [layer setBorderColor:[[UIColor grayColor] CGColor]];
-            _cityField.contentEdgeInsets = UIEdgeInsetsMake(0,10, 0, 0);
-            _cityField.imageEdgeInsets = UIEdgeInsetsMake(0,220,0,0);//设置image在button上的位置（上top，左left，下bottom，右right）这里可以写负值，对上写－5，那么image就象上移动5个像素
+           
             
             
             [_cityField addTarget:self action:@selector(cityclick:) forControlEvents:UIControlEventTouchUpInside];
@@ -1224,8 +1225,11 @@
             neworiginaltextfield.tag=i+1056;
             
             [witeview addSubview:neworiginaltextfield];
-            //        neworiginaltextfield.delegate=self;
-            
+         neworiginaltextfield.delegate=self;
+            neworiginaltextfield.leftViewMode = UITextFieldViewModeAlways;
+            UIView *v = [[UIView alloc]init];
+            v.frame = CGRectMake(0, 0, 10, 40);
+            neworiginaltextfield.leftView = v;
             CALayer *layer=[neworiginaltextfield layer];
             //是否设置边框以及是否可见
             [layer setMasksToBounds:YES];
@@ -1280,7 +1284,8 @@
     }
 
     cityint=send.tag;
-    
+    [self.editingField resignFirstResponder];
+
     [self initPickerView];
     
     
@@ -1521,7 +1526,7 @@
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
     hud.labelText = @"提交中...";
     AppDelegate *delegate = [AppDelegate shareAppDelegate];
-     [NetworkInterface addAddressWithAgentID:delegate.agentID token:delegate.token cityID:_selectedCityID receiverName:_nameField.text phoneNumber:_phoneField.text zipCode:_zipField.text address:_detailField.text isDefault:isDefault finished:^(BOOL success, NSData *response) {
+     [NetworkInterface addAddressWithAgentID:delegate.agentUserID token:delegate.token cityID:_selectedCityID receiverName:_nameField.text phoneNumber:_phoneField.text zipCode:_zipField.text address:_detailField.text isDefault:isDefault finished:^(BOOL success, NSData *response) {
         hud.customView = [[UIImageView alloc] init];
         hud.mode = MBProgressHUDModeCustomView;
         [hud hide:YES afterDelay:0.5f];
@@ -1645,7 +1650,11 @@
         self.reviewField .placeholder = @"留言";
         self.reviewField .font = [UIFont systemFontOfSize:14.f];
         reviewField.text=textnsstring;
-
+        reviewField.leftViewMode = UITextFieldViewModeAlways;
+        
+        UIView *v = [[UIView alloc]init];
+        v.frame = CGRectMake(0, 0, 10, 40);
+        reviewField.leftView = v;
         [footerView addSubview:self.reviewField ];
 
 
@@ -1840,7 +1849,11 @@
     
     //  self.billField.textInputMode= UIEdgeInsetsMake(0, 0, 0, 10);
     self.billField.text=billnsstring;
-
+    billField.leftViewMode = UITextFieldViewModeAlways;
+    
+    UIView *v = [[UIView alloc]init];
+    v.frame = CGRectMake(0, 0, 10, 40);
+    billField.leftView = v;
     self.billField .font = [UIFont systemFontOfSize:16.f];
     self.billField .clearButtonMode = UITextFieldViewModeWhileEditing;
     [billView addSubview:self.billField ];
@@ -2137,6 +2150,8 @@
     
 }
 - (BOOL)textFieldShouldBeginEditing:(UITextField *)textField {
+    [self pickerScrollOut];
+
     self.editingField = textField;
     return YES;
 }

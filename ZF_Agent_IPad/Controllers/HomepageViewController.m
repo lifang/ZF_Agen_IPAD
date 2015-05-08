@@ -43,6 +43,8 @@
     NSArray *array = [NSArray arrayWithObjects:navController3,navController,navController4,navController2,nil];
     
     self.array5 = [NSArray arrayWithObjects:navController3,navController,navController4,navController5,nil];
+    
+    
     self.viewControllers = array;
     [self setSeletedIndex:0];
     self.naviController.navigationBarHidden = YES;

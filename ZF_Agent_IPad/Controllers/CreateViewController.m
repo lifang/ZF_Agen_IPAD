@@ -254,7 +254,10 @@
     _tableView.backgroundColor = kColor(244, 243, 243, 1);
     _tableView.delegate = self;
     _tableView.dataSource = self;
+    
     [self.view addSubview:_tableView];
+    _tableView.tableFooterView = [[UIView alloc]init];
+
     [self setHeaderAndFooterView];
     [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_tableView
                                                           attribute:NSLayoutAttributeTop

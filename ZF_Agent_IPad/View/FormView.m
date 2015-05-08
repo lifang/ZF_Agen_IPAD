@@ -570,7 +570,7 @@
         else {
             [dict setObject:@"" forKey:@"0"];
         }
-        [dict setObject:[NSString stringWithFormat:@"%.f‰",model.ratePercent] forKey:@"1"];
+        [dict setObject:[NSString stringWithFormat:@"%.1f‰",model.ratePercent] forKey:@"1"];
         if (model.rateDescription) {
             [dict setObject:model.rateDescription forKey:@"2"];
         }

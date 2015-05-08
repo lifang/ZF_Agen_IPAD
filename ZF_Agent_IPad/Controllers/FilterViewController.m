@@ -32,6 +32,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.view.backgroundColor=[UIColor whiteColor];
+    
   
     
     for(int i=0;i<8;i++)
@@ -80,6 +82,7 @@
     _tableView.translatesAutoresizingMaskIntoConstraints = NO;
     _tableView.backgroundColor = [UIColor whiteColor];
     self.view.backgroundColor = [UIColor whiteColor];
+    _tableView.tableFooterView = [[UIView alloc]init];
 
     _tableView.delegate = self;
     _tableView.dataSource = self;
@@ -278,8 +281,35 @@
 
 
 #pragma mark - Action
+//- (void)removeFilterIfContainAll:(NSMutableArray *)selectedItem {
+//    BOOL isContainAll = NO;
+//    for (TreeNodeModel *node in selectedItem)
+//    {
+//        if ([node.nodeID isEqualToString:kNoneFilterID])
+//        {
+//            isContainAll = YES;
+//            break;
+//        }
+//    }
+//    if (isContainAll)
+//    {
+//        for (TreeNodeModel *node in selectedItem) {
+//            if (![node.nodeID isEqualToString:kNoneFilterID])
+//            {
+//                node.isSelected = NO;
+//            }
+//        }
+//        [selectedItem removeAllObjects];
+//        TreeNodeModel *node = [[TreeNodeModel alloc] initWithDirectoryName:@"全部"
+//                                                                  children:nil
+//                                                                    nodeID:kNoneFilterID];
+//        [selectedItem addObject:node];
+//    }
+//}
 
 - (IBAction)filterFinished:(id)sender {
+    
+    
     BOOL maxIsNumber = [RegularFormat isNumber:_highField.text];
     BOOL minIsNumber = [RegularFormat isNumber:_lowField.text];
     if (!maxIsNumber || !minIsNumber) {
@@ -302,23 +332,49 @@
     }
 
     for(int i=0;i<7;i++)
-    {    NSMutableArray *selectedFilterItem = [[NSMutableArray alloc] init];
+        
+        
+        
+        
+    {
+        
+        
+        NSMutableArray *selectedFilterItem = [[NSMutableArray alloc] init];
 
         NSArray*arry=[bigarry objectAtIndex:i];
 
         [selectedFilterItem removeAllObjects];
         
-        for (TreeNodeModel *node in arry) {
-            if (node.isSelected)
+        
+        
+        if (_allbool
+            [i])
+        {
+            
+            TreeNodeModel *node = [[TreeNodeModel alloc] initWithDirectoryName:@"全部"
+                                                                      children:nil
+                                                                        nodeID:kNoneFilterID];
+            [selectedFilterItem addObject:node];
+        }
+
+        else
+        {
+            for (TreeNodeModel *node in arry)
             {
+                if (node.isSelected)
+                {
+                    
+                    [selectedFilterItem addObject:node];
+                    
+                }
                 
-                [selectedFilterItem addObject:node];
                 
             }
-            
-    
+
+        
+        
         }
-        [_filterDict setObject:selectedFilterItem forKey:[namekey objectAtIndex:i]];
+               [_filterDict setObject:selectedFilterItem forKey:[namekey objectAtIndex:i]];
 
     
     }
@@ -617,7 +673,7 @@
     {
         
         _switchButton =[UIButton buttonWithType:UIButtonTypeCustom];
-   _switchButton.Frame=CGRectMake(50, 65, 30, 30);
+   _switchButton.frame=CGRectMake(50, 65, 30, 30);
         [_switchButton addTarget:self action:@selector(rentboolclick) forControlEvents:UIControlEventTouchUpInside];
         
         [rootimageviews addSubview:_switchButton];
@@ -664,6 +720,15 @@
         
         _lowField.keyboardType = UIKeyboardTypeNumberPad;
         _highField.keyboardType = UIKeyboardTypeNumberPad;
+        _highField.rightViewMode = UITextFieldViewModeAlways;
+        _lowField.rightViewMode = UITextFieldViewModeAlways;
+
+        UIView *v = [[UIView alloc]init];
+        v.frame = CGRectMake(0, 0, 10, 40);
+        UIView *v1 = [[UIView alloc]init];
+        v1.frame = CGRectMake(0, 0, 10, 40);
+        _highField.rightView = v;
+        _lowField.rightView = v1;
 
         _lowField.font = [UIFont systemFontOfSize:14.f];
         _lowField.backgroundColor = [UIColor clearColor];
@@ -865,7 +930,7 @@
           
           if(boolcountA%4==0)
           {
-              return  boolcountA/4*40;
+              return  boolcountA/4*60;
               
               
           }
@@ -897,7 +962,7 @@
             
             if(boolcountA%4==0)
             {
-                return  boolcountA/4*40;
+                return  boolcountA/4*60;
                 
                 
             }
@@ -927,7 +992,7 @@
             
             if(boolcountA%4==0)
             {
-                return  boolcountA/4*40;
+                return  boolcountA/4*60;
                 
                 
             }
@@ -957,7 +1022,7 @@
             
             if(boolcountA%4==0)
             {
-                return  boolcountA/4*40;
+                return  boolcountA/4*60;
                 
                 
             }
@@ -987,7 +1052,7 @@
             
             if(boolcountA%4==0)
             {
-                return  boolcountA/4*40;
+                return  boolcountA/4*60;
                 
                 
             }
@@ -1017,7 +1082,7 @@
             
             if(boolcountA%4==0)
             {
-                return  boolcountA/4*40;
+                return  boolcountA/4*60;
                 
                 
             }
@@ -1047,7 +1112,7 @@
             
             if(boolcountA%4==0)
             {
-                return  boolcountA/4*40;
+                return  boolcountA/4*60;
                 
                 
             }
@@ -1068,7 +1133,7 @@
     else
     {
     
-        return 100;
+        return 120;
         
     
     }

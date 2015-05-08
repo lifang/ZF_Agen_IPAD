@@ -40,8 +40,10 @@
 #define SCREEN_HEIGHT [[UIScreen mainScreen] bounds].size.height
 #define SCREEN_WIDTH [[UIScreen mainScreen] bounds].size.width
 
-#define kWhalesaleCallBackURL    @"http://agent.ebank007.com/deposit_app_notify_url.jsp"
-#define kProcurementCallBackURL  @"http://agent.ebank007.com/app_notify_url.jsp"
+//#define kWhalesaleCallBackURL    @"http://agent.ebank007.com/deposit_app_notify_url.jsp"
+//#define kProcurementCallBackURL  @"http://agent.ebank007.com/app_notify_url.jsp"
+#define kWhalesaleCallBackURL   @"http://121.40.64.167:9090/deposit_app_notify_url.jsp"
+#define kProcurementCallBackURL @"http://121.40.64.167:9090/app_notify_url.jsp"
 
 #define kVideoAuthIP      @"121.40.64.120"   //线上
 #define kVideoAuthPort  8906

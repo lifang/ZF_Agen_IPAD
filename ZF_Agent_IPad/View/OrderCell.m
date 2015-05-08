@@ -49,7 +49,20 @@ typedef enum {
     CGFloat labelHeight = 25.f;
     
     CGFloat imageSize = 105.f;
-    
+    CGFloat wide;
+    CGFloat height;
+    if(iOS7)
+    {
+        wide=SCREEN_HEIGHT;
+        height=SCREEN_WIDTH;
+        
+    }
+    else
+    {  wide=SCREEN_WIDTH;
+        height=SCREEN_HEIGHT;
+        
+    }
+
     //订单编号
     _orderNoLabel = [[UILabel alloc] init];
     _orderNoLabel.translatesAutoresizingMaskIntoConstraints = NO;
@@ -252,7 +265,7 @@ typedef enum {
                                                                     toItem:self.contentView
                                                                  attribute:NSLayoutAttributeRight
                                                                 multiplier:1.0
-                                                                  constant:-leftSpace - primaryWidth]];
+                                                                  constant:-wide/2 - primaryWidth]];
     [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_nameLabel
                                                                  attribute:NSLayoutAttributeHeight
                                                                  relatedBy:NSLayoutRelationEqual

@@ -724,6 +724,8 @@ static NSString *HTTP_GET  = @"GET";
         [paramDict setObject:token forKey:@"token"];
     }
     [paramDict setObject:terminalsNum forKey:@"terminalsNum"];
+    [paramDict setObject:agentId  forKey:@"agentId"];
+
     [paramDict setObject:[NSNumber numberWithInt:[userId intValue]] forKey:@"userId"];
     //url
     NSString *urlString = [NSString stringWithFormat:@"%@/%@",kServiceURL,s_bindingterminal_method];
@@ -1291,9 +1293,9 @@ static NSString *HTTP_GET  = @"GET";
     if (comment) {
         [paramDict setObject:comment forKey:@"comment"];
     }
-    [paramDict setObject:[NSNumber numberWithInt:needInvoice] forKey:@"isNeedInvoice"];
+    [paramDict setObject:[NSNumber numberWithInt:needInvoice] forKey:@"invoiceType"];
     if (needInvoice == 1) {
-        [paramDict setObject:[NSNumber numberWithInt:invoiceType] forKey:@"invoice_type"];
+        [paramDict setObject:[NSNumber numberWithInt:invoiceType] forKey:@"invoiceInfo"];
         if (invoiceTitle) {
             [paramDict setObject:invoiceTitle forKey:@"invoice_info"];
         }
@@ -2419,7 +2421,9 @@ static NSString *HTTP_GET  = @"GET";
     NSMutableDictionary *paramDict = [[NSMutableDictionary alloc] init];
     [paramDict setObject:roles forKey:@"roles"];
     [paramDict setObject:loginID forKey:@"loginId"];
-    [paramDict setObject:password forKey:@"pwd"];
+    if (password) {
+        [paramDict setObject:password forKey:@"pwd"];
+    }
     [paramDict setObject:[NSNumber numberWithInt:[agentID intValue]] forKey:@"agentsId"];
     //url
     NSString *urlString = [NSString stringWithFormat:@"%@/%@",kServiceURL,s_changestaffdetail_method];
