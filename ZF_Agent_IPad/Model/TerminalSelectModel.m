@@ -22,7 +22,7 @@
             _retail_price = [NSString stringWithFormat:@"%@",[dict objectForKey:@"money"]];
         }
         if ([dict objectForKey:@"retail_price"]) {
-            _retail_price = [NSString stringWithFormat:@"%@",[dict objectForKey:@"retail_price"]];
+            _t_price = [[dict objectForKey:@"retail_price"] floatValue]/100;
         }
 
     }

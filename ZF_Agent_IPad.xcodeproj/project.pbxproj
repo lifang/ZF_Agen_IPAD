@@ -44,6 +44,7 @@
 		0D885FAE1AD7D522002CDA15 /* IdentificationModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D885FAD1AD7D522002CDA15 /* IdentificationModel.m */; };
 		0D885FB11AD7D556002CDA15 /* ApplyOpenModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D885FB01AD7D556002CDA15 /* ApplyOpenModel.m */; };
 		0D885FB41AD7D56E002CDA15 /* MerchantModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D885FB31AD7D56E002CDA15 /* MerchantModel.m */; };
+		0DAA45871AFC99C200E1A2D3 /* MerchantSelectCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0DAA45861AFC99C200E1A2D3 /* MerchantSelectCell.m */; };
 		0DBA72681ADB584200D0C762 /* ChannelListModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0DBA72671ADB584200D0C762 /* ChannelListModel.m */; };
 		0DBA726B1ADBCFB200D0C762 /* MerchantDetailModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0DBA726A1ADBCFB200D0C762 /* MerchantDetailModel.m */; };
 		0DBA726E1ADBFF4B00D0C762 /* MerchantSelecteViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0DBA726D1ADBFF4B00D0C762 /* MerchantSelecteViewController.m */; };
@@ -380,6 +381,8 @@
 		0D885FB01AD7D556002CDA15 /* ApplyOpenModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ApplyOpenModel.m; sourceTree = "<group>"; };
 		0D885FB21AD7D567002CDA15 /* MerchantModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MerchantModel.h; sourceTree = "<group>"; };
 		0D885FB31AD7D56E002CDA15 /* MerchantModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MerchantModel.m; sourceTree = "<group>"; };
+		0DAA45851AFC99C200E1A2D3 /* MerchantSelectCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MerchantSelectCell.h; sourceTree = "<group>"; };
+		0DAA45861AFC99C200E1A2D3 /* MerchantSelectCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MerchantSelectCell.m; sourceTree = "<group>"; };
 		0DBA72661ADB584200D0C762 /* ChannelListModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChannelListModel.h; sourceTree = "<group>"; };
 		0DBA72671ADB584200D0C762 /* ChannelListModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChannelListModel.m; sourceTree = "<group>"; };
 		0DBA72691ADBCFAA00D0C762 /* MerchantDetailModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MerchantDetailModel.h; sourceTree = "<group>"; };
@@ -1893,6 +1896,8 @@
 				0D12AF891ADE063A00229D13 /* TerminalSelectCell.m */,
 				0D1C66E31ADFE15500CAC1B8 /* AddressSelectCell.h */,
 				0D1C66E41ADFE15B00CAC1B8 /* AddressSelectCell.m */,
+				0DAA45851AFC99C200E1A2D3 /* MerchantSelectCell.h */,
+				0DAA45861AFC99C200E1A2D3 /* MerchantSelectCell.m */,
 				0ED58EE51AD4DA040081E8BC /* cell */,
 				0ED58EDF1AD4D9DD0081E8BC /* SortView.h */,
 				0ED58EE01AD4D9DD0081E8BC /* SortView.m */,
@@ -2249,6 +2254,7 @@
 				0ECB5BFF1AE5ED4400AF0891 /* TradeTypeModel.m in Sources */,
 				0D1C66E51ADFE15B00CAC1B8 /* AddressSelectCell.m in Sources */,
 				0ED194731AD79F6200029DE3 /* TransferCell.m in Sources */,
+				0DAA45871AFC99C200E1A2D3 /* MerchantSelectCell.m in Sources */,
 				0ECB5C021AE609C100AF0891 /* CreateBenefitController.m in Sources */,
 				1AF15B0D1ACCE3BC00D5C171 /* GoodListModel.m in Sources */,
 				1AF15AF41ACCE3A400D5C171 /* UIImageView+WebCache.m in Sources */,

@@ -791,6 +791,7 @@
     [self showImageOption];
     
 }
+
 -(void)zhifuclick
 {
     [_terminalTableView removeFromSuperview];
