@@ -20,6 +20,14 @@
 @property(nonatomic,strong)UILabel *firstLabel;
 @property(nonatomic,strong)UILabel *authCodeLabel;
 
+//隐藏
+@property(nonatomic,strong)UILabel *companyNameLabel;
+@property(nonatomic,strong)UILabel *companyIDLabel;
+@property(nonatomic,strong)UILabel *companytaxLabel;
+@property(nonatomic,strong)UILabel *posImgLabel;
+@property(nonatomic,strong)UILabel *taxImgLabel;
+//label
+
 @property(nonatomic,strong)UITextField *agentTypeField;
 @property(nonatomic,strong)UITextField *companyNameField;
 @property(nonatomic,strong)UITextField *companyBusinesslicenseField;
@@ -220,20 +228,20 @@
     self.firstLabel = agentTypeLable;
     [self setLabel:agentTypeLable withTopView:_mainScrollView middleSpace:30.f labelTag:1];
     
-    UILabel *companyNameLabel = [[UILabel alloc]init];
-    companyNameLabel.text = @"公司名称";
-    [self setLabel:companyNameLabel withTopView:agentTypeLable middleSpace:60.f labelTag:0];
+    _companyNameLabel = [[UILabel alloc]init];
+    _companyNameLabel.text = @"公司名称";
+    [self setLabel:_companyNameLabel withTopView:agentTypeLable middleSpace:60.f labelTag:0];
     
-    UILabel *companyBusinesslicenseLabel = [[UILabel alloc]init];
-    companyBusinesslicenseLabel.text = @"公司营业执照登记号";
-    [self setLabel:companyBusinesslicenseLabel withTopView:companyNameLabel middleSpace:mainMargin labelTag:0];
+    _companyIDLabel = [[UILabel alloc]init];
+    _companyIDLabel.text = @"公司营业执照登记号";
+    [self setLabel:_companyIDLabel withTopView:_companyNameLabel middleSpace:mainMargin labelTag:0];
     
-    UILabel *companyTaxLabel = [[UILabel alloc]init];
-    companyTaxLabel.text = @"公司税务登记证号";
-    [self setLabel:companyTaxLabel withTopView:companyBusinesslicenseLabel middleSpace:mainMargin labelTag:0];
+    _companytaxLabel = [[UILabel alloc]init];
+    _companytaxLabel.text = @"公司税务登记证号";
+    [self setLabel:_companytaxLabel withTopView:_companyIDLabel middleSpace:mainMargin labelTag:0];
     
     UIView *firstLine = [[UIView alloc]init];
-    [self setLine:firstLine withTopView:companyTaxLabel middleSpace:60.f];
+    [self setLine:firstLine withTopView:_companytaxLabel middleSpace:60.f];
     
     UILabel *principalNameLabel = [[UILabel alloc]init];
     principalNameLabel.text = @"负责人姓名";
@@ -267,16 +275,16 @@
     idCardImageLabel.text = @"身份证照片";
     [self setLabel:idCardImageLabel withTopView:secondLine middleSpace:40.f labelTag:0];
     
-    UILabel *businesslicenseImageLabel = [[UILabel alloc]init];
-    businesslicenseImageLabel.text = @"营业执照照片";
-    [self setLabel:businesslicenseImageLabel withTopView:idCardImageLabel middleSpace:mainMargin labelTag:0];
+    _posImgLabel = [[UILabel alloc]init];
+    _posImgLabel.text = @"营业执照照片";
+    [self setLabel:_posImgLabel withTopView:idCardImageLabel middleSpace:mainMargin labelTag:0];
     
-    UILabel *taxregisterImageLabel = [[UILabel alloc]init];
-    taxregisterImageLabel.text = @"税务登记照片";
-    [self setLabel:taxregisterImageLabel withTopView:businesslicenseImageLabel middleSpace:mainMargin labelTag:0];
+    _taxImgLabel = [[UILabel alloc]init];
+    _taxImgLabel.text = @"税务登记照片";
+    [self setLabel:_taxImgLabel withTopView:_posImgLabel middleSpace:mainMargin labelTag:0];
     
     UIView *thirdLine = [[UIView alloc]init];
-    [self setLine:thirdLine withTopView:taxregisterImageLabel middleSpace:40.f];
+    [self setLine:thirdLine withTopView:_taxImgLabel middleSpace:40.f];
     
     UILabel *loginIDLabel = [[UILabel alloc]init];
     loginIDLabel.text = @"登录ID";
@@ -824,11 +832,45 @@
         _agentTypeField.text = nil;
         _agentTypeField.text = @"个人";
         _agentType = AgentTypePerson;
+        
+        _taxImgLabel.hidden = YES;
+        _companytaxLabel.hidden = YES;
+        _companyNameLabel.hidden = YES;
+        _companyIDLabel.hidden = YES;
+        _posImgLabel.hidden = YES;
+        _taxImgLabel.hidden = YES;
+        _companyNameField.text = nil;
+        _companyNameField.hidden = YES;
+        _companyBusinesslicenseField.text = nil;
+        _companyBusinesslicenseField.hidden = YES;
+        _companyTaxField.text = nil;
+        _companyTaxField.hidden = YES;
+        _businesslicenseImageBtn.hidden = YES;
+        _bussinessImg = nil;
+        _taxregisterImageBtn.hidden = YES;
+        _taxImg = nil;
     }
     else{
         _agentTypeField.text = nil;
         _agentTypeField.text = @"公司";
         _agentType = AgentTypeCompany;
+        
+        _taxImgLabel.hidden = NO;
+        _companytaxLabel.hidden = NO;
+        _companyNameLabel.hidden = NO;
+        _companyIDLabel.hidden = NO;
+        _posImgLabel.hidden = NO;
+        _taxImgLabel.hidden = NO;
+        _companyNameField.text = nil;
+        _companyNameField.hidden = NO;
+        _companyBusinesslicenseField.text = nil;
+        _companyBusinesslicenseField.hidden = NO;
+        _companyTaxField.text = nil;
+        _companyTaxField.hidden = NO;
+        _businesslicenseImageBtn.hidden = NO;
+        _bussinessImg = nil;
+        _taxregisterImageBtn.hidden = NO;
+        _taxImg = nil;
     }
     [_agentTypeTableView removeFromSuperview];
 }
@@ -1313,31 +1355,33 @@
         hud.labelText = @"请选择代理商类型";
         return;
     }
-    if (!_companyNameField.text || [_companyNameField.text isEqualToString:@""]) {
-        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
-        hud.customView = [[UIImageView alloc] init];
-        hud.mode = MBProgressHUDModeCustomView;
-        [hud hide:YES afterDelay:1.f];
-        hud.labelText = @"请填写公司名称";
-        return;
+    if (_agentType == AgentTypeCompany) {
+        if (!_companyNameField.text || [_companyNameField.text isEqualToString:@""]) {
+            MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+            hud.customView = [[UIImageView alloc] init];
+            hud.mode = MBProgressHUDModeCustomView;
+            [hud hide:YES afterDelay:1.f];
+            hud.labelText = @"请填写公司名称";
+            return;
+        }
+        if (!_companyBusinesslicenseField.text || [_companyBusinesslicenseField.text isEqualToString:@""]) {
+            MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+            hud.customView = [[UIImageView alloc] init];
+            hud.mode = MBProgressHUDModeCustomView;
+            [hud hide:YES afterDelay:1.f];
+            hud.labelText = @"请填写公司营业执照登记号";
+            return;
+        }
+        if (!_companyTaxField.text || [_companyTaxField.text isEqualToString:@""]) {
+            MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+            hud.customView = [[UIImageView alloc] init];
+            hud.mode = MBProgressHUDModeCustomView;
+            [hud hide:YES afterDelay:1.f];
+            hud.labelText = @"请填写公司税务登记账号";
+            return;
+        }
     }
-    if (!_companyBusinesslicenseField.text || [_companyBusinesslicenseField.text isEqualToString:@""]) {
-        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
-        hud.customView = [[UIImageView alloc] init];
-        hud.mode = MBProgressHUDModeCustomView;
-        [hud hide:YES afterDelay:1.f];
-        hud.labelText = @"请填写公司营业执照登记号";
-        return;
-    }
-    if (!_companyTaxField.text || [_companyTaxField.text isEqualToString:@""]) {
-        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
-        hud.customView = [[UIImageView alloc] init];
-        hud.mode = MBProgressHUDModeCustomView;
-        [hud hide:YES afterDelay:1.f];
-        hud.labelText = @"请填写公司税务登记账号";
-        return;
-    }
-    if (!_principalNameField.text || [_principalNameField.text isEqualToString:@""]) {
+        if (!_principalNameField.text || [_principalNameField.text isEqualToString:@""]) {
         MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
         hud.customView = [[UIImageView alloc] init];
         hud.mode = MBProgressHUDModeCustomView;
@@ -1402,14 +1446,26 @@
         hud.labelText = @"请填写详细地址";
         return;
     }
-    if (!_imageStr1 || !_imageStr2 || !_imageStr3) {
-        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
-        hud.customView = [[UIImageView alloc] init];
-        hud.mode = MBProgressHUDModeCustomView;
-        [hud hide:YES afterDelay:1.f];
-        hud.labelText = @"请完善图片信息";
-        return;
+    if (_agentType == AgentTypeCompany) {
+        if (!_imageStr1 || !_imageStr2 || !_imageStr3) {
+            MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+            hud.customView = [[UIImageView alloc] init];
+            hud.mode = MBProgressHUDModeCustomView;
+            [hud hide:YES afterDelay:1.f];
+            hud.labelText = @"请完善图片信息";
+            return;
+        }
+    }else{
+        if (!_imageStr1) {
+            MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+            hud.customView = [[UIImageView alloc] init];
+            hud.mode = MBProgressHUDModeCustomView;
+            [hud hide:YES afterDelay:1.f];
+            hud.labelText = @"请完善图片信息";
+            return;
+        }
     }
+    
     if (!_loginIDField.text || [_loginIDField.text isEqualToString:@""]) {
         MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
         hud.customView = [[UIImageView alloc] init];
