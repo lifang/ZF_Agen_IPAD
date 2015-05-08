@@ -107,7 +107,9 @@
     _bankItems = [[NSMutableArray alloc] init];
     _channelItems = [[NSMutableArray alloc] init];
     
-    keynamesarry=[NSArray arrayWithObjects:@"key_name",@"key_merchantName",@"key_sex",@"key_birth",@"key_cardID",@"key_phone",@"key_email",@"key_location",@"key_bank",@"key_bankID",@"key_bankAccount",@"key_taxID",@"key_organID",@"key_channel", nil];
+   // keynamesarry=[NSArray arrayWithObjects:@"key_name",@"key_merchantName",@"key_sex",@"key_birth",@"key_cardID",@"key_phone",@"key_email",@"key_location",@"key_bank",@"key_bankID",@"key_bankAccount",@"key_taxID",@"key_organID",@"key_channel", nil];
+    
+     keynamesarry=[NSArray arrayWithObjects:@"key_name",@"key_merchantName",@"key_sex",@"key_birth",@"key_cardID",@"key_phone",@"key_email",@"key_location",@"key_bank",@"key_bankID",@"key_bankAccount",@"key_channel",@"key_taxID",@"key_organID", nil];
     
     
     _applyType = OpenApplyPublic;
@@ -246,9 +248,18 @@
         
 
     }
+    NSArray *namesarry=[[NSArray alloc] init];
+    if (_applyType==1) {
+        namesarry=[NSArray arrayWithObjects:@"姓              名",@"店   铺  名   称",@"性              别",@"选   择   生  日",@"身  份  证  号",@"联   系  电  话",@"邮              箱",@"所      在     地",@"结算银行名称",@"结算银行代码",@"结算银行账户",@"支  付   通  道",@"税务登记证号",@"组 织 机 构 号", nil];
+    }
+    else
+    {
     
+        namesarry=[NSArray arrayWithObjects:@"姓              名",@"店   铺  名   称",@"性              别",@"选   择   生  日",@"身  份  证  号",@"联   系  电  话",@"邮              箱",@"所      在     地",@"结算银行名称",@"结算银行代码",@"结算银行账户",@"支  付   通  道", nil];
+        
+    }
     
-    NSArray*namesarry=[NSArray arrayWithObjects:@"姓              名",@"店   铺  名   称",@"性              别",@"选   择   生  日",@"身  份  证  号",@"联   系  电  话",@"邮              箱",@"所      在     地",@"结算银行名称",@"结算银行代码",@"结算银行账户",@"税务登记证号",@"组 织 机 构 号",@"支  付   通  道", nil];
+  //  NSArray *namesarry=[NSArray arrayWithObjects:@"姓              名",@"店   铺  名   称",@"性              别",@"选   择   生  日",@"身  份  证  号",@"联   系  电  话",@"邮              箱",@"所      在     地",@"结算银行名称",@"结算银行代码",@"结算银行账户",@"税务登记证号",@"组 织 机 构 号",@"支  付   通  道", nil];
     
     CGFloat borderSpace = 40.f;
     CGFloat topSpace = 10.f;
@@ -459,8 +470,6 @@
             bankNameBtn.layer.borderColor=[UIColor grayColor].CGColor;
             bankNameBtn.contentEdgeInsets = UIEdgeInsetsMake(0,-40, 0, 0);
             bankNameBtn.imageEdgeInsets = UIEdgeInsetsMake(0,270,0,0);//设置image在button上的位置（上top，左left，下bottom，右right）这里可以写负值，对上写－5，那么image就象上移动5个像素
-            
-            
             [bankNameBtn addTarget:self action:@selector(bankNameBtnclick) forControlEvents:UIControlEventTouchUpInside];
             [_scrollView addSubview:bankNameBtn];
         }
@@ -483,7 +492,7 @@
             
         }
         
-        else if(i==13)
+        else if(i==11)
         {
             zhifubutton = [UIButton buttonWithType:UIButtonTypeCustom];
             zhifubutton.frame = CGRectMake(190+(wide/2-40)*row,  height*70+topSpace + labelHeight * 7,280, 40);
@@ -503,7 +512,7 @@
             [zhifubutton addTarget:self action:@selector(zhifuclick) forControlEvents:UIControlEventTouchUpInside];
             [_scrollView addSubview:zhifubutton];
         }
-        
+   
         else
         {
             UITextField *neworiginaltextfield=[[UITextField alloc]initWithFrame:CGRectMake(190+(wide/2-40)*row,  height*70+topSpace + labelHeight * 7,280, 40)];
@@ -782,6 +791,9 @@
 }
 -(void)zhifuclick
 {
+    [_terminalTableView removeFromSuperview];
+    [datePicker removeFromSuperview];
+    [makeSureBtn removeFromSuperview];
     
     sexint=105;
     [self getChannelList];
@@ -802,6 +814,9 @@
 
 -(void)locationbuttonclick
 {
+    [_terminalTableView removeFromSuperview];
+    [datePicker removeFromSuperview];
+    [makeSureBtn removeFromSuperview];
     sexint=101;
     _selectedKey = key_location;
     [self pickerDisplay:locationbutton];
@@ -812,7 +827,7 @@
 
 -(void)birthdaybuttonclick
 {
-    
+    [_terminalTableView removeFromSuperview];
     [self setupStartDate ];
     
     
@@ -821,6 +836,8 @@
 
 -(void)sexclick
 {
+    [datePicker removeFromSuperview];
+    [makeSureBtn removeFromSuperview];
     sexint=102;
     [self setupTerminalTableView];
     
@@ -913,12 +930,15 @@
 
 -(void)publicClicked
 {
+    
     _applyType = OpenApplyPublic;
     [self beginApply];
+    
 }
 
 -(void)privateClicked
 {
+   
     _applyType = OpenApplyPrivate;
     _isChecked = NO;
     [self beginApply];
