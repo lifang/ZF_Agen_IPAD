@@ -268,7 +268,7 @@
     int a=5;
     
     
-    [NetworkInterface createOrderFromGoodBuyWithAgentID:delegate.agentID token:delegate.token userID:userID createUserID:delegate.userID belongID:delegate.agentUserID confirmType:a goodID:_goodDetail.goodID channelID:_goodDetail.defaultChannel.channelID count:_count addressID:self.defaultAddress.addressID comment:self.reviewField.text needInvoice:needInvoice invoiceType:self.billType invoiceInfo:self.billField.text finished:^(BOOL success, NSData *response) {
+    [NetworkInterface createOrderFromGoodBuyWithAgentID:delegate.agentID token:delegate.token userID:userID createUserID:delegate.userID belongID:delegate.agentUserID confirmType:a goodID:_goodDetail.goodID channelID:_goodDetail.defaultChannel.channelID count:_count addressID:addressID comment:self.reviewField.text needInvoice:needInvoice invoiceType:self.billType invoiceInfo:self.billField.text finished:^(BOOL success, NSData *response) {
 
     
     
@@ -1036,7 +1036,7 @@
     
     
     
-     [NetworkInterface addAddressWithAgentID:delegate.agentID token:delegate.token cityID:_selectedCityID receiverName:_nameField.text phoneNumber:_phoneField.text zipCode:_zipField.text address:_detailField.text isDefault:isDefault finished:^(BOOL success, NSData *response) {
+     [NetworkInterface addAddressWithAgentID:delegate.agentUserID token:delegate.token cityID:_selectedCityID receiverName:_nameField.text phoneNumber:_phoneField.text zipCode:_zipField.text address:_detailField.text isDefault:isDefault finished:^(BOOL success, NSData *response) {
     
     
         hud.customView = [[UIImageView alloc] init];
@@ -1163,7 +1163,11 @@
         self.reviewField .placeholder = @"留言";
         self.reviewField .font = [UIFont systemFontOfSize:14.f];
         reviewField.text=textnsstring;
-
+        reviewField.leftViewMode = UITextFieldViewModeAlways;
+        
+        UIView *v = [[UIView alloc]init];
+        v.frame = CGRectMake(0, 0, 10, 40);
+        reviewField.leftView = v;
         [footerView addSubview:self.reviewField ];
 
         
@@ -1228,7 +1232,9 @@
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
     hud.labelText = @"加载中...";
     AppDelegate *delegate = [AppDelegate shareAppDelegate];
-    [NetworkInterface getAddressListWithAgentID:delegate.agentID token:delegate.token finished:^(BOOL success, NSData *response) {
+    NSLog(@"%@",delegate.agentUserID);
+
+    [NetworkInterface getAddressListWithAgentID:delegate.agentUserID token:delegate.token finished:^(BOOL success, NSData *response) {
         NSLog(@"%@",[[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding]);
         hud.customView = [[UIImageView alloc] init];
         hud.mode = MBProgressHUDModeCustomView;
@@ -1339,6 +1345,11 @@
     
     self.billField .font = [UIFont systemFontOfSize:16.f];
     self.billField .clearButtonMode = UITextFieldViewModeWhileEditing;
+    billField.leftViewMode = UITextFieldViewModeAlways;
+    
+    UIView *v = [[UIView alloc]init];
+    v.frame = CGRectMake(0, 0, 10, 40);
+    billField.leftView = v;
     [billView addSubview:self.billField ];
     CALayer *layer=[self.billField  layer];
     //是否设置边框以及是否可见

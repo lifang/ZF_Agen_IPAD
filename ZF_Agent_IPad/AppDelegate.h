@@ -8,6 +8,22 @@
 
 #import <UIKit/UIKit.h>
 #import "RootViewController.h"
+typedef enum {
+    UserAgent = 2,     //代理商
+    UserEmployee = 6,  //员工
+}UserType;
+typedef enum {
+    AuthWholesale = 1,  //批购权限
+    AuthProcurement,    //代购权限
+    AuthTM_CS,          //终端管理+售后记录
+    AuthT_B,            //交易流水+分润
+    AuthSubAgent,       //下级代理商管理
+    AuthUM,             //用户管理
+    AuthEA,             //员工账号
+    AuthAR,             //代理商资料
+    AuthStock,          //库存
+    AuthOrder,          //订单
+}AuthType; //权限
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
@@ -19,6 +35,8 @@
 @property (nonatomic, strong) NSString *token;
 @property (nonatomic, strong) NSString *cityID;
 @property (nonatomic, strong) NSMutableDictionary *authDict;   //权限
+@property (nonatomic, assign) UserType userType;
+@property (nonatomic, assign) BOOL isFirstLevelAgent; //是否一级代理商
 
 @property (nonatomic, strong) RootViewController *rootViewController;
 @property (nonatomic, assign) BOOL hasProfit;         //是否有分润

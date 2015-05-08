@@ -507,7 +507,6 @@
     
     
     for (TreeNodeModel *node in filterItem) {
-        NSLog(@"%@",node.nodeID);
         
         //若筛选条件包含全部，数组返回nil
         if ([[NSString stringWithFormat:@"%@",node.nodeID] isEqualToString:kNoneFilterID])
@@ -850,6 +849,7 @@
     searchC.keyword = _keyword;
     UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:searchC];
     [NavigationBarAttr setNavigationBarStyle:nav];
+
     [[NSNotificationCenter defaultCenter] postNotificationName:@"hiedebar" object:self userInfo:nil];
 
     [self presentViewController:nav animated:NO completion:nil];
