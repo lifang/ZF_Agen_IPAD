@@ -347,17 +347,7 @@
         
         
         
-        if (_allbool
-            [i])
-        {
-            
-            TreeNodeModel *node = [[TreeNodeModel alloc] initWithDirectoryName:@"全部"
-                                                                      children:nil
-                                                                        nodeID:kNoneFilterID];
-            [selectedFilterItem addObject:node];
-        }
-
-        else
+        if (_allbool[i])
         {
             for (TreeNodeModel *node in arry)
             {
@@ -370,8 +360,17 @@
                 
                 
             }
+          
+        }
 
-        
+        else
+        {
+            
+
+            TreeNodeModel *node = [[TreeNodeModel alloc] initWithDirectoryName:@"全部"
+                                                                      children:nil
+                                                                        nodeID:kNoneFilterID];
+            [selectedFilterItem addObject:node];
         
         }
                [_filterDict setObject:selectedFilterItem forKey:[namekey objectAtIndex:i]];

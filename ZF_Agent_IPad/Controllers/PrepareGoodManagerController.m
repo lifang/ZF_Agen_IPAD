@@ -1053,18 +1053,10 @@ static NSString *s_defaultTerminalNum = @"请选择终端号";
     {
         
         
-        if(_agentList.count>8)
-        {
-            return 8;
-            
-            
-        }else
-            
-        {
+       
             return _agentList.count;
             
-            
-        }
+   
     }
     else
     {

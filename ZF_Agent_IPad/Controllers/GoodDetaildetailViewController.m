@@ -47,6 +47,7 @@
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
     _reviewItem = [[NSMutableArray alloc] init];
     [self downloadGoodDetail];
     self.view.backgroundColor=[UIColor whiteColor];
@@ -364,7 +365,7 @@
     interestLabel.backgroundColor = kColor(244, 243, 243, 1);
     
     originY += 20;
-    CGFloat middleSpace = 20.f;
+    CGFloat middleSpace = 10.f;
     CGFloat relateViewWidth = (wide -100) / 4;
     CGFloat relateViewHeight = relateViewWidth + 40 + 20 + 10;
     CGRect rect = CGRectMake(leftSpace, originY, relateViewWidth, relateViewHeight);
@@ -415,6 +416,7 @@
     _tableView.delegate = self;
     _tableView.dataSource = self;
     [self setHeaderAndFooterView];
+    
     [self.view addSubview:_tableView];
     [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_tableView
                                                           attribute:NSLayoutAttributeTop
@@ -909,6 +911,12 @@
     _scrollViewmaterial.backgroundColor = kColor(244, 243, 243, 1);
     
     [self.view addSubview:_scrollViewmaterial];
+    _mainScrollView.hidden=YES;
+    _tableView.hidden=YES;
+    _scrollViewrent.hidden=YES;
+    _scrollViewmaterial.hidden=YES;
+    
+    _scrollView.hidden=YES;
     [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_scrollViewmaterial
                                                           attribute:NSLayoutAttributeTop
                                                           relatedBy:NSLayoutRelationEqual
@@ -937,6 +945,7 @@
                                                           attribute:NSLayoutAttributeBottom
                                                          multiplier:1.0
                                                            constant:0]];
+    
     [self initSubViewmaterial];
 }
 
@@ -1590,6 +1599,9 @@
         
         
     }
+  
+
+    
     [self setSeletedIndex:self.secletA];
 
     //竖线
@@ -1624,7 +1636,8 @@
     }
     else if(aIndex==1025)
         
-    {        _scrollView.hidden=YES;
+    {
+        _scrollView.hidden=YES;
         
         _scrollViewrent.hidden=YES;
         _scrollViewmaterial.hidden=NO;
@@ -1637,7 +1650,8 @@
 
     else if(aIndex==1028)
 
-    {        _scrollView.hidden=NO;
+    {
+        _scrollView.hidden=NO;
 
         _scrollViewrent.hidden=YES;
         _scrollViewmaterial.hidden=YES;
@@ -1649,7 +1663,8 @@
     }
     else if(aIndex==1026)
         
-    {        _scrollView.hidden=YES;
+    {
+        _scrollView.hidden=YES;
         _scrollViewrent.hidden=YES;
 
         _scrollViewmaterial.hidden=YES;
