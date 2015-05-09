@@ -52,7 +52,7 @@
             
         }
         if ([dict objectForKey:@"order_invoce_type"]) {
-            _invoceType = [NSString stringWithFormat:@"%@",[dict objectForKey:@"order_comment"]];
+            _invoceType = [NSString stringWithFormat:@"%@",[dict objectForKey:@"order_invoce_type"]];
         }
         if ([dict objectForKey:@"order_invoce_info"]) {
             _invoceTitle = [NSString stringWithFormat:@"%@",[dict objectForKey:@"order_invoce_info"]];

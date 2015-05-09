@@ -495,6 +495,8 @@
     NSLog(@"!!");
     [self saveSearchHistory];
     [self searchWithString:self.searchBar.text];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"showbar" object:self userInfo:nil];
+
 }
 
 #pragma mark - TableView

@@ -97,7 +97,9 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(listRefresh) name:@"listRefresh" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(listRefreshs) name:@"listRefreshs" object:nil];
+
     self.supplyType=SupplyGoodsWholesale;
 
 
@@ -466,6 +468,8 @@
 //上拉刷新加载更多微博数据
 -(void)loadMoreStatuses
 {
+    self.page++;
+
     [self downloadDataWithPage:self.page isMore:YES];
 
     
@@ -507,7 +511,6 @@
     
     
     for (TreeNodeModel *node in filterItem) {
-        NSLog(@"%@",node.nodeID);
         
         //若筛选条件包含全部，数组返回nil
         if ([[NSString stringWithFormat:@"%@",node.nodeID] isEqualToString:kNoneFilterID])
@@ -522,7 +525,32 @@
     }
     return IDItem;
 }
+-(void)listRefreshs
 
+{
+
+    [wholesalebutton setTitleColor:kColor(3, 112, 214, 1) forState:UIControlStateNormal];
+            [behalfbutton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    
+    
+            self.supplyType=SupplyGoodsWholesale;
+
+    [self firstLoadData];
+
+
+}
+-(void)listRefresh
+{
+    
+
+        self.supplyType=SupplyGoodsProcurement;
+        
+        [behalfbutton setTitleColor:kColor(3, 112, 214, 1) forState:UIControlStateNormal];
+        [wholesalebutton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    
+    [self firstLoadData];
+
+}
 - (void)firstLoadData {
     _page = 1;
     [self downloadDataWithPage:_page isMore:NO];
@@ -572,7 +600,6 @@
                     id list = [[object objectForKey:@"result"] objectForKey:@"list"];
                     if ([list isKindOfClass:[NSArray class]] && [list count] > 0) {
                         //有数据
-                        self.page++;
                         [hud hide:YES];
                     }
                     else {
@@ -850,6 +877,7 @@
     searchC.keyword = _keyword;
     UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:searchC];
     [NavigationBarAttr setNavigationBarStyle:nav];
+
     [[NSNotificationCenter defaultCenter] postNotificationName:@"hiedebar" object:self userInfo:nil];
 
     [self presentViewController:nav animated:NO completion:nil];

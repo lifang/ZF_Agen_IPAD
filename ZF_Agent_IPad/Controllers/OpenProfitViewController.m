@@ -12,6 +12,7 @@
 #import "AppDelegate.h"
 #import "ChannelListModel.h"
 #import "CreateBenefitController.h"
+#import "RegularFormat.h"
 
 #import "BenefitModel.h"
 @interface OpenProfitViewController ()<UITableViewDelegate,UITableViewDataSource,UIPickerViewDataSource,UIPickerViewDelegate>
@@ -82,7 +83,8 @@
 
     _tableView=[[UITableView alloc]initWithFrame:CGRectMake(0, 0, wide/2,height ) style: UITableViewStylePlain];
     _tableView.tableFooterView = [[UIView alloc]init];
-
+    _tableView.backgroundColor=[UIColor colorWithWhite:0.85 alpha:1];
+    
     _tableView.delegate=self;
     _tableView.dataSource=self;
     [self.view addSubview:_tableView];
@@ -451,7 +453,11 @@
         
         neworiginaltextfield.frame = CGRectMake(80,  i*60+20,280, 40);
         neworiginaltextfield.userInteractionEnabled=YES;
+        neworiginaltextfield.leftViewMode = UITextFieldViewModeAlways;
         
+        UIView *v = [[UIView alloc]init];
+        v.frame = CGRectMake(0, 0, 10, 40);
+        neworiginaltextfield.leftView = v;
         CALayer *layer=[neworiginaltextfield layer];
         //是否设置边框以及是否可见
         [layer setMasksToBounds:YES];
@@ -478,7 +484,7 @@
     {
     
         UIButton* savebutton = [UIButton buttonWithType:UIButtonTypeCustom];
-        savebutton.frame = CGRectMake(0,340,80, 40);
+        savebutton.frame = CGRectMake(0,340,120, 40);
         
         
         
@@ -572,7 +578,26 @@
 -(void)openprofitclick
 {
 
-  
+    
+    if (!neworiginaltextfield.text || [neworiginaltextfield.text isEqualToString:@""]) {
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:1.f];
+        hud.labelText = @"请输入分润比例";
+        return;
+    }
+    if (![RegularFormat isFloat:neworiginaltextfield.text] ||
+        [neworiginaltextfield.text floatValue] < 0 ||
+        [neworiginaltextfield.text floatValue] > 100) {
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:1.f];
+        hud.labelText = @"分润比例必须介于1-100之间";
+        return;
+    }
+
     
     
 //    if ([neworiginaltextfield.text floatValue] < 0 ||
@@ -625,6 +650,7 @@
    
     cell.deletebutton.tag=indexPath.row;
     
+    cell.backgroundColor=[UIColor colorWithWhite:0.85 alpha:1];
 
     return cell;
     

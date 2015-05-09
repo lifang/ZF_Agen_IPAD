@@ -281,8 +281,35 @@
 
 
 #pragma mark - Action
+//- (void)removeFilterIfContainAll:(NSMutableArray *)selectedItem {
+//    BOOL isContainAll = NO;
+//    for (TreeNodeModel *node in selectedItem)
+//    {
+//        if ([node.nodeID isEqualToString:kNoneFilterID])
+//        {
+//            isContainAll = YES;
+//            break;
+//        }
+//    }
+//    if (isContainAll)
+//    {
+//        for (TreeNodeModel *node in selectedItem) {
+//            if (![node.nodeID isEqualToString:kNoneFilterID])
+//            {
+//                node.isSelected = NO;
+//            }
+//        }
+//        [selectedItem removeAllObjects];
+//        TreeNodeModel *node = [[TreeNodeModel alloc] initWithDirectoryName:@"全部"
+//                                                                  children:nil
+//                                                                    nodeID:kNoneFilterID];
+//        [selectedItem addObject:node];
+//    }
+//}
 
 - (IBAction)filterFinished:(id)sender {
+    
+    
     BOOL maxIsNumber = [RegularFormat isNumber:_highField.text];
     BOOL minIsNumber = [RegularFormat isNumber:_lowField.text];
     if (!maxIsNumber || !minIsNumber) {
@@ -305,23 +332,48 @@
     }
 
     for(int i=0;i<7;i++)
-    {    NSMutableArray *selectedFilterItem = [[NSMutableArray alloc] init];
+        
+        
+        
+        
+    {
+        
+        
+        NSMutableArray *selectedFilterItem = [[NSMutableArray alloc] init];
 
         NSArray*arry=[bigarry objectAtIndex:i];
 
         [selectedFilterItem removeAllObjects];
         
-        for (TreeNodeModel *node in arry) {
-            if (node.isSelected)
+        
+        
+        if (_allbool[i])
+        {
+            for (TreeNodeModel *node in arry)
             {
+                if (node.isSelected)
+                {
+                    
+                    [selectedFilterItem addObject:node];
+                    
+                }
                 
-                [selectedFilterItem addObject:node];
                 
             }
-            
-    
+          
         }
-        [_filterDict setObject:selectedFilterItem forKey:[namekey objectAtIndex:i]];
+
+        else
+        {
+            
+
+            TreeNodeModel *node = [[TreeNodeModel alloc] initWithDirectoryName:@"全部"
+                                                                      children:nil
+                                                                        nodeID:kNoneFilterID];
+            [selectedFilterItem addObject:node];
+        
+        }
+               [_filterDict setObject:selectedFilterItem forKey:[namekey objectAtIndex:i]];
 
     
     }
