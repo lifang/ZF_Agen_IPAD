@@ -95,8 +95,8 @@
         [_selectedIMV setImage:[UIImage imageNamed:@"btn_noselect"]];
     }
     [_terminalLB setText:TerminalSelectModel.serial_num];
-    [_priceLB setText:TerminalSelectModel.retail_price];
-    
+    _priceLB.text=[NSString stringWithFormat:@"￥%.2f",TerminalSelectModel.t_price];
+       
 }
 
 -(void) touchPressed:(TerminalSelectModel *)Terminalmodel

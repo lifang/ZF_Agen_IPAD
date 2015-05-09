@@ -1362,6 +1362,7 @@
         hud.customView = [[UIImageView alloc] init];
         hud.mode = MBProgressHUDModeCustomView;
         [hud hide:YES afterDelay:0.5f];
+         NSLog(@"!!%@",[[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding]);
         if (success) {
             id object = [NSJSONSerialization JSONObjectWithData:response options:NSJSONReadingMutableLeaves error:nil];
             if ([object isKindOfClass:[NSDictionary class]]) {

@@ -724,7 +724,7 @@ static NSString *HTTP_GET  = @"GET";
         [paramDict setObject:token forKey:@"token"];
     }
     [paramDict setObject:terminalsNum forKey:@"terminalsNum"];
-    [paramDict setObject:agentId  forKey:@"agentId"];
+    [paramDict setObject:[NSNumber numberWithInt:[agentId intValue]] forKey:@"agentId"];
 
     [paramDict setObject:[NSNumber numberWithInt:[userId intValue]] forKey:@"userId"];
     //url
@@ -800,11 +800,21 @@ static NSString *HTTP_GET  = @"GET";
     if (token && ![token isEqualToString:@""]) {
         [paramDict setObject:token forKey:@"token"];
     }
+    if (agentId) {
+     [paramDict setObject:[NSNumber numberWithInt:[agentId intValue]] forKey:@"agentId"];
+    }
+    if (POStitle) {
     [paramDict setObject:POStitle forKey:@"title"];
-    [paramDict setObject:[NSNumber numberWithInt:[agentId intValue]] forKey:@"agentId"];
+    }
+    if (channelsId) {
     [paramDict setObject:[NSNumber numberWithInt:channelsId] forKey:@"channelsId"];
-    [paramDict setObject:[NSNumber numberWithInt:minPrice] forKey:@"minPrice"];
+    }
+    if (minPrice>0) {
+     [paramDict setObject:[NSNumber numberWithInt:minPrice] forKey:@"minPrice"];
+    }
+    if (maxPrice>0) {
     [paramDict setObject:[NSNumber numberWithInt:maxPrice] forKey:@"maxPrice"];
+    }
     [paramDict setObject:[NSNumber numberWithInt:page] forKey:@"page"];
     [paramDict setObject:[NSNumber numberWithInt:rows] forKey:@"rows"];
     

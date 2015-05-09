@@ -14,8 +14,9 @@
 #import "RegularFormat.h"
 #import "SearchTermianlViewController.h"
 #import "RefreshView.h"
+#import "MJRefresh.h"
 
-@interface TerminalSelectViewController ()<UITableViewDelegate,UITableViewDataSource,UITextViewDelegate,UIPickerViewDelegate,UIPickerViewDataSource,UIPopoverControllerDelegate,SearchDelegate,RefreshDelegate>
+@interface TerminalSelectViewController ()<UITableViewDelegate,UITableViewDataSource,UITextViewDelegate,UIPickerViewDelegate,UIPickerViewDataSource,UIPopoverControllerDelegate,SearchDelegate/*,RefreshDelegate*/>
 {
    // BOOL isSelected;
     //CGFloat summaryPrice;
@@ -30,8 +31,11 @@
 @property (nonatomic, strong) UIButton *channelBtn;
 
 @property (nonatomic, strong) UITextView *terminalTV;
-@property (nonatomic, strong) UITextView *minPriceTV;
-@property (nonatomic, strong) UITextView *maxPriceTV;
+
+@property (nonatomic, strong) UILabel *placeholderLB;
+
+//@property (nonatomic, strong) UITextView *minPriceTV;
+//@property (nonatomic, strong) UITextView *maxPriceTV;
 @property (nonatomic, strong) UIButton *confirmBtn;
 
 @property (nonatomic, strong) UITableView *tableView;
@@ -192,11 +196,12 @@
     
     _terminalTV = [[UITextView alloc] init];
     _terminalTV.delegate = self;
+    _terminalTV.returnKeyType = UIReturnKeyDone;
     _terminalTV.clipsToBounds = YES;
     _terminalTV.layer.borderColor = [UIColor colorWithHexString:@"a8a8a8"].CGColor;
     _terminalTV.layer.borderWidth = 1.0f;
     _terminalTV.layer.cornerRadius = 3.0f;
-    _terminalTV.font = FONT20;
+    _terminalTV.font = FONT14;
     _terminalTV.textAlignment=NSTextAlignmentLeft;
     _terminalTV.textColor = [UIColor colorWithHexString:@"6c6c6c"];
     _terminalTV.backgroundColor = [UIColor whiteColor];
@@ -207,7 +212,37 @@
         make.right.equalTo(self.view.centerX).offset(-44);
         make.height.equalTo(@80);
     }];
-
+    
+    
+    _placeholderLB = [[UILabel alloc] init];
+    _placeholderLB.backgroundColor = [UIColor clearColor];
+    _placeholderLB.textColor = kColor(146, 146, 146, 1);
+    _placeholderLB.font = [UIFont systemFontOfSize:15.f];
+    _placeholderLB.text = @"请输入终端号，终端号之间回车间隔";
+    [self.view addSubview:_placeholderLB];
+    [_placeholderLB makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(_terminalTV.left).offset(5);
+        make.top.equalTo(_terminalTV.top).offset(5);
+        make.right.equalTo(_terminalTV.right);
+        
+    }];
+    
+    
+    _confirmBtn = [[UIButton alloc] init];
+    [ _confirmBtn setTitle:@"确认" forState:UIControlStateNormal];
+    _confirmBtn.backgroundColor=[UIColor colorWithHexString:@"006fd5"];
+    [_confirmBtn addTarget:self action:@selector(confirmBtnPressed:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:_confirmBtn];
+    [_confirmBtn makeConstraints:^(MASConstraintMaker *make) {
+        
+        make.left.equalTo(self.view.centerX).offset(44);
+        make.centerY.equalTo(TerminalLB.centerY);
+        make.height.equalTo(@42);
+        make.width.equalTo(@120);
+        
+    }];
+    
+/*
     UILabel *priceLB=[[UILabel alloc ] init];
     priceLB.font = FONT20;
     priceLB.text=@"价格";
@@ -282,10 +317,10 @@
         make.centerY.equalTo(TerminalLB.centerY);
         make.height.equalTo(@42);
         make.right.equalTo(self.view.right).offset(-64);
-       
-        
+ 
     }];
-
+*/
+ 
     UILabel *line=[[UILabel alloc ] init];
     [line setBackgroundColor:[UIColor colorWithHexString:LineColor]];
     [self.view  addSubview:line];
@@ -366,7 +401,10 @@
         make.bottom.equalTo(self.view.bottom).offset(-60);
     }];
     
+    [_tableView addHeaderWithTarget:self action:@selector(firstLoadData)];
+    [_tableView addFooterWithTarget:self action:@selector(loadMoreData)];
     
+   /*
     //_topRefreshView = [[RefreshView alloc] initWithFrame:CGRectMake(_tableView.frame.origin.x+_tableView.frame.size.width/2.0, _tableView.frame.origin.y-60,_tableView.frame.size.width, 60)];
     _topRefreshView = [[RefreshView alloc] init];
     _topRefreshView.direction = PullFromTop;
@@ -393,7 +431,7 @@
         make.height.equalTo(@60);
     }];
     
-
+*/
     
     
 
@@ -466,7 +504,15 @@
 
    
     
-    }
+}
+
+-(void)loadMoreData
+{
+
+    
+     [self  FilterTerminalsWithPage:self.page isMore:YES];
+
+}
 
 
 -(void)POSBtnPressed:(id)sender
@@ -490,28 +536,13 @@
 
 -(void)confirmBtnPressed:(id)sender
 {
-    BOOL maxIsNumber = [RegularFormat isNumber:_maxPriceTV.text];
-    BOOL minIsNumber = [RegularFormat isNumber:_minPriceTV.text];
-    if ((_maxPriceTV.text && ![_maxPriceTV.text isEqualToString:@""] && !maxIsNumber) ||
-        (_minPriceTV.text && ![_minPriceTV.text isEqualToString:@""] && !minIsNumber)) {
-        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
-        hud.customView = [[UIImageView alloc] init];
-        hud.mode = MBProgressHUDModeCustomView;
-        [hud hide:YES afterDelay:1.f];
-        hud.labelText = @"价格必须为正整数";
-        return;
-    }
-    if ([_maxPriceTV.text intValue] < [_minPriceTV.text intValue]) {
-        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
-        hud.customView = [[UIImageView alloc] init];
-        hud.mode = MBProgressHUDModeCustomView;
-        [hud hide:YES afterDelay:1.f];
-        hud.labelText = @"最低价不能超过最高价";
-        return;
-    }
+ 
    // [self FilterTerminals];
-     [self firstLoadData];
-
+  //   [self firstLoadData];
+    NSArray *terminalList = [_terminalTV.text componentsSeparatedByString:@"\n"];
+    if (terminalList) {
+        [self searchTerminalWithArray:terminalList];
+    }
 
 }
 
@@ -710,8 +741,6 @@
 
 #pragma mark - Request
 //pos机,通道,价格,筛选终端
-#pragma mark - Request
-//pos机,通道,价格,筛选终端
 
 - (void)firstLoadData {
      _page = 1;
@@ -724,11 +753,16 @@
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
     hud.labelText = @"加载中...";
     AppDelegate *delegate = [AppDelegate shareAppDelegate];
-    [NetworkInterface screeningTerminalNumWithtoken:delegate.token agentId:delegate.agentID POStitle:_POSTV.text channelsId:_channelsId minPrice:[_minPriceTV.text intValue] maxPrice:[_maxPriceTV.text intValue] page:page rows:kPageSize finished:^(BOOL success, NSData *response)
+    
+     [NetworkInterface screeningTerminalNumWithtoken:delegate.token agentId:delegate.agentID POStitle:_POSTV.text channelsId:_channelsId minPrice:0 maxPrice:0 page:page rows:kPageSize finished:^(BOOL success, NSData *response)
      {
+         [_tableView headerEndRefreshing];
+         [_tableView footerEndRefreshing];
          hud.customView = [[UIImageView alloc] init];
          hud.mode = MBProgressHUDModeCustomView;
          [hud hide:YES afterDelay:0.3f];
+         [_tableView headerEndRefreshing];
+         [_tableView footerEndRefreshing];
          if (success) {
              NSLog(@"!!%@",[[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding]);
              id object = [NSJSONSerialization JSONObjectWithData:response options:NSJSONReadingMutableLeaves error:nil];
@@ -765,23 +799,23 @@
              hud.labelText = kNetworkFailed;
          }
          if (!isMore) {
-             [self refreshViewFinishedLoadingWithDirection:PullFromTop];
+            // [self refreshViewFinishedLoadingWithDirection:PullFromTop];
          }
          else {
-             [self refreshViewFinishedLoadingWithDirection:PullFromBottom];
+            // [self refreshViewFinishedLoadingWithDirection:PullFromBottom];
          }
      }];
 }
 
 
-
-/*
-- (void)FilterTerminals {
+//终端
+- (void)searchTerminalWithArray:(NSArray *)array {
+    
+     //NSLog(@"terminals:%@",terminals);
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
     hud.labelText = @"加载中...";
     AppDelegate *delegate = [AppDelegate shareAppDelegate];
-    [NetworkInterface screeningTerminalNumWithtoken:delegate.token agentId:delegate.agentID POStitle:_POSTV.text channelsId:_channelsId minPrice:[_minPriceTV.text intValue] maxPrice:[_maxPriceTV.text intValue] finished:^(BOOL success, NSData *response)
-     {
+    [NetworkInterface batchTerminalNumWithtoken:delegate.token agentId:delegate.agentID serialNum:array finished:^(BOOL success, NSData *response) {
         NSLog(@"%@",[[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding]);
         hud.customView = [[UIImageView alloc] init];
         hud.mode = MBProgressHUDModeCustomView;
@@ -809,7 +843,9 @@
         }
     }];
 }
-*/
+
+
+
 
 //搜索终端
 - (void)searchTerminalWithString:(NSString *)title {
@@ -826,6 +862,8 @@
         hud.customView = [[UIImageView alloc] init];
         hud.mode = MBProgressHUDModeCustomView;
         [hud hide:YES afterDelay:0.5f];
+        [_tableView headerEndRefreshing];
+        [_tableView footerEndRefreshing];
         if (success) {
             id object = [NSJSONSerialization JSONObjectWithData:response options:NSJSONReadingMutableLeaves error:nil];
             if ([object isKindOfClass:[NSDictionary class]]) {
@@ -850,25 +888,7 @@
     }];
 }
 
-/*
-- (void)parseSearchListWithData:(NSDictionary *)dict {
-    if (![dict objectForKey:@"result"] || ![[dict objectForKey:@"result"] isKindOfClass:[NSArray class]]) {
-        return;
-    }
-    [_terminalList removeAllObjects];
-    NSArray *serialList = [dict objectForKey:@"result"];
-    for (int i = 0; i < [serialList count]; i++) {
-        id serialDict = [serialList objectAtIndex:i];
-        if ([serialDict isKindOfClass:[NSDictionary class]]) {
-            TerminalSelectModel *model = [[TerminalSelectModel alloc] initWithParseDictionary:serialDict];
-            [_terminalList addObject:model];
-        }
-        NSLog(@"terminalList:%@",_terminalList);
-    }
-    [_tableView reloadData];
- 
-}
-*/
+
 
 
 
@@ -969,6 +989,7 @@
        _POSTV.text=[NSString stringWithFormat:@"%@"
                    , [[_POSArray objectAtIndex:index] objectForKey:@"title"]];
        
+       
     }
     else
     {
@@ -995,6 +1016,7 @@
        
     }
     [self pickerHide];
+    [self firstLoadData];
 
 }
 
@@ -1127,7 +1149,7 @@
 
 
 
-
+/*
 #pragma mark - Refresh
 
 - (void)refreshViewReloadData {
@@ -1222,7 +1244,18 @@
     [self  FilterTerminalsWithPage:self.page isMore:YES];
 }
 
+*/
 
+#pragma mark - UITextView
+
+- (void)textViewDidChange:(UITextView *)textView {
+    if ([textView.text length] == 0) {
+        _placeholderLB.text = @"请输入终端号，终端号之间回车间隔";
+    }
+    else {
+        _placeholderLB.text = @"";
+    }
+}
 
 
 

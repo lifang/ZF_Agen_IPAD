@@ -12,6 +12,7 @@
 #import "MerchantModel.h"
 #import "ApplyDetailController.h"
 #import "MerchantDetailModel.h"
+#import "MerchantSelectCell.h"
 
 @interface MerchantSelecteViewController ()<UITableViewDataSource,UITableViewDelegate,RefreshDelegate>
 
@@ -61,6 +62,7 @@
     }
     
     _tableView.backgroundColor = [UIColor whiteColor];
+    _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     _tableView.delegate = self;
     _tableView.dataSource = self;
     [self.view addSubview:_tableView];
@@ -279,11 +281,12 @@
     //内容Cell
     static NSString *identifier = @"Merchant";
     MerchantModel *model = [_MerchantItems objectAtIndex:indexPath.row];
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
+    MerchantSelectCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
     if (cell == nil) {
-        cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:identifier];
+        cell = [[MerchantSelectCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:identifier];
     }
-    cell.textLabel.text=model.merchantTitle;
+    [cell setMerchantSelectModel:model andTarget:self];
+
     NSLog(@"text:%@",model.merchantTitle);
     
     return cell;
@@ -368,14 +371,7 @@
     [self firstLoadData];
 }
 
-/*
--(void)viewWillAppear:(BOOL)animated
-{
-    NSLog(@"terminalId:%@",_terminalID);
-   [self firstLoadData];
 
-}
-*/
 
 -(void)viewDidAppear:(BOOL)animated
 {

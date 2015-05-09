@@ -541,10 +541,13 @@
             [dict setObject:@"" forKey:@"0"];
         }
         CGFloat rate = model.rateTerminal;
-        if ([model.tradeValue isEqualToString:@"消费"]) {
+       // if ([model.tradeValue isEqualToString:@"消费"]) {
+        //    rate = model.rateService + model.rateBase;
+       // }
+        if ([model.tradeType isEqualToString:@"1"]) {
             rate = model.rateService + model.rateBase;
-        }
-        [dict setObject:[NSString stringWithFormat:@"%.2f‰",rate] forKey:@"1"];
+         }
+        [dict setObject:[NSString stringWithFormat:@"%.1f‰",rate] forKey:@"1"];
         NSLog(@"rate:%f",rate);
         if ([model statusString]) {
             [dict setObject:[model statusString] forKey:@"2"];

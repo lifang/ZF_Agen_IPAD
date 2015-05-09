@@ -43,6 +43,7 @@ typedef enum {
     UITextField *bankIdTF;
     UIButton  *bankbutton ;
     UIButton *zhifubutton;
+   
     
     
 }
