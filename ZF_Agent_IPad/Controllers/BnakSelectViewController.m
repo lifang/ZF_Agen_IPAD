@@ -9,10 +9,10 @@
 #import "BnakSelectViewController.h"
 #import "NetworkInterface.h"
 #import "AppDelegate.h"
-#import "RefreshView.h"
+#import "MJRefresh.h"
 
 
-@interface BnakSelectViewController ()<UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate,RefreshDelegate>
+@interface BnakSelectViewController ()<UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate>
 
 @property (nonatomic, strong) UIView *headerView;
 
@@ -22,16 +22,9 @@
 
 @property (nonatomic, strong) UIButton *searchBtn;
 
-@property (nonatomic, strong) NSMutableArray *searchItem; //搜索结果
+//@property (nonatomic, strong) NSMutableArray *searchItem; //搜索结果
 
-/***************上下拉刷新**********/
-@property (nonatomic, strong) RefreshView *topRefreshView;
-@property (nonatomic, strong) RefreshView *bottomRefreshView;
-@property (nonatomic, assign) BOOL reloading;
-@property (nonatomic, assign) CGFloat primaryOffsetY;
 @property (nonatomic, assign) int page;
-/********************************/
-
 
 
 @end
@@ -49,7 +42,7 @@
         //[self getBankList];
    // }
     
-    _searchItem = [[NSMutableArray alloc] init];
+   // _searchItem = [[NSMutableArray alloc] init];
     [self initAndLayoutUI];
 }
 
@@ -127,36 +120,20 @@
         make.bottom.equalTo(self.view.bottom);
     }];
     
+    [_tableView addHeaderWithTarget:self action:@selector(firstLoadData)];
+    [_tableView addFooterWithTarget:self action:@selector(loadMoreData)];
     
-    _topRefreshView = [[RefreshView alloc] init];
-    _topRefreshView.direction = PullFromTop;
-    _topRefreshView.delegate = self;
-    [_tableView addSubview:_topRefreshView];
-    [_topRefreshView makeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.equalTo(_tableView.top);
-        make.left.equalTo(_tableView.centerX);
-        make.right.equalTo(_tableView.right);
-        make.height.equalTo(@60);
-    }];
-    
-
-    _bottomRefreshView.direction = PullFromBottom;
-    _bottomRefreshView.delegate = self;
-    _bottomRefreshView.hidden = YES;
-    [_tableView addSubview:_bottomRefreshView];
-    [_bottomRefreshView makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(_tableView.bottom);
-        make.left.equalTo(_tableView.centerX);
-        make.right.equalTo(_tableView.right);
-        make.height.equalTo(@60);
-    }];
-
+ 
     
 }
 
 
 
-#pragma mark - Request
+-(void)loadMoreData
+{
+ [self getBankListWithPage:_page isMore:YES];
+
+}
 
 #pragma mark - Request
 
@@ -176,6 +153,8 @@
     [NetworkInterface chooseBankWithToken:delegate.token keyword:_bankField.text page:1 pageSize:15 terminalId:_terminalID finished:^(BOOL success, NSData *response) {
 
         NSLog(@"!!!!%@",[[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding]);
+        [_tableView headerEndRefreshing];
+        [_tableView footerEndRefreshing];
         hud.customView = [[UIImageView alloc] init];
         hud.mode = MBProgressHUDModeCustomView;
         [hud hide:YES afterDelay:0.5f];
@@ -193,14 +172,13 @@
                         [_bankItems removeAllObjects];
                     }
                     
-                   // id list = [[object objectForKey:@"result"] objectForKey:@"content"];
                     id list = nil;
                     if ([[object objectForKey:@"result"] isKindOfClass:[NSDictionary class]]) {
                         list = [[object objectForKey:@"result"] objectForKey:@"content"];
                     }
                     if ([list isKindOfClass:[NSArray class]] && [list count] > 0) {
                         //有数据
-                        self.page++;
+                        _page++;
                         [hud hide:YES];
                     }
                     else {
@@ -218,19 +196,14 @@
         else {
             hud.labelText = kNetworkFailed;
         }
-        if (!isMore) {
-            [self refreshViewFinishedLoadingWithDirection:PullFromTop];
-        }
-        else {
-            [self refreshViewFinishedLoadingWithDirection:PullFromBottom];
-        }
+       
     }];
 }
 
 #pragma mark - Data
 
 - (void)parseBankListWithDictionary:(NSDictionary *)dict {
-    if (![dict objectForKey:@"result"] || ![[dict objectForKey:@"result"] isKindOfClass:[NSArray class]]) {
+    if (![dict objectForKey:@"result"] || ![[dict objectForKey:@"result"] isKindOfClass:[NSDictionary class]]) {
         return;
     }
     NSArray *bankList = [[dict objectForKey:@"result"] objectForKey:@"content"];
@@ -246,11 +219,13 @@
 
 }
 
+/*
 - (void)clearStatus {
     for (BankModel *model in _searchItem) {
         model.isSelected = NO;
     }
 }
+*/
 
 #pragma mark - Action
 
@@ -274,7 +249,6 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    //return [_searchItem count];
     return [_bankItems count];
 
 }
@@ -285,7 +259,7 @@
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
     }
-    //BankModel *model = [_searchItem objectAtIndex:indexPath.row];
+    
     BankModel *model = [_bankItems objectAtIndex:indexPath.row];
     cell.textLabel.text = model.bankName;
     cell.imageView.image = kImageName(@"btn_selected");
@@ -300,8 +274,8 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    [self clearStatus];
-   // BankModel *model = [_searchItem objectAtIndex:indexPath.row];
+    //[self clearStatus];
+   
     BankModel *model = [_bankItems objectAtIndex:indexPath.row];
     model.isSelected = YES;
     [_tableView reloadData];
@@ -311,11 +285,11 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 
-/*
+
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    return 20.f;
+    return 30;
 }
- */
+
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
     if (section == 0) {
@@ -356,100 +330,6 @@
     return YES;
 }
 
-
-#pragma mark - Refresh
-
-- (void)refreshViewReloadData {
-    _reloading = YES;
-}
-
-- (void)refreshViewFinishedLoadingWithDirection:(PullDirection)direction {
-    _reloading = NO;
-    if (direction == PullFromTop) {
-        [_topRefreshView refreshViewDidFinishedLoading:self.tableView];
-    }
-    else if (direction == PullFromBottom) {
-        _bottomRefreshView.frame = CGRectMake(0, self.tableView.contentSize.height+self.tableView.frame.origin.y, self.tableView.bounds.size.width, 60);
-        [_bottomRefreshView refreshViewDidFinishedLoading:self.tableView];
-    }
-    [self updateFooterViewFrame];
-}
-
-- (BOOL)refreshViewIsLoading:(RefreshView *)view {
-    return _reloading;
-}
-
-- (void)refreshViewDidEndTrackingForRefresh:(RefreshView *)view {
-    [self refreshViewReloadData];
-    //loading...
-    if (view == _topRefreshView) {
-        [self pullDownToLoadData];
-    }
-    else if (view == _bottomRefreshView) {
-        [self pullUpToLoadData];
-    }
-}
-
-- (void)updateFooterViewFrame {
-    //_bottomRefreshView.frame = CGRectMake(0, self.tableView.contentSize.height, self.tableView.bounds.size.width, 60);
-    _bottomRefreshView.frame = CGRectMake(0, self.tableView.contentSize.height+self.tableView.frame.origin.y, self.tableView.bounds.size.width, 60);
-    _bottomRefreshView.hidden = NO;
-    if (self.tableView.contentSize.height < self.tableView.frame.size.height) {
-        _bottomRefreshView.hidden = YES;
-    }
-}
-
-#pragma mark - UIScrollView
-
-- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
-    _primaryOffsetY = scrollView.contentOffset.y;
-}
-
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-    if (scrollView == self.tableView) {
-        CGPoint newPoint = scrollView.contentOffset;
-        if (_primaryOffsetY < newPoint.y) {
-            //上拉
-            if (_bottomRefreshView.hidden) {
-                return;
-            }
-            [_bottomRefreshView refreshViewDidScroll:scrollView];
-        }
-        else {
-            //下拉
-            [_topRefreshView refreshViewDidScroll:scrollView];
-        }
-    }
-}
-
-- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
-    if (scrollView == self.tableView) {
-        CGPoint newPoint = scrollView.contentOffset;
-        if (_primaryOffsetY < newPoint.y) {
-            //上拉
-            if (_bottomRefreshView.hidden) {
-                return;
-            }
-            [_bottomRefreshView refreshViewDidEndDragging:scrollView];
-        }
-        else {
-            //下拉
-            [_topRefreshView refreshViewDidEndDragging:scrollView];
-        }
-    }
-}
-
-#pragma mark - 上下拉刷新
-//下拉刷新
-- (void)pullDownToLoadData {
-    [self firstLoadData];
-}
-
-//上拉加载
-- (void)pullUpToLoadData {
-    
-    [self getBankListWithPage:self.page isMore:YES];
-}
 
 
 -(void)viewWillAppear:(BOOL)animated

@@ -57,6 +57,8 @@
 
 @property(nonatomic,assign) float recordHeight;
 
+@property(strong,nonatomic) UILabel *passwordLabel;
+
 
 @end
 
@@ -904,6 +906,46 @@
     }];
 }
 
+//找回POS机密码
+- (void)findPOSpwd:(NSString *)string {
+    
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+    hud.labelText = @"加载中...";
+    AppDelegate *delegate = [AppDelegate shareAppDelegate];
+    [NetworkInterface findPOSpwdWithtoken:delegate.token terminalid:string finished:^(BOOL success, NSData *response){
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:0.3f];
+        if (success) {
+            NSLog(@"!!%@",[[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding]);
+            id object = [NSJSONSerialization JSONObjectWithData:response options:NSJSONReadingMutableLeaves error:nil];
+            if ([object isKindOfClass:[NSDictionary class]]) {
+                NSString *errorCode = [object objectForKey:@"code"];
+                if ([errorCode intValue] == RequestFail) {
+                    //返回错误代码
+                    hud.labelText = [NSString stringWithFormat:@"%@",[object objectForKey:@"message"]];
+                }
+                else if ([errorCode intValue] == RequestSuccess) {
+                    
+                    _passwordLabel.text = [object objectForKey:@"result"];
+                    
+                }
+            }
+            else {
+                //返回错误数据
+                hud.labelText = kServiceReturnWrong;
+                _passwordLabel.text = @"请求数据错误";
+            }
+        }
+        else {
+            hud.labelText = kNetworkFailed;
+            _passwordLabel.text = @"网络连接失败";
+        }
+        
+    }];
+}
+
+
 
 
 #pragma mark - Data
@@ -1263,19 +1305,22 @@
     [whiteView addSubview:line];
     
     UILabel *POSLable = [[UILabel alloc]init];
-    POSLable.text = @"POS机密码";
+    POSLable.text = @"密码";
     POSLable.textColor = kColor(56, 56, 56, 1.0);
     POSLable.font = [UIFont systemFontOfSize:20];
-    POSLable.frame = CGRectMake(FindPOSLable.frame.origin.x - 40, CGRectGetMaxY(line.frame) + 50, 120, 30);
+    //POSLable.frame = CGRectMake(FindPOSLable.frame.origin.x - 40, CGRectGetMaxY(line.frame) + 50, 120, 30);
+    POSLable.frame = CGRectMake(FindPOSLable.frame.origin.x - 140, CGRectGetMaxY(line.frame) + 50, 50, 30);
     [whiteView addSubview:POSLable];
     
-    UILabel *passwordLabel = [[UILabel alloc]init];
-    passwordLabel.textColor = kColor(132, 132, 132, 1.0);
-    passwordLabel.font = [UIFont systemFontOfSize:20];
+    _passwordLabel = [[UILabel alloc]init];
+    _passwordLabel.textColor = kColor(132, 132, 132, 1.0);
+    _passwordLabel.font = [UIFont systemFontOfSize:20];
     NSLog(@"点了第%@个ID",_tm_ID);
-    passwordLabel.text = @"asdasdas";
-    passwordLabel.frame = CGRectMake(CGRectGetMaxX(POSLable.frame), POSLable.frame.origin.y, 300, 30);
-    [whiteView addSubview:passwordLabel];
+   // passwordLabel.text = @"asdasdas";
+    _passwordLabel.frame = CGRectMake(CGRectGetMaxX(POSLable.frame), POSLable.frame.origin.y, 300, 30);
+    [whiteView addSubview:_passwordLabel];
+    [self findPOSpwd:_tm_ID];
+    
     
 }
 

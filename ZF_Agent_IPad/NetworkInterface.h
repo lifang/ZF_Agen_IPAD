@@ -897,7 +897,7 @@ static NSString *s_setHasBenefit_method = @"lowerAgent/setDefaultProfit";
  @result finish  请求回调结果
  */
 + (void)getAddresseeWithtoken:(NSString *)token
-                   customerId:(int)customerId
+                   customerId:(NSString *)customerId
                     finished:(requestDidFinished)finish;
 
 

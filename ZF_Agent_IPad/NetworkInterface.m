@@ -872,7 +872,7 @@ static NSString *HTTP_GET  = @"GET";
 
 //31
 + (void)getAddresseeWithtoken:(NSString *)token
-                   customerId:(int)customerId
+                   customerId:(NSString *)customerId
                      finished:(requestDidFinished)finish{
     //参数
     NSMutableDictionary *paramDict = [[NSMutableDictionary alloc] init];
@@ -880,7 +880,7 @@ static NSString *HTTP_GET  = @"GET";
         [paramDict setObject:token forKey:@"token"];
     }
     
-    [paramDict setObject:[NSNumber numberWithInt:customerId] forKey:@"customerId"];
+    [paramDict setObject:[NSNumber numberWithInt:[customerId intValue]] forKey:@"customerId"];
     //url
     NSString *urlString = [NSString stringWithFormat:@"%@/%@",kServiceURL,s_getAddressee_method];
     [[self class] requestWithURL:urlString
