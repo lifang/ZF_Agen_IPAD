@@ -196,7 +196,8 @@
     
     
     
-    NSArray*namesarry1=[NSArray arrayWithObjects:@"代理商类型：个人",[NSString stringWithFormat:@"负责人姓名: %@", _agentDetail.personName],[NSString stringWithFormat:@"负责人身份证号: %@", _agentDetail.personID],[NSString stringWithFormat:@"手机: %@", _agentDetail.mobilePhone],[NSString stringWithFormat:@"邮箱: %@", _agentDetail.email],[NSString stringWithFormat:@"所在地: %@ %@", _agentDetail.provinceName,_agentDetail.cityName],[NSString stringWithFormat:@"详细地址: %@", _agentDetail.address],nil];
+    
+    NSArray*namesarry1=[NSArray arrayWithObjects:[NSString stringWithFormat:@"              负责人姓名: %@", _agentDetail.personName],[NSString stringWithFormat:@"       负责人身份证号: %@", _agentDetail.personID],[NSString stringWithFormat:@"                         手机: %@", _agentDetail.mobilePhone],[NSString stringWithFormat:@"                         邮箱: %@", _agentDetail.email],[NSString stringWithFormat:@"                      所在地: %@ %@", _agentDetail.provinceName,_agentDetail.cityName],[NSString stringWithFormat:@"                   详细地址: %@", _agentDetail.address],nil];
     for(int i=0;i<namesarry1.count;i++)
     {
         
@@ -205,28 +206,28 @@
         
         UILabel*newaddress=[[UILabel alloc]initWithFrame:CGRectMake(60, i*60+40,wide/2, 40)];
         [_scrollView addSubview:newaddress];
-        newaddress.textAlignment = NSTextAlignmentRight;
+//        newaddress.textAlignment = NSTextAlignmentRight;
         newaddress.font=[UIFont systemFontOfSize:18];
         
         newaddress.text=[namesarry1 objectAtIndex:i];
         
         
     }
-    NSArray*namesarry2=[NSArray arrayWithObjects:@"身份证照片",nil];
+    NSArray*namesarry2=[NSArray arrayWithObjects:@"              身份证照片",nil];
     for(int i=0;i<namesarry2.count;i++)
     {
         
         
-        UILabel*newaddress=[[UILabel alloc]initWithFrame:CGRectMake(60, i*60+600,wide/2, 40)];
+        UILabel*newaddress=[[UILabel alloc]initWithFrame:CGRectMake(60, i*60+500,wide/2, 40)];
         [_scrollView addSubview:newaddress];
-        newaddress.textAlignment = NSTextAlignmentRight;
+//        newaddress.textAlignment = NSTextAlignmentRight;
         newaddress.font=[UIFont systemFontOfSize:18];
         
         newaddress.text=[namesarry2 objectAtIndex:i];
         
         
         UIButton* addressbutton = [UIButton buttonWithType:UIButtonTypeCustom];
-        addressbutton.frame = CGRectMake(wide/2+70,i*60+600,35, 35);
+        addressbutton.frame = CGRectMake(240,i*60+500,35, 35);
         
         
         //            [addressbutton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
@@ -242,7 +243,7 @@
         
         
     }
-    UILabel*line=[[UILabel alloc]initWithFrame:CGRectMake(60, 680,wide-120, 1)];
+    UILabel*line=[[UILabel alloc]initWithFrame:CGRectMake(60, 580,wide-120, 1)];
     
     line.backgroundColor=[UIColor grayColor];
     
@@ -250,26 +251,25 @@
     
     
     
-    UILabel*idlable=[[UILabel alloc]initWithFrame:CGRectMake(60, 720,wide/2, 30)];
-    idlable.textAlignment = NSTextAlignmentRight;
+    UILabel*idlable=[[UILabel alloc]initWithFrame:CGRectMake(60, 620,wide/2, 30)];
+//    idlable.textAlignment = NSTextAlignmentRight;
     
-    idlable.text=[NSString stringWithFormat:@"登录ID: %@", _agentDetail.loginName];
+    idlable.text=[NSString stringWithFormat:@"                       登录ID: %@", _agentDetail.loginName];
     
     [_scrollView addSubview:idlable];
     
     
     
     
-    NSArray*namesarry6=[NSArray arrayWithObjects:[NSString stringWithFormat:@"加入时间: %@", _agentDetail.createTime],[NSString stringWithFormat:@"已售出: %d", _agentDetail.saleCount],[NSString stringWithFormat:@"剩余库存: %d", _agentDetail.remainCount],[NSString stringWithFormat:@"终端开通量: %d", _agentDetail.openCount], nil];
-    
+     NSArray*namesarry6=[NSArray arrayWithObjects:[NSString stringWithFormat:@"                  加入时间: %@", _agentDetail.createTime],[NSString stringWithFormat:@"                      已售出: %d", _agentDetail.saleCount],[NSString stringWithFormat:@"                  剩余库存: %d", _agentDetail.remainCount],[NSString stringWithFormat:@"               终端开通量: %d", _agentDetail.openCount], nil];
     
     for(int i=0;i<namesarry6.count;i++)
     {
         
         
-        UILabel*newaddress=[[UILabel alloc]initWithFrame:CGRectMake(60, i*60+770,wide/2, 40)];
+        UILabel*newaddress=[[UILabel alloc]initWithFrame:CGRectMake(60, i*60+670,wide/2, 40)];
         [_scrollView addSubview:newaddress];
-        newaddress.textAlignment = NSTextAlignmentRight;
+//        newaddress.textAlignment = NSTextAlignmentRight;
         newaddress.font=[UIFont systemFontOfSize:18];
         
         newaddress.text=[namesarry6 objectAtIndex:i];

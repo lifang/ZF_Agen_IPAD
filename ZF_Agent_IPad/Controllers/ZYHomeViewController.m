@@ -308,8 +308,8 @@
             AppDelegate *delegate = [AppDelegate shareAppDelegate];
 
             [delegate.rootViewController.homeController setSeletedIndex:1];
-            
-        }
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"newrefsh" object:nil];
+                  }
             break;
         case 1001: {
             

@@ -346,6 +346,7 @@
     _pwdTV.font = FONT20;
     _pwdTV.frame = CGRectMake(_codeTV.frame.origin.x, pwdLB.frame.origin.y, 240, 40);
     [_secondView addSubview:_pwdTV];
+    _pwdTV.delegate=self;
     
     UILabel *confpwdLB = [[UILabel alloc]init];
     confpwdLB.text = @"确认密码";
@@ -364,7 +365,8 @@
     _confpwdTV.font = FONT20;
     _confpwdTV.frame = CGRectMake(_codeTV.frame.origin.x, confpwdLB.frame.origin.y, 240, 40);
     [_secondView addSubview:_confpwdTV];
-    
+    _confpwdTV.delegate=self;
+
     
     UIButton *bulidBtn=[[UIButton alloc] init];
     bulidBtn.frame=CGRectMake(_secondView.frame.size.width/2.0-60, _confpwdTV.frame.origin.y+40+30, 120, 40);
@@ -376,6 +378,13 @@
     [bulidBtn addTarget:self action:@selector(bulidBtnClick:) forControlEvents:UIControlEventTouchUpInside];
     [_secondView addSubview:bulidBtn];
     
+    
+    
+}
+-(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event{
+    
+    
+    [self  closeKeyboard];
     
     
 }
@@ -465,6 +474,25 @@
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
     hud.labelText = @"加载中...";
     AppDelegate *delegate = [AppDelegate shareAppDelegate];
+    
+    NSString*idstring;
+    
+    
+    if([self isBlankString:agentUserIDs])
+    {
+        
+        idstring=delegate.agentUserID;
+        
+    }
+    else
+    {
+        
+        idstring=agentUserIDs;
+        
+        
+        
+    }
+
     [NetworkInterface  addUserWithtoken:delegate.token AgentId:delegate.agentID username:_nameTV.text password:_pwdTV.text codeNumber:_phoneTV.text cityId:_selectedCityID code:_codeTV.text finished:^(BOOL success, NSData *response) {
         NSLog(@"%@",[[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding]);
         hud.customView = [[UIImageView alloc] init];
@@ -627,7 +655,7 @@
     AppDelegate *delegate = [AppDelegate shareAppDelegate];
         NSLog(@"%@-%@-%@-%d-%@-%@",delegate.userID,_goodDetail.goodID,_goodDetail.defaultChannel.channelID,_count,addressID,self.reviewField.text);
      int a=4;
-      [NetworkInterface createOrderFromGoodBuyWithAgentID:delegate.agentID token:delegate.token userID:delegate.agentUserID createUserID:delegate.userID belongID:delegate.agentUserID confirmType:a goodID:_goodDetail.goodID channelID:_goodDetail.defaultChannel.channelID count:_count addressID:self.defaultAddress.addressID comment:self.reviewField.text needInvoice:0 invoiceType:0 invoiceInfo:nil finished:^(BOOL success, NSData *response) {
+      [NetworkInterface createOrderFromGoodBuyWithAgentID:delegate.agentID token:delegate.token userID:delegate.agentUserID createUserID:delegate.userID belongID:delegate.agentUserID confirmType:a goodID:_goodDetail.goodID channelID:_goodDetail.defaultChannel.channelID count:_count addressID:addressID comment:self.reviewField.text needInvoice:0 invoiceType:0 invoiceInfo:nil finished:^(BOOL success, NSData *response) {
             hud.customView = [[UIImageView alloc] init];
             hud.mode = MBProgressHUDModeCustomView;
             [hud hide:YES afterDelay:0.3f];
@@ -765,12 +793,14 @@
         
         
     }
-    
+    [self closeKeyboard];
+
 }
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
     [textField resignFirstResponder];
     
-    
+    [self closeKeyboard];
+
     BOOL isNumber = [RegularFormat isNumber:_numberField.text];
     if (isNumber && [_numberField.text intValue] > 0) {
         int currentCount = [_numberField.text intValue];
@@ -977,7 +1007,7 @@
         
         goodslable.text=@"商品";
         
-        UILabel*phonelable=[[UILabel alloc]initWithFrame:CGRectMake(wide/2-20, 0, 100, 20)];
+        UILabel*phonelable=[[UILabel alloc]initWithFrame:CGRectMake(wide/2-40, 0, 100, 20)];
         [rootview addSubview:phonelable];
         phonelable.textAlignment = NSTextAlignmentCenter;
         
@@ -994,6 +1024,85 @@
     
     
 }
+-(void)closeKeyboard
+{
+    CGFloat wide;
+    CGFloat height;
+    if(iOS7)
+    {
+        wide=SCREEN_HEIGHT;
+        height=SCREEN_WIDTH;
+        
+        
+    }
+    else
+    {  wide=SCREEN_WIDTH;
+        height=SCREEN_HEIGHT;
+        
+    }
+    
+    
+    NSTimeInterval animationDuration = 0.30f;
+    [UIView beginAnimations:@"ResizeForKeyboard" context:nil];
+    [UIView setAnimationDuration:animationDuration];
+    
+    _secondView.frame=CGRectMake(0, 0, 440, 550);
+    
+    
+    _secondView.center = CGPointMake(wide / 2, (height - 100) / 2);
+    
+    
+    
+    [UIView commitAnimations];
+}
+
+
+- (void)textFieldDidBeginEditing:(UITextField *)textField
+
+{
+    
+    if(textField==_pwdTV||textField==_confpwdTV)
+    {
+        
+        CGFloat wide;
+        CGFloat height;
+        if(iOS7)
+        {
+            wide=SCREEN_HEIGHT;
+            height=SCREEN_WIDTH;
+            
+            
+        }
+        else
+        {  wide=SCREEN_WIDTH;
+            height=SCREEN_HEIGHT;
+            
+        }
+        
+        NSTimeInterval animationDuration = 0.30f;
+        [UIView beginAnimations:@"ResizeForKeyboard" context:nil];
+        [UIView setAnimationDuration:animationDuration];
+        
+        
+        _secondView.frame=CGRectMake(0, 0, 440, 550);
+        
+        
+        _secondView.center = CGPointMake(wide / 2, (height - 100) / 2-160);
+        
+        
+        
+        
+        
+        
+        [UIView commitAnimations];
+        
+        
+    }
+    
+    
+}
+
+
 -(void)agentclick:(UIButton*)send
 {
     changeB=send.tag;

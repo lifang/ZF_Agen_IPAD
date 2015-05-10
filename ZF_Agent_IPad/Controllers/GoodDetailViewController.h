@@ -13,6 +13,8 @@
 
 {    UIView *view;
     UIView *handleViewfrdef;
+    UIImageView*bigsview;
+    UIView*witeview;
     
 }
 @property (nonatomic, strong) NSString *goodID;

@@ -282,7 +282,7 @@
     
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
     hud.labelText = @"加载中...";
-    [NetworkInterface createOrderFromGoodBuyWithAgentID:delegate.agentID token:delegate.token userID:userID createUserID:delegate.userID belongID:delegate.agentUserID confirmType:a goodID:_goodDetail.goodID channelID:_goodDetail.defaultChannel.channelID count:_count addressID:self.defaultAddress.addressID comment:self.reviewField.text needInvoice:needInvoice invoiceType:self.billType invoiceInfo:self.billField.text finished:^(BOOL success, NSData *response) {
+    [NetworkInterface createOrderFromGoodBuyWithAgentID:delegate.agentID token:delegate.token userID:userID createUserID:delegate.userID belongID:delegate.agentUserID confirmType:a goodID:_goodDetail.goodID channelID:_goodDetail.defaultChannel.channelID count:_count addressID:addressID comment:self.reviewField.text needInvoice:needInvoice invoiceType:self.billType invoiceInfo:self.billField.text finished:^(BOOL success, NSData *response) {
         
 
         hud.customView = [[UIImageView alloc] init];
@@ -429,6 +429,13 @@
 }
 
 #pragma mark - UITextField
+-(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event{
+    
+  
+    [self  closeKeyboard];
+    
+    
+}
 -(void)textFieldDidEndEditing:(UITextField *)textField
 {
     
@@ -444,11 +451,15 @@
         
         
     }
+    [self closeKeyboard];
+    
     
 }
+
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
     [textField resignFirstResponder];
-    
+    [self closeKeyboard];
+
     
     BOOL isNumber = [RegularFormat isNumber:_numberField.text];
     if (isNumber && [_numberField.text intValue] > 0) {
@@ -657,7 +668,7 @@
         
         goodslable.text=@"商品";
         
-        UILabel*phonelable=[[UILabel alloc]initWithFrame:CGRectMake(wide/2-20, 0, 100, 20)];
+        UILabel*phonelable=[[UILabel alloc]initWithFrame:CGRectMake(wide/2-40, 0, 100, 20)];
         [rootview addSubview:phonelable];
         phonelable.textAlignment = NSTextAlignmentCenter;
         
@@ -674,6 +685,85 @@
     
     
 }
+-(void)closeKeyboard
+{
+    CGFloat wide;
+    CGFloat height;
+    if(iOS7)
+    {
+        wide=SCREEN_HEIGHT;
+        height=SCREEN_WIDTH;
+        
+        
+    }
+    else
+    {  wide=SCREEN_WIDTH;
+        height=SCREEN_HEIGHT;
+        
+    }
+    
+    
+    NSTimeInterval animationDuration = 0.30f;
+    [UIView beginAnimations:@"ResizeForKeyboard" context:nil];
+    [UIView setAnimationDuration:animationDuration];
+    
+    _secondView.frame=CGRectMake(0, 0, 440, 550);
+    
+    
+    _secondView.center = CGPointMake(wide / 2, (height - 100) / 2);
+    
+    
+    
+    [UIView commitAnimations];
+}
+
+
+- (void)textFieldDidBeginEditing:(UITextField *)textField
+
+{
+    
+    if(textField==_pwdTV||textField==_confpwdTV)
+    {
+    
+        CGFloat wide;
+        CGFloat height;
+        if(iOS7)
+        {
+            wide=SCREEN_HEIGHT;
+            height=SCREEN_WIDTH;
+            
+            
+        }
+        else
+        {  wide=SCREEN_WIDTH;
+            height=SCREEN_HEIGHT;
+            
+        }
+        
+        NSTimeInterval animationDuration = 0.30f;
+        [UIView beginAnimations:@"ResizeForKeyboard" context:nil];
+        [UIView setAnimationDuration:animationDuration];
+        
+        
+        _secondView.frame=CGRectMake(0, 0, 440, 550);
+        
+        
+        _secondView.center = CGPointMake(wide / 2, (height - 100) / 2-160);
+        
+        
+        
+        
+        
+        
+        [UIView commitAnimations];
+
+    
+    }
+    
+    
+}
+
+
 -(void)agentclick:(UIButton*)send
 {
     changeB=send.tag;
@@ -901,6 +991,8 @@
     _pwdTV=[[UITextField alloc] init];
     _pwdTV.layer.masksToBounds=YES;
     _pwdTV.layer.borderWidth=1.0;
+    _pwdTV.delegate=self;
+    
     _pwdTV.layer.borderColor=[UIColor colorWithHexString:@"a8a8a8"].CGColor;
     _pwdTV.backgroundColor = [UIColor clearColor];
     _pwdTV.font = FONT20;
@@ -917,7 +1009,8 @@
     
     _confpwdTV=[[UITextField alloc] init];
     _confpwdTV.secureTextEntry=YES;
-    
+    _confpwdTV.delegate=self;
+
     _confpwdTV.layer.masksToBounds=YES;
     _confpwdTV.layer.borderWidth=1.0;
     _confpwdTV.layer.borderColor=[UIColor colorWithHexString:@"a8a8a8"].CGColor;
@@ -1008,7 +1101,28 @@
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
     hud.labelText = @"加载中...";
     AppDelegate *delegate = [AppDelegate shareAppDelegate];
-    [NetworkInterface  addUserWithtoken:delegate.token AgentId:delegate.agentID username:_nameTV.text password:_pwdTV.text codeNumber:_phoneTV.text cityId:_selectedCityID code:_codeTV.text finished:^(BOOL success, NSData *response) {
+    
+    NSString*idstring;
+    
+    
+    if([self isBlankString:agentUserIDs])
+    {
+        
+        idstring=delegate.agentUserID;
+        
+    }
+    else
+    {
+        
+        idstring=agentUserIDs;
+        
+        
+        
+    }
+    
+    
+    
+    [NetworkInterface  addUserWithtoken:delegate.token AgentId:idstring username:_nameTV.text password:_pwdTV.text codeNumber:_phoneTV.text cityId:_selectedCityID code:_codeTV.text finished:^(BOOL success, NSData *response) {
         NSLog(@"%@",[[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding]);
         hud.customView = [[UIImageView alloc] init];
         hud.mode = MBProgressHUDModeCustomView;
@@ -1807,7 +1921,7 @@
         
     }
     
-    CGFloat billHeight = 44.f;
+    CGFloat billHeight = 64.f;
     UIView *billView = [[UIView alloc] initWithFrame:CGRectMake(0, 110, wide, billHeight)];
     billView.backgroundColor = [UIColor whiteColor];
     //    UIView *firstLine = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 0.5)];
@@ -1843,7 +1957,7 @@
     billLabel.text = @"发票抬头";
     billLabel.userInteractionEnabled = YES;
     [billView addSubview:billLabel];
-    self.billField = [[UITextField alloc] initWithFrame:CGRectMake(wide/2+90, 20, wide/2 - 120, billHeight)];
+    self.billField = [[UITextField alloc] initWithFrame:CGRectMake(wide/2+90, 20, wide/2 - 120, 44)];
     self.billField .delegate = self;
     self.billField .placeholder = @"     请输入发票抬头";
     
@@ -2149,9 +2263,10 @@
     }
     
 }
+
 - (BOOL)textFieldShouldBeginEditing:(UITextField *)textField {
     [self pickerScrollOut];
-
+    
     self.editingField = textField;
     return YES;
 }

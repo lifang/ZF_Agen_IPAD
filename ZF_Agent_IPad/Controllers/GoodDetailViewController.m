@@ -33,6 +33,7 @@
 @property (nonatomic, strong) PollingViews *topScorllView;
 
 @property (nonatomic, strong) GoodDetialModel *detailModel;
+@property (nonatomic, strong) UIScrollView *scrollView;
 
 @property (nonatomic, strong) UIView *footerView;
 
@@ -464,8 +465,8 @@
         [_mainScrollView addSubview:btn];
         originXs += btnWidth + hSpace;
     }
-    
-    originY += labelHeight + 10.f;
+    int rows = (int)([_detailModel.channelItem count] - 1) / 3 + 1;
+    originY += rows * (btnHeight + hSpace)-10;
     UILabel *introducelable = [[UILabel alloc] initWithFrame:CGRectMake(leftSpace, originY+20, leftLabelWidth, btnHeight)];
     [self setLabel:introducelable withTitle:@"通道介绍" font:[UIFont systemFontOfSize:17.f]];
     //厂家图片
@@ -494,8 +495,8 @@
     factorySummaryLabel.numberOfLines=3;
     
     
-    int rows = (int)([_detailModel.channelItem count] - 1) / 3 + 1;
-    originY += rows * (btnHeight + hSpace);
+    originY += labelHeight + 30.f;
+
     
     //购买方式
     UILabel *buyTypeTitleLabel = [[UILabel alloc] initWithFrame:CGRectMake(leftSpace, originY, leftLabelWidth, btnHeight)];
@@ -684,7 +685,17 @@
                 [rentButton setTitleColor:[UIColor lightGrayColor] forState:UIControlStateHighlighted];
                 [rentButton setTitle:[arry objectAtIndex:i] forState:UIControlStateNormal];
                 rentButton.titleLabel.font = [UIFont systemFontOfSize: 15.0];
-                rentButton.tag=i+1024;
+                
+                if(i==3)
+                {
+                    rentButton.tag=4+1024;
+
+                }else
+                {
+                
+                    rentButton.tag=i+1024;
+
+                }
                 
                 [rentButton addTarget:self action:@selector(scanRent:) forControlEvents:UIControlEventTouchUpInside];
                 [viewbutton addSubview:rentButton];
@@ -715,7 +726,16 @@
             [rentButton setTitleColor:[UIColor lightGrayColor] forState:UIControlStateHighlighted];
             [rentButton setTitle:[arry objectAtIndex:i] forState:UIControlStateNormal];
             rentButton.titleLabel.font = [UIFont systemFontOfSize: 15.0];
-            rentButton.tag=i+1024;
+            if(i==3)
+            {
+                rentButton.tag=4+1024;
+                
+            }else
+            {
+                
+                rentButton.tag=i+1024;
+                
+            }
             
             [rentButton addTarget:self action:@selector(scanRent:) forControlEvents:UIControlEventTouchUpInside];
             [viewbutton addSubview:rentButton];
@@ -747,11 +767,13 @@
     return viewbutton;
 }
 - (IBAction)scanFactoryInfo:(id)sender {
-    FactoryDetailController *factoryC = [[FactoryDetailController alloc] init];
-    factoryC.hidesBottomBarWhenPushed = YES;
-
-    factoryC.goodDetail = _detailModel;
-    [self.navigationController pushViewController:factoryC animated:YES];
+    [self createui];
+    
+//    FactoryDetailController *factoryC = [[FactoryDetailController alloc] init];
+//    factoryC.hidesBottomBarWhenPushed = YES;
+//
+//    factoryC.goodDetail = _detailModel;
+//    [self.navigationController pushViewController:factoryC animated:YES];
 }
 
 -(void)scanRent:(UIButton*)sender
@@ -1006,6 +1028,182 @@
             hud.labelText = kNetworkFailed;
         }
     }];
+}
+-(void)createui
+{
+    CGFloat wide;
+    CGFloat height;
+    if(iOS7)
+    {
+        wide=SCREEN_HEIGHT;
+        height=SCREEN_WIDTH;
+        
+        
+    }
+    else
+    {  wide=SCREEN_WIDTH;
+        height=SCREEN_HEIGHT;
+        
+    }
+    
+    bigsview=[[UIImageView alloc]initWithFrame:CGRectMake(0, 0, wide, height)];
+    
+    [self.view addSubview:bigsview];
+    bigsview.image=[UIImage imageNamed:@"backimage"];
+    bigsview.userInteractionEnabled=YES;
+    
+    
+    witeview=[[UIView alloc]initWithFrame:CGRectMake(0, 0, wide/2, wide/2)];
+    witeview.backgroundColor=[UIColor whiteColor];
+    witeview.center=CGPointMake(wide/2, height/2-120);
+    witeview.alpha=1;
+    
+    [bigsview addSubview:witeview];
+    
+    
+    
+    UIButton *okButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    okButton.frame = CGRectMake(  10, 10, 30, 30);
+    [okButton setImage:kImageName(@"xx.png") forState:UIControlStateNormal];
+    [okButton addTarget:self action:@selector(cancelclick) forControlEvents:UIControlEventTouchUpInside];
+    [witeview addSubview:okButton];
+    
+    UILabel*newaddress=[[UILabel alloc]initWithFrame:CGRectMake(0, 10,wide/2, 30)];
+    [witeview addSubview:newaddress];
+    newaddress.textAlignment = NSTextAlignmentCenter;
+    
+    newaddress.text=@"厂家信息";
+    newaddress .font = [UIFont systemFontOfSize:20.f];
+    
+    UIView*lineview=[[UIView alloc]initWithFrame:CGRectMake(0, 50, wide/2, 1)];
+    lineview.backgroundColor=[UIColor grayColor];
+    
+    [witeview addSubview:lineview];
+    [self initAndLayoutUIs1];
+    
+    
+   }
+#pragma mark - UI
+
+- (void)initAndLayoutUIs1 {
+    CGFloat wide;
+    CGFloat height;
+    if(iOS7)
+    {
+        wide=SCREEN_HEIGHT;
+        height=SCREEN_WIDTH;
+        
+        
+    }
+    else
+    {  wide=SCREEN_WIDTH;
+        height=SCREEN_HEIGHT;
+        
+    }
+
+    _scrollView = [[UIScrollView alloc] init];
+//    _scrollView.translatesAutoresizingMaskIntoConstraints = NO;
+    _scrollView.backgroundColor = kColor(244, 243, 243, 1);
+    _scrollView.frame=CGRectMake(0, 51, wide/2, wide/2-51);
+    [witeview addSubview:_scrollView];
+//    [witeview addConstraint:[NSLayoutConstraint constraintWithItem:_scrollView
+//                                                          attribute:NSLayoutAttributeTop
+//                                                          relatedBy:NSLayoutRelationEqual
+//                                                             toItem:witeview
+//                                                          attribute:NSLayoutAttributeTop
+//                                                         multiplier:1.0
+//                                                           constant:51]];
+//    [witeview addConstraint:[NSLayoutConstraint constraintWithItem:_scrollView
+//                                                          attribute:NSLayoutAttributeLeft
+//                                                          relatedBy:NSLayoutRelationEqual
+//                                                             toItem:witeview
+//                                                          attribute:NSLayoutAttributeLeft
+//                                                         multiplier:1.0
+//                                                           constant:0]];
+//    [witeview addConstraint:[NSLayoutConstraint constraintWithItem:_scrollView
+//                                                          attribute:NSLayoutAttributeRight
+//                                                          relatedBy:NSLayoutRelationEqual
+//                                                             toItem:witeview
+//                                                          attribute:NSLayoutAttributeRight
+//                                                         multiplier:1.0
+//                                                           constant:0]];
+//    [witeview addConstraint:[NSLayoutConstraint constraintWithItem:_scrollView
+//                                                          attribute:NSLayoutAttributeBottom
+//                                                          relatedBy:NSLayoutRelationEqual
+//                                                             toItem:witeview
+//                                                          attribute:NSLayoutAttributeBottom
+//                                                         multiplier:1.0
+//                                                           constant:0]];
+    [self initSubView];
+}
+
+- (void)initSubView {
+  
+    CGFloat wide;
+    CGFloat height;
+    if(iOS7)
+    {
+        wide=SCREEN_HEIGHT;
+        height=SCREEN_WIDTH;
+        
+        
+    }
+    else
+    {  wide=SCREEN_WIDTH;
+        height=SCREEN_HEIGHT;
+        
+    }
+
+    UIImageView *logoView = [[UIImageView alloc] init];
+    logoView.frame=CGRectMake(30, 10, 80, 40);
+
+    [logoView sd_setImageWithURL:[NSURL URLWithString:_detailModel.factoryImagePath]];
+    [_scrollView addSubview:logoView];
+
+    //name
+    UILabel *titleLabel = [[UILabel alloc] init];
+    titleLabel.font = [UIFont boldSystemFontOfSize:16.f];
+    titleLabel.frame=CGRectMake(130, 10, wide/2-150, 40);
+
+    titleLabel.text = _detailModel.factoryName;
+    [_scrollView addSubview:titleLabel];
+
+    UILabel *contentLabel = [[UILabel alloc] init];
+    contentLabel.frame=CGRectMake(20,60,wide/2-40, 40);
+
+    contentLabel.numberOfLines = 0;
+  contentLabel.text = _detailModel.factorySummary;
+    [contentLabel sizeToFit];
+
+    [_scrollView addSubview:contentLabel];
+
+    
+    _scrollView.contentSize = CGSizeMake(wide/2, contentLabel.frame.origin.y+contentLabel.frame.size.height);
+}
+#pragma mark - Data
+
+- (CGFloat)heightForContent:(NSString *)content
+                   withFont:(UIFont *)font
+                      width:(CGFloat)width {
+    NSDictionary *attr = [NSDictionary dictionaryWithObjectsAndKeys:
+                          font,NSFontAttributeName,
+                          nil];
+    CGRect rect = [content boundingRectWithSize:CGSizeMake(width, CGFLOAT_MAX)
+                                        options:NSStringDrawingUsesLineFragmentOrigin
+                                     attributes:attr
+                                        context:nil];
+    return rect.size.height + 1 > 20.f ? rect.size.height + 1 : 20.f;
+}
+
+-(void)cancelclick
+{
+    
+    
+    [bigsview removeFromSuperview];
+    
+    
+    
+    
 }
 - (IBAction)buyGood:(id)sender {
     NSLog(@"buy ");
