@@ -1344,7 +1344,19 @@
 }
 
 #pragma mark - UITextField
-
+- (void)textFieldDidEndEditing:(UITextField *)textField
+{
+    
+    
+    
+    
+    [self  closeKeyboard];
+    
+    
+    
+    
+    
+}// m
 - (BOOL)textFieldShouldReturn:(UITextField *)textField              // called when 'return' key pressed. return NO to ignore.
 {
     [self  closeKeyboard];

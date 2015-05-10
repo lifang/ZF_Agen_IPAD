@@ -18,4 +18,6 @@
 @property (nonatomic, assign) id<SelectedTerminalDelegate>delegate;
 
 @property (nonatomic, strong) NSString *TerminalId;
+@property (nonatomic, strong) NSString *posid;
+
 @end

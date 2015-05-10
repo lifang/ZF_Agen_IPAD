@@ -278,7 +278,7 @@ static NSString *s_defaultTerminalNum = @"请选择终端号";
     UILabel*nextdefaultlable=[[UILabel alloc]initWithFrame:CGRectMake(60, 150,180, 30)];
     [witeview addSubview:nextdefaultlable];
     
-    nextdefaultlable.text=@" 选择下级代理商";
+    nextdefaultlable.text=@" 到下级代理商";
     
     
     nextagentbuttons = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -358,11 +358,29 @@ static NSString *s_defaultTerminalNum = @"请选择终端号";
 }
 -(void)terimanlchoseclick
 {
-    
+    if (!nextagentid) {
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:1.f];
+        hud.labelText = @"请选择从下级代理商";
+        return;
+    }
+    if (!nextagentids) {
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:1.f];
+        hud.labelText = @"请选择下级代理商";
+        return;
+    }
+
     TerimalChoseViewController*terimal=[[TerimalChoseViewController alloc]init];
     terimal.hidesBottomBarWhenPushed=YES;
     terimal.delegate=self;
+    terimal.posid=nextagentid;
     
+
     [self.navigationController pushViewController:terimal animated:YES];
     
     
@@ -798,7 +816,7 @@ static NSString *s_defaultTerminalNum = @"请选择终端号";
         hud.customView = [[UIImageView alloc] init];
         hud.mode = MBProgressHUDModeCustomView;
         [hud hide:YES afterDelay:1.f];
-        hud.labelText = @"请选择被调货代理商";
+        hud.labelText = @"请选择从下级代理商";
         return;
     }
     if (!nextagentids) {
@@ -806,7 +824,7 @@ static NSString *s_defaultTerminalNum = @"请选择终端号";
         hud.customView = [[UIImageView alloc] init];
         hud.mode = MBProgressHUDModeCustomView;
         [hud hide:YES afterDelay:1.f];
-        hud.labelText = @"请选择调货代理商";
+        hud.labelText = @"请选择下级代理商";
         return;
     }
     if (!_agentnumberbutton.titleLabel.text)

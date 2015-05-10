@@ -21,7 +21,7 @@
 
 
 @property (nonatomic, strong) UITextView *nameTV;
-@property (nonatomic, strong) UITextView *phoneTV;
+@property (nonatomic, strong) UITextField *phoneTV;
 @property (nonatomic, strong) UITextView *codeTV;
 @property (nonatomic, strong) UITextView *locationTV;
 @property (nonatomic, strong) UITextField *pwdTV;
@@ -373,20 +373,20 @@
 //    [self.navigationController pushViewController:descC animated:YES];
 //}
 - (IBAction)ensureOrder:(id)sender {
-    if([self isBlankString:blankbutton.titleLabel.text])
-    {
-        
-        
-        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
-        hud.customView = [[UIImageView alloc] init];
-        hud.mode = MBProgressHUDModeCustomView;
-        [hud hide:YES afterDelay:1.f];
-        hud.labelText = @"请选择已有用户";
-        return;
-        
-        
-        
-    }
+//    if([self isBlankString:blankbutton.titleLabel.text])
+//    {
+//        
+//        
+//        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+//        hud.customView = [[UIImageView alloc] init];
+//        hud.mode = MBProgressHUDModeCustomView;
+//        [hud hide:YES afterDelay:1.f];
+//        hud.labelText = @"请选择已有用户";
+//        return;
+//        
+//        
+//        
+//    }
 
     [self createOrderForBuy];
 }
@@ -923,13 +923,28 @@
     phoneLB.frame = CGRectMake(26, nameLB.frame.origin.y + 60, 100, 40);
     [_secondView addSubview:phoneLB];
     
-    _phoneTV=[[UITextView alloc] init];
-    _phoneTV.layer.masksToBounds=YES;
-    _phoneTV.layer.borderWidth=1.0;
+    
+    
+    UITextView *phoneTV=[[UITextView alloc] init];
+    phoneTV.layer.masksToBounds=YES;
+    phoneTV.layer.borderWidth=1.0;
+    phoneTV.layer.borderColor=[UIColor colorWithHexString:@"a8a8a8"].CGColor;
+    phoneTV.backgroundColor = [UIColor clearColor];
+    phoneTV.font = FONT20;
+    phoneTV.frame = CGRectMake(_nameTV.frame.origin.x, phoneLB.frame.origin.y, 240, 40);
+    [_secondView addSubview:phoneTV];
+    
+    _phoneTV=[[UITextField alloc] init];
+    //    _phoneTV.layer.masksToBounds=YES;
+    //    _phoneTV.layer.borderWidth=1.0;
     _phoneTV.layer.borderColor=[UIColor colorWithHexString:@"a8a8a8"].CGColor;
     _phoneTV.backgroundColor = [UIColor clearColor];
     _phoneTV.font = FONT20;
-    _phoneTV.frame = CGRectMake(_nameTV.frame.origin.x, phoneLB.frame.origin.y, 240, 40);
+    _phoneTV.frame = CGRectMake(_nameTV.frame.origin.x, phoneLB.frame.origin.y, 160, 40);
+    [_secondView addSubview:_phoneTV];
+    UIView *PTFLView = [[UIView alloc]init];
+    PTFLView.frame = CGRectMake(0, 0, 10, 40);
+    _phoneTV.leftView =PTFLView;
     [_secondView addSubview:_phoneTV];
     
     UIButton *getcodeBtn=[[UIButton alloc] init];
@@ -1122,7 +1137,7 @@
     
     
     
-    [NetworkInterface  addUserWithtoken:delegate.token AgentId:idstring username:_nameTV.text password:_pwdTV.text codeNumber:_phoneTV.text cityId:_selectedCityID code:_codeTV.text finished:^(BOOL success, NSData *response) {
+    [NetworkInterface  addUserWithtoken:delegate.token AgentId:delegate.agentID username:_nameTV.text password:_pwdTV.text codeNumber:_phoneTV.text cityId:_selectedCityID code:_codeTV.text finished:^(BOOL success, NSData *response) {
         NSLog(@"%@",[[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding]);
         hud.customView = [[UIImageView alloc] init];
         hud.mode = MBProgressHUDModeCustomView;
@@ -1631,16 +1646,34 @@
     UITextField*_zipField=(UITextField*)[self.view viewWithTag:1058];
     
     UITextField*_detailField=(UITextField*)[self.view viewWithTag:1060];
-    
+    AppDelegate *delegate = [AppDelegate shareAppDelegate];
+
     
     AddressType isDefault = AddressOther;
     if (defaultbool) {
         isDefault = AddressDefault;
     }
+    NSString*idstring;
+    
+    
+    if([self isBlankString:agentUserIDs])
+    {
+        
+        idstring=delegate.agentUserID;
+        
+    }
+    else
+    {
+        
+        idstring=agentUserIDs;
+        
+        
+        
+    }
+
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
     hud.labelText = @"提交中...";
-    AppDelegate *delegate = [AppDelegate shareAppDelegate];
-     [NetworkInterface addAddressWithAgentID:delegate.agentUserID token:delegate.token cityID:_selectedCityID receiverName:_nameField.text phoneNumber:_phoneField.text zipCode:_zipField.text address:_detailField.text isDefault:isDefault finished:^(BOOL success, NSData *response) {
+     [NetworkInterface addAddressWithAgentID:idstring token:delegate.token cityID:_selectedCityID receiverName:_nameField.text phoneNumber:_phoneField.text zipCode:_zipField.text address:_detailField.text isDefault:isDefault finished:^(BOOL success, NSData *response) {
         hud.customView = [[UIImageView alloc] init];
         hud.mode = MBProgressHUDModeCustomView;
         [hud hide:YES afterDelay:0.5f];

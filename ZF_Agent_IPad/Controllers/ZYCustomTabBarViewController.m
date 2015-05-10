@@ -315,6 +315,12 @@
    
     //用self.赋值默认会调set方法
     [self setSeletedIndex:index];
+    if(index==1)
+    {
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"newrefsh" object:nil];
+    
+    
+    }
 }
 #pragma mark UINavigationControllerDelegate
 
