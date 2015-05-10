@@ -98,7 +98,7 @@
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
     hud.labelText = @"加载中...";
     AppDelegate *delegate = [AppDelegate shareAppDelegate];
-    [NetworkInterface getAddressListWithAgentID:delegate.agentID token:delegate.token finished:^(BOOL success, NSData *response) {
+    [NetworkInterface  getAddresseeWithtoken:delegate.token customerId:delegate.agentUserID finished:^(BOOL success, NSData *response) {
         NSLog(@"%@",[[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding]);
         hud.customView = [[UIImageView alloc] init];
         hud.mode = MBProgressHUDModeCustomView;
@@ -136,11 +136,31 @@
     }
     [_addressItems removeAllObjects];
     NSArray *addressList = [dict objectForKey:@"result"];
+    
+    for (int i = 0; i < [addressList count]; i++) {
+        NSDictionary *addressDict = [addressList objectAtIndex:i];
+        AddressModel *model = [[AddressModel alloc] initWithParseDictionary:addressDict];
+        if ([model.isDefault intValue] == AddressDefault) {
+            [_addressItems addObject:model];
+        }
+        
+    }
+    for (int i = 0; i < [addressList count]; i++) {
+        NSDictionary *addressDict = [addressList objectAtIndex:i];
+        AddressModel *model = [[AddressModel alloc] initWithParseDictionary:addressDict];
+        if ([model.isDefault intValue] != AddressDefault) {
+            [_addressItems addObject:model];
+        }
+        
+    }
+    
+    /*
     for (int i = 0; i < [addressList count]; i++) {
         NSDictionary *addressDict = [addressList objectAtIndex:i];
         AddressModel *model = [[AddressModel alloc] initWithParseDictionary:addressDict];
         [_addressItems addObject:model];
     }
+    */
     NSLog(@"addressItems:%@",_addressItems);
     [_tableView reloadData];
 }

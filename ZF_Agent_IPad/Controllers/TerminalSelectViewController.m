@@ -13,10 +13,9 @@
 #import "ChannelListModel.h"
 #import "RegularFormat.h"
 #import "SearchTermianlViewController.h"
-#import "RefreshView.h"
 #import "MJRefresh.h"
 
-@interface TerminalSelectViewController ()<UITableViewDelegate,UITableViewDataSource,UITextViewDelegate,UIPickerViewDelegate,UIPickerViewDataSource,UIPopoverControllerDelegate,SearchDelegate/*,RefreshDelegate*/>
+@interface TerminalSelectViewController ()<UITableViewDelegate,UITableViewDataSource,UITextViewDelegate,UIPickerViewDelegate,UIPickerViewDataSource,UIPopoverControllerDelegate,SearchDelegate>
 {
    // BOOL isSelected;
     //CGFloat summaryPrice;
@@ -66,14 +65,7 @@
 
 @property (nonatomic, strong) UILabel *numberLB;
 
-/***************上下拉刷新**********/
-@property (nonatomic, strong) RefreshView *topRefreshView;
-@property (nonatomic, strong) RefreshView *bottomRefreshView;
-@property (nonatomic, assign) BOOL reloading;
-@property (nonatomic, assign) CGFloat primaryOffsetY;
 @property (nonatomic, assign) int page;
-/********************************/
-
 
 
 @end
@@ -510,7 +502,7 @@
 {
 
     
-     [self  FilterTerminalsWithPage:self.page isMore:YES];
+  [self  FilterTerminalsWithPage:_page isMore:YES];
 
 }
 
@@ -744,7 +736,6 @@
 
 - (void)firstLoadData {
      _page = 1;
-    
     [self FilterTerminalsWithPage:_page isMore:NO];
     
 }
@@ -761,8 +752,6 @@
          hud.customView = [[UIImageView alloc] init];
          hud.mode = MBProgressHUDModeCustomView;
          [hud hide:YES afterDelay:0.3f];
-         [_tableView headerEndRefreshing];
-         [_tableView footerEndRefreshing];
          if (success) {
              NSLog(@"!!%@",[[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding]);
              id object = [NSJSONSerialization JSONObjectWithData:response options:NSJSONReadingMutableLeaves error:nil];
@@ -775,12 +764,12 @@
                  else if ([errorCode intValue] == RequestSuccess) {
                      if (!isMore) {
                          [_terminalItems removeAllObjects];
+                         [_terminalList removeAllObjects];
                      }
-                     //id list = [[object objectForKey:@"result"] objectForKey:@"terminalList"];
                      id list = [object objectForKey:@"result"];
                      if ([list isKindOfClass:[NSArray class]] && [list count] > 0) {
                          //有数据
-                         self.page++;
+                         _page++;
                          [hud hide:YES];
                      }
                      else {
@@ -798,13 +787,7 @@
          else {
              hud.labelText = kNetworkFailed;
          }
-         if (!isMore) {
-            // [self refreshViewFinishedLoadingWithDirection:PullFromTop];
-         }
-         else {
-            // [self refreshViewFinishedLoadingWithDirection:PullFromBottom];
-         }
-     }];
+    }];
 }
 
 
@@ -898,7 +881,7 @@
     if (![dict objectForKey:@"result"] || ![[dict objectForKey:@"result"] isKindOfClass:[NSArray class]]) {
         return;
     }
-    [ _terminalList removeAllObjects];
+    //[ _terminalList removeAllObjects];
     NSArray *serialList = [dict objectForKey:@"result"];
     for (int i = 0; i < [serialList count]; i++) {
         id TerminalDict = [serialList objectAtIndex:i];
