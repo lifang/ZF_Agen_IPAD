@@ -139,10 +139,14 @@
                                                                    style:UIBarButtonItemStyleDone
                                                                   target:self
                                                                   action:@selector(pickerScrollOut)];
+    
+    
     UIBarButtonItem *finishItem = [[UIBarButtonItem alloc] initWithTitle:@"完成"
                                                                    style:UIBarButtonItemStyleDone
                                                                   target:self
-                                                                  action:@selector(selectedChannel:)];
+                                                                  action:@selector(selectedChannelss:)];
+    
+    
     UIBarButtonItem *spaceItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace
                                                                                target:nil
                                                                                action:nil];
@@ -158,8 +162,7 @@
     [self.view addSubview:_pickerView];
     
 }
-- (IBAction)selectedChannel:(id)sender {
-    [self pickerScrollOut];
+- (IBAction)selectedChannelss:(id)sender {
     NSInteger firstIndex = [_pickerView selectedRowInComponent:0];
     ChannelListModel *channel = nil;
     if (firstIndex < [_channelList count]) {
