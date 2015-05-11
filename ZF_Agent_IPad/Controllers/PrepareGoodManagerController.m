@@ -292,6 +292,7 @@ static NSString *s_defaultTerminalNum = @"请选择终端号";
     [savebutton addTarget:self action:@selector(createsubmitPrepareGood) forControlEvents:UIControlEventTouchUpInside];
     [witeview addSubview:savebutton];
 }
+
 -(void)createsubmitPrepareGood
 {
     
@@ -415,6 +416,21 @@ static NSString *s_defaultTerminalNum = @"请选择终端号";
 
 -(void)terimanlchoseclick
 {
+    
+    if([self isBlankString:nextagentbutton.titleLabel.text])
+    {
+        
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:1.f];
+        hud.labelText = @"请选择下级代理商";
+        
+        return;
+        
+        
+        
+    }
 
     TerimalChoseViewController*terimal=[[TerimalChoseViewController alloc]init];
     terimal.hidesBottomBarWhenPushed=YES;

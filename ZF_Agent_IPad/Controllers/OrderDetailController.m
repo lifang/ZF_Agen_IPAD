@@ -293,7 +293,7 @@ typedef enum {
                     [hud hide:YES];
                     hud.labelText = @"订单取消成功";
                     [[NSNotificationCenter defaultCenter] postNotificationName:RefreshOrderListNotification object:nil];
-                    [self.navigationController popViewControllerAnimated:YES];
+                    [self goPervious:nil];
                 }
             }
             else {
@@ -328,7 +328,7 @@ typedef enum {
                     [hud hide:YES];
                     hud.labelText = @"订单取消成功";
                     [[NSNotificationCenter defaultCenter] postNotificationName:RefreshOrderListNotification object:nil];
-                    [self.navigationController popViewControllerAnimated:YES];
+                    [self goPervious:nil];
                 }
             }
             else {
