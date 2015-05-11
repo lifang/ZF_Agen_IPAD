@@ -574,6 +574,8 @@
                     hud.labelText = [NSString stringWithFormat:@"%@",[object objectForKey:@"message"]];
                 }
                 else if ([errorCode intValue] == RequestSuccess) {
+                    [hud hide:YES];
+                    hud.labelText = @"提交成功";
                     [self.ChangeEmailSuccessDelegate ChangeEmailSuccessWithEmail:_newsEmailField.text];
                     //点击了提交
                     ChangeEmialSuccessViewController *changeEmailSuccessVC = [[ChangeEmialSuccessViewController alloc]init];

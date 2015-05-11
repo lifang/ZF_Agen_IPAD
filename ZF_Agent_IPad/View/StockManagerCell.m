@@ -257,6 +257,7 @@
     [self setLabel:_stockTotalCountLabel withLeftView:_stockAgentCountLabel middleSpace:15.f labelTag:0];
     
     _stockChangeBtn = [[UIButton alloc]init];
+    _stockChangeBtn.hidden = YES;
     _stockChangeBtn.translatesAutoresizingMaskIntoConstraints = NO;
     [_stockChangeBtn setTitle:@"商品更名" forState:UIControlStateNormal];
     [_stockChangeBtn addTarget:self action:@selector(changeBrandName) forControlEvents:UIControlEventTouchUpInside];

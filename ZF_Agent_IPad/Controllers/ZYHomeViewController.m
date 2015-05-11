@@ -312,61 +312,109 @@
                   }
             break;
         case 1001: {
-            
-            OrderManagerController *OrderManager = [[OrderManagerController alloc]init];
-            OrderManager.hidesBottomBarWhenPushed = YES;
-            [self.navigationController pushViewController:OrderManager animated:YES];
-
-            
-            //开通认证
-            
-            
+            AppDelegate *delegate = [AppDelegate shareAppDelegate];
+            if ([[delegate.authDict objectForKey:[NSNumber numberWithInt:AuthOrder]] boolValue]) {
+                OrderManagerController *OrderManager = [[OrderManagerController alloc]init];
+                OrderManager.hidesBottomBarWhenPushed = YES;
+                [self.navigationController pushViewController:OrderManager animated:YES];
+            }
+            else {
+                MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+                hud.customView = [[UIImageView alloc] init];
+                hud.mode = MBProgressHUDModeCustomView;
+                [hud hide:YES afterDelay:1.f];
+                hud.labelText = @"您没有订单权限";
+            }
         }
             break;
         case 1002: {
-            //终端管理
-            TerminalViewController *terminalVC = [[TerminalViewController alloc]init];
-            terminalVC.hidesBottomBarWhenPushed = YES;
-            [self.navigationController pushViewController:terminalVC animated:YES];
-           
+            AppDelegate *delegate = [AppDelegate shareAppDelegate];
+            if ([[delegate.authDict objectForKey:[NSNumber numberWithInt:AuthTM_CS]] boolValue]) {
+                //终端管理
+                TerminalViewController *terminalVC = [[TerminalViewController alloc]init];
+                terminalVC.hidesBottomBarWhenPushed = YES;
+                [self.navigationController pushViewController:terminalVC animated:YES];
+            }
+            else {
+                MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+                hud.customView = [[UIImageView alloc] init];
+                hud.mode = MBProgressHUDModeCustomView;
+                [hud hide:YES afterDelay:1.f];
+                hud.labelText = @"您没有终端管理权限";
+            }
         }
             break;
         case 1003: {
-            //交易流水
-            DealRoadController *DealRoad = [[DealRoadController alloc]init];
-            DealRoad.hidesBottomBarWhenPushed = YES;
-            [self.navigationController pushViewController:DealRoad animated:YES];
-            
-
+            AppDelegate *delegate = [AppDelegate shareAppDelegate];
+            if ([[delegate.authDict objectForKey:[NSNumber numberWithInt:AuthT_B]] boolValue]) {
+                //交易流水
+                DealRoadController *DealRoad = [[DealRoadController alloc]init];
+                DealRoad.hidesBottomBarWhenPushed = YES;
+                [self.navigationController pushViewController:DealRoad animated:YES];
+            }
+            else {
+                MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+                hud.customView = [[UIImageView alloc] init];
+                hud.mode = MBProgressHUDModeCustomView;
+                [hud hide:YES afterDelay:1.f];
+                hud.labelText = @"您没有交易流水权限";
+            }
         }
             break;
         case 1004: {
-            StockManagerController *stockVC = [[StockManagerController alloc]init];
-            stockVC.hidesBottomBarWhenPushed = YES;
-            [self.navigationController pushViewController:stockVC animated:YES];
+            AppDelegate *delegate = [AppDelegate shareAppDelegate];
+            if ([[delegate.authDict objectForKey:[NSNumber numberWithInt:AuthStock]] boolValue]) {
+                StockManagerController *stockVC = [[StockManagerController alloc]init];
+                stockVC.hidesBottomBarWhenPushed = YES;
+                [self.navigationController pushViewController:stockVC animated:YES];
+            }
+            else {
+                MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+                hud.customView = [[UIImageView alloc] init];
+                hud.mode = MBProgressHUDModeCustomView;
+                [hud hide:YES afterDelay:1.f];
+                hud.labelText = @"您没有库存管理权限";
+            }
+            
         }
             break;
         case 1005: {
-            UserManagerController *userVC = [[UserManagerController alloc]init];
-            userVC.hidesBottomBarWhenPushed = YES;
-            [self.navigationController pushViewController:userVC animated:YES];
+            AppDelegate *delegate = [AppDelegate shareAppDelegate];
+            if ([[delegate.authDict objectForKey:[NSNumber numberWithInt:AuthUM]] boolValue]) {
+                UserManagerController *userVC = [[UserManagerController alloc]init];
+                userVC.hidesBottomBarWhenPushed = YES;
+                [self.navigationController pushViewController:userVC animated:YES];
+            }
+            else {
+                MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+                hud.customView = [[UIImageView alloc] init];
+                hud.mode = MBProgressHUDModeCustomView;
+                [hud hide:YES afterDelay:1.f];
+                hud.labelText = @"您没有用户管理权限";
+            }
+            
         }
             break;
         case 1006: {
-            //系统公告
-            AfterSellController *afterVC = [[AfterSellController alloc]init];
-            afterVC.hidesBottomBarWhenPushed = YES;
-            [self.navigationController pushViewController:afterVC animated:YES];
-           
+            AppDelegate *delegate = [AppDelegate shareAppDelegate];
+            if ([[delegate.authDict objectForKey:[NSNumber numberWithInt:AuthTM_CS]] boolValue]) {
+                AfterSellController *afterVC = [[AfterSellController alloc]init];
+                afterVC.hidesBottomBarWhenPushed = YES;
+                [self.navigationController pushViewController:afterVC animated:YES];
+            }
+            else {
+                MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+                hud.customView = [[UIImageView alloc] init];
+                hud.mode = MBProgressHUDModeCustomView;
+                [hud hide:YES afterDelay:1.f];
+                hud.labelText = @"您没有售后权限";
+            }
         }
             break;
         case 1007: {
             IdentificationViewController *identificationVC = [[IdentificationViewController alloc]init];
             identificationVC.hidesBottomBarWhenPushed = YES;
             [self.navigationController pushViewController:identificationVC animated:YES];
-            //开通认证
-
-        
         }
             break;
         default:

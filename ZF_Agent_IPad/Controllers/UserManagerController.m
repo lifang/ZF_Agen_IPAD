@@ -130,8 +130,19 @@
 -(void)userManagerCellDeleteUserModel:(UserManagerModel *)model
 {
     NSLog(@"点击了删除！");
-    self.selectedModel = model;
-    [self deleteSingleUser];
+    AppDelegate *delegate = [AppDelegate shareAppDelegate];
+    if ([[delegate.authDict objectForKey:[NSNumber numberWithInt:AuthUM]] boolValue]) {
+        self.selectedModel = model;
+        [self deleteSingleUser];
+    }
+    else {
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:1.f];
+        hud.labelText = @"没有用户管理权限";
+    }
+   
 }
 
 #pragma mark - UITableView

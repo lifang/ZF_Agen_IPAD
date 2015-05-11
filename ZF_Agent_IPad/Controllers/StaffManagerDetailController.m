@@ -246,7 +246,11 @@
     button.delegate = self;
     button.tag = 5000 + buttonTag;
     [button setImage:kImageName(@"noSelected") forState:UIControlStateNormal];
-    button.userInteractionEnabled = NO;
+    if (_statffStatus == staffStatusCreated) {
+        button.userInteractionEnabled = YES;
+    }else{
+        button.userInteractionEnabled = NO;
+    }
     button.frame = CGRectMake(originX, CGRectGetMaxY(topButton.frame) + topSpace, buttonWidth, buttonHeight);
     [self.view addSubview:button];
 }
