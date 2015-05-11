@@ -284,31 +284,31 @@
     
     //标准手续费
     originY += labelHeight + 20;
-    CGFloat standFormHeight = [FormView heightWithRowCount:[_detailModel.defaultChannel.standRateItem count]
+    CGFloat standFormHeight = [FormView heightWithRowCount:[_channelData.standRateItem count]
                                                   hasTitle:YES];
     FormView *standForm = [[FormView alloc] initWithFrame:CGRectMake(0, originY, wide, standFormHeight)];
     [standForm setGoodDetailDataWithFormTitle:@"刷卡交易标准手续费"
-                                      content:_detailModel.defaultChannel.standRateItem
+                                      content:_channelData.standRateItem
                                    titleArray:[NSArray arrayWithObjects:@"商户类",@"费率",@"说明",nil]];
     [_mainScrollView addSubview:standForm];
     
     //资金服务费
     originY += standFormHeight + 10;
-    CGFloat dateFormHeight = [FormView heightWithRowCount:[_detailModel.defaultChannel.dateRateItem count]
+    CGFloat dateFormHeight = [FormView heightWithRowCount:[_channelData.dateRateItem count]
                                                  hasTitle:YES];
     FormView *dateForm = [[FormView alloc] initWithFrame:CGRectMake(0, originY, wide, dateFormHeight)];
     [dateForm setGoodDetailDataWithFormTitle:@"资金服务费"
-                                     content:_detailModel.defaultChannel.dateRateItem
+                                     content:_channelData.dateRateItem
                                   titleArray:[NSArray arrayWithObjects:@"结算周",@"费率",@"说明", nil]];
     [_mainScrollView addSubview:dateForm];
     
     //其它交易费率
     originY += dateFormHeight + 10;
-    CGFloat otherFormHeight = [FormView heightWithRowCount:[_detailModel.defaultChannel.otherRateItem count]
+    CGFloat otherFormHeight = [FormView heightWithRowCount:[_channelData.otherRateItem count]
                                                   hasTitle:YES];
     FormView *otherForm = [[FormView alloc] initWithFrame:CGRectMake(0, originY, wide-0, otherFormHeight)];
     [otherForm setGoodDetailDataWithFormTitle:@"其它交易费率"
-                                      content:_detailModel.defaultChannel.otherRateItem
+                                      content:_channelData.otherRateItem
                                    titleArray:[NSArray arrayWithObjects:@"交易类",@"费率",@"说明", nil]];
     [_mainScrollView addSubview:otherForm];
     

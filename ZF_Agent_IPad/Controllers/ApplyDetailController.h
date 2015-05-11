@@ -16,6 +16,7 @@ static NSString *key_cardID = @"key_cardID";
 static NSString *key_phone = @"key_phone";
 static NSString *key_email = @"key_email";
 static NSString *key_location = @"key_location";
+static NSString *key_bankAccountName = @"key_bankAccountName";
 static NSString *key_bank = @"key_bank";
 static NSString *key_bankID = @"key_bankID";
 static NSString *key_bankAccount = @"key_bankAccount";
@@ -32,7 +33,7 @@ typedef enum {
 {
     UIButton *accountnamebutton;
     NSInteger sexint;
-    UIButton *_cityField ;
+    UIButton *sexBtn ;
     UIButton *birthdaybutton;
     UIDatePicker *datePicker;
     UIButton  *makeSureBtn;
@@ -40,7 +41,7 @@ typedef enum {
     NSArray  *keynamesarry;
     NSInteger pickint;
     UIButton *bankNameBtn ;
-    UITextField *bankIdTF;
+    //UITextField *bankIdTF;
     UIButton  *bankbutton ;
     UIButton *zhifubutton;
    

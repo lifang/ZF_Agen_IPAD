@@ -104,14 +104,21 @@
 
 }
 - (IBAction)addBenefit:(id)sender {
-  
-    if ([_channelList count] <= 0) {
-        [self getChannelList];
-    }
-    else {
-        [self pickerScrollIn];
-    }
- 
+    CreateBenefitController *createC = [[CreateBenefitController alloc] init];
+//    createC.channel = channel;
+    createC.subAgentID = _subAgentID;
+    createC.hidesBottomBarWhenPushed=YES;
+    createC.datearry=_dataItem;
+    
+    [self.navigationController pushViewController:createC animated:YES];
+
+//    if ([_channelList count] <= 0) {
+//        [self getChannelList];
+//    }
+//    else {
+//        [self pickerScrollIn];
+//    }
+// 
 }
 
 
@@ -139,10 +146,14 @@
                                                                    style:UIBarButtonItemStyleDone
                                                                   target:self
                                                                   action:@selector(pickerScrollOut)];
+    
+    
     UIBarButtonItem *finishItem = [[UIBarButtonItem alloc] initWithTitle:@"完成"
                                                                    style:UIBarButtonItemStyleDone
                                                                   target:self
-                                                                  action:@selector(selectedChannel:)];
+                                                                  action:@selector(selectedChannelss:)];
+    
+    
     UIBarButtonItem *spaceItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace
                                                                                target:nil
                                                                                action:nil];
@@ -158,8 +169,7 @@
     [self.view addSubview:_pickerView];
     
 }
-- (IBAction)selectedChannel:(id)sender {
-    [self pickerScrollOut];
+- (IBAction)selectedChannelss:(id)sender {
     NSInteger firstIndex = [_pickerView selectedRowInComponent:0];
     ChannelListModel *channel = nil;
     if (firstIndex < [_channelList count]) {
@@ -182,6 +192,7 @@
     createC.channel = channel;
     createC.subAgentID = _subAgentID;
     createC.hidesBottomBarWhenPushed=YES;
+    createC.datearry=_dataItem;
     
     [self.navigationController pushViewController:createC animated:YES];
 
@@ -289,6 +300,10 @@
         _toolbar.frame = CGRectMake(0, height - 260, wide, 44);
         _pickerView.frame = CGRectMake(0, height - 216, wide, 216);
     }];
+    _scrollView.userInteractionEnabled=YES;
+    
+    [_scrollView sendSubviewToBack:_toolbar];
+
 }
 
 - (void)pickerScrollOut {
@@ -428,7 +443,9 @@
     }
     _scrollView = [[UIScrollView alloc]init];
     _scrollView.frame=CGRectMake(wide/2+40, 0,wide/2-40, height);
-    
+    _scrollView.userInteractionEnabled=YES;
+    self.view.userInteractionEnabled=YES;
+
     
     [self.view addSubview:_scrollView];
     BenefitModel *model = [_dataItem objectAtIndex:numberint];

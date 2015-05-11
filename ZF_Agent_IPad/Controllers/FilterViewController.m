@@ -60,7 +60,11 @@
 
     // Do any additional setup after loading the view.
     self.title = @"筛选";
-    
+ 
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(updateGoodList)
+                                                 name:@"newrefsh"
+                                               object:nil];
     [self downloadFilterInfo];
 //    [self setOriginalQuery];
 }
@@ -306,6 +310,47 @@
 //        [selectedItem addObject:node];
 //    }
 //}
+-(void)updateGoodList
+{
+
+   
+    
+    for(int i=0;i<7;i++)
+        
+        
+        
+        
+    {
+        
+        
+        NSMutableArray *selectedFilterItem = [[NSMutableArray alloc] init];
+        
+        
+        [selectedFilterItem removeAllObjects];
+        
+        
+       
+            
+            
+            TreeNodeModel *node = [[TreeNodeModel alloc] initWithDirectoryName:@"全部"
+                                                                      children:nil
+                                                                        nodeID:kNoneFilterID];
+            [selectedFilterItem addObject:node];
+            
+        [_filterDict setObject:selectedFilterItem forKey:[namekey objectAtIndex:i]];
+        
+        
+    }
+    
+    
+    
+    
+    [_filterDict setObject:[NSNumber numberWithBool:rentbool] forKey:s_rent];
+    [_filterDict setObject:[NSNumber numberWithFloat:[@"0" intValue]] forKey:s_maxPrice];
+    [_filterDict setObject:[NSNumber numberWithFloat:[@"0" intValue]] forKey:s_minPrice];
+    [[NSNotificationCenter defaultCenter] postNotificationName:UpdateGoodListNotification object:nil];
+
+}
 
 - (IBAction)filterFinished:(id)sender {
     
@@ -1299,7 +1344,19 @@
 }
 
 #pragma mark - UITextField
-
+- (void)textFieldDidEndEditing:(UITextField *)textField
+{
+    
+    
+    
+    
+    [self  closeKeyboard];
+    
+    
+    
+    
+    
+}// m
 - (BOOL)textFieldShouldReturn:(UITextField *)textField              // called when 'return' key pressed. return NO to ignore.
 {
     [self  closeKeyboard];

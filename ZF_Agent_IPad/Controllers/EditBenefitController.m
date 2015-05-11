@@ -27,11 +27,39 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.title = @"设置分润";
-    UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithTitle:@"提交"
-                                                                  style:UIBarButtonItemStyleBordered
-                                                                 target:self
-                                                                 action:@selector(summbitBenefit:)];
-    self.navigationItem.rightBarButtonItem = rightItem;
+//    UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithTitle:@"提交"
+//                                                                  style:UIBarButtonItemStyleBordered
+//                                                                 target:self
+//                                                                 action:@selector(summbitBenefit:)];
+//    self.navigationItem.rightBarButtonItem = rightItem;
+//    
+//    
+//    UIBarButtonItem *spaceItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace
+//                                                                               target:nil
+//                                                                               action:nil];
+//    
+    UIBarButtonItem *spaceItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace
+                                                                               target:nil
+                                                                               action:nil];
+    
+    UIButton*filterButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    filterButton.frame = CGRectMake(0, 0, 120, 30);
+    
+    [filterButton setTitle:@"提交" forState:UIControlStateNormal];
+    [filterButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [filterButton addTarget:self action:@selector(summbitBenefit:) forControlEvents:UIControlEventTouchUpInside];
+    
+    
+    spaceItem.width = 52;
+    UIBarButtonItem *shoppingItem = [[UIBarButtonItem alloc] initWithCustomView:filterButton];
+    
+    
+    self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:shoppingItem,nil];
+    
+    
+
+    
+    
     [self initAndLayoutUI];
 }
 

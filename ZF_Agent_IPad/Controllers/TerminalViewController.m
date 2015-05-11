@@ -43,6 +43,7 @@
 @property (nonatomic, assign) int page;
 /********************************/
 
+@property (nonatomic, strong) UILabel *titleLB;
 @property (nonatomic, strong) UITextView *textView;
 @property (nonatomic, strong) UIButton *terminalBtn;
 
@@ -182,13 +183,13 @@
         make.height.equalTo(@40);
     }];
 
-    UILabel *titleLB = [[UILabel alloc] init];
-    [titleLB setBackgroundColor:[UIColor clearColor]];
-    [titleLB setFont:[UIFont systemFontOfSize:20]];
-    titleLB.textColor= [UIColor colorWithHexString:@"292929"];
-    titleLB.text=@"选择终端状态";
-    [headerView addSubview:titleLB];
-    [titleLB makeConstraints:^(MASConstraintMaker *make) {
+    _titleLB = [[UILabel alloc] init];
+    [_titleLB setBackgroundColor:[UIColor clearColor]];
+    [_titleLB setFont:[UIFont systemFontOfSize:20]];
+    _titleLB.textColor= [UIColor colorWithHexString:@"292929"];
+    _titleLB.text=@"选择终端状态";
+    [headerView addSubview:_titleLB];
+    [_titleLB makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(headerView.centerY);
         make.left.equalTo(headerView.centerX).offset(30);
         make.width.equalTo(@120);
@@ -210,7 +211,7 @@
     [headerView addSubview:_textView];
     [_textView makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(headerView.centerY);
-        make.left.equalTo(titleLB.right).offset(30);
+        make.left.equalTo(_titleLB.right).offset(30);
         make.right.equalTo(headerView.right).offset(-80);
         make.height.equalTo(@40);
         
@@ -1004,9 +1005,10 @@
 {
     touchStatus=100;
     //[self pickerDisplay:_locationTV];
-    [self pickerDisplay:_textView];
+    //[self pickerDisplay:_textView];
    // [self pickerDisplay:_findPosView];
     // [self pickerDisplay:_tableView];
+     [self pickerDisplay:_titleLB];
 }
 
 -(void)leftBackClicked

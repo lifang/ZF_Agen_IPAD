@@ -59,6 +59,7 @@ typedef enum {
 @property (nonatomic, strong) NSString *phoneNumber;
 @property (nonatomic, strong) NSString *email;
 @property (nonatomic, strong) NSString *cityID;
+@property (nonatomic, strong) NSString *bankAccountName;
 @property (nonatomic, strong) NSString *bankName;
 @property (nonatomic, strong) NSString *bankNumber;
 @property (nonatomic, strong) NSString *bankAccount;

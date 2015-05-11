@@ -11,8 +11,16 @@
 
 @interface CreateBenefitController : CommonViewController
 
+{
+
+
+
+
+
+}
 @property (nonatomic, strong) ChannelListModel *channel;
 
 @property (nonatomic, strong) NSString *subAgentID;
+@property (nonatomic, strong) NSMutableArray *datearry;
 
 @end

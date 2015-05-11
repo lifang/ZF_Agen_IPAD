@@ -112,6 +112,9 @@
             if ([primaryDict objectForKey:@"account_bank_name"]) {
                 _bankName = [NSString stringWithFormat:@"%@",[primaryDict objectForKey:@"account_bank_name"]];
             }
+            if ([primaryDict objectForKey:@"account_bank_name"]) {
+                _bankAccountName = [NSString stringWithFormat:@"%@",[primaryDict objectForKey:@"account_bank_name"]];
+            }
             if ([primaryDict objectForKey:@"account_bank_num"]) {
                 _bankNumber = [NSString stringWithFormat:@"%@",[primaryDict objectForKey:@"account_bank_num"]];
             }

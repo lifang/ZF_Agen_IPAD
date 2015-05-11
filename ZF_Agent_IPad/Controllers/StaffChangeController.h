@@ -13,7 +13,7 @@
 
 @property(nonatomic,strong)NSString *name;
 @property(nonatomic,strong)NSString *loginID;
-
+@property(nonatomic,strong)StaffManagerModel *staffmodel;
 @property(nonatomic,strong)NSArray *statusDetailArray;
 
 @end

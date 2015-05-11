@@ -646,6 +646,18 @@
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
     hud.labelText = @"加载中...";
     AppDelegate *delegate = [AppDelegate shareAppDelegate];
+    
+    if([self isBlankString:self.posid])
+    {
+    
+    
+    }else
+    {
+    
+        delegate.agentID=self.posid;
+        
+    
+    }
     [NetworkInterface getPrepareGoodPOSWithAgentID:delegate.agentID token:delegate.token finished:^(BOOL success, NSData *response) {
         NSLog(@"POS：%@",[[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding]);
         hud.customView = [[UIImageView alloc] init];
@@ -682,6 +694,18 @@
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
     hud.labelText = @"加载中...";
     AppDelegate *delegate = [AppDelegate shareAppDelegate];
+    if([self isBlankString:self.posid])
+    {
+        
+        
+    }else
+    {
+        
+        delegate.agentID=self.posid;
+        
+        
+    }
+
     [NetworkInterface getPrepareGoodChannelWithAgentID:delegate.agentID token:delegate.token finished:^(BOOL success, NSData *response) {
         NSLog(@"!!!!%@",[[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding]);
         hud.customView = [[UIImageView alloc] init];

@@ -82,7 +82,7 @@
 
 @property (nonatomic, strong) NSArray *cityArray;  //pickerView 第二列
 
-@property(nonatomic,strong)UITableView *terminalTableView;
+@property(nonatomic,strong) UITableView *sexTableView;
 
 @property (nonatomic, strong) NSString *merchantID;
 @property (nonatomic, strong) NSString *bankID;  //银行代码
@@ -90,12 +90,14 @@
 @property (nonatomic, strong) NSString *billID;    //结算日期ID
 
 //无作用 就是用来去掉cell中输入框的输入状态
-@property (nonatomic, strong) UITextField *tempField;
+//@property (nonatomic, strong) UITextField *tempField;
 
 @property (nonatomic, strong) NSMutableArray *channelItems;
 
 @property (nonatomic, strong) NSString *masterChannel;
 @property (nonatomic, strong) NSString *branchChannel;
+
+
 
 @end
 
@@ -109,26 +111,30 @@
     
    // keynamesarry=[NSArray arrayWithObjects:@"key_name",@"key_merchantName",@"key_sex",@"key_birth",@"key_cardID",@"key_phone",@"key_email",@"key_location",@"key_bank",@"key_bankID",@"key_bankAccount",@"key_taxID",@"key_organID",@"key_channel", nil];
     
-     keynamesarry=[NSArray arrayWithObjects:@"key_name",@"key_merchantName",@"key_sex",@"key_birth",@"key_cardID",@"key_phone",@"key_email",@"key_location",@"key_bank",@"key_bankID",@"key_bankAccount",@"key_channel",@"key_taxID",@"key_organID", nil];
+     keynamesarry=[NSArray arrayWithObjects:@"key_name",@"key_merchantName",@"key_sex",@"key_birth",@"key_cardID",@"key_phone",@"key_email",@"key_location",@"key_bankAccountName",@"key_bank",@"key_bankAccount",@"key_channel",@"key_taxID",@"key_organID", nil];
     
     
     _applyType = OpenApplyPublic;
     _infoDict = [[NSMutableDictionary alloc] init];
-    _tempField = [[UITextField alloc] init];
-    _tempField.hidden = YES;
-    [self.view addSubview:_tempField];
+   // _tempField = [[UITextField alloc] init];
+   // _tempField.hidden = YES;
+   // [self.view addSubview:_tempField];
     
     
     if (iOS7)
         
-    {    _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 80, SCREEN_HEIGHT,
-                                                                    SCREEN_WIDTH) style:UITableViewStyleGrouped];
+    {   // _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 80, SCREEN_HEIGHT,
+         //                                                           SCREEN_WIDTH) style:UITableViewStyleGrouped];
+        _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_HEIGHT,
+                                                                   SCREEN_WIDTH)];
         
         
     }
     else
-    {    _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 80, SCREEN_WIDTH,
-                                                                    SCREEN_HEIGHT) style:UITableViewStyleGrouped];
+    {  //  _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 80, SCREEN_WIDTH,
+         //                                                           SCREEN_HEIGHT) style:UITableViewStyleGrouped];
+        _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH,
+                                                                   SCREEN_HEIGHT)];
         
     }
     _tableView.tableFooterView = [[UIView alloc]init];
@@ -144,24 +150,32 @@
 }
 
 //选择终端tableView加载
--(UITableView *)terminalTableView
+-(UITableView *)sexTableView
 {
-    if (!_terminalTableView) {
-        _terminalTableView = [[UITableView alloc]init];
-        _terminalTableView.tag = 1111;
-        _terminalTableView.delegate = self;
-        _terminalTableView.dataSource = self;
+    if (!_sexTableView) {
+        _sexTableView = [[UITableView alloc]init];
+        _sexTableView.tag = 1111;
+        _sexTableView.delegate = self;
+        _sexTableView.dataSource = self;
     }
-    return _terminalTableView;
+    return _sexTableView;
 }
+
+
 //创建选择终端tableView
--(void)setupTerminalTableView
+-(void)setupsexTableView
 {
     if(sexint==102)
     {
-        self.terminalTableView.frame = CGRectMake(_cityField.frame.origin.x, _cityField.frame.origin.y+_cityField.frame.size.height, 280, 80);
+       
+        _sexTableView = [[UITableView alloc]init];
+        _sexTableView.tag = 1111;
+        _sexTableView.delegate = self;
+        _sexTableView.dataSource = self;
+        _sexTableView.frame = CGRectMake(sexBtn.frame.origin.x, sexBtn.frame.origin.y+sexBtn.frame.size.height, 280, 80);
         
     }
+    /*
     else
     {
         
@@ -169,18 +183,19 @@
         numberrow=_applyData.merchantList.count;
         if(numberrow>5)
         {
-            self.terminalTableView.frame = CGRectMake(accountnamebutton.frame.origin.x, 90, 280, 5*45);
+            _sexTableView.frame = CGRectMake(accountnamebutton.frame.origin.x, 90, 280, 5*45);
             
         }else
         {
-            self.terminalTableView.frame = CGRectMake(accountnamebutton.frame.origin.x, 90, 280, numberrow*45);
+            _sexTableView.frame = CGRectMake(accountnamebutton.frame.origin.x, 90, 280, numberrow*45);
             
             
         }
     }
-       [_scrollView addSubview:_terminalTableView];
+    */
+    [_scrollView addSubview:_sexTableView];
     if (_applyData.merchantList.count != 0) {
-        [_terminalTableView reloadData];
+        [_sexTableView reloadData];
     }
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -193,19 +208,20 @@
         
         if([accountname isEqualToString:@"0"])
         {
-            [_cityField setTitle:@"女" forState:UIControlStateNormal];
+            [sexBtn setTitle:@"女" forState:UIControlStateNormal];
             
            // [_infoDict setObject:@"0" forKey:@"key_sex"];
 
         }else
         {
             
-            [_cityField setTitle:@"男" forState:UIControlStateNormal];
+            [sexBtn setTitle:@"男" forState:UIControlStateNormal];
              //[_infoDict setObject:@"1" forKey:@"key_sex"];
             
         }
         
     }
+    
     else
     {
         MerchantModel *model = [_applyData.merchantList objectAtIndex:indexPath.row];
@@ -216,9 +232,9 @@
     
     
     //终端选择跳转
-    if (tableView==_terminalTableView) {
+    if (tableView==_sexTableView) {
         
-        [_terminalTableView removeFromSuperview];
+        [_sexTableView removeFromSuperview];
     }
     
 }
@@ -228,10 +244,10 @@
 
 {
     
-    NSInteger lastheightY;
-    lastheightY=_applyData.materialList.count-2;
     
-    lastheightY=_applyData.materialList.count/3;
+    
+      NSInteger lastheightY;
+     lastheightY=_applyData.materialList.count/2;
     
     _scrollView = [[UIView alloc]init];
     
@@ -247,25 +263,84 @@
         
         _scrollView.frame = CGRectMake(0, 0, SCREEN_WIDTH,
                                        700+lastheightY*70);
-        
-
     }
+    
+    
+    //创建头部View
+    UIView *headerView = [[UIView alloc]init];
+    headerView.backgroundColor = kColor(226, 226, 226, 1.0);
+    headerView.frame = CGRectMake(0, 0, SCREEN_WIDTH, 80);
+    if (iOS7) {
+        headerView.frame = CGRectMake(0, 0, SCREEN_HEIGHT, 80);
+    }
+    //创建头部按钮
+    UIButton *publicBtn = [[UIButton alloc]init];
+    self.isChecked = YES;
+    self.publickBtn = publicBtn;
+    [publicBtn addTarget:self action:@selector(publicClicked) forControlEvents:UIControlEventTouchUpInside];
+    publicBtn.backgroundColor = [UIColor clearColor];
+    [publicBtn setBackgroundImage:[UIImage imageNamed:@"chose_Btn"] forState:UIControlStateNormal];
+    publicBtn.titleLabel.font = [UIFont systemFontOfSize:22];
+    [publicBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [publicBtn setTitle:@"对公" forState:UIControlStateNormal];
+    publicBtn.frame = CGRectMake(headerView.frame.size.width * 0.4 , 40, 140, 40);
+    self.privateY = 40;
+    self.publicX = headerView.frame.size.width * 0.4;
+    [headerView addSubview:publicBtn];
+    
+    UIButton *privateBtn = [[UIButton alloc]init];
+    self.privateBtn = privateBtn;
+    [privateBtn addTarget:self action:@selector(privateClicked) forControlEvents:UIControlEventTouchUpInside];
+    privateBtn.backgroundColor = [UIColor clearColor];
+    privateBtn.titleLabel.font = [UIFont systemFontOfSize:20];
+    [privateBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [privateBtn setTitle:@"对私" forState:UIControlStateNormal];
+    privateBtn.frame = CGRectMake(CGRectGetMaxX(publicBtn.frame), 44, 120, 36);
+    self.privateX = CGRectGetMaxX(publicBtn.frame);
+    [headerView addSubview:privateBtn];
+    if(_applyType==OpenApplyPublic)
+    {
+        [_publickBtn setBackgroundImage:[UIImage imageNamed:@"chose_Btn"] forState:UIControlStateNormal];
+        _publickBtn.titleLabel.font = [UIFont systemFontOfSize:22];
+        _publickBtn.frame = CGRectMake(_publicX, _privateY, 140, 40);
+        
+        [_privateBtn setBackgroundImage:nil forState:UIControlStateNormal];
+        _privateBtn.titleLabel.font = [UIFont systemFontOfSize:20];
+        _privateBtn.frame = CGRectMake(_privateX + 10, _privateY, 120, 36);
+    }else
+    {
+        [_privateBtn setBackgroundImage:[UIImage imageNamed:@"chose_Btn"] forState:UIControlStateNormal];
+        _privateBtn.titleLabel.font = [UIFont systemFontOfSize:22];
+        _privateBtn.frame = CGRectMake(_privateX, _privateY, 140, 40);
+        
+        [_publickBtn setBackgroundImage:nil forState:UIControlStateNormal];
+        _publickBtn.titleLabel.font = [UIFont systemFontOfSize:20];
+        _publickBtn.frame = CGRectMake(_publicX + 10, _privateY, 120, 36);
+        
+    }
+
+    [_scrollView addSubview:headerView];
+
+    
+    
+    
+    
     NSArray *namesarry=[[NSArray alloc] init];
     if (_applyType==1) {
-        namesarry=[NSArray arrayWithObjects:@"姓              名",@"店   铺  名   称",@"性              别",@"选   择   生  日",@"身  份  证  号",@"联   系  电  话",@"邮              箱",@"所      在     地",@"结算银行名称",@"结算银行代码",@"结算银行账户",@"支  付   通  道",@"税务登记证号",@"组 织 机 构 号", nil];
+        namesarry=[NSArray arrayWithObjects:@"姓              名",@"店   铺  名   称",@"性              别",@"选   择   生  日",@"身  份  证  号",@"联   系  电  话",@"邮              箱",@"所      在     地",@"结算银行账户名",@"结算银行名称",@"结算银行账户",@"支  付   通  道",@"税务登记证号",@"组 织 机 构 号", nil];
     }
     else
     {
     
-        namesarry=[NSArray arrayWithObjects:@"姓              名",@"店   铺  名   称",@"性              别",@"选   择   生  日",@"身  份  证  号",@"联   系  电  话",@"邮              箱",@"所      在     地",@"结算银行名称",@"结算银行代码",@"结算银行账户",@"支  付   通  道", nil];
+        namesarry=[NSArray arrayWithObjects:@"姓              名",@"店   铺  名   称",@"性              别",@"选   择   生  日",@"身  份  证  号",@"联   系  电  话",@"邮              箱",@"所      在     地",@"结算银行账户名",@"结算银行名称",@"结算银行账户",@"支  付   通  道", nil];
         
     }
     
   //  NSArray *namesarry=[NSArray arrayWithObjects:@"姓              名",@"店   铺  名   称",@"性              别",@"选   择   生  日",@"身  份  证  号",@"联   系  电  话",@"邮              箱",@"所      在     地",@"结算银行名称",@"结算银行代码",@"结算银行账户",@"税务登记证号",@"组 织 机 构 号",@"支  付   通  道", nil];
     
-    CGFloat borderSpace = 40.f;
-    CGFloat topSpace = 10.f;
-    CGFloat labelHeight = 20.f;
+    CGFloat borderSpace = 40;
+    CGFloat topSpace = 10+80;
+    CGFloat labelHeight = 20;
     CGFloat wide;
     CGFloat height;
     if(iOS7)
@@ -301,7 +376,7 @@
     [_scrollView addSubview: _channelLabel];
     
     
-    UILabel*accountnamelable=[[UILabel alloc]initWithFrame:CGRectMake(wide/2,topSpace + labelHeight * 2,140, 40)];
+    UILabel *accountnamelable=[[UILabel alloc]initWithFrame:CGRectMake(wide/2,topSpace + labelHeight * 2,140, 40)];
     [_scrollView addSubview:accountnamelable];
     accountnamelable.textAlignment = NSTextAlignmentCenter;
     accountnamelable.font=[UIFont systemFontOfSize:19];
@@ -373,7 +448,7 @@
         height=i/2;
         if(i>7)
         {
-            topSpace=40;
+            topSpace=40+80;
 
         }
         UILabel *newaddress=[[UILabel alloc]initWithFrame:CGRectMake(40+(wide/2-40)*row, height*70+topSpace + labelHeight * 7,140, 40)];
@@ -385,32 +460,32 @@
         
         if(i==2)
         {
-            _cityField = [UIButton buttonWithType:UIButtonTypeCustom];
-            _cityField.frame = CGRectMake(190+(wide/2-40)*row,  height*70+topSpace + labelHeight * 7,280, 40);
+            sexBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+            sexBtn.frame = CGRectMake(190+(wide/2-40)*row,  height*70+topSpace + labelHeight * 7,280, 40);
             NSString *accountname=[NSString stringWithFormat:@"%@",[_infoDict objectForKey:[keynamesarry objectAtIndex:i]]];
             
             if([accountname isEqualToString:@"0"])
             {
-                [_cityField setTitle:@"女" forState:UIControlStateNormal];
+                [sexBtn setTitle:@"女" forState:UIControlStateNormal];
                 
                 
             }else if([accountname isEqualToString:@"1"])
             {
-                [_cityField setTitle:@"男" forState:UIControlStateNormal];
+                [sexBtn setTitle:@"男" forState:UIControlStateNormal];
         
             }
             
-            [_cityField setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-            _cityField.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
-            [_cityField setImage:kImageName(@"arrow_line1") forState:UIControlStateNormal];
-            _cityField.layer.masksToBounds=YES;
-            _cityField.layer.borderWidth=1.0;
-            _cityField.layer.borderColor=[UIColor grayColor].CGColor;
-            _cityField.contentEdgeInsets = UIEdgeInsetsMake(0,-40, 0, 0);
-            _cityField.imageEdgeInsets = UIEdgeInsetsMake(0,270,0,0);
+            [sexBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+            sexBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
+            [sexBtn setImage:kImageName(@"arrow_line1") forState:UIControlStateNormal];
+            sexBtn.layer.masksToBounds=YES;
+            sexBtn.layer.borderWidth=1.0;
+            sexBtn.layer.borderColor=[UIColor grayColor].CGColor;
+            sexBtn.contentEdgeInsets = UIEdgeInsetsMake(0,-40, 0, 0);
+            sexBtn.imageEdgeInsets = UIEdgeInsetsMake(0,270,0,0);
             
-            [_cityField addTarget:self action:@selector(sexclick) forControlEvents:UIControlEventTouchUpInside];
-            [_scrollView addSubview:_cityField];
+            [sexBtn addTarget:self action:@selector(sexclick) forControlEvents:UIControlEventTouchUpInside];
+            [_scrollView addSubview:sexBtn];
         }
         else if(i==3)
         {
@@ -454,7 +529,7 @@
             [locationbutton addTarget:self action:@selector(locationbuttonclick) forControlEvents:UIControlEventTouchUpInside];
             [_scrollView addSubview:locationbutton];
         }
-        else if(i==8)
+        else if(i==9)
         {
             bankNameBtn = [UIButton buttonWithType:UIButtonTypeCustom];
             bankNameBtn.frame = CGRectMake(190+(wide/2-40)*row,  height*70+topSpace + labelHeight * 7,280, 40);
@@ -475,6 +550,7 @@
             [bankNameBtn addTarget:self action:@selector(bankNameBtnclick) forControlEvents:UIControlEventTouchUpInside];
             [_scrollView addSubview:bankNameBtn];
         }
+        /*
         else if (i==9)
         {
              bankIdTF=[[UITextField alloc]initWithFrame:CGRectMake(190+(wide/2-40)*row,  height*70+topSpace + labelHeight * 7,280, 40)];
@@ -493,7 +569,7 @@
              bankIdTF.layer.borderColor=[UIColor grayColor].CGColor;
             
         }
-        
+        */
         else if(i==11)
         {
             zhifubutton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -557,219 +633,158 @@
     UILabel *twoline = [[UILabel alloc] initWithFrame:CGRectMake(borderSpace+18,  4*70+topSpace + labelHeight *5+10, wide - 138, 1)];
     twoline.backgroundColor = [UIColor grayColor];
     [_scrollView addSubview:twoline];
-    UILabel*threeline = [[UILabel alloc] initWithFrame:CGRectMake(borderSpace+18,  670, wide - 138, 1)];
+    
+    UILabel *threeline = [[UILabel alloc] initWithFrame:CGRectMake(borderSpace+18,  670+80, wide - 138, 1)];
     threeline.backgroundColor = [UIColor grayColor];
     [_scrollView addSubview:threeline];
+    
     NSInteger imageint;
     imageint=0;
+    NSInteger imagerow;
+    NSInteger imageheight;
+    
+    NSInteger textCount;
+    textCount=0;
+    NSInteger textrow;
+    NSInteger textheight = 0 ;
+    
+    NSMutableArray *textArray=[[NSMutableArray alloc] initWithCapacity:0];
+    NSMutableArray *imageArray=[[NSMutableArray alloc] initWithCapacity:0];
     
     for(int i=0;i<_applyData.materialList.count;i++)
     {
-        
-        NSInteger row;
-        row=i%2;
-        NSInteger height;
-        
-        height=i/2;
+       
         MaterialModel *model = [_applyData.materialList objectAtIndex:i];
+        //下拉列表
+        if (model.materialType == MaterialList||model.materialType==MaterialText) {
+            
+            [textArray addObject:model];
+            
+        }
+        else if (model.materialType == MaterialImage) {
+            //图片
+            [imageArray addObject:model];
+
+     }
+    }
+    
+    for(int i=0;i<textArray.count;i++)
+    {
+        MaterialModel *model = [textArray objectAtIndex:i];
+       
+        textrow =i%2;
+        textheight = i/2;
+        
         if (model.materialType == MaterialList) {
             
-            NSInteger lastheight;
-            lastheight=_applyData.materialList.count-2;
-            if(lastheight%3==0)
-            {
-                lastheight=_applyData.materialList.count/3;
-                
-            }
-            else
-            {
-                
-                lastheight=_applyData.materialList.count/3+1;
-                
-            }
-            //选项 银行
-            UILabel *newaddress=[[UILabel alloc]initWithFrame:CGRectMake(40, 710+lastheight*70,140, 40)];
-            [_scrollView addSubview:newaddress];
-            newaddress.textAlignment = NSTextAlignmentCenter;
-            newaddress.font=[UIFont systemFontOfSize:18];
+            UILabel *listLB=[[UILabel alloc]initWithFrame:CGRectMake(40+(wide/2-40)*textrow,80+710+ textheight*70,140, 40)];
+            [_scrollView addSubview:listLB];
+            listLB.textAlignment = NSTextAlignmentCenter;
+            listLB.font=[UIFont systemFontOfSize:18];
+            listLB.text=model.materialName;
             
-            newaddress.text=model.materialName;
-            
-            
-            bankbutton = [UIButton buttonWithType:UIButtonTypeCustom];
-            bankbutton.frame = CGRectMake(wide/2-40-280,710+lastheight*70 ,280, 40);
-           // NSString *bankCode = [self getApplyValueForKey:model.materialID];
-           // [bankbutton setTitle:[self getBankNameWithBankCode:bankCode] forState:UIControlStateNormal];
-            // [_cityField setTitle:@"123" forState:UIControlStateNormal];
-            [bankbutton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-            bankbutton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
-            [bankbutton setImage:kImageName(@"arrow_line") forState:UIControlStateNormal];
-            bankbutton.layer.masksToBounds=YES;
-            bankbutton.layer.borderWidth=1.0;
-            bankbutton.layer.borderColor=[UIColor grayColor].CGColor;
-            bankbutton.contentEdgeInsets = UIEdgeInsetsMake(0,10, 0, 0);
-            bankbutton.imageEdgeInsets = UIEdgeInsetsMake(0,220,0,0);
-            bankbutton.tag=[model.materialID integerValue];
-            
-            [bankbutton addTarget:self action:@selector(bankclick:) forControlEvents:UIControlEventTouchUpInside];
-            [_scrollView addSubview:bankbutton];
-            
-            
+            UIButton *listBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+            listBtn.frame = CGRectMake(190+(wide/2-40)*textrow,80+ 710+ textheight*70,280, 40);
+            [listBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+            listBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
+            [listBtn setImage:kImageName(@"arrow_line") forState:UIControlStateNormal];
+            listBtn.layer.masksToBounds=YES;
+            listBtn.layer.borderWidth=1.0;
+            listBtn.layer.borderColor=[UIColor grayColor].CGColor;
+            listBtn.contentEdgeInsets = UIEdgeInsetsMake(0,10, 0, 0);
+            listBtn.imageEdgeInsets = UIEdgeInsetsMake(0,220,0,0);
+            listBtn.tag=[model.materialID integerValue];
+            [listBtn addTarget:self action:@selector(bankclick:) forControlEvents:UIControlEventTouchUpInside];
+            [_scrollView addSubview:listBtn];
         }
         else if (model.materialType == MaterialText)
         {
+            //文本
+            UILabel *textLB=[[UILabel alloc]initWithFrame:CGRectMake(40+(wide/2-40)*textrow,80+710+ textheight*70,140, 40)];
+           
+            [_scrollView addSubview:textLB];
+            textLB.textAlignment = NSTextAlignmentCenter;
+            textLB.font=[UIFont systemFontOfSize:18];
+            textLB.text=model.materialName;
             
-            NSMutableArray *typeArry=[[NSMutableArray alloc]initWithCapacity:0];
-            NSMutableArray *MaterialTexttypeArry=[[NSMutableArray alloc]initWithCapacity:0];
-            
-            for(int i=0;i<_applyData.materialList.count;i++)
-                
-                
-            {
-                MaterialModel *model = [_applyData.materialList objectAtIndex:i];
-                
-                [typeArry addObject:[NSString stringWithFormat:@"%u",model.materialType] ];
-                
-                if(model.materialType==MaterialText)
-                {
-                    
-                    [MaterialTexttypeArry addObject:model ];
-                    
-                    
-                }
-                
-            }
-            
-            if ([typeArry containsObject: @"3"])
-            {
-                
-                NSInteger lastheight;
-                lastheight=_applyData.materialList.count-2;
-                if(lastheight%3==0)
-                {
-                    lastheight=_applyData.materialList.count/3;
-                    
-                }
-                else
-                {
-                    
-                    lastheight=_applyData.materialList.count/3+1;
-                    
-                }
-                for(int i=1;i<MaterialTexttypeArry.count+1;i++)
-                    
-                {
-                    NSInteger LR=i%2;
-                    MaterialModel *model = [MaterialTexttypeArry objectAtIndex:i-1];
-                    
-                    //文字
-                    UILabel*newaddress=[[UILabel alloc]initWithFrame:CGRectMake(wide/2*LR, 700+lastheight*70+i/2*50+10,140, 40)];
-                    [_scrollView addSubview:newaddress];
-                    newaddress.textAlignment = NSTextAlignmentCenter;
-                    newaddress.font=[UIFont systemFontOfSize:18];
-                    
-                    newaddress.text=model.materialName;
-                    UITextField*neworiginaltextfield=[[UITextField alloc]initWithFrame:CGRectMake(wide/2*LR+150,700+lastheight*70+i/2*50+10,280, 40)];
-                    neworiginaltextfield.tag=i+1056;
-                    
-                    [_scrollView addSubview:neworiginaltextfield];
-                    //neworiginaltextfield.delegate=self;
-                    neworiginaltextfield.layer.masksToBounds=YES;
-                    neworiginaltextfield.layer.borderWidth=1.0;
-                    neworiginaltextfield.layer.borderColor=[UIColor grayColor].CGColor;
-                    
-                }
-                
-            }
-            else
-            {
-                
-                NSInteger lastheight;
-                lastheight=_applyData.materialList.count-2;
-                if(lastheight%3==0)
-                {
-                    lastheight=_applyData.materialList.count/3;
-                    
-                }
-                else
-                {
-                    
-                    lastheight=_applyData.materialList.count/3+1;
-                    
-                }
-                for(int i=0;i<MaterialTexttypeArry.count;i++)
-                    
-                {
-                    
-                    
-                    NSInteger LR=i%2;
-                    MaterialModel *model = [MaterialTexttypeArry objectAtIndex:i];
-                    
-                    //文字
-                    UILabel*newaddress=[[UILabel alloc]initWithFrame:CGRectMake(40+wide/2*LR, 700+lastheight*70+i/2*50+10,140, 40)];
-                    [_scrollView addSubview:newaddress];
-                    newaddress.textAlignment = NSTextAlignmentCenter;
-                    newaddress.font=[UIFont systemFontOfSize:18];
-                    
-                    newaddress.text=model.materialName;
-                    UITextField*neworiginaltextfield=[[UITextField alloc]initWithFrame:CGRectMake(wide/2*LR+190,700+lastheight*70+i/2*50+10,280, 40)];
-                    neworiginaltextfield.tag=i+1056;
-                    
-                    [_scrollView addSubview:neworiginaltextfield];
-                    //neworiginaltextfield.delegate=self;
-                    neworiginaltextfield.layer.masksToBounds=YES;
-                    neworiginaltextfield.layer.borderWidth=1.0;
-                    neworiginaltextfield.layer.borderColor=[UIColor grayColor].CGColor;
-                    
-                }
-            }
+            UITextField *textTF=[[UITextField alloc] init];
+            textTF.frame=CGRectMake(190+(wide/2-40)*textrow, 80+710+ textheight*70,280, 40);
+            textTF.tag=i+1056;
+            [_scrollView addSubview:textTF];
+            textTF.delegate=self;
+            textTF.layer.masksToBounds=YES;
+            textTF.layer.borderWidth=1.0;
+            textTF.layer.borderColor=[UIColor grayColor].CGColor;
         }
-        else if (model.materialType == MaterialImage) {
-            NSInteger row;
-            row=imageint%3;
-            NSInteger heightlk;
+       
+    }
+   
+    NSInteger textH=0;
+    if (textArray.count%2==0) {
+        textH=textArray.count/2;
+    }
+    else
+    {
+    textH=textArray.count/2+1;
+    }
+    for(int i=0;i<imageArray.count;i++)
+    {
+        MaterialModel *model = [imageArray objectAtIndex:i];
+        imagerow =i%2;
+        imageheight = i/2;
+        
+        UILabel *imageLB=[[UILabel alloc]initWithFrame:CGRectMake(40+(wide/2-40)*imagerow,80+710+ imageheight*70+textH*70,250, 40)];
+        [_scrollView addSubview:imageLB];
+        imageLB.textAlignment = NSTextAlignmentCenter;
+        imageLB.font=[UIFont systemFontOfSize:18];
+        imageLB.text=model.materialName;
+        
+        UIButton *imageBtn= [UIButton buttonWithType:UIButtonTypeCustom];
+        imageBtn.frame=CGRectMake(300+(wide/2-40)*imagerow, 80+710+ imageheight*70+textH*70,170, 40);
+        imageBtn.titleLabel.font = [UIFont systemFontOfSize:16.f];
+        [imageBtn addTarget:self action:@selector(imageclick:) forControlEvents:UIControlEventTouchUpInside];
+        imageBtn.tag=[model.materialID integerValue];
+        [self getApplyValueForKey:model.materialID];
+        if ([_infoDict objectForKey:model.materialID] && ![[_infoDict objectForKey:model.materialID] isEqualToString:@""])
+        {    [imageBtn setImage:[UIImage imageNamed:@"haveImage.png"] forState:UIControlStateNormal];
             
-            heightlk=imageint/3;
-            UILabel*newaddress=[[UILabel alloc]initWithFrame:CGRectMake(40+(wide-80)/3*row, 700+heightlk*70,(wide-80)/3-142, 40)];
-            [_scrollView addSubview:newaddress];
-            newaddress.textAlignment = NSTextAlignmentLeft;
-            newaddress.font=[UIFont systemFontOfSize:18];
-            
-            newaddress.text=model.materialName;
-            UIButton*imagebutton= [UIButton buttonWithType:UIButtonTypeCustom];
-            imagebutton.frame=CGRectMake(40+(wide-80)/3*row+(wide-80)/3-142, 700+heightlk*70,100, 40);
-            imagebutton.titleLabel.font = [UIFont systemFontOfSize:16.f];
-            [imagebutton addTarget:self action:@selector(imageclick:) forControlEvents:UIControlEventTouchUpInside];
-            imagebutton.tag=[model.materialID integerValue];
-            [self getApplyValueForKey:model.materialID];
-            if ([_infoDict objectForKey:model.materialID] && ![[_infoDict objectForKey:model.materialID] isEqualToString:@""])
-            {    [imagebutton setImage:[UIImage imageNamed:@"haveImage.png"] forState:UIControlStateNormal];
-                
-            }
-            else {
-                [imagebutton setTitle:@"上传图片" forState:UIControlStateNormal];
-                imagebutton.backgroundColor=[UIColor colorWithHexString:@"006fd5"];
-                
-            }
-            
-            [_scrollView addSubview:imagebutton];
-            
-            imageint++;
+        }
+        else {
+            [imageBtn setTitle:@"上传图片" forState:UIControlStateNormal];
+            imageBtn.backgroundColor=[UIColor colorWithHexString:@"006fd5"];
             
         }
         
+        [_scrollView addSubview:imageBtn];
+       
+     }
+    
+    NSInteger imageH = 0;
+    if (imageArray.count%2==0) {
+        imageH=imageArray.count/2;
+    }
+    else
+    {
+       imageH=imageArray.count/2+1;
+    }
+    if (textArray.count>0||imageArray.count>0) {
+        UILabel *fourline = [[UILabel alloc] initWithFrame:CGRectMake(borderSpace+18, 80+ 710+ imageH*70+textH*70, wide - 138, 1)];
+        fourline.backgroundColor = [UIColor grayColor];
+        [_scrollView addSubview:fourline];
         
     }
+
     
     UIButton *submitBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    submitBtn.frame = CGRectMake(80, 700+lastheightY*70+80, 160, 40);
-    submitBtn.center=CGPointMake(wide/2, 700+lastheightY*70+150);
+    //submitBtn.frame = CGRectMake(80,80+ 700+lastheightY*70+80, 160, 40);
+    //submitBtn.center=CGPointMake(wide/2, 700+lastheightY*70+150);
+    submitBtn.frame = CGRectMake(80,80+ 700+(textH +imageH)*70+80, 160, 40);
+    submitBtn.center=CGPointMake(wide/2, 700+(textH +imageH)*70+150);
     submitBtn.titleLabel.font = [UIFont systemFontOfSize:16.f];
     [submitBtn setTitle:@"提交" forState:UIControlStateNormal];
     submitBtn.backgroundColor=[UIColor colorWithHexString:@"006fd5"];
     [submitBtn addTarget:self action:@selector(submitApply:) forControlEvents:UIControlEventTouchUpInside];
     [_scrollView addSubview:submitBtn];
-    
     _scrollView.userInteractionEnabled=YES;
     
     return _scrollView;
@@ -794,7 +809,7 @@
 
 -(void)zhifuclick
 {
-    [_terminalTableView removeFromSuperview];
+    [_sexTableView removeFromSuperview];
     [datePicker removeFromSuperview];
     [makeSureBtn removeFromSuperview];
     
@@ -817,7 +832,7 @@
 
 -(void)locationbuttonclick
 {
-    [_terminalTableView removeFromSuperview];
+    [_sexTableView removeFromSuperview];
     [datePicker removeFromSuperview];
     [makeSureBtn removeFromSuperview];
     sexint=101;
@@ -830,19 +845,19 @@
 
 -(void)birthdaybuttonclick
 {
-    [_terminalTableView removeFromSuperview];
+    [_sexTableView removeFromSuperview];
     [self setupStartDate ];
     
     
 }
-//性别
 
+//性别
 -(void)sexclick
 {
     [datePicker removeFromSuperview];
     [makeSureBtn removeFromSuperview];
     sexint=102;
-    [self setupTerminalTableView];
+    [self setupsexTableView];
     
 }
 
@@ -868,65 +883,6 @@
     [self.navigationController pushViewController:BnakSC animated:YES];
 }
 
-
--(void)setupHeaderView
-{
-    //创建头部View
-    UIView *headerView = [[UIView alloc]init];
-    headerView.backgroundColor = kColor(226, 226, 226, 1.0);
-    headerView.frame = CGRectMake(0, 0, SCREEN_WIDTH, 80);
-    if (iOS7) {
-        headerView.frame = CGRectMake(0, 0, SCREEN_HEIGHT, 80);
-    }
-    //创建头部按钮
-    UIButton *publicBtn = [[UIButton alloc]init];
-    self.isChecked = YES;
-    self.publickBtn = publicBtn;
-    [publicBtn addTarget:self action:@selector(publicClicked) forControlEvents:UIControlEventTouchUpInside];
-    publicBtn.backgroundColor = [UIColor clearColor];
-    [publicBtn setBackgroundImage:[UIImage imageNamed:@"chose_Btn"] forState:UIControlStateNormal];
-    publicBtn.titleLabel.font = [UIFont systemFontOfSize:22];
-    [publicBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    [publicBtn setTitle:@"对公" forState:UIControlStateNormal];
-    publicBtn.frame = CGRectMake(headerView.frame.size.width * 0.4 , 40, 140, 40);
-    self.privateY = 40;
-    self.publicX = headerView.frame.size.width * 0.4;
-    [headerView addSubview:publicBtn];
-    
-    UIButton *privateBtn = [[UIButton alloc]init];
-    self.privateBtn = privateBtn;
-    [privateBtn addTarget:self action:@selector(privateClicked) forControlEvents:UIControlEventTouchUpInside];
-    privateBtn.backgroundColor = [UIColor clearColor];
-    privateBtn.titleLabel.font = [UIFont systemFontOfSize:20];
-    [privateBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    [privateBtn setTitle:@"对私" forState:UIControlStateNormal];
-    privateBtn.frame = CGRectMake(CGRectGetMaxX(publicBtn.frame), 44, 120, 36);
-    self.privateX = CGRectGetMaxX(publicBtn.frame);
-    [headerView addSubview:privateBtn];
-    if(_applyType==OpenApplyPublic)
-    {
-        [_publickBtn setBackgroundImage:[UIImage imageNamed:@"chose_Btn"] forState:UIControlStateNormal];
-        _publickBtn.titleLabel.font = [UIFont systemFontOfSize:22];
-        _publickBtn.frame = CGRectMake(_publicX, _privateY, 140, 40);
-        
-        [_privateBtn setBackgroundImage:nil forState:UIControlStateNormal];
-        _privateBtn.titleLabel.font = [UIFont systemFontOfSize:20];
-        _privateBtn.frame = CGRectMake(_privateX + 10, _privateY, 120, 36);
-    }else
-    {
-        [_privateBtn setBackgroundImage:[UIImage imageNamed:@"chose_Btn"] forState:UIControlStateNormal];
-        _privateBtn.titleLabel.font = [UIFont systemFontOfSize:22];
-        _privateBtn.frame = CGRectMake(_privateX, _privateY, 140, 40);
-        
-        [_publickBtn setBackgroundImage:nil forState:UIControlStateNormal];
-        _publickBtn.titleLabel.font = [UIFont systemFontOfSize:20];
-        _publickBtn.frame = CGRectMake(_publicX + 10, _privateY, 120, 36);
-        
-    }
-    
-    
-    [self.view addSubview:headerView];
-}
 
 #pragma mark - Request
 
@@ -962,7 +918,7 @@
 
 - (void)initAndLayoutUI {
     [self setupNavBar];
-    [self setupHeaderView];
+    //[self setupHeaderView];
    
 }
 
@@ -1150,6 +1106,9 @@
     if (_applyData.cityID) {
         [_infoDict setObject:_applyData.cityID forKey:key_location];
     }
+    if (_applyData.bankAccountName) {
+        [_infoDict setObject:_applyData.bankAccountName forKey:key_bankAccountName];
+    }
     if (_applyData.bankName) {
         [_infoDict setObject:_applyData.bankName forKey:key_bank];
     }
@@ -1180,7 +1139,7 @@
             [_infoDict setObject:model.value forKey:model.targetID];
         }
     }
-    [self.tableView reloadData];
+    [_tableView reloadData];
     
 }
 
@@ -1386,18 +1345,19 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     
     
-    if(tableView==_terminalTableView)
+    if(tableView==_sexTableView)
     {
         if(sexint==102)
         {
             return 2;
         }
-        
+        /*
         else
         {
             NSLog(@"count%lu",(unsigned long)_applyData.merchantList.count);
             return _applyData.merchantList.count;
         }
+         */
     }
     
     return 0;
@@ -1415,7 +1375,7 @@
     {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier] ;
     }
-    if(tableView==_terminalTableView)
+    if(tableView==_sexTableView)
     {
         NSLog(@"%@",_applyData.merchantList);
         NSArray*arry=[NSArray arrayWithObjects:@"女", @"男",nil];
@@ -1426,20 +1386,22 @@
             
             cell.backgroundColor = kColor(214, 214, 214, 1.0);
             
-        }else
+        }
+        /*
+        else
         {
             MerchantModel *model = [_applyData.merchantList objectAtIndex:indexPath.row];
             cell.textLabel.text = model.merchantName;
             cell.backgroundColor = kColor(214, 214, 214, 1.0);
         }
-        
+        */
     }
     
     return cell;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    if(tableView==_terminalTableView)
+    if(tableView==_sexTableView)
     {
         return 0;
         
@@ -1448,16 +1410,16 @@
     {
         
         NSInteger lastheightY;
-        lastheightY=_applyData.materialList.count-2;
-        if(lastheightY%3==0)
+        //lastheightY=_applyData.materialList.count-2;
+        if(lastheightY%2==0)
         {
-            lastheightY=_applyData.materialList.count/3;
+            lastheightY=_applyData.materialList.count/2;
             
         }
         else
         {
             
-            lastheightY=_applyData.materialList.count/3+1;
+            lastheightY=_applyData.materialList.count/2+1;
             
         }
         
@@ -1532,8 +1494,8 @@
 
 
 - (void)submitApply:(id)sender {
-    [_tempField becomeFirstResponder];
-    [_tempField resignFirstResponder];
+    //[_tempField becomeFirstResponder];
+   // [_tempField resignFirstResponder];
     if (![_infoDict objectForKey:key_name]) {
         MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
         hud.customView = [[UIImageView alloc] init];
@@ -1607,6 +1569,14 @@
         hud.labelText = @"请选择所在地";
         return;
     }
+    if (![_infoDict objectForKey:key_bankAccountName]) {
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:1.f];
+        hud.labelText = @"请填写结算银行账户名";
+        return;
+    }
     if (![_infoDict objectForKey:key_bank]) {
         MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
         hud.customView = [[UIImageView alloc] init];
@@ -1615,6 +1585,7 @@
         hud.labelText = @"请填写结算银行名称";
         return;
     }
+    /*
     if (![_infoDict objectForKey:key_bankID]) {
         MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
         hud.customView = [[UIImageView alloc] init];
@@ -1623,6 +1594,7 @@
         hud.labelText = @"请填写结算银行代码";
         return;
     }
+     */
     if (![_infoDict objectForKey:key_bankAccount]) {
         MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
         hud.customView = [[UIImageView alloc] init];
@@ -1724,7 +1696,7 @@
     //[self pickerScrollOut];
     [makeSureBtn removeFromSuperview];
     [datePicker removeFromSuperview];
-    [_terminalTableView removeFromSuperview];
+    [_sexTableView removeFromSuperview];
    
 }
 
@@ -1734,7 +1706,6 @@
     [_infoDict setObject:textField.text forKey:[keynamesarry objectAtIndex:textField.tag-1056]];
     }
    
-    
 }
 
 
@@ -1775,12 +1746,11 @@
 
 #pragma mark - ChannelSelectedDelegate
 - (void)getSelectedBank:(BankModel *)model {
-    NSLog(@"yinhang");
     if (model) {
          NSLog(@"model:%@",model);
         NSLog(@"model.bank:%@",model.bankName);
     [bankNameBtn setTitle:[NSString stringWithFormat:@"%@",model.bankName] forState:UIControlStateNormal];
-    bankIdTF.text=model.bankCode;
+   // bankIdTF.text=model.bankCode;
 
 
         [_infoDict setObject:model.bankCode forKey:@"key_bankID"];
@@ -1873,31 +1843,7 @@
 
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
     [_pickerView reloadComponent:1];
-    /*
-    if (sexint==101) {
-        [_pickerView reloadComponent:1];
-        
-    }
-    else{
-        if (component == 0) {
-            //
-            
-            [_pickerView selectRow:0 inComponent:1 animated:NO];
-            [_pickerView reloadComponent:1];
-            ChannelListModel *model=[_channelItems objectAtIndex:row];
-            _masterChannel =model.channelName;
-            _channelID=model.channelID;
-            
-        }else
-        {
-            if ([_cityArray count] > 0){
-                BillingModel *billModel=[_cityArray objectAtIndex:row];
-                _branchChannel=billModel.billName;
-                _billID=billModel.billID;
-            }
-        }
-    }
-     */
+
 }
 
  
