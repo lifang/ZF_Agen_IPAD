@@ -1620,7 +1620,7 @@ static NSString *HTTP_GET  = @"GET";
         [paramDict setObject:[NSNumber numberWithInt:[toAgentID intValue]] forKey:@"toAgentId"];
     }
     if (terminalList) {
-        [paramDict setObject:terminalList forKey:@"serial_nums"];
+        [paramDict setObject:terminalList forKey:@"serialNums"];
     }
     //url
     NSString *urlString = [NSString stringWithFormat:@"%@/%@",kServiceURL,s_transferGood_method];
@@ -2589,9 +2589,11 @@ static NSString *HTTP_GET  = @"GET";
                               finished:(requestDidFinished)finish {
     //url
     NSString *urlString = [NSString stringWithFormat:@"%@/%@/%@",kServiceURL,s_subAgentUpload_method,agentID];
+    
     NetworkRequest *request = [[NetworkRequest alloc] initWithRequestURL:urlString
                                                               httpMethod:HTTP_POST
                                                                 finished:finish];
+    
     [request uploadImageData:UIImagePNGRepresentation(image)
                    imageName:nil
                          key:@"img"];

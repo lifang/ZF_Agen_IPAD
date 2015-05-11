@@ -720,7 +720,7 @@
         if(_supplyType==SupplyGoodsWholesale)
         {
             cell.salesVolumeLabel.text = [NSString stringWithFormat:@"已售%d",good.goodSaleNumbers];
-            cell.priceLabel.text = [NSString stringWithFormat:@"%.2f",good.goodWholesalePrice];
+            cell.priceLabel.text = [NSString stringWithFormat:@"￥%.2f",good.goodWholesalePrice];
 
         }else
         {
