@@ -247,7 +247,8 @@
         return;
     }
     
-    _MerchantList = [[dict objectForKey:@"result"] objectForKey:@"terminalList"];
+   // _MerchantList = [[dict objectForKey:@"result"] objectForKey:@"terminalList"];
+    _MerchantList = [[dict objectForKey:@"result"] objectForKey:@"merchaneList"];
     for (int i = 0; i < [_MerchantList count]; i++) {
         MerchantModel *model = [[MerchantModel alloc] initWithParseDictionary:[_MerchantList objectAtIndex:i]];
         [_MerchantItems addObject:model];
