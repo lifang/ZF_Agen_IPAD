@@ -109,8 +109,8 @@
             if ([primaryDict objectForKey:@"city_id"]) {
                 _cityID = [NSString stringWithFormat:@"%@",[primaryDict objectForKey:@"city_id"]];
             }
-            if ([primaryDict objectForKey:@"account_bank_name"]) {
-                _bankName = [NSString stringWithFormat:@"%@",[primaryDict objectForKey:@"account_bank_name"]];
+            if ([primaryDict objectForKey:@"bank_name"]) {
+                _bankName = [NSString stringWithFormat:@"%@",[primaryDict objectForKey:@"bank_name"]];
             }
             if ([primaryDict objectForKey:@"account_bank_name"]) {
                 _bankAccountName = [NSString stringWithFormat:@"%@",[primaryDict objectForKey:@"account_bank_name"]];

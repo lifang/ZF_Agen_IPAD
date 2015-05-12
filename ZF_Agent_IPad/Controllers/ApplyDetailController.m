@@ -1199,7 +1199,7 @@
 - (void)uploadPictureWithImage:(UIImage *)image {
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
     hud.labelText = @"上传中...";
-    [NetworkInterface uploadImageWithImage:image finished:^(BOOL success, NSData *response) {
+    [NetworkInterface uploadImageWithImage:image terminalId:_terminalID finished:^(BOOL success, NSData *response) {
         NSLog(@"!!!!%@",[[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding]);
         hud.customView = [[UIImageView alloc] init];
         hud.mode = MBProgressHUDModeCustomView;

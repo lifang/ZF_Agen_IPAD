@@ -11,7 +11,7 @@
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
 		<key>4224496B086349B23885EE3E99E2DBF733E39B9D</key>
-		<string>https://github.com/lifang/ZF_Agent_IPAD.git</string>
+		<string>github.com:lifang/ZF_Agent_IPAD</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
 	<string>ZF_Agent_IPad.xcodeproj</string>
@@ -21,7 +21,7 @@
 		<string>../..</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
-	<string>https://github.com/lifang/ZF_Agent_IPAD.git</string>
+	<string>github.com:lifang/ZF_Agent_IPAD</string>
 	<key>IDESourceControlProjectVersion</key>
 	<integer>111</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>
@@ -34,7 +34,7 @@
 			<key>IDESourceControlWCCIdentifierKey</key>
 			<string>4224496B086349B23885EE3E99E2DBF733E39B9D</string>
 			<key>IDESourceControlWCCName</key>
-			<string>ZF_Agent_IPAD</string>
+			<string>ZF_Agent_IPad</string>
 		</dict>
 	</array>
 </dict>
