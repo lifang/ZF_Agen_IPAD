@@ -306,10 +306,20 @@
     switch (sender.tag) {
         case 1000: {
             AppDelegate *delegate = [AppDelegate shareAppDelegate];
+            if ([[delegate.authDict objectForKey:[NSNumber numberWithInt:AuthOrder]] boolValue]) {
+                [delegate.rootViewController.homeController setSeletedIndex:1];
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"newrefsh" object:nil];
+            }else
+            {
+                MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+                hud.customView = [[UIImageView alloc] init];
+                hud.mode = MBProgressHUDModeCustomView;
+                [hud hide:YES afterDelay:1.f];
+                hud.labelText = @"您没有订单权限";
 
-            [delegate.rootViewController.homeController setSeletedIndex:1];
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"newrefsh" object:nil];
-                  }
+            }
+            
+          }
             break;
         case 1001: {
             AppDelegate *delegate = [AppDelegate shareAppDelegate];
