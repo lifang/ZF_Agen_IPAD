@@ -96,9 +96,20 @@
 //员工管理
 -(void)applyBtnClick
 {
-    StaffManagerController *staffVC = [[StaffManagerController alloc]init];
-    staffVC.navigationController.navigationBarHidden = YES;
-    [self.navigationController pushViewController:staffVC animated:NO];
+    AppDelegate *delegate = [AppDelegate shareAppDelegate];
+    if ([[delegate.authDict objectForKey:[NSNumber numberWithInt:AuthEA]] boolValue]) {
+        StaffManagerController *staffVC = [[StaffManagerController alloc]init];
+        staffVC.navigationController.navigationBarHidden = YES;
+        [self.navigationController pushViewController:staffVC animated:NO];
+    }
+    else {
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:1.f];
+        hud.labelText = @"您没有查看员工账号权限";
+    }
+    
 }
 
 @end

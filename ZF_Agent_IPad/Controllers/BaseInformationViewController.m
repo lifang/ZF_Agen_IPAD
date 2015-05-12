@@ -23,6 +23,13 @@
 @property(nonatomic,strong)UILabel *firstLabel;
 @property(nonatomic,strong)UILabel *secondLabel;
 @property(nonatomic,strong)UILabel *authCodeLabel;
+//隐藏
+@property(nonatomic,strong)UILabel *companyNameLabel;
+@property(nonatomic,strong)UILabel *companyIDLabel;
+@property(nonatomic,strong)UILabel *companytaxLabel;
+@property(nonatomic,strong)UILabel *posImgLabel;
+@property(nonatomic,strong)UILabel *taxImgLabel;
+//label
 
 @property(nonatomic,strong)UITextField *agentTypeField;
 @property(nonatomic,strong)UITextField *companyNameField;
@@ -44,6 +51,10 @@
 @property(nonatomic,strong)UIButton *businesslicenseImageBtn;
 @property(nonatomic,strong)UIButton *taxregisterImageBtn;
 
+@property(nonatomic,assign)CGFloat contentHeight;
+
+@property(nonatomic,strong)UIView *firstLine;
+@property(nonatomic,strong)UIView *secondLine;
 
 @end
 
@@ -110,12 +121,6 @@
     }];
 }
 
-
--(void)setContentForUI
-{
-    
-}
-
 #pragma mark - UI
 -(void)initAndLayoutUI
 {
@@ -126,9 +131,15 @@
     if (iOS7) {
         _mainScrollView.frame = CGRectMake(160, 0, kScreenHeight - 160, kScreenWidth);
     }
-    _mainScrollView.contentSize = CGSizeMake(kScreenWidth - 160, 1370);
+    
+    if ([_personInfo.type intValue] == AgentTypePerson) {
+        self.contentHeight = 1000;
+    }else{
+        self.contentHeight = 1370;
+    }
+    _mainScrollView.contentSize = CGSizeMake(kScreenWidth - 160, _contentHeight);
     if (iOS7) {
-        _mainScrollView.contentSize = CGSizeMake(kScreenHeight - 160, 1370);
+        _mainScrollView.contentSize = CGSizeMake(kScreenHeight - 160, _contentHeight);
     }
     [self.view addSubview:_mainScrollView];
     
@@ -143,20 +154,25 @@
     companyNameLabel.text = @"公司名称";
     [self setLabel:companyNameLabel withTopView:agentTypeLable middleSpace:mainMargin labelTag:0];
     
-    UILabel *companyBusinesslicenseLabel = [[UILabel alloc]init];
-    companyBusinesslicenseLabel.text = @"公司营业执照登记号";
-    [self setLabel:companyBusinesslicenseLabel withTopView:companyNameLabel middleSpace:mainMargin labelTag:0];
+    _companyIDLabel = [[UILabel alloc]init];
+    _companyIDLabel.text = @"公司营业执照登记号";
+    [self setLabel:_companyIDLabel withTopView:companyNameLabel middleSpace:mainMargin labelTag:0];
     
-    UILabel *companyTaxLabel = [[UILabel alloc]init];
-    companyTaxLabel.text = @"公司税务登记证号";
-    [self setLabel:companyTaxLabel withTopView:companyBusinesslicenseLabel middleSpace:mainMargin labelTag:0];
+    _companytaxLabel = [[UILabel alloc]init];
+    _companytaxLabel.text = @"公司税务登记证号";
+    [self setLabel:_companytaxLabel withTopView:_companyIDLabel middleSpace:mainMargin labelTag:0];
     
-    UIView *firstLine = [[UIView alloc]init];
-    [self setLine:firstLine withTopView:companyTaxLabel middleSpace:60.f];
+    _firstLine = [[UIView alloc]init];
+    //如果是个人 隐藏控件
+    if ([_personInfo.type intValue] == AgentTypePerson) {
+    [self setLine:_firstLine withTopView:agentTypeLable middleSpace:30.f];
+    }else{
+    [self setLine:_firstLine withTopView:_companytaxLabel middleSpace:60.f];
+    }
     
     UILabel *principalNameLabel = [[UILabel alloc]init];
     principalNameLabel.text = @"负责人姓名";
-    [self setLabel:principalNameLabel withTopView:firstLine middleSpace:60.f labelTag:0];
+    [self setLabel:principalNameLabel withTopView:_firstLine middleSpace:60.f labelTag:0];
     
     UILabel *principalIDLabel = [[UILabel alloc]init];
     principalIDLabel.text = @"负责人身份证号";
@@ -176,27 +192,31 @@
     [self setLabel:locationLabel withTopView:authCodeFieldLabel middleSpace:mainMargin labelTag:0];
     
     UILabel *particularLocationLabel = [[UILabel alloc]init];
-    particularLocationLabel.hidden = YES;
     particularLocationLabel.text = @"详细地址";
     [self setLabel:particularLocationLabel withTopView:locationLabel middleSpace:mainMargin labelTag:0];
     
-    UIView *secondLine = [[UIView alloc]init];
-    [self setLine:secondLine withTopView:particularLocationLabel middleSpace:40.f];
+    _secondLine = [[UIView alloc]init];
+    _secondLine.tag = 222222;
+    [self setLine:_secondLine withTopView:particularLocationLabel middleSpace:40.f];
     
     UILabel *idCardImageLabel = [[UILabel alloc]init];
     idCardImageLabel.text = @"身份证照片";
-    [self setLabel:idCardImageLabel withTopView:secondLine middleSpace:40.f labelTag:0];
+    [self setLabel:idCardImageLabel withTopView:_secondLine middleSpace:40.f labelTag:0];
     
-    UILabel *businesslicenseImageLabel = [[UILabel alloc]init];
-    businesslicenseImageLabel.text = @"营业执照照片";
-    [self setLabel:businesslicenseImageLabel withTopView:idCardImageLabel middleSpace:mainMargin labelTag:0];
+    _posImgLabel = [[UILabel alloc]init];
+    _posImgLabel.text = @"营业执照照片";
+    [self setLabel:_posImgLabel withTopView:idCardImageLabel middleSpace:mainMargin labelTag:0];
     
-    UILabel *taxregisterImageLabel = [[UILabel alloc]init];
-    taxregisterImageLabel.text = @"税务登记照片";
-    [self setLabel:taxregisterImageLabel withTopView:businesslicenseImageLabel middleSpace:mainMargin labelTag:0];
+    _taxImgLabel = [[UILabel alloc]init];
+    _taxImgLabel.text = @"税务登记照片";
+    [self setLabel:_taxImgLabel withTopView:_posImgLabel middleSpace:mainMargin labelTag:0];
     
     UIView *thirdLine = [[UIView alloc]init];
-    [self setLine:thirdLine withTopView:taxregisterImageLabel middleSpace:40.f];
+    if ([_personInfo.type intValue] == AgentTypePerson) {
+        [self setLine:thirdLine withTopView:idCardImageLabel middleSpace:40.f];
+    }else{
+        [self setLine:thirdLine withTopView:_taxImgLabel middleSpace:40.f];
+    }
     
     UILabel *loginIDLabel = [[UILabel alloc]init];
     loginIDLabel.text = @"登录ID";
@@ -231,7 +251,7 @@
     
     _principalNameField = [[UITextField alloc]init];
     _principalNameField.text = _personInfo.personName;
-    [self setField:_principalNameField withTopView:firstLine middleSpace:60.f fieldTag:0];
+    [self setField:_principalNameField withTopView:_firstLine middleSpace:60.f fieldTag:0];
     
     _principalCardField = [[UITextField alloc]init];
     _principalCardField.text = _personInfo.personCardID;
@@ -271,7 +291,7 @@
     
     _IdCardNumImageBtn = [[UIButton alloc]init];
     [_IdCardNumImageBtn setTitle:@"上传图片" forState:UIControlStateNormal];
-    [self setBtn:_IdCardNumImageBtn withTopView:secondLine middleSpace:40.f buttonTag:3];
+    [self setBtn:_IdCardNumImageBtn withTopView:_secondLine middleSpace:40.f buttonTag:3];
     
     _businesslicenseImageBtn = [[UIButton alloc]init];
     [_businesslicenseImageBtn setTitle:@"上传图片" forState:UIControlStateNormal];
@@ -330,8 +350,29 @@
                                                            constant:40.f]];
     
     [self.view bringSubviewToFront:self.swithView];
-
+    
+    //如果是个人 隐藏控件
+    if ([_personInfo.type intValue] == AgentTypePerson) {
+        _firstLabel.hidden = YES;
+        _agentTypeField.text = nil;
+        _agentTypeField.text = @"个人";
+        _taxImgLabel.hidden = YES;
+        _companytaxLabel.hidden = YES;
+        _companyNameLabel.hidden = YES;
+        _companyIDLabel.hidden = YES;
+        _posImgLabel.hidden = YES;
+        _taxImgLabel.hidden = YES;
+        _companyNameField.text = nil;
+        _companyNameField.hidden = YES;
+        _companyBusinesslicenseField.text = nil;
+        _companyBusinesslicenseField.hidden = YES;
+        _companyTaxField.text = nil;
+        _companyTaxField.hidden = YES;
+        _businesslicenseImageBtn.hidden = YES;
+        _taxregisterImageBtn.hidden = YES;
+    }
 }
+
 //创建各种Btn
 //topView-上方控件
 //space-距上方间距
@@ -604,7 +645,7 @@
     if (iOS7) {
         lineWidth = kScreenHeight - 240.f;
     }
-    CGFloat lineHeight = 0.7f;
+    CGFloat lineHeight = 1.f;
     CGFloat leftSpace = 170.f;
     line.translatesAutoresizingMaskIntoConstraints = NO;
     line.backgroundColor = kColor(221, 220, 220, 1.0);
@@ -630,6 +671,15 @@
                                                           attribute:NSLayoutAttributeNotAnAttribute
                                                          multiplier:1.0
                                                            constant:lineWidth]];
+    if (line.tag == 222222) {
+        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:line
+                                                              attribute:NSLayoutAttributeHeight
+                                                              relatedBy:NSLayoutRelationEqual
+                                                                 toItem:nil
+                                                              attribute:NSLayoutAttributeNotAnAttribute
+                                                             multiplier:1.0
+                                                               constant:1.f]];
+    }else{
     [self.view addConstraint:[NSLayoutConstraint constraintWithItem:line
                                                           attribute:NSLayoutAttributeHeight
                                                           relatedBy:NSLayoutRelationEqual
@@ -637,6 +687,7 @@
                                                           attribute:NSLayoutAttributeNotAnAttribute
                                                          multiplier:1.0
                                                            constant:lineHeight]];
+    }
     
     
 }
@@ -645,8 +696,6 @@
 -(void)presentClick
 {
     //退出按钮
-    AppDelegate *delegate = [AppDelegate shareAppDelegate];
-    [delegate clearLoginInfo];
     UIAlertView *alertV = [[UIAlertView alloc]initWithTitle:nil message:@"确定要退出？" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:@"取消", nil];
     alertV.tag = 8900;
     [alertV show];
@@ -655,6 +704,8 @@
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     if (alertView.tag == 8900&&buttonIndex == 0) {
+        AppDelegate *delegate = [AppDelegate shareAppDelegate];
+        [delegate clearLoginInfo];
         [[AppDelegate shareRootViewController] showLoginViewController];
     }
 }

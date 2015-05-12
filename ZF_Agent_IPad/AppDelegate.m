@@ -78,6 +78,7 @@
                 }
             }
         }
+        NSLog(@"权限字典%@",_authDict);
     }
     else {
         for (int i = 1; i < 11; i++) {

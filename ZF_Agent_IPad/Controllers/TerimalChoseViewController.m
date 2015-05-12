@@ -647,18 +647,21 @@
     hud.labelText = @"加载中...";
     AppDelegate *delegate = [AppDelegate shareAppDelegate];
     
+    NSString*idstring;
+    
     if([self isBlankString:self.posid])
     {
-    
-    
+        
+        idstring=delegate.agentID;
+        
     }else
     {
-    
-        delegate.agentID=self.posid;
         
-    
+        idstring=self.posid;
+        
+        
     }
-    [NetworkInterface getPrepareGoodPOSWithAgentID:delegate.agentID token:delegate.token finished:^(BOOL success, NSData *response) {
+    [NetworkInterface getPrepareGoodPOSWithAgentID:idstring token:delegate.token finished:^(BOOL success, NSData *response) {
         NSLog(@"POS：%@",[[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding]);
         hud.customView = [[UIImageView alloc] init];
         hud.mode = MBProgressHUDModeCustomView;
@@ -694,19 +697,23 @@
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
     hud.labelText = @"加载中...";
     AppDelegate *delegate = [AppDelegate shareAppDelegate];
+    
+    NSString*idstring;
+    
     if([self isBlankString:self.posid])
     {
         
+        idstring=delegate.agentID;
         
     }else
     {
         
-        delegate.agentID=self.posid;
+       idstring=self.posid;
         
         
     }
 
-    [NetworkInterface getPrepareGoodChannelWithAgentID:delegate.agentID token:delegate.token finished:^(BOOL success, NSData *response) {
+    [NetworkInterface getPrepareGoodChannelWithAgentID:idstring token:delegate.token finished:^(BOOL success, NSData *response) {
         NSLog(@"!!!!%@",[[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding]);
         hud.customView = [[UIImageView alloc] init];
         hud.mode = MBProgressHUDModeCustomView;

@@ -376,7 +376,17 @@
     }
     [_shopNameField becomeFirstResponder];
     [_shopNameField resignFirstResponder];
-    [self updateGoodName];
+    AppDelegate *delegate = [AppDelegate shareAppDelegate];
+    if (delegate.userType == UserEmployee || (delegate.userType == UserAgent && delegate.isFirstLevelAgent)) {
+        [self updateGoodName];
+    }else
+    {
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:1.f];
+        hud.labelText = @"没有权限";
+    }
 }
 
 #pragma mark - 修改商户名字 Request

@@ -145,7 +145,7 @@
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
     hud.labelText = @"加载中...";
     AppDelegate *delegate = [AppDelegate shareAppDelegate];
-    [NetworkInterface getStockTerminalWithAgentID:delegate.agentID token:delegate.token channelID:_stockModel.stockChannelID goodID:_stockModel.stockGoodID page:page rows:kPageSize finished:^(BOOL success, NSData *response) {
+    [NetworkInterface getStockTerminalWithAgentID:_stockAgentModel.agentID token:delegate.token channelID:_stockModel.stockChannelID goodID:_stockModel.stockGoodID page:page rows:kPageSize finished:^(BOOL success, NSData *response) {
         hud.customView = [[UIImageView alloc] init];
         hud.mode = MBProgressHUDModeCustomView;
         [hud hide:YES afterDelay:0.3f];

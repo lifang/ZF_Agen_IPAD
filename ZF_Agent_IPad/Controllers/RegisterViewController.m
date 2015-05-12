@@ -83,6 +83,16 @@
 
 @property(nonatomic,strong)UISwitch *fenrunSwitch;
 
+@property(nonatomic,strong)NSLayoutConstraint *lineAttribute;
+@property(nonatomic,strong)NSLayoutConstraint *personLineAttribute;
+@property(nonatomic,strong)NSLayoutConstraint *thirdLineAttribute;
+@property(nonatomic,strong)NSLayoutConstraint *personThirdLineAttribute;
+
+@property(nonatomic,strong)UIView *firstLine;
+@property(nonatomic,strong)UIView *thirdLine;
+
+@property(nonatomic,strong)UILabel *idCardLabel;
+
 @end
 
 @implementation RegisterViewController
@@ -151,6 +161,7 @@
     
 #pragma mark - 开通分润
     _fenrunSwitch = [[UISwitch alloc]init];
+    _fenrunSwitch.hidden = YES;
     _fenrunSwitch.backgroundColor = [UIColor clearColor];
     _fenrunSwitch.onTintColor = kMainColor;
     _fenrunSwitch.translatesAutoresizingMaskIntoConstraints = NO;
@@ -186,6 +197,7 @@
                                                            constant:50]];
     
     UILabel *fenrunLabel = [[UILabel alloc]init];
+    fenrunLabel.hidden = YES;
     fenrunLabel.text = @"开通分润";
     fenrunLabel.textAlignment = NSTextAlignmentRight;
     fenrunLabel.translatesAutoresizingMaskIntoConstraints = NO;
@@ -223,14 +235,13 @@
                                                            constant:40]];
     
 #pragma mark - 创建label
-    UILabel *agentTypeLable = [[UILabel alloc]init];
-    agentTypeLable.text = @"代理商类型";
-    self.firstLabel = agentTypeLable;
-    [self setLabel:agentTypeLable withTopView:_mainScrollView middleSpace:30.f labelTag:1];
+    _firstLabel = [[UILabel alloc]init];
+    _firstLabel.text = @"代理商类型";
+    [self setLabel:_firstLabel withTopView:_mainScrollView middleSpace:30.f labelTag:1];
     
     _companyNameLabel = [[UILabel alloc]init];
     _companyNameLabel.text = @"公司名称";
-    [self setLabel:_companyNameLabel withTopView:agentTypeLable middleSpace:60.f labelTag:0];
+    [self setLabel:_companyNameLabel withTopView:_firstLabel middleSpace:60.f labelTag:0];
     
     _companyIDLabel = [[UILabel alloc]init];
     _companyIDLabel.text = @"公司营业执照登记号";
@@ -240,12 +251,13 @@
     _companytaxLabel.text = @"公司税务登记证号";
     [self setLabel:_companytaxLabel withTopView:_companyIDLabel middleSpace:mainMargin labelTag:0];
     
-    UIView *firstLine = [[UIView alloc]init];
-    [self setLine:firstLine withTopView:_companytaxLabel middleSpace:60.f];
+    _firstLine = [[UIView alloc]init];
+    _firstLine.tag = 666;
+    [self setLine:_firstLine withTopView:_companytaxLabel middleSpace:60.f];
     
     UILabel *principalNameLabel = [[UILabel alloc]init];
     principalNameLabel.text = @"负责人姓名";
-    [self setLabel:principalNameLabel withTopView:firstLine middleSpace:60.f labelTag:0];
+    [self setLabel:principalNameLabel withTopView:_firstLine middleSpace:60.f labelTag:0];
     
     UILabel *principalIDLabel = [[UILabel alloc]init];
     principalIDLabel.text = @"负责人身份证号";
@@ -271,24 +283,25 @@
     UIView *secondLine = [[UIView alloc]init];
     [self setLine:secondLine withTopView:particularLocationLabel middleSpace:40.f];
     
-    UILabel *idCardImageLabel = [[UILabel alloc]init];
-    idCardImageLabel.text = @"身份证照片";
-    [self setLabel:idCardImageLabel withTopView:secondLine middleSpace:40.f labelTag:0];
+    _idCardLabel = [[UILabel alloc]init];
+    _idCardLabel.text = @"身份证照片";
+    [self setLabel:_idCardLabel withTopView:secondLine middleSpace:40.f labelTag:0];
     
     _posImgLabel = [[UILabel alloc]init];
     _posImgLabel.text = @"营业执照照片";
-    [self setLabel:_posImgLabel withTopView:idCardImageLabel middleSpace:mainMargin labelTag:0];
+    [self setLabel:_posImgLabel withTopView:_idCardLabel middleSpace:mainMargin labelTag:0];
     
     _taxImgLabel = [[UILabel alloc]init];
     _taxImgLabel.text = @"税务登记照片";
     [self setLabel:_taxImgLabel withTopView:_posImgLabel middleSpace:mainMargin labelTag:0];
     
-    UIView *thirdLine = [[UIView alloc]init];
-    [self setLine:thirdLine withTopView:_taxImgLabel middleSpace:40.f];
+    _thirdLine = [[UIView alloc]init];
+    _thirdLine.tag = 777;
+    [self setLine:_thirdLine withTopView:_taxImgLabel middleSpace:40.f];
     
     UILabel *loginIDLabel = [[UILabel alloc]init];
     loginIDLabel.text = @"登录ID";
-    [self setLabel:loginIDLabel withTopView:thirdLine middleSpace:40.f labelTag:0];
+    [self setLabel:loginIDLabel withTopView:_thirdLine middleSpace:40.f labelTag:0];
     
     UILabel *loginPasswordLabel = [[UILabel alloc]init];
     loginPasswordLabel.text = @"登录密码";
@@ -315,7 +328,7 @@
     [self setField:_companyTaxField withTopView:_companyBusinesslicenseField middleSpace:mainMargin fieldTag:0];
     
     _principalNameField = [[UITextField alloc]init];
-    [self setField:_principalNameField withTopView:firstLine middleSpace:60.f fieldTag:0];
+    [self setField:_principalNameField withTopView:_firstLine middleSpace:60.f fieldTag:0];
     
     _principalCardField = [[UITextField alloc]init];
     [self setField:_principalCardField withTopView:_principalNameField middleSpace:mainMargin fieldTag:0];
@@ -333,7 +346,7 @@
     [self setField:_particularLocationField withTopView:_locationField middleSpace:mainMargin fieldTag:0];
     
     _loginIDField = [[UITextField alloc]init];
-    [self setField:_loginIDField withTopView:thirdLine middleSpace:40.f fieldTag:0];
+    [self setField:_loginIDField withTopView:_thirdLine middleSpace:40.f fieldTag:0];
     
     _loginPasswordField = [[UITextField alloc]init];
     _loginPasswordField.secureTextEntry = YES;
@@ -427,7 +440,7 @@
     withTopView:(UIView *)topView
     middleSpace:(CGFloat)space
        buttonTag:(int)BtnTag{
-    CGFloat btnWidth = 100.f;
+    CGFloat btnWidth = 140.f;
     CGFloat btnHeight = 40.f;
     CGFloat leftSpace = 10.f;
     button.translatesAutoresizingMaskIntoConstraints = NO;
@@ -688,6 +701,24 @@
     line.translatesAutoresizingMaskIntoConstraints = NO;
     line.backgroundColor = kColor(221, 220, 220, 1.0);
     [_mainScrollView addSubview:line];
+    if (line.tag == 666) {
+        self.lineAttribute = [NSLayoutConstraint constraintWithItem:line
+                                                          attribute:NSLayoutAttributeTop
+                                                          relatedBy:NSLayoutRelationEqual
+                                                             toItem:topView
+                                                          attribute:NSLayoutAttributeBottom
+                                                         multiplier:1.0
+                                                           constant:space];
+    }
+    if (line.tag == 777) {
+        self.thirdLineAttribute = [NSLayoutConstraint constraintWithItem:line
+                                                               attribute:NSLayoutAttributeTop
+                                                               relatedBy:NSLayoutRelationEqual
+                                                                  toItem:topView
+                                                               attribute:NSLayoutAttributeBottom
+                                                              multiplier:1.0
+                                                                constant:space];
+    }
     [self.view addConstraint:[NSLayoutConstraint constraintWithItem:line
                                                           attribute:NSLayoutAttributeTop
                                                           relatedBy:NSLayoutRelationEqual
@@ -695,6 +726,7 @@
                                                           attribute:NSLayoutAttributeBottom
                                                          multiplier:1.0
                                                            constant:space]];
+    
     [self.view addConstraint:[NSLayoutConstraint constraintWithItem:line
                                                           attribute:NSLayoutAttributeLeft
                                                           relatedBy:NSLayoutRelationEqual
@@ -829,6 +861,30 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.row == 0) {
+        [self.view removeConstraint:_lineAttribute];
+        self.personLineAttribute = [NSLayoutConstraint constraintWithItem:_firstLine
+                                                                attribute:NSLayoutAttributeTop
+                                                                relatedBy:NSLayoutRelationEqual
+                                                                   toItem:_firstLabel
+                                                                attribute:NSLayoutAttributeBottom
+                                                               multiplier:1.0
+                                                                  constant:40.f];
+        self.personThirdLineAttribute = [NSLayoutConstraint constraintWithItem:_thirdLine
+                                                                     attribute:NSLayoutAttributeTop
+                                                                     relatedBy:NSLayoutRelationEqual
+                                                                        toItem:_idCardLabel
+                                                                     attribute:NSLayoutAttributeBottom
+                                                                    multiplier:1.0
+                                                                      constant:40.f];
+        [self.view removeConstraint:_thirdLineAttribute];
+        [self.view addConstraint:_personLineAttribute];
+        [self.view addConstraint:_personThirdLineAttribute];
+        
+        _mainScrollView.contentSize = CGSizeMake(kScreenWidth, 1030);
+        if (iOS7) {
+            _mainScrollView.contentSize = CGSizeMake(kScreenHeight, 1030);
+        }
+        
         _agentTypeField.text = nil;
         _agentTypeField.text = @"个人";
         _agentType = AgentTypePerson;
@@ -851,6 +907,16 @@
         _taxImg = nil;
     }
     else{
+        [self.view removeConstraint:_personLineAttribute];
+        [self.view addConstraint:_lineAttribute];
+        [self.view removeConstraint:_personThirdLineAttribute];
+        [self.view addConstraint:_thirdLineAttribute];
+        
+        _mainScrollView.contentSize = CGSizeMake(kScreenWidth, 1370);
+        if (iOS7) {
+            _mainScrollView.contentSize = CGSizeMake(kScreenHeight, 1370);
+        }
+        
         _agentTypeField.text = nil;
         _agentTypeField.text = @"公司";
         _agentType = AgentTypeCompany;
@@ -911,6 +977,11 @@
     if (button.tag == 1236) {
         NSLog(@"点击了所在地选择！");
         [self pickerScrollIn];
+        [_principalPhoneOrEmailField resignFirstResponder];
+        [_authCodeField resignFirstResponder];
+        [_principalCardField resignFirstResponder];
+        [_principalNameField resignFirstResponder];
+        [_particularLocationField resignFirstResponder];
     }
     
 }

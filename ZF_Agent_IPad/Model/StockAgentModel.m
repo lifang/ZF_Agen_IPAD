@@ -28,7 +28,13 @@
             _prepareTime = @"";
         }
         if ([dict objectForKey:@"lastOpenTime"]) {
+            NSString *str = [NSString stringWithFormat:@"%@",[dict objectForKey:@"lastOpenTime"]];
+            NSLog(@"~~~~~~~~~%@",str);
+            if ([str isEqualToString:@"<null>"]) {
+                _openTime = @"";
+            }else{
             _openTime = [NSString stringWithFormat:@"%@",[dict objectForKey:@"lastOpenTime"]];
+            }
         }
         else {
             _openTime = @"";

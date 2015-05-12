@@ -51,9 +51,15 @@
 @end
 
 @implementation StaffManagerDetailController
-
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(refreshStaffManagerDetail:)
+                                                 name:RefreshStaffManagerDetailNotification
+                                               object:nil];
     _statusArray = [[NSMutableArray alloc]init];
     _statusStr = [[NSMutableString alloc]init];
     [self initAndLayoutUI];
@@ -240,6 +246,11 @@
     button.delegate = self;
     button.tag = 5000 + buttonTag;
     [button setImage:kImageName(@"noSelected") forState:UIControlStateNormal];
+    if (_statffStatus == staffStatusCreated) {
+        button.userInteractionEnabled = YES;
+    }else{
+        button.userInteractionEnabled = NO;
+    }
     button.frame = CGRectMake(originX, CGRectGetMaxY(topButton.frame) + topSpace, buttonWidth, buttonHeight);
     [self.view addSubview:button];
 }
@@ -324,6 +335,7 @@
 -(void)staffDetailClicked
 {
     StaffChangeController *staffChangeVC = [[StaffChangeController alloc]init];
+    staffChangeVC.staffmodel = _staffModel;
     staffChangeVC.name = _name;
     staffChangeVC.loginID = _loginID;
     staffChangeVC.statusDetailArray = _statusDetailArray;
@@ -607,5 +619,11 @@
         }
     }
     
+}
+
+#pragma mark - NSNotification
+
+- (void)refreshStaffManagerDetail:(NSNotification *)notification {
+    [self performSelector:@selector(loadDetail) withObject:nil afterDelay:0.1f];
 }
 @end

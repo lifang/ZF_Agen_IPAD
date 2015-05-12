@@ -200,8 +200,6 @@
 
 -(void)presentClick:(UIButton *)sender
 {
-    FindPasswordWithPhoneSuccessController *findSuccessVC = [[FindPasswordWithPhoneSuccessController alloc]init];
-    [self.navigationController pushViewController:findSuccessVC animated:YES];
 
     if (![_authField.text isEqualToString:_authCode]) {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示信息"

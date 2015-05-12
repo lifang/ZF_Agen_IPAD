@@ -181,7 +181,7 @@ static NSString *HTTP_GET  = @"GET";
         [paramDict setObject:username forKey:@"username"];
     }
     if (password) {
-        [paramDict setObject:password forKey:@"password"];
+        [paramDict setObject:[EncryptHelper MD5_encryptWithString:password] forKey:@"password"];
     }
     if (validateCode) {
         [paramDict setObject:validateCode forKey:@"code"];
@@ -1092,8 +1092,12 @@ static NSString *HTTP_GET  = @"GET";
         [paramDict setObject:brandID forKey:@"brandsId"];
     }
     if (category) {
-        [paramDict setObject:category forKey:@"category"];
-    }
+        if(category.count>0)
+        {
+            [paramDict setObject:[category objectAtIndex:0] forKey:@"category"];
+            
+            
+        }    }
     if (channelID) {
         [paramDict setObject:channelID forKey:@"payChannelId"];
     }
@@ -1621,7 +1625,7 @@ static NSString *HTTP_GET  = @"GET";
         [paramDict setObject:[NSNumber numberWithInt:[toAgentID intValue]] forKey:@"toAgentId"];
     }
     if (terminalList) {
-        [paramDict setObject:terminalList forKey:@"serial_nums"];
+        [paramDict setObject:terminalList forKey:@"serialNums"];
     }
     //url
     NSString *urlString = [NSString stringWithFormat:@"%@/%@",kServiceURL,s_transferGood_method];
@@ -2398,11 +2402,21 @@ static NSString *HTTP_GET  = @"GET";
                      finished:(requestDidFinished)finish{
     //参数
     NSMutableDictionary *paramDict = [[NSMutableDictionary alloc] init];
-    [paramDict setObject:roles forKey:@"roles"];
-    [paramDict setObject:loginID forKey:@"loginId"];
-    [paramDict setObject:userName forKey:@"userName"];
-    [paramDict setObject:password forKey:@"pwd"];
-    [paramDict setObject:makepassword forKey:@"pwd1"];
+    if (userName) {
+        [paramDict setObject:userName forKey:@"userName"];
+    }
+    if (loginID) {
+        [paramDict setObject:loginID forKey:@"loginId"];
+    }
+    if (password) {
+        [paramDict setObject:[EncryptHelper MD5_encryptWithString:password] forKey:@"pwd"];
+    }
+    if (makepassword) {
+        [paramDict setObject:[EncryptHelper MD5_encryptWithString:makepassword] forKey:@"pwd1"];
+    }
+    if (roles) {
+        [paramDict setObject:roles forKey:@"roles"];
+    }
     [paramDict setObject:[NSNumber numberWithInt:[agentID intValue]] forKey:@"agentsId"];
     //url
     NSString *urlString = [NSString stringWithFormat:@"%@/%@",kServiceURL,s_createstaff_method];
@@ -2431,11 +2445,11 @@ static NSString *HTTP_GET  = @"GET";
     //参数
     NSMutableDictionary *paramDict = [[NSMutableDictionary alloc] init];
     [paramDict setObject:roles forKey:@"roles"];
-    [paramDict setObject:loginID forKey:@"loginId"];
+//    [paramDict setObject:loginID forKey:@"loginId"];
     if (password) {
         [paramDict setObject:password forKey:@"pwd"];
     }
-    [paramDict setObject:[NSNumber numberWithInt:[agentID intValue]] forKey:@"agentsId"];
+    [paramDict setObject:[NSNumber numberWithInt:[agentID intValue]] forKey:@"customerId"];
     //url
     NSString *urlString = [NSString stringWithFormat:@"%@/%@",kServiceURL,s_changestaffdetail_method];
     [[self class] requestWithURL:urlString
@@ -2590,9 +2604,11 @@ static NSString *HTTP_GET  = @"GET";
                               finished:(requestDidFinished)finish {
     //url
     NSString *urlString = [NSString stringWithFormat:@"%@/%@/%@",kServiceURL,s_subAgentUpload_method,agentID];
+    
     NetworkRequest *request = [[NetworkRequest alloc] initWithRequestURL:urlString
                                                               httpMethod:HTTP_POST
                                                                 finished:finish];
+    
     [request uploadImageData:UIImagePNGRepresentation(image)
                    imageName:nil
                          key:@"img"];
