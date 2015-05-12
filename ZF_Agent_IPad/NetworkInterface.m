@@ -1091,8 +1091,12 @@ static NSString *HTTP_GET  = @"GET";
         [paramDict setObject:brandID forKey:@"brandsId"];
     }
     if (category) {
-        [paramDict setObject:category forKey:@"category"];
-    }
+        if(category.count>0)
+        {
+            [paramDict setObject:[category objectAtIndex:0] forKey:@"category"];
+            
+            
+        }    }
     if (channelID) {
         [paramDict setObject:channelID forKey:@"payChannelId"];
     }

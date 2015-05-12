@@ -79,7 +79,8 @@
     
     OpenProfitViewController*openV=[[OpenProfitViewController alloc]init];
     openV.hidesBottomBarWhenPushed=YES;
-    
+    openV.subAgentID = _subAgent.agentID;
+
     [self.navigationController pushViewController:openV animated:YES];
     
     
