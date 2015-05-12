@@ -485,7 +485,7 @@
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
     hud.labelText = @"提交中...";
     AppDelegate *delegate = [AppDelegate shareAppDelegate];
-    [NetworkInterface modifyPersonMobileWithAgentID:delegate.agentID token:delegate.token newPhoneNumber:_newsPhoneField.text validate:_authCode finished:^(BOOL success, NSData *response) {
+    [NetworkInterface modifyPersonMobileWithAgentID:delegate.agentUserID token:delegate.token newPhoneNumber:_newsPhoneField.text validate:_authCode finished:^(BOOL success, NSData *response) {
         hud.customView = [[UIImageView alloc] init];
         hud.mode = MBProgressHUDModeCustomView;
         [hud hide:YES afterDelay:0.5f];
@@ -560,7 +560,7 @@
     AppDelegate *delegate = [AppDelegate shareAppDelegate];
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
     hud.labelText = @"正在发送...";
-    [NetworkInterface getPersonModifyMobileValidateWithAgentID:delegate.agentID token:delegate.token phoneNumber:_newsPhoneField.text finished:^(BOOL success, NSData *response) {
+    [NetworkInterface getPersonModifyMobileValidateWithAgentID:delegate.agentUserID token:delegate.token phoneNumber:_newsPhoneField.text finished:^(BOOL success, NSData *response) {
         NSLog(@"%@",[[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding]);
         hud.customView = [[UIImageView alloc] init];
         hud.mode = MBProgressHUDModeCustomView;

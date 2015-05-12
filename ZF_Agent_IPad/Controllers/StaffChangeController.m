@@ -10,6 +10,7 @@
 #import "StaffButton.h"
 #import "NetworkInterface.h"
 #import "StaffManagerController.h"
+#import "StaffManagerDetailController.h"
 
 @interface StaffChangeController ()<UITextFieldDelegate,StaffBtnClickedDelegate>
 @property(nonatomic,strong)UITextField *loginIDField;
@@ -432,7 +433,7 @@
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
     hud.labelText = @"加载中...";
     AppDelegate *delegate = [AppDelegate shareAppDelegate];
-    [NetworkInterface changeStaffWithAgentID:delegate.agentID Token:delegate.token LoginID:_loginID Roles:_statusStr Password:_passwordField.text finished:^(BOOL success, NSData *response) {
+    [NetworkInterface changeStaffWithAgentID:_staffmodel.userID Token:delegate.token LoginID:_loginID Roles:_statusStr Password:_passwordField.text finished:^(BOOL success, NSData *response) {
         NSLog(@"%@",[[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding]);
         hud.customView = [[UIImageView alloc] init];
         hud.mode = MBProgressHUDModeCustomView;
@@ -448,6 +449,7 @@
                 else if ([errorCode intValue] == RequestSuccess) {
                     [hud hide:YES afterDelay:1.f];
                     hud.labelText = @"修改员工信息成功";
+                    [[NSNotificationCenter defaultCenter] postNotificationName:RefreshStaffManagerDetailNotification object:nil];
                     [[NSNotificationCenter defaultCenter] postNotificationName:RefreshStaffManagerListNotification object:nil];
                     [self.navigationController popViewControllerAnimated:YES];
                 }

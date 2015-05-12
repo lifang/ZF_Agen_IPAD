@@ -782,7 +782,7 @@
         _keywordStr = nil;
     }
     AppDelegate *delegate = [AppDelegate shareAppDelegate];
-    [NetworkInterface getCSListWithAgentID:delegate.agentID token:delegate.token csType:_csType keyword:_keywordStr status:_currentStatus page:page rows:kPageSize finished:^(BOOL success, NSData *response) {
+    [NetworkInterface getCSListWithAgentID:delegate.agentUserID token:delegate.token csType:_csType keyword:_keywordStr status:_currentStatus page:page rows:kPageSize finished:^(BOOL success, NSData *response) {
         hud.customView = [[UIImageView alloc] init];
         hud.mode = MBProgressHUDModeCustomView;
         [hud hide:YES afterDelay:0.3f];
