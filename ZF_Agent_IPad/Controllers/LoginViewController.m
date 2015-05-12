@@ -256,7 +256,7 @@
 -(void)loginClick:(UIButton *)sender
 {
     //进入首页
-    
+    [_passwordField resignFirstResponder];
     if (!_userField.text || [_userField.text isEqualToString:@""] || !_passwordField.text || [_passwordField.text isEqualToString:@""]) {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示信息"
                                                         message:@"用户名或密码不能为空!"

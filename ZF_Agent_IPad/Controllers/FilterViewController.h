@@ -26,6 +26,11 @@ static NSString *UpdateGoodListNotification = @"UpdateGoodListNotification";
     NSMutableArray*_chagnearry4;
     NSMutableArray*_chagnearry5;
     NSMutableArray*_chagnearry6;
+    UIImageView*bigsview;
+    NSArray*_namesnumber;
+    NSMutableArray*_smallarry;
+    NSInteger selectint;
+    NSInteger selectinttag;
 
     NSMutableArray*bigarry;
     BOOL rentbool;

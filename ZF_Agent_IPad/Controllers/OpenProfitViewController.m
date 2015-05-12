@@ -404,6 +404,8 @@
     if (![dict objectForKey:@"result"] || ![[dict objectForKey:@"result"] isKindOfClass:[NSDictionary class]]) {
         return;
     }
+    numberint=0;
+    
     [_dataItem removeAllObjects];
     id list = [[dict objectForKey:@"result"] objectForKey:@"list"];
     if ([list isKindOfClass:[NSArray class]]) {
@@ -415,7 +417,15 @@
             }
         }
     }
-    [_tableView reloadData];
+    
+    if(_dataItem.count>0)
+    {
+        [self createui];
+        [_tableView reloadData];
+
+    
+    }
+
 }
 
 -(void)createui
@@ -486,9 +496,9 @@
         //设置边框线的颜色
         [layer setBorderColor:[[UIColor grayColor] CGColor]];
         
-        neworiginaltextfield.placeholder=[NSString stringWithFormat:@"%.f%%",tradeModel.percent];
+        neworiginaltextfield.placeholder=[NSString stringWithFormat:@"%.1f%%",tradeModel.percent];
         
-        neworiginaltextfield.delegate=self;
+//        neworiginaltextfield.delegate=self;
         
         neworiginaltextfield.tag=i+1056;
         neworiginaltextfield.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
@@ -666,15 +676,32 @@
     [cell.deletebutton addTarget:self action:@selector(deletebuttonclick:) forControlEvents:UIControlEventTouchUpInside];
    
     cell.deletebutton.tag=indexPath.row;
-    
-    cell.backgroundColor=[UIColor colorWithWhite:0.85 alpha:1];
 
+    if(numberint==indexPath.row)
+        
+    {
+        
+        
+            cell.backgroundColor=[UIColor whiteColor];
+
+     
+        
+    
+    }
+    else
+    {
+        cell.backgroundColor=[UIColor colorWithWhite:0.85 alpha:1];
+
+    
+    }
+    cell.selectedBackgroundView = [[UIView alloc] initWithFrame:cell.frame];
+    cell.selectedBackgroundView.backgroundColor = [UIColor whiteColor];
     return cell;
     
     
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+//   [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
     
     
@@ -682,9 +709,21 @@
     numberint=indexPath.row;
     
     [self createui];
+    [_tableView reloadData];
     
     
    }
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
+    if ([tableView respondsToSelector:@selector(setSeparatorInset:)]) {
+        [tableView setSeparatorInset:UIEdgeInsetsZero];
+    }
+    if ([tableView respondsToSelector:@selector(setLayoutMargins:)]) {
+        [tableView setLayoutMargins:UIEdgeInsetsZero];
+    }
+    if ([cell respondsToSelector:@selector(setLayoutMargins:)]) {
+        [cell setLayoutMargins:UIEdgeInsetsZero];
+    }
+}
 
 -(void)deletebuttonclick:(UIButton*)send
 

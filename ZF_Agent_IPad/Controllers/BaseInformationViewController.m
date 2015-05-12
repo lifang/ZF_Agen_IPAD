@@ -53,6 +53,9 @@
 
 @property(nonatomic,assign)CGFloat contentHeight;
 
+@property(nonatomic,strong)UIView *firstLine;
+@property(nonatomic,strong)UIView *secondLine;
+
 @end
 
 @implementation BaseInformationViewController
@@ -118,12 +121,6 @@
     }];
 }
 
-
--(void)setContentForUI
-{
-    
-}
-
 #pragma mark - UI
 -(void)initAndLayoutUI
 {
@@ -165,17 +162,17 @@
     _companytaxLabel.text = @"公司税务登记证号";
     [self setLabel:_companytaxLabel withTopView:_companyIDLabel middleSpace:mainMargin labelTag:0];
     
-    UIView *firstLine = [[UIView alloc]init];
+    _firstLine = [[UIView alloc]init];
     //如果是个人 隐藏控件
     if ([_personInfo.type intValue] == AgentTypePerson) {
-    [self setLine:firstLine withTopView:agentTypeLable middleSpace:30.f];
+    [self setLine:_firstLine withTopView:agentTypeLable middleSpace:30.f];
     }else{
-    [self setLine:firstLine withTopView:_companytaxLabel middleSpace:60.f];
+    [self setLine:_firstLine withTopView:_companytaxLabel middleSpace:60.f];
     }
     
     UILabel *principalNameLabel = [[UILabel alloc]init];
     principalNameLabel.text = @"负责人姓名";
-    [self setLabel:principalNameLabel withTopView:firstLine middleSpace:60.f labelTag:0];
+    [self setLabel:principalNameLabel withTopView:_firstLine middleSpace:60.f labelTag:0];
     
     UILabel *principalIDLabel = [[UILabel alloc]init];
     principalIDLabel.text = @"负责人身份证号";
@@ -195,16 +192,16 @@
     [self setLabel:locationLabel withTopView:authCodeFieldLabel middleSpace:mainMargin labelTag:0];
     
     UILabel *particularLocationLabel = [[UILabel alloc]init];
-    particularLocationLabel.hidden = YES;
     particularLocationLabel.text = @"详细地址";
     [self setLabel:particularLocationLabel withTopView:locationLabel middleSpace:mainMargin labelTag:0];
     
-    UIView *secondLine = [[UIView alloc]init];
-    [self setLine:secondLine withTopView:particularLocationLabel middleSpace:40.f];
+    _secondLine = [[UIView alloc]init];
+    _secondLine.tag = 222222;
+    [self setLine:_secondLine withTopView:particularLocationLabel middleSpace:40.f];
     
     UILabel *idCardImageLabel = [[UILabel alloc]init];
     idCardImageLabel.text = @"身份证照片";
-    [self setLabel:idCardImageLabel withTopView:secondLine middleSpace:40.f labelTag:0];
+    [self setLabel:idCardImageLabel withTopView:_secondLine middleSpace:40.f labelTag:0];
     
     _posImgLabel = [[UILabel alloc]init];
     _posImgLabel.text = @"营业执照照片";
@@ -254,7 +251,7 @@
     
     _principalNameField = [[UITextField alloc]init];
     _principalNameField.text = _personInfo.personName;
-    [self setField:_principalNameField withTopView:firstLine middleSpace:60.f fieldTag:0];
+    [self setField:_principalNameField withTopView:_firstLine middleSpace:60.f fieldTag:0];
     
     _principalCardField = [[UITextField alloc]init];
     _principalCardField.text = _personInfo.personCardID;
@@ -294,7 +291,7 @@
     
     _IdCardNumImageBtn = [[UIButton alloc]init];
     [_IdCardNumImageBtn setTitle:@"上传图片" forState:UIControlStateNormal];
-    [self setBtn:_IdCardNumImageBtn withTopView:secondLine middleSpace:40.f buttonTag:3];
+    [self setBtn:_IdCardNumImageBtn withTopView:_secondLine middleSpace:40.f buttonTag:3];
     
     _businesslicenseImageBtn = [[UIButton alloc]init];
     [_businesslicenseImageBtn setTitle:@"上传图片" forState:UIControlStateNormal];
@@ -374,8 +371,8 @@
         _businesslicenseImageBtn.hidden = YES;
         _taxregisterImageBtn.hidden = YES;
     }
-
 }
+
 //创建各种Btn
 //topView-上方控件
 //space-距上方间距
@@ -648,7 +645,7 @@
     if (iOS7) {
         lineWidth = kScreenHeight - 240.f;
     }
-    CGFloat lineHeight = 0.7f;
+    CGFloat lineHeight = 1.f;
     CGFloat leftSpace = 170.f;
     line.translatesAutoresizingMaskIntoConstraints = NO;
     line.backgroundColor = kColor(221, 220, 220, 1.0);
@@ -674,6 +671,15 @@
                                                           attribute:NSLayoutAttributeNotAnAttribute
                                                          multiplier:1.0
                                                            constant:lineWidth]];
+    if (line.tag == 222222) {
+        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:line
+                                                              attribute:NSLayoutAttributeHeight
+                                                              relatedBy:NSLayoutRelationEqual
+                                                                 toItem:nil
+                                                              attribute:NSLayoutAttributeNotAnAttribute
+                                                             multiplier:1.0
+                                                               constant:1.f]];
+    }else{
     [self.view addConstraint:[NSLayoutConstraint constraintWithItem:line
                                                           attribute:NSLayoutAttributeHeight
                                                           relatedBy:NSLayoutRelationEqual
@@ -681,6 +687,7 @@
                                                           attribute:NSLayoutAttributeNotAnAttribute
                                                          multiplier:1.0
                                                            constant:lineHeight]];
+    }
     
     
 }
@@ -689,8 +696,6 @@
 -(void)presentClick
 {
     //退出按钮
-    AppDelegate *delegate = [AppDelegate shareAppDelegate];
-    [delegate clearLoginInfo];
     UIAlertView *alertV = [[UIAlertView alloc]initWithTitle:nil message:@"确定要退出？" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:@"取消", nil];
     alertV.tag = 8900;
     [alertV show];
@@ -699,6 +704,8 @@
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     if (alertView.tag == 8900&&buttonIndex == 0) {
+        AppDelegate *delegate = [AppDelegate shareAppDelegate];
+        [delegate clearLoginInfo];
         [[AppDelegate shareRootViewController] showLoginViewController];
     }
 }
