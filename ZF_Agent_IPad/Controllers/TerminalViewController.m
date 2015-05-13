@@ -130,6 +130,7 @@
     _stringStatus=0;
     [self setupHeaderView];
     [self initAndLayoutUI];
+    [self firstLoadData];
    
 }
 
@@ -1477,7 +1478,7 @@
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
     hud.labelText = @"提交中...";
     AppDelegate *delegate = [AppDelegate shareAppDelegate];
-    [NetworkInterface getTerminalSynchronousWithToken:delegate.token terminalsId:string finished:^(BOOL success, NSData *response) {
+    [NetworkInterface getTerminalSynchronousWithToken:delegate.token terminalId:string finished:^(BOOL success, NSData *response) {
         hud.customView = [[UIImageView alloc] init];
         hud.mode = MBProgressHUDModeCustomView;
         [hud hide:YES afterDelay:0.5f];
@@ -1559,6 +1560,7 @@
     for (int i = 0; i < [TM_List count]; i++) {
         TerminalManagerModel *tm_Model = [[TerminalManagerModel alloc] initWithParseDictionary:[TM_List objectAtIndex:i]];
         [_terminalItems addObject:tm_Model];
+        NSLog(@"tm-VVF:%@",tm_Model.VideoVerify);
     }
     NSLog(@"terminalItems:%@",_terminalItems);
     [_tableView reloadData];
@@ -1569,7 +1571,7 @@
         return;
     }
     NSArray *TM_List = [[dict objectForKey:@"result"] objectForKey:@"applyList"];
-    [_terminalItems removeAllObjects];
+    //[_terminalItems removeAllObjects];
     for (int i = 0; i < [TM_List count]; i++) {
         TerminalManagerModel *tm_Model = [[TerminalManagerModel alloc] initWithParseDictionary:[TM_List objectAtIndex:i]];
         [_terminalItems addObject:tm_Model];
@@ -1603,54 +1605,93 @@
         NSLog(@"点击了找回POS密码 信息ID为%@",selectedID);
         [self initFindPosViewWithSelectedID:selectedID WithIndexNum:indexNum];
     }
+    /*
     if (btnTag == 1001) {
         NSLog(@"点击了视频认证(已开通) 信息ID为%@&&&& %d",selectedID,indexNum);
         //[self VideoVCWithSelectedID:selectedID];
         [self VideoVCWithSelectedID:indexNum];
     }
-    if (btnTag == 2000) {
-        NSLog(@"点击了视频认证(未开通) 信息ID为%@&&&& %d",selectedID,indexNum);
+     */
+    if (btnTag == 1100) {
+        NSLog(@"点击了找回POS密码 信息ID为%@",selectedID);
+        [self initFindPosViewWithSelectedID:selectedID WithIndexNum:indexNum];
+    }
+    if (btnTag == 1101) {
+        NSLog(@"点击了视频认证(已开通) 信息ID为%@&&&& %d",selectedID,indexNum);
+        //[self VideoVCWithSelectedID:selectedID];
         [self VideoVCWithSelectedID:indexNum];
     }
+    if (btnTag == 2000) {
+        NSLog(@"点击了找回POS密码（部分开通）");
+        [self initFindPosViewWithSelectedID:selectedID WithIndexNum:indexNum];
+        
+    }
+   
     if (btnTag == 2001) {
+        NSLog(@"点击了重新申请开通");
+        [self pushApplyNewVCWithSelectedID:selectedID];
+    }
+    if (btnTag == 2002) {
+        NSLog(@"点击了同步（部分开通）");
+        [self synchronization:indexNum];
+        
+    }
+    if (btnTag == 2100) {
+        NSLog(@"点击了找回POS密码（部分开通）");
+        [self initFindPosViewWithSelectedID:selectedID WithIndexNum:indexNum];
+        
+    }
+    if (btnTag == 2101) {
+        NSLog(@"点击了视频认证(部分开通) 信息ID为%@&&&& %d",selectedID,indexNum);
+        [self VideoVCWithSelectedID:indexNum];
+    }
+    if (btnTag == 2102) {
+        NSLog(@"点击了重新申请开通");
+        [self pushApplyNewVCWithSelectedID:selectedID];
+    }
+    if (btnTag == 2103) {
+        NSLog(@"点击了同步（部分开通）");
+        [self synchronization:indexNum];
+        
+    }
+
+    if (btnTag == 3000) {
         NSLog(@"点击了申请开通");
         [self pushApplyVCWithSelectedID:selectedID];
     }
-    if (btnTag == 2002) {
+    if (btnTag == 3001) {
+        NSLog(@"点击了同步(未开通)");
+        [self synchronization:indexNum];
+        
+    }
+
+    if (btnTag == 3100) {
+        NSLog(@"点击了视频认证(未开通) 信息ID为%@&&&& %d",selectedID,indexNum);
+        [self VideoVCWithSelectedID:indexNum];
+    }
+    if (btnTag == 3101) {
+        NSLog(@"点击了申请开通");
+        [self pushApplyVCWithSelectedID:selectedID];
+    }
+    if (btnTag == 3102) {
         NSLog(@"点击了同步(未开通)");
         [self synchronization:indexNum];
 
     }
-    if (btnTag == 3000) {
-        NSLog(@"点击了找回POS密码（部分开通）");
-        [self initFindPosViewWithSelectedID:selectedID WithIndexNum:indexNum];
-
-    }
-    if (btnTag == 3001) {
-        NSLog(@"点击了视频认证(部分开通) 信息ID为%@&&&& %d",selectedID,indexNum);
-         [self VideoVCWithSelectedID:indexNum];
-    }
-    if (btnTag == 3002) {
-        NSLog(@"点击了重新申请开通");
-        [self pushApplyNewVCWithSelectedID:selectedID];
-    }
-    if (btnTag == 3003) {
-        NSLog(@"点击了同步（部分开通）");
-        [self synchronization:indexNum];
-
-    }
-    //if (btnTag == 4000) {
-   //     NSLog(@"点击了更新资料");
+    // if (btnTag == 4000) {
+    //     NSLog(@"点击了租赁退换（已注销）");
+    
+    //  }
+    
+    //if (btnTag == 5000) {
+   //  NSLog(@"点击了更新资料");
         
     //}
-    if (btnTag == 4000) {
+    if (btnTag == 5000) {
         NSLog(@"点击了同步（已停用）");
         [self synchronization:indexNum];
     }
-   // if (btnTag == 5000) {
-   //     NSLog(@"点击了租赁退换（已注销）");
-        
-  //  }
+  
 
     
 }
@@ -1825,36 +1866,42 @@
             return cell;
         }else{
             TerminalManagerModel *model = [_terminalItems objectAtIndex:indexPath.row];
-            NSString *IDs = [NSString stringWithFormat:@"cell-%@",model.TM_status];
+            //NSString *IDs = [NSString stringWithFormat:@"cell-%@",model.TM_status];
+            NSString *IDs = [NSString stringWithFormat:@"cell-%@%@",model.TM_status,model.VideoVerify];
+           
             TerminalViewCell *cell = [tableView dequeueReusableCellWithIdentifier:IDs];
             if (cell == nil) {
                 cell = [[TerminalViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:IDs];
                 cell.TerminalViewCellDelegate = self;
             }
+            NSLog(@"modelVVF:%@",model.VideoVerify);
             cell.selectedID = model.TM_ID;
             cell.terminalLabel.text = model.TM_serialNumber;
             cell.posLabel.text = [NSString stringWithFormat:@"%@%@",model.TM_brandsName,model.TM_model_number];
             cell.payRoad.text = model.TM_channelName;
             cell.indexNum = indexPath.row;
+            //cell.videoVerify=model.VideoVerify;//视频认证
             if ([model.TM_status isEqualToString:@"1"]) {
                 cell.dredgeStatus.text = @"已开通";
                 cell.cellStates = @"已开通";
+            }
+          
+            if ([model.TM_status isEqualToString:@"2"]) {
+                cell.dredgeStatus.text = @"部分开通";
+                cell.cellStates = @"部分开通";
             }
             if ([model.TM_status isEqualToString:@"3"]) {
                 cell.dredgeStatus.text = @"未开通";
                 cell.cellStates = @"未开通";
             }
-            if ([model.TM_status isEqualToString:@"2"]) {
-                cell.dredgeStatus.text = @"部分开通";
-                cell.cellStates = @"部分开通";
+         
+            if ([model.TM_status isEqualToString:@"4"]) {
+                cell.dredgeStatus.text = @"已注销";
+                cell.cellStates = @"已注销";
             }
             if ([model.TM_status isEqualToString:@"5"]) {
                 cell.dredgeStatus.text = @"已停用";
                 cell.cellStates = @"已停用";
-            }
-            if ([model.TM_status isEqualToString:@"4"]) {
-                cell.dredgeStatus.text = @"已注销";
-                cell.cellStates = @"已注销";
             }
             return cell;
       
@@ -1884,6 +1931,7 @@
         terminalDetailVC.hidesBottomBarWhenPushed = YES;
         terminalDetailVC.dealStatus = model.TM_status;
         terminalDetailVC.tm_ID = model.TM_ID;
+        terminalDetailVC.videoVerify=model.VideoVerify;
         [self.navigationController pushViewController:terminalDetailVC animated:YES];
     }
   
@@ -2001,7 +2049,18 @@
 
 //上拉加载
 - (void)pullUpToLoadData {
-    [self downloadDataWithPage:self.page isMore:YES];
+    //[self downloadDataWithPage:self.page isMore:YES];
+    if (_stringStatus==0) {
+        [self downloadDataWithPage:_page isMore:YES];
+    }
+    else if(_stringStatus==6)
+    {
+        [self searchTermianlsWithPage:_page serialNum:_serialNum isMore:YES];
+    }
+    else
+    {
+        [self downloadDataWithPage:_page status:_stringStatus isMore:YES];
+    }
 }
 
 -(void)addTerminalSuccess
@@ -2253,7 +2312,7 @@
 -(void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    [self firstLoadData];
+    //[self firstLoadData];
     
 }
 

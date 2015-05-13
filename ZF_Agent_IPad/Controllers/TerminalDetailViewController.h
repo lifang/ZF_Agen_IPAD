@@ -15,4 +15,6 @@
 
 @property (nonatomic, strong) NSString *tm_ID; //终端信息id
 
+@property (nonatomic, strong) NSString *videoVerify; //视频认证
+
 @end

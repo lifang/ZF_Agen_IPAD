@@ -75,6 +75,7 @@ typedef enum {
     OpenApplyNone = 0,
     OpenApplyPublic,    //对公
     OpenApplyPrivate,   //对私
+    OpenApplyAll,
 }OpenApplyType;  //开通类型
 
 typedef enum {
@@ -767,7 +768,7 @@ static NSString *s_setHasBenefit_method = @"lowerAgent/setDefaultProfit";
  */
 
 + (void)getTerminalSynchronousWithToken:(NSString *)token
-                       terminalsId:(NSString *)terminalsId
+                       terminalId:(NSString *)terminalId
                         finished:(requestDidFinished)finish;
 
 

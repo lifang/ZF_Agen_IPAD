@@ -78,7 +78,7 @@
                 _channelID = [NSString stringWithFormat:@"%@",[terminalDict objectForKey:@"channelId"]];
             }
 
-
+           _openType = [[terminalDict objectForKey:@"supportRequirementType"] intValue];
         }
         id primaryDict = [dict objectForKey:@"openingInfos"];
         if ([primaryDict isKindOfClass:[NSDictionary class]]) {

@@ -390,7 +390,8 @@ static NSString *HTTP_GET  = @"GET";
                   terminalId:(NSString *)terminalId
                     finished:(requestDidFinished)finish {
     //url
-    NSString *urlString = [NSString stringWithFormat:@"%@/%@%@",kServiceURL,s_uploadApplyImage_method,terminalId];
+    //NSString *urlString = [NSString stringWithFormat:@"%@/%@/%@",kServiceURL,s_uploadApplyImage_method,terminalId];
+    NSString *urlString = [NSString stringWithFormat:@"%@/%@/%d",kServiceURL,s_uploadApplyImage_method,[terminalId intValue]];
     NetworkRequest *request = [[NetworkRequest alloc] initWithRequestURL:urlString
                                                               httpMethod:HTTP_POST
                                                                 finished:finish];
@@ -588,14 +589,14 @@ static NSString *HTTP_GET  = @"GET";
 
 //24
 + (void)getTerminalSynchronousWithToken:(NSString *)token
-                            terminalsId:(NSString *)terminalsId
+                            terminalId:(NSString *)terminalId
                                finished:(requestDidFinished)finish{
     //参数
     NSMutableDictionary *paramDict = [[NSMutableDictionary alloc] init];
     if (token && ![token isEqualToString:@""]) {
         [paramDict setObject:token forKey:@"token"];
     }
-    [paramDict setObject:[NSNumber numberWithInt:[terminalsId intValue]] forKey:@"terminalsId"];
+    [paramDict setObject:[NSNumber numberWithInt:[terminalId intValue]] forKey:@"terminalId"];
     //url
     NSString *urlString = [NSString stringWithFormat:@"%@/%@",kServiceURL,s_terminalsynchronous_method];
     [[self class] requestWithURL:urlString

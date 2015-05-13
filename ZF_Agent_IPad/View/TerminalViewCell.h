@@ -30,6 +30,8 @@
 
 @property(nonatomic,strong)NSString *selectedID;
 
+//@property(nonatomic,strong)NSString *videoVerify;//视频认证
+
 @property(nonatomic,assign)int indexNum;
 
 @property(nonatomic,weak)id<terminalCellSendBtnClicked> TerminalViewCellDelegate;
