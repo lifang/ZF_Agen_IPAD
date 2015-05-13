@@ -207,6 +207,7 @@
 		1A81460B1ADE622500A7680E /* StaffButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A81460A1ADE622500A7680E /* StaffButton.m */; };
 		1A81460E1ADE691400A7680E /* DealRoadChildController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A81460C1ADE691400A7680E /* DealRoadChildController.m */; };
 		1A8F68881AD4BCF100BD530E /* ScanImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A8F68871AD4BCF100BD530E /* ScanImageViewController.m */; };
+		1A91A7821B033D8D0039F1BC /* ApplyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A91A7811B033D8D0039F1BC /* ApplyViewController.m */; };
 		1A96544E1AD60CF100C39B5B /* RegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A96544D1AD60CF100C39B5B /* RegisterViewController.m */; };
 		1A9654531AD60D0800C39B5B /* PhoneSuccessViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A9654501AD60D0800C39B5B /* PhoneSuccessViewController.m */; };
 		1A9654541AD60D0800C39B5B /* EmailSuccessViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A9654521AD60D0800C39B5B /* EmailSuccessViewController.m */; };
@@ -748,6 +749,8 @@
 		1A81460D1ADE691400A7680E /* DealRoadChildController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DealRoadChildController.h; sourceTree = "<group>"; };
 		1A8F68861AD4BCF100BD530E /* ScanImageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScanImageViewController.h; sourceTree = "<group>"; };
 		1A8F68871AD4BCF100BD530E /* ScanImageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScanImageViewController.m; sourceTree = "<group>"; };
+		1A91A7801B033D8D0039F1BC /* ApplyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ApplyViewController.h; sourceTree = "<group>"; };
+		1A91A7811B033D8D0039F1BC /* ApplyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ApplyViewController.m; sourceTree = "<group>"; };
 		1A96544C1AD60CF100C39B5B /* RegisterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegisterViewController.h; sourceTree = "<group>"; };
 		1A96544D1AD60CF100C39B5B /* RegisterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegisterViewController.m; sourceTree = "<group>"; };
 		1A96544F1AD60D0800C39B5B /* PhoneSuccessViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhoneSuccessViewController.h; sourceTree = "<group>"; };
@@ -2081,6 +2084,8 @@
 				1A9654501AD60D0800C39B5B /* PhoneSuccessViewController.m */,
 				1A9654511AD60D0800C39B5B /* EmailSuccessViewController.h */,
 				1A9654521AD60D0800C39B5B /* EmailSuccessViewController.m */,
+				1A91A7801B033D8D0039F1BC /* ApplyViewController.h */,
+				1A91A7811B033D8D0039F1BC /* ApplyViewController.m */,
 			);
 			name = Login;
 			sourceTree = "<group>";
@@ -2134,6 +2139,7 @@
 				TargetAttributes = {
 					1AF15A851ACCDB8C00D5C171 = {
 						CreatedOnToolsVersion = 6.2;
+						DevelopmentTeam = X6GEEF4LU9;
 					};
 					1AF15A9E1ACCDB8C00D5C171 = {
 						CreatedOnToolsVersion = 6.2;
@@ -2265,6 +2271,7 @@
 				1A8145FF1ADE04CF00A7680E /* StaffManagerCell.m in Sources */,
 				0ED194971AD7CC2700029DE3 /* TradeAgentModel.m in Sources */,
 				0DC1D0AB1ADD63350048783F /* TerminalSelectViewController.m in Sources */,
+				1A91A7821B033D8D0039F1BC /* ApplyViewController.m in Sources */,
 				1A96545A1AD60D7300C39B5B /* StockManagerController.m in Sources */,
 				0ECEB5911AEA190B00CE217D /* VideoAuthController.m in Sources */,
 				1AF15AED1ACCE3A400D5C171 /* SDWebImageDownloaderOperation.m in Sources */,
@@ -2478,8 +2485,8 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: fang qian (YSGNM446KN)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: fang qian (YSGNM446KN)";
 				COPY_PHASE_STRIP = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -2499,6 +2506,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -2521,8 +2529,8 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: fang qian (YSGNM446KN)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: fang qian (YSGNM446KN)";
 				COPY_PHASE_STRIP = NO;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -2535,6 +2543,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
 				MTL_ENABLE_DEBUG_INFO = NO;
+				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
@@ -2570,7 +2579,7 @@
 					"$(PROJECT_DIR)/ZF_Agent_IPad/Labrary/Alipay",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "581e490b-dced-49f5-9ddc-6dcdc4bb4daa";
+				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = 2;
 			};
 			name = Debug;
@@ -2604,7 +2613,7 @@
 					"$(PROJECT_DIR)/ZF_Agent_IPad/Labrary/Alipay",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "581e490b-dced-49f5-9ddc-6dcdc4bb4daa";
+				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = 2;
 			};
 			name = Release;

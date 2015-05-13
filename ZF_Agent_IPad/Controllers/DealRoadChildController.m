@@ -387,7 +387,7 @@
     UILabel *payToLabel = [[UILabel alloc] init];
     //支付通道
     UILabel *channelLabel = [[UILabel alloc] init];
-    if (_tradeType == TradeTypeTelephoneFare) {
+    if (_tradeType == TradeTypeTelephoneFare || _tradeType == TradeTypeConsume) {
         //若是话费充值 则不显示收款账号
         [self setLabel:channelLabel withTopView:payFromLabel middleSpace:space labelTag:0];
     }
@@ -440,9 +440,9 @@
     poundageLabel.text = [NSString stringWithFormat:@"手续费：￥%.2f",_tradePoundage];
     tradeTimeLabel.text = [NSString stringWithFormat:@"交易时间：%@",_tradeTime];
     merchantTitleLabel.text = @"商户信息";
-    merchantNumberLabel.text = [NSString stringWithFormat:@"编       号   %@",_merchantNumber];
-    agentIDLabel.text = [NSString stringWithFormat:@"代理商ID   %@",_agentID];
-    merchantIDLabel.text = [NSString stringWithFormat:@"商 户  ID   %@",_merchantName];
+    merchantNumberLabel.text = [NSString stringWithFormat:@"商  户  编   号   %@",_merchantNumber];
+    merchantIDLabel.text = [NSString stringWithFormat:@"所 属 代 理 商  %@",_agentID];
+    agentIDLabel.text = [NSString stringWithFormat:@"商  户  名   称   %@",_merchantName];
     bankLabel.text = @"银行信息";
     terminalLabel.text = [NSString stringWithFormat:@"终   端   号   %@",_terminalNumber];
     switch (_tradeType) {
@@ -451,8 +451,8 @@
             payToLabel.text = [NSString stringWithFormat:@"收 款 账 号   %@",_payToAccount];
             break;
         case TradeTypeConsume:
-            payFromLabel.text = [NSString stringWithFormat:@"结 算 时 间   %@",_payedTime];
-            payToLabel.text = [NSString stringWithFormat:@"手   续   费   ￥%.2f",_tradePoundage];
+//            payFromLabel.text = [NSString stringWithFormat:@"结 算 时 间   %@",_payedTime];
+            payFromLabel.text = [NSString stringWithFormat:@"手   续   费   ￥%.2f",_tradePoundage];
             break;
         case TradeTypeRepayment:
             payFromLabel.text = [NSString stringWithFormat:@"付 款 账 号   %@",_payFromAccount];
@@ -475,7 +475,7 @@
     tradeStatusLabel.text = [NSString stringWithFormat:@"交 易 状 态   %@",[self statusForIndexString:_tradeStatus]];
     batchLabel.text = [NSString stringWithFormat:@"交易批次号   %@",_batchNumber];
     tradeNumberLabel.text = [NSString stringWithFormat:@"交易流水号   %@",_tradeNumber];
-    payBankLabel.text = @"付款银行号";
+//    payBankLabel.text = @"付款银行号";
 }
 
 #pragma mark - Layout
@@ -671,21 +671,97 @@
     _tradeStatus = [NSString stringWithFormat:@"%@",[infoDict objectForKey:@"tradedStatus"]];
     _tradeAmount = [[infoDict objectForKey:@"amount"] floatValue] / 100;
     _tradePoundage = [[infoDict objectForKey:@"poundage"] floatValue] / 100;
-    _tradeTime = [NSString stringWithFormat:@"%@",[infoDict objectForKey:@"tradedTimeStr"]];
-    _merchantNumber = [NSString stringWithFormat:@"%@",[infoDict objectForKey:@"merchant_number"]];
-    _merchantName = [NSString stringWithFormat:@"%@",[infoDict objectForKey:@"agentName"]];
-    _agentID = [NSString stringWithFormat:@"%@",[infoDict objectForKey:@"agent_id"]];
-    _terminalNumber = [NSString stringWithFormat:@"%@",[infoDict objectForKey:@"terminalNumber"]];
-    _payFromAccount = [NSString stringWithFormat:@"%@",[infoDict objectForKey:@"payFromAccount"]];
-    _payToAccount = [NSString stringWithFormat:@"%@",[infoDict objectForKey:@"payIntoAccount"]];
-    _channelName = [NSString stringWithFormat:@"%@",[infoDict objectForKey:@"paychannel"]];
-    _profitPrice = [NSString stringWithFormat:@"%@",[infoDict objectForKey:@"profitPrice"]];
-    _batchNumber = [NSString stringWithFormat:@"%@",[infoDict objectForKey:@"batchNumber"]];
-    _tradeNumber = [NSString stringWithFormat:@"%@",[infoDict objectForKey:@"tradeNumber"]];
-    _payedTime = [NSString stringWithFormat:@"%@",[infoDict objectForKey:@"payedTimeStr"]];
-    _accountName = [NSString stringWithFormat:@"%@",[infoDict objectForKey:@"account_name"]];
-    _accountNumber = [NSString stringWithFormat:@"%@",[infoDict objectForKey:@"account_number"]];
-    _phoneNumber = [NSString stringWithFormat:@"%@",[infoDict objectForKey:@"phone"]];
+    if ([infoDict objectForKey:@"tradedTimeStr"]) {
+        _tradeTime = [NSString stringWithFormat:@"%@",[infoDict objectForKey:@"tradedTimeStr"]];
+    }
+    else {
+        _tradeTime = @"";
+    }
+    if ([infoDict objectForKey:@"merchantNumber"]) {
+        _merchantNumber = [NSString stringWithFormat:@"%@",[infoDict objectForKey:@"merchantNumber"]];
+    }
+    else {
+        _merchantNumber = @"";
+    }
+    if ([infoDict objectForKey:@"merchantName"]) {
+        _merchantName = [NSString stringWithFormat:@"%@",[infoDict objectForKey:@"merchantName"]];
+    }
+    else {
+        _merchantName = @"";
+    }
+    if ([infoDict objectForKey:@"agentName"]) {
+        _agentID = [NSString stringWithFormat:@"%@",[infoDict objectForKey:@"agentName"]];
+    }
+    else {
+        _agentID = @"";
+    }
+    if ([infoDict objectForKey:@"terminalNumber"]) {
+        _terminalNumber = [NSString stringWithFormat:@"%@",[infoDict objectForKey:@"terminalNumber"]];
+    }
+    else {
+        _terminalNumber = @"";
+    }
+    if ([infoDict objectForKey:@"payFromAccount"]) {
+        _payFromAccount = [NSString stringWithFormat:@"%@",[infoDict objectForKey:@"payFromAccount"]];
+    }
+    else {
+        _payFromAccount = @"";
+    }
+    if ([infoDict objectForKey:@"payIntoAccount"]) {
+        _payToAccount = [NSString stringWithFormat:@"%@",[infoDict objectForKey:@"payIntoAccount"]];
+    }
+    else {
+        _payToAccount = @"";
+    }
+    if ([infoDict objectForKey:@"payChannelName"]) {
+        _channelName = [NSString stringWithFormat:@"%@",[infoDict objectForKey:@"payChannelName"]];
+    }
+    else {
+        _channelName = @"";
+    }
+    if ([infoDict objectForKey:@"profitPrice"]) {
+        _profitPrice = [NSString stringWithFormat:@"%@",[infoDict objectForKey:@"profitPrice"]];
+    }
+    else {
+        _profitPrice = @"";
+    }
+    if ([infoDict objectForKey:@"batchNumber"]) {
+        _batchNumber = [NSString stringWithFormat:@"%@",[infoDict objectForKey:@"batchNumber"]];
+    }
+    else {
+        _batchNumber = @"";
+    }
+    if ([infoDict objectForKey:@"tradeNumber"]) {
+        _tradeNumber = [NSString stringWithFormat:@"%@",[infoDict objectForKey:@"tradeNumber"]];
+    }
+    else {
+        _tradeNumber = @"";
+    }
+    if ([infoDict objectForKey:@"payedTimeStr"]) {
+        _payedTime = [NSString stringWithFormat:@"%@",[infoDict objectForKey:@"payedTimeStr"]];
+    }
+    else {
+        _payedTime = @"";
+    }
+    if ([infoDict objectForKey:@"account_name"]) {
+        _accountName = [NSString stringWithFormat:@"%@",[infoDict objectForKey:@"account_name"]];
+    }
+    else {
+        _accountName = @"";
+    }
+    if ([infoDict objectForKey:@"account_number"]) {
+        _accountNumber = [NSString stringWithFormat:@"%@",[infoDict objectForKey:@"account_number"]];
+    }
+    else {
+        _accountNumber = @"";
+    }
+    if ([infoDict objectForKey:@"phone"]) {
+        _phoneNumber = [NSString stringWithFormat:@"%@",[infoDict objectForKey:@"phone"]];
+    }
+    else {
+        _phoneNumber = @"";
+    }
+    
     [self initSubViews];
 }
 

@@ -25,4 +25,10 @@
 //浮点型
 + (BOOL)isFloat:(NSString *)string;
 
+//文字长度
++ (int)stringLength:(NSString *)string;
+
+//身份证
++ (BOOL)isCorrectIdentificationCard:(NSString *)string;
+
 @end

@@ -1197,9 +1197,11 @@
 #pragma mark - 上传图片
 
 - (void)uploadPictureWithImage:(UIImage *)image {
+    NSLog(@"terminalId:%@",_terminalID);
+    NSLog(@"%@",image);
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
     hud.labelText = @"上传中...";
-    [NetworkInterface uploadImageWithImage:image finished:^(BOOL success, NSData *response) {
+    [NetworkInterface uploadImageWithImage:image terminalId:_terminalID finished:^(BOOL success, NSData *response) {
         NSLog(@"!!!!%@",[[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding]);
         hud.customView = [[UIImageView alloc] init];
         hud.mode = MBProgressHUDModeCustomView;
@@ -1536,6 +1538,15 @@
         hud.labelText = @"请填写身份证号";
         return;
     }
+    if (![RegularFormat isCorrectIdentificationCard:[_infoDict objectForKey:key_cardID]]) {
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:1.f];
+        hud.labelText = @"身份证输入不合法";
+        return;
+    }
+
     if (![_infoDict objectForKey:key_phone]) {
         MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
         hud.customView = [[UIImageView alloc] init];
@@ -1585,7 +1596,7 @@
         hud.labelText = @"请填写结算银行名称";
         return;
     }
-    /*
+    
     if (![_infoDict objectForKey:key_bankID]) {
         MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
         hud.customView = [[UIImageView alloc] init];
@@ -1594,7 +1605,7 @@
         hud.labelText = @"请填写结算银行代码";
         return;
     }
-     */
+    
     if (![_infoDict objectForKey:key_bankAccount]) {
         MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
         hud.customView = [[UIImageView alloc] init];
@@ -1627,6 +1638,27 @@
         hud.labelText = @"请选择支付通道";
         return;
     }
+    
+    for (MaterialModel *model in _applyData.materialList) {
+        if (![_infoDict objectForKey:model.materialID]) {
+            NSString *infoString = nil;
+            if (model.materialType == MaterialText) {
+                infoString = [NSString stringWithFormat:@"请填写%@",model.materialName];
+            }
+           // else if (model.materialType == MaterialList) {
+           //     infoString = [NSString stringWithFormat:@"请选择%@",model.materialName];
+           // }
+            else if (model.materialType == MaterialImage) {
+                infoString = [NSString stringWithFormat:@"请上传%@",model.materialName];
+            }
+            MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+            hud.customView = [[UIImageView alloc] init];
+            hud.mode = MBProgressHUDModeCustomView;
+            [hud hide:YES afterDelay:1.f];
+            hud.labelText = infoString;
+            return;
+        }
+    }
   
     NSMutableArray *paramList = [[NSMutableArray alloc] init];
     AppDelegate *delegate = [AppDelegate shareAppDelegate];
@@ -1646,8 +1678,9 @@
     [params setObject:[NSNumber numberWithInt:[[_infoDict objectForKey:key_location] intValue]] forKey:@"cityId"];
     [params setObject:[NSNumber numberWithInt:[_channelID intValue]] forKey:@"channel"];
     [params setObject:[NSNumber numberWithInt:[_billID intValue]] forKey:@"billingId"];
+    [params setObject:[_infoDict objectForKey:key_bankAccountName] forKey:@"bankName"];
     [params setObject:[_infoDict objectForKey:key_bankAccount] forKey:@"bankNum"];
-    [params setObject:[_infoDict objectForKey:key_bank] forKey:@"bankName"];
+    [params setObject:[_infoDict objectForKey:key_bank] forKey:@"bank_name"];
     [params setObject:[_infoDict objectForKey:key_bankID] forKey:@"bankCode"];
     [params setObject:[_infoDict objectForKey:key_organID] forKey:@"organizationNo"];
     [params setObject:[_infoDict objectForKey:key_taxID] forKey:@"registeredNo"];
@@ -1675,7 +1708,7 @@
         if (value) {
             [dict setObject:value forKey:@"Value"];
         }
-         */
+        */
         [dict setObject:[NSNumber numberWithInt:model.materialType] forKey:@"types"];
         [dict setObject:[NSNumber numberWithInt:[model.materialID intValue]] forKey:@"targetId"];
         [dict setObject:[NSNumber numberWithInt:[model.levelID intValue]] forKey:@"openingRequirementId"];

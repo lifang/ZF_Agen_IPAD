@@ -26,6 +26,7 @@
 #import "VideoAuthController.h"
 #import "VideoAuthViewController.h"
 
+
 @interface TerminalViewController ()<UITableViewDelegate,UITableViewDataSource,RefreshDelegate,terminalCellSendBtnClicked,UITextViewDelegate,UITextFieldDelegate,UIPickerViewDataSource,UIPickerViewDelegate,UIPopoverControllerDelegate,UIPopoverPresentationControllerDelegate,SelectedAddressDelegate,SelectedUserDelegate,SelectedTerminalDelegate,SearchDelegate>
 {
 
@@ -129,6 +130,7 @@
     _stringStatus=0;
     [self setupHeaderView];
     [self initAndLayoutUI];
+    [self firstLoadData];
    
 }
 
@@ -1307,9 +1309,12 @@
 - (NSString *)terminalStringWithArray:(NSArray *)terminalList {
     NSString *names = @"";
     for (int i = 0; i < [terminalList count]; i++) {
-        NSString *str=[terminalList objectAtIndex:i];
+         //NSString *str=[terminalList objectAtIndex:i];
+         names=[names stringByAppendingString:[terminalList objectAtIndex:i]];
         if (i != [terminalList count] - 1) {
-            names = [str stringByAppendingString:@","];
+            //names = [str stringByAppendingString:@","];
+            names = [names stringByAppendingString:@","];
+           
         }
     }
     return names;
@@ -1323,7 +1328,7 @@
     AppDelegate *delegate = [AppDelegate shareAppDelegate];
      NSString *terminalString = [self terminalStringWithArray:_TerminalsArray];
     
-    [NetworkInterface submitAfterSaleApplyWithUserID:delegate.agentID token:delegate.token terminalCount:[_TerminalsArray count] address:_AddressTF.text receiver:_reciver phoneNumber:_phone reason:_textView.text terminalList:terminalString finished:^(BOOL success, NSData *response) {
+    [NetworkInterface submitAfterSaleApplyWithUserID:delegate.agentUserID token:delegate.token terminalCount:[_TerminalsArray count] address:_AddressTF.text receiver:_reciver phoneNumber:_phone reason:_reseasonTV.text terminalList:terminalString finished:^(BOOL success, NSData *response) {
 
         hud.customView = [[UIImageView alloc] init];
         hud.mode = MBProgressHUDModeCustomView;
@@ -2249,7 +2254,7 @@
 -(void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    [self firstLoadData];
+    //[self firstLoadData];
     
 }
 

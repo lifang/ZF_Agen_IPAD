@@ -75,6 +75,7 @@ typedef enum {
     OpenApplyNone = 0,
     OpenApplyPublic,    //对公
     OpenApplyPrivate,   //对私
+    OpenApplyAll,
 }OpenApplyType;  //开通类型
 
 typedef enum {
@@ -130,6 +131,9 @@ static NSString *s_applySubmit_method = @"apply/addOpeningApply";
 static NSString *s_loadImage_method = @"comment/upload/tempImage";
 //16.申请开通--图片资料上传
 static NSString *s_loadImage_methodls = @"lowerAgent/uploadImg";
+
+static NSString *s_uploadApplyImage_method = @"apply/upload/tempOpenImg";
+
 
 //17.申请开通—查看终端详情
 static NSString *s_termainlDetail_method = @"terminal/getTernimalDetails";
@@ -623,9 +627,11 @@ static NSString *s_setHasBenefit_method = @"lowerAgent/setDefaultProfit";
 /*!
  @abstract 16.申请开通--图片资料上传
  @param image       图片
+ @param terminalId      终端ID
  @result finish  请求回调结果
  */
 + (void)uploadImageWithImage:(UIImage *)image
+             terminalId:(NSString *)terminalId
                     finished:(requestDidFinished)finish;
 
 /*!
