@@ -75,6 +75,7 @@ typedef enum {
     OpenApplyNone = 0,
     OpenApplyPublic,    //对公
     OpenApplyPrivate,   //对私
+    OpenApplyAll,
 }OpenApplyType;  //开通类型
 
 typedef enum {

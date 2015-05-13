@@ -130,6 +130,7 @@
     _stringStatus=0;
     [self setupHeaderView];
     [self initAndLayoutUI];
+    [self firstLoadData];
    
 }
 
@@ -2253,7 +2254,7 @@
 -(void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    [self firstLoadData];
+    //[self firstLoadData];
     
 }
 
