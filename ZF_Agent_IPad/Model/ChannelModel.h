@@ -63,6 +63,7 @@ typedef enum {
 @property (nonatomic, strong) NSString *privateInfo;
 //开通对公材料
 @property (nonatomic, strong) NSString *publicInfo;
+@property (nonatomic, strong) NSString *openInfo;
 
 //支付通道厂家信息
 @property (nonatomic, strong) NSString *channelFactoryDescription;

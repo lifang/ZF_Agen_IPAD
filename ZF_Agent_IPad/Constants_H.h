@@ -22,8 +22,8 @@
 
 #define kPageSize 10   //分页加载每页行数
 
-//#define kServiceURL @"http://114.215.149.242:28080/ZFAgent/api"
-#define kServiceURL @"http://121.40.64.167:9090/api"
+#define kServiceURL @"http://114.215.149.242:28080/ZFAgent/api"
+//#define kServiceURL @"http://121.40.64.167:9090/api"
 //#define kServiceURL @"http://121.40.84.2:28080/ZFAgent/api"
 //#define kServiceURL @"http://agent.ebank007.com/api"
 

@@ -422,7 +422,7 @@
      顶部间距        topSpace
      状态label      30
      小label+间距    22 * (labelHeight + space)
-     线上下间距       3 * lineSpace
+     线上下间距       3 * lineSpaceg
      标题label       2 * titleLabelHeight
      线              3 * 1
      */
@@ -440,9 +440,9 @@
     poundageLabel.text = [NSString stringWithFormat:@"手续费：￥%.2f",_tradePoundage];
     tradeTimeLabel.text = [NSString stringWithFormat:@"交易时间：%@",_tradeTime];
     merchantTitleLabel.text = @"商户信息";
-    merchantNumberLabel.text = [NSString stringWithFormat:@"编       号   %@",_merchantNumber];
-    agentIDLabel.text = [NSString stringWithFormat:@"代理商ID   %@",_agentID];
-    merchantIDLabel.text = [NSString stringWithFormat:@"商 户  ID   %@",_merchantName];
+    merchantNumberLabel.text = [NSString stringWithFormat:@"商 户 编 号  %@",_merchantNumber];
+    agentIDLabel.text = [NSString stringWithFormat:@"所属代理商 %@",_agentID];
+    merchantIDLabel.text = [NSString stringWithFormat:@"商 户 名  称 %@",_merchantName];
     bankLabel.text = @"银行信息";
     terminalLabel.text = [NSString stringWithFormat:@"终   端   号   %@",_terminalNumber];
     switch (_tradeType) {
