@@ -15,7 +15,7 @@
 #import "NetworkInterface.h"
 #import "AccountTool.h"
 
-@interface MessageViewController ()<RefreshDelegate,MessageCellClickedDelegate>
+@interface MessageViewController ()<RefreshDelegate,MessageCellClickedDelegate,UIAlertViewDelegate>
 
 @property(nonatomic,assign)BOOL isSelected;
 
@@ -215,13 +215,27 @@
 
 -(void)deleteClieked
 {
-    if (_selectedItem.count == 1) {
-        [self deleteSingleMessage];
-    }
-    else {
-        [self deleteSelectedMessages];
+    UIAlertView *alertV = [[UIAlertView alloc]initWithTitle:@"" message:@"您确定要删除这些消息吗？" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:@"取消", nil];
+    alertV.delegate = self;
+    alertV.tag = 11133;
+    [alertV show];
+    
+}
+
+-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (alertView.tag == 11133) {
+        if (buttonIndex == 0) {
+            if (_selectedItem.count == 1) {
+                [self deleteSingleMessage];
+            }
+            else {
+                [self deleteSelectedMessages];
+            }
+        }
     }
 }
+
 //多删
 - (void)deleteSelectedMessages {
     if ([_selectedItem count] <= 0) {

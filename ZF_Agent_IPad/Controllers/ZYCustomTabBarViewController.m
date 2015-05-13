@@ -230,6 +230,7 @@
 {
     //如果索引值没有改变不做其他操作
 //	if (_seletedIndex == aIndex) return;
+    
 	
     //如果索引值改变了需要做操作
     /*
@@ -312,7 +313,17 @@
     //获得索引
 	UIButton *btn = (UIButton *)sender;
 	int index = btn.tag - 1.0;
-   
+    if (index == 1) {
+        AppDelegate *delegate = [AppDelegate shareAppDelegate];
+        if (![[delegate.authDict objectForKey:[NSNumber numberWithInt:AuthOrder]] boolValue]) {
+            MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+            hud.customView = [[UIImageView alloc] init];
+            hud.mode = MBProgressHUDModeCustomView;
+            [hud hide:YES afterDelay:1.f];
+            hud.labelText = @"您没有订单权限";
+            return;
+        }
+    }
     //用self.赋值默认会调set方法
     [self setSeletedIndex:index];
     if(index==1)

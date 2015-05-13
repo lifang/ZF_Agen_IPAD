@@ -12,6 +12,7 @@
 #import "AppDelegate.h"
 #import "FindPasswordViewController.h"
 #import "RegisterViewController.h"
+#import "ApplyViewController.h"
 
 @interface LoginViewController ()<UITextFieldDelegate>
 @property(nonatomic,strong)UITextField *userField;
@@ -147,9 +148,9 @@
     
     UIButton *registerBtn = [[UIButton alloc]init];
     [registerBtn setTitleColor:kColor(10, 87, 204, 1.0) forState:UIControlStateNormal];
-    [registerBtn setTitle:@"注册" forState:UIControlStateNormal];
+    [registerBtn setTitle:@"申请成合作伙伴" forState:UIControlStateNormal];
     [registerBtn addTarget:self action:@selector(registers:) forControlEvents:UIControlEventTouchUpInside];
-    registerBtn.frame = CGRectMake(loginView.frame.size.width - 60, findPasswordBtn.frame.origin.y, 40, 20);
+    registerBtn.frame = CGRectMake(loginView.frame.size.width - 150, findPasswordBtn.frame.origin.y, 130, 20);
     [loginView addSubview:registerBtn];
     [self.view addSubview:_imageV];
     [_imageV addSubview:loginView];
@@ -243,8 +244,11 @@
 
 -(void)registers:(UIButton *)sender
 {
-    RegisterViewController *registerV = [[RegisterViewController alloc]init];
-    [self.navigationController pushViewController:registerV animated:YES];
+    ApplyViewController *applyVC = [[ApplyViewController alloc]init];
+    [self.navigationController pushViewController:applyVC animated:YES];
+    
+//    RegisterViewController *registerV = [[RegisterViewController alloc]init];
+//    [self.navigationController pushViewController:registerV animated:YES];
 }
 
 -(void)findClick:(UIButton *)sender

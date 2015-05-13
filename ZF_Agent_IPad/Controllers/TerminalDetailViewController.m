@@ -687,7 +687,7 @@
     
     //跟踪记录
      _recordHeight = 0.f;
-    if ([self.records count] > 0) {
+    if ([self.records count] == 11111111111) {
         UILabel *tipLabel = [[UILabel alloc] init];
         tipLabel.translatesAutoresizingMaskIntoConstraints = NO;
         tipLabel.backgroundColor = [UIColor clearColor];
