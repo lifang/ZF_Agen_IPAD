@@ -422,7 +422,7 @@
      顶部间距        topSpace
      状态label      30
      小label+间距    22 * (labelHeight + space)
-     线上下间距       3 * lineSpace
+     线上下间距       3 * lineSpaceg
      标题label       2 * titleLabelHeight
      线              3 * 1
      */

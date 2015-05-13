@@ -222,9 +222,9 @@
                     if (!isMore) {
                         [_applyList removeAllObjects];
                     }
-                    if ([[object objectForKey:@"result"] count] > 0) {
+                    if ([[[object objectForKey:@"result"] objectForKey:@"applyList"] count] > 0) {
                         //有数据
-                        self.page++;
+                        _page++;
                         [hud hide:YES];
                     }
                     else {
@@ -277,9 +277,9 @@
                     if (!isMore) {
                         [_applyList removeAllObjects];
                     }
-                    if ([[object objectForKey:@"result"] count] > 0) {
+                    if ([[[object objectForKey:@"result"] objectForKey:@"applyList"] count] > 0) {
                         //有数据
-                        self.page++;
+                         _page++;
                         [hud hide:YES];
                     }
                     else {
@@ -415,8 +415,22 @@
 
 //上拉加载
 - (void)pullUpToLoadData {
-    [self downloadDataWithPage:self.page isMore:YES];
+    //[self downloadDataWithPage:self.page isMore:YES];
+    if (touchStatus==100) {
+        
+        [self downloadDataWithPage:_page isMore:YES];
+        
+    }
+    else
+    {
+        
+        [self searchTermianlsWithPage:_page Termianls:_serialNum isMore:YES];
+        
+    }
 }
+
+
+
 - (NSString *)getStatusString {
     NSString *statusString = nil;
     int index = [_status intValue];
@@ -476,7 +490,7 @@
     
     //用来标识数据的id
     cell.applicationBtn.tag = indexPath.row;
-    cell.vedioConfirmBtn.tag = [model.TM_ID intValue];
+    cell.videoConfirmBtn.tag = [model.TM_ID intValue];
     if(  [model.TM_status  isEqualToString:@"2"])
     {
         [cell.applicationBtn setTitle:@"重新申请开通" forState:UIControlStateNormal];
@@ -491,10 +505,22 @@
         [cell.applicationBtn setTitle:@"申请开通" forState:UIControlStateNormal];
         [cell.applicationBtn addTarget:self action:@selector(applicationClick:) forControlEvents:UIControlEventTouchUpInside];
     }
+    /*
     [cell.vedioConfirmBtn setTitle:@"视频认证" forState:UIControlStateNormal];
     [cell.vedioConfirmBtn addTarget:self action:@selector(vedioConfirmClick:) forControlEvents:UIControlEventTouchUpInside];
     cell.vedioConfirmBtn.tag=indexPath.row;
-    
+    */
+    if ([model.VideoVierfy isEqualToString:@"0"])
+    {
+        [cell.videoConfirmBtn setHidden:YES];
+    }
+    else
+    {
+        [cell.videoConfirmBtn setHidden:NO];
+        [cell.videoConfirmBtn setTitle:@"视频认证" forState:UIControlStateNormal];
+        [cell.videoConfirmBtn addTarget:self action:@selector(vedioConfirmClick:) forControlEvents:UIControlEventTouchUpInside];
+        cell.videoConfirmBtn.tag=indexPath.row;
+    }
     return cell;
 }
 

@@ -19,8 +19,9 @@
 {
    // BOOL isSelected;
     //CGFloat summaryPrice;
-    NSInteger sumall;
+     NSInteger sumall;
      NSInteger pickerstatus;
+    NSInteger URLstatus;
 
 }
 
@@ -67,6 +68,7 @@
 
 @property (nonatomic, assign) int page;
 
+//@property (nonatomic, strong)NSMutableArray *terminalsArray;//输入的终端号
 
 @end
 
@@ -80,6 +82,8 @@
     _terminalList=[[NSMutableArray alloc] init];
     _POSArray=[[NSMutableArray alloc] init];
     _channelItems=[[NSMutableArray alloc] init];
+    URLstatus=1000;
+    //_terminalsArray=[[NSMutableArray alloc] init];
     
     UILabel *POSLB=[[UILabel alloc ] init];
     POSLB.font = FONT20;
@@ -396,37 +400,7 @@
     [_tableView addHeaderWithTarget:self action:@selector(firstLoadData)];
     [_tableView addFooterWithTarget:self action:@selector(loadMoreData)];
     
-   /*
-    //_topRefreshView = [[RefreshView alloc] initWithFrame:CGRectMake(_tableView.frame.origin.x+_tableView.frame.size.width/2.0, _tableView.frame.origin.y-60,_tableView.frame.size.width, 60)];
-    _topRefreshView = [[RefreshView alloc] init];
-    _topRefreshView.direction = PullFromTop;
-    _topRefreshView.delegate = self;
-    [_tableView addSubview:_topRefreshView];
-    [_topRefreshView makeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.equalTo(_tableView.top);
-        make.left.equalTo(_tableView.centerX);
-        make.right.equalTo(_tableView.right);
-        //make.bottom.equalTo(self.view.bottom).offset(-60);
-        make.height.equalTo(@60);
-    }];
     
-    
-    // _bottomRefreshView = [[RefreshView alloc] initWithFrame:CGRectMake(0, _tableView.frame.origin.y, _tableView.frame.size.width, 60)];
-    _bottomRefreshView.direction = PullFromBottom;
-    _bottomRefreshView.delegate = self;
-    _bottomRefreshView.hidden = YES;
-    [_tableView addSubview:_bottomRefreshView];
-    [_bottomRefreshView makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(_tableView.bottom);
-        make.left.equalTo(_tableView.centerX);
-        make.right.equalTo(_tableView.right);
-        make.height.equalTo(@60);
-    }];
-    
-*/
-    
-    
-
     
     //创建头部View
     UIView *FooterView = [[UIView alloc]init];
@@ -501,8 +475,15 @@
 -(void)loadMoreData
 {
 
-    
-  [self  FilterTerminalsWithPage:_page isMore:YES];
+    if (URLstatus==1000) {
+        [self  FilterTerminalsWithPage:_page isMore:YES];
+    }
+    else
+    {
+       
+      [_tableView footerEndRefreshing];
+    }
+  
 
 }
 
@@ -510,6 +491,8 @@
 -(void)POSBtnPressed:(id)sender
 {
     pickerstatus=100;
+    
+    URLstatus=1000;
     [self ChoosePOSData];
    // _POStitle=[NSString stringWithFormat:@"%@"
    //            , [_POSArray[0] objectForKey:@"title"]];
@@ -519,7 +502,9 @@
 
 -(void)channelBtnPressed:(id)sender
 {
-    pickerstatus=200;
+     pickerstatus=200;
+    
+     URLstatus=1000;
      [self getChannelList];
     //[self pickerDisplay:_channelTV];
 
@@ -528,12 +513,15 @@
 
 -(void)confirmBtnPressed:(id)sender
 {
- 
+     URLstatus=2000;
+    [_terminalList removeAllObjects];
    // [self FilterTerminals];
   //   [self firstLoadData];
-    NSArray *terminalList = [_terminalTV.text componentsSeparatedByString:@"\n"];
-    if (terminalList) {
-        [self searchTerminalWithArray:terminalList];
+    NSArray *terminalArray = [_terminalTV.text componentsSeparatedByString:@"\n"];
+    //_terminalsArray = [_terminalTV.text componentsSeparatedByString:@"\n"];
+    if (terminalArray) {
+        [self searchTerminalWithArray:terminalArray];
+        //[self firstLoadData];
     }
 
 }
@@ -541,6 +529,9 @@
 
 -(void)searchBtnPressed:(id)sender
 {
+    URLstatus=3000;
+    [_terminalList removeAllObjects];
+    
     SearchTermianlViewController *searchTerminalVC=[[SearchTermianlViewController alloc] init];
     searchTerminalVC.delegate=self;
     searchTerminalVC.hidesBottomBarWhenPushed=YES;
@@ -736,7 +727,26 @@
 
 - (void)firstLoadData {
      _page = 1;
-    [self FilterTerminalsWithPage:_page isMore:NO];
+    if(URLstatus==1000) {
+        [self FilterTerminalsWithPage:_page isMore:NO];
+        
+     }
+    else if(URLstatus==2000)
+    {
+        
+        //[self searchTerminalWithArray:_terminalsArray];
+        [_tableView headerEndRefreshing];
+        //[_tableView footerEndRefreshing];
+    
+    }
+    else
+    {
+       // [self searchTerminalWithString:];
+        [_tableView headerEndRefreshing];
+       // [_tableView footerEndRefreshing];
+    
+    }
+   
     
 }
 
@@ -813,6 +823,7 @@
                 }
                 else if ([errorCode intValue] == RequestSuccess) {
                     [hud hide:YES];
+                    
                     [self parseSearchListWithData:object];
                 }
             }
@@ -878,9 +889,9 @@
 #pragma mark - Data
 
 - (void)parseSearchListWithData:(NSDictionary *)dict {
-    if (![dict objectForKey:@"result"] || ![[dict objectForKey:@"result"] isKindOfClass:[NSArray class]]) {
-        return;
-    }
+   // if (![dict objectForKey:@"result"] || ![[dict objectForKey:@"result"] isKindOfClass:[NSArray class]]) {
+     //   return;
+   // }
     //[ _terminalList removeAllObjects];
     NSArray *serialList = [dict objectForKey:@"result"];
     for (int i = 0; i < [serialList count]; i++) {
@@ -1132,102 +1143,7 @@
 
 
 
-/*
-#pragma mark - Refresh
 
-- (void)refreshViewReloadData {
-    _reloading = YES;
-}
-
-- (void)refreshViewFinishedLoadingWithDirection:(PullDirection)direction {
-    _reloading = NO;
-    if (direction == PullFromTop) {
-        [_topRefreshView refreshViewDidFinishedLoading:self.tableView];
-    }
-    else if (direction == PullFromBottom) {
-        _bottomRefreshView.frame = CGRectMake(0, self.tableView.contentSize.height+self.tableView.frame.origin.y, self.tableView.bounds.size.width, 60);
-        [_bottomRefreshView refreshViewDidFinishedLoading:self.tableView];
-    }
-    [self updateFooterViewFrame];
-}
-
-- (BOOL)refreshViewIsLoading:(RefreshView *)view {
-    return _reloading;
-}
-
-- (void)refreshViewDidEndTrackingForRefresh:(RefreshView *)view {
-    [self refreshViewReloadData];
-    //loading...
-    if (view == _topRefreshView) {
-        [self pullDownToLoadData];
-    }
-    else if (view == _bottomRefreshView) {
-        [self pullUpToLoadData];
-    }
-}
-
-- (void)updateFooterViewFrame {
-    //_bottomRefreshView.frame = CGRectMake(0, self.tableView.contentSize.height, self.tableView.bounds.size.width, 60);
-    _bottomRefreshView.frame = CGRectMake(0, self.tableView.contentSize.height+self.tableView.frame.origin.y, self.tableView.bounds.size.width, 60);
-    _bottomRefreshView.hidden = NO;
-    if (self.tableView.contentSize.height < self.tableView.frame.size.height) {
-        _bottomRefreshView.hidden = YES;
-    }
-}
-
-#pragma mark - UIScrollView
-
-- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
-    _primaryOffsetY = scrollView.contentOffset.y;
-}
-
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-    if (scrollView == self.tableView) {
-        CGPoint newPoint = scrollView.contentOffset;
-        if (_primaryOffsetY < newPoint.y) {
-            //上拉
-            if (_bottomRefreshView.hidden) {
-                return;
-            }
-            [_bottomRefreshView refreshViewDidScroll:scrollView];
-        }
-        else {
-            //下拉
-            [_topRefreshView refreshViewDidScroll:scrollView];
-        }
-    }
-}
-
-- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
-    if (scrollView == self.tableView) {
-        CGPoint newPoint = scrollView.contentOffset;
-        if (_primaryOffsetY < newPoint.y) {
-            //上拉
-            if (_bottomRefreshView.hidden) {
-                return;
-            }
-            [_bottomRefreshView refreshViewDidEndDragging:scrollView];
-        }
-        else {
-            //下拉
-            [_topRefreshView refreshViewDidEndDragging:scrollView];
-        }
-    }
-}
-
-#pragma mark - 上下拉刷新
-//下拉刷新
-- (void)pullDownToLoadData {
-    [self firstLoadData];
-}
-
-//上拉加载
-- (void)pullUpToLoadData {
-    
-    [self  FilterTerminalsWithPage:self.page isMore:YES];
-}
-
-*/
 
 #pragma mark - UITextView
 

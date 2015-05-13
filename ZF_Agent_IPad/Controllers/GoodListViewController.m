@@ -99,8 +99,8 @@
     [super viewDidLoad];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(listRefresh) name:@"listRefresh" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(listRefreshs) name:@"listRefreshs" object:nil];
-
-    self.supplyType=SupplyGoodsWholesale;
+//现在全部为代购
+    self.supplyType=SupplyGoodsProcurement;
 
 
   filterC = [[FilterViewController alloc] init];
@@ -206,26 +206,28 @@
     [self.view addSubview:_sortView];
     
     button1=[UIButton buttonWithType:UIButtonTypeCustom];
-    wholesalebutton=[UIButton buttonWithType:UIButtonTypeCustom];
-    behalfbutton=[UIButton buttonWithType:UIButtonTypeCustom];
-    wholesalebutton.frame=CGRectMake(60,10,  40, 40);
-    behalfbutton.frame=CGRectMake(120,10,  40, 40);
-    [behalfbutton setTitle:@"代购" forState:UIControlStateNormal];
-    [wholesalebutton setTitle:@"批购" forState:UIControlStateNormal];
-    [wholesalebutton setTitleColor:kColor(3, 112, 214, 1) forState:UIControlStateNormal];
-    [behalfbutton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    wholesalebutton.tag=506;
-    behalfbutton.tag=507;
-
-    UIView *linview = [[UIView alloc] initWithFrame:CGRectMake(110, 20, 1, 20)];
-    linview.backgroundColor = [UIColor grayColor];
-    [self.view addSubview:linview];
-    [behalfbutton addTarget:self action:@selector(selectStatus:) forControlEvents:UIControlEventTouchUpInside];
-    [wholesalebutton addTarget:self action:@selector(selectStatus:) forControlEvents:UIControlEventTouchUpInside];
-
     
-    [self.view addSubview:behalfbutton];
-    [self.view addSubview:wholesalebutton];
+//    隐藏批购代购
+//    wholesalebutton=[UIButton buttonWithType:UIButtonTypeCustom];
+//    behalfbutton=[UIButton buttonWithType:UIButtonTypeCustom];
+//    wholesalebutton.frame=CGRectMake(60,10,  40, 40);
+//    behalfbutton.frame=CGRectMake(120,10,  40, 40);
+//    [behalfbutton setTitle:@"代购" forState:UIControlStateNormal];
+//    [wholesalebutton setTitle:@"批购" forState:UIControlStateNormal];
+//    [wholesalebutton setTitleColor:kColor(3, 112, 214, 1) forState:UIControlStateNormal];
+//    [behalfbutton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+//    wholesalebutton.tag=506;
+//    behalfbutton.tag=507;
+//
+//    UIView *linview = [[UIView alloc] initWithFrame:CGRectMake(110, 20, 1, 20)];
+//    linview.backgroundColor = [UIColor grayColor];
+//    [self.view addSubview:linview];
+//    [behalfbutton addTarget:self action:@selector(selectStatus:) forControlEvents:UIControlEventTouchUpInside];
+//    [wholesalebutton addTarget:self action:@selector(selectStatus:) forControlEvents:UIControlEventTouchUpInside];
+//
+//    
+//    [self.view addSubview:behalfbutton];
+//    [self.view addSubview:wholesalebutton];
 
     
     if (iOS7) {
@@ -533,7 +535,7 @@
             [behalfbutton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     
     
-            self.supplyType=SupplyGoodsWholesale;
+            self.supplyType=SupplyGoodsProcurement;
 
     [self firstLoadData];
 

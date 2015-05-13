@@ -179,7 +179,7 @@ typedef enum {
     _tableView.dataSource = self;
     _tableView.tableFooterView = [[UIView alloc]init];
 
-    [self setHeaderAndFooterView];
+//    [self setHeaderAndFooterView];
     [self.view addSubview:_tableView];
     if (kDeviceVersion >= 7.0) {
         _tableView.separatorInset = UIEdgeInsetsMake(0, 10, 0, 10);
