@@ -57,11 +57,11 @@ typedef enum {
 
 typedef enum {
     TradeTypeNone = -1,
-    TradeTypeTransfer = 1,    //转账
-    TradeTypeRepayment,       //还款
-    TradeTypeConsume,         //消费
-    TradeTypeLife,            //生活充值
-    TradeTypeTelephoneFare,   //话费充值
+    TradeTypeConsume = 1,    //消费
+    TradeTypeTransfer,       //转账
+    TradeTypeRepayment,        //还款
+    TradeTypeTelephoneFare,    //话费充值
+    TradeTypeLife,      //生活充值
 }TradeType;
 
 typedef enum {
