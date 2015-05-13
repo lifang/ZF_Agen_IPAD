@@ -768,7 +768,7 @@ static NSString *s_setHasBenefit_method = @"lowerAgent/setDefaultProfit";
  */
 
 + (void)getTerminalSynchronousWithToken:(NSString *)token
-                       terminalsId:(NSString *)terminalsId
+                       terminalId:(NSString *)terminalId
                         finished:(requestDidFinished)finish;
 
 

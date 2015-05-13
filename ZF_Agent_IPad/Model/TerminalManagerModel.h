@@ -31,6 +31,8 @@ typedef enum {
 @property (nonatomic, strong) NSString *TM_brandsName;  //品牌
 
 @property (nonatomic, strong) NSString *TM_model_number;  //型号
+
+@property (nonatomic, strong) NSString *VideoVerify;  //有无视频认证
 /*
  若有值，订单状态为已开通，找回POS密码操作,否则是自助开通
  若有值，订单状态为未开通，无同步操作

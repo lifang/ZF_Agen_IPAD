@@ -22,6 +22,6 @@
 /** 申请开通 */
 @property(nonatomic,strong)UIButton *applicationBtn;
 
-@property(nonatomic,strong)UIButton *vedioConfirmBtn;
+@property(nonatomic,strong)UIButton *videoConfirmBtn;
 
 @end

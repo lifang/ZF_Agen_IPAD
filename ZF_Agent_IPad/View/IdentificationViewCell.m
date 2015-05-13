@@ -46,17 +46,17 @@
         _dredgeStatus.font = mainFont;
         [self addSubview:_dredgeStatus];
         
-        self.applicationBtn = [[UIButton alloc]init];
+        _applicationBtn = [[UIButton alloc]init];
         [_applicationBtn setTitle:@"申请开通" forState:UIControlStateNormal];
         [_applicationBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         [_applicationBtn setBackgroundColor:[UIColor colorWithHexString:@"006fd5"]];
         [self addSubview:_applicationBtn];
         
-        _vedioConfirmBtn = [[UIButton alloc]init];
-        [_vedioConfirmBtn setTitle:@"视频认证" forState:UIControlStateNormal];
-        [_vedioConfirmBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-        [_vedioConfirmBtn setBackgroundColor:[UIColor colorWithHexString:@"006fd5"]];
-        [self addSubview:_vedioConfirmBtn];
+        _videoConfirmBtn = [[UIButton alloc]init];
+        [_videoConfirmBtn setTitle:@"视频认证" forState:UIControlStateNormal];
+        [_videoConfirmBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        [_videoConfirmBtn setBackgroundColor:[UIColor colorWithHexString:@"006fd5"]];
+        [self addSubview:_videoConfirmBtn];
         
         UILabel * line1 = [[UILabel alloc] init];
         [line1 setBackgroundColor:[UIColor colorWithHexString:LineColor]];
@@ -92,7 +92,7 @@
     
     _applicationBtn.frame = CGRectMake(CGRectGetMaxX(_dredgeStatus.frame) + 100, mainY, mainWidth * 0.7, mainheight * 1.5);
     
-   _vedioConfirmBtn.frame = CGRectMake(CGRectGetMaxX(_dredgeStatus.frame) + 100, mainY+50, mainWidth * 0.7, mainheight * 1.5);
+   _videoConfirmBtn.frame = CGRectMake(CGRectGetMaxX(_dredgeStatus.frame) + 100, mainY+50, mainWidth * 0.7, mainheight * 1.5);
     
 }
 

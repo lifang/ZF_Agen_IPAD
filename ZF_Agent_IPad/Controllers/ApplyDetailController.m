@@ -298,6 +298,51 @@
     privateBtn.frame = CGRectMake(CGRectGetMaxX(publicBtn.frame), 44, 120, 36);
     self.privateX = CGRectGetMaxX(publicBtn.frame);
     [headerView addSubview:privateBtn];
+    if (_applyData.openType==OpenTypePublic) {
+        [_publickBtn setBackgroundImage:[UIImage imageNamed:@"chose_Btn"] forState:UIControlStateNormal];
+        _publickBtn.titleLabel.font = [UIFont systemFontOfSize:22];
+        _publickBtn.frame = CGRectMake(_publicX, _privateY, 140, 40);
+        [_privateBtn setHidden:YES];
+        
+        _applyType=OpenApplyPublic;
+        
+    }
+    else if (_applyData.openType==OpenTypePrivate)
+    {
+    
+        [_privateBtn setBackgroundImage:[UIImage imageNamed:@"chose_Btn"] forState:UIControlStateNormal];
+        _privateBtn.titleLabel.font = [UIFont systemFontOfSize:22];
+        _privateBtn.frame = CGRectMake(_privateX, _privateY, 140, 40);
+        [_publickBtn setHidden:YES];
+        
+        _applyType=OpenApplyPrivate;
+
+    }
+    else if(_applyData.openType==OpenApplyAll)
+    {
+        if(_applyType==OpenApplyPublic)
+        {
+            [_publickBtn setBackgroundImage:[UIImage imageNamed:@"chose_Btn"] forState:UIControlStateNormal];
+            _publickBtn.titleLabel.font = [UIFont systemFontOfSize:22];
+            _publickBtn.frame = CGRectMake(_publicX, _privateY, 140, 40);
+            
+            [_privateBtn setBackgroundImage:nil forState:UIControlStateNormal];
+            _privateBtn.titleLabel.font = [UIFont systemFontOfSize:20];
+            _privateBtn.frame = CGRectMake(_privateX + 10, _privateY, 120, 36);
+        }else
+        {
+            [_privateBtn setBackgroundImage:[UIImage imageNamed:@"chose_Btn"] forState:UIControlStateNormal];
+            _privateBtn.titleLabel.font = [UIFont systemFontOfSize:22];
+            _privateBtn.frame = CGRectMake(_privateX, _privateY, 140, 40);
+            
+            [_publickBtn setBackgroundImage:nil forState:UIControlStateNormal];
+            _publickBtn.titleLabel.font = [UIFont systemFontOfSize:20];
+            _publickBtn.frame = CGRectMake(_publicX + 10, _privateY, 120, 36);
+            
+        }
+    
+    }
+    /*
     if(_applyType==OpenApplyPublic)
     {
         [_publickBtn setBackgroundImage:[UIImage imageNamed:@"chose_Btn"] forState:UIControlStateNormal];
@@ -318,7 +363,7 @@
         _publickBtn.frame = CGRectMake(_publicX + 10, _privateY, 120, 36);
         
     }
-
+*/
     [_scrollView addSubview:headerView];
 
     
