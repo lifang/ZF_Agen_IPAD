@@ -76,7 +76,7 @@
     self.title = @"订单管理";
     _orderItem = [[NSMutableArray alloc] init];
     [self initAndLayoutUI];
-    self.supplyType = SupplyGoodsWholesale;
+    self.supplyType = SupplyGoodsProcurement;
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(refreshOrderList:)
                                                  name:RefreshOrderListNotification
@@ -118,27 +118,40 @@
 #pragma mark - UI
 -(void)setupHeaderView
 {
-    //创建头部View
+    CGFloat wide;
+    CGFloat height;
+    if(iOS7)
+    {
+        wide=SCREEN_HEIGHT;
+        height=SCREEN_WIDTH;
+        
+    }
+    else
+    {  wide=SCREEN_WIDTH;
+        height=SCREEN_HEIGHT;
+        
+    }
+//创建头部View
     UIView *headerView = [[UIView alloc]init];
     headerView.backgroundColor = kColor(226, 226, 226, 1.0);
-    headerView.frame = CGRectMake(0, 0, SCREEN_WIDTH, 80);
-    if (iOS7) {
-        headerView.frame = CGRectMake(0, 0, SCREEN_HEIGHT, 80);
-    }
+    headerView.frame = CGRectMake(0, 0, wide, 80);
+//    if (iOS7) {
+//        headerView.frame = CGRectMake(0, 0, wide, 80);
+//    }
     //创建头部按钮
-    UIButton *publicBtn = [[UIButton alloc]init];
-    self.isChecked = YES;
-    self.publickBtn = publicBtn;
-    [publicBtn addTarget:self action:@selector(publicClicked) forControlEvents:UIControlEventTouchUpInside];
-    publicBtn.backgroundColor = [UIColor clearColor];
-    [publicBtn setBackgroundImage:[UIImage imageNamed:@"chose_Btn"] forState:UIControlStateNormal];
-    publicBtn.titleLabel.font = [UIFont systemFontOfSize:22];
-    [publicBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    [publicBtn setTitle:@"批购订单" forState:UIControlStateNormal];
-    publicBtn.frame = CGRectMake(headerView.frame.size.width * 0.4 , 40, 140, 40);
-    self.privateY = 40;
-    self.publicX = headerView.frame.size.width * 0.4;
-    [headerView addSubview:publicBtn];
+//    UIButton *publicBtn = [[UIButton alloc]init];
+//    self.isChecked = YES;
+//    self.publickBtn = publicBtn;
+//    [publicBtn addTarget:self action:@selector(publicClicked) forControlEvents:UIControlEventTouchUpInside];
+//    publicBtn.backgroundColor = [UIColor clearColor];
+//    [publicBtn setBackgroundImage:[UIImage imageNamed:@"chose_Btn"] forState:UIControlStateNormal];
+//    publicBtn.titleLabel.font = [UIFont systemFontOfSize:22];
+//    [publicBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+//    [publicBtn setTitle:@"批购订单" forState:UIControlStateNormal];
+//    publicBtn.frame = CGRectMake(headerView.frame.size.width * 0.4 , 40, 140, 40);
+//    self.privateY = 40;
+//    self.publicX = headerView.frame.size.width * 0.4;
+//    [headerView addSubview:publicBtn];
     
     UIButton *privateBtn = [[UIButton alloc]init];
     self.privateBtn = privateBtn;
@@ -147,8 +160,8 @@
     privateBtn.titleLabel.font = [UIFont systemFontOfSize:20];
     [privateBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     [privateBtn setTitle:@"代购订单" forState:UIControlStateNormal];
-    privateBtn.frame = CGRectMake(CGRectGetMaxX(publicBtn.frame), 44, 120, 36);
-    self.privateX = CGRectGetMaxX(publicBtn.frame);
+//    privateBtn.frame = CGRectMake(CGRectGetMaxX(publicBtn.frame), 44, 120, 36);
+//    self.privateX = CGRectGetMaxX(publicBtn.frame);
     [headerView addSubview:privateBtn];
     if(self.supplyType==SupplyGoodsWholesale)
     {
@@ -164,10 +177,11 @@
         [_privateBtn setBackgroundImage:[UIImage imageNamed:@"chose_Btn"] forState:UIControlStateNormal];
         _privateBtn.titleLabel.font = [UIFont systemFontOfSize:22];
         _privateBtn.frame = CGRectMake(_privateX, _privateY, 140, 40);
+        _privateBtn.center=CGPointMake(wide/2, 40);
         
-        [_publickBtn setBackgroundImage:nil forState:UIControlStateNormal];
-        _publickBtn.titleLabel.font = [UIFont systemFontOfSize:20];
-        _publickBtn.frame = CGRectMake(_publicX + 10, _privateY, 120, 36);
+//        [_publickBtn setBackgroundImage:nil forState:UIControlStateNormal];
+//        _publickBtn.titleLabel.font = [UIFont systemFontOfSize:20];
+//        _publickBtn.frame = CGRectMake(_publicX + 10, _privateY, 120, 36);
         
     }
     

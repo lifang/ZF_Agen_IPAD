@@ -373,7 +373,7 @@
     //417
     CGFloat recordHeight = 0.f;
     //追踪记录
-    if ([self.records count] > 0) {
+    if ([self.records count] == 111111111) {
         UILabel *tipLabel = [[UILabel alloc] init];
         [self setLabel:tipLabel withTopView:merchantPhoneLabel middleSpace:resourceHeight + lineSpace];
         tipLabel.font = [UIFont systemFontOfSize:15.f];

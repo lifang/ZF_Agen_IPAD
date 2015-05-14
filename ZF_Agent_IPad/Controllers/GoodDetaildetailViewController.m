@@ -951,8 +951,8 @@
 
 - (void)initSubViewmaterial {
     UIView *topView = nil;
-    topView = [self addRowsWithTitlematel:@"对个人开通" content:_channelData.privateInfo topView:topView];
-    topView = [self addRowsWithTitlematel:@"对公开通" content:_channelData.publicInfo topView:topView];
+    topView = [self addRowsWithTitlematel:@"开通申请材料" content:_channelData.openInfo topView:topView];
+//    topView = [self addRowsWithTitlematel:@"对公开通" content:_channelData.publicInfo topView:topView];
     
     _scrollViewmaterial.contentSize = CGSizeMake(kScreenWidth, _viewHeightmatel);
 }
