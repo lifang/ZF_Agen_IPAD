@@ -130,7 +130,7 @@
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
     hud.labelText = @"提交中...";
     AppDelegate *delegate = [AppDelegate shareAppDelegate];
-    [NetworkInterface deleteSingleMessageWithAgentID:delegate.agentID token:delegate.token messageID:_message.messageID finished:^(BOOL success, NSData *response) {
+    [NetworkInterface deleteSingleMessageWithAgentID:delegate.agentUserID token:delegate.token messageID:_message.messageID finished:^(BOOL success, NSData *response) {
         hud.customView = [[UIImageView alloc] init];
         hud.mode = MBProgressHUDModeCustomView;
         [hud hide:YES afterDelay:0.5f];
