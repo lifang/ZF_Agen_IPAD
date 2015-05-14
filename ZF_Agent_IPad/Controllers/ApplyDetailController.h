@@ -36,14 +36,19 @@ typedef enum {
     UIButton *sexBtn ;
     UIButton *birthdaybutton;
     UIDatePicker *datePicker;
-    UIButton  *makeSureBtn;
+   // UIButton  *makeSureBtn;
     UIButton  *locationbutton;
     NSArray  *keynamesarry;
     NSInteger pickint;
+    
     UIButton *bankNameBtn ;
     //UITextField *bankIdTF;
     UIButton  *bankbutton ;
     UIButton *zhifubutton;
+    
+    UITextField *nameTF;
+    UITextField *merchantTF;
+    UITextField *accountBankNameTF;
    
     
     

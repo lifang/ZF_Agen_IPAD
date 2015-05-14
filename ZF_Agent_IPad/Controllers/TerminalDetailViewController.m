@@ -215,7 +215,16 @@
                 [button setTitle:@"找回POS密码" forState:UIControlStateNormal];
             }
             if (i == 1) {
+                if (!_appid||[_appid isEqualToString:@""]) {
+                    
+                [button setTitle:@"申请开通" forState:UIControlStateNormal];
+                    
+                }
+                else{
+                    
                 [button setTitle:@"重新申请开通" forState:UIControlStateNormal];
+                    
+                }
             }
             if (i == 2) {
                 [button setTitle:@"同步" forState:UIControlStateNormal];
@@ -243,7 +252,17 @@
                 [button setTitle:@"视频认证" forState:UIControlStateNormal];
             }
             if (i == 2) {
-                [button setTitle:@"重新申请开通" forState:UIControlStateNormal];
+                if (!_appid||[_appid isEqualToString:@""]) {
+                    
+                    [button setTitle:@"申请开通" forState:UIControlStateNormal];
+                    
+                }
+                else{
+                    
+                    [button setTitle:@"重新申请开通" forState:UIControlStateNormal];
+                    
+                }
+               
             }
             if (i == 3) {
                 [button setTitle:@"同步" forState:UIControlStateNormal];
@@ -269,7 +288,16 @@
                 [self.scrollView addSubview:button];
               
                 if (i == 0) {
-                    [button setTitle:@"申请开通" forState:UIControlStateNormal];
+                    if (!_appid||[_appid isEqualToString:@""]) {
+                        
+                        [button setTitle:@"申请开通" forState:UIControlStateNormal];
+                        
+                    }
+                    else{
+                        
+                        [button setTitle:@"重新申请开通" forState:UIControlStateNormal];
+                        
+                    }
                 }
                 if (i == 1) {
                     [button setTitle:@"同步" forState:UIControlStateNormal];
@@ -295,7 +323,16 @@
                 [button setTitle:@"视频认证" forState:UIControlStateNormal];
             }
             if (i == 1) {
-                [button setTitle:@"申请开通" forState:UIControlStateNormal];
+                if (!_appid||[_appid isEqualToString:@""]) {
+                    
+                    [button setTitle:@"申请开通" forState:UIControlStateNormal];
+                    
+                }
+                else{
+                    
+                    [button setTitle:@"重新申请开通" forState:UIControlStateNormal];
+                    
+                }
             }
             if (i == 2) {
                 [button setTitle:@"同步" forState:UIControlStateNormal];

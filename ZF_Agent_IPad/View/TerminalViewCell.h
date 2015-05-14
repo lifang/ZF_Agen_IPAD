@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "TerminalManagerModel.h"
 
 @protocol terminalCellSendBtnClicked <NSObject>
 
@@ -35,6 +36,7 @@
 @property(nonatomic,assign)int indexNum;
 
 @property(nonatomic,weak)id<terminalCellSendBtnClicked> TerminalViewCellDelegate;
+
 
 
 @end

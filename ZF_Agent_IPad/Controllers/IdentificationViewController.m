@@ -491,6 +491,22 @@
     //用来标识数据的id
     cell.applicationBtn.tag = indexPath.row;
     cell.videoConfirmBtn.tag = [model.TM_ID intValue];
+    if(!model.appID||[model.appID isEqualToString:@""])
+    {
+        [cell.applicationBtn setTitle:@"申请开通" forState:UIControlStateNormal];
+        [cell.applicationBtn addTarget:self action:@selector(applicationClick:) forControlEvents:UIControlEventTouchUpInside];
+        
+    }
+    else
+    {
+        [cell.applicationBtn setTitle:@"重新申请开通" forState:UIControlStateNormal];
+        
+        cell.applicationBtn.titleLabel.font=[UIFont systemFontOfSize:16];
+        [cell.applicationBtn addTarget:self action:@selector(applicationClick:) forControlEvents:UIControlEventTouchUpInside];
+        
+    }
+
+    /*
     if(  [model.TM_status  isEqualToString:@"2"])
     {
         [cell.applicationBtn setTitle:@"重新申请开通" forState:UIControlStateNormal];
@@ -505,6 +521,7 @@
         [cell.applicationBtn setTitle:@"申请开通" forState:UIControlStateNormal];
         [cell.applicationBtn addTarget:self action:@selector(applicationClick:) forControlEvents:UIControlEventTouchUpInside];
     }
+     */
     /*
     [cell.vedioConfirmBtn setTitle:@"视频认证" forState:UIControlStateNormal];
     [cell.vedioConfirmBtn addTarget:self action:@selector(vedioConfirmClick:) forControlEvents:UIControlEventTouchUpInside];
