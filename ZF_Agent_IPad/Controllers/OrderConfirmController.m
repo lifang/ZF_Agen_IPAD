@@ -97,7 +97,28 @@
         AddressModel *model = [[AddressModel alloc] initWithParseDictionary:addressDict];
         [addressarry addObject:model];
         
+        if([model.addressID isEqualToString:@"1"])
+            
+        {
+            
+            B=i+1;
+            
+            
+            
+            
+            
+            
+            
+        }
+        
+        
+    }if(B==0)
+    {
+        B=1;
+        
+        
     }
+
     [self initAndLauoutUI];
 
 }

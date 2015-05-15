@@ -1,15 +1,18 @@
 //
-//  DealRoadDetailController.m
-//  iPadff
+//  StatisticTradeController.m
+//  ZFAB
 //
-//  Created by 黄含章 on 15/3/9.
-//  Copyright (c) 2015年 LanTaiPro. All rights reserved.
+//  Created by 徐宝桥 on 15/4/17.
+//  Copyright (c) 2015年 ___MyCompanyName___. All rights reserved.
 //
 
-#import "DealRoadDetailController.h"
+#import "StatisticTradeController.h"
 #import "AppDelegate.h"
+#import "PorfitCell.h"
 
-@interface DealRoadDetailController ()
+@interface StatisticTradeController ()<UITableViewDataSource,UITableViewDelegate>
+
+@property (nonatomic, strong) UITableView *tableView;
 
 @property (nonatomic, strong) UIView *blackView;
 
@@ -17,48 +20,48 @@
 
 @property (nonatomic, strong) UILabel *countLabel;
 
-@property (nonatomic, strong) UILabel *terminalLabel;
-
-@property (nonatomic, strong) UILabel *channelLabel;
-
 @property (nonatomic, strong) UILabel *timeLabel;
 
 @property (nonatomic, strong) UILabel *typeLabel;
 
+@property (nonatomic, strong) NSMutableArray *dataItems;
+
 @end
 
-@implementation DealRoadDetailController
+@implementation StatisticTradeController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self setupNavBar];
+    // Do any additional setup after loading the view.
+    self.title = @"统计结果";
+    self.view.backgroundColor = kColor(244, 243, 243, 1);
+    _dataItems = [[NSMutableArray alloc] init];
     [self initAndLayoutUI];
     [self downloadStatisticData];
 }
--(void)setupNavBar
-{
-    self.title = @"交易流水统计";
-    self.view.backgroundColor = [UIColor whiteColor];
-}
 
--(void)backHome
-{
-    [self.navigationController popViewControllerAnimated:YES];
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
 }
 
 #pragma mark - UI
 
-- (void)initAndLayoutUI {
+- (void)setHeaderView {
+    UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 161)];
+    headerView.backgroundColor = [UIColor clearColor];
+    _tableView.tableHeaderView = headerView;
+    
     CGFloat blackViewHeight = 130.f;
     
     _blackView = [[UIView alloc] init];
     _blackView.translatesAutoresizingMaskIntoConstraints = NO;
     _blackView.backgroundColor = kColor(33, 32, 42, 1);
-    [self.view addSubview:_blackView];
+    [headerView addSubview:_blackView];
     [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_blackView
                                                           attribute:NSLayoutAttributeTop
                                                           relatedBy:NSLayoutRelationEqual
-                                                             toItem:self.view
+                                                             toItem:headerView
                                                           attribute:NSLayoutAttributeTop
                                                          multiplier:1.0
                                                            constant:0.f]];
@@ -84,7 +87,7 @@
                                                          multiplier:0.0
                                                            constant:blackViewHeight]];
     CGFloat topSpace = 20.f;
-    CGFloat leftSpace = 70.f;
+    CGFloat leftSpace = 20.f;
     CGFloat rightSpace = 20.f;
     UILabel *infoLabel = [[UILabel alloc] init];
     infoLabel.translatesAutoresizingMaskIntoConstraints = NO;
@@ -199,15 +202,15 @@
     _timeLabel.translatesAutoresizingMaskIntoConstraints = NO;
     _timeLabel.backgroundColor = [UIColor clearColor];
     _timeLabel.textColor = kColor(86, 86, 85, 1);
-    _timeLabel.font = [UIFont systemFontOfSize:18.f];
-    [self.view addSubview:_timeLabel];
+    _timeLabel.font = [UIFont systemFontOfSize:13.f];
+    [headerView addSubview:_timeLabel];
     [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_timeLabel
                                                           attribute:NSLayoutAttributeTop
                                                           relatedBy:NSLayoutRelationEqual
                                                              toItem:_blackView
                                                           attribute:NSLayoutAttributeBottom
                                                          multiplier:1.0
-                                                           constant:30.0]];
+                                                           constant:10.0]];
     [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_timeLabel
                                                           attribute:NSLayoutAttributeLeft
                                                           relatedBy:NSLayoutRelationEqual
@@ -228,29 +231,29 @@
                                                              toItem:nil
                                                           attribute:NSLayoutAttributeNotAnAttribute
                                                          multiplier:0.0
-                                                           constant:30.f]];
+                                                           constant:20.f]];
     //状态
     _typeLabel = [[UILabel alloc] init];
     _typeLabel.translatesAutoresizingMaskIntoConstraints = NO;
     _typeLabel.backgroundColor = [UIColor clearColor];
-    _typeLabel.textColor = kColor(57, 56, 56, 1);
-    _typeLabel.font = [UIFont systemFontOfSize:18.f];
+    _typeLabel.textColor = kColor(86, 86, 85, 1);
+    _typeLabel.font = [UIFont systemFontOfSize:13.f];
     _typeLabel.textAlignment = NSTextAlignmentRight;
-    [self.view addSubview:_typeLabel];
+    [headerView addSubview:_typeLabel];
     [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_typeLabel
                                                           attribute:NSLayoutAttributeTop
                                                           relatedBy:NSLayoutRelationEqual
                                                              toItem:_blackView
                                                           attribute:NSLayoutAttributeBottom
                                                          multiplier:1.0
-                                                           constant:30.0]];
+                                                           constant:10.0]];
     [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_typeLabel
-                                                          attribute:NSLayoutAttributeRight
+                                                          attribute:NSLayoutAttributeLeft
                                                           relatedBy:NSLayoutRelationEqual
-                                                             toItem:self.view
+                                                             toItem:_timeLabel
                                                           attribute:NSLayoutAttributeRight
                                                          multiplier:1.0
-                                                           constant:-70.f]];
+                                                           constant:0.f]];
     [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_typeLabel
                                                           attribute:NSLayoutAttributeWidth
                                                           relatedBy:NSLayoutRelationEqual
@@ -264,122 +267,93 @@
                                                              toItem:nil
                                                           attribute:NSLayoutAttributeNotAnAttribute
                                                          multiplier:0.0
-                                                           constant:30.f]];
-    //划线
-    UIView *line = [[UIView alloc] init];
-    line.translatesAutoresizingMaskIntoConstraints = NO;
-    line.backgroundColor = kColor(3, 112, 214, 1);
-    [self.view addSubview:line];
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:line
+                                                           constant:20.f]];
+//    //划线
+//    UIView *line = [[UIView alloc] init];
+//    line.translatesAutoresizingMaskIntoConstraints = NO;
+//    line.backgroundColor = kColor(190, 190, 190, 1);
+//    [headerView addSubview:line];
+//    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:line
+//                                                          attribute:NSLayoutAttributeTop
+//                                                          relatedBy:NSLayoutRelationEqual
+//                                                             toItem:_timeLabel
+//                                                          attribute:NSLayoutAttributeBottom
+//                                                         multiplier:1.0
+//                                                           constant:0.0]];
+//    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:line
+//                                                          attribute:NSLayoutAttributeLeft
+//                                                          relatedBy:NSLayoutRelationEqual
+//                                                             toItem:self.view
+//                                                          attribute:NSLayoutAttributeLeft
+//                                                         multiplier:1.0
+//                                                           constant:10.f]];
+//    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:line
+//                                                          attribute:NSLayoutAttributeRight
+//                                                          relatedBy:NSLayoutRelationEqual
+//                                                             toItem:self.view
+//                                                          attribute:NSLayoutAttributeRight
+//                                                         multiplier:1.0
+//                                                           constant:-10.f]];
+//    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:line
+//                                                          attribute:NSLayoutAttributeHeight
+//                                                          relatedBy:NSLayoutRelationEqual
+//                                                             toItem:nil
+//                                                          attribute:NSLayoutAttributeNotAnAttribute
+//                                                         multiplier:0.0
+//                                                           constant:kLineHeight]];
+}
+
+- (void)initAndLayoutUI {
+    _tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStyleGrouped];
+    _tableView.translatesAutoresizingMaskIntoConstraints = NO;
+    _tableView.backgroundColor = kColor(244, 243, 243, 1);
+    _tableView.delegate = self;
+    _tableView.dataSource = self;
+    [self.view addSubview:_tableView];
+    [self setHeaderView];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_tableView
                                                           attribute:NSLayoutAttributeTop
                                                           relatedBy:NSLayoutRelationEqual
-                                                             toItem:_timeLabel
-                                                          attribute:NSLayoutAttributeBottom
-                                                         multiplier:1.0
-                                                           constant:0.0]];
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:line
-                                                          attribute:NSLayoutAttributeLeft
-                                                          relatedBy:NSLayoutRelationEqual
                                                              toItem:self.view
-                                                          attribute:NSLayoutAttributeLeft
-                                                         multiplier:1.0
-                                                           constant:70.f]];
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:line
-                                                          attribute:NSLayoutAttributeRight
-                                                          relatedBy:NSLayoutRelationEqual
-                                                             toItem:self.view
-                                                          attribute:NSLayoutAttributeRight
-                                                         multiplier:1.0
-                                                           constant:-70.f]];
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:line
-                                                          attribute:NSLayoutAttributeHeight
-                                                          relatedBy:NSLayoutRelationEqual
-                                                             toItem:nil
-                                                          attribute:NSLayoutAttributeNotAnAttribute
-                                                         multiplier:0.0
-                                                           constant:kLineHeight]];
-    //终端号
-    _terminalLabel = [[UILabel alloc] init];
-    _terminalLabel.translatesAutoresizingMaskIntoConstraints = NO;
-    _terminalLabel.backgroundColor = [UIColor clearColor];
-    _terminalLabel.textColor = kColor(57, 56, 56, 1);
-    _terminalLabel.font = [UIFont systemFontOfSize:18.f];
-    [self.view addSubview:_terminalLabel];
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_terminalLabel
                                                           attribute:NSLayoutAttributeTop
+                                                         multiplier:1.0
+                                                           constant:0.f]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_tableView
+                                                          attribute:NSLayoutAttributeLeft
                                                           relatedBy:NSLayoutRelationEqual
-                                                             toItem:line
+                                                             toItem:self.view
+                                                          attribute:NSLayoutAttributeLeft
+                                                         multiplier:1.0
+                                                           constant:0]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_tableView
+                                                          attribute:NSLayoutAttributeRight
+                                                          relatedBy:NSLayoutRelationEqual
+                                                             toItem:self.view
+                                                          attribute:NSLayoutAttributeRight
+                                                         multiplier:1.0
+                                                           constant:0]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_tableView
+                                                          attribute:NSLayoutAttributeBottom
+                                                          relatedBy:NSLayoutRelationEqual
+                                                             toItem:self.view
                                                           attribute:NSLayoutAttributeBottom
                                                          multiplier:1.0
-                                                           constant:20.0]];
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_terminalLabel
-                                                          attribute:NSLayoutAttributeLeft
-                                                          relatedBy:NSLayoutRelationEqual
-                                                             toItem:self.view
-                                                          attribute:NSLayoutAttributeLeft
-                                                         multiplier:1.0
-                                                           constant:leftSpace]];
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_terminalLabel
-                                                          attribute:NSLayoutAttributeRight
-                                                          relatedBy:NSLayoutRelationEqual
-                                                             toItem:self.view
-                                                          attribute:NSLayoutAttributeRight
-                                                         multiplier:1.0
-                                                           constant:-rightSpace]];
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_terminalLabel
-                                                          attribute:NSLayoutAttributeHeight
-                                                          relatedBy:NSLayoutRelationEqual
-                                                             toItem:nil
-                                                          attribute:NSLayoutAttributeNotAnAttribute
-                                                         multiplier:0.0
-                                                           constant:30.f]];
-    //支付通道
-    _channelLabel = [[UILabel alloc] init];
-    _channelLabel.translatesAutoresizingMaskIntoConstraints = NO;
-    _channelLabel.backgroundColor = [UIColor clearColor];
-    _channelLabel.textColor = kColor(57, 56, 56, 1);
-    _channelLabel.font = [UIFont systemFontOfSize:18.f];
-    [self.view addSubview:_channelLabel];
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_channelLabel
-                                                          attribute:NSLayoutAttributeTop
-                                                          relatedBy:NSLayoutRelationEqual
-                                                             toItem:_terminalLabel
-                                                          attribute:NSLayoutAttributeBottom
-                                                         multiplier:1.0
-                                                           constant:10.0]];
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_channelLabel
-                                                          attribute:NSLayoutAttributeLeft
-                                                          relatedBy:NSLayoutRelationEqual
-                                                             toItem:self.view
-                                                          attribute:NSLayoutAttributeLeft
-                                                         multiplier:1.0
-                                                           constant:leftSpace]];
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_channelLabel
-                                                          attribute:NSLayoutAttributeRight
-                                                          relatedBy:NSLayoutRelationEqual
-                                                             toItem:self.view
-                                                          attribute:NSLayoutAttributeRight
-                                                         multiplier:1.0
-                                                           constant:-rightSpace]];
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_channelLabel
-                                                          attribute:NSLayoutAttributeHeight
-                                                          relatedBy:NSLayoutRelationEqual
-                                                             toItem:nil
-                                                          attribute:NSLayoutAttributeNotAnAttribute
-                                                         multiplier:0.0
-                                                           constant:30.f]];
+                                                           constant:0]];
+    [self setHeaderView];
 }
 
 #pragma mark - Request
 
 - (void)downloadStatisticData {
     AppDelegate *delegate = [AppDelegate shareAppDelegate];
+    int hasPorfit = 1;
+    if (delegate.hasProfit) {
+        hasPorfit = 2;
+    }
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
     hud.labelText = @"加载中...";
-    [NetworkInterface getTradeStatistics:[NSString stringWithFormat:@"%d",self.tradeType] agentID:delegate.agentID tradeRecordId:self.nextid terminalNumber:self.terminalNumber startTime:self.startTime endTime:self.endTime isHaveProfit:@"1" finished:^(BOOL success, NSData *response) {
-        
-   
-   
+    [NetworkInterface getTradeStatistWithAgentID:delegate.agentID token:delegate.token tradeType:_tradeType subAgentID:_subAgentID terminalNumber:_terminalNumber startTime:_startTime endTime:_endTime hasProfit:hasPorfit finished:^(BOOL success, NSData *response) {
+        NSLog(@"%@",[[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding]);
         hud.customView = [[UIImageView alloc] init];
         hud.mode = MBProgressHUDModeCustomView;
         [hud hide:YES afterDelay:0.5f];
@@ -410,31 +384,35 @@
 #pragma mark - Data
 
 - (void)parseStatisticDataWithDictionary:(NSDictionary *)dict {
-    if (![dict objectForKey:@"result"] || ![[dict objectForKey:@"result"] isKindOfClass:[NSDictionary class]]) {
+    if (![dict objectForKey:@"result"] || ![[dict objectForKey:@"result"] isKindOfClass:[NSArray class]]) {
         return;
     }
-    NSDictionary *infoDict = [dict objectForKey:@"result"];
-    CGFloat amountTotal = [[infoDict objectForKey:@"amountTotal"] floatValue]/100;
-    NSString *channelName = [NSString stringWithFormat:@"%@",[infoDict objectForKey:@"payChannelName"]];
-    NSString *terminalNum = [NSString stringWithFormat:@"%@",[infoDict objectForKey:@"terminalNumber"]];
-    NSString *tradeTotal = [NSString stringWithFormat:@"%@",[infoDict objectForKey:@"tradeTotal"]];
-    NSString *tradeType = [NSString stringWithFormat:@"%@",[infoDict objectForKey:@"tradeTypeId"]];
-    
-    
+    [_dataItems removeAllObjects];
+    NSArray *profitList = [dict objectForKey:@"result"];
+    for (int i = 0; i < [profitList count]; i++) {
+        id profitDict = [profitList objectAtIndex:i];
+        if ([profitDict isKindOfClass:[NSDictionary class]]) {
+            ProfitModel *model = [[ProfitModel alloc] initWithParseDictionary:profitDict];
+            [_dataItems addObject:model];
+        }
+    }
     NSString *start = [self transformDateStringWithStrting:_startTime];
     NSString *end = [self transformDateStringWithStrting:_endTime];
-    _priceLabel.text = [NSString stringWithFormat:@"￥%.2f",amountTotal];
-    _countLabel.text = [NSString stringWithFormat:@"交易笔数：%@",tradeTotal];
+    int count = 0;
+    CGFloat summaryPrice = 0.f;
+    for (ProfitModel *model in _dataItems) {
+        count += model.totalCount;
+        summaryPrice += model.amount;
+    }
+    _priceLabel.text = [NSString stringWithFormat:@"￥%.2f",summaryPrice];
+    _countLabel.text = [NSString stringWithFormat:@"交易笔数：%d",count];
     _timeLabel.text = [NSString stringWithFormat:@"%@-%@",start,end];
-    _terminalLabel.text = [NSString stringWithFormat:@"终  端  号      %@",terminalNum];
-    _channelLabel.text = [NSString stringWithFormat:@"支 付 通 道    %@",channelName];
-    _typeLabel.text = [NSString stringWithFormat:@"%@",[self tradeTypeWithIndex:tradeType]];
-    
+    _typeLabel.text = [NSString stringWithFormat:@"%@",[self tradeTypeWithIndex:_tradeType]];
+    [_tableView reloadData];
 }
 
-- (NSString *)tradeTypeWithIndex:(NSString *)indexString {
-    NSString *tradeString = nil;
-    int index = [indexString intValue];
+- (NSString *)tradeTypeWithIndex:(int)index{
+    NSString *tradeString = nil;;
     switch (index) {
         case TradeTypeTransfer:
             tradeString = @"转账";
@@ -464,6 +442,37 @@
     return primaryString;
 }
 
+#pragma mark - UITableView
 
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    return 1;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    AppDelegate *delegate = [AppDelegate shareAppDelegate];
+    if (!delegate.hasProfit) {
+        return 0;
+    }
+    return [_dataItems count];
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    static NSString *identifier = @"Profit";
+    PorfitCell *cell = [_tableView dequeueReusableCellWithIdentifier:identifier];
+    if (cell == nil) {
+        cell = [[PorfitCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
+    }
+    ProfitModel *model = [_dataItems objectAtIndex:indexPath.row];
+    [cell setContentWithData:model];
+    return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return kProfitCellHeight;
+}
 
 @end

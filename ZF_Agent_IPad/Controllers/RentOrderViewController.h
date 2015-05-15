@@ -20,7 +20,7 @@
     UIButton *defaultbutton;
     BOOL defaultbool;
     UIButton*_cityField;
-    NSInteger B;
+//    NSInteger B;
     BOOL isneedpp;
     UIButton*blankbutton;
     NSInteger changeB;
@@ -31,6 +31,8 @@
     NSString*textnsstring;
     NSString*billnsstring;
     UIImageView*bigsview;
+    NSInteger resultint;
+
 }
 //若从购物车跳转过来 保存选中的数据
 @property (nonatomic, strong) NSArray *shoppingCartItem;

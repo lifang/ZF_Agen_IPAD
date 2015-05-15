@@ -109,7 +109,9 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title=@"终端管理";
+    NSDictionary *attributes = [NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor],NSForegroundColorAttributeName,[UIFont boldSystemFontOfSize:22],NSFontAttributeName, nil];
+    [self.navigationController.navigationBar setTitleTextAttributes:attributes];
+    self.title = @"终端管理";
     self.view.backgroundColor=[UIColor whiteColor];
     
     
@@ -162,7 +164,7 @@
     [applyBtn makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(headerView.centerY);
         make.width.equalTo(@120);
-        make.left.equalTo(headerView.left).offset(80);
+        make.left.equalTo(headerView.left).offset(60);
         make.height.equalTo(@40);
     }];
     
@@ -234,10 +236,10 @@
 
     UIView *titleView = [[UIView alloc]init];
     titleView.backgroundColor=[UIColor colorWithHexString:@"f2f1f1"];
-    titleView.frame = CGRectMake(26, 120, SCREEN_WIDTH-52, 28);
+    titleView.frame = CGRectMake(0, 120, SCREEN_WIDTH, 28);
     
     if (iOS7) {
-        titleView.frame = CGRectMake(26, 120, SCREEN_HEIGHT-52, 28);
+        titleView.frame = CGRectMake(0, 120, SCREEN_HEIGHT, 28);
     }
     
     [self.view addSubview:titleView];
@@ -250,7 +252,7 @@
     [titleView addSubview:numberLB];
     [numberLB makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(titleView.centerY);
-        make.left.equalTo(titleView.left).offset(50);
+        make.left.equalTo(titleView.left).offset(60);
         make.width.equalTo(@70);
         
     }];
@@ -264,7 +266,7 @@
     [titleView addSubview:POSLB];
     [POSLB makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(titleView.centerY);
-        make.left.equalTo(numberLB.right).offset(50);
+        make.left.equalTo(numberLB.right).offset(65);
         make.width.equalTo(@70);
         
     }];
@@ -278,7 +280,7 @@
     [titleView addSubview:payLB];
     [payLB makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(titleView.centerY);
-        make.left.equalTo(POSLB.right).offset(50);
+        make.left.equalTo(POSLB.right).offset(60);
         make.width.equalTo(@70);
     }];
     
@@ -291,7 +293,7 @@
     [titleView addSubview:statusLB];
     [statusLB makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(titleView.centerY);
-        make.left.equalTo(payLB.right).offset(50);
+        make.left.equalTo(payLB.right).offset(65);
         make.width.equalTo(@70);
     }];
 
@@ -322,16 +324,16 @@
     
     if(iOS7)
     {
-        _tableView = [[UITableView alloc] initWithFrame:CGRectMake(20, 120+28, SCREEN_HEIGHT-20*2, SCREEN_WIDTH-148)];
+        _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 120+28, SCREEN_HEIGHT, SCREEN_WIDTH-148)];
         
     }else
     {
         
-        _tableView = [[UITableView alloc] initWithFrame:CGRectMake(20, 120+28, SCREEN_WIDTH-20*2, SCREEN_HEIGHT-148)];
+        _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 120+28, SCREEN_WIDTH, SCREEN_HEIGHT-148)];
         
     }
     
-    _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+//    _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     _tableView.backgroundColor = [UIColor whiteColor];
     _tableView.delegate = self;
     _tableView.dataSource = self;
@@ -1560,7 +1562,6 @@
     for (int i = 0; i < [TM_List count]; i++) {
         TerminalManagerModel *tm_Model = [[TerminalManagerModel alloc] initWithParseDictionary:[TM_List objectAtIndex:i]];
         [_terminalItems addObject:tm_Model];
-        NSLog(@"tm-VVF:%@",tm_Model.VideoVerify);
     }
     NSLog(@"terminalItems:%@",_terminalItems);
     [_tableView reloadData];
@@ -1599,101 +1600,102 @@
 
 
 #pragma mark terminalCell的代理
--(void)terminalCellBtnClicked:(int)btnTag WithSelectedID:(NSString *)selectedID Withindex:(int)indexNum
+-(void)terminalCellBtnClicked:(int)btnTag WithSelectedID:(NSString *)selectedID Withindex:(int)indexNum WithOpenstatus:(NSString *)openStatus WithAppid:(NSString *)appid
 {
     if (btnTag == 1000) {
+        //已开通
         NSLog(@"点击了找回POS密码 信息ID为%@",selectedID);
         [self initFindPosViewWithSelectedID:selectedID WithIndexNum:indexNum];
     }
-    /*
     if (btnTag == 1001) {
-        NSLog(@"点击了视频认证(已开通) 信息ID为%@&&&& %d",selectedID,indexNum);
-        //[self VideoVCWithSelectedID:selectedID];
-        [self VideoVCWithSelectedID:indexNum];
+        //已开通视频认证
+        //        VideoAuthController *videoAuthC = [[VideoAuthController alloc] init];
+        //        videoAuthC.terminalID = selectedID;
+        //        videoAuthC.hidesBottomBarWhenPushed=YES;
+        //        [self.navigationController pushViewController:videoAuthC animated:YES];
     }
-     */
-    if (btnTag == 1100) {
-        NSLog(@"点击了找回POS密码 信息ID为%@",selectedID);
-        [self initFindPosViewWithSelectedID:selectedID WithIndexNum:indexNum];
-    }
-    if (btnTag == 1101) {
-        NSLog(@"点击了视频认证(已开通) 信息ID为%@&&&& %d",selectedID,indexNum);
-        //[self VideoVCWithSelectedID:selectedID];
-        [self VideoVCWithSelectedID:indexNum];
+    if (btnTag == 1002) {
+        //同步
+        [self getTerminalSynchronous:selectedID];
     }
     if (btnTag == 2000) {
-        NSLog(@"点击了找回POS密码（部分开通）");
-        [self initFindPosViewWithSelectedID:selectedID WithIndexNum:indexNum];
-        
+        if ([appid isEqualToString:@""]) {
+            //未开通视频认证
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示信息"
+                                                            message:@"请先申请开通！"
+                                                           delegate:self
+                                                  cancelButtonTitle:@"确定"
+                                                  otherButtonTitles:nil];
+            [alert show];
+            
+        }
+        else{
+            VideoAuthViewController *videoAuthC = [[VideoAuthViewController alloc] init];
+            videoAuthC.terminalID = selectedID;
+            videoAuthC.hidesBottomBarWhenPushed=YES;
+            [self.navigationController pushViewController:videoAuthC animated:YES];
+        }
     }
-   
     if (btnTag == 2001) {
-        NSLog(@"点击了重新申请开通");
-        [self pushApplyNewVCWithSelectedID:selectedID];
+        //未开通申请开通
+        //        正在第三方审核,请耐心等待...
+        NSLog(@"点击了申请开通");
+        if ([openStatus isEqualToString:@"6"]) {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示信息"
+                                                            message:@"正在第三方审核,请耐心等待..."
+                                                           delegate:self
+                                                  cancelButtonTitle:@"确定"
+                                                  otherButtonTitles:nil];
+            [alert show];
+        }else{
+            [self pushApplyVCWithSelectedID:selectedID];
+        }
     }
     if (btnTag == 2002) {
-        NSLog(@"点击了同步（部分开通）");
-        [self synchronization:indexNum];
-        
+        NSLog(@"点击了同步(未开通)");
+        [self getTerminalSynchronous:selectedID];
     }
-    if (btnTag == 2100) {
+    if (btnTag == 3000) {
         NSLog(@"点击了找回POS密码（部分开通）");
         [self initFindPosViewWithSelectedID:selectedID WithIndexNum:indexNum];
-        
     }
-    if (btnTag == 2101) {
-        NSLog(@"点击了视频认证(部分开通) 信息ID为%@&&&& %d",selectedID,indexNum);
-        [self VideoVCWithSelectedID:indexNum];
-    }
-    if (btnTag == 2102) {
+    if (btnTag == 3001) {
+        //部分开通视频认证
+        VideoAuthViewController *videoAuthC = [[VideoAuthViewController alloc] init];
+        videoAuthC.hidesBottomBarWhenPushed=YES;
+        videoAuthC.terminalID = selectedID;
+        [self.navigationController pushViewController:videoAuthC animated:YES];    }
+    if (btnTag == 3002) {
+        //部分开通重新申请开通
         NSLog(@"点击了重新申请开通");
         [self pushApplyNewVCWithSelectedID:selectedID];
     }
-    if (btnTag == 2103) {
+    if (btnTag == 3003) {
         NSLog(@"点击了同步（部分开通）");
-        [self synchronization:indexNum];
-        
+        [self getTerminalSynchronous:selectedID];
     }
-
-    if (btnTag == 3000) {
-        NSLog(@"点击了申请开通");
-        [self pushApplyVCWithSelectedID:selectedID];
+    if (btnTag == 4000) {
+        NSLog(@"点击了更新资料");
     }
-    if (btnTag == 3001) {
-        NSLog(@"点击了同步(未开通)");
-        [self synchronization:indexNum];
-        
-    }
-
-    if (btnTag == 3100) {
-        NSLog(@"点击了视频认证(未开通) 信息ID为%@&&&& %d",selectedID,indexNum);
-        [self VideoVCWithSelectedID:indexNum];
-    }
-    if (btnTag == 3101) {
-        NSLog(@"点击了申请开通");
-        [self pushApplyVCWithSelectedID:selectedID];
-    }
-    if (btnTag == 3102) {
-        NSLog(@"点击了同步(未开通)");
-        [self synchronization:indexNum];
-
-    }
-    // if (btnTag == 4000) {
-    //     NSLog(@"点击了租赁退换（已注销）");
-    
-    //  }
-    
-    //if (btnTag == 5000) {
-   //  NSLog(@"点击了更新资料");
-        
-    //}
-    if (btnTag == 5000) {
+    if (btnTag == 4001) {
         NSLog(@"点击了同步（已停用）");
-        [self synchronization:indexNum];
+        [self getTerminalSynchronous:selectedID];
     }
-  
-
-    
+    if (btnTag == 5000) {
+        NSLog(@"点击了视频认证");
+        VideoAuthViewController *videoAuthC = [[VideoAuthViewController alloc] init];
+        videoAuthC.hidesBottomBarWhenPushed=YES;
+        videoAuthC.terminalID = selectedID;
+        [self.navigationController pushViewController:videoAuthC animated:YES];
+    }
+    if (btnTag == 5001) {
+        NSLog(@"点击了重新申请开通");
+        [self pushApplyNewVCWithSelectedID:selectedID];
+    }
+    if (btnTag == 5002) {
+        NSLog(@"点击了同步");
+        [self getTerminalSynchronous:selectedID];
+    }
 }
 
 
@@ -1866,21 +1868,22 @@
             return cell;
         }else{
             TerminalManagerModel *model = [_terminalItems objectAtIndex:indexPath.row];
-            //NSString *IDs = [NSString stringWithFormat:@"cell-%@",model.TM_status];
-            NSString *IDs = [NSString stringWithFormat:@"cell-%@%@",model.TM_status,model.VideoVerify];
-           
+            NSString *IDs = [NSString stringWithFormat:@"cell-%@",model.TM_status];
             TerminalViewCell *cell = [tableView dequeueReusableCellWithIdentifier:IDs];
             if (cell == nil) {
-                cell = [[TerminalViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:IDs];
+                cell = [[TerminalViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:IDs
+                                                   WithVedeos:model.isHaveVideo Appid:model.appID WithType:model.type WithOpenStatus:model.openstatus];
                 cell.TerminalViewCellDelegate = self;
             }
-            NSLog(@"modelVVF:%@",model.VideoVerify);
+            [cell initButtonWithreuseIdentifier:IDs
+                                     WithVedeos:model.isHaveVideo Appid:model.appID WithType:model.type WithOpenStatus:model.openstatus];
+            
+
             cell.selectedID = model.TM_ID;
             cell.terminalLabel.text = model.TM_serialNumber;
             cell.posLabel.text = [NSString stringWithFormat:@"%@%@",model.TM_brandsName,model.TM_model_number];
             cell.payRoad.text = model.TM_channelName;
             cell.indexNum = indexPath.row;
-            //cell.videoVerify=model.VideoVerify;//视频认证
             if ([model.TM_status isEqualToString:@"1"]) {
                 cell.dredgeStatus.text = @"已开通";
                 cell.cellStates = @"已开通";
@@ -1930,8 +1933,11 @@
         TerminalDetailViewController *terminalDetailVC = [[TerminalDetailViewController alloc]init];
         terminalDetailVC.hidesBottomBarWhenPushed = YES;
         terminalDetailVC.dealStatus = model.TM_status;
+        terminalDetailVC.isHaveVideo = model.isHaveVideo;
         terminalDetailVC.tm_ID = model.TM_ID;
-        terminalDetailVC.videoVerify=model.VideoVerify;
+        terminalDetailVC.appID = model.appID;
+        terminalDetailVC.type = model.type;
+        terminalDetailVC.openStatus = model.openstatus;
         [self.navigationController pushViewController:terminalDetailVC animated:YES];
     }
   
@@ -1945,20 +1951,17 @@
     
 }
 
-/*
- - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
- if ([tableView respondsToSelector:@selector(setSeparatorInset:)]) {
- [tableView setSeparatorInset:UIEdgeInsetsZero];
- }
- if ([tableView respondsToSelector:@selector(setLayoutMargins:)]) {
- [tableView setLayoutMargins:UIEdgeInsetsZero];
- }
- if ([cell respondsToSelector:@selector(setLayoutMargins:)]) {
- [cell setLayoutMargins:UIEdgeInsetsZero];
- }
- }
-*/
-
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
+    if ([tableView respondsToSelector:@selector(setSeparatorInset:)]) {
+        [tableView setSeparatorInset:UIEdgeInsetsZero];
+    }
+    if ([tableView respondsToSelector:@selector(setLayoutMargins:)]) {
+        [tableView setLayoutMargins:UIEdgeInsetsZero];
+    }
+    if ([cell respondsToSelector:@selector(setLayoutMargins:)]) {
+        [cell setLayoutMargins:UIEdgeInsetsZero];
+    }
+}
 
 #pragma mark - Refresh
 

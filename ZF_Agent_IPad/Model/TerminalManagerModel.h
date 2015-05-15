@@ -32,12 +32,21 @@ typedef enum {
 
 @property (nonatomic, strong) NSString *TM_model_number;  //型号
 
-@property (nonatomic, strong) NSString *VideoVerify;  //有无视频认证
+
+@property (nonatomic, strong) NSString *appID;
+
+@property(nonatomic,strong)NSString *type;
+
+@property(nonatomic,assign)BOOL isHaveVideo;
+
+@property(nonatomic,strong)NSString *openstatus;
+
+
 /*
  若有值，订单状态为已开通，找回POS密码操作,否则是自助开通
  若有值，订单状态为未开通，无同步操作
  */
-@property (nonatomic, strong) NSString *appID;
+
 - (id)initWithParseDictionary:(NSDictionary *)dict;
 
 - (NSString *)getStatusString;

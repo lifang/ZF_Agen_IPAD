@@ -12,7 +12,7 @@
 
 +(instancetype)cellWithTableView:(UITableView *)tableView
 {
-    static NSString *ID = @"dynamic";
+    static NSString *ID = @"IdentificationViewCell";
     IdentificationViewCell *cell = [tableView dequeueReusableCellWithIdentifier:ID];
     if (cell == nil) {
         cell = [[IdentificationViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:ID];
@@ -56,6 +56,13 @@
         [_videoConfirmBtn setTitle:@"视频认证" forState:UIControlStateNormal];
         [_videoConfirmBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         [_videoConfirmBtn setBackgroundColor:[UIColor colorWithHexString:@"006fd5"]];
+        if ([reuseIdentifier isEqualToString:@"isHaveVedio0"]) {
+            _videoConfirmBtn.userInteractionEnabled = NO;
+            [_videoConfirmBtn setBackgroundColor:kColor(219, 219, 219, 1.0)];
+        }else{
+            [_videoConfirmBtn setBackgroundColor:[UIColor colorWithHexString:@"006fd5"]];
+        }
+
         [self addSubview:_videoConfirmBtn];
         
         UILabel * line1 = [[UILabel alloc] init];
@@ -86,7 +93,7 @@
     
     _posLabel.frame = CGRectMake(CGRectGetMaxX(_terminalLabel.frame) + 50, mainY+40, mainWidth, mainheight);
     
-    _payRoad.frame = CGRectMake(CGRectGetMaxX(_posLabel.frame) + 60, mainY+40, mainWidth * 0.5, mainheight);
+    _payRoad.frame = CGRectMake(CGRectGetMaxX(_posLabel.frame) + 45, mainY+40, mainWidth * 0.7, mainheight);
     
     _dredgeStatus.frame = CGRectMake(CGRectGetMaxX(_payRoad.frame) + 90, mainY+40, mainWidth * 0.5, mainheight);
     

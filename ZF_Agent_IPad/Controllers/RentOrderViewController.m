@@ -1721,6 +1721,8 @@
                     hud.labelText = [NSString stringWithFormat:@"%@",[object objectForKey:@"message"]];
                 }
                 else if ([errorCode intValue] == RequestSuccess) {
+                    resultint=1256956;
+                    resultint=[[object objectForKey:@"result"] integerValue];
                     [hud hide:YES];
                     //                    [[NSNotificationCenter defaultCenter] postNotificationName:RefreshAddressListNotification object:nil];
                     [self  getAddressLists];
@@ -1969,7 +1971,47 @@
         AddressModel *model = [[AddressModel alloc] initWithParseDictionary:addressDict];
         [addressarry addObject:model];
         
+        if ([model.addressID integerValue]==resultint)
+            
+        {
+            
+            B=i+1;
+            
+            
+            
+            
+            
+            
+            
+        }
+        if([model.addressID isEqualToString:@"1"])
+            
+        {
+            
+            B=i+1;
+            
+            
+            
+            
+            
+            
+            
+        }
+        else
+        {
+            
+            
+        }
+        
+        
     }
+    if(B==0)
+    {
+        B=1;
+        
+        
+    }
+
     [self.tableView reloadData];
     
 }
@@ -2234,17 +2276,17 @@
            
             [cell.contentView addSubview:imageview];
             
-            UILabel *namelable = [[UILabel alloc] initWithFrame:CGRectMake(110, 20, 130, 30)];
+            UILabel *namelable = [[UILabel alloc] initWithFrame:CGRectMake(110, 20, wide/2-160, 30)];
             namelable.backgroundColor = [UIColor clearColor];
             namelable.font = [UIFont systemFontOfSize:16.f];
             namelable.text = _goodDetail.goodName;
             [cell.contentView addSubview:namelable];
-            UILabel *brandLabel = [[UILabel alloc] initWithFrame:CGRectMake(110, 60, 180, 20)];
+            UILabel *brandLabel = [[UILabel alloc] initWithFrame:CGRectMake(110, 60, wide/2-160, 20)];
             brandLabel.backgroundColor = [UIColor clearColor];
             brandLabel.font = [UIFont systemFontOfSize:14.f];
             brandLabel.text = [NSString stringWithFormat:@"品牌型号 %@%@",_goodDetail.goodBrand,_goodDetail.goodModel];
             [cell.contentView addSubview:brandLabel];
-            UILabel *channelLabel = [[UILabel alloc] initWithFrame:CGRectMake(110, 80, 130, 20)];
+            UILabel *channelLabel = [[UILabel alloc] initWithFrame:CGRectMake(110, 80, wide/2-160, 20)];
             channelLabel.backgroundColor = [UIColor clearColor];
             channelLabel.font = [UIFont systemFontOfSize:14.f];
             channelLabel.text =  [NSString stringWithFormat:@"支付通道 %@",_goodDetail.defaultChannel.channelName];

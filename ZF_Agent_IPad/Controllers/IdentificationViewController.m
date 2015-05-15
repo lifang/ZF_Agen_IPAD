@@ -15,6 +15,7 @@
 #import "ApplyDetailController.h"
 #import "SearchTermianlViewController.h"
 #import "VideoAuthViewController.h"
+#import "TerminalDetailViewController.h"
 
 @interface IdentificationViewController ()<RefreshDelegate,LoginSuccessDelegate,UITableViewDelegate,UITableViewDataSource,SearchDelegate>
 {
@@ -51,7 +52,10 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title = @"开通认证";
+    NSDictionary *attributes = [NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor],NSForegroundColorAttributeName,[UIFont boldSystemFontOfSize:22],NSFontAttributeName, nil];
+    [self.navigationController.navigationBar setTitleTextAttributes:attributes];
+    self.title = @"终端管理";
+    self.view.backgroundColor=[UIColor whiteColor];
     
     touchStatus=100;
     
@@ -108,7 +112,7 @@
     UILabel *fourth = [[UILabel alloc]init];
     fourth.font = mainFont;
     fourth.text = @"开通状态";
-    fourth.frame = CGRectMake(CGRectGetMaxX(third.frame) + 80, 2, 90, 25);
+    fourth.frame = CGRectMake(CGRectGetMaxX(third.frame) + 90, 2, 90, 25);
     [headerView addSubview:fourth];
    
 }
@@ -480,8 +484,9 @@
 */
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    IdentificationViewCell *cell = [IdentificationViewCell cellWithTableView:tableView];
     IdentificationModel *model = [_applyList objectAtIndex:indexPath.row];
+    NSString *ID = [NSString stringWithFormat:@"isHaveVedio%d",model.isHaveVideo];
+    IdentificationViewCell *cell = [[IdentificationViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:ID];
     cell.terminalLabel.text = model.TM_serialNumber;
     cell.posLabel.text = [NSString stringWithFormat:@"%@%@",model.TM_brandsName,model.TM_model_number];
     cell.payRoad.text = model.TM_channelName;
@@ -494,45 +499,40 @@
     if(  [model.TM_status  isEqualToString:@"2"])
     {
         [cell.applicationBtn setTitle:@"重新申请开通" forState:UIControlStateNormal];
-        
         cell.applicationBtn.titleLabel.font=[UIFont systemFontOfSize:16];
         [cell.applicationBtn addTarget:self action:@selector(applicationClick:) forControlEvents:UIControlEventTouchUpInside];
-        
-        
     }
     else
     {
-        [cell.applicationBtn setTitle:@"申请开通" forState:UIControlStateNormal];
+        if ([model.appID isEqualToString:@""]) {
+            [cell.applicationBtn setTitle:@"申请开通" forState:UIControlStateNormal];
+        }else{
+            [cell.applicationBtn setTitle:@"重新申请开通" forState:UIControlStateNormal];
+        }
         [cell.applicationBtn addTarget:self action:@selector(applicationClick:) forControlEvents:UIControlEventTouchUpInside];
     }
-    /*
-    [cell.vedioConfirmBtn setTitle:@"视频认证" forState:UIControlStateNormal];
-    [cell.vedioConfirmBtn addTarget:self action:@selector(vedioConfirmClick:) forControlEvents:UIControlEventTouchUpInside];
-    cell.vedioConfirmBtn.tag=indexPath.row;
-    */
-    if ([model.VideoVierfy isEqualToString:@"0"])
-    {
-        [cell.videoConfirmBtn setHidden:YES];
-    }
-    else
-    {
-        [cell.videoConfirmBtn setHidden:NO];
-        [cell.videoConfirmBtn setTitle:@"视频认证" forState:UIControlStateNormal];
-        [cell.videoConfirmBtn addTarget:self action:@selector(vedioConfirmClick:) forControlEvents:UIControlEventTouchUpInside];
-        cell.videoConfirmBtn.tag=indexPath.row;
-    }
+    [cell.videoConfirmBtn addTarget:self action:@selector(vedioConfirmClick:) forControlEvents:UIControlEventTouchUpInside];
     return cell;
+
 }
 
 -(void)vedioConfirmClick:(UIButton *)button
 {
-    IdentificationModel *model = [_applyList objectAtIndex:button.tag];
-    VideoAuthViewController *videoAuthVC = [[VideoAuthViewController alloc] init];
-    videoAuthVC.terminalID = model.TM_ID;
-    videoAuthVC.hidesBottomBarWhenPushed=YES;
-    [self.navigationController pushViewController:videoAuthVC animated:YES];
-
-}
+    
+    if (button.tag == 3) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示信息"
+                                                        message:@"请先申请开通！"
+                                                       delegate:self
+                                              cancelButtonTitle:@"确定"
+                                              otherButtonTitles:nil];
+        [alert show];
+        return;
+    }
+    VideoAuthViewController *videoAuthC = [[VideoAuthViewController alloc] init];
+    videoAuthC.terminalID =[NSString stringWithFormat:@"%d",button.tag];
+    videoAuthC.hidesBottomBarWhenPushed=YES;
+    
+    [self.navigationController pushViewController:videoAuthC animated:YES];}
 
 
 
@@ -540,6 +540,15 @@
 {
     
     TerminalManagerModel *model = [_applyList objectAtIndex:button.tag];
+    if ([model.openstatus isEqualToString:@"6"]) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示信息"
+                                                        message:@"正在第三方审核,请耐心等待..."
+                                                       delegate:self
+                                              cancelButtonTitle:@"确定"
+                                              otherButtonTitles:nil];
+        [alert show];
+        return;
+    }
     ApplyDetailController *detailVC = [[ApplyDetailController alloc] init];
    //detailVC.terminalID =[NSString stringWithFormat:@"%d",button.tag];
     
@@ -562,11 +571,27 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    //    DynamicStatus *status = [_listArray objectAtIndex:indexPath.row];
-    //    DynamicChildViewController *dynamicVC = [[DynamicChildViewController alloc]init];
-    //    dynamicVC.page =  status.ids;
-    //    [self.navigationController pushViewController:dynamicVC animated:YES];
-    //    SLog(@"点击了第%ld行",indexPath.row);
+    IdentificationModel *model = [_applyList objectAtIndex:indexPath.row];
+    if ([model.type isEqualToString:@"2"]) {
+        //自助开通无法查看详情
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:1.f];
+        hud.labelText = @"自助开通终端无详情信息";
+        return;
+    }else{
+        TerminalDetailViewController *terminalVC = [[TerminalDetailViewController alloc]init];
+        terminalVC.hidesBottomBarWhenPushed = YES;
+        terminalVC.dealStatus = model.TM_status;
+        terminalVC.isHaveVideo = model.isHaveVideo;
+        terminalVC.tm_ID = model.TM_ID;
+        terminalVC.appID = model.appID;
+        terminalVC.type = model.type;
+        terminalVC.openStatus = model.openstatus;
+        [self.navigationController pushViewController:terminalVC animated:YES];
+    }
+
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
