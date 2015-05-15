@@ -50,7 +50,7 @@
     NSDictionary *attribute = @{NSFontAttributeName: topLabel.font};
     CGSize labelsize = [topLabel.text boundingRectWithSize:size options: NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin |NSStringDrawingUsesFontLeading attributes:attribute context:nil].size;
     CGSize topLabelSize = {0,0};
-    topLabelSize = [topLabelStr sizeWithFont:[UIFont systemFontOfSize:20] constrainedToSize:CGSizeMake(200.0, 50)];
+    topLabelSize = [topLabelStr sizeWithFont:[UIFont systemFontOfSize:20] constrainedToSize:CGSizeMake(320.0, 50)];
     topLabel.frame = CGRectMake(180, 40, SCREEN_WIDTH * 0.6, topLabelSize.height);
     if (iOS7) {
         topLabel.frame = CGRectMake(180, 40, SCREEN_HEIGHT * 0.6, labelsize.height);

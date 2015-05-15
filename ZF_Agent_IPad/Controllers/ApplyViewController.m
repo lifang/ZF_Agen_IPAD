@@ -10,6 +10,8 @@
 #import "CityHandle.h"
 #import "NetworkInterface.h"
 #import "RegularFormat.h"
+#import "ApplySuccessController.h"
+#import "ProtocolController.h"
 
 @interface ApplyViewController ()<UITextFieldDelegate,UITableViewDelegate,UITableViewDataSource,UIPickerViewDataSource,UIPickerViewDelegate>
 
@@ -74,6 +76,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.isAgreen = NO;
+    self.cityId = @"1";
     self.agentType = AgentTypeNone;
     [self setupNavBar];
     [self initAndLayoutUI];
@@ -425,7 +428,7 @@
     withTopView:(UIView *)topView
     middleSpace:(CGFloat)space
        fieldTag:(int)FieldTag{
-    CGFloat fieldWidth = 240.f;
+    CGFloat fieldWidth = 260.f;
     CGFloat fieldHeight = 40.f;
     CGFloat leftSpace = 10.f;
     textField.translatesAutoresizingMaskIntoConstraints = NO;
@@ -471,7 +474,7 @@
                                                                  toItem:_firstLabel
                                                               attribute:NSLayoutAttributeRight
                                                              multiplier:1.0
-                                                               constant:leftSpace + 180.f]];
+                                                               constant:leftSpace + 200.f]];
         [self.view addConstraint:[NSLayoutConstraint constraintWithItem:rightBtn
                                                               attribute:NSLayoutAttributeWidth
                                                               relatedBy:NSLayoutRelationEqual
@@ -548,7 +551,7 @@
                                                                  toItem:_firstLabel
                                                               attribute:NSLayoutAttributeRight
                                                              multiplier:1.0
-                                                               constant:leftSpace + 180.f]];
+                                                               constant:leftSpace + 200.f]];
         [self.view addConstraint:[NSLayoutConstraint constraintWithItem:rightBtn
                                                               attribute:NSLayoutAttributeWidth
                                                               relatedBy:NSLayoutRelationEqual
@@ -747,6 +750,8 @@
 -(void)agreenmentClicked
 {
     NSLog(@"进入协议");
+    ProtocolController *protocolVC = [[ProtocolController alloc]init];
+    [self.navigationController pushViewController:protocolVC animated:YES];
 }
 
 //textfield按钮事件
@@ -840,7 +845,7 @@
     _authCodeField.rightViewMode = UITextFieldViewModeAlways;
     [rightBigV addSubview:rightV];
     _authCodeField.rightView = rightBigV;
-    _makeSureWrongLabel.hidden = YES;
+    [_makeSureWrongLabel removeFromSuperview];
     _isChecked = YES;
     
     if (_phoneField.text.length > 0 && _nameField.text.length > 0 && _authCodeField.text.length > 0 && _agentTypeField.text.length > 0 && _locationField.text.length > 0 && _isChecked) {
@@ -1011,6 +1016,9 @@
     if (component == 0) {
         //省
         [_pickerView reloadComponent:1];
+        NSDictionary *provinceDict = [[CityHandle shareProvinceList] objectAtIndex:row];
+        _cityId = [NSString stringWithFormat:@"%@",[provinceDict objectForKey:@"id"]];
+        NSLog(@"省得id为%@",_cityId);
     }
     else {
         _locationField.text =[[_cityArray objectAtIndex:row] objectForKey:@"name"];
@@ -1110,7 +1118,50 @@
 //注册请求
 -(void)registerApply
 {
+    NSString *str = @"";
+    if (_agentType == AgentTypeCompany) {
+        str = @"公司";
+    }
+    if (_agentType == AgentTypePerson) {
+        str = @"个人";
+    }
+    NSString *cityID = @"";
+    cityID = [NSString stringWithFormat:@"%@_%@",_cityId,_selectedCityID];
+    
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+    hud.labelText = @"正在发送...";
+    [NetworkInterface applyRegisterWithName:_nameField.text Phone:_phoneField.text AgentType:str Address:cityID finished:^(BOOL success, NSData *response) {
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:0.3f];
+        if (success) {
+            id object = [NSJSONSerialization JSONObjectWithData:response options:NSJSONReadingMutableLeaves error:nil];
+            NSLog(@"~~~~~%@",[[NSString alloc]initWithData:response encoding:NSUTF8StringEncoding]);
+            if ([object isKindOfClass:[NSDictionary class]]) {
+                [hud hide:YES];
+                int errorCode = [[object objectForKey:@"code"] intValue];
+                if (errorCode == RequestFail) {
+                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示信息"
+                                                                    message:[object objectForKey:@"message"]
+                                                                   delegate:nil
+                                                          cancelButtonTitle:@"确定"
+                                                          otherButtonTitles:nil];
+                    [alert show];
+                }
+                else if (errorCode == RequestSuccess) {
+                    ApplySuccessController *applyVC = [[ApplySuccessController alloc]init];
+                    [self.navigationController pushViewController:applyVC animated:YES];
+                }
+            }
+            else {
+                hud.labelText = kServiceReturnWrong;
+            }
+        }
+        else {
+            hud.labelText = kNetworkFailed;
+        }
+    }];
+    
     
 }
-
 @end
