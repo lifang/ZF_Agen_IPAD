@@ -109,7 +109,7 @@
         label2.text = @"结算时间";
         label2.frame = CGRectMake(CGRectGetMaxX(label1.frame) + mainMargin, 5, 100, 20);
         label2.font = [UIFont systemFontOfSize:14];
-        [_contentViews addSubview:label2];
+//        [_contentViews addSubview:label2];
         
         UILabel *label3 = [[UILabel alloc]init];
         label3.text = @"手续费";

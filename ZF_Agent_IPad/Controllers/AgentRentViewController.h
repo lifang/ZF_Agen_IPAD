@@ -18,7 +18,7 @@
     UIButton *defaultbutton;
     BOOL defaultbool;
     UIButton*_cityField;
-    NSInteger B;
+//    NSInteger B;
     BOOL isneedpp;
     UIButton*blankbutton;
     NSInteger changeB;
@@ -27,6 +27,7 @@
     NSInteger Okcityint;
     NSString*textnsstring;
     NSString *agentUserIDs;  //代理商对应的用户id
+    NSInteger resultint;
 
     UIImageView*bigsview;
 }

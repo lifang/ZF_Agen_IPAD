@@ -85,7 +85,7 @@
     
     _dealMoney.frame = CGRectMake(CGRectGetMaxX(_terminalLabel.frame) + 10, mainY, 100, mainY);
     
-    _dealStates.frame = CGRectMake(CGRectGetMaxX(_dealMoney.frame) + 70, mainY, 50, mainY);
+    _dealStates.frame = CGRectMake(CGRectGetMaxX(_dealMoney.frame) + 50, mainY, 100, mainY);
     
 }
 

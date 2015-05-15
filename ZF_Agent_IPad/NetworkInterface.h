@@ -396,7 +396,8 @@ static NSString *s_procurementPay_method = @"shop/payOrder";
 static NSString *s_prepareGoodPOS_method = @"preparegood/getgoodlist";
 //设置是否分润
 static NSString *s_setHasBenefit_method = @"lowerAgent/setDefaultProfit";
-
+//62.交易流水——统计交易流水
+static NSString *s_tradeStatist_method = @"trade/getTradeStatistics";
 @interface NetworkInterface : NSObject
 /*!
  @abstract 1.热卖
@@ -404,7 +405,27 @@ static NSString *s_setHasBenefit_method = @"lowerAgent/setDefaultProfit";
  
  */
 
-
+/*!
+@abstract 62.交易流水——统计
+@param agentID  代理商id
+@param token    登录返回
+@param tradeType  交易类型
+@param terminalNumber  终端号
+@param subAgentID  下级代理商
+@param startTime   开始时间
+@param endTime     结束时间
+@param profit   1.无分润  2.有分润
+@result finish  请求回调结果
+*/
++ (void)getTradeStatistWithAgentID:(NSString *)agentID
+                             token:(NSString *)token
+tradeType:(TradeType)tradeType
+subAgentID:(NSString *)subAgentID
+terminalNumber:(NSString *)terminalNumber
+startTime:(NSString *)startTime
+endTime:(NSString *)endTime
+hasProfit:(int)profit
+finished:(requestDidFinished)finish;
 
 + (void)hotget:(NSString *)tolen
       finished:(requestDidFinished)finish;

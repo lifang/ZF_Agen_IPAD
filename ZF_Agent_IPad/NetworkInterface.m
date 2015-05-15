@@ -1724,6 +1724,42 @@ static NSString *HTTP_GET  = @"GET";
                       httpMethod:HTTP_POST
                         finished:finish];
 }
+//62.
++ (void)getTradeStatistWithAgentID:(NSString *)agentID
+                             token:(NSString *)token
+                         tradeType:(TradeType)tradeType
+                        subAgentID:(NSString *)subAgentID
+                    terminalNumber:(NSString *)terminalNumber
+                         startTime:(NSString *)startTime
+                           endTime:(NSString *)endTime
+                         hasProfit:(int)profit
+                          finished:(requestDidFinished)finish {
+    //参数
+    NSMutableDictionary *paramDict = [[NSMutableDictionary alloc] init];
+    if (agentID) {
+        [paramDict setObject:[NSNumber numberWithInt:[agentID intValue]] forKey:@"agentId"];
+    }
+    [paramDict setObject:[NSNumber numberWithInt:tradeType] forKey:@"tradeTypeId"];
+    if (terminalNumber) {
+        [paramDict setObject:terminalNumber forKey:@"terminalNumber"];
+    }
+    if (subAgentID) {
+        [paramDict setObject:[NSNumber numberWithInt:[subAgentID intValue]] forKey:@"sonagentId"];
+    }
+    if (startTime) {
+        [paramDict setObject:startTime forKey:@"startTime"];
+    }
+    if (endTime) {
+        [paramDict setObject:endTime forKey:@"endTime"];
+    }
+    [paramDict setObject:[NSNumber numberWithInt:profit] forKey:@"isHaveProfit"];
+    //url
+    NSString *urlString = [NSString stringWithFormat:@"%@/%@",kServiceURL,s_tradeStatist_method];
+    [[self class] requestWithURL:urlString
+                          params:paramDict
+                      httpMethod:HTTP_POST
+                        finished:finish];
+}
 
 //62.
 + (void)deleteSingleMessageWithAgentID:(NSString *)agentID

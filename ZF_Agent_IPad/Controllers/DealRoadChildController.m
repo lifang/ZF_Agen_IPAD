@@ -677,14 +677,14 @@
     else {
         _tradeTime = @"";
     }
-    if ([infoDict objectForKey:@"merchantNumber"]) {
-        _merchantNumber = [NSString stringWithFormat:@"%@",[infoDict objectForKey:@"merchantNumber"]];
+    if ([infoDict objectForKey:@"merchant_number"]) {
+        _merchantNumber = [NSString stringWithFormat:@"%@",[infoDict objectForKey:@"merchant_number"]];
     }
     else {
         _merchantNumber = @"";
     }
-    if ([infoDict objectForKey:@"merchantName"]) {
-        _merchantName = [NSString stringWithFormat:@"%@",[infoDict objectForKey:@"merchantName"]];
+    if ([infoDict objectForKey:@"merchant_name"]) {
+        _merchantName = [NSString stringWithFormat:@"%@",[infoDict objectForKey:@"merchant_name"]];
     }
     else {
         _merchantName = @"";
@@ -713,8 +713,8 @@
     else {
         _payToAccount = @"";
     }
-    if ([infoDict objectForKey:@"payChannelName"]) {
-        _channelName = [NSString stringWithFormat:@"%@",[infoDict objectForKey:@"payChannelName"]];
+    if ([infoDict objectForKey:@"paychannel"]) {
+        _channelName = [NSString stringWithFormat:@"%@",[infoDict objectForKey:@"paychannel"]];
     }
     else {
         _channelName = @"";
@@ -770,13 +770,13 @@
     int index = [indexString intValue];
     switch (index) {
         case TradeStatusUnPaid:
-            tradeStatus = @"未付款";
-            break;
-        case TradeStatusFinish:
             tradeStatus = @"交易完成";
             break;
-        case TradeStatusFail:
+        case TradeStatusFinish:
             tradeStatus = @"交易失败";
+            break;
+        case TradeStatusFail:
+            tradeStatus = @"交易结果待确认";
             break;
         default:
             break;

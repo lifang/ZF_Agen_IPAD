@@ -24,7 +24,7 @@
 #import "AccountTool.h"
 #import "NetworkInterface.h"
 #import "TradeAgentModel.h"
-#import "DealRoadDetailController.h"
+#import "StatisticTradeController.h"
 #import "MJRefresh.h"
 #import "DealRoadChildController.h"
 
@@ -36,7 +36,7 @@ typedef enum {
 
 static NSString *s_defaultTerminalNum = @"请选择终端号";
 
-@interface DealRoadController ()<UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate,RefreshDelegate,LoginSuccessDelegate>
+@interface DealRoadController ()<UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate,LoginSuccessDelegate>
 
 /** 顶部五个Button */
 @property(nonatomic,strong)UIButton *publickBtn;
@@ -577,7 +577,15 @@ static NSString *s_defaultTerminalNum = @"请选择终端号";
 -(void)startStatistics
 {
     
-    
+    if (!_terminalField.text || [_terminalField.text isEqualToString:@""]) {
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:1.f];
+        hud.labelText = @"请选择终端号";
+        return;
+    }
+
     
     if (!_startTime || [_startTime isEqualToString:@"开始时间"]) {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示信息"
@@ -611,9 +619,9 @@ static NSString *s_defaultTerminalNum = @"请选择终端号";
 
     
     //    NSLog(@"点击了开始统计！为上排第%d个按钮",_buttonIndex);
-        DealRoadDetailController *detailVC = [[DealRoadDetailController alloc]init];
+        StatisticTradeController *detailVC = [[StatisticTradeController alloc]init];
         detailVC.hidesBottomBarWhenPushed = YES;
-    detailVC.nextid = agentid;
+//    detailVC.nextid = agentid;
 
     
         detailVC.startTime = _startTime;
@@ -1075,8 +1083,8 @@ else if (tableView== _terminalTableView)
                 TransferCell *cell = [TransferCell cellWithTableView:tableView];
                 TradeModel *model = [_tradeRecords objectAtIndex:indexPath.row];
                 cell.timeLabel.text = model.tradeTime;
-                cell.payLabel.text = model.payFromAccount;
-                cell.getLabel.text = model.payIntoAccount;
+                cell.payLabel.text = [self serectString:model.payFromAccount];
+                cell.getLabel.text = [self serectString:model.payIntoAccount];
                 cell.terminalLabel.text = model.terminalNumber;
                 cell.dealMoney.text = [NSString stringWithFormat:@"￥%.2f",model.amount];
                 [self StringWithdealStates:model.tradeStatus];
@@ -1088,8 +1096,8 @@ else if (tableView== _terminalTableView)
                 RepaymentCell *cell = [RepaymentCell cellWithTableView:tableView];
                 TradeModel *model = [_tradeRecords objectAtIndex:indexPath.row];
                 cell.timeLabel.text = model.tradeTime;
-                cell.payLabel.text = model.payFromAccount;
-                cell.payToLabel.text = model.payIntoAccount;
+                cell.payLabel.text = [self serectString:model.payFromAccount];
+                cell.payToLabel.text = [self serectString:model.payIntoAccount];
                 cell.terminalLabel.text = model.terminalNumber;
                 cell.dealMoney.text = [NSString stringWithFormat:@"￥%.2f",model.amount];
                 [self StringWithdealStates:model.tradeStatus];
@@ -1100,8 +1108,8 @@ else if (tableView== _terminalTableView)
                 LiferechargeCell *cell = [LiferechargeCell cellWithTableView:tableView];
                 TradeModel *model = [_tradeRecords objectAtIndex:indexPath.row];
                 cell.timeLabel.text = model.tradeTime;
-                cell.usernameLabel.text = model.accountName;
-                cell.useraccountLabel.text = model.accountNumber;
+                cell.usernameLabel.text = [self serectNameString:model.accountName];
+                cell.useraccountLabel.text = [self serectString:model.accountNumber];
                 cell.terminalLabel.text = model.terminalNumber;
                 cell.dealMoney.text = [NSString stringWithFormat:@"￥%.2f",model.amount];
                 [self StringWithdealStates:model.tradeStatus];
@@ -1112,7 +1120,7 @@ else if (tableView== _terminalTableView)
                 TelephonechargeCell *cell = [TelephonechargeCell cellWithTableView:tableView];
                 TradeModel *model = [_tradeRecords objectAtIndex:indexPath.row];
                 cell.timeLabel.text = model.tradeTime;
-                cell.phoneNumLabel.text = model.phoneNumber;
+                cell.phoneNumLabel.text = [self serectString:model.phoneNumber];
                 cell.terminalLabel.text = model.terminalNumber;
                 cell.dealMoney.text = [NSString stringWithFormat:@"￥%.2f",model.amount];
                 [self StringWithdealStates:model.tradeStatus];
@@ -1137,17 +1145,39 @@ else if (tableView== _terminalTableView)
     }
    
 }
+//加密位数
+- (NSString *)serectString:(NSString *)string {
+    //倒数5-8位星号
+    NSInteger length = [string length];
+    if (length < 8) {
+        return string;
+    }
+    NSMutableString *encryptString = [NSMutableString stringWithString:string];
+    [encryptString replaceCharactersInRange:NSMakeRange(length - 8, 4) withString:@"****"];
+    return encryptString;
+}
+
+- (NSString *)serectNameString:(NSString *)string {
+    //名字第二位
+    NSInteger length = [string length];
+    if (length < 2) {
+        return string;
+    }
+    NSMutableString *encryptString = [NSMutableString stringWithString:string];
+    [encryptString replaceCharactersInRange:NSMakeRange(length - 2, 1) withString:@"*"];
+    return encryptString;
+}
 
 - (void)StringWithdealStates:(NSString *)dealStates
 {
     if ([dealStates isEqualToString:@"1"]) {
-        self.DealState = @"待付款";
+        self.DealState = @"交易完成";
     }
     if ([dealStates isEqualToString:@"2"]) {
-        self.DealState = @"成功";
+        self.DealState = @"交易失败";
     }
     if ([dealStates isEqualToString:@"3"]) {
-        self.DealState = @"失败";
+        self.DealState = @"交易结果待确认";
     }
 }
 
