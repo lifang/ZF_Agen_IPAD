@@ -783,7 +783,7 @@
        
         
         cell.lastnumber.text = [NSString stringWithFormat:@"最小起批量%d件",good.minWholesaleNumber];
-        cell.newpriceLabel.text = [NSString stringWithFormat:@"￥%.2f",good.goodWholesalePrice];
+        cell.newpriceLabel.text = [NSString stringWithFormat:@"￥%.2f",good.goodPrimaryPrice];
       
         
         cell.brandLabel.text = [NSString stringWithFormat:@"品牌型号   %@%@",good.goodBrand,good.goodModel];

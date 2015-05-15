@@ -148,9 +148,9 @@
     
     UIButton *registerBtn = [[UIButton alloc]init];
     [registerBtn setTitleColor:kColor(10, 87, 204, 1.0) forState:UIControlStateNormal];
-    [registerBtn setTitle:@"申请成合作伙伴" forState:UIControlStateNormal];
+    [registerBtn setTitle:@"申请成为合作伙伴" forState:UIControlStateNormal];
     [registerBtn addTarget:self action:@selector(registers:) forControlEvents:UIControlEventTouchUpInside];
-    registerBtn.frame = CGRectMake(loginView.frame.size.width - 150, findPasswordBtn.frame.origin.y, 130, 20);
+    registerBtn.frame = CGRectMake(loginView.frame.size.width - 160, findPasswordBtn.frame.origin.y, 150, 20);
     [loginView addSubview:registerBtn];
     [self.view addSubview:_imageV];
     [_imageV addSubview:loginView];

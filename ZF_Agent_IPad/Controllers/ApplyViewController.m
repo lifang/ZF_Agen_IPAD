@@ -7,8 +7,11 @@
 //
 
 #import "ApplyViewController.h"
+#import "CityHandle.h"
+#import "NetworkInterface.h"
+#import "RegularFormat.h"
 
-@interface ApplyViewController ()<UITextFieldDelegate>
+@interface ApplyViewController ()<UITextFieldDelegate,UITableViewDelegate,UITableViewDataSource,UIPickerViewDataSource,UIPickerViewDelegate>
 
 @property(nonatomic,strong)UITextField *nameField;
 
@@ -37,20 +40,49 @@
 
 @property(nonatomic,assign)BOOL isChecked;
 @property(nonatomic,strong)NSString *authCode;
+
+@property(nonatomic,strong)UITableView *agentTypeTableView;
+
+//选择城市
+@property (nonatomic, strong) UIToolbar *toolbar;
+@property (nonatomic, strong) UIPickerView *pickerView;
+@property(nonatomic,strong)NSMutableArray *cityArray;
+@property(nonatomic,strong)NSString *cityId;
+
+@property(nonatomic,assign)BOOL isChange;
+@property(nonatomic,strong)NSString *selectedCityID;
+
+@property(nonatomic,assign)AgentType agentType;
+
+@property(nonatomic,strong)UILabel *makeSureWrongLabel;
+
 @end
 
 @implementation ApplyViewController
 
+-(UITableView *)agentTypeTableView
+{
+    if (!_agentTypeTableView) {
+        _agentTypeTableView = [[UITableView alloc]init];
+        _agentTypeTableView.delegate = self;
+        _agentTypeTableView.dataSource = self;
+        _agentTypeTableView.translatesAutoresizingMaskIntoConstraints = NO;
+    }
+    return _agentTypeTableView;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.isAgreen = NO;
+    self.agentType = AgentTypeNone;
     [self setupNavBar];
     [self initAndLayoutUI];
+    [self initPickerView];
 }
 
 -(void)setupNavBar
 {
-    self.title = @"申请成合作伙伴";
+    self.title = @"申请成为合作伙伴";
     self.view.backgroundColor = [UIColor whiteColor];
     NSDictionary *attributes = [NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor],NSForegroundColorAttributeName,[UIFont boldSystemFontOfSize:22],NSFontAttributeName, nil];
     [self.navigationController.navigationBar setTitleTextAttributes:attributes];
@@ -65,7 +97,7 @@
 #pragma mark - UI
 -(void)initAndLayoutUI
 {
-    CGFloat mainMargin = 15.f;
+    CGFloat mainMargin = 25.f;
     
     _firstLabel = [[UILabel alloc]init];
     _firstLabel.text = @" 您 的 姓 名";
@@ -115,7 +147,7 @@
                                                           toItem:_locationField
                                                         attribute:NSLayoutAttributeBottom
                                                       multiplier:1.0
-                                                        constant:mainMargin * 3]];
+                                                        constant:mainMargin ]];
     [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_selectedBtn
                                                       attribute:NSLayoutAttributeLeft
                                                       relatedBy:NSLayoutRelationEqual
@@ -154,7 +186,7 @@
                                                              toItem:_locationField
                                                           attribute:NSLayoutAttributeBottom
                                                          multiplier:1.0
-                                                           constant:mainMargin * 3]];
+                                                           constant:mainMargin ]];
     [self.view addConstraint:[NSLayoutConstraint constraintWithItem:agreementBtn
                                                           attribute:NSLayoutAttributeLeft
                                                           relatedBy:NSLayoutRelationEqual
@@ -579,17 +611,112 @@
                                                            constant:lineHeight]];
     
 }
+#pragma mark - 创建选择代理商
+-(void)initAgentTableView
+{
+    [self.view addSubview:self.agentTypeTableView];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_agentTypeTableView
+                                                          attribute:NSLayoutAttributeTop
+                                                          relatedBy:NSLayoutRelationEqual
+                                                             toItem:_agentTypeField
+                                                          attribute:NSLayoutAttributeBottom
+                                                         multiplier:1.0
+                                                           constant:0.f]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_agentTypeTableView
+                                                          attribute:NSLayoutAttributeLeft
+                                                          relatedBy:NSLayoutRelationEqual
+                                                             toItem:_firstLabel
+                                                          attribute:NSLayoutAttributeRight
+                                                         multiplier:1.0
+                                                           constant:10.f]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_agentTypeTableView
+                                                          attribute:NSLayoutAttributeWidth
+                                                          relatedBy:NSLayoutRelationEqual
+                                                             toItem:nil
+                                                          attribute:NSLayoutAttributeNotAnAttribute
+                                                         multiplier:1.0
+                                                           constant:240.f]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_agentTypeTableView
+                                                          attribute:NSLayoutAttributeHeight
+                                                          relatedBy:NSLayoutRelationEqual
+                                                             toItem:nil
+                                                          attribute:NSLayoutAttributeNotAnAttribute
+                                                         multiplier:1.0
+                                                           constant:90.f]];
+    
+}
 
 #pragma mark - Action
+-(void)commitClicked
+{
+    //提交按钮
+    if (!_nameField.text || [_nameField.text isEqualToString:@""]) {
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:1.f];
+        hud.labelText = @"请填写姓名";
+        return;
+    }
+    
+    if (!_phoneField.text || [_phoneField.text isEqualToString:@""]) {
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:1.f];
+        hud.labelText = @"请填写手机号";
+        return;
+    }
+    
+    if (!_authCodeField.text || [_authCodeField.text isEqualToString:@""]) {
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:1.f];
+        hud.labelText = @"请填写验证码";
+        return;
+    }
+    
+    if (!_locationField.text || [_locationField.text isEqualToString:@""]) {
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:1.f];
+        hud.labelText = @"请选择城市";
+        return;
+    }
+    
+    if (_agentType == AgentTypeNone) {
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:1.f];
+        hud.labelText = @"请选择代理商类型";
+        return;
+    }
+    
+    [self registerApply];
+}
+
+
+
 -(void)btnClicked
 {
     if (_isSelected == NO) {
         self.isAgreen = NO;
         [_selectedBtn setBackgroundImage:[UIImage imageNamed:@"noSelected"] forState:UIControlStateNormal];
+        if (_phoneField.text.length > 0 && _nameField.text.length > 0 && _authCodeField.text.length > 0 && _agentTypeField.text.length > 0 && _locationField.text.length > 0 && _isChecked) {
+            _commitBtn.userInteractionEnabled = NO;
+            [_commitBtn setBackgroundColor:kColor(208, 227, 247, 1.0)];
+        }
     }
     else{
         self.isAgreen = YES;
         [_selectedBtn setBackgroundImage:[UIImage imageNamed:@"selected"] forState:UIControlStateNormal];
+        if (_phoneField.text.length > 0 && _nameField.text.length > 0 && _authCodeField.text.length > 0 && _agentTypeField.text.length > 0 && _locationField.text.length > 0 && _isChecked) {
+            _commitBtn.userInteractionEnabled = YES;
+            [_commitBtn setBackgroundColor:kMainColor];
+        }
     }
     _isSelected = !_isSelected;
 }
@@ -599,13 +726,40 @@
 {
     if (button.tag == 1334) {
         NSLog(@"点击了验证码！");
-        [self resetStatus];
+        [_phoneField resignFirstResponder];
+        if (!_phoneField.text || [_phoneField.text isEqualToString:@""]) {
+            MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+            hud.customView = [[UIImageView alloc] init];
+            hud.mode = MBProgressHUDModeCustomView;
+            [hud hide:YES afterDelay:1.f];
+            hud.labelText = @"手机号不能为空";
+            return;
+        }
+        [self authApply];
     }
     if (button.tag == 1335) {
         NSLog(@"点击了检查！");
+        [_authCodeField resignFirstResponder];
         [self makeSureClicked];
     }
-    
+}
+
+-(void)agreenmentClicked
+{
+    NSLog(@"进入协议");
+}
+
+//textfield按钮事件
+-(void)rightBtnClicked:(UIButton *)sender
+{
+    if (sender.tag == 1236) {
+        //注册类型选择
+        [_authCodeField resignFirstResponder];
+        [self initAgentTableView];
+    }else{
+        //城市选择
+        [self pickerScrollIn];
+    }
 }
 
 -(void)makeSureClicked
@@ -620,12 +774,12 @@
         return;
     }
     if (![_authCodeField.text isEqualToString:_authCode]) {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示信息"
-                                                        message:@"验证码错误!"
-                                                       delegate:nil
-                                              cancelButtonTitle:@"确定"
-                                              otherButtonTitles:nil];
-        [alert show];
+//        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示信息"
+//                                                        message:@"验证码错误!"
+//                                                       delegate:nil
+//                                              cancelButtonTitle:@"确定"
+//                                              otherButtonTitles:nil];
+//        [alert show];
         
         UIView *rightBigV = [[UIView alloc]init];
         rightBigV.frame = CGRectMake(0, 0, 60, 40);
@@ -636,6 +790,45 @@
         _authCodeField.rightViewMode = UITextFieldViewModeAlways;
         _authCodeField.rightView = rightBigV;
         _isChecked = NO;
+        
+        
+        _makeSureWrongLabel = [[UILabel alloc]init];
+        _makeSureWrongLabel.font = [UIFont systemFontOfSize:10];
+        _makeSureWrongLabel.textColor = kColor(230, 68, 67, 1.0);
+        _makeSureWrongLabel.text = @"验证码不正确，请重新填写";
+        _makeSureWrongLabel.translatesAutoresizingMaskIntoConstraints = NO;
+        [self.view addSubview:_makeSureWrongLabel];
+        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_makeSureWrongLabel
+                                                             attribute:NSLayoutAttributeTop
+                                                             relatedBy:NSLayoutRelationEqual
+                                                                toItem:_authCodeField
+                                                             attribute:NSLayoutAttributeBottom
+                                                            multiplier:1.0
+                                                              constant:2.f]];
+        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_makeSureWrongLabel
+                                                              attribute:NSLayoutAttributeLeft
+                                                              relatedBy:NSLayoutRelationEqual
+                                                                 toItem:_makeSureBtn
+                                                              attribute:NSLayoutAttributeLeft
+                                                             multiplier:1.0
+                                                               constant:- 130.f]];
+        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_makeSureWrongLabel
+                                                              attribute:NSLayoutAttributeWidth
+                                                              relatedBy:NSLayoutRelationEqual
+                                                                 toItem:nil
+                                                              attribute:NSLayoutAttributeNotAnAttribute
+                                                             multiplier:1.0
+                                                               constant:140.f]];
+        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_makeSureWrongLabel
+                                                              attribute:NSLayoutAttributeHeight
+                                                              relatedBy:NSLayoutRelationEqual
+                                                                 toItem:nil
+                                                              attribute:NSLayoutAttributeNotAnAttribute
+                                                             multiplier:1.0
+                                                               constant:15.f]];
+        
+        
+        
         return;
     }
     
@@ -647,7 +840,13 @@
     _authCodeField.rightViewMode = UITextFieldViewModeAlways;
     [rightBigV addSubview:rightV];
     _authCodeField.rightView = rightBigV;
+    _makeSureWrongLabel.hidden = YES;
     _isChecked = YES;
+    
+    if (_phoneField.text.length > 0 && _nameField.text.length > 0 && _authCodeField.text.length > 0 && _agentTypeField.text.length > 0 && _locationField.text.length > 0 && _isChecked) {
+        _commitBtn.userInteractionEnabled = YES;
+        [_commitBtn setBackgroundColor:kMainColor];
+    }
 }
 
 #pragma mark - 验证码倒计时
@@ -693,6 +892,225 @@
     dispatch_resume(_timer);
 }
 
+#pragma mark - tabelviewDateSource
+-(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    return 1;
+}
 
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return 2;
+}
+
+-(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    UITableViewCell *cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    if (indexPath.row == 0) {
+        cell.textLabel.text = @"我是个人";
+    }else{
+        cell.textLabel.text = @"我是公司";
+    }
+    cell.backgroundColor = kColor(191, 191, 191, 1.0);
+    return cell;
+}
+
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
+    if ([tableView respondsToSelector:@selector(setSeparatorInset:)]) {
+        [tableView setSeparatorInset:UIEdgeInsetsZero];
+    }
+    if ([tableView respondsToSelector:@selector(setLayoutMargins:)]) {
+        [tableView setLayoutMargins:UIEdgeInsetsZero];
+    }
+    if ([cell respondsToSelector:@selector(setLayoutMargins:)]) {
+        [cell setLayoutMargins:UIEdgeInsetsZero];
+    }
+}
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    [_agentTypeField becomeFirstResponder];
+    [_agentTypeField resignFirstResponder];
+    if (indexPath.row == 0) {
+        _agentTypeField.text = @"我是个人";
+        _agentType = AgentTypePerson;
+        [_agentTypeTableView removeFromSuperview];
+    }else{
+        _agentTypeField.text = @"我是公司";
+        _agentType = AgentTypeCompany;
+        [_agentTypeTableView removeFromSuperview];
+    }
+}
+
+#pragma mark - 选择城市控件
+//选择城市
+- (void)initPickerView {
+    //pickerView
+    _toolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, kScreenHeight, kScreenWidth, 44)];
+    UIBarButtonItem *cancelItem = [[UIBarButtonItem alloc] initWithTitle:@"取消"
+                                                                   style:UIBarButtonItemStyleDone
+                                                                  target:self
+                                                                  action:@selector(pickerScrollOut)];
+    UIBarButtonItem *finishItem = [[UIBarButtonItem alloc] initWithTitle:@"完成"
+                                                                   style:UIBarButtonItemStyleDone
+                                                                  target:self
+                                                                  action:@selector(modifyLocation:)];
+    UIBarButtonItem *spaceItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace
+                                                                               target:nil
+                                                                               action:nil];
+    spaceItem.width = 830.f;
+    [_toolbar setItems:[NSArray arrayWithObjects:cancelItem,spaceItem,finishItem, nil]];
+    [self.view addSubview:_toolbar];
+    _pickerView = [[UIPickerView alloc] initWithFrame:CGRectMake(0, kScreenHeight, kScreenWidth, 216)];
+    _pickerView.backgroundColor = kColor(244, 243, 243, 1);
+    _pickerView.delegate = self;
+    _pickerView.dataSource = self;
+    if (_isChange) {
+        [_pickerView selectRow:[CityHandle getProvinceIndexWithCityID:_cityId] inComponent:0 animated:NO];
+        [_pickerView reloadAllComponents];
+        [_pickerView selectRow:[CityHandle getCityIndexWithCityID:_cityId] inComponent:1 animated:NO];
+    }else{
+        
+    }
+    
+    [self.view addSubview:_pickerView];
+}
+- (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView {
+    
+    return 2;
+    
+}
+
+- (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component {
+    if (component == 0) {
+        return [[CityHandle shareProvinceList] count];
+    }
+    else {
+        NSInteger provinceIndex = [pickerView selectedRowInComponent:0];
+        NSDictionary *provinceDict = [[CityHandle shareProvinceList] objectAtIndex:provinceIndex];
+        _cityArray = [provinceDict objectForKey:@"cities"];
+        return [_cityArray count];
+    }
+}
+
+- (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component {
+    if (component == 0) {
+        //省
+        NSDictionary *provinceDict = [[CityHandle shareProvinceList] objectAtIndex:row];
+        return [provinceDict objectForKey:@"name"];
+    }
+    else {
+        //市
+        return [[_cityArray objectAtIndex:row] objectForKey:@"name"];
+    }
+}
+
+- (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
+    if (component == 0) {
+        //省
+        [_pickerView reloadComponent:1];
+    }
+    else {
+        _locationField.text =[[_cityArray objectAtIndex:row] objectForKey:@"name"];
+        _selectedCityID = [NSString stringWithFormat:@"%@",[[_cityArray objectAtIndex:row] objectForKey:@"id"]];
+    }
+}
+
+- (void)pickerScrollIn {
+    CGFloat wide;
+    CGFloat height;
+    if(iOS7)
+    {
+        wide=SCREEN_HEIGHT;
+        height=SCREEN_WIDTH - 40;
+    }
+    else
+    {  wide=SCREEN_WIDTH;
+        height=SCREEN_HEIGHT - 40;
+    }
+    [UIView animateWithDuration:.3f animations:^{
+        _toolbar.frame = CGRectMake(0, height - 260, wide, 44);
+        _pickerView.frame = CGRectMake(0, height - 216, wide, 216);
+    }];
+}
+
+- (void)pickerScrollOut {
+    CGFloat wide;
+    CGFloat height;
+    if(iOS7)
+    {
+        wide=SCREEN_HEIGHT;
+        height=SCREEN_WIDTH - 40;
+    }
+    else
+    {  wide=SCREEN_WIDTH;
+        height=SCREEN_HEIGHT - 40;
+    }
+    [UIView animateWithDuration:.3f animations:^{
+        _toolbar.frame = CGRectMake(0, height, wide, 44);
+        _pickerView.frame = CGRectMake(0, height, wide, 216);
+    }];
+}
+
+- (void)modifyLocation:(id)sender {
+    
+    [self pickerScrollOut];
+    [_locationField becomeFirstResponder];
+    [_locationField resignFirstResponder];
+    NSInteger index = [self.pickerView selectedRowInComponent:1];
+    self.selectedCityID = [NSString stringWithFormat:@"%@",[[self.cityArray objectAtIndex:index] objectForKey:@"id"]];
+    NSString *cityName = [[self.cityArray objectAtIndex:index] objectForKey:@"name"];
+    _locationField.text = cityName;
+}
+
+#pragma mark - Request
+//发送验证码请求
+-(void)authApply
+{
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+    hud.labelText = @"正在发送...";
+    [NetworkInterface sendValidateWithMobileNumber:_phoneField.text finished:^(BOOL success, NSData *response) {
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:0.3f];
+        if (success) {
+            id object = [NSJSONSerialization JSONObjectWithData:response options:NSJSONReadingMutableLeaves error:nil];
+            NSLog(@"~~~~~%@",[[NSString alloc]initWithData:response encoding:NSUTF8StringEncoding]);
+            if ([object isKindOfClass:[NSDictionary class]]) {
+                [hud hide:YES];
+                int errorCode = [[object objectForKey:@"code"] intValue];
+                if (errorCode == RequestFail) {
+                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示信息"
+                                                                    message:[object objectForKey:@"message"]
+                                                                   delegate:nil
+                                                          cancelButtonTitle:@"确定"
+                                                          otherButtonTitles:nil];
+                    [alert show];
+                }
+                else if (errorCode == RequestSuccess) {
+                    [self resetStatus];
+                    _authCode = [object objectForKey:@"result"];
+                    _makeSureBtn.userInteractionEnabled = YES;
+                    [_makeSureBtn setBackgroundColor:kMainColor];
+                }
+            }
+            else {
+                hud.labelText = kServiceReturnWrong;
+            }
+        }
+        else {
+            hud.labelText = kNetworkFailed;
+        }
+    }];
+    
+}
+
+//注册请求
+-(void)registerApply
+{
+    
+}
 
 @end
