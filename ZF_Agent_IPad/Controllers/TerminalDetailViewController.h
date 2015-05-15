@@ -17,4 +17,6 @@
 
 @property (nonatomic, strong) NSString *videoVerify; //视频认证
 
+@property (nonatomic, strong) NSString *appid;
+
 @end

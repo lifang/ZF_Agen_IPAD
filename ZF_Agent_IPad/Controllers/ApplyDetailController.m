@@ -372,12 +372,12 @@
     
     NSArray *namesarry=[[NSArray alloc] init];
     if (_applyType==1) {
-        namesarry=[NSArray arrayWithObjects:@"姓              名",@"店   铺  名   称",@"性              别",@"选   择   生  日",@"身  份  证  号",@"联   系  电  话",@"邮              箱",@"所      在     地",@"结算银行账户名",@"结算银行名称",@"结算银行账户",@"支  付   通  道",@"税务登记证号",@"组 织 机 构 号", nil];
+        namesarry=[NSArray arrayWithObjects:@"法   人  姓   名",@"店   铺  名   称",@"性              别",@"选   择   生  日",@"身  份  证  号",@"联   系  电  话",@"邮              箱",@"所      在     地",@"结算银行账户名",@"结算银行名称",@"结算银行账户",@"支  付   通  道",@"税务登记证号",@"组 织 机 构 号", nil];
     }
     else
     {
     
-        namesarry=[NSArray arrayWithObjects:@"姓              名",@"店   铺  名   称",@"性              别",@"选   择   生  日",@"身  份  证  号",@"联   系  电  话",@"邮              箱",@"所      在     地",@"结算银行账户名",@"结算银行名称",@"结算银行账户",@"支  付   通  道", nil];
+        namesarry=[NSArray arrayWithObjects:@"法   人  姓   名",@"店   铺  名   称",@"性              别",@"选   择   生  日",@"身  份  证  号",@"联   系  电  话",@"邮              箱",@"所      在     地",@"结算银行账户名",@"结算银行名称",@"结算银行账户",@"支  付   通  道", nil];
         
     }
     
@@ -503,7 +503,63 @@
         
         newaddress.text=[namesarry objectAtIndex:i];
         
-        if(i==2)
+        if (i==0)
+        {
+            nameTF=[[UITextField alloc]initWithFrame:CGRectMake(190+(wide/2-40)*row,  height*70+topSpace + labelHeight * 7,280, 40)];
+            nameTF.delegate=self;
+            nameTF.leftViewMode = UITextFieldViewModeAlways;
+            UIView *leftView = [[UIView alloc]init];
+            leftView.frame = CGRectMake(0, 0, 10, 40);
+            nameTF.leftView =leftView;
+            nameTF.clearButtonMode = UITextFieldViewModeWhileEditing;
+            nameTF.tag=i+1056;
+            NSString *accountname=[NSString stringWithFormat:@"%@",[_infoDict objectForKey:[keynamesarry objectAtIndex:i]]];
+            NSLog(@"accountname:%@",accountname);
+            if (![accountname isEqualToString:@"(null)"]) {
+                nameTF.text=[NSString stringWithFormat:@"  %@",accountname];
+            }
+            nameTF.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
+            [_scrollView addSubview:nameTF];
+            nameTF.layer.masksToBounds=YES;
+            nameTF.layer.borderWidth=1.0;
+            nameTF.layer.borderColor=[UIColor grayColor].CGColor;
+           
+            
+        }
+        else if(i==1)
+        {
+            
+            merchantTF=[[UITextField alloc]initWithFrame:CGRectMake(190+(wide/2-40)*row,  height*70+topSpace + labelHeight * 7,280, 40)];
+            merchantTF.delegate=self;
+            merchantTF.leftViewMode = UITextFieldViewModeAlways;
+            UIView *leftView = [[UIView alloc]init];
+            leftView.frame = CGRectMake(0, 0, 10, 40);
+            merchantTF.leftView =leftView;
+            merchantTF.clearButtonMode = UITextFieldViewModeWhileEditing;
+            merchantTF.tag=i+1056;
+            NSString *accountname=[NSString stringWithFormat:@"%@",[_infoDict objectForKey:[keynamesarry objectAtIndex:i]]];
+            NSLog(@"accountname:%@",accountname);
+            if (![accountname isEqualToString:@"(null)"]) {
+                merchantTF.text=[NSString stringWithFormat:@"  %@",accountname];
+            }
+            merchantTF.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
+            [_scrollView addSubview:merchantTF];
+            merchantTF.layer.masksToBounds=YES;
+            merchantTF.layer.borderWidth=1.0;
+            merchantTF.layer.borderColor=[UIColor grayColor].CGColor;
+        
+          
+            UILabel *newLB=[[UILabel alloc]initWithFrame:CGRectMake(200+(wide/2-40)*row,  height*70+topSpace + labelHeight * 7+45,280, 20)];
+            [_scrollView addSubview:newLB];
+            newLB.textAlignment = NSTextAlignmentLeft;
+            newLB.font=[UIFont systemFontOfSize:12];
+            newLB.text=@"请填写商户名称";
+           
+            
+        
+        }
+            
+       else if(i==2)
         {
             sexBtn = [UIButton buttonWithType:UIButtonTypeCustom];
             sexBtn.frame = CGRectMake(190+(wide/2-40)*row,  height*70+topSpace + labelHeight * 7,280, 40);
@@ -574,6 +630,43 @@
             [locationbutton addTarget:self action:@selector(locationbuttonclick) forControlEvents:UIControlEventTouchUpInside];
             [_scrollView addSubview:locationbutton];
         }
+        else if(i==8)
+        {
+            accountBankNameTF=[[UITextField alloc]initWithFrame:CGRectMake(190+(wide/2-40)*row,  height*70+topSpace + labelHeight * 7,280, 40)];
+            accountBankNameTF.delegate=self;
+            accountBankNameTF.leftViewMode = UITextFieldViewModeAlways;
+            UIView *leftView = [[UIView alloc]init];
+            leftView.frame = CGRectMake(0, 0, 10, 40);
+            accountBankNameTF.leftView =leftView;
+            accountBankNameTF.clearButtonMode = UITextFieldViewModeWhileEditing;
+            accountBankNameTF.tag=i+1056;
+            NSString *accountname=[NSString stringWithFormat:@"%@",[_infoDict objectForKey:[keynamesarry objectAtIndex:i]]];
+            NSLog(@"accountname:%@",accountname);
+            if (![accountname isEqualToString:@"(null)"]) {
+                accountBankNameTF.text=[NSString stringWithFormat:@"  %@",accountname];
+            }
+            accountBankNameTF.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
+            [_scrollView addSubview:accountBankNameTF];
+            accountBankNameTF.layer.masksToBounds=YES;
+            accountBankNameTF.layer.borderWidth=1.0;
+            accountBankNameTF.layer.borderColor=[UIColor grayColor].CGColor;
+            accountBankNameTF.userInteractionEnabled=NO;
+            
+            UILabel *newLB=[[UILabel alloc]initWithFrame:CGRectMake(200+(wide/2-40)*row,  height*70+topSpace + labelHeight * 7+45,280, 20)];
+            [_scrollView addSubview:newLB];
+            newLB.textAlignment = NSTextAlignmentLeft;
+            newLB.font=[UIFont systemFontOfSize:12];
+            if (_applyType==OpenApplyPublic) {
+               newLB.text=@"结算银行账户名需与商户名称一致";
+            }
+            else
+            {
+            newLB.text=@"结算银行账户名需与法人姓名一致";
+            }
+            
+
+        }
+        
         else if(i==9)
         {
             bankNameBtn = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -595,26 +688,7 @@
             [bankNameBtn addTarget:self action:@selector(bankNameBtnclick) forControlEvents:UIControlEventTouchUpInside];
             [_scrollView addSubview:bankNameBtn];
         }
-        /*
-        else if (i==9)
-        {
-             bankIdTF=[[UITextField alloc]initWithFrame:CGRectMake(190+(wide/2-40)*row,  height*70+topSpace + labelHeight * 7,280, 40)];
-             bankIdTF.delegate=self;
-            
-             bankIdTF.tag=i+1056;
-             NSString *bankIdname=[NSString stringWithFormat:@"%@",[_infoDict objectForKey:[keynamesarry objectAtIndex:i]]];
-            if (![bankIdname isEqualToString:@"(null)"]) {
-                bankIdTF.text=[NSString stringWithFormat:@"  %@",bankIdname];
-
-            }
-             bankIdTF.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
-             [_scrollView addSubview: bankIdTF];
-             bankIdTF.layer.masksToBounds=YES;
-             bankIdTF.layer.borderWidth=1.0;
-             bankIdTF.layer.borderColor=[UIColor grayColor].CGColor;
-            
-        }
-        */
+      
         else if(i==11)
         {
             zhifubutton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -657,16 +731,7 @@
             neworiginaltextfield.layer.borderWidth=1.0;
             neworiginaltextfield.layer.borderColor=[UIColor grayColor].CGColor;
 
-            if(i==1)
-            {
-                
-                UILabel *newaddress=[[UILabel alloc]initWithFrame:CGRectMake(200+(wide/2-40)*row,  height*70+topSpace + labelHeight * 7+45,280, 20)];
-                [_scrollView addSubview:newaddress];
-                newaddress.textAlignment = NSTextAlignmentLeft;
-                newaddress.font=[UIFont systemFontOfSize:12];
-                newaddress.text=@"例：上海好乐迪KTV";
-            }
-            
+        
             
         }
         
@@ -855,8 +920,8 @@
 -(void)zhifuclick
 {
     [_sexTableView removeFromSuperview];
-    [datePicker removeFromSuperview];
-    [makeSureBtn removeFromSuperview];
+   // [datePicker removeFromSuperview];
+   // [makeSureBtn removeFromSuperview];
     
     sexint=105;
     [self getChannelList];
@@ -878,8 +943,8 @@
 -(void)locationbuttonclick
 {
     [_sexTableView removeFromSuperview];
-    [datePicker removeFromSuperview];
-    [makeSureBtn removeFromSuperview];
+   // [datePicker removeFromSuperview];
+   // [makeSureBtn removeFromSuperview];
     sexint=101;
     _selectedKey = key_location;
     [self pickerDisplay:locationbutton];
@@ -892,6 +957,7 @@
 {
     [_sexTableView removeFromSuperview];
     [self setupStartDate ];
+  
     
     
 }
@@ -899,8 +965,8 @@
 //性别
 -(void)sexclick
 {
-    [datePicker removeFromSuperview];
-    [makeSureBtn removeFromSuperview];
+   // [datePicker removeFromSuperview];
+   // [makeSureBtn removeFromSuperview];
     sexint=102;
     [self setupsexTableView];
     
@@ -1476,32 +1542,47 @@
         
     }
 }
+
+
+
 //创建开始日期选择器
 -(void)setupStartDate
 {
-    datePicker = [[UIDatePicker alloc]init];
-    datePicker.backgroundColor = kColor(212, 212, 212, 1.0);
-    datePicker.datePickerMode = UIDatePickerModeDate;
-    datePicker.frame = CGRectMake( birthdaybutton.frame.origin.x , birthdaybutton.frame.origin.y+birthdaybutton.frame.size.height, birthdaybutton.frame.size.width , 160);
     
-    [datePicker addTarget:self action:@selector(startPick) forControlEvents:UIControlEventValueChanged];
-    makeSureBtn = [[UIButton alloc]init];
-    makeSureBtn.tag = 1112;
-    [makeSureBtn addTarget:self action:@selector(makeSureClick:) forControlEvents:UIControlEventTouchUpInside];
-    [makeSureBtn setBackgroundColor:kColor(156, 156, 156, 1.0)];
-    [makeSureBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [makeSureBtn setTitle:@"确认" forState:UIControlStateNormal];
-    makeSureBtn.titleLabel.font = [UIFont systemFontOfSize:20];
-    makeSureBtn.frame = CGRectMake(datePicker.frame.origin.x + datePicker.frame.size.width * 0.6, CGRectGetMaxY(datePicker.frame), datePicker.frame.size.width * 0.4, 30);
-    [_scrollView addSubview:datePicker];
-    [_scrollView addSubview:makeSureBtn];
+    UIViewController *sortViewController = [[UIViewController alloc] init];
+    UIView *theView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 276)];
+    
+    _toolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, 320, 60)];
+    UIBarButtonItem *cancelItem = [[UIBarButtonItem alloc] initWithTitle:@"取消" style:UIBarButtonItemStyleDone target:self action:@selector(pickerHide)];
+    UIBarButtonItem *finishItem = [[UIBarButtonItem alloc] initWithTitle:@"完成"
+                                                                   style:UIBarButtonItemStyleDone
+                                                                  target:self
+                                                                  action:@selector(chooseBirthday:)];
+    UIBarButtonItem *spaceItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace
+                                                                               target:nil action:nil];
+    [_toolbar setItems:[NSArray arrayWithObjects:cancelItem,spaceItem,finishItem, nil]];
+    [theView addSubview:_toolbar];
+    
+    datePicker = [[UIDatePicker alloc] init];
+    datePicker.datePickerMode = UIDatePickerModeDate;
+    datePicker.frame = CGRectMake(0, 60, 320, 216);
+    datePicker.hidden = NO;
+    [theView addSubview:datePicker];
+    sortViewController.view = theView;
+    
+    _popViewController = [[UIPopoverController alloc] initWithContentViewController:sortViewController];
+    [_popViewController setPopoverContentSize:CGSizeMake(320, 300) animated:YES];
+    [_popViewController presentPopoverFromRect:CGRectMake(120, 0, 0, 42) inView:birthdaybutton permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+    _popViewController.delegate = self;
+    
+
+
     
 }
 
--(void)makeSureClick:(UIButton *)button
+-(void)chooseBirthday:(id)sender
 {
-    [makeSureBtn removeFromSuperview];
-    [datePicker removeFromSuperview];
+    [self pickerHide];
     [self startPick];
     
     [_infoDict setObject: self.startTime forKey:key_birth];
@@ -1509,14 +1590,17 @@
     
     [birthdaybutton setTitle:accountname forState:UIControlStateNormal];
     
-    
+
 }
+
+
+ 
 
 -(void)startPick
 {
-    self.startTime = [self stringFromDate:datePicker.date];
+    _startTime = [self stringFromDate:datePicker.date];
     
-    NSLog(@"%@",self.startTime);
+    NSLog(@"%@",_startTime);
     
 }
 
@@ -1659,22 +1743,6 @@
         hud.labelText = @"请填写结算银行账户";
         return;
     }
-    if (![_infoDict objectForKey:key_taxID]) {
-        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
-        hud.customView = [[UIImageView alloc] init];
-        hud.mode = MBProgressHUDModeCustomView;
-        [hud hide:YES afterDelay:1.f];
-        hud.labelText = @"请填写税务登记证号";
-        return;
-    }
-    if (![_infoDict objectForKey:key_organID]) {
-        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
-        hud.customView = [[UIImageView alloc] init];
-        hud.mode = MBProgressHUDModeCustomView;
-        [hud hide:YES afterDelay:1.f];
-        hud.labelText = @"请填写组织机构号";
-        return;
-    }
     if (!_channelID && !_billID) {
         MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
         hud.customView = [[UIImageView alloc] init];
@@ -1683,6 +1751,23 @@
         hud.labelText = @"请选择支付通道";
         return;
     }
+    if (![_infoDict objectForKey:key_taxID]&&(_applyType==OpenApplyPublic)) {
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:1.f];
+        hud.labelText = @"请填写税务登记证号";
+        return;
+    }
+    if (![_infoDict objectForKey:key_organID]&&(_applyType==OpenApplyPublic)) {
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:1.f];
+        hud.labelText = @"请填写组织机构号";
+        return;
+    }
+  
     
     for (MaterialModel *model in _applyData.materialList) {
         if (![_infoDict objectForKey:model.materialID]) {
@@ -1772,9 +1857,10 @@
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField {
     //[self pickerScrollOut];
-    [makeSureBtn removeFromSuperview];
-    [datePicker removeFromSuperview];
+   // [makeSureBtn removeFromSuperview];
+   // [datePicker removeFromSuperview];
     [_sexTableView removeFromSuperview];
+ 
    
 }
 
@@ -1783,8 +1869,34 @@
         
     [_infoDict setObject:textField.text forKey:[keynamesarry objectAtIndex:textField.tag-1056]];
     }
-   
+    if (nameTF==textField&&_applyType==OpenApplyPrivate) {
+        NSString *string=[NSString stringWithFormat:@"%@", nameTF.text];
+        accountBankNameTF.text=string;
+        NSLog(@"nameTF:%@",nameTF.text);
+    }
+    if (merchantTF==textField&&_applyType==OpenApplyPublic) {
+        accountBankNameTF.text=[NSString stringWithFormat:@"%@",merchantTF.text];
+    }
 }
+
+/*
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
+{
+ 
+    if (nameTF==textField&&_applyType==OpenApplyPrivate) {
+        NSString *string=[NSString stringWithFormat:@"%@", nameTF.text];
+        accountBankNameTF.text=string;
+        NSLog(@"nameTF:%@",nameTF.text);
+    }
+    if (merchantTF==textField&&_applyType==OpenApplyPublic) {
+        accountBankNameTF.text=[NSString stringWithFormat:@"%@",merchantTF.text];
+    }
+    
+    
+    return YES;
+    
+}
+*/
 
 
 #pragma mark - ApplyMerchantSelectedDelegate
@@ -1844,18 +1956,20 @@
 #pragma mark - UIPickerView
 
 - (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView {
+
     return 2;
+    
 }
 
 - (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component {
     
     
-  if (sexint==101) {
+   if (sexint==101) {
     
         if (component == 0) {
         return [[CityHandle shareProvinceList] count];
          }
-      else {
+        else {
         NSInteger provinceIndex = [pickerView selectedRowInComponent:0];
         NSDictionary *provinceDict = [[CityHandle shareProvinceList] objectAtIndex:provinceIndex];
         _cityArray = [provinceDict objectForKey:@"cities"];
@@ -1881,7 +1995,7 @@
         }
 
     }
-    
+ 
     
 }
 
@@ -1916,6 +2030,7 @@
         }
 
     }
+   
 }
 
 
@@ -2010,6 +2125,7 @@
         [_infoDict setObject:channelInfo forKey:key_channel];
                
     }
+ 
     
 }
 

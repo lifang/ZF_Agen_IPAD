@@ -1867,7 +1867,16 @@
         }else{
             TerminalManagerModel *model = [_terminalItems objectAtIndex:indexPath.row];
             //NSString *IDs = [NSString stringWithFormat:@"cell-%@",model.TM_status];
-            NSString *IDs = [NSString stringWithFormat:@"cell-%@%@",model.TM_status,model.VideoVerify];
+            NSString *IDs;
+            if (!model.appID||[model.appID isEqualToString:@""]) {
+                
+                 IDs = [NSString stringWithFormat:@"cell-%@%@",model.TM_status,model.VideoVerify];
+        
+            }
+            else
+            {
+                 IDs = [NSString stringWithFormat:@"cell-%@%@1",model.TM_status,model.VideoVerify];
+            }
            
             TerminalViewCell *cell = [tableView dequeueReusableCellWithIdentifier:IDs];
             if (cell == nil) {
@@ -1932,6 +1941,7 @@
         terminalDetailVC.dealStatus = model.TM_status;
         terminalDetailVC.tm_ID = model.TM_ID;
         terminalDetailVC.videoVerify=model.VideoVerify;
+        terminalDetailVC.appid=model.appID;
         [self.navigationController pushViewController:terminalDetailVC animated:YES];
     }
   

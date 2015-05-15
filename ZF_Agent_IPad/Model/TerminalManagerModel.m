@@ -32,6 +32,7 @@
         if ([dict objectForKey:@"hasVideoVerify"]) {
             _VideoVerify = [NSString stringWithFormat:@"%@",[dict objectForKey:@"hasVideoVerify"]];
         }
+       
     }
     return self;
 }
