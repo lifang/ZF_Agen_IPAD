@@ -36,7 +36,7 @@ typedef enum {
 
 static NSString *s_defaultTerminalNum = @"请选择终端号";
 
-@interface DealRoadController ()<UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate,LoginSuccessDelegate>
+@interface DealRoadController ()<UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate,LoginSuccessDelegate,RefreshDelegate>
 
 /** 顶部五个Button */
 @property(nonatomic,strong)UIButton *publickBtn;
@@ -165,7 +165,6 @@ static NSString *s_defaultTerminalNum = @"请选择终端号";
     _terminalItems = [NSMutableArray array];
     _tradeRecords = [NSMutableArray array];
     [self setupHeaderView];
-
 }
 
 - (void)didReceiveMemoryWarning {
