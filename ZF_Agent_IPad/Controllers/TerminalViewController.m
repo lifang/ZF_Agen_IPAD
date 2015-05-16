@@ -25,6 +25,7 @@
 #import "CityHandle.h"
 #import "VideoAuthController.h"
 #import "VideoAuthViewController.h"
+#import "AgreenMentController.h"
 
 
 @interface TerminalViewController ()<UITableViewDelegate,UITableViewDataSource,RefreshDelegate,terminalCellSendBtnClicked,UITextViewDelegate,UITextFieldDelegate,UIPickerViewDataSource,UIPickerViewDelegate,UIPopoverControllerDelegate,UIPopoverPresentationControllerDelegate,SelectedAddressDelegate,SelectedUserDelegate,SelectedTerminalDelegate,SearchDelegate>
@@ -103,10 +104,21 @@
 
 @property (nonatomic, strong) UIButton *getcodeBtn;
 
+@property(nonatomic,strong)NSString *tm_id;
+
 @end
 
 @implementation TerminalViewController
-
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+- (void)pushtoNewApply:(NSNotification *)notification {
+    ApplyDetailController *detailC = [[ApplyDetailController alloc] init];
+    detailC.hidesBottomBarWhenPushed = YES;
+    detailC.openStatus = OpenStatusNew;
+    detailC.terminalID = _tm_id;
+    [self.navigationController pushViewController:detailC animated:YES];
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
     NSDictionary *attributes = [NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor],NSForegroundColorAttributeName,[UIFont boldSystemFontOfSize:22],NSFontAttributeName, nil];
@@ -114,6 +126,7 @@
     self.title = @"终端管理";
     self.view.backgroundColor=[UIColor whiteColor];
     
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(pushtoNewApply:) name:@"newApplyTerminal" object:nil];
     
     UIButton *searchBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     searchBtn.frame = CGRectMake(0, 0, 30, 30);
@@ -1648,7 +1661,7 @@
                                                   otherButtonTitles:nil];
             [alert show];
         }else{
-            [self pushApplyVCWithSelectedID:selectedID];
+            [self pushApplyVCWithSelectedID:selectedID WithIndexNum:indexNum WithAppid:appid];
         }
     }
     if (btnTag == 2002) {
@@ -1815,15 +1828,24 @@
 
 
 //新开通
--(void)pushApplyVCWithSelectedID:(NSString *)selectedID
+-(void)pushApplyVCWithSelectedID:(NSString *)selectedID WithIndexNum:(int)indexNum WithAppid:(NSString *)appid
 {
+    TerminalManagerModel *model = [_terminalItems objectAtIndex:indexNum];
+    _tm_id = model.TM_ID;
+    //申请开通
+    AgreenMentController *agreenVC = [[AgreenMentController alloc]init];
+    agreenVC.pushStyle = PushTeminal;
+    agreenVC.tm_id = model.TM_ID;
+    agreenVC.protocolStr = model.protocol;
+    UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:agreenVC];
     
-     ApplyDetailController *detailVC = [[ApplyDetailController alloc] init];
-     detailVC.terminalID = selectedID;
-     detailVC.openStatus = OpenStatusNew;
-     detailVC.hidesBottomBarWhenPushed = YES;
-     [self.navigationController pushViewController:detailVC animated:YES];
+    nav.navigationBarHidden = YES;
     
+    nav.modalPresentationStyle = UIModalPresentationFormSheet;
+    
+    nav.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
+    
+    [self presentViewController:nav animated:YES completion:nil];
 }
 
 
@@ -1938,6 +1960,7 @@
         terminalDetailVC.appID = model.appID;
         terminalDetailVC.type = model.type;
         terminalDetailVC.openStatus = model.openstatus;
+        terminalDetailVC.protocol = model.protocol;
         [self.navigationController pushViewController:terminalDetailVC animated:YES];
     }
   

@@ -28,15 +28,26 @@
         }
         if ([dict objectForKey:@"appid"]) {
             _appID = [NSString stringWithFormat:@"%@",[dict objectForKey:@"appid"]];
+        }else{
+            _appID = @"";
         }
         if ([dict objectForKey:@"hasVideoVerify"]) {
             _isHaveVideo = [[dict objectForKey:@"hasVideoVerify"] integerValue];
         }
         if ([dict objectForKey:@"type"]) {
             _type = [dict objectForKey:@"type"];
+        }else{
+            _type = @"";
         }
         if ([dict objectForKey:@"openstatus"]) {
             _openstatus = [dict objectForKey:@"openstatus"];
+        }else{
+            _openstatus = @"";
+        }
+        if ([dict objectForKey:@"openingProtocol"]) {
+            _protocol = [NSString stringWithFormat:@"%@",[dict objectForKey:@"openingProtocol"]];
+        }else{
+            _protocol = @"";
         }
         
     }

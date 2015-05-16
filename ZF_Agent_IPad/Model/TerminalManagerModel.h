@@ -41,6 +41,7 @@ typedef enum {
 
 @property(nonatomic,strong)NSString *openstatus;
 
+@property(nonatomic,strong)NSString *protocol;
 
 /*
  若有值，订单状态为已开通，找回POS密码操作,否则是自助开通

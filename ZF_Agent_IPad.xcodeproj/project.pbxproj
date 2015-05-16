@@ -244,6 +244,7 @@
 		1AAA570B1B059AA700196E03 /* ApplySuccessController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AAA570A1B059AA700196E03 /* ApplySuccessController.m */; };
 		1AAA570D1B05A5A400196E03 /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1AAA570C1B05A5A400196E03 /* CoreText.framework */; };
 		1AAA57101B05B91400196E03 /* ProtocolController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AAA570F1B05B91400196E03 /* ProtocolController.m */; };
+		1AABB8A31B06D70C001F5BCD /* AgreenMentController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AABB8A21B06D70C001F5BCD /* AgreenMentController.m */; };
 		1ABA17C11ADB548A006B8D9B /* StaffManagerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1ABA17C01ADB548A006B8D9B /* StaffManagerController.m */; };
 		1ABA17CA1ADB5A5E006B8D9B /* ChangePhoneController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1ABA17C31ADB5A5E006B8D9B /* ChangePhoneController.m */; };
 		1ABA17CB1ADB5A5E006B8D9B /* ChangeEmailController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1ABA17C51ADB5A5E006B8D9B /* ChangeEmailController.m */; };
@@ -827,6 +828,8 @@
 		1AAA570C1B05A5A400196E03 /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
 		1AAA570E1B05B91400196E03 /* ProtocolController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProtocolController.h; sourceTree = "<group>"; };
 		1AAA570F1B05B91400196E03 /* ProtocolController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProtocolController.m; sourceTree = "<group>"; };
+		1AABB8A11B06D70C001F5BCD /* AgreenMentController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AgreenMentController.h; sourceTree = "<group>"; };
+		1AABB8A21B06D70C001F5BCD /* AgreenMentController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AgreenMentController.m; sourceTree = "<group>"; };
 		1ABA17BF1ADB548A006B8D9B /* StaffManagerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StaffManagerController.h; sourceTree = "<group>"; };
 		1ABA17C01ADB548A006B8D9B /* StaffManagerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StaffManagerController.m; sourceTree = "<group>"; };
 		1ABA17C21ADB5A5E006B8D9B /* ChangePhoneController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChangePhoneController.h; sourceTree = "<group>"; };
@@ -1122,6 +1125,8 @@
 		0D885FA21AD7D326002CDA15 /* Identification */ = {
 			isa = PBXGroup;
 			children = (
+				1AABB8A11B06D70C001F5BCD /* AgreenMentController.h */,
+				1AABB8A21B06D70C001F5BCD /* AgreenMentController.m */,
 				0D885FA31AD7D341002CDA15 /* IdentificationViewController.h */,
 				0D885FA41AD7D34A002CDA15 /* IdentificationViewController.m */,
 				0D885FA61AD7D352002CDA15 /* ApplyDetailController.h */,
@@ -2438,6 +2443,7 @@
 				0D885FB41AD7D56E002CDA15 /* MerchantModel.m in Sources */,
 				1A790B141ADCEF6000EE886A /* ResourceModel.m in Sources */,
 				0D16942D1AD3C15600B50A17 /* HexColor.m in Sources */,
+				1AABB8A31B06D70C001F5BCD /* AgreenMentController.m in Sources */,
 				1AF15AEA1ACCE3A400D5C171 /* SDWebImageCompat.m in Sources */,
 				0D1694211AD3C14100B50A17 /* MASViewAttribute.m in Sources */,
 				0D1C66E21ADFE10A00CAC1B8 /* UserSelectViewController.m in Sources */,

@@ -16,6 +16,7 @@
 #import "SearchTermianlViewController.h"
 #import "VideoAuthViewController.h"
 #import "TerminalDetailViewController.h"
+#import "AgreenMentController.h"
 
 @interface IdentificationViewController ()<RefreshDelegate,LoginSuccessDelegate,UITableViewDelegate,UITableViewDataSource,SearchDelegate>
 {
@@ -43,13 +44,15 @@
 
 @property(nonatomic,strong)NSString *serialNum;
 
+@property(nonatomic,strong)NSString *tm_id;
+
 @end
 
 @implementation IdentificationViewController
 
-
-
-
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
     NSDictionary *attributes = [NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor],NSForegroundColorAttributeName,[UIFont boldSystemFontOfSize:22],NSFontAttributeName, nil];
@@ -58,7 +61,7 @@
     self.view.backgroundColor=[UIColor whiteColor];
     
     touchStatus=100;
-    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(pushtoNewApply:) name:@"newApply" object:nil];
     UIButton *searchBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     searchBtn.frame = CGRectMake(0, 0, 30, 30);
     [searchBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
@@ -553,18 +556,32 @@
    //detailVC.terminalID =[NSString stringWithFormat:@"%d",button.tag];
     
     detailVC.hidesBottomBarWhenPushed = YES;
-    if(  [model.TM_status  isEqualToString:@"2"])
+    if( [model.appID  isEqualToString:@""])
     {
-        detailVC.openStatus = OpenStatusReopen;
+        _tm_id = model.TM_ID;
+        //申请开通
+        AgreenMentController *agreenVC = [[AgreenMentController alloc]init];
+        agreenVC.pushStyle = PushDredge;
+        agreenVC.tm_id = model.TM_ID;
+        agreenVC.protocolStr = model.protocol;
+        UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:agreenVC];
         
+        nav.navigationBarHidden = YES;
+        
+        nav.modalPresentationStyle = UIModalPresentationFormSheet;
+        
+        nav.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
+        
+        [self presentViewController:nav animated:YES completion:nil];
     }else
     {
-        detailVC.openStatus = OpenStatusNew;
+        //重新申请开通
+        detailVC.openStatus = OpenStatusReopen;
+        detailVC.terminalID = model.TM_ID;
+        
+        [self.navigationController pushViewController:detailVC animated:YES];
         
     }
-    detailVC.terminalID = model.TM_ID;
-    
-    [self.navigationController pushViewController:detailVC animated:YES];
     
 }
 
@@ -617,5 +634,11 @@
     
 }
 
-
+- (void)pushtoNewApply:(NSNotification *)notification {
+    ApplyDetailController *detailC = [[ApplyDetailController alloc] init];
+    detailC.hidesBottomBarWhenPushed = YES;
+    detailC.openStatus = OpenStatusNew;
+    detailC.terminalID = _tm_id;
+    [self.navigationController pushViewController:detailC animated:YES];
+}
 @end

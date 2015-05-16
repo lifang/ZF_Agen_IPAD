@@ -17,6 +17,7 @@
 #import "RecordView.h"
 #import "ApplyDetailController.h"
 #import "VideoAuthViewController.h"
+#import "AgreenMentController.h"
 
 @interface TerminalDetailViewController ()
 
@@ -63,12 +64,22 @@
 @end
 
 @implementation TerminalDetailViewController
-
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+- (void)pushtoNewApply:(NSNotification *)notification {
+    ApplyDetailController *detailC = [[ApplyDetailController alloc] init];
+    detailC.hidesBottomBarWhenPushed = YES;
+    detailC.openStatus = OpenStatusNew;
+    detailC.terminalID = _tm_ID;
+    [self.navigationController pushViewController:detailC animated:YES];
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"终端详情";
     self.view.backgroundColor = [UIColor whiteColor];
+     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(pushtoNewApply:) name:@"newDetailApply" object:nil];
     //初始化数据
     _records = [[NSMutableArray alloc] init];
     _ratesItems = [[NSMutableArray alloc] init];
@@ -1337,8 +1348,8 @@
         }
             break;
         case 6667:
-            NSLog(@"点击了申请开通（已注销）");
-            [self pushApplyVCWithSelectedID:_tm_ID];
+            NSLog(@"点击了重新申请开通（已注销）");
+            [self pushApplyNewVCWithSelectedID:_tm_ID];
             break;
         case 6668:
             NSLog(@"点击了同步（已注销）");
@@ -1398,11 +1409,19 @@
 -(void)pushApplyVCWithSelectedID:(NSString *)selectedID
 {
     
-    ApplyDetailController *detailVC = [[ApplyDetailController alloc] init];
-    detailVC.terminalID = selectedID;
-    detailVC.openStatus = OpenStatusNew;
-    detailVC.hidesBottomBarWhenPushed = YES;
-    [self.navigationController pushViewController:detailVC animated:YES];
+    AgreenMentController *agreenVC = [[AgreenMentController alloc]init];
+    agreenVC.pushStyle = PushTeminalChild;
+    agreenVC.tm_id = _tm_ID;
+    agreenVC.protocolStr = _protocol;
+    UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:agreenVC];
+    
+    nav.navigationBarHidden = YES;
+    
+    nav.modalPresentationStyle = UIModalPresentationFormSheet;
+    
+    nav.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
+    
+    [self presentViewController:nav animated:YES completion:nil];
     
 }
 
