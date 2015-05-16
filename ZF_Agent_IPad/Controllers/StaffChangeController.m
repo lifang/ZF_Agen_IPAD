@@ -104,6 +104,7 @@
     [self.view addSubview:chooseStaff];
     
     UILabel *first = [[UILabel alloc]init];
+    first.hidden = YES;
     first.text = @"批购";
     [self setLabel:first WithTopSapce:topSpaceBig WithTopView:self.view WithLabelTag:4];
     
@@ -153,6 +154,7 @@
     
     //创建状态Btn
     _firstBtn = [[StaffButton alloc]init];
+    _firstBtn.hidden = YES;
     [self setSelectedBtn:_firstBtn WithTopSpace:topSpaceLittle + 7 WithTopView:chooseStaff WithButtonTag:1];
     
     CGFloat mainMargin = topSpaceLittle * 2 + 5;

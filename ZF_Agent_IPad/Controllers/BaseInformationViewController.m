@@ -75,7 +75,17 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
-    [self getPersonDetailInfo];
+    AppDelegate *delegate = [AppDelegate shareAppDelegate];
+    if ([[delegate.authDict objectForKey:[NSNumber numberWithInt:AuthAR]] boolValue]) {
+        [self getPersonDetailInfo];
+    }
+    else {
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:1.f];
+        hud.labelText = @"您没有查看代理商资料权限";
+    }
 }
 
 - (void)didReceiveMemoryWarning {

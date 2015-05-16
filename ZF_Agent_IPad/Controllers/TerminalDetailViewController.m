@@ -1290,7 +1290,7 @@
         }            break;
         case 4446:
             NSLog(@"点击了重新申请通（部分开通）");
-            [self pushApplyVCWithSelectedID:_tm_ID];
+            [self pushApplyNewVCWithSelectedID:_tm_ID];
             break;
         case 4447:
             NSLog(@"点击了同步（部分开通）");
@@ -1331,7 +1331,12 @@
                                                       otherButtonTitles:nil];
                 [alert show];
             }else{
-                [self pushApplyVCWithSelectedID:_tm_ID];
+                if ([_appID isEqualToString:@""]) {
+                    
+                    [self pushApplyVCWithSelectedID:_tm_ID];
+                }else{
+                    [self pushApplyNewVCWithSelectedID:_tm_ID];
+                }
             }
             break;
         case 5557:

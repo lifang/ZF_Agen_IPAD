@@ -66,18 +66,39 @@
 //我的信息
 -(void)orderClick
 {
-    BaseInformationViewController *baseInformationVC = [[BaseInformationViewController alloc]init];
-    baseInformationVC.navigationController.navigationBarHidden = YES;
-    [self.navigationController pushViewController:baseInformationVC animated:NO];
+    AppDelegate *delegate = [AppDelegate shareAppDelegate];
+    if ([[delegate.authDict objectForKey:[NSNumber numberWithInt:AuthAR]] boolValue]) {
+        BaseInformationViewController *baseInformationVC = [[BaseInformationViewController alloc]init];
+        baseInformationVC.navigationController.navigationBarHidden = YES;
+        [self.navigationController pushViewController:baseInformationVC animated:NO];
+    }
+    else {
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:1.f];
+        hud.labelText = @"您没有查看代理商资料权限";
+    }
+    
 }
-//售后记录
+//下级代理商管理
 -(void)aftersellBtnClick
 {
-    SubAgentListController *afterVC = [[SubAgentListController alloc]init];
-    afterVC.navigationController.navigationBarHidden = YES;
-    [self.navigationController pushViewController:afterVC animated:NO];
+    AppDelegate *delegate = [AppDelegate shareAppDelegate];
+    if ([[delegate.authDict objectForKey:[NSNumber numberWithInt:AuthSubAgent]] boolValue]) {
+        SubAgentListController *afterVC = [[SubAgentListController alloc]init];
+        afterVC.navigationController.navigationBarHidden = YES;
+        [self.navigationController pushViewController:afterVC animated:NO];
+    }
+    else {
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:1.f];
+        hud.labelText = @"您没有下级代理商管理权限";
+    }
 }
-//我的信息
+//配货
 -(void)messageBtnClick
 {
     PrepareGoodManagerController *baseInformationVC = [[PrepareGoodManagerController alloc]init];
@@ -85,7 +106,7 @@
 
     [self.navigationController pushViewController:baseInformationVC animated:NO];
 }
-//我的商户
+//调货
 -(void)shopBtnClick
 {
     AdjustGoodsViewController *shopVC = [[AdjustGoodsViewController alloc]init];

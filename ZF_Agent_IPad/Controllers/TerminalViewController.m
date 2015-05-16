@@ -1661,7 +1661,11 @@
                                                   otherButtonTitles:nil];
             [alert show];
         }else{
-            [self pushApplyVCWithSelectedID:selectedID WithIndexNum:indexNum WithAppid:appid];
+            if ([appid isEqualToString:@""]) {
+                [self pushApplyVCWithSelectedID:selectedID WithIndexNum:indexNum WithAppid:appid];
+            }else{
+                [self pushApplyNewVCWithSelectedID:selectedID];
+            }
         }
     }
     if (btnTag == 2002) {
