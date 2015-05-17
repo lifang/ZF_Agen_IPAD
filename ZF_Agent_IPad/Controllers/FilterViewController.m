@@ -781,7 +781,7 @@
             
             UILabel*rentlable=[[UILabel alloc]init];
             rentlable.frame=CGRectMake(80,65, 140, 30);
-            rentlable.text=@"仅支持租赁的机器";
+            rentlable.text=@"支持租赁的机器";
             rentlable.font=[UIFont systemFontOfSize:16];
             rentlable.textColor=[UIColor grayColor];
             [rootimageviews addSubview:rentlable];

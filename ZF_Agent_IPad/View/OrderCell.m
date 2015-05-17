@@ -773,7 +773,7 @@ typedef enum {
     self.numberLabel.text = [NSString stringWithFormat:@"X %d",_cellData.orderGood.goodCount];
     self.brandLabel.text = [NSString stringWithFormat:@"品牌型号 %@",_cellData.orderGood.goodBrand];
     self.channelLabel.text = [NSString stringWithFormat:@"支付通道 %@",_cellData.orderGood.goodChannel];
-    [self.pictureView sd_setImageWithURL:[NSURL URLWithString:_cellData.orderGood.goodImagePath] placeholderImage:nil];
+    [self.pictureView sd_setImageWithURL:[NSURL URLWithString:_cellData.orderGood.goodImagePath] placeholderImage:[UIImage imageNamed:@"test1" ]];
 }
 
 

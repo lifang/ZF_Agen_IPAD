@@ -248,14 +248,32 @@
 #pragma mark - UI
 
 - (void)setHeaderAndFooterView {
-    UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 10)];
+    CGFloat wide;
+    CGFloat height;
+    if(iOS7)
+    {
+        wide=SCREEN_HEIGHT;
+        height=SCREEN_WIDTH;
+        
+    }
+    else
+    {  wide=SCREEN_WIDTH;
+        height=SCREEN_HEIGHT;
+        
+    }
+
+    UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, wide, 10)];
     headerView.backgroundColor = [UIColor clearColor];
     _tableView.tableHeaderView = headerView;
     
-    UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 100)];
+    UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, wide, 100)];
     footerView.backgroundColor = [UIColor clearColor];
     UIButton *submitBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    submitBtn.frame = CGRectMake(80, 20, kScreenWidth - 160, 40);
+    
+    
+    submitBtn.frame = CGRectMake(80, 20,240, 40);
+    submitBtn.center=CGPointMake(wide/2, 40);
+    
     submitBtn.layer.cornerRadius = 4;
     submitBtn.layer.masksToBounds = YES;
     submitBtn.titleLabel.font = [UIFont boldSystemFontOfSize:16.f];

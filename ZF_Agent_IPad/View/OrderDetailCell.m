@@ -285,7 +285,7 @@ else
     self.numberLabel.text = [NSString stringWithFormat:@"X %d",data.goodCount];
     self.brandLabel.text = [NSString stringWithFormat:@"品牌型号 %@",data.goodBrand];
     self.channelLabel.text = [NSString stringWithFormat:@"支付通道 %@",data.goodChannel];
-    [self.pictureView sd_setImageWithURL:[NSURL URLWithString:data.goodImagePath] placeholderImage:nil];
+    [self.pictureView sd_setImageWithURL:[NSURL URLWithString:data.goodImagePath] placeholderImage:[UIImage imageNamed:@"test1" ]];
 }
 
 @end

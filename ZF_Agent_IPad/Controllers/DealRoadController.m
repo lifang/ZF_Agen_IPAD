@@ -153,6 +153,7 @@ static NSString *s_defaultTerminalNum = @"请选择终端号";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+   
     agentItem = [[NSMutableArray alloc] init];
 
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;

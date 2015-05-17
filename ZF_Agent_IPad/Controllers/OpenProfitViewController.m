@@ -684,7 +684,8 @@
         
             cell.backgroundColor=[UIColor whiteColor];
 
-     
+        cell.deletebutton.hidden=NO;
+        
         
     
     }
@@ -692,7 +693,8 @@
     {
         cell.backgroundColor=[UIColor colorWithWhite:0.85 alpha:1];
 
-    
+        cell.deletebutton.hidden=YES;
+
     }
     cell.selectedBackgroundView = [[UIView alloc] initWithFrame:cell.frame];
     cell.selectedBackgroundView.backgroundColor = [UIColor whiteColor];
