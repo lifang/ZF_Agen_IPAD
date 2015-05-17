@@ -36,7 +36,7 @@ typedef enum {
 
 static NSString *s_defaultTerminalNum = @"请选择终端号";
 
-@interface DealRoadController ()<UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate,LoginSuccessDelegate>
+@interface DealRoadController ()<UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate,LoginSuccessDelegate,RefreshDelegate>
 
 /** 顶部五个Button */
 @property(nonatomic,strong)UIButton *publickBtn;
@@ -155,7 +155,8 @@ static NSString *s_defaultTerminalNum = @"请选择终端号";
     [super viewDidLoad];
    
     agentItem = [[NSMutableArray alloc] init];
-
+    UIAlertView *alertV = [[UIAlertView alloc]initWithTitle:@"" message:@"PAD端交易流水查询仅供单台终端查询，完整查询功能请登陆PC端合作伙伴平台" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:@"取消", nil];
+    [alertV show];
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     //初始化数据
     self.buttonIndex = 1;
@@ -165,7 +166,6 @@ static NSString *s_defaultTerminalNum = @"请选择终端号";
     _terminalItems = [NSMutableArray array];
     _tradeRecords = [NSMutableArray array];
     [self setupHeaderView];
-
 }
 
 - (void)didReceiveMemoryWarning {

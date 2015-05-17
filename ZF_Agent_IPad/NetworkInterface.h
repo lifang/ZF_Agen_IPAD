@@ -398,6 +398,12 @@ static NSString *s_prepareGoodPOS_method = @"preparegood/getgoodlist";
 static NSString *s_setHasBenefit_method = @"lowerAgent/setDefaultProfit";
 //62.交易流水——统计交易流水
 static NSString *s_tradeStatist_method = @"trade/getTradeStatistics";
+
+//62.交易流水——统计交易流水
+static NSString *s_applyRigister_method = @"agent/getJoin";
+
+static NSString *s_sendRegisterValidate_method = @"agent/sendPhoneVerificationCodeReg";
+
 @interface NetworkInterface : NSObject
 /*!
  @abstract 1.热卖
@@ -495,6 +501,8 @@ finished:(requestDidFinished)finish;
             licenseImagePath:(NSString *)licenseImagePath
                 taxImagePath:(NSString *)taxImagePath
                     finished:(requestDidFinished)finish;
+
++(void)applyRegisterWithName:(NSString *)name Phone:(NSString *)phone AgentType:(NSString *)agentType Address:(NSString *)address finished:(requestDidFinished)finish;
 
 /*!
  @abstract 4.手机验证码

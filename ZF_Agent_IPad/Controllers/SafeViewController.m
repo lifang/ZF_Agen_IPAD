@@ -23,7 +23,17 @@
     [super viewDidLoad];
     NSLog(@"当前是~~~~~~~~~~~~%d",self.Index);
     [self.swithView setSelectedBtnAtIndex:2];
-    [self initUI];
+    AppDelegate *delegate = [AppDelegate shareAppDelegate];
+    if ([[delegate.authDict objectForKey:[NSNumber numberWithInt:AuthAR]] boolValue]) {
+        [self initUI];
+    }
+    else {
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:1.f];
+        hud.labelText = @"您没有查看代理商资料权限";
+    }
     self.swithView.hidden = NO;
 }
 

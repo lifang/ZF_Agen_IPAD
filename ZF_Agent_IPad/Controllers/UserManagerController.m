@@ -179,6 +179,9 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
+    AppDelegate *delegate = [AppDelegate shareAppDelegate];
+    
     UserManagerModel *model = [_dataItem objectAtIndex:indexPath.row];
     UserManagerChildController *userChildVC = [[UserManagerChildController alloc]init];
     userChildVC.userManagerModel = model;

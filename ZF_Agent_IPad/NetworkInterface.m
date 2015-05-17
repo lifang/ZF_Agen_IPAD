@@ -147,7 +147,7 @@ static NSString *HTTP_GET  = @"GET";
         [paramDict setObject:mobileNumber forKey:@"codeNumber"];
     }
     //url
-    NSString *urlString = [NSString stringWithFormat:@"%@/%@",kServiceURL,s_sendValidate_method];
+    NSString *urlString = [NSString stringWithFormat:@"%@/%@",kServiceURL,s_sendRegisterValidate_method];
     [[self class] requestWithURL:urlString
                           params:paramDict
                       httpMethod:HTTP_POST
@@ -2680,4 +2680,19 @@ static NSString *HTTP_GET  = @"GET";
                         finished:finish];
 }
 
++(void)applyRegisterWithName:(NSString *)name Phone:(NSString *)phone AgentType:(NSString *)agentType Address:(NSString *)address finished:(requestDidFinished)finish
+{
+    //参数
+    NSMutableDictionary *paramDict = [[NSMutableDictionary alloc] init];
+    [paramDict setObject:name forKey:@"name"];
+    [paramDict setObject:phone forKey:@"phone"];
+    [paramDict setObject:agentType forKey:@"agentType"];
+    [paramDict setObject:address forKey:@"address"];
+    //url
+    NSString *urlString = [NSString stringWithFormat:@"%@/%@",kServiceURL,s_applyRigister_method];
+    [[self class] requestWithURL:urlString
+                          params:paramDict
+                      httpMethod:HTTP_POST
+                        finished:finish];
+}
 @end

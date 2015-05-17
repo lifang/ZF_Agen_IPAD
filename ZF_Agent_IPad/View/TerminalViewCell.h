@@ -12,7 +12,7 @@
 @protocol terminalCellSendBtnClicked <NSObject>
 
 @optional
--(void)terminalCellBtnClicked:(int) btnTag WithSelectedID:(NSString *)selectedID Withindex:(int)indexNum;
+-(void)terminalCellBtnClicked:(int) btnTag WithSelectedID:(NSString *)selectedID Withindex:(int)indexNum WithOpenstatus:(NSString *)openStatus WithAppid:(NSString *)appid;
 
 @end
 
@@ -37,6 +37,18 @@
 
 @property(nonatomic,weak)id<terminalCellSendBtnClicked> TerminalViewCellDelegate;
 
+
+-(id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier WithVedeos:(BOOL)ishaveVideo Appid:(NSString *)appid WithType:(NSString *)type WithOpenStatus:(NSString *)openstatus;
+
+@property(nonatomic,assign)BOOL isHaveVideo;
+
+@property(nonatomic,strong)NSString *appID;
+
+@property(nonatomic,strong)NSString *type;
+
+@property(nonatomic,strong)NSString *openStatus;
+
+-(void)initButtonWithreuseIdentifier:(NSString *)reuseIdentifier WithVedeos:(BOOL)ishaveVideo Appid:(NSString *)appid WithType:(NSString *)type WithOpenStatus:(NSString *)openstatus;
 
 
 @end

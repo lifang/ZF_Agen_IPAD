@@ -13,10 +13,16 @@
 
 @property(nonatomic,strong)NSString *dealStatus;
 
+@property(nonatomic,assign)BOOL isHaveVideo;
+
 @property (nonatomic, strong) NSString *tm_ID; //终端信息id
 
-@property (nonatomic, strong) NSString *videoVerify; //视频认证
+@property(nonatomic,strong)NSString *appID;
 
-@property (nonatomic, strong) NSString *appid;
+@property(nonatomic,strong)NSString *type;
+
+@property(nonatomic,strong)NSString *openStatus;
+
+@property(nonatomic,strong)NSString *protocol;
 
 @end

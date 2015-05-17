@@ -50,7 +50,7 @@
     NSDictionary *attribute = @{NSFontAttributeName: topLabel.font};
     CGSize labelsize = [topLabel.text boundingRectWithSize:size options: NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin |NSStringDrawingUsesFontLeading attributes:attribute context:nil].size;
     CGSize topLabelSize = {0,0};
-    topLabelSize = [topLabelStr sizeWithFont:[UIFont systemFontOfSize:20] constrainedToSize:CGSizeMake(200.0, 50)];
+    topLabelSize = [topLabelStr sizeWithFont:[UIFont systemFontOfSize:20] constrainedToSize:CGSizeMake(320.0, 50)];
     topLabel.frame = CGRectMake(180, 40, SCREEN_WIDTH * 0.6, topLabelSize.height);
     if (iOS7) {
         topLabel.frame = CGRectMake(180, 40, SCREEN_HEIGHT * 0.6, labelsize.height);
@@ -130,7 +130,7 @@
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
     hud.labelText = @"提交中...";
     AppDelegate *delegate = [AppDelegate shareAppDelegate];
-    [NetworkInterface deleteSingleMessageWithAgentID:delegate.agentID token:delegate.token messageID:_message.messageID finished:^(BOOL success, NSData *response) {
+    [NetworkInterface deleteSingleMessageWithAgentID:delegate.agentUserID token:delegate.token messageID:_message.messageID finished:^(BOOL success, NSData *response) {
         hud.customView = [[UIImageView alloc] init];
         hud.mode = MBProgressHUDModeCustomView;
         [hud hide:YES afterDelay:0.5f];
