@@ -19,6 +19,8 @@
 
 @property(nonatomic,strong)NSString *oldPhoneNum;
 
+@property(nonatomic,strong)NSString *oldAuthCode;
+
 @property(nonatomic,weak)id ChangePhoneSuccessDelegate;
 
 @end

@@ -245,15 +245,16 @@
     
     //创建中间有规律的内容Cell
     _stockHistoryCountLabel = [[UILabel alloc]init];
-    [self setLabel:_stockHistoryCountLabel withLeftView:_stockBrandLabel middleSpace:-5.f labelTag:0];
+    [self setLabel:_stockHistoryCountLabel withLeftView:_stockBrandLabel middleSpace:30.f labelTag:0];
     
     _stockOpenCountLabel = [[UILabel alloc]init];
-    [self setLabel:_stockOpenCountLabel withLeftView:_stockHistoryCountLabel middleSpace:15.f labelTag:0];
+    [self setLabel:_stockOpenCountLabel withLeftView:_stockHistoryCountLabel middleSpace:75.f labelTag:0];
     
     _stockAgentCountLabel = [[UILabel alloc]init];
-    [self setLabel:_stockAgentCountLabel withLeftView:_stockOpenCountLabel middleSpace:15.f labelTag:0];
+    [self setLabel:_stockAgentCountLabel withLeftView:_stockOpenCountLabel middleSpace:- 55.f labelTag:0];
     
     _stockTotalCountLabel = [[UILabel alloc]init];
+    _stockAgentCountLabel.hidden = YES;
     [self setLabel:_stockTotalCountLabel withLeftView:_stockAgentCountLabel middleSpace:15.f labelTag:0];
     
     _stockChangeBtn = [[UIButton alloc]init];

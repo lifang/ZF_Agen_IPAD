@@ -406,6 +406,9 @@ static NSString *s_sendRegisterValidate_method = @"agent/sendPhoneVerificationCo
 //商品图片
 static NSString *s_goodImage_method = @"good/getGoodImgUrl";
 
+//获取所有用户
+static NSString *s_AllUserList_method = @"terminal/getCustomer";
+
 @interface NetworkInterface : NSObject
 + (void)getGoodImageWithGoodID:(NSString *)goodID
                       finished:(requestDidFinished)finish;
@@ -1950,5 +1953,11 @@ finished:(requestDidFinished)finish;
                       subAgentID:(NSString *)subAgentID
                       hasBenefit:(int)benefit
                         finished:(requestDidFinished)finish;
+
++ (void)getAllUserWithAgentID:(NSString *)agentID
+                      keyword:(NSString *)keyword
+                         page:(int)page
+                         rows:(int)rows
+                     finished:(requestDidFinished)finish;
 
 @end

@@ -358,7 +358,7 @@
         _currentStatus = CSStatusAll;
         self.afterType = AfterSellTypeSell;
         self.csType = CSTypeAfterSale;
-        NSArray *arr = [NSArray arrayWithObjects:@"售后单号",@"终端号",@"申请日期",@"售后状态", nil];
+        NSArray *arr = [NSArray arrayWithObjects:@"售后编号",@"终端号",@"申请日期",@"售后状态", nil];
         [self setupHeaderViewWithArray:arr];
         [self firstLoadData];
         [self.tableView reloadData];
@@ -372,7 +372,7 @@
         _currentStatus = CSStatusAll;
         self.afterType = AfterSellTypeCancel;
         self.csType = CSTypeCancel;
-        NSArray *arr1 = [NSArray arrayWithObjects:@"注销单号",@"终端号",@"申请日期",@"注销状态", nil];
+        NSArray *arr1 = [NSArray arrayWithObjects:@"注销编号",@"终端号",@"申请日期",@"注销状态", nil];
         [self setupHeaderViewWithArray:arr1];
         [self firstLoadData];
         [self.tableView reloadData];
@@ -386,7 +386,7 @@
         _currentStatus = CSStatusAll;
         self.afterType = AfterSellTypeUpdate;
         self.csType = CSTypeUpdate;
-        NSArray *arr2 = [NSArray arrayWithObjects:@"更新资料单号",@"终端号",@"申请日期",@"更新状态", nil];
+        NSArray *arr2 = [NSArray arrayWithObjects:@"更新资料编号",@"终端号",@"申请日期",@"更新状态", nil];
         [self setupHeaderViewWithArray:arr2];
         [self firstLoadData];
         [self.tableView reloadData];
