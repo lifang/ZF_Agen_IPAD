@@ -75,6 +75,8 @@
         else {
             _createTime = @"";
         }
+        _needInvoice = [[dict objectForKey:@"need_invoice"] intValue];
+
         _orderStatus = [[dict objectForKey:@"order_status"] intValue];
         _payStatus = [[dict objectForKey:@"pay_status"] intValue];
 

@@ -356,42 +356,42 @@
     UILabel *descriptionLabel = [[UILabel alloc] initWithFrame:CGRectMake(leftSpace, originY, wide - leftSpace - rightSpace, descriptionHeight)];
     descriptionLabel.numberOfLines = 0;
     [self setLabels:descriptionLabel withTitle:_detailModel.goodDescription font:[UIFont systemFontOfSize:13.f]];
-    
+
     //感兴趣的
     originY += descriptionHeight + 20;
-    UIView *sixthLine = [[UIView alloc] initWithFrame:CGRectMake(40, originY, wide-80, 1)];
-    sixthLine.backgroundColor = kColor(200, 198, 199, 1);
-    [_mainScrollView addSubview:sixthLine];
-    UILabel *interestLabel = [[UILabel alloc] initWithFrame:CGRectMake((wide - 80) / 2, originY - 10, 80, labelHeight)];
-    [self setLabels:interestLabel withTitle:@"您感兴趣的" font:[UIFont systemFontOfSize:14.f]];
-    interestLabel.textAlignment = NSTextAlignmentCenter;
-    interestLabel.backgroundColor = kColor(244, 243, 243, 1);
-    
-    originY += 20;
-    CGFloat middleSpace = 10.f;
-    CGFloat relateViewWidth = (wide -100) / 4;
-    CGFloat relateViewHeight = relateViewWidth + 40 + 20 + 10;
-    CGRect rect = CGRectMake(leftSpace, originY, relateViewWidth, relateViewHeight);
-    for (int i = 0; i < [_detailModel.relativeItem count]; i++) {
-        if (i % 4 == 0 && i != 0) {
-            rect.origin.x = leftSpace;
-            rect.origin.y += relateViewHeight + middleSpace;
-        }
-        InterestView *interestView = [[InterestView alloc] initWithFrame:rect];
-        RelativeGood *relativeGood = [_detailModel.relativeItem objectAtIndex:i];
-        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(selectedRelativeGood:)];
-        [interestView setRelationData:relativeGood];
-        [_mainScrollView addSubview:interestView];
-        [interestView addGestureRecognizer:tap];
-        interestView.userInteractionEnabled=YES;
-        
-        rect.origin.x += relateViewWidth + middleSpace;
-    }
-    if ([_detailModel.relativeItem count] > 0) {
-
-    int relateRow = (int)([_detailModel.relativeItem count] - 1) / 4 + 1;
-    originY += relateRow * (relateViewHeight + 20);
-    }
+//    UIView *sixthLine = [[UIView alloc] initWithFrame:CGRectMake(40, originY, wide-80, 1)];
+//    sixthLine.backgroundColor = kColor(200, 198, 199, 1);
+//    [_mainScrollView addSubview:sixthLine];
+//    UILabel *interestLabel = [[UILabel alloc] initWithFrame:CGRectMake((wide - 80) / 2, originY - 10, 80, labelHeight)];
+//    [self setLabels:interestLabel withTitle:@"您感兴趣的" font:[UIFont systemFontOfSize:14.f]];
+//    interestLabel.textAlignment = NSTextAlignmentCenter;
+//    interestLabel.backgroundColor = kColor(244, 243, 243, 1);
+//    
+//    originY += 20;
+//    CGFloat middleSpace = 10.f;
+//    CGFloat relateViewWidth = (wide -100) / 4;
+//    CGFloat relateViewHeight = relateViewWidth + 40 + 20 + 10;
+//    CGRect rect = CGRectMake(leftSpace, originY, relateViewWidth, relateViewHeight);
+//    for (int i = 0; i < [_detailModel.relativeItem count]; i++) {
+//        if (i % 4 == 0 && i != 0) {
+//            rect.origin.x = leftSpace;
+//            rect.origin.y += relateViewHeight + middleSpace;
+//        }
+//        InterestView *interestView = [[InterestView alloc] initWithFrame:rect];
+//        RelativeGood *relativeGood = [_detailModel.relativeItem objectAtIndex:i];
+//        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(selectedRelativeGood:)];
+//        [interestView setRelationData:relativeGood];
+//        [_mainScrollView addSubview:interestView];
+//        [interestView addGestureRecognizer:tap];
+//        interestView.userInteractionEnabled=YES;
+//        
+//        rect.origin.x += relateViewWidth + middleSpace;
+//    }
+//    if ([_detailModel.relativeItem count] > 0) {
+//
+//    int relateRow = (int)([_detailModel.relativeItem count] - 1) / 4 + 1;
+//    originY += relateRow * (relateViewHeight + 20);
+//    }
     _mainScrollView.userInteractionEnabled=YES;
     
     _mainScrollView.contentSize = CGSizeMake(wide, originY+130);
@@ -1115,6 +1115,7 @@
     
     NSInteger count = [self.pictureArry count];
     
+    
     _scrollViewPicture = [[UIScrollView alloc] init];
     
     _scrollViewPicture.frame=CGRectMake(0, 64, wide, height-64);
@@ -1130,7 +1131,7 @@
                      placeholderImage:kImageName(@"test1.png")];
         //        imageView.center=CGPointMake(wide/2,230+i*450);
         
-        imageView.contentMode = UIViewContentModeScaleAspectFill;
+//        imageView.contentMode = UIViewContentModeScaleAspectFill;
         [_scrollViewPicture addSubview:imageView];
         
     }

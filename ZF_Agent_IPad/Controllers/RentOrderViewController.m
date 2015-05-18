@@ -520,76 +520,77 @@
         
         
         
-        UILabel*choseuserlable=[[UILabel alloc]initWithFrame:CGRectMake(40, 10,100, 30)];
-        [headerView addSubview:choseuserlable];
-        choseuserlable.font=[UIFont systemFontOfSize:18];
+//        UILabel*choseuserlable=[[UILabel alloc]initWithFrame:CGRectMake(40, 10,100, 30)];
+//        [headerView addSubview:choseuserlable];
+//        choseuserlable.font=[UIFont systemFontOfSize:18];
+//        
+//        choseuserlable.text=@"选择用户";
+//        
+//        
+//        
+//        
+//        UILabel*newaddress=[[UILabel alloc]initWithFrame:CGRectMake(40, 50,100, 40)];
+//        [headerView addSubview:newaddress];
+//        newaddress.font=[UIFont systemFontOfSize:18];
+//        
+//        newaddress.text=@"已有用户";
+//        
+//        
+//        blankbutton = [UIButton buttonWithType:UIButtonTypeCustom];
+//        blankbutton.frame = CGRectMake(150,50 ,260, 40);
+//        //    [blankbutton setTitle:[self getBankNameWithBankCode:bankCode] forState:UIControlStateNormal];
+//        [blankbutton setTitle:namestring forState:UIControlStateNormal];
+//
+//        [blankbutton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+//        blankbutton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
+//        [blankbutton setImage:kImageName(@"arrow_line1") forState:UIControlStateNormal];
+//        CALayer *layer=[blankbutton  layer];
+//        //是否设置边框以及是否可见
+//        [layer setMasksToBounds:YES];
+//        //设置边框圆角的弧度
+//        
+//        //设置边框线的宽
+//        //
+//        [layer setBorderWidth:1];
+//        //设置边框线的颜色
+//        [layer setBorderColor:[[UIColor grayColor] CGColor]];
+//        blankbutton.contentEdgeInsets = UIEdgeInsetsMake(0,10, 0, 0);
+//        blankbutton.imageEdgeInsets = UIEdgeInsetsMake(0,200,0,0);//设置image在button上的位置（上top，左left，下bottom，右right）这里可以写负值，对上写－5，那么image就象上移动5个像素
+//        blankbutton.tag=5044;
+//        
+//        [blankbutton addTarget:self action:@selector(chosenewuser) forControlEvents:UIControlEventTouchUpInside];
+//        [headerView addSubview:blankbutton];
+//        
+//        
+//        
+//        
+//        
+//        
+//        
+//        
+//        UIButton*creatorbutton = [UIButton buttonWithType:UIButtonTypeCustom];
+//        creatorbutton.frame = CGRectMake(150+280,50 ,140, 40);
+//        //    savebutton.layer.cornerRadius=10;
+//        
+//        [creatorbutton setBackgroundImage:kImageName(@"blue") forState:UIControlStateNormal];
+//        [creatorbutton setTitle:@"创建新用户" forState:UIControlStateNormal];
+//        [creatorbutton addTarget:self action:@selector(newBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+//        [headerView addSubview:creatorbutton];
+//
+//        
+//        
+//        UILabel*lineback=[[UILabel alloc]initWithFrame:CGRectMake(0, 120, wide, 1)];
+//        [headerView addSubview:lineback];
+//        
+//        lineback.backgroundColor=[UIColor colorWithWhite:0.7 alpha:1];
         
-        choseuserlable.text=@"选择用户";
         
-        
-        
-        
-        UILabel*newaddress=[[UILabel alloc]initWithFrame:CGRectMake(40, 50,100, 40)];
-        [headerView addSubview:newaddress];
-        newaddress.font=[UIFont systemFontOfSize:18];
-        
-        newaddress.text=@"已有用户";
-        
-        
-        blankbutton = [UIButton buttonWithType:UIButtonTypeCustom];
-        blankbutton.frame = CGRectMake(150,50 ,260, 40);
-        //    [blankbutton setTitle:[self getBankNameWithBankCode:bankCode] forState:UIControlStateNormal];
-        [blankbutton setTitle:namestring forState:UIControlStateNormal];
-
-        [blankbutton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-        blankbutton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
-        [blankbutton setImage:kImageName(@"arrow_line1") forState:UIControlStateNormal];
-        CALayer *layer=[blankbutton  layer];
-        //是否设置边框以及是否可见
-        [layer setMasksToBounds:YES];
-        //设置边框圆角的弧度
-        
-        //设置边框线的宽
-        //
-        [layer setBorderWidth:1];
-        //设置边框线的颜色
-        [layer setBorderColor:[[UIColor grayColor] CGColor]];
-        blankbutton.contentEdgeInsets = UIEdgeInsetsMake(0,10, 0, 0);
-        blankbutton.imageEdgeInsets = UIEdgeInsetsMake(0,200,0,0);//设置image在button上的位置（上top，左left，下bottom，右right）这里可以写负值，对上写－5，那么image就象上移动5个像素
-        blankbutton.tag=5044;
-        
-        [blankbutton addTarget:self action:@selector(chosenewuser) forControlEvents:UIControlEventTouchUpInside];
-        [headerView addSubview:blankbutton];
-        
-        
-        
-        
-        
-        
-        
-        
-        UIButton*creatorbutton = [UIButton buttonWithType:UIButtonTypeCustom];
-        creatorbutton.frame = CGRectMake(150+280,50 ,140, 40);
-        //    savebutton.layer.cornerRadius=10;
-        
-        [creatorbutton setBackgroundImage:kImageName(@"blue") forState:UIControlStateNormal];
-        [creatorbutton setTitle:@"创建新用户" forState:UIControlStateNormal];
-        [creatorbutton addTarget:self action:@selector(newBtnClick:) forControlEvents:UIControlEventTouchUpInside];
-        [headerView addSubview:creatorbutton];
-
-        
-        
-        UILabel*lineback=[[UILabel alloc]initWithFrame:CGRectMake(0, 120, wide, 1)];
-        [headerView addSubview:lineback];
-        
-        lineback.backgroundColor=[UIColor colorWithWhite:0.7 alpha:1];
-        
-        
-        UILabel*addresslable=[[UILabel alloc]initWithFrame:CGRectMake(20, 130, 80, 30)];
+        UILabel*addresslable=[[UILabel alloc]initWithFrame:CGRectMake(20, 130-90, 80, 30)];
         [headerView addSubview:addresslable];
+        addresslable.font=[UIFont systemFontOfSize:20];
         
         addresslable.text=@"选择地址";
-        self.addressView = [[UIView alloc] initWithFrame:CGRectMake(20, 180, wide-40, 20)];
+        self.addressView = [[UIView alloc] initWithFrame:CGRectMake(20, 180-90, wide-40, 20)];
         self.addressView.backgroundColor = kColor(235, 233, 233, 1);
         [headerView addSubview: self.addressView];
         
@@ -2337,7 +2338,7 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
     if(section==0)
     {
-        return 210.f;
+        return 210-90;
         
     }else
     {

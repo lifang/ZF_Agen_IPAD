@@ -57,7 +57,7 @@
     [super viewDidLoad];
     NSDictionary *attributes = [NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor],NSForegroundColorAttributeName,[UIFont boldSystemFontOfSize:22],NSFontAttributeName, nil];
     [self.navigationController.navigationBar setTitleTextAttributes:attributes];
-    self.title = @"终端管理";
+    self.title = @"开通认证";
     self.view.backgroundColor=[UIColor whiteColor];
     
     touchStatus=100;

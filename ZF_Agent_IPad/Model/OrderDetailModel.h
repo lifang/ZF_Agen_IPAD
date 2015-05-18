@@ -31,6 +31,7 @@
 
 @property (nonatomic, strong) NSString *payType;     //支付类型
 @property (nonatomic, assign) int payStatus;         //定金状态
+@property (nonatomic, assign) int needInvoice;
 
 @property (nonatomic, strong) NSString *createTime;  //订单日期
 

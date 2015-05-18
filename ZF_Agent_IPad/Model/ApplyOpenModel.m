@@ -110,6 +110,13 @@
                 _cityID = [NSString stringWithFormat:@"%@",[primaryDict objectForKey:@"city_id"]];
             }
             if ([primaryDict objectForKey:@"bank_name"]) {
+                _bankTitleName = [NSString stringWithFormat:@"%@",[primaryDict objectForKey:@"bank_name"]];
+            }
+            else {
+                _bankTitleName = @"";
+            }
+
+            if ([primaryDict objectForKey:@"bank_name"]) {
                 _bankName = [NSString stringWithFormat:@"%@",[primaryDict objectForKey:@"bank_name"]];
             }
             if ([primaryDict objectForKey:@"account_bank_name"]) {
