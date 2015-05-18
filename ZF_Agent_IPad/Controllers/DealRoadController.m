@@ -153,6 +153,7 @@ static NSString *s_defaultTerminalNum = @"请选择终端号";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+   
     agentItem = [[NSMutableArray alloc] init];
     UIAlertView *alertV = [[UIAlertView alloc]initWithTitle:@"" message:@"PAD端交易流水查询仅供单台终端查询，完整查询功能请登陆PC端合作伙伴平台" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:@"取消", nil];
     [alertV show];
@@ -177,10 +178,10 @@ static NSString *s_defaultTerminalNum = @"请选择终端号";
     TradeType type = TradeTypeNone;
     switch (index) {
         case 1:
-            type = TradeTypeTransfer;
+            type = TradeTypeConsume ;
             break;
         case 2:
-            type = TradeTypeConsume;
+            type = TradeTypeTransfer;
             break;
         case 3:
             type = TradeTypeRepayment;
@@ -276,7 +277,7 @@ static NSString *s_defaultTerminalNum = @"请选择终端号";
     [publicBtn setBackgroundImage:[UIImage imageNamed:@"chose_Btn"] forState:UIControlStateNormal];
     publicBtn.titleLabel.font = [UIFont systemFontOfSize:22];
     [publicBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    [publicBtn setTitle:@"转账" forState:UIControlStateNormal];
+    [publicBtn setTitle:@"消费" forState:UIControlStateNormal];
     publicBtn.frame = CGRectMake(headerView.frame.size.width * 0.22 , 40, 120, 40);
     self.publicX = publicBtn.frame.origin.x;
     self.privateY = publicBtn.frame.origin.y;
@@ -289,7 +290,7 @@ static NSString *s_defaultTerminalNum = @"请选择终端号";
     privateBtn.backgroundColor = [UIColor clearColor];
     privateBtn.titleLabel.font = [UIFont systemFontOfSize:20];
     [privateBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    [privateBtn setTitle:@"消费" forState:UIControlStateNormal];
+    [privateBtn setTitle:@"转账" forState:UIControlStateNormal];
     privateBtn.frame = CGRectMake(CGRectGetMaxX(publicBtn.frame), 40, 100, 36);
     self.privateX = privateBtn.frame.origin.x;
     [headerView addSubview:privateBtn];
@@ -1080,11 +1081,11 @@ else if (tableView== _terminalTableView)
             //内容Cell
         {
             if (_buttonIndex == 1) {
-                TransferCell *cell = [TransferCell cellWithTableView:tableView];
+                ConsumptionCell *cell = [ConsumptionCell cellWithTableView:tableView];
                 TradeModel *model = [_tradeRecords objectAtIndex:indexPath.row];
                 cell.timeLabel.text = model.tradeTime;
-                cell.payLabel.text = [self serectString:model.payFromAccount];
-                cell.getLabel.text = [self serectString:model.payIntoAccount];
+                cell.settleLabel.text = model.payedTime;
+                cell.poundageLabel.text = [NSString stringWithFormat:@"￥%.2f",model.poundage];
                 cell.terminalLabel.text = model.terminalNumber;
                 cell.dealMoney.text = [NSString stringWithFormat:@"￥%.2f",model.amount];
                 [self StringWithdealStates:model.tradeStatus];
@@ -1129,17 +1130,19 @@ else if (tableView== _terminalTableView)
             }
             
             else {
-                ConsumptionCell *cell = [ConsumptionCell cellWithTableView:tableView];
+                TransferCell *cell = [TransferCell cellWithTableView:tableView];
                 TradeModel *model = [_tradeRecords objectAtIndex:indexPath.row];
                 cell.timeLabel.text = model.tradeTime;
-                cell.settleLabel.text = model.payedTime;
-                cell.poundageLabel.text = [NSString stringWithFormat:@"￥%.2f",model.poundage];
+                cell.payLabel.text = [self serectString:model.payFromAccount];
+                cell.getLabel.text = [self serectString:model.payIntoAccount];
                 cell.terminalLabel.text = model.terminalNumber;
                 cell.dealMoney.text = [NSString stringWithFormat:@"￥%.2f",model.amount];
                 [self StringWithdealStates:model.tradeStatus];
                 cell.dealStates.text = _DealState;
                 return cell;
+                
             }
+            
             
         }
     }

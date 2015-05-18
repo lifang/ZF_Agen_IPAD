@@ -69,7 +69,7 @@
 @synthesize reviewField;
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title = @"代购订单确认";
+    self.title = @"采购订单确认";
     [self updatPrice];
 
     // Do any additional setup after loading the view.
@@ -678,7 +678,7 @@
         [rootview addSubview:numberlable];
         numberlable.textAlignment = NSTextAlignmentCenter;
         
-        numberlable.text=@"代购数量";
+        numberlable.text=@"购买数量";
         
         return headerView;
         

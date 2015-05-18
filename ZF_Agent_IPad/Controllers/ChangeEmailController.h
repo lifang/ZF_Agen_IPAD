@@ -18,7 +18,7 @@
 
 @property(nonatomic,strong)NSString *oldEmail;
 
-@property(nonatomic,strong)NSString *authCode;
+@property(nonatomic,strong)NSString *oldAuthCode;
 
 @property(nonatomic,weak)id ChangeEmailSuccessDelegate;
 @end

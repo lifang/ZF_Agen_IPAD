@@ -67,7 +67,7 @@
 @synthesize reviewField;
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title = @"代租赁订单确认";
+    self.title = @"租赁订单确认";
     [self updatPrice];
     
     // Do any additional setup after loading the view.

@@ -617,13 +617,6 @@
     
     [self firstLoadData];
     
-    
-    //上拉加载
-    
-    
-    
-    
-    //    });
 }
 
 //上拉刷新加载更多微博数据
@@ -632,9 +625,6 @@
     self.page++;
 
     [self downloadDataWithPage:self.page isMore:YES];
-    
-    
-    
     
     //    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
     //        [_Seatchtable footerEndRefreshing];

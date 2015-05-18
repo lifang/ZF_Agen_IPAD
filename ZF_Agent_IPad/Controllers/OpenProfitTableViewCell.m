@@ -33,7 +33,7 @@
         
         deletebutton=[UIButton buttonWithType:UIButtonTypeCustom];
         
-        deletebutton.frame=CGRectMake(wide/2-80, 5, 60, 30);
+        deletebutton.frame=CGRectMake(wide/2-80,15, 60, 30);
         [deletebutton setTitle:@"删除" forState:UIControlStateNormal];
         [deletebutton setBackgroundColor:[UIColor clearColor]];
         

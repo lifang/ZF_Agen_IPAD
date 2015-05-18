@@ -13,6 +13,7 @@
 #import "CityHandle.h"
 #import "ChangePhoneController.h"
 #import "ChangeEmailController.h"
+#import "AddMessageController.h"
 
 @interface BaseInformationViewController ()<UITextFieldDelegate,UIAlertViewDelegate>
 
@@ -55,6 +56,8 @@
 
 @property(nonatomic,strong)UIView *firstLine;
 @property(nonatomic,strong)UIView *secondLine;
+
+@property(nonatomic,assign)BOOL isAdd;
 
 @end
 
@@ -281,7 +284,6 @@
     
     _particularLocationField = [[UITextField alloc]init];
     _particularLocationField.text = _personInfo.address;
-    _particularLocationField.hidden = YES;
     [self setField:_particularLocationField withTopView:_locationField middleSpace:mainMargin fieldTag:0];
     
     _loginIDField = [[UITextField alloc]init];
@@ -291,12 +293,20 @@
 #pragma mark - 创建Button
     _getAuthCodeBtn = [[UIButton alloc]init];
     [_getAuthCodeBtn setTitle:@"修改" forState:UIControlStateNormal];
+    if ([_principalPhoneOrEmailField.text isEqualToString:@""]) {
+        [_getAuthCodeBtn setTitle:@"去添加" forState:UIControlStateNormal];
+        _isAdd = YES;
+    }
     [_getAuthCodeBtn addTarget:self action:@selector(changePhoneClicked) forControlEvents:UIControlEventTouchUpInside];
     [self setBtn:_getAuthCodeBtn withTopView:_principalCardField middleSpace:mainMargin buttonTag:1];
     
     _makeSureBtn = [[UIButton alloc]init];
-    [_makeSureBtn addTarget:self action:@selector(changeEmailClicked) forControlEvents:UIControlEventTouchUpInside];
     [_makeSureBtn setTitle:@"修改" forState:UIControlStateNormal];
+    if ([_authCodeField.text isEqualToString:@""]) {
+        [_makeSureBtn setTitle:@"去添加" forState:UIControlStateNormal];
+        _isAdd = YES;
+    }
+     [_makeSureBtn addTarget:self action:@selector(changeEmailClicked) forControlEvents:UIControlEventTouchUpInside];
     [self setBtn:_makeSureBtn withTopView:_getAuthCodeBtn middleSpace:mainMargin buttonTag:2];
     
     _IdCardNumImageBtn = [[UIButton alloc]init];
@@ -742,15 +752,31 @@
 
 -(void)changePhoneClicked
 {
-    ChangePhoneController *changePhoneVC = [[ChangePhoneController alloc]init];
-    changePhoneVC.oldPhoneNum = _principalPhoneOrEmailField.text;
-    [self.navigationController pushViewController:changePhoneVC animated:YES];
+    if (_isAdd) {
+        AddMessageController *addVC = [[AddMessageController alloc]init];
+        addVC.hidesBottomBarWhenPushed = YES;
+        addVC.isPhone = YES;
+        [self.navigationController pushViewController:addVC animated:NO];
+    }else{
+        ChangePhoneController *changePhoneVC = [[ChangePhoneController alloc]init];
+        changePhoneVC.hidesBottomBarWhenPushed = YES;
+        changePhoneVC.oldPhoneNum = _principalPhoneOrEmailField.text;
+        [self.navigationController pushViewController:changePhoneVC animated:NO];
+    }
 }
 
 -(void)changeEmailClicked
 {
-    ChangeEmailController *changeEmailVC = [[ChangeEmailController alloc]init];
-    changeEmailVC.oldEmail = _authCodeField.text;
-    [self.navigationController pushViewController:changeEmailVC animated:YES];
+    if (_isAdd) {
+        AddMessageController *addVC = [[AddMessageController alloc]init];
+        addVC.hidesBottomBarWhenPushed = YES;
+        addVC.isEmial = YES;
+        [self.navigationController pushViewController:addVC animated:NO];
+    }else{
+        ChangeEmailController *changeEmailVC = [[ChangeEmailController alloc]init];
+        changeEmailVC.oldEmail = _authCodeField.text;
+        changeEmailVC.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:changeEmailVC animated:NO];
+    }
 }
 @end

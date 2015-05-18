@@ -1204,7 +1204,8 @@
             billView.hidden=YES;
 
             [self.billBtn setBackgroundImage:kImageName(@"btn_unselected.png") forState:UIControlStateNormal];
-        }return footerView;
+        }
+        return footerView;
         
         
     }

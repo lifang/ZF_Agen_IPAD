@@ -15,7 +15,8 @@
     UIView *handleViewfrdef;
     UIImageView*bigsview;
     UIView*witeview;
-    
+    NSMutableArray*picturearry;
+
 }
 @property (nonatomic, strong) NSString *goodID;
 @property (nonatomic, assign) NSInteger  secletA;

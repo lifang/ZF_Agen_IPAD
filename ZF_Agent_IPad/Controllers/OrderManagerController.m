@@ -207,7 +207,7 @@
     
 }
 - (void)initAndLayoutUI {
-    [self initRefreshViewWithOffset:80];
+    [self initRefreshViewWithOffset:0];
 //    NSArray *nameArray = [NSArray arrayWithObjects:
 //                          @"批购订单",
 //                          @"代购订单",
@@ -353,8 +353,8 @@ headerView.backgroundColor = [UIColor whiteColor];
         rentbutton=[UIButton buttonWithType:UIButtonTypeCustom];
         buybutton.frame=CGRectMake(60,0,  60, 40);
         rentbutton.frame=CGRectMake(160,0,  60, 40);
-        [buybutton setTitle:@"代购买" forState:UIControlStateNormal];
-        [rentbutton setTitle:@"代租赁" forState:UIControlStateNormal];
+        [buybutton setTitle:@"采购" forState:UIControlStateNormal];
+        [rentbutton setTitle:@"租赁" forState:UIControlStateNormal];
         [rentbutton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
         [buybutton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
         rentbutton.tag=507;
@@ -593,7 +593,7 @@ headerView.backgroundColor = [UIColor whiteColor];
             }
         }
     }
-    [self setupHeaderView];
+//    [self setupHeaderView];
 
     [self.tableView reloadData];
 }

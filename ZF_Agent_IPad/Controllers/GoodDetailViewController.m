@@ -24,6 +24,8 @@
 #import "ChannelWebsiteController.h"
 #import "BuyOrderViewController.h"
 #import "AgentRentViewController.h"
+#import "PictureModel.h"
+
 //static CGFloat topImageHeight = 160.f;
 
 @interface GoodDetailViewController ()<UIScrollViewDelegate,ImageScrollViewDelegate,LoginSuccessDelegate>
@@ -63,7 +65,8 @@
     // Do any additional setup after loading the view.
     self.title = @"商品详情";
     self.view.backgroundColor = kColor(244, 243, 243, 1);
-    
+    picturearry=[[NSMutableArray alloc]init];
+
     
     UIButton *shoppingButton = [UIButton buttonWithType:UIButtonTypeCustom];
     shoppingButton.frame = CGRectMake(0, 0, 30, 30);
@@ -177,11 +180,11 @@
     //    _priceLabel.textAlignment = NSTextAlignmentRight;
     
     _buyButton = [GoodButton buttonWithType:UIButtonTypeCustom];
-    [_buyButton setButtonAttrWithTitle:@"代购买"];
+    [_buyButton setButtonAttrWithTitle:@"采购"];
     [_buyButton addTarget:self action:@selector(buyGood:) forControlEvents:UIControlEventTouchUpInside];
     _buyButton.selected = YES;
     _rentButton = [GoodButton buttonWithType:UIButtonTypeCustom];
-    [_rentButton setButtonAttrWithTitle:@"代租赁"];
+    [_rentButton setButtonAttrWithTitle:@"租赁"];
     [_rentButton addTarget:self action:@selector(rentGood:) forControlEvents:UIControlEventTouchUpInside];
     
     [self initImageScanView];
@@ -336,7 +339,8 @@
     titleLabel.font = [UIFont boldSystemFontOfSize:20.f];
     titleLabel.text = _detailModel.goodName;
     [_mainScrollView addSubview:titleLabel];
-    
+    titleLabel.textColor=kColor(67.0, 66.0, 66.0, 1);
+
     originY += vSpace + labelHeight;
     //商品简介
     UILabel *summaryLabel = [[UILabel alloc] initWithFrame:CGRectMake(leftSpace, originY, leftSpace- rightSpace-30, labelHeight)];
@@ -350,28 +354,30 @@
     //品牌
     UILabel *brandTitleLabel = [[UILabel alloc] initWithFrame:CGRectMake(leftSpace, originY, leftLabelWidth, labelHeight)];
     [self setLabel:brandTitleLabel withTitle:@"品牌型号" font:[UIFont systemFontOfSize:17.f]];
-    UILabel *brandLabel = [[UILabel alloc] initWithFrame:CGRectMake(leftSpace + leftLabelWidth + firstSpace, originY, 100, labelHeight)];
+    
+    UILabel *brandLabel = [[UILabel alloc] initWithFrame:CGRectMake(leftSpace + leftLabelWidth + firstSpace, originY, wide/2-180, labelHeight)];
     
     NSString*stringlong=[NSString stringWithFormat:@"%@  %@",_detailModel.goodBrand,_detailModel.goodModel];
-    
+    brandLabel.textColor=kColor(67.0, 66.0, 66.0, 1);
+
     [self setLabel:brandLabel withTitle:stringlong font:[UIFont boldSystemFontOfSize:17.f]];
     
-    //厂家信息
-    CGFloat originX = leftSpace + leftLabelWidth + firstSpace + 80;
-    UILabel *factoryLabel = [[UILabel alloc] initWithFrame:CGRectMake(brandLabel.frame.size.width+brandLabel.frame.origin.x+40, originY, 90.f, labelHeight)];
-    factoryLabel.backgroundColor = [UIColor clearColor];
-    factoryLabel.font = [UIFont systemFontOfSize:14.f];
-    factoryLabel.text = @"查看厂家信息";
-    [_mainScrollView addSubview:factoryLabel];
-    
-    //厂家按钮
-    UIButton *factoryBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [factoryBtn setBackgroundImage :kImageName(@"info.png") forState:UIControlStateNormal];
-
-    factoryBtn.frame = CGRectMake(factoryLabel.frame.origin.x + factoryLabel.frame.size.width + vSpace, originY, 20, 20);
-//    factoryBtn.enabled = NO;
-    [factoryBtn addTarget:self action:@selector(scanFactoryInfo:) forControlEvents:UIControlEventTouchUpInside];
-    [_mainScrollView addSubview:factoryBtn];
+//    //厂家信息
+//    CGFloat originX = leftSpace + leftLabelWidth + firstSpace + 80;
+//    UILabel *factoryLabel = [[UILabel alloc] initWithFrame:CGRectMake(brandLabel.frame.size.width+brandLabel.frame.origin.x+40, originY, 90.f, labelHeight)];
+//    factoryLabel.backgroundColor = [UIColor clearColor];
+//    factoryLabel.font = [UIFont systemFontOfSize:14.f];
+//    factoryLabel.text = @"查看厂家信息";
+//    [_mainScrollView addSubview:factoryLabel];
+//    
+//    //厂家按钮
+//    UIButton *factoryBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+//    [factoryBtn setBackgroundImage :kImageName(@"info.png") forState:UIControlStateNormal];
+//
+//    factoryBtn.frame = CGRectMake(factoryLabel.frame.origin.x + factoryLabel.frame.size.width + vSpace, originY, 20, 20);
+////    factoryBtn.enabled = NO;
+//    [factoryBtn addTarget:self action:@selector(scanFactoryInfo:) forControlEvents:UIControlEventTouchUpInside];
+//    [_mainScrollView addSubview:factoryBtn];
     
 //    originY += vSpace + labelHeight;
 //    //型号
@@ -393,7 +399,8 @@
     [self setLabel:terTypeTitleLabel withTitle:@"终端类型" font:[UIFont systemFontOfSize:17.f]];
     UILabel *terTypeLabel = [[UILabel alloc] initWithFrame:CGRectMake(leftSpace + leftLabelWidth + firstSpace, originY, wide - leftSpace - rightSpace - leftLabelWidth, labelHeight)];
     [self setLabel:terTypeLabel withTitle:_detailModel.goodCategory font:[UIFont boldSystemFontOfSize:17.f]];
-    
+    terTypeTitleLabel.textColor=kColor(67.0, 66.0, 66.0, 1);
+
     //价格
     originY += vSpace + labelHeight;
     _priceLabel.frame = CGRectMake(leftSpace, originY, leftSpace- rightSpace, labelHeight);
@@ -467,35 +474,35 @@
     }
     int rows = (int)([_detailModel.channelItem count] - 1) / 3 + 1;
     originY += rows * (btnHeight + hSpace)-10;
-    UILabel *introducelable = [[UILabel alloc] initWithFrame:CGRectMake(leftSpace, originY+20, leftLabelWidth, btnHeight)];
-    [self setLabel:introducelable withTitle:@"通道介绍" font:[UIFont systemFontOfSize:17.f]];
-    //厂家图片
-    originY += vSpace + 1;
-    UIImageView *factoryImageView = [[UIImageView alloc] initWithFrame:CGRectMake(leftSpace+introducelable.frame.size.width+10, originY+20, 60, labelHeight)];
+//    UILabel *introducelable = [[UILabel alloc] initWithFrame:CGRectMake(leftSpace, originY+20, leftLabelWidth, btnHeight)];
+//    [self setLabel:introducelable withTitle:@"通道介绍" font:[UIFont systemFontOfSize:17.f]];
+//    //厂家图片
+//    originY += vSpace + 1;
+//    UIImageView *factoryImageView = [[UIImageView alloc] initWithFrame:CGRectMake(leftSpace+introducelable.frame.size.width+10, originY+20, 60, labelHeight)];
+//    
+//    [factoryImageView sd_setImageWithURL:[NSURL URLWithString:_detailModel.factoryImagePath] placeholderImage:[UIImage imageNamed:@"test1" ]];
+//    
+////    [factoryImageView sd_setImageWithURL:[NSURL URLWithString:_detailModel.factoryImagePath]];
+//    [_mainScrollView addSubview:factoryImageView];
+//    NSLog(@"%@",_detailModel.factoryWebsite);
+//    
+//    //厂家网址
+//    UILabel *websiteLabel = [[UILabel alloc] initWithFrame:CGRectMake(leftSpace+introducelable.frame.size.width+10+80, originY+20, wide - leftLabelWidth - leftSpace-140, labelHeight)];
+//    [self setLabel:websiteLabel withTitle:_detailModel.defaultChannel.channelFactoryURL font:[UIFont systemFontOfSize:13.f]];
+//    websiteLabel.userInteractionEnabled = YES;
+//    UITapGestureRecognizer *websiteTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(jumpForWebsite:)];
+//    [websiteLabel addGestureRecognizer:websiteTap];
+//    //厂家简介
+//    originY += vSpace + labelHeight+30;
+//    CGFloat summaryHeight = [self heightWithString:_detailModel.factorySummary
+//                                             width:wide - leftSpace - rightSpace
+//                                          fontSize:13.f];
+//    UILabel *factorySummaryLabel = [[UILabel alloc] initWithFrame:CGRectMake(leftSpace+80, originY-15, leftSpace - 140, 60)];
+//    [self setLabel:factorySummaryLabel withTitle:_detailModel.defaultChannel.channelFactoryDescription font:[UIFont systemFontOfSize:13.f]];
+//    factorySummaryLabel.numberOfLines=3;
     
-    [factoryImageView sd_setImageWithURL:[NSURL URLWithString:_detailModel.factoryImagePath] placeholderImage:[UIImage imageNamed:@"test1" ]];
     
-//    [factoryImageView sd_setImageWithURL:[NSURL URLWithString:_detailModel.factoryImagePath]];
-    [_mainScrollView addSubview:factoryImageView];
-    NSLog(@"%@",_detailModel.factoryWebsite);
-    
-    //厂家网址
-    UILabel *websiteLabel = [[UILabel alloc] initWithFrame:CGRectMake(leftSpace+introducelable.frame.size.width+10+80, originY+20, wide - leftLabelWidth - leftSpace-140, labelHeight)];
-    [self setLabel:websiteLabel withTitle:_detailModel.defaultChannel.channelFactoryURL font:[UIFont systemFontOfSize:13.f]];
-    websiteLabel.userInteractionEnabled = YES;
-    UITapGestureRecognizer *websiteTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(jumpForWebsite:)];
-    [websiteLabel addGestureRecognizer:websiteTap];
-    //厂家简介
-    originY += vSpace + labelHeight+30;
-    CGFloat summaryHeight = [self heightWithString:_detailModel.factorySummary
-                                             width:wide - leftSpace - rightSpace
-                                          fontSize:13.f];
-    UILabel *factorySummaryLabel = [[UILabel alloc] initWithFrame:CGRectMake(leftSpace+80, originY-15, leftSpace - 140, 60)];
-    [self setLabel:factorySummaryLabel withTitle:_detailModel.defaultChannel.channelFactoryDescription font:[UIFont systemFontOfSize:13.f]];
-    factorySummaryLabel.numberOfLines=3;
-    
-    
-    originY += labelHeight + 30.f;
+    originY += labelHeight + 10.f;
 
     
     //购买方式
@@ -550,7 +557,7 @@
     [_buyGoodButton addTarget:self action:@selector(buyNow:) forControlEvents:UIControlEventTouchUpInside];
     [_mainScrollView addSubview:_buyGoodButton];
     if (self.supplyType==2) {
-        [_buyGoodButton setTitle:@"代购" forState:UIControlStateNormal];
+        [_buyGoodButton setTitle:@"立即采购" forState:UIControlStateNormal];
 
            }
     else {
@@ -648,13 +655,14 @@
         {
         NSString*str=[NSString stringWithFormat:@"评论(%d)",[_detailModel.goodComment intValue]];
         
-        NSArray*arry=[NSArray arrayWithObjects:@"商品描述",@"开通所需材料",str,@"租赁说明",@"  交易费率", nil];
+            NSArray*arry=[NSArray arrayWithObjects:@"商品描述",@"开通所需材料",str,@"租赁说明",@"交易费率",@"商品图片",nil];
+
         
-        
-        for (int i = 0; i < 5; i++ ) {
+        for (int i = 0; i < 6; i++ ) {
             
             UIButton *rentButton = [UIButton buttonWithType:UIButtonTypeCustom];
-            rentButton.frame = CGRectMake(viewbutton.frame.size.width / 11*(2*i +1), 10, viewbutton.frame.size.width / 11, 45);
+            rentButton.frame = CGRectMake(viewbutton.frame.size.width / 12*(2*i +1)-80, 10, viewbutton.frame.size.width / 12+70, 45);
+
             [rentButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
             [rentButton setTitleColor:[UIColor lightGrayColor] forState:UIControlStateHighlighted];
             [rentButton setTitle:[arry objectAtIndex:i] forState:UIControlStateNormal];
@@ -663,7 +671,7 @@
             
             [rentButton addTarget:self action:@selector(scanRent:) forControlEvents:UIControlEventTouchUpInside];
             [viewbutton addSubview:rentButton];
-            UIView *line = [[UIView alloc] initWithFrame:CGRectMake(viewbutton.frame.size.width / 5*(i+1), 20, 1, 30)];
+            UIView *line = [[UIView alloc] initWithFrame:CGRectMake(viewbutton.frame.size.width / 6*(i+1), 20, 1, 30)];
             line.backgroundColor = [UIColor grayColor];
             [viewbutton addSubview:line];
         }
@@ -673,33 +681,28 @@
             
         {
             NSString*str=[NSString stringWithFormat:@"评论(%d)",[_detailModel.goodComment intValue]];
+            NSArray*arry=[NSArray arrayWithObjects:@"商品描述",@"开通所需材料",str,@"交易费率",@"商品图片", nil];
+
             
-            NSArray*arry=[NSArray arrayWithObjects:@"商品描述",@"开通所需材料",str,@"交易费率", nil];
             
-            
-            for (int i = 0; i < 4; i++ ) {
+            for (int i = 0; i <5; i++ ) {
                 
                 UIButton *rentButton = [UIButton buttonWithType:UIButtonTypeCustom];
-                rentButton.frame = CGRectMake(viewbutton.frame.size.width / 9*(2*i +1), 10, viewbutton.frame.size.width / 9, 45);
+                rentButton.frame = CGRectMake(viewbutton.frame.size.width /10*(2*i +1)-90, 10, viewbutton.frame.size.width /10+70, 45);
                 [rentButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
                 [rentButton setTitleColor:[UIColor lightGrayColor] forState:UIControlStateHighlighted];
                 [rentButton setTitle:[arry objectAtIndex:i] forState:UIControlStateNormal];
                 rentButton.titleLabel.font = [UIFont systemFontOfSize: 15.0];
                 
-                if(i==3)
-                {
-                    rentButton.tag=4+1024;
-
-                }else
-                {
+             
                 
-                    rentButton.tag=i+1024;
+                  rentButton.tag=i+1024;
 
-                }
+           
                 
                 [rentButton addTarget:self action:@selector(scanRent:) forControlEvents:UIControlEventTouchUpInside];
                 [viewbutton addSubview:rentButton];
-                UIView *line = [[UIView alloc] initWithFrame:CGRectMake(viewbutton.frame.size.width / 4*(i+1), 20, 1, 30)];
+                UIView *line = [[UIView alloc] initWithFrame:CGRectMake(viewbutton.frame.size.width /5*(i+1), 20, 1, 30)];
                 line.backgroundColor = [UIColor colorWithWhite:0.7 alpha:1];
                 [viewbutton addSubview:line];
             }
@@ -786,8 +789,10 @@
     goodedetal.goodDetail=_detailModel;
     goodedetal.channelData = _detailModel.defaultChannel;
     goodedetal.supplyType=self.supplyType;
-    
+    goodedetal.pictureArry=picturearry;
+
     goodedetal.tradeRateItem = _detailModel.defaultChannel.dateRateItem;
+    goodedetal.isrent=_detailModel.canRent;
 
     goodedetal.hidesBottomBarWhenPushed =  YES ;
 
@@ -859,7 +864,7 @@
         
         if(_buyButton.selected)
         {
-            priceString = [NSString stringWithFormat:@"代购价格   ￥%@",price];
+            priceString = [NSString stringWithFormat:@"购买价格   ￥%@",price];
 
         }else
         {
@@ -937,6 +942,26 @@
     }
     NSDictionary *detailDict = [dict objectForKey:@"result"];
     _detailModel = [[GoodDetialModel alloc] initWithParseDictionary:detailDict];
+    if ([[detailDict objectForKey:@"picList"] isKindOfClass:[NSArray class]])
+        
+    {
+        NSArray*pictureArry=[detailDict objectForKey:@"picList"];
+        
+        for(int i=0;i<pictureArry.count;i++)
+        {
+            
+            PictureModel*pictureModel=[[PictureModel alloc]initWithParseDictionary:[pictureArry objectAtIndex:i]];
+            
+            [picturearry addObject:pictureModel];
+            
+            
+        }
+        
+        
+        
+        
+    }
+
     [self initAndLayoutUI];
     [_topScorllView downloadImageWithURLs:_detailModel.goodImageList target:self action:@selector(touchPicture:)];
     self.totalPage = [_detailModel.goodImageList count];
@@ -978,10 +1003,8 @@
     GoodButton *btn = (GoodButton *)sender;
     btn.selected = YES;
     if ([_detailModel.defaultChannel.channelID isEqualToString:btn.ID]) {
-        NSLog(@"!");
     }
     else {
-        NSLog(@"~~~");
         ChannelModel *newModel = nil;
         for (ChannelModel *model in _detailModel.channelItem) {
             if ([model.channelID isEqualToString:btn.ID]) {
@@ -1212,7 +1235,7 @@
    // _shopcartButton.hidden=NO;
 
     _shopcartButton.enabled = YES;
-    [_buyGoodButton setTitle:@"代购" forState:UIControlStateNormal];
+    [_buyGoodButton setTitle:@"立即采购" forState:UIControlStateNormal];
     if (_buyButton.isSelected) {
         [self setPriceWithString:[NSString stringWithFormat:@"%.2f",_detailModel.procurementPrice + _detailModel.defaultChannel.openCost]];
     }
@@ -1237,7 +1260,7 @@
    //_shopcartButton.hidden=YES;
     
     _shopcartButton.enabled = NO;
-    [_buyGoodButton setTitle:@"代租赁" forState:UIControlStateNormal];
+    [_buyGoodButton setTitle:@"立即租赁" forState:UIControlStateNormal];
     if (_buyButton.isSelected) {
         [self setPriceWithString:[NSString stringWithFormat:@"%.2f",_detailModel.goodPrice + _detailModel.defaultChannel.openCost]];
     }
@@ -1311,7 +1334,7 @@
 //立即购买
 - (IBAction)buyNow:(id)sender {
    
-        if ([_buyGoodButton.titleLabel.text isEqualToString:@"立即批购"])
+        if ([_buyGoodButton.titleLabel.text isEqualToString:@"订单"])
         {
             BuyOrderViewController *buyC = [[BuyOrderViewController alloc] init];
             buyC.goodDetail = _detailModel;
@@ -1319,7 +1342,7 @@
             
             [self.navigationController pushViewController:buyC animated:YES];
         }
-     else  if ([_buyGoodButton.titleLabel.text isEqualToString:@"代购"])
+     else  if ([_buyGoodButton.titleLabel.text isEqualToString:@"立即采购"])
           {
         RentOrderViewController *rentC = [[RentOrderViewController alloc] init];
         rentC.goodDetail = _detailModel;
