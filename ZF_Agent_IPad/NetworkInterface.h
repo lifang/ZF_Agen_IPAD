@@ -404,6 +404,9 @@ static NSString *s_applyRigister_method = @"agent/getJoin";
 
 static NSString *s_sendRegisterValidate_method = @"agent/sendPhoneVerificationCodeReg";
 
+//获取所有用户
+static NSString *s_AllUserList_method = @"terminal/getCustomer";
+
 @interface NetworkInterface : NSObject
 /*!
  @abstract 1.热卖
@@ -1946,5 +1949,11 @@ finished:(requestDidFinished)finish;
                       subAgentID:(NSString *)subAgentID
                       hasBenefit:(int)benefit
                         finished:(requestDidFinished)finish;
+
++ (void)getAllUserWithAgentID:(NSString *)agentID
+                      keyword:(NSString *)keyword
+                         page:(int)page
+                         rows:(int)rows
+                     finished:(requestDidFinished)finish;
 
 @end

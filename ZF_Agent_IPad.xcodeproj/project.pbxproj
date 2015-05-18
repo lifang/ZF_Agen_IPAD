@@ -193,6 +193,7 @@
 		0ED58F0D1AD4DF600081E8BC /* GoodsCollectionViewCell2.m in Sources */ = {isa = PBXBuildFile; fileRef = 0ED58F0C1AD4DF600081E8BC /* GoodsCollectionViewCell2.m */; };
 		0ED95E261B06D8A700E26549 /* PictureModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0ED95E251B06D8A700E26549 /* PictureModel.m */; };
 		0ED9932D1AE490870040F50E /* TerimalChoseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0ED9932C1AE490870040F50E /* TerimalChoseViewController.m */; };
+		1A407BD91B0A011900D1C585 /* SearchHelpController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A407BD81B0A011900D1C585 /* SearchHelpController.m */; };
 		1A55E7761ADB971A0020B0D8 /* AfterSellCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A55E7751ADB971A0020B0D8 /* AfterSellCell.m */; };
 		1A55E7791ADBA4100020B0D8 /* CSModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A55E7781ADBA4100020B0D8 /* CSModel.m */; };
 		1A5C481A1ADB6FB700A3068A /* AfterSellController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A5C48191ADB6FB700A3068A /* AfterSellController.m */; };
@@ -729,6 +730,8 @@
 		0ED95E251B06D8A700E26549 /* PictureModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PictureModel.m; sourceTree = "<group>"; };
 		0ED9932B1AE490870040F50E /* TerimalChoseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TerimalChoseViewController.h; sourceTree = "<group>"; };
 		0ED9932C1AE490870040F50E /* TerimalChoseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TerimalChoseViewController.m; sourceTree = "<group>"; };
+		1A407BD71B0A011900D1C585 /* SearchHelpController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchHelpController.h; sourceTree = "<group>"; };
+		1A407BD81B0A011900D1C585 /* SearchHelpController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchHelpController.m; sourceTree = "<group>"; };
 		1A55E7741ADB971A0020B0D8 /* AfterSellCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AfterSellCell.h; sourceTree = "<group>"; };
 		1A55E7751ADB971A0020B0D8 /* AfterSellCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AfterSellCell.m; sourceTree = "<group>"; };
 		1A55E7771ADBA4100020B0D8 /* CSModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSModel.h; sourceTree = "<group>"; };
@@ -1760,6 +1763,8 @@
 			children = (
 				1A8F68861AD4BCF100BD530E /* ScanImageViewController.h */,
 				1A8F68871AD4BCF100BD530E /* ScanImageViewController.m */,
+				1A407BD71B0A011900D1C585 /* SearchHelpController.h */,
+				1A407BD81B0A011900D1C585 /* SearchHelpController.m */,
 				0ECEB58E1AEA18F400CE217D /* Video */,
 				1A5C48171ADB6F8D00A3068A /* AfterSell */,
 				1A9654851AD66EE700C39B5B /* Mine */,
@@ -2430,6 +2435,7 @@
 				1AF15B5E1ACD042A00D5C171 /* HomeImageModel.m in Sources */,
 				1A55E7791ADBA4100020B0D8 /* CSModel.m in Sources */,
 				0ED1947C1AD79F9700029DE3 /* RepaymentCell.m in Sources */,
+				1A407BD91B0A011900D1C585 /* SearchHelpController.m in Sources */,
 				0D885FAE1AD7D522002CDA15 /* IdentificationModel.m in Sources */,
 				1AF15A8F1ACCDB8C00D5C171 /* AppDelegate.m in Sources */,
 				0D1694371AD3C4D900B50A17 /* TerminalViewController.m in Sources */,

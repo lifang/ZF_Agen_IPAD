@@ -64,10 +64,10 @@
 -(void)initAndLayoutUIWithModel:(CSModel *)model
 {
     _afterNum = [[UILabel alloc]init];
-    [self setLabel:_afterNum withLeftView:self.contentView middleSpace:90.f labelTag:1];
+    [self setLabel:_afterNum withLeftView:self.contentView middleSpace:80.f labelTag:1];
     
     _terminalNum = [[UILabel alloc]init];
-    [self setLabel:_terminalNum withLeftView:_afterNum middleSpace:40.f labelTag:0];
+    [self setLabel:_terminalNum withLeftView:_afterNum middleSpace:50.f labelTag:0];
     
     _dateLable = [[UILabel alloc]init];
     [self setLabel:_dateLable withLeftView:_terminalNum middleSpace:20.f labelTag:0];

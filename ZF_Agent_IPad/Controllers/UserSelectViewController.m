@@ -10,9 +10,13 @@
 #import "NetworkInterface.h"
 #import "AppDelegate.h"
 
-@interface UserSelectViewController ()
+@interface UserSelectViewController ()<UISearchBarDelegate>
 
 @property (nonatomic, strong) NSMutableArray *dataItem;
+
+@property (nonatomic, strong) UISearchBar *searchBar;
+
+@property (nonatomic, strong) NSString *searchUserName; //搜索的代理商名
 
 @end
 
@@ -23,7 +27,18 @@
     // Do any additional setup after loading the view.
     self.title = @"选择用户";
     
+    UIButton *rightBtn = [[UIButton alloc]init];
+    [rightBtn addTarget:self action:@selector(rightClicked) forControlEvents:UIControlEventTouchUpInside];
+    rightBtn.frame = CGRectMake(0, 0, 50, 50);
+    [rightBtn setImage:[UIImage imageNamed:@"search_White"] forState:UIControlStateNormal];
+    UIBarButtonItem *kongBar = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
+    kongBar.width = 30.f;
+    UIBarButtonItem *rightBar = [[UIBarButtonItem alloc]initWithCustomView:rightBtn];
+    NSArray *rightArr = [NSArray arrayWithObjects:kongBar,rightBar, nil];
+    self.navigationItem.rightBarButtonItems = rightArr;
+    
     _dataItem = [[NSMutableArray alloc] init];
+    [self setupSearchBar];
     [self initAndLayoutUI];
     [self firstLoadData];
 }
@@ -56,7 +71,7 @@
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
     hud.labelText = @"加载中...";
     AppDelegate *delegate = [AppDelegate shareAppDelegate];
-    [NetworkInterface getUserListWithAgentID:delegate.agentUserID token:delegate.token page:page rows:kPageSize * 2 finished:^(BOOL success, NSData *response) {
+    [NetworkInterface getAllUserWithAgentID:delegate.agentID keyword:self.searchUserName page:page rows:kPageSize * 2 finished:^(BOOL success, NSData *response) {
         hud.customView = [[UIImageView alloc] init];
         hud.mode = MBProgressHUDModeCustomView;
         [hud hide:YES afterDelay:0.3f];
@@ -74,7 +89,11 @@
                     if (!isMore) {
                         [_dataItem removeAllObjects];
                     }
-                    if ([[object objectForKey:@"result"] count] > 0) {
+                    id list = nil;
+                    if ([[object objectForKey:@"result"] isKindOfClass:[NSDictionary class]]) {
+                        list = [[object objectForKey:@"result"] objectForKey:@"merchaneList"];
+                    }
+                    if ([list isKindOfClass:[NSArray class]] && [list count] > 0) {
                         //有数据
                         self.page++;
                         [hud hide:YES];
@@ -106,15 +125,17 @@
 #pragma mark - Data
 
 - (void)parseUserDataWithDictionary:(NSDictionary *)dict {
-    if (![dict objectForKey:@"result"] || ![[dict objectForKey:@"result"] isKindOfClass:[NSArray class]]) {
+    if (![dict objectForKey:@"result"] || ![[dict objectForKey:@"result"] isKindOfClass:[NSDictionary class]]) {
         return;
     }
-    NSArray *userList = [dict objectForKey:@"result"];
-    for (int i = 0; i < [userList count]; i++) {
-        id userDict = [userList objectAtIndex:i];
-        if ([userDict isKindOfClass:[NSDictionary class]]) {
-            UserModel *model = [[UserModel alloc] initWithParseDictionary:userDict];
-            [_dataItem addObject:model];
+    id userList = [[dict objectForKey:@"result"] objectForKey:@"merchaneList"];
+    if ([userList isKindOfClass:[NSArray class]]) {
+        for (int i = 0; i < [userList count]; i++) {
+            id userDict = [userList objectAtIndex:i];
+            if ([userDict isKindOfClass:[NSDictionary class]]) {
+                UserModel *model = [[UserModel alloc] initWithParseTerminalDictionary:userDict];
+                [_dataItem addObject:model];
+            }
         }
     }
     [self.tableView reloadData];
@@ -175,6 +196,49 @@
     // Dispose of any resources that can be recreated.
 }
 
+-(void)setupSearchBar
+{
+    _searchBar = [[UISearchBar alloc] init];
+    _searchBar.placeholder = @"请输入用户名称";
+    _searchBar.delegate = self;
+    _searchBar.showsCancelButton = YES;
+    _searchBar.backgroundColor = [UIColor blackColor];
+    _searchBar.hidden = YES;
+    _searchBar.frame = CGRectMake(0, 0, SCREEN_WIDTH, 70);
+    if (iOS7) {
+        _searchBar.frame = CGRectMake(0, 0, SCREEN_HEIGHT, 70);
+    }
+    [self.navigationController.view addSubview:_searchBar];
+}
 
+-(void)rightClicked
+{
+    _searchBar.hidden = NO;
+    [_searchBar becomeFirstResponder];
+}
+
+#pragma mark - Set
+
+- (void)setSearchUserName:(NSString *)searchUserName {
+    _searchUserName = searchUserName;
+    [self firstLoadData];
+}
+
+#pragma mark - UISearchBarDelegate
+
+- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar {
+    [_searchBar resignFirstResponder];
+    _searchBar.hidden = YES;
+    if (self.searchUserName && ![self.searchUserName isEqualToString:@""]) {
+        _searchBar.text = @"";
+        self.searchUserName = _searchBar.text;
+    }
+}
+
+- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
+    [_searchBar resignFirstResponder];
+    _searchBar.hidden = YES;
+    self.searchUserName = _searchBar.text;
+}
 
 @end

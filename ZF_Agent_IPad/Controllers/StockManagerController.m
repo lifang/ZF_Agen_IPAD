@@ -71,27 +71,22 @@
     UILabel *second = [[UILabel alloc]init];
     second.font = mainFont;
     second.text = @"历史进货数量";
-    second.frame = CGRectMake(CGRectGetMaxX(first.frame) + 140, 0, 120, 25);
+    second.frame = CGRectMake(CGRectGetMaxX(first.frame) + 180, 0, 120, 25);
     [bottomView addSubview:second];
     
     UILabel *third = [[UILabel alloc]init];
     third.font = mainFont;
     third.text = @"已开通数量";
-    third.frame = CGRectMake(CGRectGetMaxX(second.frame) + 20, 0, 90, 25);
+    third.frame = CGRectMake(CGRectGetMaxX(second.frame) + 80, 0, 90, 25);
     [bottomView addSubview:third];
     
     UILabel *fourth = [[UILabel alloc]init];
     fourth.font = mainFont;
-    fourth.text = @"代理商库存";
-    fourth.frame = CGRectMake(CGRectGetMaxX(third.frame) + 40, 0, 90, 25);
+    fourth.text = @"当前库存";
+    fourth.frame = CGRectMake(CGRectGetMaxX(third.frame) + 110, 0, 90, 25);
     [bottomView addSubview:fourth];
     
-    UILabel *fifth = [[UILabel alloc]init];
-    fifth.font = mainFont;
-    fifth.text = @"总库存";
-    fifth.frame = CGRectMake(CGRectGetMaxX(fourth.frame) + 60, 0, 90, 25);
-    [bottomView addSubview:fifth];
-    
+
     bottomView.frame = CGRectMake(0, 26, SCREEN_WIDTH, 24);
     if (iOS7) {
         bottomView.frame = CGRectMake(0, 26, SCREEN_HEIGHT, 24);

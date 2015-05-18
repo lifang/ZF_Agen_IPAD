@@ -30,4 +30,6 @@
 
 - (id)initWithParseDictionary:(NSDictionary *)dict;
 
+- (id)initWithParseTerminalDictionary:(NSDictionary *)dict;
+
 @end

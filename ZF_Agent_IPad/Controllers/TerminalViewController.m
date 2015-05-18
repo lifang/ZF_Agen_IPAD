@@ -635,7 +635,7 @@
     _UserTF.textColor=[UIColor colorWithHexString:@"6c6c6c"];
     _UserTF.font = [UIFont systemFontOfSize:20];
     _UserTF.userInteractionEnabled = NO;
-    _UserTF.frame = CGRectMake(UserLB.frame.origin.x+UserLB.frame.size.width+30, CGRectGetMaxY(line.frame) + 30, 240, 40);
+    _UserTF.frame = CGRectMake(UserLB.frame.origin.x+UserLB.frame.size.width, CGRectGetMaxY(line.frame) + 30, 260, 40);
     _UserTF.leftViewMode = UITextFieldViewModeAlways;
     UIView *UTFLView = [[UIView alloc]init];
     UTFLView.frame = CGRectMake(0, 0, 10, 40);
@@ -643,7 +643,7 @@
     [_whiteView addSubview:_UserTF];
     
     UIButton *UserBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    UserBtn.frame = CGRectMake(_UserTF.frame.origin.x+150+40, _UserTF.frame.origin.y,50, 40);
+    UserBtn.frame = CGRectMake(_UserTF.frame.origin.x+150+60, _UserTF.frame.origin.y,50, 40);
     [UserBtn setImage:kImageName(@"arrow_line") forState:UIControlStateNormal];
     [UserBtn  addTarget:self action:@selector(UserBtnclick:) forControlEvents:UIControlEventTouchUpInside];
     [_whiteView addSubview:UserBtn];
@@ -672,7 +672,7 @@
     _TerminalTF.textColor=[UIColor colorWithHexString:@"6c6c6c"];
     _TerminalTF.clearButtonMode = UITextFieldViewModeWhileEditing;
     _TerminalTF.font = [UIFont systemFontOfSize:20];
-    _TerminalTF.frame = CGRectMake(_UserTF.frame.origin.x, TerminalLB.frame.origin.y, 240, 40);
+    _TerminalTF.frame = CGRectMake(_UserTF.frame.origin.x, TerminalLB.frame.origin.y, 260, 40);
     _TerminalTF.leftViewMode = UITextFieldViewModeAlways;
     UIView *TTFLView = [[UIView alloc]init];
     TTFLView.frame = CGRectMake(0, 0, 10, 40);
