@@ -436,11 +436,12 @@ static NSString *s_defaultTerminalNum = @"请选择终端号";
     UILabel*newaddress=[[UILabel alloc]initWithFrame:CGRectMake(40, CGRectGetMaxY(_terminalField.frame) + 30,70, 40)];
     [_contentView addSubview:newaddress];
     newaddress.font=[UIFont systemFontOfSize:18];
-    
+    newaddress.hidden = YES;
     newaddress.text=@"代理商";
     
     
     blankbutton = [UIButton buttonWithType:UIButtonTypeCustom];
+    blankbutton.hidden = YES;
     blankbutton.frame = CGRectMake(_terminalField.frame.origin.x,CGRectGetMaxY(_terminalField.frame) + 30 ,260, 40);
 //    [blankbutton setTitle:[self getBankNameWithBankCode:bankCode] forState:UIControlStateNormal];
     
@@ -476,10 +477,11 @@ static NSString *s_defaultTerminalNum = @"请选择终端号";
     
     [startFindBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     startFindBtn.titleLabel.font = [UIFont systemFontOfSize:18];
-    startFindBtn.frame = CGRectMake(440, CGRectGetMaxY(_terminalField.frame) + 30, 100, 40);
+    startFindBtn.frame = CGRectMake(110, CGRectGetMaxY(_terminalField.frame) + 30, 100, 40);
     [_contentView addSubview:startFindBtn];
     
     UIButton *startStatisticsBtn = [[UIButton alloc]init];
+    startStatisticsBtn.hidden = YES;
     [startStatisticsBtn addTarget:self action:@selector(startStatistics) forControlEvents:UIControlEventTouchUpInside];
     [startStatisticsBtn setTitle:@"开始统计" forState:UIControlStateNormal];
     [startStatisticsBtn setBackgroundImage:[UIImage imageNamed:@"blue.png"] forState:UIControlStateNormal];
