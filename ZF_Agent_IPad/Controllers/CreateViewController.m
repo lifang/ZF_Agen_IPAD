@@ -934,7 +934,7 @@
                 
             }
            
-            neworiginaltextfield.tag=i+1056;
+            neworiginaltextfield.tag=i+10560;
             neworiginaltextfield.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
             [_scrollView addSubview:neworiginaltextfield];
             //        neworiginaltextfield.delegate=self;
@@ -1278,6 +1278,12 @@
 }
 - (void)textFieldDidBeginEditing:(UITextField *)textField {
 
+    
+    if (textField.tag==1056 |textField.tag==1057|textField.tag==1058) {
+       
+        self.view.center=CGPointMake(self.view.center.x, self.view.center.y-130);
+    }
+    
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
@@ -1286,6 +1292,10 @@
 }
 
 - (void)textFieldDidEndEditing:(RegisterTextField *)textField {
+    
+    if (textField.tag==1056 |textField.tag==1057|textField.tag==1058) {
+        self.view.center=CGPointMake(self.view.center.x, self.view.center.y+130);
+    }
     
 }
 

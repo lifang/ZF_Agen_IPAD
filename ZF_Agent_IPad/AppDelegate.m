@@ -18,10 +18,12 @@
 @implementation AppDelegate
 + (AppDelegate *)shareAppDelegate {
     return [UIApplication sharedApplication].delegate;
+    
 }
 
 + (RootViewController *)shareRootViewController {
     return [[self shareAppDelegate] rootViewController];
+    
 }
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
@@ -29,7 +31,8 @@
     _authDict = [[NSMutableDictionary alloc] init];
 
     
-       [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
+    [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
+    self.isFirst = NO;
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     self.window.backgroundColor = [UIColor whiteColor];
     _rootViewController = [[RootViewController alloc] init];

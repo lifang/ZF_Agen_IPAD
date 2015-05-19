@@ -1959,5 +1959,6 @@ finished:(requestDidFinished)finish;
                          page:(int)page
                          rows:(int)rows
                      finished:(requestDidFinished)finish;
-
++ (void)sendFindValidateWithMobileNumber:(NSString *)mobileNumber
+                                finished:(requestDidFinished)finish;
 @end
