@@ -108,7 +108,7 @@
 
 -(void)rightClicked:(id)sender
 {
-    UIAlertView *alertV = [[UIAlertView alloc]initWithTitle:@"" message:@"您确定要删除这条消息吗？" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:@"取消", nil];
+    UIAlertView *alertV = [[UIAlertView alloc]initWithTitle:@"" message:@"您确定要删除这条消息吗？" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
     alertV.delegate = self;
     alertV.tag = 11144;
     [alertV show];
@@ -118,7 +118,7 @@
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     if (alertView.tag == 11144) {
-        if (buttonIndex == 0) {
+        if (buttonIndex == 1) {
             [self deleteMessage:nil];
         }
     }

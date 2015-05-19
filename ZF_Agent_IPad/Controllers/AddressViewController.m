@@ -419,7 +419,7 @@
 
 -(void)deleteAddressesS
 {
-    UIAlertView *alertV = [[UIAlertView alloc]initWithTitle:@"" message:@"您确定要删除此地址吗？" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:@"取消", nil];
+    UIAlertView *alertV = [[UIAlertView alloc]initWithTitle:@"" message:@"您确定要删除此地址吗？" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
     alertV.tag = 11122;
     [alertV show];
 }
@@ -427,7 +427,7 @@
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     if (alertView.tag == 11122) {
-        if (buttonIndex == 0) {
+        if (buttonIndex == 1) {
             _isChange = NO;
             [self deleteAddresses];
         }

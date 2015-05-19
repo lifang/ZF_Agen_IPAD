@@ -215,7 +215,7 @@
 
 -(void)deleteClieked
 {
-    UIAlertView *alertV = [[UIAlertView alloc]initWithTitle:@"" message:@"您确定要删除这些消息吗？" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:@"取消", nil];
+    UIAlertView *alertV = [[UIAlertView alloc]initWithTitle:@"" message:@"您确定要删除这些消息吗？" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
     alertV.delegate = self;
     alertV.tag = 11133;
     [alertV show];
@@ -225,7 +225,7 @@
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     if (alertView.tag == 11133) {
-        if (buttonIndex == 0) {
+        if (buttonIndex == 1) {
             if (_selectedItem.count == 1) {
                 [self deleteSingleMessage];
             }

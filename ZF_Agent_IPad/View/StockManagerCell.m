@@ -245,7 +245,7 @@
     
     //创建中间有规律的内容Cell
     _stockHistoryCountLabel = [[UILabel alloc]init];
-    [self setLabel:_stockHistoryCountLabel withLeftView:_stockBrandLabel middleSpace:30.f labelTag:0];
+    [self setLabel:_stockHistoryCountLabel withLeftView:_stockBrandLabel middleSpace:35.f labelTag:0];
     
     _stockOpenCountLabel = [[UILabel alloc]init];
     [self setLabel:_stockOpenCountLabel withLeftView:_stockHistoryCountLabel middleSpace:75.f labelTag:0];
