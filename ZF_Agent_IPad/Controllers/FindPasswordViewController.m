@@ -35,6 +35,8 @@
 
 @property(nonatomic,strong)UIImageView *imageV;
 
+@property(nonatomic,strong)UILabel *makeSureWrongLabel;
+
 @end
 
 @implementation FindPasswordViewController
@@ -122,6 +124,7 @@
     [self.view addSubview:_authField];
     
     UIButton *makeSureBtn = [[UIButton alloc]initWithFrame:CGRectMake(CGRectGetMaxX(_phoneField.frame)+10, _authField.frame.origin.y, mainBtnWidth, _phoneField.frame.size.height)];
+    makeSureBtn.hidden = YES;
     _makeSureBtn = makeSureBtn;
     [makeSureBtn addTarget:self action:@selector(makeSureClick:) forControlEvents:UIControlEventTouchUpInside];
     [makeSureBtn setBackgroundColor:mainColor];
@@ -228,6 +231,15 @@
         [alert show];
         return;
     }
+    if ([_newsPassword.text length] > 20) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示信息"
+                                                        message:@"密码不能多于20位!"
+                                                       delegate:nil
+                                              cancelButtonTitle:@"确定"
+                                              otherButtonTitles:nil];
+        [alert show];
+        return;
+    }
     if (![_newsPassword.text isEqualToString:_makeSurePassword.text]) {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示信息"
                                                         message:@"两次密码不一致!"
@@ -288,6 +300,69 @@
     }
 }
 
+-(void)textFieldDidEndEditing:(UITextField *)textField
+{
+    if (textField == _authField) {
+        if ([_authField.text isEqualToString:_authCode]) {
+            UIView *rightBigV = [[UIView alloc]init];
+            rightBigV.frame = CGRectMake(0, 0, 60, 40);
+            UIImageView *rightV = [[UIImageView alloc]init];
+            rightV.frame = CGRectMake(20, 8, 23, 23);
+            rightV.image = kImageName(@"check_right");
+            [rightBigV addSubview:rightV];
+            _authField.rightView = rightBigV;
+            [_makeSureWrongLabel removeFromSuperview];
+            _isChecked = YES;
+        }else
+        {
+            UIView *rightBigV = [[UIView alloc]init];
+            rightBigV.frame = CGRectMake(0, 0, 60, 40);
+            UIImageView *rightV = [[UIImageView alloc]init];
+            rightV.frame = CGRectMake(20, 8, 23, 23);
+            rightV.image = kImageName(@"check_wrong");
+            [rightBigV addSubview:rightV];
+            _authField.rightView = rightBigV;
+            _isChecked = NO;
+            
+            _makeSureWrongLabel = [[UILabel alloc]init];
+            _makeSureWrongLabel.font = [UIFont systemFontOfSize:10];
+            _makeSureWrongLabel.textColor = kColor(230, 68, 67, 1.0);
+            _makeSureWrongLabel.text = @"验证码不正确，请重新填写";
+            _makeSureWrongLabel.translatesAutoresizingMaskIntoConstraints = NO;
+            [self.view addSubview:_makeSureWrongLabel];
+            [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_makeSureWrongLabel
+                                                                  attribute:NSLayoutAttributeTop
+                                                                  relatedBy:NSLayoutRelationEqual
+                                                                     toItem:_authField
+                                                                  attribute:NSLayoutAttributeBottom
+                                                                 multiplier:1.0
+                                                                   constant:2.f]];
+            [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_makeSureWrongLabel
+                                                                  attribute:NSLayoutAttributeLeft
+                                                                  relatedBy:NSLayoutRelationEqual
+                                                                     toItem:_makeSureBtn
+                                                                  attribute:NSLayoutAttributeLeft
+                                                                 multiplier:1.0
+                                                                   constant:- 130.f]];
+            [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_makeSureWrongLabel
+                                                                  attribute:NSLayoutAttributeWidth
+                                                                  relatedBy:NSLayoutRelationEqual
+                                                                     toItem:nil
+                                                                  attribute:NSLayoutAttributeNotAnAttribute
+                                                                 multiplier:1.0
+                                                                   constant:140.f]];
+            [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_makeSureWrongLabel
+                                                                  attribute:NSLayoutAttributeHeight
+                                                                  relatedBy:NSLayoutRelationEqual
+                                                                     toItem:nil
+                                                                  attribute:NSLayoutAttributeNotAnAttribute
+                                                                 multiplier:1.0
+                                                                   constant:15.f]];
+            return;
+        }
+    }
+}
+
 -(void)makeSureClick:(UIButton *)sender
 {
     if (!_authField.text || [_authField.text isEqualToString:@""]) {
@@ -306,7 +381,6 @@
                                               cancelButtonTitle:@"确定"
                                               otherButtonTitles:nil];
         [alert show];
-        
         UIView *rightBigV = [[UIView alloc]init];
         rightBigV.frame = CGRectMake(0, 0, 60, 40);
         UIImageView *rightV = [[UIImageView alloc]init];
@@ -316,16 +390,17 @@
         _authField.rightView = rightBigV;
         _isChecked = NO;
         return;
+    }else{
+        UIView *rightBigV = [[UIView alloc]init];
+        rightBigV.frame = CGRectMake(0, 0, 60, 40);
+        UIImageView *rightV = [[UIImageView alloc]init];
+        rightV.frame = CGRectMake(20, 8, 23, 23);
+        rightV.image = kImageName(@"check_right");
+        [rightBigV addSubview:rightV];
+        _authField.rightView = rightBigV;
+        _isChecked = YES;
     }
     
-    UIView *rightBigV = [[UIView alloc]init];
-    rightBigV.frame = CGRectMake(0, 0, 60, 40);
-    UIImageView *rightV = [[UIImageView alloc]init];
-    rightV.frame = CGRectMake(20, 8, 23, 23);
-    rightV.image = kImageName(@"check_right");
-    [rightBigV addSubview:rightV];
-    _authField.rightView = rightBigV;
-    _isChecked = YES;
 }
 
 
@@ -335,7 +410,7 @@
         _sendButton.titleLabel.font = [UIFont systemFontOfSize:17];
         [_sendButton setTitle:@"发送验证码" forState:UIControlStateNormal];
         _authLabel.hidden = NO;
-        _makeSureBtn.hidden = NO;
+//        _makeSureBtn.hidden = NO;
         _authField.hidden = NO;
         _newpassworLabel.hidden = NO;
         _newsPassword.hidden = NO;
@@ -365,11 +440,11 @@
 {
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
     hud.labelText = @"正在发送...";
-    [NetworkInterface sendValidateWithMobileNumber:_phoneField.text finished:^(BOOL success, NSData *response) {
+    [NetworkInterface sendFindValidateWithMobileNumber:_phoneField.text finished:^(BOOL success, NSData *response) {
         NSLog(@"%@",[[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding]);
         hud.customView = [[UIImageView alloc] init];
         hud.mode = MBProgressHUDModeCustomView;
-        [hud hide:YES afterDelay:0.3f];
+        [hud hide:YES afterDelay:0.9f];
         if (success) {
             id object = [NSJSONSerialization JSONObjectWithData:response options:NSJSONReadingMutableLeaves error:nil];
             if ([object isKindOfClass:[NSDictionary class]]) {

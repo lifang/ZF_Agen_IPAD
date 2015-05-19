@@ -237,6 +237,8 @@
 		1A9EEB9E1AD76D4F00DA6E0D /* EncryptHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A9EEB9B1AD76D4F00DA6E0D /* EncryptHelper.m */; };
 		1A9EEBA11AD76E7E00DA6E0D /* NetworkInterface.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A9EEB9F1AD76E7E00DA6E0D /* NetworkInterface.m */; };
 		1A9EEBA41AD7768E00DA6E0D /* UserManagerChildController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A9EEBA31AD7768E00DA6E0D /* UserManagerChildController.m */; };
+		1AA157451B0B183F004E591B /* ChangePhoneNextController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AA157421B0B183F004E591B /* ChangePhoneNextController.m */; };
+		1AA157461B0B183F004E591B /* ChangeEmailNextController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AA157441B0B183F004E591B /* ChangeEmailNextController.m */; };
 		1AA6A04E1AD792980025FF1A /* UserManagerTerminalCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AA6A04D1AD792980025FF1A /* UserManagerTerminalCell.m */; };
 		1AA6A0511AD795B60025FF1A /* UserTeminal.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AA6A0501AD795B60025FF1A /* UserTeminal.m */; };
 		1AA6A0541AD79CD60025FF1A /* SafeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AA6A0531AD79CD60025FF1A /* SafeViewController.m */; };
@@ -818,6 +820,10 @@
 		1A9EEBA01AD76E7E00DA6E0D /* NetworkInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetworkInterface.h; sourceTree = "<group>"; };
 		1A9EEBA21AD7768E00DA6E0D /* UserManagerChildController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserManagerChildController.h; sourceTree = "<group>"; };
 		1A9EEBA31AD7768E00DA6E0D /* UserManagerChildController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserManagerChildController.m; sourceTree = "<group>"; };
+		1AA157411B0B183F004E591B /* ChangePhoneNextController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChangePhoneNextController.h; sourceTree = "<group>"; };
+		1AA157421B0B183F004E591B /* ChangePhoneNextController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChangePhoneNextController.m; sourceTree = "<group>"; };
+		1AA157431B0B183F004E591B /* ChangeEmailNextController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChangeEmailNextController.h; sourceTree = "<group>"; };
+		1AA157441B0B183F004E591B /* ChangeEmailNextController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChangeEmailNextController.m; sourceTree = "<group>"; };
 		1AA6A04C1AD792980025FF1A /* UserManagerTerminalCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserManagerTerminalCell.h; sourceTree = "<group>"; };
 		1AA6A04D1AD792980025FF1A /* UserManagerTerminalCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserManagerTerminalCell.m; sourceTree = "<group>"; };
 		1AA6A04F1AD795B60025FF1A /* UserTeminal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserTeminal.h; sourceTree = "<group>"; };
@@ -1625,14 +1631,7 @@
 		1A96548C1AD66FB000C39B5B /* MyMessage */ = {
 			isa = PBXGroup;
 			children = (
-				1ABA17C21ADB5A5E006B8D9B /* ChangePhoneController.h */,
-				1ABA17C31ADB5A5E006B8D9B /* ChangePhoneController.m */,
-				1ABA17C41ADB5A5E006B8D9B /* ChangeEmailController.h */,
-				1ABA17C51ADB5A5E006B8D9B /* ChangeEmailController.m */,
-				1ABA17C61ADB5A5E006B8D9B /* ChangePhoneSuccessViewController.h */,
-				1ABA17C71ADB5A5E006B8D9B /* ChangePhoneSuccessViewController.m */,
-				1ABA17C81ADB5A5E006B8D9B /* ChangeEmialSuccessViewController.h */,
-				1ABA17C91ADB5A5E006B8D9B /* ChangeEmialSuccessViewController.m */,
+				1AA157401B0B1800004E591B /* ChangeInfomation */,
 				1A9654901AD66FD200C39B5B /* MyMessageViewController.h */,
 				1A9654911AD66FD200C39B5B /* MyMessageViewController.m */,
 				1A9654961AD6705D00C39B5B /* BaseInformationViewController.h */,
@@ -1641,8 +1640,6 @@
 				1AA6A0531AD79CD60025FF1A /* SafeViewController.m */,
 				1AA6A0551AD79F7B0025FF1A /* AddressViewController.h */,
 				1AA6A0561AD79F7B0025FF1A /* AddressViewController.m */,
-				1AC827D81B09C9D000556FB5 /* AddMessageController.h */,
-				1AC827D91B09C9D000556FB5 /* AddMessageController.m */,
 			);
 			name = MyMessage;
 			sourceTree = "<group>";
@@ -1658,6 +1655,27 @@
 				1A9EEB9B1AD76D4F00DA6E0D /* EncryptHelper.m */,
 			);
 			name = Network;
+			sourceTree = "<group>";
+		};
+		1AA157401B0B1800004E591B /* ChangeInfomation */ = {
+			isa = PBXGroup;
+			children = (
+				1ABA17C21ADB5A5E006B8D9B /* ChangePhoneController.h */,
+				1ABA17C31ADB5A5E006B8D9B /* ChangePhoneController.m */,
+				1ABA17C41ADB5A5E006B8D9B /* ChangeEmailController.h */,
+				1ABA17C51ADB5A5E006B8D9B /* ChangeEmailController.m */,
+				1ABA17C61ADB5A5E006B8D9B /* ChangePhoneSuccessViewController.h */,
+				1ABA17C71ADB5A5E006B8D9B /* ChangePhoneSuccessViewController.m */,
+				1ABA17C81ADB5A5E006B8D9B /* ChangeEmialSuccessViewController.h */,
+				1ABA17C91ADB5A5E006B8D9B /* ChangeEmialSuccessViewController.m */,
+				1AC827D81B09C9D000556FB5 /* AddMessageController.h */,
+				1AC827D91B09C9D000556FB5 /* AddMessageController.m */,
+				1AA157411B0B183F004E591B /* ChangePhoneNextController.h */,
+				1AA157421B0B183F004E591B /* ChangePhoneNextController.m */,
+				1AA157431B0B183F004E591B /* ChangeEmailNextController.h */,
+				1AA157441B0B183F004E591B /* ChangeEmailNextController.m */,
+			);
+			name = ChangeInfomation;
 			sourceTree = "<group>";
 		};
 		1AA6A05E1AD7A03D0025FF1A /* RegularFomat */ = {
@@ -2364,6 +2382,7 @@
 				1AF15B091ACCE3BC00D5C171 /* PersonModel.m in Sources */,
 				0EC723DE1AE1F79F007A5D48 /* OpenProfitViewController.m in Sources */,
 				0EC7C15B1ADFC4E20076AAC4 /* POSAddressTableViewCell.m in Sources */,
+				1AA157451B0B183F004E591B /* ChangePhoneNextController.m in Sources */,
 				1AF15AEF1ACCE3A400D5C171 /* SDWebImagePrefetcher.m in Sources */,
 				0EC67F181AD694D9005BAB26 /* OrderDetailCell.m in Sources */,
 				0ED58EE11AD4D9DD0081E8BC /* SortView.m in Sources */,
@@ -2472,6 +2491,7 @@
 				1AA6A05A1AD79FA90025FF1A /* AddressCell.m in Sources */,
 				1A9654791AD6667900C39B5B /* MessageChildViewController.m in Sources */,
 				0ECA824E1AE3551700EB89E1 /* MultipleDeleteCell.m in Sources */,
+				1AA157461B0B183F004E591B /* ChangeEmailNextController.m in Sources */,
 				0EC723EA1AE243E4007A5D48 /* TGDetailController.m in Sources */,
 				0D16942F1AD3C15600B50A17 /* README.md in Sources */,
 				0ED9932D1AE490870040F50E /* TerimalChoseViewController.m in Sources */,

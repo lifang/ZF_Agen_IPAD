@@ -166,6 +166,21 @@ static NSString *HTTP_GET  = @"GET";
                         finished:finish];
 }
 
++ (void)sendFindValidateWithMobileNumber:(NSString *)mobileNumber
+                            finished:(requestDidFinished)finish {
+    //参数
+    NSMutableDictionary *paramDict = [[NSMutableDictionary alloc] init];
+    if (mobileNumber) {
+        [paramDict setObject:mobileNumber forKey:@"codeNumber"];
+    }
+    //url
+    NSString *urlString = [NSString stringWithFormat:@"%@/%@",kServiceURL,s_sendValidate_method];
+    [[self class] requestWithURL:urlString
+                          params:paramDict
+                      httpMethod:HTTP_POST
+                        finished:finish];
+}
+
 //5.
 + (void)sendEmailValidateWithEmail:(NSString *)email
                           finished:(requestDidFinished)finish {

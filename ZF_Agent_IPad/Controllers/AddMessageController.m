@@ -24,6 +24,10 @@
 
 @property(nonatomic,strong)NSString *authCode;
 
+@property(nonatomic,strong)UILabel *makeSureWrongLabel;
+
+@property(nonatomic,strong)UIButton *makeSureBtn;
+
 @end
 
 @implementation AddMessageController
@@ -49,7 +53,7 @@
         self.title = @"添加手机";
     }
     
-    CGFloat mainWidth = 280.f;
+    CGFloat mainWidth = 270.f;
     CGFloat mainHeight = 40.f;
     
     UILabel *newLabel = [[UILabel alloc]init];
@@ -121,8 +125,8 @@
     _getAuthCode.translatesAutoresizingMaskIntoConstraints = NO;
     _getAuthCode.titleLabel.textAlignment = NSTextAlignmentLeft;
     [_getAuthCode setTitle:@"获取验证码" forState:UIControlStateNormal];
-    [_getAuthCode setTitleColor:kMainColor forState:UIControlStateNormal];
-    [_getAuthCode setBackgroundColor:[UIColor clearColor]];
+    [_getAuthCode setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [_getAuthCode setBackgroundColor:kMainColor];
     [self.view addSubview:_getAuthCode];
     [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_getAuthCode
                                                           attribute:NSLayoutAttributeTop
@@ -137,7 +141,7 @@
                                                              toItem:_newsField
                                                           attribute:NSLayoutAttributeRight
                                                          multiplier:1.0
-                                                           constant:- 10.f]];
+                                                           constant:10.f]];
     [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_getAuthCode
                                                           attribute:NSLayoutAttributeWidth
                                                           relatedBy:NSLayoutRelationEqual
@@ -199,35 +203,36 @@
                                                          multiplier:1.0
                                                            constant:mainHeight]];
     
-    UIButton *makeSureBtn = [[UIButton alloc]init];
-    [makeSureBtn addTarget:self action:@selector(makeSureClieked) forControlEvents:UIControlEventTouchUpInside];
-    makeSureBtn.translatesAutoresizingMaskIntoConstraints = NO;
-    [makeSureBtn setBackgroundColor:kMainColor];
-    [makeSureBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [makeSureBtn setTitle:@"检查" forState:UIControlStateNormal];
-    [self.view addSubview:makeSureBtn];
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:makeSureBtn
+    _makeSureBtn = [[UIButton alloc]init];
+    _makeSureBtn.hidden = YES;
+    [_makeSureBtn addTarget:self action:@selector(makeSureClieked) forControlEvents:UIControlEventTouchUpInside];
+    _makeSureBtn.translatesAutoresizingMaskIntoConstraints = NO;
+    [_makeSureBtn setBackgroundColor:kMainColor];
+    [_makeSureBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [_makeSureBtn setTitle:@"检查" forState:UIControlStateNormal];
+    [self.view addSubview:_makeSureBtn];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_makeSureBtn
                                                           attribute:NSLayoutAttributeTop
                                                           relatedBy:NSLayoutRelationEqual
                                                              toItem:_newsField
                                                           attribute:NSLayoutAttributeBottom
                                                          multiplier:1.0
                                                            constant:20.f]];
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:makeSureBtn
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_makeSureBtn
                                                           attribute:NSLayoutAttributeLeft
                                                           relatedBy:NSLayoutRelationEqual
                                                              toItem:_authCodeField
                                                           attribute:NSLayoutAttributeLeft
                                                          multiplier:1.0
                                                            constant:mainWidth + 20]];
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:makeSureBtn
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_makeSureBtn
                                                           attribute:NSLayoutAttributeWidth
                                                           relatedBy:NSLayoutRelationEqual
                                                              toItem:nil
                                                           attribute:NSLayoutAttributeNotAnAttribute
                                                          multiplier:1.0
                                                            constant:mainWidth * 0.4]];
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:makeSureBtn
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_makeSureBtn
                                                           attribute:NSLayoutAttributeHeight
                                                           relatedBy:NSLayoutRelationEqual
                                                              toItem:nil
@@ -242,7 +247,7 @@
     [self.view addConstraint:[NSLayoutConstraint constraintWithItem:lineV
                                                           attribute:NSLayoutAttributeTop
                                                           relatedBy:NSLayoutRelationEqual
-                                                             toItem:makeSureBtn
+                                                             toItem:_makeSureBtn
                                                           attribute:NSLayoutAttributeBottom
                                                          multiplier:1.0
                                                            constant:70.f]];
@@ -280,7 +285,7 @@
                                                              toItem:lineV
                                                           attribute:NSLayoutAttributeBottom
                                                          multiplier:1.0
-                                                           constant:70.f]];
+                                                           constant:50.f]];
     [self.view addConstraint:[NSLayoutConstraint constraintWithItem:submitBtn
                                                           attribute:NSLayoutAttributeLeft
                                                           relatedBy:NSLayoutRelationEqual
@@ -362,6 +367,7 @@
 
 -(void)getAuthCodeClicked
 {
+    [_newsField resignFirstResponder];
     if (_isPhone) {
         [self sendMobile];
     }
@@ -436,16 +442,16 @@
                 //UI更新
                 _getAuthCode.userInteractionEnabled = YES;
                 [_getAuthCode setTitle:@"获取验证码" forState:UIControlStateNormal];
-                [_getAuthCode setTitleColor:kMainColor forState:UIControlStateNormal];
-                [_getAuthCode setBackgroundColor:[UIColor clearColor]];
+                [_getAuthCode setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+                [_getAuthCode setBackgroundColor:kMainColor];
             });
         }
         else {
             dispatch_async(dispatch_get_main_queue(), ^{
                 _getAuthCode.userInteractionEnabled = NO;
                 NSString *title = [NSString stringWithFormat:@"%d秒后重新获取",timeout];
-                [_getAuthCode setBackgroundImage:nil forState:UIControlStateNormal];
-                [_getAuthCode setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
+                [_getAuthCode setBackgroundColor:[UIColor lightGrayColor]];
+                [_getAuthCode setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
                 [_getAuthCode setTitle:title forState:UIControlStateNormal];
                 
             });
@@ -667,6 +673,67 @@
     }];
     
 }
-
+-(void)textFieldDidEndEditing:(UITextField *)textField
+{
+    if (textField == _authCodeField) {
+        if ([_authCodeField.text isEqualToString:_authCode]) {
+            UIView *rightBigV = [[UIView alloc]init];
+            rightBigV.frame = CGRectMake(0, 0, 60, 40);
+            UIImageView *rightV = [[UIImageView alloc]init];
+            rightV.frame = CGRectMake(20, 8, 23, 23);
+            rightV.image = kImageName(@"check_right");
+            [rightBigV addSubview:rightV];
+            _authCodeField.rightView = rightBigV;
+            [_makeSureWrongLabel removeFromSuperview];
+            _isChecked = YES;
+        }else
+        {
+            UIView *rightBigV = [[UIView alloc]init];
+            rightBigV.frame = CGRectMake(0, 0, 60, 40);
+            UIImageView *rightV = [[UIImageView alloc]init];
+            rightV.frame = CGRectMake(20, 8, 23, 23);
+            rightV.image = kImageName(@"check_wrong");
+            [rightBigV addSubview:rightV];
+            _authCodeField.rightView = rightBigV;
+            _isChecked = NO;
+            
+            _makeSureWrongLabel = [[UILabel alloc]init];
+            _makeSureWrongLabel.font = [UIFont systemFontOfSize:10];
+            _makeSureWrongLabel.textColor = kColor(230, 68, 67, 1.0);
+            _makeSureWrongLabel.text = @"验证码不正确，请重新填写";
+            _makeSureWrongLabel.translatesAutoresizingMaskIntoConstraints = NO;
+            [self.view addSubview:_makeSureWrongLabel];
+            [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_makeSureWrongLabel
+                                                                  attribute:NSLayoutAttributeTop
+                                                                  relatedBy:NSLayoutRelationEqual
+                                                                     toItem:_authCodeField
+                                                                  attribute:NSLayoutAttributeBottom
+                                                                 multiplier:1.0
+                                                                   constant:2.f]];
+            [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_makeSureWrongLabel
+                                                                  attribute:NSLayoutAttributeLeft
+                                                                  relatedBy:NSLayoutRelationEqual
+                                                                     toItem:_makeSureBtn
+                                                                  attribute:NSLayoutAttributeLeft
+                                                                 multiplier:1.0
+                                                                   constant:- 140.f]];
+            [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_makeSureWrongLabel
+                                                                  attribute:NSLayoutAttributeWidth
+                                                                  relatedBy:NSLayoutRelationEqual
+                                                                     toItem:nil
+                                                                  attribute:NSLayoutAttributeNotAnAttribute
+                                                                 multiplier:1.0
+                                                                   constant:140.f]];
+            [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_makeSureWrongLabel
+                                                                  attribute:NSLayoutAttributeHeight
+                                                                  relatedBy:NSLayoutRelationEqual
+                                                                     toItem:nil
+                                                                  attribute:NSLayoutAttributeNotAnAttribute
+                                                                 multiplier:1.0
+                                                                   constant:15.f]];
+            return;
+        }
+    }
+}
 
 @end
