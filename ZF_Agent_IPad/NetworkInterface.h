@@ -403,11 +403,15 @@ static NSString *s_tradeStatist_method = @"trade/getTradeStatistics";
 static NSString *s_applyRigister_method = @"agent/getJoin";
 
 static NSString *s_sendRegisterValidate_method = @"agent/sendPhoneVerificationCodeReg";
+//商品图片
+static NSString *s_goodImage_method = @"good/getGoodImgUrl";
 
 //获取所有用户
 static NSString *s_AllUserList_method = @"terminal/getCustomer";
 
 @interface NetworkInterface : NSObject
++ (void)getGoodImageWithGoodID:(NSString *)goodID
+                      finished:(requestDidFinished)finish;
 /*!
  @abstract 1.热卖
  

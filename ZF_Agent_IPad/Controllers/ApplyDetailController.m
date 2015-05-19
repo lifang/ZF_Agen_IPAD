@@ -33,6 +33,7 @@
 @end
 
 @interface InputTextField : UITextField
+@property (nonatomic, strong) NSString *bankTitleName; //银行名
 
 @property (nonatomic, strong) NSString *key;
 
@@ -83,6 +84,7 @@
 @property (nonatomic, strong) NSArray *cityArray;  //pickerView 第二列
 
 @property(nonatomic,strong) UITableView *sexTableView;
+@property (nonatomic, strong) NSString *bankTitleName; //银行名
 
 @property (nonatomic, strong) NSString *merchantID;
 @property (nonatomic, strong) NSString *bankID;  //银行代码
@@ -243,7 +245,19 @@
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 
 {
-    
+    CGFloat wide;
+    CGFloat height;
+    if(iOS7)
+    {
+        wide=SCREEN_HEIGHT;
+        height=SCREEN_WIDTH;
+        
+    }
+    else
+    {  wide=SCREEN_WIDTH;
+        height=SCREEN_HEIGHT;
+        
+    }
     
     
       NSInteger lastheightY;
@@ -303,7 +317,8 @@
         _publickBtn.titleLabel.font = [UIFont systemFontOfSize:22];
         _publickBtn.frame = CGRectMake(_publicX, _privateY, 140, 40);
         [_privateBtn setHidden:YES];
-        
+        _publickBtn.center=CGPointMake(wide/2, _privateY);
+
         _applyType=OpenApplyPublic;
         
     }
@@ -314,7 +329,8 @@
         _privateBtn.titleLabel.font = [UIFont systemFontOfSize:22];
         _privateBtn.frame = CGRectMake(_privateX, _privateY, 140, 40);
         [_publickBtn setHidden:YES];
-        
+        _privateBtn.center=CGPointMake(wide/2, _privateY);
+
         _applyType=OpenApplyPrivate;
 
     }
@@ -386,20 +402,7 @@
     CGFloat borderSpace = 40;
     CGFloat topSpace = 10+80;
     CGFloat labelHeight = 20;
-    CGFloat wide;
-    CGFloat height;
-    if(iOS7)
-    {
-        wide=SCREEN_HEIGHT;
-        height=SCREEN_WIDTH;
-    }
-    else
-    {  wide=SCREEN_WIDTH;
-        height=SCREEN_HEIGHT;
         
-    }
-    
-    
     _brandLabel = [[UILabel alloc] initWithFrame:CGRectMake(borderSpace+18, topSpace+20, wide/2 - borderSpace , labelHeight)];
     _brandLabel.backgroundColor = [UIColor clearColor];
     _brandLabel.font = [UIFont systemFontOfSize:18.f];
@@ -640,7 +643,7 @@
             accountBankNameTF.leftView =leftView;
             accountBankNameTF.clearButtonMode = UITextFieldViewModeWhileEditing;
             accountBankNameTF.tag=i+1056;
-            NSString *accountname=[NSString stringWithFormat:@"%@",[_infoDict objectForKey:[keynamesarry objectAtIndex:i]]];
+            NSString *accountname=[NSString stringWithFormat:@"%@",[_infoDict objectForKey:@"key_merchantName"]];
             NSLog(@"accountname:%@",accountname);
             if (![accountname isEqualToString:@"(null)"]) {
                 accountBankNameTF.text=[NSString stringWithFormat:@"  %@",accountname];
@@ -672,10 +675,15 @@
             bankNameBtn = [UIButton buttonWithType:UIButtonTypeCustom];
             bankNameBtn.frame = CGRectMake(190+(wide/2-40)*row,  height*70+topSpace + labelHeight * 7,280, 40);
             
-            NSString *accountname=[NSString stringWithFormat:@"%@",[_infoDict objectForKey:[keynamesarry objectAtIndex:i]]];
-            
-            if (![accountname isEqualToString:@"(null)"]) {
-                [bankNameBtn setTitle:accountname forState:UIControlStateNormal];
+            if(_bankTitleName)
+                
+            {
+                
+                
+                [bankNameBtn setTitle:_bankTitleName forState:UIControlStateNormal];
+                
+                
+                
             }
             [bankNameBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
             bankNameBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
@@ -1124,6 +1132,8 @@
                 if ([errorCode intValue] == RequestFail) {
                     //返回错误代码
                     hud.labelText = [NSString stringWithFormat:@"%@",[object objectForKey:@"message"]];
+                    [self.navigationController popViewControllerAnimated:YES];
+
                 }
                 else if ([errorCode intValue] == RequestSuccess) {
                     [hud hide:YES];
@@ -1240,7 +1250,7 @@
     }
     _channelID = _applyData.channelID;
     _billID = _applyData.billingID;
-    
+    _bankTitleName = _applyData.bankTitleName;
     [_infoDict setObject:[NSNumber numberWithInt:_applyData.sex] forKey:key_sex];
     _merchantID = _applyData.merchantID;
     
@@ -1872,9 +1882,8 @@
     if (nameTF==textField&&_applyType==OpenApplyPrivate) {
         NSString *string=[NSString stringWithFormat:@"%@", nameTF.text];
         accountBankNameTF.text=string;
-        NSLog(@"nameTF:%@",nameTF.text);
     }
-    if (merchantTF==textField&&_applyType==OpenApplyPublic) {
+    if (merchantTF==textField) {
         accountBankNameTF.text=[NSString stringWithFormat:@"%@",merchantTF.text];
     }
 }
@@ -1909,6 +1918,7 @@
     }
     if (model.merchantName && ![model.merchantName isEqualToString:@""]) {
         [_infoDict setObject:model.merchantName forKey:key_merchantName];
+        [_infoDict setObject:model.merchantName forKey:key_bank];
     }
     if (model.merchantPersonID && ![model.merchantPersonID isEqualToString:@""]) {
         [_infoDict setObject:model.merchantPersonID forKey:key_cardID];
@@ -1941,8 +1951,11 @@
         NSLog(@"model.bank:%@",model.bankName);
     [bankNameBtn setTitle:[NSString stringWithFormat:@"%@",model.bankName] forState:UIControlStateNormal];
    // bankIdTF.text=model.bankCode;
-
-
+        if([_selectedKey isEqualToString: @"key_bankID"])
+        {
+            _bankTitleName=model.bankName;
+            
+        }
         [_infoDict setObject:model.bankCode forKey:@"key_bankID"];
         [_infoDict setObject:model.bankName forKey:@"key_bank"];
         NSLog(@"infoDict:%@",_infoDict);

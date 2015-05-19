@@ -38,13 +38,16 @@ typedef enum {
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    NSLog(@"%d",self.fromType);
+    
     // Do any additional setup after loading the view.
-    if (_supplyType == SupplyGoodsWholesale) {
-        self.title = @"批购订单详情";
-    }
-    else {
-        self.title = @"代购订单详情";
-    }
+//    if (self.fromType == PayWayFromGoodProcurementBuy) {
+        self.title = @"订单详情";
+//    }
+//    else {
+//        self.title = @"租赁订单详情";
+//    }
     self.view.backgroundColor = [UIColor whiteColor];
     [self downloadDetail];
     UIBarButtonItem *spaceItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace
@@ -501,7 +504,7 @@ typedef enum {
 //                        }
                         else if (_orderDetail.orderStatus == WholesaleStatusFinish) {
                             //再次批购
-                            UIButton *repeatBtn = [self buttonWithTitle:@"再次批购" action:@selector(repeatWholesale:) style:OrderDetailBtnStyleSecond];
+                            UIButton *repeatBtn = [self buttonWithTitle:@"再次采购" action:@selector(repeatWholesale:) style:OrderDetailBtnStyleSecond];
                             repeatBtn.frame = CGRectMake(wide-150, 12, 100, 40);
                             [cell.contentView addSubview:repeatBtn];
                         }
@@ -521,7 +524,7 @@ typedef enum {
                                  _orderDetail.orderStatus == ProcurementStatusCancel ||
                                  _orderDetail.orderStatus == ProcurementStatusClosed) {
                             //再次批购
-                            UIButton *repeatBtn = [self buttonWithTitle:@"再次批购" action:@selector(repeatProcurement:) style:OrderDetailBtnStyleSecond];
+                            UIButton *repeatBtn = [self buttonWithTitle:@"再次采购" action:@selector(repeatProcurement:) style:OrderDetailBtnStyleSecond];
                             repeatBtn.frame = CGRectMake(wide-150, 12, 100, 40);
                             [cell.contentView addSubview:repeatBtn];
                         }
@@ -605,7 +608,13 @@ typedef enum {
                     [self setLabel:commentLabel withString:comment];
                     [cell.contentView addSubview:commentLabel];
                     //发票
-                   
+                    NSString *invoiceTitle = _orderDetail.invoceTitle;
+                    NSString *invoiceType = _orderDetail.invoceType;
+                    if (_orderDetail.needInvoice == 0) {
+                        invoiceTitle = @"无";
+                        invoiceType = @"无";
+                    }
+
                     UILabel *invoceTypeLabel = [[UILabel alloc] initWithFrame:CGRectMake(wide/2, 10 + height, wide/2, 20.f)];
                     [self setLabel:invoceTypeLabel withString:[NSString stringWithFormat:@"发票类型：%@",_orderDetail.invoceType]];
                     [cell.contentView addSubview:invoceTypeLabel];

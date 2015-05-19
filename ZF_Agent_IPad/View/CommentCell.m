@@ -95,45 +95,11 @@
                                                                  attribute:NSLayoutAttributeNotAnAttribute
                                                                 multiplier:0.0
                                                                   constant:newHeight]];
-    //时间
-    _timeLabel = [[UILabel alloc] init];
-    _timeLabel.translatesAutoresizingMaskIntoConstraints = NO;
-    _timeLabel.backgroundColor = [UIColor clearColor];
-    _timeLabel.textColor=[UIColor grayColor];
-    
-    _timeLabel.font = [UIFont systemFontOfSize:14.f];
-    [self.contentView addSubview:_timeLabel];
-    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_timeLabel
-                                                                 attribute:NSLayoutAttributeBottom
-                                                                 relatedBy:NSLayoutRelationEqual
-                                                                    toItem:self.contentView
-                                                                 attribute:NSLayoutAttributeBottom
-                                                                multiplier:1.0
-                                                                  constant:-5.f]];
-    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_timeLabel
-                                                                 attribute:NSLayoutAttributeLeft
-                                                                 relatedBy:NSLayoutRelationEqual
-                                                                    toItem:self.contentView
-                                                                 attribute:NSLayoutAttributeLeft
-                                                                multiplier:1.0
-                                                                  constant:100]];
-    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_timeLabel
-                                                                 attribute:NSLayoutAttributeRight
-                                                                 relatedBy:NSLayoutRelationEqual
-                                                                    toItem:self.contentView
-                                                                 attribute:NSLayoutAttributeRight
-                                                                multiplier:1.0
-                                                                  constant:-rightSpace]];
-    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_timeLabel
-                                                                 attribute:NSLayoutAttributeHeight
-                                                                 relatedBy:NSLayoutRelationEqual
-                                                                    toItem:nil
-                                                                 attribute:NSLayoutAttributeNotAnAttribute
-                                                                multiplier:0.0
-                                                                  constant:20.f]];
+   
     _nameLabel = [[UILabel alloc] init];
     _nameLabel.backgroundColor = [UIColor clearColor];
     _nameLabel.font = [UIFont boldSystemFontOfSize:16.f];
+    
     _nameLabel.translatesAutoresizingMaskIntoConstraints = NO;
     [self.contentView addSubview:_nameLabel];
 
@@ -152,12 +118,12 @@
                                                                 multiplier:1.0
                                                                   constant:20]];
     [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_nameLabel
-                                                                 attribute:NSLayoutAttributeRight
+                                                                 attribute:NSLayoutAttributeWidth
                                                                  relatedBy:NSLayoutRelationEqual
-                                                                    toItem:_timeLabel
-                                                                 attribute:NSLayoutAttributeRight
+                                                                    toItem:nil
+                                                                 attribute:0.0
                                                                 multiplier:1.0
-                                                                  constant:20]];
+                                                                  constant:wide-40]];
     [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_nameLabel
                                                                  attribute:NSLayoutAttributeHeight
                                                                  relatedBy:NSLayoutRelationEqual
@@ -165,7 +131,43 @@
                                                                  attribute:NSLayoutAttributeNotAnAttribute
                                                                 multiplier:0.0
                                                                   constant:20.f]];
-
+//    //时间
+//    _timeLabel = [[UILabel alloc] init];
+//    _timeLabel.translatesAutoresizingMaskIntoConstraints = NO;
+//    _timeLabel.backgroundColor = [UIColor clearColor];
+//    _timeLabel.textColor=[UIColor grayColor];
+//    
+//    _timeLabel.font = [UIFont systemFontOfSize:14.f];
+//    [self.contentView addSubview:_timeLabel];
+//    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_timeLabel
+//                                                                 attribute:NSLayoutAttributeBottom
+//                                                                 relatedBy:NSLayoutRelationEqual
+//                                                                    toItem:self.contentView
+//                                                                 attribute:NSLayoutAttributeBottom
+//                                                                multiplier:1.0
+//                                                                  constant:-5.f]];
+//    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_timeLabel
+//                                                                 attribute:NSLayoutAttributeLeft
+//                                                                 relatedBy:NSLayoutRelationEqual
+//                                                                    toItem:_nameLabel
+//                                                                 attribute:NSLayoutAttributeLeft
+//                                                                multiplier:1.0
+//                                                                  constant:100]];
+//    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_timeLabel
+//                                                                 attribute:NSLayoutAttributeWidth
+//                                                                 relatedBy:NSLayoutRelationEqual
+//                                                                    toItem:nil
+//                                                                 attribute:NSLayoutAttributeNotAnAttribute
+//                                                                multiplier:0.0
+//                                                                  constant:100]];
+//    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_timeLabel
+//                                                                 attribute:NSLayoutAttributeHeight
+//                                                                 relatedBy:NSLayoutRelationEqual
+//                                                                    toItem:nil
+//                                                                 attribute:NSLayoutAttributeNotAnAttribute
+//                                                                multiplier:0.0
+//                                                                  constant:20.f]];
+//
     
 
     
@@ -235,10 +237,55 @@
                                         context:nil];
     return rect.size.height + 1 > 20.f ? rect.size.height + 1 : 20.f;
 }
+- (BOOL) isBlankString:(NSString *)string {
+    if (string == nil || string == NULL) {
+        return YES;
+    }
+    if ([string isEqualToString:@"(null)"]) {
+        return YES;
+    }
+    if ([string isKindOfClass:[NSNull class]]) {
+        return YES;
+    }
+    if ([[string stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]] length]==0) {
+        return YES;
+    }
+    return NO;
+}
 
 - (void)setCommentData:(CommentModel *)model {
-    _nameLabel.text = model.name;
-    _timeLabel.text = model.createTime;
+//    _nameLabel.text =[NSString stringWithFormat:@"%@    %@",model.name,model.createTime] ;
+    if([self isBlankString:model.name])
+    {
+    model.name=@"";
+        
+    }
+    if([self isBlankString:model.createTime])
+    {
+        model.createTime=@"";
+        
+    }
+    
+    
+    NSString *priceString = [NSString stringWithFormat:@"%@    %@",model.name,model.createTime];
+    NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithString:priceString];
+    NSDictionary *normalAttr = [NSDictionary dictionaryWithObjectsAndKeys:
+                                [UIFont systemFontOfSize:16.f],NSFontAttributeName,
+                                [UIColor blackColor],NSForegroundColorAttributeName,
+                                nil];
+    NSDictionary *priceAttr = [NSDictionary dictionaryWithObjectsAndKeys:
+                               [UIFont boldSystemFontOfSize:15.f],NSFontAttributeName,
+                               [UIColor grayColor],NSForegroundColorAttributeName,
+                               nil];
+    [attrString addAttributes:normalAttr range:NSMakeRange(0, [model.name length])];
+    [attrString addAttributes:priceAttr range:NSMakeRange([model.name length], [attrString length] - [model.name length])];
+    _nameLabel.attributedText = attrString;
+
+    
+    
+    
+    
+//    _timeLabel.text = model.createTime;
     _contentLabel.text = model.content;
     NSLog(@"%f",model.score);
 

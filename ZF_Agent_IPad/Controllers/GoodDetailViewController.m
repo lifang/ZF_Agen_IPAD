@@ -102,6 +102,8 @@
     
     self.navigationItem.leftBarButtonItems = [NSArray arrayWithObjects:spaceItem,backItem,spaceItem,nil];
     [self downloadGoodDetail];
+    [self getGoodImageList];
+
 }
 -(void)popself
 
@@ -399,7 +401,7 @@
     [self setLabel:terTypeTitleLabel withTitle:@"终端类型" font:[UIFont systemFontOfSize:17.f]];
     UILabel *terTypeLabel = [[UILabel alloc] initWithFrame:CGRectMake(leftSpace + leftLabelWidth + firstSpace, originY, wide - leftSpace - rightSpace - leftLabelWidth, labelHeight)];
     [self setLabel:terTypeLabel withTitle:_detailModel.goodCategory font:[UIFont boldSystemFontOfSize:17.f]];
-    terTypeTitleLabel.textColor=kColor(67.0, 66.0, 66.0, 1);
+    terTypeLabel.textColor=kColor(67.0, 66.0, 66.0, 1);
 
     //价格
     originY += vSpace + labelHeight;
@@ -547,7 +549,6 @@
     //立即购买
     _buyGoodButton = [UIButton buttonWithType:UIButtonTypeCustom];
     _buyGoodButton.frame = CGRectMake(_shopcartButton.frame.origin.x+_shopcartButton.frame.size.width+20, _buyButton.frame.origin.y + _buyButton.frame.size.height+20, wide/4, 40);
-    _buyGoodButton.center=CGPointMake(wide/4*3-20,  _buyButton.frame.origin.y + _buyButton.frame.size.height+60);
     
     
     //    _buyGoodButton.layer.cornerRadius = 4.f;
@@ -563,6 +564,28 @@
     else {
         
         [_buyGoodButton setTitle:@"立即批购" forState:UIControlStateNormal];
+
+    }
+    if (self.supplyType==2) {
+        if(_detailModel.canRent)
+        {
+           
+            _buyGoodButton.center=CGPointMake(wide/4*3-20,  _buyButton.frame.origin.y + _buyButton.frame.size.height+60);
+
+        
+        }
+        else
+        {
+            _buyGoodButton.center=CGPointMake(wide/4*3-20,  _buyButton.frame.origin.y + _buyButton.frame.size.height);
+
+            
+            
+        }
+        
+        
+    }
+    else {
+        _buyGoodButton.center=CGPointMake(wide/4*3-20,  _buyButton.frame.origin.y + _buyButton.frame.size.height);
 
     }
 
@@ -897,6 +920,56 @@
 
 
 #pragma mark - Request
+- (void)getGoodImageList {
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+    hud.labelText = @"加载中...";
+    [NetworkInterface getGoodImageWithGoodID:_goodID finished:^(BOOL success, NSData *response) {
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:1.f];
+        if (success) {
+            NSLog(@"!!%@",[[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding]);
+            id object = [NSJSONSerialization JSONObjectWithData:response options:NSJSONReadingMutableLeaves error:nil];
+            if ([object isKindOfClass:[NSDictionary class]]) {
+                NSString *errorCode = [object objectForKey:@"code"];
+                if ([errorCode intValue] == RequestFail) {
+                    //返回错误代码
+                    hud.labelText = [NSString stringWithFormat:@"%@",[object objectForKey:@"message"]];
+                }
+                else if ([errorCode intValue] == RequestSuccess) {
+                    [hud hide:YES];
+                    [self parseDataWithDictionary:object];
+                }
+            }
+            else {
+                //返回错误数据
+                hud.labelText = kServiceReturnWrong;
+            }
+        }
+        else {
+            hud.labelText = kNetworkFailed;
+        }
+    }];
+}
+
+#pragma mark - Data
+
+- (void)parseDataWithDictionary:(NSDictionary *)dict {
+    if (![dict objectForKey:@"result"] || ![[dict objectForKey:@"result"] isKindOfClass:[NSArray class]]) {
+        return;
+    }
+    [picturearry removeAllObjects];
+    NSArray *list = [dict objectForKey:@"result"];
+    for (int i = 0; i < [list count]; i++) {
+        id imageDict = [list objectAtIndex:i];
+        if ([imageDict isKindOfClass:[NSDictionary class]]) {
+            PictureModel*pictureModel=[[PictureModel alloc]initWithParseDictionary:[list objectAtIndex:i]];
+            
+            [picturearry addObject:pictureModel];
+
+        }
+    }
+}
 
 - (void)downloadGoodDetail {
     AppDelegate *delegate = [AppDelegate shareAppDelegate];
@@ -942,25 +1015,22 @@
     }
     NSDictionary *detailDict = [dict objectForKey:@"result"];
     _detailModel = [[GoodDetialModel alloc] initWithParseDictionary:detailDict];
-    if ([[detailDict objectForKey:@"picList"] isKindOfClass:[NSArray class]])
-        
-    {
-        NSArray*pictureArry=[detailDict objectForKey:@"picList"];
-        
-        for(int i=0;i<pictureArry.count;i++)
-        {
-            
-            PictureModel*pictureModel=[[PictureModel alloc]initWithParseDictionary:[pictureArry objectAtIndex:i]];
-            
-            [picturearry addObject:pictureModel];
-            
-            
-        }
-        
-        
-        
-        
-    }
+//    if ([[detailDict objectForKey:@"picList"] isKindOfClass:[NSArray class]])
+//        
+//    {
+//        NSArray*pictureArry=[detailDict objectForKey:@"picList"];
+//        
+//        for(int i=0;i<pictureArry.count;i++)
+//        {
+//            
+//            
+//            
+//        }
+//        
+//        
+//        
+//        
+//    }
 
     [self initAndLayoutUI];
     [_topScorllView downloadImageWithURLs:_detailModel.goodImageList target:self action:@selector(touchPicture:)];

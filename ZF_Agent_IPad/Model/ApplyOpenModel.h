@@ -57,7 +57,7 @@ typedef enum {
 @property (nonatomic, strong) NSString *channelName;
 
 @property (nonatomic, assign) OpenType openType;
-
+@property (nonatomic, strong) NSString *bankTitleName; //银行名
 //已上传的基本信息
 @property (nonatomic, strong) NSString *personName;
 @property (nonatomic, strong) NSString *merchantID;

@@ -524,7 +524,7 @@ typedef enum {
     }
     else if ([_identifier isEqualToString:wholesaleFinishIdentifier]) {
         //批购已完成
-        UIButton *repeatBtn = [self buttonWithTitle:@"再次批购" action:@selector(repeatWholesale:) style:orderBtnStyleSecond];
+        UIButton *repeatBtn = [self buttonWithTitle:@"再次采购" action:@selector(repeatWholesale:) style:orderBtnStyleSecond];
         [self.contentView addSubview:repeatBtn];
         repeatBtn.frame=CGRectMake(wide-60-100, 75, 100, 35);
     }
@@ -541,7 +541,7 @@ typedef enum {
     }
     else if ([_identifier isEqualToString:procurementSecondIdentifier]) {
         //代购 已发货 已取消 交易关闭
-        UIButton *repeatBtn = [self buttonWithTitle:@"再次代购" action:@selector(repeatProcurement:) style:orderBtnStyleSecond];
+        UIButton *repeatBtn = [self buttonWithTitle:@"再次采购" action:@selector(repeatProcurement:) style:orderBtnStyleSecond];
         [self.contentView addSubview:repeatBtn];
         repeatBtn.frame=CGRectMake(wide-60-100, 75, 100, 35);
     }
