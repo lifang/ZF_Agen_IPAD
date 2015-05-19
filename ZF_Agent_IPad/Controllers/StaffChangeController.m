@@ -405,6 +405,24 @@
             [alert show];
             return;
         }
+        if (_passwordField.text.length <= 5) {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示信息"
+                                                            message:@"密码长度过短!"
+                                                           delegate:nil
+                                                  cancelButtonTitle:@"确定"
+                                                  otherButtonTitles:nil];
+            [alert show];
+            return;
+        }
+        if (_passwordField.text.length > 20) {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示信息"
+                                                            message:@"密码长度过长!"
+                                                           delegate:nil
+                                                  cancelButtonTitle:@"确定"
+                                                  otherButtonTitles:nil];
+            [alert show];
+            return;
+        }
         if (![_makeSureField.text isEqualToString:_passwordField.text]) {
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示信息"
                                                             message:@"两次输入密码不一致!"

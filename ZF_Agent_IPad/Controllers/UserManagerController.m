@@ -12,7 +12,7 @@
 #import "UserManagerCell.h"
 #import "UserManagerChildController.h"
 
-@interface UserManagerController ()<userManagerCellDelegate>
+@interface UserManagerController ()<userManagerCellDelegate,UIAlertViewDelegate>
 
 @property(nonatomic,strong)UIView *headerView;
 
@@ -133,7 +133,8 @@
     AppDelegate *delegate = [AppDelegate shareAppDelegate];
     if ([[delegate.authDict objectForKey:[NSNumber numberWithInt:AuthUM]] boolValue]) {
         self.selectedModel = model;
-        [self deleteSingleUser];
+        UIAlertView *alertV = [[UIAlertView alloc]initWithTitle:@"" message:@"您确定要删除此用户吗？" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+        [alertV show];
     }
     else {
         MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
@@ -143,6 +144,13 @@
         hud.labelText = @"没有用户管理权限";
     }
    
+}
+
+-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (buttonIndex != alertView.cancelButtonIndex) {
+        [self deleteSingleUser];
+    }
 }
 
 #pragma mark - UITableView
@@ -179,8 +187,6 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    
-    AppDelegate *delegate = [AppDelegate shareAppDelegate];
     
     UserManagerModel *model = [_dataItem objectAtIndex:indexPath.row];
     UserManagerChildController *userChildVC = [[UserManagerChildController alloc]init];
@@ -282,7 +288,7 @@
         NSLog(@"%@",[[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding]);
         hud.customView = [[UIImageView alloc] init];
         hud.mode = MBProgressHUDModeCustomView;
-        [hud hide:YES afterDelay:0.5f];
+        [hud hide:YES afterDelay:0.9f];
         if (success) {
             id object = [NSJSONSerialization JSONObjectWithData:response options:NSJSONReadingMutableLeaves error:nil];
             if ([object isKindOfClass:[NSDictionary class]]) {

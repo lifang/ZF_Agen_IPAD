@@ -13,7 +13,7 @@
 #import "StaffManagerModel.h"
 #import "StaffManagerDetailController.h"
 
-@interface StaffManagerController ()<UITableViewDelegate,UITableViewDataSource,RefreshDelegate,StaffManagerDeleteClickedDelegate>
+@interface StaffManagerController ()<UITableViewDelegate,UITableViewDataSource,RefreshDelegate,StaffManagerDeleteClickedDelegate,UIAlertViewDelegate>
 
 @property(nonatomic,strong)UITableView *tableView;
 
@@ -29,6 +29,8 @@
 @property (nonatomic, assign) CGFloat primaryOffsetY;
 @property (nonatomic, assign) int page;
 //********************************
+
+@property(nonatomic,strong)StaffManagerModel *model;
 
 @property(nonatomic,strong)NSMutableArray *dataItem;
 
@@ -310,8 +312,21 @@
 -(void)deleteClickedWithStaffManagerModel:(StaffManagerModel *)model
 {
     NSLog(@"删除了员工！");
-    [self deletedStaffWithStaffModel:model];
+    UIAlertView *alertV = [[UIAlertView alloc]initWithTitle:nil message:@"您确定要删除此员工吗？" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+    alertV.tag = 23456;
+    self.model = model;
+    [alertV show];
 }
+
+-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (alertView.tag == 23456) {
+        if (buttonIndex == 1){
+            [self deletedStaffWithStaffModel:_model];
+        }
+    }
+}
+
 
 #pragma mark - Request
 

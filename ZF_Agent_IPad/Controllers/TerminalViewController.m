@@ -309,9 +309,6 @@
         make.left.equalTo(payLB.right).offset(65);
         make.width.equalTo(@70);
     }];
-
-    
-    
     
 }
 
@@ -345,8 +342,9 @@
         _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 120+28, SCREEN_WIDTH, SCREEN_HEIGHT-148)];
         
     }
-    
-//    _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    UIView *footerV = [[UIView alloc]init];
+    footerV.frame = CGRectMake(0, 0, 1, 1);
+    _tableView.tableFooterView = footerV;
     _tableView.backgroundColor = [UIColor whiteColor];
     _tableView.delegate = self;
     _tableView.dataSource = self;
