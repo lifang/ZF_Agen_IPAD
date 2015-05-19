@@ -33,6 +33,7 @@
     _dataItem = [[NSMutableArray alloc] initWithCapacity:0];
     _dataItemid = [[NSMutableArray alloc] initWithCapacity:0];
     self.view.backgroundColor=[UIColor whiteColor];
+    self.view.backgroundColor=[UIColor whiteColor];
     
     [self gethotname];
 
@@ -275,6 +276,7 @@
     GoodDetailViewController *detailC = [[GoodDetailViewController alloc] init];
     
    detailC.hidesBottomBarWhenPushed =  YES ;
+    detailC.supplyType=SupplyGoodsProcurement;
     
     detailC.goodID =[_dataItemid objectAtIndex:send.tag-502];
     [self.navigationController pushViewController:detailC animated:YES];

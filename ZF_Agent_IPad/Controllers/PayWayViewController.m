@@ -279,8 +279,8 @@
    
     [zhifubao addTarget:self action:@selector(zhifubaoclick) forControlEvents:UIControlEventTouchUpInside];
     [zhifubao setBackgroundImage:[UIImage imageNamed:@"zhifubao"] forState:UIControlStateNormal];
-    zhifubao.frame = CGRectMake(0,0,200,62);
-    zhifubao.center=CGPointMake(wide/4, hearderHeight +40+100);
+    zhifubao.frame = CGRectMake(0,0,400,122);
+    zhifubao.center=CGPointMake(wide/4, hearderHeight +60+100);
     zhifubao.userInteractionEnabled=YES;
     
     [self.view addSubview:zhifubao];
@@ -291,7 +291,7 @@
     
     [yinlianbutton addTarget:self action:@selector(yinlianclick) forControlEvents:UIControlEventTouchUpInside];
     yinlianbutton.backgroundColor = [UIColor clearColor];
-    [yinlianbutton setBackgroundImage:[UIImage imageNamed:@"yinlian"] forState:UIControlStateNormal];
+//    [yinlianbutton setBackgroundImage:[UIImage imageNamed:@"yinlian"] forState:UIControlStateNormal];
     yinlianbutton.frame = CGRectMake(0,0,200,62);
     yinlianbutton.center=CGPointMake(wide/4*3, hearderHeight +40+80);
     

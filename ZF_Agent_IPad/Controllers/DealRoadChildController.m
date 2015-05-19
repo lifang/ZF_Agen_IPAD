@@ -447,23 +447,23 @@
     terminalLabel.text = [NSString stringWithFormat:@"终   端   号   %@",_terminalNumber];
     switch (_tradeType) {
         case TradeTypeTransfer:
-            payFromLabel.text = [NSString stringWithFormat:@"付 款 账 号   %@",_payFromAccount];
-            payToLabel.text = [NSString stringWithFormat:@"收 款 账 号   %@",_payToAccount];
+            payFromLabel.text = [NSString stringWithFormat:@"付 款 账 号   %@",[self serectString:_payFromAccount]];
+            payToLabel.text = [NSString stringWithFormat:@"收 款 账 号   %@",[self serectString:_payToAccount]];
             break;
         case TradeTypeConsume:
 //            payFromLabel.text = [NSString stringWithFormat:@"结 算 时 间   %@",_payedTime];
             payFromLabel.text = [NSString stringWithFormat:@"手   续   费   ￥%.2f",_tradePoundage];
             break;
         case TradeTypeRepayment:
-            payFromLabel.text = [NSString stringWithFormat:@"付 款 账 号   %@",_payFromAccount];
-            payToLabel.text = [NSString stringWithFormat:@"转 入 账 号   %@",_payToAccount];
+            payFromLabel.text = [NSString stringWithFormat:@"付 款 账 号   %@",[self serectString:_payFromAccount]];
+            payToLabel.text = [NSString stringWithFormat:@"转 入 账 号   %@",[self serectString:_payToAccount]];
             break;
         case TradeTypeLife:
             payFromLabel.text = [NSString stringWithFormat:@"账   户   名   %@",_accountName];
             payToLabel.text = [NSString stringWithFormat:@"账 户 号 码   %@",_accountNumber];
             break;
         case TradeTypeTelephoneFare:
-            payFromLabel.text = [NSString stringWithFormat:@"手 机 号 码   %@",_phoneNumber];
+            payFromLabel.text = [NSString stringWithFormat:@"手 机 号 码   %@",[self serectString:_phoneNumber]];
             break;
         default:
             break;
@@ -479,6 +479,28 @@
 }
 
 #pragma mark - Layout
+//加密位数
+- (NSString *)serectString:(NSString *)string {
+    //倒数5-8位星号
+    NSInteger length = [string length];
+    if (length < 8) {
+        return string;
+    }
+    NSMutableString *encryptString = [NSMutableString stringWithString:string];
+    [encryptString replaceCharactersInRange:NSMakeRange(length - 8, 4) withString:@"****"];
+    return encryptString;
+}
+
+- (NSString *)serectNameString:(NSString *)string {
+    //名字第二位
+    NSInteger length = [string length];
+    if (length < 2) {
+        return string;
+    }
+    NSMutableString *encryptString = [NSMutableString stringWithString:string];
+    [encryptString replaceCharactersInRange:NSMakeRange(length - 2, 1) withString:@"*"];
+    return encryptString;
+}
 
 - (void)setLabel:(UILabel *)label
      withTopView:(UIView *)topView
