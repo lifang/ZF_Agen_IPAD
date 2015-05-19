@@ -879,6 +879,8 @@
     //    return;
     // }
     // NSDictionary *infoDict = [dict objectForKey:@"result"];
+    [_POSArray removeAllObjects];
+    
     NSArray *POSList = [dict objectForKey:@"result"];
     for (int i = 0; i < [POSList count]; i++) {
         id POSDict = [POSList objectAtIndex:i];
