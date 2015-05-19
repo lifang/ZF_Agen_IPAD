@@ -17,7 +17,7 @@
 #import "RentDescriptionController.h"
 #import "POSAddressTableViewCell.h"
 #import "UserListViewController.h"
-
+#import "UserSelectViewController.h"
 @interface AgentRentViewController ()<UITextFieldDelegate,UIPickerViewDataSource,UIPickerViewDelegate,UIAlertViewDelegate,SelectedUserDelegate>
 
 @property (nonatomic, strong) UIButton *typeBtn;
@@ -401,16 +401,27 @@
     
 }
 #pragma mark - SelectedUserDelegate
-
-- (void)selectedUser:(UserModel *)model {
+-(void)selectedUser:(UserModel *)model {
+    [_findPosView setHidden:NO];
+//    _UserTF.text=model.userName;
+//    _userId=model.userID;
     _defaultUser = model;
-    agentUserIDs=model.agentID;
-
-    namestring=model.userName;
-    [self getAddressLists];
-
+        agentUserIDs=model.agentID;
+    
+        namestring=model.userName;
+        [self getAddressLists];
     
 }
+
+//- (void)selectedUser:(UserModel *)model {
+//    _defaultUser = model;
+//    agentUserIDs=model.agentID;
+//
+//    namestring=model.userName;
+//    [self getAddressLists];
+//
+//    
+//}
 -(void)bulidBtnClick:(id)sender
 {
     if (!_nameTV.text ||[_nameTV.text isEqualToString:@""]) {
@@ -635,14 +646,21 @@
 -(void)chosenewuser
 {
     
-    UserListViewController*user=[[UserListViewController alloc]init];
     
-    user.hidesBottomBarWhenPushed=YES;
-    user.delegate = self;
     
-    [self.navigationController pushViewController:user animated:YES];
-    
-    [self.tableView reloadData];
+    UserSelectViewController *UserSC=[[UserSelectViewController alloc] init];
+    UserSC.hidesBottomBarWhenPushed=YES;
+    UserSC.delegate=self;
+    [self.navigationController pushViewController:UserSC animated:YES];
+
+//    UserListViewController*user=[[UserListViewController alloc]init];
+//    
+//    user.hidesBottomBarWhenPushed=YES;
+//    user.delegate = self;
+//    
+//    [self.navigationController pushViewController:user animated:YES];
+//    
+//    [self.tableView reloadData];
     
     
     
@@ -923,8 +941,15 @@
         
         
         blankbutton = [UIButton buttonWithType:UIButtonTypeCustom];
-        blankbutton.frame = CGRectMake(150,50 ,260, 40);
-        [blankbutton setTitle:namestring forState:UIControlStateNormal];
+        blankbutton.frame = CGRectMake(150,50 ,280, 40);
+        
+        if(namestring)
+        {
+        
+            [blankbutton setTitle:[NSString stringWithFormat:@"%@        ",namestring] forState:UIControlStateNormal];
+
+        
+        }
         
         [blankbutton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
         blankbutton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
@@ -939,8 +964,9 @@
         [layer setBorderWidth:1];
         //设置边框线的颜色
         [layer setBorderColor:[[UIColor grayColor] CGColor]];
-        blankbutton.contentEdgeInsets = UIEdgeInsetsMake(0,10, 0, 0);
-        blankbutton.imageEdgeInsets = UIEdgeInsetsMake(0,200,0,0);//设置image在button上的位置（上top，左left，下bottom，右right）这里可以写负值，对上写－5，那么image就象上移动5个像素
+        blankbutton.contentEdgeInsets = UIEdgeInsetsMake(0,-40, 0, 0);
+        blankbutton.imageEdgeInsets = UIEdgeInsetsMake(0,270,0,0);//设置image在button上的位置（上top，左left，下bottom，右right）这里可以写负值，对上写－5，那么image就象上移动5个像素
+
         blankbutton.tag=5044;
         
         [blankbutton addTarget:self action:@selector(chosenewuser) forControlEvents:UIControlEventTouchUpInside];
@@ -954,7 +980,7 @@
         
         
         UIButton*creatorbutton = [UIButton buttonWithType:UIButtonTypeCustom];
-        creatorbutton.frame = CGRectMake(150+280,50 ,140, 40);
+        creatorbutton.frame = CGRectMake(150+300,50 ,140, 40);
         //    savebutton.layer.cornerRadius=10;
         
         [creatorbutton setBackgroundImage:kImageName(@"blue") forState:UIControlStateNormal];

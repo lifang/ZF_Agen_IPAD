@@ -71,7 +71,7 @@
 
     
     // Do any additional setup after loading the view.
-    self.title = @"申请成为代理商";
+    self.title = @"创建下级代理商";
     _registerDict = [[NSMutableDictionary alloc] init];
     [self initAndLayoutUI];
     
@@ -391,7 +391,8 @@
     
     [self initPickerView];
 
-
+    [self.editingField resignFirstResponder];
+    
 
 
 }
@@ -1270,9 +1271,13 @@
 
 
 #pragma mark - UITextField
-
+- (BOOL)textFieldShouldBeginEditing:(UITextField *)textField {
+    self.editingField = textField;
+    return YES;
+    
+}
 - (void)textFieldDidBeginEditing:(UITextField *)textField {
-  
+
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
@@ -1341,7 +1346,8 @@
         imagePickerController.delegate = self;
         imagePickerController.allowsEditing = YES;
         imagePickerController.sourceType = sourceType;
-        
+        [imagePickerController.navigationBar setBackgroundImage:[UIImage imageNamed:@"numberbackss"] forBarMetrics:UIBarMetricsDefault];
+
         UIPopoverController *popover = [[UIPopoverController alloc] initWithContentViewController:imagePickerController];
         popover.delegate = self;
         self.popViewController = popover;//对局部UIPopoverController对象popover我们赋给了一个全局的UIPopoverController对象popoverController

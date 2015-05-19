@@ -63,6 +63,7 @@
 		0E5099941AE0A2F9008CA305 /* AgentRentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E5099931AE0A2F9008CA305 /* AgentRentViewController.m */; };
 		0E5099971AE0AF48008CA305 /* NextAgentdetalViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E5099961AE0AF48008CA305 /* NextAgentdetalViewController.m */; };
 		0E50999A1AE0D533008CA305 /* NextAgentpeopeleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E5099991AE0D533008CA305 /* NextAgentpeopeleViewController.m */; };
+		0EBB49ED1B0B2D8400D71902 /* numberbackss.png in Resources */ = {isa = PBXBuildFile; fileRef = 0EBB49EC1B0B2D8400D71902 /* numberbackss.png */; };
 		0EC65C091AD8B55400282C04 /* RecordModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EC65C081AD8B55400282C04 /* RecordModel.m */; };
 		0EC65C0C1AD8B80800282C04 /* OrderModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EC65C0B1AD8B80800282C04 /* OrderModel.m */; };
 		0EC65C0F1AD8B8EF00282C04 /* FindPasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EC65C0E1AD8B8EF00282C04 /* FindPasswordViewController.m */; };
@@ -429,6 +430,7 @@
 		0E5099961AE0AF48008CA305 /* NextAgentdetalViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NextAgentdetalViewController.m; sourceTree = "<group>"; };
 		0E5099981AE0D533008CA305 /* NextAgentpeopeleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NextAgentpeopeleViewController.h; sourceTree = "<group>"; };
 		0E5099991AE0D533008CA305 /* NextAgentpeopeleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NextAgentpeopeleViewController.m; sourceTree = "<group>"; };
+		0EBB49EC1B0B2D8400D71902 /* numberbackss.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = numberbackss.png; sourceTree = "<group>"; };
 		0EC65C071AD8B55400282C04 /* RecordModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RecordModel.h; sourceTree = "<group>"; };
 		0EC65C081AD8B55400282C04 /* RecordModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RecordModel.m; sourceTree = "<group>"; };
 		0EC65C0A1AD8B80800282C04 /* OrderModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderModel.h; sourceTree = "<group>"; };
@@ -1135,6 +1137,7 @@
 			isa = PBXGroup;
 			children = (
 				1AABB8A11B06D70C001F5BCD /* AgreenMentController.h */,
+				0EBB49EC1B0B2D8400D71902 /* numberbackss.png */,
 				1AABB8A21B06D70C001F5BCD /* AgreenMentController.m */,
 				0D885FA31AD7D341002CDA15 /* IdentificationViewController.h */,
 				0D885FA41AD7D34A002CDA15 /* IdentificationViewController.m */,
@@ -2220,6 +2223,7 @@
 				0D024F321AEF2A2F005BB925 /* pad4@2x.png in Resources */,
 				0D024F281AEF1F74005BB925 /* pad3.png in Resources */,
 				0D024F241AEF1F6A005BB925 /* pad1.png in Resources */,
+				0EBB49ED1B0B2D8400D71902 /* numberbackss.png in Resources */,
 				0D024F261AEF1F6E005BB925 /* pad2.png in Resources */,
 				0D024F2A1AEF1F7A005BB925 /* pad4.png in Resources */,
 				0D16942E1AD3C15600B50A17 /* LICENCE in Resources */,

@@ -107,6 +107,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+
     self.view.backgroundColor=[UIColor whiteColor];
     _bankItems = [[NSMutableArray alloc] init];
     _channelItems = [[NSMutableArray alloc] init];
@@ -664,7 +665,7 @@
             }
             else
             {
-            newLB.text=@"结算银行账户名需与店铺姓名一致";
+            newLB.text=@"结算银行账户名需与店铺名称一致";
             }
             
 
@@ -1419,17 +1420,20 @@
         imagePickerController.allowsEditing = YES;
         imagePickerController.sourceType = sourceType;
         
+       [imagePickerController.navigationBar setBackgroundImage:[UIImage imageNamed:@"numberbackss"] forBarMetrics:UIBarMetricsDefault];
+
         UIPopoverController *popover = [[UIPopoverController alloc] initWithContentViewController:imagePickerController];
         popover.delegate = self;
         self.popViewController = popover;//对局部UIPopoverController对象popover我们赋给了一个全局的UIPopoverController对象popoverController
         // popover.popoverContentSize = CGSizeMake(SCREEN_WIDTH, SCREEN_HEIGHT);
-        
+
         if([[[UIDevice currentDevice] systemVersion] floatValue]>=8.0)
         {
             
             [[NSOperationQueue mainQueue] addOperationWithBlock:^{
                 
                 [self.popViewController presentPopoverFromRect:CGRectMake(self.view.frame.size.width/2.0, 0, 0, 42) inView:self.view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+                
                 
             }];
             
@@ -1879,10 +1883,10 @@
         
     [_infoDict setObject:textField.text forKey:[keynamesarry objectAtIndex:textField.tag-1056]];
     }
-    if (nameTF==textField&&_applyType==OpenApplyPrivate) {
-        NSString *string=[NSString stringWithFormat:@"%@", nameTF.text];
-        accountBankNameTF.text=string;
-    }
+//    if (nameTF==textField&&_applyType==OpenApplyPrivate) {
+//        NSString *string=[NSString stringWithFormat:@"%@", nameTF.text];
+//        accountBankNameTF.text=string;
+//    }
     if (merchantTF==textField) {
         accountBankNameTF.text=[NSString stringWithFormat:@"%@",merchantTF.text];
     }
@@ -1949,7 +1953,7 @@
     if (model) {
          NSLog(@"model:%@",model);
         NSLog(@"model.bank:%@",model.bankName);
-    [bankNameBtn setTitle:[NSString stringWithFormat:@"%@",model.bankName] forState:UIControlStateNormal];
+    [bankNameBtn setTitle:[NSString stringWithFormat:@"%@        ",model.bankName] forState:UIControlStateNormal];
    // bankIdTF.text=model.bankCode;
         if([_selectedKey isEqualToString: @"key_bankID"])
         {

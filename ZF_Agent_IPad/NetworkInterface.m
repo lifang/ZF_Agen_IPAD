@@ -2323,13 +2323,19 @@ static NSString *HTTP_GET  = @"GET";
         [paramDict setObject:[EncryptHelper MD5_encryptWithString:confirm] forKey:@"pwd1"];
     }
     [paramDict setObject:[NSNumber numberWithInt:agentType] forKey:@"agentType"];
+    if (companyName) {
+        [paramDict setObject:companyName forKey:@"companyName"];
+    }
+    else {
+        [paramDict setObject:@"" forKey:@"companyName"];
+    }
+    if (licenseID) {
+        [paramDict setObject:licenseID forKey:@"companyId"];
+    }
+    else {
+        [paramDict setObject:@"" forKey:@"companyId"];
+    }
     if (agentType == AgentTypeCompany) {
-        if (companyName) {
-            [paramDict setObject:companyName forKey:@"companyName"];
-        }
-        if (licenseID) {
-            [paramDict setObject:licenseID forKey:@"companyId"];
-        }
         if (taxID) {
             [paramDict setObject:taxID forKey:@"taxNumStr"];
         }
@@ -2360,7 +2366,10 @@ static NSString *HTTP_GET  = @"GET";
         [paramDict setObject:cardImagePath forKey:@"cardPhotoPath"];
     }
     [paramDict setObject:[NSNumber numberWithInt:hasProfit] forKey:@"isProfit"];
+    
+    //已加密传递
     [paramDict setObject:[NSNumber numberWithBool:YES] forKey:@"isEncrypt"];
+
 
     //url
     NSString *urlString = [NSString stringWithFormat:@"%@/%@",kServiceURL,s_subAgentCreate_method];
