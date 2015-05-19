@@ -32,7 +32,7 @@
 
     
     [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
-    
+    self.isFirst = NO;
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     self.window.backgroundColor = [UIColor whiteColor];
     _rootViewController = [[RootViewController alloc] init];

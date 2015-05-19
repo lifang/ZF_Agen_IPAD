@@ -46,6 +46,7 @@ typedef enum {
 - (void)saveLoginInfo:(NSDictionary *)dict;
 //登录后返回
 -(void)clearLoginInfo;
+@property(nonatomic,assign)BOOL isFirst;
 
 @end
 
