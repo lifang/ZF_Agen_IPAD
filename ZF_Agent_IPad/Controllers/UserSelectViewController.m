@@ -168,6 +168,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     UserModel *model = [_dataItem objectAtIndex:indexPath.row];
+    [self searchBarCancelButtonClicked:_searchBar];
     if (_delegate && [_delegate respondsToSelector:@selector(selectedUser:)]) {
         [_delegate selectedUser:model];
     }
