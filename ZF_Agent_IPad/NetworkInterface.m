@@ -2775,6 +2775,7 @@ static NSString *HTTP_GET  = @"GET";
     
 }
 
+
 +(void)getappVersionWithTypes:(NSString*)types finished:(requestDidFinished)finish
 {
     //参数
@@ -2783,6 +2784,7 @@ static NSString *HTTP_GET  = @"GET";
     NSString *urlString=[NSString stringWithFormat:@"%@/%@",kServiceURL,s_appVersion_method];
     [[self class]requestWithURL:urlString params:paramDict httpMethod:HTTP_POST finished:finish];
 }
+
 + (void)uploadPushInfoWithUserID:(NSString *)userID
                      channelInfo:(NSString *)channelInfo
                         finished:(requestDidFinished)finish {
