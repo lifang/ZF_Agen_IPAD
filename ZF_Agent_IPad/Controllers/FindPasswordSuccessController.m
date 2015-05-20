@@ -59,7 +59,7 @@
     
     UIButton *loginBtn = [[UIButton alloc]init];
     [loginBtn addTarget:self action:@selector(loginClick) forControlEvents:UIControlEventTouchUpInside];
-    [loginBtn setTitle:@"马上登陆" forState:UIControlStateNormal];
+    [loginBtn setTitle:@"马上登录" forState:UIControlStateNormal];
     [loginBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     loginBtn.titleLabel.font = mainFont;
     [loginBtn setBackgroundColor:kMainColor];

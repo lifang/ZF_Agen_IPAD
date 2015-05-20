@@ -57,7 +57,8 @@
 @property(nonatomic,strong)UIView *firstLine;
 @property(nonatomic,strong)UIView *secondLine;
 
-@property(nonatomic,assign)BOOL isAdd;
+@property(nonatomic,assign)BOOL isEmialAdd;
+@property(nonatomic,assign)BOOL isPhoneAdd;
 
 @end
 
@@ -295,7 +296,7 @@
     [_getAuthCodeBtn setTitle:@"修改" forState:UIControlStateNormal];
     if ([_principalPhoneOrEmailField.text isEqualToString:@""]) {
         [_getAuthCodeBtn setTitle:@"去添加" forState:UIControlStateNormal];
-        _isAdd = YES;
+        _isPhoneAdd = YES;
     }
     [_getAuthCodeBtn addTarget:self action:@selector(changePhoneClicked) forControlEvents:UIControlEventTouchUpInside];
     [self setBtn:_getAuthCodeBtn withTopView:_principalCardField middleSpace:mainMargin buttonTag:1];
@@ -304,7 +305,7 @@
     [_makeSureBtn setTitle:@"修改" forState:UIControlStateNormal];
     if ([_authCodeField.text isEqualToString:@""]) {
         [_makeSureBtn setTitle:@"去添加" forState:UIControlStateNormal];
-        _isAdd = YES;
+        _isEmialAdd = YES;
     }
      [_makeSureBtn addTarget:self action:@selector(changeEmailClicked) forControlEvents:UIControlEventTouchUpInside];
     [self setBtn:_makeSureBtn withTopView:_getAuthCodeBtn middleSpace:mainMargin buttonTag:2];
@@ -752,7 +753,7 @@
 
 -(void)changePhoneClicked
 {
-    if (_isAdd) {
+    if (_isPhoneAdd) {
         AddMessageController *addVC = [[AddMessageController alloc]init];
         addVC.hidesBottomBarWhenPushed = YES;
         addVC.isPhone = YES;
@@ -767,7 +768,7 @@
 
 -(void)changeEmailClicked
 {
-    if (_isAdd) {
+    if (_isEmialAdd) {
         AddMessageController *addVC = [[AddMessageController alloc]init];
         addVC.hidesBottomBarWhenPushed = YES;
         addVC.isEmial = YES;

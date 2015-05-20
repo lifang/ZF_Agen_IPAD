@@ -26,6 +26,7 @@
 #import "VideoAuthController.h"
 #import "VideoAuthViewController.h"
 #import "AgreenMentController.h"
+#import "FindPasswordSuccessController.h"
 
 
 @interface TerminalViewController ()<UITableViewDelegate,UITableViewDataSource,RefreshDelegate,terminalCellSendBtnClicked,UITextViewDelegate,UITextFieldDelegate,UIPickerViewDataSource,UIPickerViewDelegate,UIPopoverControllerDelegate,UIPopoverPresentationControllerDelegate,SelectedAddressDelegate,SelectedUserDelegate,SelectedTerminalDelegate,SearchDelegate>
@@ -691,6 +692,10 @@
 
 -(void)UserBtnclick:(id)sender
 {
+//    FindPasswordSuccessController *findV = [[FindPasswordSuccessController alloc]init];
+//    [_findPosView setHidden:YES];
+//    findV.hidesBottomBarWhenPushed = YES;
+//    [self.navigationController pushViewController:findV animated:YES];
 
     UserSelectViewController *UserSC=[[UserSelectViewController alloc] init];
     UserSC.hidesBottomBarWhenPushed=YES;
@@ -1356,8 +1361,12 @@
                     hud.labelText = [NSString stringWithFormat:@"%@",[object objectForKey:@"message"]];
                 }
                 else if ([errorCode intValue] == RequestSuccess) {
-                    [self removePOSView];
+                    
                      hud.labelText = @"提交申请成功";
+                    
+                    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.4 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                       [self removePOSView];
+                    });
             
                 }
             }
@@ -1393,7 +1402,10 @@
                 }
                 else if ([errorCode intValue] == RequestSuccess) {
                     hud.labelText = @"绑定终端成功";
-                    [self removePOSView];
+                    [hud hide:YES afterDelay:0.3f];
+                    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.4 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                        [self removePOSView];
+                    });
                     
                 }
             }
@@ -1433,10 +1445,12 @@
                     hud.labelText = [NSString stringWithFormat:@"%@",[object objectForKey:@"message"]];
                 }
                 else if ([errorCode intValue] == RequestSuccess) {
-                    [hud hide:YES];
                     hud.labelText = @"添加成功";
-                   [_secondView removeFromSuperview];
-                    
+                    [hud hide:YES afterDelay:0.5f];
+                    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.6 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                        
+                        [_secondView removeFromSuperview];
+                    });
                 }
             }
             else {

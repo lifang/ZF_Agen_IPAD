@@ -296,6 +296,7 @@
 #pragma mark - staffBtn Delegate
 -(void)staffClickedWithButton:(StaffButton *)button
 {
+    [_makeSureField resignFirstResponder];
     if (button.tag == 5001) {
         NSLog(@"点击了第一个空格 并且状态为%d",_firstBtn.isSelected);
         if (_firstBtn.isSelected) {
