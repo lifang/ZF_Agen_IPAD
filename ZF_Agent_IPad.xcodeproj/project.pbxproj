@@ -148,6 +148,9 @@
 		0ED1948B1AD7A01B00029DE3 /* TradeModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0ED1948A1AD7A01B00029DE3 /* TradeModel.m */; };
 		0ED194941AD7AC2100029DE3 /* DealRoadController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0ED194931AD7AC2100029DE3 /* DealRoadController.m */; };
 		0ED194971AD7CC2700029DE3 /* TradeAgentModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0ED194961AD7CC2700029DE3 /* TradeAgentModel.m */; };
+		0ED214251B0C7658005F4844 /* libBPush.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0ED214241B0C7658005F4844 /* libBPush.a */; };
+		0ED214271B0C7B11005F4844 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 0ED214261B0C7B11005F4844 /* libz.dylib */; };
+		0ED214291B0C7B2B005F4844 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0ED214281B0C7B2B005F4844 /* CoreTelephony.framework */; };
 		0ED5899B1AE7621200EFD931 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0ED5899A1AE7621200EFD931 /* SystemConfiguration.framework */; };
 		0ED589FF1AE7682F00EFD931 /* AlipaySDK.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 0ED5899D1AE7682F00EFD931 /* AlipaySDK.bundle */; };
 		0ED58A001AE7682F00EFD931 /* AlipaySDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0ED5899E1AE7682F00EFD931 /* AlipaySDK.framework */; };
@@ -571,6 +574,10 @@
 		0ED194931AD7AC2100029DE3 /* DealRoadController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DealRoadController.m; sourceTree = "<group>"; };
 		0ED194951AD7CC2700029DE3 /* TradeAgentModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TradeAgentModel.h; sourceTree = "<group>"; };
 		0ED194961AD7CC2700029DE3 /* TradeAgentModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TradeAgentModel.m; sourceTree = "<group>"; };
+		0ED214231B0C7658005F4844 /* BPush.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BPush.h; sourceTree = "<group>"; };
+		0ED214241B0C7658005F4844 /* libBPush.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libBPush.a; sourceTree = "<group>"; };
+		0ED214261B0C7B11005F4844 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
+		0ED214281B0C7B2B005F4844 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
 		0ED5899A1AE7621200EFD931 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		0ED5899D1AE7682F00EFD931 /* AlipaySDK.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = AlipaySDK.bundle; sourceTree = "<group>"; };
 		0ED5899E1AE7682F00EFD931 /* AlipaySDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AlipaySDK.framework; sourceTree = "<group>"; };
@@ -984,6 +991,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0ED214291B0C7B2B005F4844 /* CoreTelephony.framework in Frameworks */,
+				0ED214271B0C7B11005F4844 /* libz.dylib in Frameworks */,
 				1AAA570D1B05A5A400196E03 /* CoreText.framework in Frameworks */,
 				0ECEB58D1AEA184900CE217D /* QuartzCore.framework in Frameworks */,
 				0ECEB5C01AEA19C700CE217D /* libaudio_processing.a in Frameworks */,
@@ -1021,6 +1030,7 @@
 				0ED5899B1AE7621200EFD931 /* SystemConfiguration.framework in Frameworks */,
 				0ED58A001AE7682F00EFD931 /* AlipaySDK.framework in Frameworks */,
 				0ED58A011AE7682F00EFD931 /* libcrypto.a in Frameworks */,
+				0ED214251B0C7658005F4844 /* libBPush.a in Frameworks */,
 				0ECEB5C31AEA19C700CE217D /* libcommon_audio.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1296,6 +1306,15 @@
 				0E487EE51B03794400D724FE /* StatisticTradeController.m */,
 			);
 			name = DealFlow;
+			sourceTree = "<group>";
+		};
+		0ED214221B0C763A005F4844 /* LibBPush */ = {
+			isa = PBXGroup;
+			children = (
+				0ED214231B0C7658005F4844 /* BPush.h */,
+				0ED214241B0C7658005F4844 /* libBPush.a */,
+			);
+			name = LibBPush;
 			sourceTree = "<group>";
 		};
 		0ED5892D1AE742F700EFD931 /* AlipayHelper */ = {
@@ -1706,6 +1725,8 @@
 		1AF15A7D1ACCDB8C00D5C171 = {
 			isa = PBXGroup;
 			children = (
+				0ED214281B0C7B2B005F4844 /* CoreTelephony.framework */,
+				0ED214261B0C7B11005F4844 /* libz.dylib */,
 				1AAA570C1B05A5A400196E03 /* CoreText.framework */,
 				0ECEB58C1AEA184900CE217D /* QuartzCore.framework */,
 				0ECEB58A1AEA183B00CE217D /* CoreVideo.framework */,
@@ -1805,6 +1826,7 @@
 		1AF15AB21ACCE33300D5C171 /* Labrary */ = {
 			isa = PBXGroup;
 			children = (
+				0ED214221B0C763A005F4844 /* LibBPush */,
 				0ECEB5921AEA196100CE217D /* AnyChat */,
 				0ED5899C1AE7682F00EFD931 /* Alipay */,
 				0ED58EEC1AD4DA750081E8BC /* MJ */,

@@ -13,6 +13,7 @@
 #import "FindPasswordViewController.h"
 #import "RegisterViewController.h"
 #import "ApplyViewController.h"
+#import "BPush.h"
 
 @interface LoginViewController ()<UITextFieldDelegate>
 @property(nonatomic,strong)UITextField *userField;
@@ -320,6 +321,8 @@
        ]) {
         return;
     }
+    [BPush bindChannel];
+
     NSDictionary *infoDict = [dict objectForKey:@"result"];
     NSString *token = @"123";
     NSString *userID = [NSString stringWithFormat:@"%@",[infoDict objectForKey:@"id"]];
