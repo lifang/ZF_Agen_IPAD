@@ -790,7 +790,11 @@
 
             
             }
+            neworiginaltextfield.leftViewMode = UITextFieldViewModeAlways;
             
+            UIView *v = [[UIView alloc]init];
+            v.frame = CGRectMake(0, 0, 10, 40);
+            neworiginaltextfield.leftView = v;
             neworiginaltextfield.delegate=self;
             
             neworiginaltextfield.tag=i+1056;
@@ -933,7 +937,12 @@
                 
                 
             }
-           
+            neworiginaltextfield.leftViewMode = UITextFieldViewModeAlways;
+            
+            UIView *v = [[UIView alloc]init];
+            v.frame = CGRectMake(0, 0, 10, 40);
+            neworiginaltextfield.leftView = v;
+
             neworiginaltextfield.tag=i+10560;
             neworiginaltextfield.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
             [_scrollView addSubview:neworiginaltextfield];
@@ -1151,6 +1160,12 @@
 
             
         }
+        neworiginaltextfield.leftViewMode = UITextFieldViewModeAlways;
+        
+        UIView *v = [[UIView alloc]init];
+        v.frame = CGRectMake(0, 0, 10, 40);
+        neworiginaltextfield.leftView = v;
+
         neworiginaltextfield.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
         [_scrollView addSubview:neworiginaltextfield];
         //        neworiginaltextfield.delegate=self;

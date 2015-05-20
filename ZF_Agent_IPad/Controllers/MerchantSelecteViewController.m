@@ -14,13 +14,15 @@
 #import "MerchantDetailModel.h"
 #import "MerchantSelectCell.h"
 
-@interface MerchantSelecteViewController ()<UITableViewDataSource,UITableViewDelegate,RefreshDelegate>
+@interface MerchantSelecteViewController ()<UITableViewDataSource,UITableViewDelegate,RefreshDelegate,UISearchBarDelegate>
 
 @property (nonatomic, strong) NSMutableArray *MerchantItems;
 @property(nonatomic,strong) UITableView *tableView;
 
 @property (nonatomic, assign) BOOL isMultiDelete;
+@property (nonatomic, strong) UISearchBar *searchBar;
 
+@property (nonatomic, strong) NSString *searchUserName; //搜索的代理商名
 /***************上下拉刷新**********/
 @property (nonatomic, strong) RefreshView *topRefreshView;
 @property (nonatomic, strong) RefreshView *bottomRefreshView;
@@ -37,6 +39,17 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    UIButton *rightBtn = [[UIButton alloc]init];
+    [rightBtn addTarget:self action:@selector(rightClicked) forControlEvents:UIControlEventTouchUpInside];
+    rightBtn.frame = CGRectMake(0, 0, 50, 50);
+    [rightBtn setImage:[UIImage imageNamed:@"search_White"] forState:UIControlStateNormal];
+    UIBarButtonItem *kongBar = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
+    kongBar.width = 30.f;
+    UIBarButtonItem *rightBar = [[UIBarButtonItem alloc]initWithCustomView:rightBtn];
+    NSArray *rightArr = [NSArray arrayWithObjects:kongBar,rightBar, nil];
+    self.navigationItem.rightBarButtonItems = rightArr;
+    [self setupSearchBar];
+
     self.title=@"选择已有商户";
     self.view.backgroundColor=[UIColor whiteColor];
       _MerchantItems = [[NSMutableArray alloc] init];
@@ -45,6 +58,51 @@
 }
 
 #pragma mark - UI
+-(void)setupSearchBar
+{
+    _searchBar = [[UISearchBar alloc] init];
+    _searchBar.placeholder = @"请输入用户名称";
+    _searchBar.delegate = self;
+    _searchBar.showsCancelButton = YES;
+    _searchBar.backgroundColor = [UIColor blackColor];
+    _searchBar.hidden = YES;
+    _searchBar.frame = CGRectMake(0, 0, SCREEN_WIDTH, 70);
+    if (iOS7) {
+        _searchBar.frame = CGRectMake(0, 0, SCREEN_HEIGHT, 70);
+    }
+    [self.navigationController.view addSubview:_searchBar];
+}
+
+-(void)rightClicked
+{
+    _searchBar.hidden = NO;
+    [_searchBar becomeFirstResponder];
+}
+
+#pragma mark - Set
+
+- (void)setSearchUserName:(NSString *)searchUserName {
+    _searchUserName = searchUserName;
+    [self firstLoadData];
+}
+
+#pragma mark - UISearchBarDelegate
+
+- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar {
+    [_searchBar resignFirstResponder];
+    _searchBar.hidden = YES;
+    if (self.searchUserName && ![self.searchUserName isEqualToString:@""]) {
+        _searchBar.text = @"";
+        self.searchUserName = _searchBar.text;
+    }
+}
+
+- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
+    [_searchBar resignFirstResponder];
+    _searchBar.hidden = YES;
+    self.searchUserName = _searchBar.text;
+}
+
 
 
 - (void)initAndLayoutUI {
@@ -94,7 +152,7 @@
     AppDelegate *delegate = [AppDelegate shareAppDelegate];
     NSLog(@"Are you OK");
     
-    [NetworkInterface getMerchantListWithToken:delegate.token terminalId:_terminalID page:page rows:kPageSize title:@"" finished:^(BOOL success, NSData *response) {
+    [NetworkInterface getMerchantListWithToken:delegate.token terminalID:_terminalID keyword:_searchUserName page:page rows:kPageSize * 2 finished:^(BOOL success, NSData *response) {
         hud.customView = [[UIImageView alloc] init];
         hud.mode = MBProgressHUDModeCustomView;
         [hud hide:YES afterDelay:0.3f];

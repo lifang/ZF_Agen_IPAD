@@ -450,6 +450,27 @@ static NSString *HTTP_GET  = @"GET";
 
 //18.
 + (void)getMerchantListWithToken:(NSString *)token
+                      terminalID:(NSString *)terminalID
+                         keyword:(NSString *)merchantName
+                            page:(int)page rows:(int)rows
+                        finished:(requestDidFinished)finish{
+    //参数
+    NSMutableDictionary *paramDict = [[NSMutableDictionary alloc] init];
+    [paramDict setObject:[NSNumber numberWithInt:[terminalID intValue]] forKey:@"terminalId"];
+    if (merchantName) {
+        [paramDict setObject:merchantName forKey:@"title"];
+    }
+    [paramDict setObject:[NSNumber numberWithInt:page] forKey:@"page"];
+    [paramDict setObject:[NSNumber numberWithInt:rows] forKey:@"rows"];
+    //url
+    NSString *urlString = [NSString stringWithFormat:@"%@/%@",kServiceURL,s_merchantList_method];
+    [[self class] requestWithURL:urlString
+                          params:paramDict
+                      httpMethod:HTTP_POST
+                        finished:finish];
+}
+
++ (void)getMerchantListWithToken:(NSString *)token
                           terminalId:(NSString *)terminalId
                               page:(int)page
                               rows:(int)rows

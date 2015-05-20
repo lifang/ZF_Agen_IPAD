@@ -459,8 +459,8 @@
             payToLabel.text = [NSString stringWithFormat:@"转 入 账 号   %@",[self serectString:_payToAccount]];
             break;
         case TradeTypeLife:
-            payFromLabel.text = [NSString stringWithFormat:@"账   户   名   %@",_accountName];
-            payToLabel.text = [NSString stringWithFormat:@"账 户 号 码   %@",_accountNumber];
+            payFromLabel.text = [NSString stringWithFormat:@"账   户   名   %@",[self serectNameString:_accountName]];
+            payToLabel.text = [NSString stringWithFormat:@"账 户 号 码   %@",[self serectString:_accountNumber]];
             break;
         case TradeTypeTelephoneFare:
             payFromLabel.text = [NSString stringWithFormat:@"手 机 号 码   %@",[self serectString:_phoneNumber]];

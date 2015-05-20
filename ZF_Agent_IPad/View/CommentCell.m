@@ -283,7 +283,11 @@
 
     
     
-    
+    if([self isBlankString:model.content])
+    {
+        model.content=@"";
+        
+    }
     
 //    _timeLabel.text = model.createTime;
     _contentLabel.text = model.content;
