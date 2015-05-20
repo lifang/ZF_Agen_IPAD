@@ -27,6 +27,7 @@
 //#define kServiceURL @"http://121.40.64.167:9090/api"
 #define kServiceURL @"http://121.40.84.2:28080/ZFAgent/api"
 //#define kServiceURL @"http://agent.ebank007.com/api"
+#define kAppChannel  7  //推送channel
 
 
 #define kImageName(name) [UIImage imageNamed:name]

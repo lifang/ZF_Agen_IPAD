@@ -97,19 +97,19 @@
         AddressModel *model = [[AddressModel alloc] initWithParseDictionary:addressDict];
         [addressarry addObject:model];
         
-//        if([model.addressID isEqualToString:@"1"])
-//            
-//        {
-//            
-//            B=i+1;
-//            
-//            
-//            
-//            
-//            
-//            
-//            
-//        }
+        if([model.isDefault isEqualToString:@"1"])
+            
+        {
+            
+   
+            _ishaveaddress=YES;
+            
+            
+            
+            
+            
+            
+        }
         
         
     }

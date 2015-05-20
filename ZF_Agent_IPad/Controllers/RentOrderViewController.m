@@ -2180,19 +2180,43 @@
         
         else
         {
-            if([model.isDefault isEqualToString:@"1"])
+            if(self.ishaveaddress)
             {
-                cell.logoabel.text=@"默认";
-                cell.logoImageView.image=kImageName(@"select_height") ;
-                
-                
-            }
-            else
+                if([model.isDefault isEqualToString:@"1"])
+                {
+                    cell.logoabel.text=@"默认";
+                    cell.logoImageView.image=kImageName(@"select_height") ;
+                    
+                    
+                }
+                else
+                {
+                    cell.logoabel.text=@"";
+                    
+                    cell.logoImageView.image=kImageName(@"") ;
+                    
+                }
+
+            
+            }else
             {
-                cell.logoabel.text=@"";
-                
-                cell.logoImageView.image=kImageName(@"") ;
-                
+            
+                if(indexPath.row==0)
+                {
+                    cell.logoabel.text=@"";
+                    cell.logoImageView.image=kImageName(@"select_height") ;
+                    
+                    
+                }
+                else
+                {
+                    cell.logoabel.text=@"";
+                    
+                    cell.logoImageView.image=kImageName(@"") ;
+                    
+                }
+
+            
             }
             
             

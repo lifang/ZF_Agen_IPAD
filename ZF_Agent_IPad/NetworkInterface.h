@@ -408,12 +408,24 @@ static NSString *s_goodImage_method = @"good/getGoodImgUrl";
 
 //获取所有用户
 static NSString *s_AllUserList_method = @"terminal/getCustomer";
+<<<<<<< HEAD
 
 //获取app版本
 static NSString *s_appVersion_method = @"index/getVersion";
 
 
+=======
+//推送
+static NSString *s_push_method = @"agents/sendDeviceCode";
+>>>>>>> 160b88111c57ed459e006b225b4380a71d56e9bf
 @interface NetworkInterface : NSObject
+
+
+
+
++ (void)uploadPushInfoWithUserID:(NSString *)userID
+                     channelInfo:(NSString *)channelInfo
+                        finished:(requestDidFinished)finish;
 + (void)getMerchantListWithToken:(NSString *)token
                       terminalID:(NSString *)terminalID
                          keyword:(NSString *)merchantName

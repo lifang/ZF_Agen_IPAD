@@ -10,16 +10,22 @@
 #import "AccountTool.h"
 #import <AlipaySDK/AlipaySDK.h>
 #import "GuideUIViewController.h"
+#import "BPush.h"
+#import "NetworkInterface.h"
 
+<<<<<<< HEAD
 #import "NetworkInterface.h"
 
 @interface AppDelegate ()
+=======
+@interface AppDelegate ()<BPushDelegate>
+>>>>>>> 160b88111c57ed459e006b225b4380a71d56e9bf
 
 @end
 
 @implementation AppDelegate
 + (AppDelegate *)shareAppDelegate {
-    return [UIApplication sharedApplication].delegate;
+    return (AppDelegate *)[UIApplication sharedApplication].delegate;
     
 }
 
@@ -33,7 +39,31 @@
         
     _authDict = [[NSMutableDictionary alloc] init];
 
-    
+    // iOS8 下需要使⽤用新的 API
+    if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 8.0) {
+        UIUserNotificationType myTypes = UIUserNotificationTypeBadge | UIUserNotificationTypeSound
+        | UIUserNotificationTypeAlert;
+        UIUserNotificationSettings *settings = [UIUserNotificationSettings settingsForTypes:myTypes
+                                                                                 categories:nil];
+        [[UIApplication sharedApplication] registerUserNotificationSettings:settings];
+    }
+    else {
+        UIRemoteNotificationType myTypes = UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeAlert | UIRemoteNotificationTypeSound;
+        [[UIApplication sharedApplication] registerForRemoteNotificationTypes:myTypes];
+    }
+    // 在 App 启动时注册百度云推送服务,需要提供 Apikey
+    [BPush registerChannel:launchOptions apiKey:@"7OqFwW72f3vKiAGzvqoMUOSc" pushMode:BPushModeDevelopment isDebug:NO];
+    // 设置 BPush 的回调
+    [BPush setDelegate:self];
+    // App 是⽤用户点击推送消息启动
+    NSLog(@"!@#!#!%@",launchOptions);
+    NSDictionary *userInfo = [launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
+    if (userInfo) {
+        NSLog(@"!!!!%@",userInfo);
+        [BPush handleNotification:userInfo];
+        [self showNotificationViewWithInfo:userInfo pushLaunch:YES];
+    }
+
     [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
     self.isFirst = NO;
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
@@ -51,6 +81,93 @@
    
     return YES;
 }
+//百度推送*******************************************
+- (void)application:(UIApplication *)application didRegisterUserNotificationSettings:(UIUserNotificationSettings *)notificationSettings {
+    [application registerForRemoteNotifications];
+}
+
+- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
+    [BPush registerDeviceToken:deviceToken];
+    //    [BPush bindChannel];
+}
+
+// 当 DeviceToken 获取失败时,系统会回调此⽅方法
+- (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:( NSError *)error {
+    NSLog(@"DeviceToken 获取失败,原因:%@",error);
+}
+
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
+    // App 收到推送通知
+    [BPush handleNotification:userInfo];
+    if (application.applicationState == UIApplicationStateActive) {
+        //前台
+        NSLog(@"active");
+        self.messageCount ++;
+        NSDictionary *messageDict = [NSDictionary dictionaryWithObjectsAndKeys:
+                                     [NSNumber numberWithInt:self.messageCount],s_messageTab,
+                                     nil];
+        [[NSNotificationCenter defaultCenter] postNotificationName:ShowTabBadgeNotification object:nil userInfo:messageDict];
+    }
+    else {
+        //后台
+        NSLog(@"unactive");
+        [self showNotificationViewWithInfo:userInfo pushLaunch:NO];
+    }
+    [application setApplicationIconBadgeNumber:0];
+    
+}
+
+//收到通知弹出到通知界面
+- (void)showNotificationViewWithInfo:(NSDictionary *)userInfo pushLaunch:(BOOL)pushLaunch {
+    [[UIApplication sharedApplication] setApplicationIconBadgeNumber:1];
+    [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
+    NSString *messageID = nil;
+    if ([userInfo objectForKey:@"msgId"] && ![[userInfo objectForKey:@"msgId"] isKindOfClass:[NSNull class]]) {
+        messageID = [NSString stringWithFormat:@"%@",[userInfo objectForKey:@"msgId"]];
+    }
+    if (self.agentUserID) {
+//        MessageDetailController *detailC = [[MessageDetailController alloc] init];
+//        UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:detailC];
+//        detailC.messageID = messageID;
+//        detailC.isFromPush = YES;
+//        [NavigationBarAttr setNavigationBarStyle:nav];
+//        [self.window.rootViewController presentViewController:nav animated:YES completion:nil];
+    }
+    else {
+        [self.rootViewController showLoginViewController];
+    }
+}
+
+- (void)onMethod:(NSString*)method response:(NSDictionary *)data {
+    NSLog(@"On method:%@", method);
+    NSLog(@"data:%@", [data description]);
+    NSDictionary* res = [[NSDictionary alloc] initWithDictionary:data];
+    if ([BPushRequestMethodBind isEqualToString:method]) {
+        NSString *appid = [res valueForKey:BPushRequestAppIdKey];
+        NSString *userid = [res valueForKey:BPushRequestUserIdKey];
+        NSString *channelid = [res valueForKey:BPushRequestChannelIdKey];
+        int returnCode = [[res valueForKey:BPushRequestErrorCodeKey] intValue];
+        NSLog(@"tttt = %@,%@,%@,%d",appid ,userid, channelid,returnCode);
+        if (returnCode == 0) {
+            [self uploadPushChannel:channelid];
+        }
+        
+    } else if ([BPushRequestMethodUnbind isEqualToString:method]) {
+        
+    }
+    
+}
+
+//绑定成功向服务端提交信息
+- (void)uploadPushChannel:(NSString *)channel {
+    NSString *appInfo = [NSString stringWithFormat:@"%d%@",kAppChannel,channel];
+    [NetworkInterface uploadPushInfoWithUserID:self.agentUserID channelInfo:appInfo finished:^(BOOL success, NSData *response) {
+        NSLog(@"!!%@",[[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding]);
+    }];
+}
+
+//***************************************************
+
 
 -(void)clearLoginInfo
 {
