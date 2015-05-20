@@ -53,6 +53,7 @@ static NSString *RefreshShoppingCartNotification = @"RefreshShoppingCartNotifica
 @property (nonatomic, assign) BillType billType;
 
 @property (nonatomic, assign) PushWay pushWay;
+@property (nonatomic, assign) BOOL ishaveaddress;
 
 @property (nonatomic, strong) AddressModel *defaultAddress;
 

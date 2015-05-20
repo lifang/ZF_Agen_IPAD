@@ -616,10 +616,10 @@ typedef enum {
                     }
 
                     UILabel *invoceTypeLabel = [[UILabel alloc] initWithFrame:CGRectMake(wide/2, 10 + height, wide/2, 20.f)];
-                    [self setLabel:invoceTypeLabel withString:[NSString stringWithFormat:@"发票类型：%@",_orderDetail.invoceType]];
+                    [self setLabel:invoceTypeLabel withString:[NSString stringWithFormat:@"发票类型：%@",invoiceType]];
                     [cell.contentView addSubview:invoceTypeLabel];
                     UILabel *invoceTitleLabel = [[UILabel alloc] initWithFrame:CGRectMake(wide/2, 30 + height, wide/2, 20.f)];
-                    [self setLabel:invoceTitleLabel withString:[NSString stringWithFormat:@"发票抬头：%@",_orderDetail.invoceTitle]];
+                    [self setLabel:invoceTitleLabel withString:[NSString stringWithFormat:@"发票抬头：%@",invoiceTitle]];
                     
                     [cell.contentView addSubview:invoceTitleLabel];
                 }
