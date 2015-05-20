@@ -13,6 +13,7 @@
 #import "BPush.h"
 #import "NetworkInterface.h"
 
+
 @interface AppDelegate ()<BPushDelegate>
 
 @end
@@ -30,6 +31,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
+        
     _authDict = [[NSMutableDictionary alloc] init];
 
     // iOS8 下需要使⽤用新的 API

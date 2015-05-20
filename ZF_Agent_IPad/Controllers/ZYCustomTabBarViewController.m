@@ -10,6 +10,7 @@
 #define SLIDE_ANIMATION_DURATION 0
 #import "ZYCustomTabBarViewController.h"
 #import "MBProgressHUD.h"
+#import "NetworkInterface.h"
 #import "BPush.h"
 
 @interface ZYCustomTabBarViewController()
@@ -540,6 +541,7 @@
     [examineBtn setTitleColor:kColor(57, 57, 57, 1.0) forState:UIControlStateNormal];
     examineBtn.contentHorizontalAlignment=UIControlContentHorizontalAlignmentLeft;
     examineBtn.frame = CGRectMake(50, CGRectGetMaxY(line2.frame) + 20, 200, 40);
+    [examineBtn addTarget:self action:@selector(examVersion:) forControlEvents:UIControlEventTouchUpInside];
     [whiteView addSubview:examineBtn];
 
     UIView *line3 = [[UIView alloc]init];
@@ -570,12 +572,14 @@
     [_noticeSwitch addTarget:self action:@selector(switchAction:) forControlEvents:UIControlEventValueChanged];
     [whiteView addSubview:_noticeSwitch];
     
-    UILabel *versionsLabel = [[UILabel alloc]init];
-    versionsLabel.textColor = kColor(156, 155, 154, 1.0);
-    versionsLabel.font = [UIFont systemFontOfSize:20];
-    versionsLabel.text = @"V1.0.1";
-    versionsLabel.frame = CGRectMake(CGRectGetMaxX(getNews.frame) + 50, CGRectGetMaxY(line2.frame) + 15, 85, 50);
-    [whiteView addSubview:versionsLabel];
+    
+     NSString *version = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
+    _versionsLabel = [[UILabel alloc]init];
+    _versionsLabel.textColor = kColor(156, 155, 154, 1.0);
+    _versionsLabel.font = [UIFont systemFontOfSize:20];
+    _versionsLabel.text = [NSString stringWithFormat:@"V%@",version];
+    _versionsLabel.frame = CGRectMake(CGRectGetMaxX(getNews.frame) + 50, CGRectGetMaxY(line2.frame) + 15, 85, 50);
+    [whiteView addSubview:_versionsLabel];
     
     _memoryLabel = [[UILabel alloc]init];
     _memoryLabel.textColor = kColor(156, 155, 154, 1.0);
@@ -591,6 +595,91 @@
     [whiteView addSubview:clearBtn];
     [clearBtn addTarget:self action:@selector(clearImage) forControlEvents:UIControlEventTouchUpInside];
     
+}
+//检测版本
+-(void)examVersion:(UIButton*)sender
+{
+    MBProgressHUD *hud=[[MBProgressHUD alloc]init];
+    hud.labelText=@"正在检测...";
+    [self.view addSubview:hud];
+    
+    [NetworkInterface getappVersionWithTypes:@"6" finished:^(BOOL success, NSData *response) {
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:0.3f];
+        if (success) {
+            id object = [NSJSONSerialization JSONObjectWithData:response options:NSJSONReadingMutableLeaves error:nil];
+            NSLog(@"~~~~~-----------版本:%@",[[NSString alloc]initWithData:response encoding:NSUTF8StringEncoding]);
+            if ([object isKindOfClass:[NSDictionary class]])
+            {
+                [hud hide:YES];
+                int errorCode = [[object objectForKey:@"code"] intValue];
+                if (errorCode == RequestFail)
+                {
+                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示信息"
+                                                                    message:[object objectForKey:@"message"]
+                                                                   delegate:nil
+                                                          cancelButtonTitle:@"确定"
+                                                          otherButtonTitles:nil];
+                    [alert show];
+                }
+                else if (errorCode == RequestSuccess)
+                {
+                    //成功
+                    [self parseappVersionWithDictionary:object];
+                }
+            }
+            else {
+                hud.labelText = kServiceReturnWrong;
+            }
+        }
+        else {
+            hud.labelText = kNetworkFailed;
+        }
+    }];
+}
+
+-(void)parseappVersionWithDictionary:(NSDictionary*)dic
+{
+    if (![dic objectForKey:@"result"] || ![[dic objectForKey:@"result"]isKindOfClass:[NSDictionary class]])
+    {
+        return;
+    }
+    NSDictionary *info=[dic objectForKey:@"result"];
+    NSString*versions=[info objectForKey:@"versions"];
+    NSString*str=[NSString stringWithFormat:@"V%@",versions];
+    down_url=[info objectForKey:@"down_url"];
+    
+    if ([str isEqualToString:_versionsLabel.text])
+    {
+        //没有更新
+        UIAlertView *aler =[[UIAlertView alloc]initWithTitle:@"提示信息" message:@"当前是最新版本" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles: nil];
+        [aler show];
+    }else
+    {
+        //更新 加载网页
+        
+        UIAlertView *alertView=[[UIAlertView alloc]initWithTitle:@"提示信息" message:@"您确定要更新版本" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+        
+        [alertView show];
+    }
+    
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (buttonIndex==1)
+    {
+        [self updateAppWith:down_url];
+    }
+}
+-(void)updateAppWith:(NSString*)urlString
+{
+    UIWebView *webView=[[UIWebView alloc]initWithFrame:self.view.bounds];
+    NSURL *url=[NSURL URLWithString:urlString];
+    NSURLRequest *request=[NSURLRequest requestWithURL:url];
+    [webView loadRequest:request];
+    [self.view addSubview:webView];
 }
 
 -(void)clearImage
