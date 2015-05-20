@@ -11,6 +11,8 @@
 #import <AlipaySDK/AlipaySDK.h>
 #import "GuideUIViewController.h"
 
+#import "NetworkInterface.h"
+
 @interface AppDelegate ()
 
 @end
@@ -28,6 +30,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
+        
     _authDict = [[NSMutableDictionary alloc] init];
 
     

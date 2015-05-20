@@ -409,6 +409,10 @@ static NSString *s_goodImage_method = @"good/getGoodImgUrl";
 //获取所有用户
 static NSString *s_AllUserList_method = @"terminal/getCustomer";
 
+//获取app版本
+static NSString *s_appVersion_method = @"index/getVersion";
+
+
 @interface NetworkInterface : NSObject
 + (void)getMerchantListWithToken:(NSString *)token
                       terminalID:(NSString *)terminalID
@@ -1967,4 +1971,7 @@ finished:(requestDidFinished)finish;
                      finished:(requestDidFinished)finish;
 + (void)sendFindValidateWithMobileNumber:(NSString *)mobileNumber
                                 finished:(requestDidFinished)finish;
+
++(void)getappVersionWithTypes:(NSString*)types finished:(requestDidFinished)finish;
+
 @end
