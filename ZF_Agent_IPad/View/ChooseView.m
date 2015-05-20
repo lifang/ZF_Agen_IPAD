@@ -53,6 +53,12 @@
     [applyBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     self.applyBtn = applyBtn;
     [self addSubview:applyBtn];
+    UIButton *exitBtn = [[UIButton alloc]init];
+    exitBtn.titleLabel.font = [UIFont systemFontOfSize:18];
+    [exitBtn setTitle:@"退出" forState:UIControlStateNormal];
+    [exitBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    self.exitbtn = exitBtn;
+    [self addSubview:exitBtn];
     
     UIImageView *imageView = [[UIImageView alloc]init];
     imageView.image = kImageName(@"sanjiaoxing");
@@ -95,8 +101,9 @@
     _shopBtn.frame = CGRectMake(mainX, CGRectGetMaxY(_messageBtn.frame) + margin, BtnWidth, BtnHeight);
     
     _applyBtn.frame = CGRectMake(mainX - 40.f, CGRectGetMaxY(_shopBtn.frame) + margin, BtnWidth * 2, BtnHeight);
-    
-    for (int i = 0; i < 4; i ++) {
+    _exitbtn.frame = CGRectMake(mainX - 40.f, CGRectGetMaxY(_applyBtn.frame) + margin, BtnWidth * 2, BtnHeight);
+
+    for (int i = 0; i < 5; i ++) {
         UIView *line = [[UIView alloc]init];
         line.backgroundColor = kColor(98, 98, 98, 1.0);
         line.frame = CGRectMake(4, 90 + i * BtnHeight * 3, BtnWidth * 2 - 10, 1);
@@ -128,6 +135,11 @@
             _imageView.frame = CGRectMake(self.frame.size.width - 10, _applyBtn.frame.origin.y - 2, 10, 20);
             break;
             
+        case ChooseViewexit:
+            [_orderBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+            [_exitbtn setTitleColor:kColor(103, 167, 236, 1.0) forState:UIControlStateNormal];
+            _imageView.frame = CGRectMake(self.frame.size.width - 10, _exitbtn.frame.origin.y - 2, 10, 20);
+            break;
         default:
             break;
     }

@@ -706,6 +706,18 @@ typedef enum {
                     [terminalBtn addTarget:self action:@selector(scanTerminalNumber:) forControlEvents:UIControlEventTouchUpInside];
                     
                     [cell.contentView addSubview:terminalBtn];
+                    UIButton *logisticsBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+                    logisticsBtn.frame = CGRectMake(170, 5, 100, 30);
+                    logisticsBtn.layer.masksToBounds = YES;
+                    logisticsBtn.layer.borderWidth = 1.f;
+                    logisticsBtn.layer.borderColor = kColor(3, 112, 214, 1).CGColor;
+                    [logisticsBtn setTitleColor:kColor(3, 112, 214, 1) forState:UIControlStateNormal];
+                    [logisticsBtn setTitleColor:kColor(3, 112, 214, 1) forState:UIControlStateHighlighted];
+                    logisticsBtn.titleLabel.font = [UIFont boldSystemFontOfSize:14.f];
+                    [logisticsBtn setTitle:@"查看物流" forState:UIControlStateNormal];
+                    [logisticsBtn addTarget:self action:@selector(scanTerminalNumberhhhl) forControlEvents:UIControlEventTouchUpInside];
+                    
+                    [cell.contentView addSubview:logisticsBtn];
                     
                 }
 
@@ -728,6 +740,37 @@ typedef enum {
             break;
     }
     return cell;
+}
+-(void)scanTerminalNumberhhhl
+{
+
+    if([self isBlankString:_orderDetail.logisticCompany])
+    {
+        
+        _orderDetail.logisticCompany=@"暂无物流公司";
+        
+        
+        
+    }
+    
+    if([self isBlankString:_orderDetail.logisticNumber])
+    {
+        
+        _orderDetail.logisticNumber=@"暂无物流单号";
+        
+        
+        
+    }
+
+
+
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"物流信息"
+                                                    message:[NSString stringWithFormat:@"物流公司:%@,物流单号%@",_orderDetail.logisticCompany,_orderDetail.logisticNumber]
+                                                   delegate:self
+                                          cancelButtonTitle:@"确定"
+                                          otherButtonTitles:nil];
+    [alert show];
+
 }
 - (IBAction)scanTerminalNumber:(id)sender
 {

@@ -2541,7 +2541,9 @@ static NSString *HTTP_GET  = @"GET";
     [paramDict setObject:roles forKey:@"roles"];
 //    [paramDict setObject:loginID forKey:@"loginId"];
     if (password) {
-        [paramDict setObject:password forKey:@"pwd"];
+       NSString*encryptPassword = [EncryptHelper MD5_encryptWithString:password];
+
+        [paramDict setObject:encryptPassword forKey:@"pwd"];
     }
     [paramDict setObject:[NSNumber numberWithInt:[agentID intValue]] forKey:@"customerId"];
     //url
