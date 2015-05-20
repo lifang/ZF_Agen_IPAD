@@ -38,6 +38,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showbarmymessage) name:@"showbarmymessage" object:nil];
+
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showbar) name:@"showbar" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(hidebar) name:@"hiedebar" object:nil];
 
@@ -55,6 +57,13 @@
     
     
     
+}
+-(void)showbarmymessage
+{
+
+    [self setSeletedIndex:2];
+    
+
 }
 -(void)showbar
 {

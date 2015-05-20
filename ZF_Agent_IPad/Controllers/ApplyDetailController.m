@@ -1074,6 +1074,9 @@
     BnakSC.delegate=self;
     BnakSC.terminalID=_terminalID;
     BnakSC.hidesBottomBarWhenPushed=YES;
+   _selectedKey= @"key_bankID";
+    
+
     [self.navigationController pushViewController:BnakSC animated:YES];
 }
 
@@ -2036,9 +2039,9 @@
         }
         [_infoDict setObject:model.bankCode forKey:@"key_bankID"];
         [_infoDict setObject:model.bankName forKey:@"key_bank"];
-        NSLog(@"infoDict:%@",_infoDict);
     }
-  
+    [self.tableView reloadData];
+    
 }
 
 

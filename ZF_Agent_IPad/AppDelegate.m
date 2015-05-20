@@ -122,6 +122,9 @@
         messageID = [NSString stringWithFormat:@"%@",[userInfo objectForKey:@"msgId"]];
     }
     if (self.agentUserID) {
+        
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"showbarmymessage" object:self userInfo:nil];
+
 //        MessageDetailController *detailC = [[MessageDetailController alloc] init];
 //        UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:detailC];
 //        detailC.messageID = messageID;
