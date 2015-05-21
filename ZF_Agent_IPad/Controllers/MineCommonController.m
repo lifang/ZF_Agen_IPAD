@@ -56,13 +56,30 @@
     [chooseView.messageBtn addTarget:self action:@selector(messageBtnClick) forControlEvents:UIControlEventTouchUpInside];
     [chooseView.shopBtn addTarget:self action:@selector(shopBtnClick) forControlEvents:UIControlEventTouchUpInside];
     [chooseView.applyBtn addTarget:self action:@selector(applyBtnClick) forControlEvents:UIControlEventTouchUpInside];
-    
+    [chooseView.exitbtn addTarget:self action:@selector(exitbtnclick) forControlEvents:UIControlEventTouchUpInside];
+
     self.chooseView = chooseView;
     [self.view addSubview:chooseView];
     
 
 }
+-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (alertView.tag == 8900&&buttonIndex == 0) {
+        AppDelegate *delegate = [AppDelegate shareAppDelegate];
+        [delegate clearLoginInfo];
+        [[AppDelegate shareRootViewController] showLoginViewController];
+    }
+}
+-(void)exitbtnclick
+{
 
+    UIAlertView *alertV = [[UIAlertView alloc]initWithTitle:nil message:@"确定要退出？" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:@"取消", nil];
+    alertV.tag = 8900;
+    [alertV show];
+
+
+}
 //我的信息
 -(void)orderClick
 {

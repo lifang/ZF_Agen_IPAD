@@ -322,53 +322,53 @@
     [_taxregisterImageBtn setTitle:@"上传图片" forState:UIControlStateNormal];
     [self setBtn:_taxregisterImageBtn withTopView:_businesslicenseImageBtn middleSpace:mainMargin buttonTag:5];
     
-    //创建下方Btn
-    UIButton *submitBtn = [[UIButton alloc]init];
-    submitBtn.translatesAutoresizingMaskIntoConstraints = NO;
-    [submitBtn addTarget:self action:@selector(presentClick) forControlEvents:UIControlEventTouchUpInside];
-    [submitBtn setTitle:@"退出" forState:UIControlStateNormal];
-    [submitBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [submitBtn setBackgroundColor:kMainColor];
-    [_mainScrollView addSubview:submitBtn];
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:submitBtn
-                                                          attribute:NSLayoutAttributeTop
-                                                          relatedBy:NSLayoutRelationEqual
-                                                             toItem:fourthLine
-                                                          attribute:NSLayoutAttributeBottom
-                                                         multiplier:1.0
-                                                           constant:40.f]];
-    if (iOS7) {
-        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:submitBtn
-                                                              attribute:NSLayoutAttributeLeft
-                                                              relatedBy:NSLayoutRelationEqual
-                                                                 toItem:self.view
-                                                              attribute:NSLayoutAttributeLeft
-                                                             multiplier:1.0
-                                                               constant:kScreenHeight / 2 - 120.f]];
-    }else{
-        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:submitBtn
-                                                              attribute:NSLayoutAttributeLeft
-                                                              relatedBy:NSLayoutRelationEqual
-                                                                 toItem:self.view
-                                                              attribute:NSLayoutAttributeLeft
-                                                             multiplier:1.0
-                                                               constant:kScreenWidth / 2 - 120.f]];
-        
-    }
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:submitBtn
-                                                          attribute:NSLayoutAttributeWidth
-                                                          relatedBy:NSLayoutRelationEqual
-                                                             toItem:nil
-                                                          attribute:NSLayoutAttributeNotAnAttribute
-                                                         multiplier:1.0
-                                                           constant:240.f]];
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:submitBtn
-                                                          attribute:NSLayoutAttributeHeight
-                                                          relatedBy:NSLayoutRelationEqual
-                                                             toItem:nil
-                                                          attribute:NSLayoutAttributeNotAnAttribute
-                                                         multiplier:1.0
-                                                           constant:40.f]];
+//    //创建下方Btn
+//    UIButton *submitBtn = [[UIButton alloc]init];
+//    submitBtn.translatesAutoresizingMaskIntoConstraints = NO;
+//    [submitBtn addTarget:self action:@selector(presentClick) forControlEvents:UIControlEventTouchUpInside];
+//    [submitBtn setTitle:@"退出" forState:UIControlStateNormal];
+//    [submitBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+//    [submitBtn setBackgroundColor:kMainColor];
+//    [_mainScrollView addSubview:submitBtn];
+//    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:submitBtn
+//                                                          attribute:NSLayoutAttributeTop
+//                                                          relatedBy:NSLayoutRelationEqual
+//                                                             toItem:fourthLine
+//                                                          attribute:NSLayoutAttributeBottom
+//                                                         multiplier:1.0
+//                                                           constant:40.f]];
+//    if (iOS7) {
+//        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:submitBtn
+//                                                              attribute:NSLayoutAttributeLeft
+//                                                              relatedBy:NSLayoutRelationEqual
+//                                                                 toItem:self.view
+//                                                              attribute:NSLayoutAttributeLeft
+//                                                             multiplier:1.0
+//                                                               constant:kScreenHeight / 2 - 120.f]];
+//    }else{
+//        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:submitBtn
+//                                                              attribute:NSLayoutAttributeLeft
+//                                                              relatedBy:NSLayoutRelationEqual
+//                                                                 toItem:self.view
+//                                                              attribute:NSLayoutAttributeLeft
+//                                                             multiplier:1.0
+//                                                               constant:kScreenWidth / 2 - 120.f]];
+//        
+//    }
+//    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:submitBtn
+//                                                          attribute:NSLayoutAttributeWidth
+//                                                          relatedBy:NSLayoutRelationEqual
+//                                                             toItem:nil
+//                                                          attribute:NSLayoutAttributeNotAnAttribute
+//                                                         multiplier:1.0
+//                                                           constant:240.f]];
+//    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:submitBtn
+//                                                          attribute:NSLayoutAttributeHeight
+//                                                          relatedBy:NSLayoutRelationEqual
+//                                                             toItem:nil
+//                                                          attribute:NSLayoutAttributeNotAnAttribute
+//                                                         multiplier:1.0
+//                                                           constant:40.f]];
     
     [self.view bringSubviewToFront:self.swithView];
     

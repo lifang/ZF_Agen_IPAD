@@ -63,6 +63,19 @@
         else {
             _orderNumber = @"";
         }
+        if ([dict objectForKey:@"logistics_name"]) {
+            _logisticCompany = [NSString stringWithFormat:@"%@",[dict objectForKey:@"logistics_name"]];
+        }
+        else {
+            _logisticCompany = @"";
+        }
+        if ([dict objectForKey:@"logistics_number"]) {
+            _logisticNumber = [NSString stringWithFormat:@"%@",[dict objectForKey:@"logistics_number"]];
+        }
+        else {
+            _logisticNumber = @"";
+        }
+
         if ([dict objectForKey:@"order_payment_type"]) {
             _payType = [NSString stringWithFormat:@"%@",[dict objectForKey:@"order_payment_type"]];
         }

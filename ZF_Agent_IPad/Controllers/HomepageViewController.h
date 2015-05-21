@@ -7,6 +7,8 @@
 //
 
 #import "ZYCustomTabBarViewController.h"
+static NSString *s_messageTab = @"s_messageTab";
+static NSString *ShowTabBadgeNotification = @"ShowTabBadgeNotification";
 
 @interface HomepageViewController : ZYCustomTabBarViewController
 

@@ -13,6 +13,7 @@
 #import "FindPasswordViewController.h"
 #import "RegisterViewController.h"
 #import "ApplyViewController.h"
+#import "BPush.h"
 
 @interface LoginViewController ()<UITextFieldDelegate>
 @property(nonatomic,strong)UITextField *userField;
@@ -287,10 +288,12 @@
         if (success) {
             id object = [NSJSONSerialization JSONObjectWithData:response options:NSJSONReadingMutableLeaves error:nil];
             NSLog(@"~~~~~%@",[[NSString alloc]initWithData:response encoding:NSUTF8StringEncoding]);
-            if ([object isKindOfClass:[NSDictionary class]]) {
+            if ([object isKindOfClass:[NSDictionary class]])
+            {
                 [hud hide:YES];
                 int errorCode = [[object objectForKey:@"code"] intValue];
-                if (errorCode == RequestFail) {
+                if (errorCode == RequestFail)
+                {
                     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示信息"
                                                                     message:[object objectForKey:@"message"]
                                                                    delegate:nil
@@ -298,7 +301,8 @@
                                                           otherButtonTitles:nil];
                     [alert show];
                 }
-                else if (errorCode == RequestSuccess) {
+                else if (errorCode == RequestSuccess)
+                {
                     [[AppDelegate shareRootViewController] showMainViewController];
                     
                     [self parseLoginDataWithDictionary:object];
@@ -320,6 +324,8 @@
        ]) {
         return;
     }
+    [BPush bindChannel];
+
     NSDictionary *infoDict = [dict objectForKey:@"result"];
     NSString *token = @"123";
     NSString *userID = [NSString stringWithFormat:@"%@",[infoDict objectForKey:@"id"]];

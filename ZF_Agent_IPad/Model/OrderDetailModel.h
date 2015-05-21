@@ -36,6 +36,9 @@
 @property (nonatomic, strong) NSString *createTime;  //订单日期
 
 @property (nonatomic, assign) int orderStatus;
+@property (nonatomic, strong) NSString *logisticCompany;
+
+@property (nonatomic, strong) NSString *logisticNumber;
 
 @property (nonatomic, assign) CGFloat actualPrice;   //实付金额
 
