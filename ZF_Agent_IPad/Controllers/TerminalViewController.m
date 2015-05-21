@@ -632,7 +632,7 @@
     _UserTF.layer.borderColor=[UIColor colorWithHexString:@"a8a8a8"].CGColor;
     _UserTF.backgroundColor = [UIColor clearColor];
     _UserTF.textColor=[UIColor colorWithHexString:@"6c6c6c"];
-    _UserTF.font = [UIFont systemFontOfSize:20];
+    _UserTF.font = [UIFont systemFontOfSize:17];
     _UserTF.userInteractionEnabled = NO;
     _UserTF.frame = CGRectMake(UserLB.frame.origin.x+UserLB.frame.size.width, CGRectGetMaxY(line.frame) + 30, 260, 40);
     _UserTF.leftViewMode = UITextFieldViewModeAlways;
@@ -670,7 +670,7 @@
     _TerminalTF.backgroundColor = [UIColor clearColor];
     _TerminalTF.textColor=[UIColor colorWithHexString:@"6c6c6c"];
     _TerminalTF.clearButtonMode = UITextFieldViewModeWhileEditing;
-    _TerminalTF.font = [UIFont systemFontOfSize:20];
+    _TerminalTF.font = [UIFont systemFontOfSize:17];
     _TerminalTF.frame = CGRectMake(_UserTF.frame.origin.x, TerminalLB.frame.origin.y, 260, 40);
     _TerminalTF.leftViewMode = UITextFieldViewModeAlways;
     UIView *TTFLView = [[UIView alloc]init];

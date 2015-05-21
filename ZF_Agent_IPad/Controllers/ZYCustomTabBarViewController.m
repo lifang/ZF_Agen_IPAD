@@ -333,7 +333,7 @@
             hud.customView = [[UIImageView alloc] init];
             hud.mode = MBProgressHUDModeCustomView;
             [hud hide:YES afterDelay:1.f];
-            hud.labelText = @"您没有订单权限";
+            hud.labelText = @"您没有浏览全部商品";
             return;
         }
     }

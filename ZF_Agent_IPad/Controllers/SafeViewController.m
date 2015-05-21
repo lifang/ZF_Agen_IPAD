@@ -21,20 +21,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    NSLog(@"当前是~~~~~~~~~~~~%d",self.Index);
-    [self.swithView setSelectedBtnAtIndex:2];
-    AppDelegate *delegate = [AppDelegate shareAppDelegate];
-    if ([[delegate.authDict objectForKey:[NSNumber numberWithInt:AuthAR]] boolValue]) {
-        [self initUI];
-    }
-    else {
-        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
-        hud.customView = [[UIImageView alloc] init];
-        hud.mode = MBProgressHUDModeCustomView;
-        [hud hide:YES afterDelay:1.f];
-        hud.labelText = @"您没有查看代理商资料权限";
-    }
-    self.swithView.hidden = NO;
+    [self setLeftViewWith:ChooseViewSafe];
+    [self initUI];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -50,7 +38,7 @@
     
     UILabel *nameLabel = [[UILabel alloc]init];
     nameLabel.text = @"原 密 码";
-    [self setLabel:nameLabel withTopView:self.swithView middleSpace:20 labelTag:1];
+    [self setLabel:nameLabel withTopView:self.view middleSpace:40 labelTag:2];
     
     UILabel *phoneLabel = [[UILabel alloc]init];
     phoneLabel.text = @"新 密 码";
@@ -81,10 +69,10 @@
     [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_oldPasswordField
                                                           attribute:NSLayoutAttributeTop
                                                           relatedBy:NSLayoutRelationEqual
-                                                             toItem:self.swithView
-                                                          attribute:NSLayoutAttributeBottom
+                                                             toItem:self.view
+                                                          attribute:NSLayoutAttributeTop
                                                          multiplier:1.0
-                                                           constant:46.f]];
+                                                           constant:98]];
     [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_oldPasswordField
                                                           attribute:NSLayoutAttributeLeft
                                                           relatedBy:NSLayoutRelationEqual
@@ -256,7 +244,15 @@
     label.font = [UIFont boldSystemFontOfSize:20.f];
     label.textColor = kColor(38, 38, 38, 1.0);
     [self.view addSubview:label];
-    if (LabelTag == 1) {
+    if (LabelTag == 2) {
+        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:label
+                                                              attribute:NSLayoutAttributeTop
+                                                              relatedBy:NSLayoutRelationEqual
+                                                                 toItem:topView
+                                                              attribute:NSLayoutAttributeTop
+                                                             multiplier:1.0
+                                                               constant:space * 2.5]];
+    }else{
         [self.view addConstraint:[NSLayoutConstraint constraintWithItem:label
                                                               attribute:NSLayoutAttributeTop
                                                               relatedBy:NSLayoutRelationEqual
@@ -264,6 +260,7 @@
                                                               attribute:NSLayoutAttributeBottom
                                                              multiplier:1.0
                                                                constant:space * 2.5]];
+    }
         [self.view addConstraint:[NSLayoutConstraint constraintWithItem:label
                                                               attribute:NSLayoutAttributeLeft
                                                               relatedBy:NSLayoutRelationEqual
@@ -286,7 +283,6 @@
                                                              multiplier:1.0
                                                                constant:labelHeight]];
         
-    }
 }
 
 //点击了保存
