@@ -242,4 +242,10 @@
     self.searchUserName = _searchBar.text;
 }
 
+-(void)viewDidDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:animated];
+    [_searchBar removeFromSuperview];
+}
+
 @end

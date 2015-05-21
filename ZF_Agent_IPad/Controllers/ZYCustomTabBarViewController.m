@@ -313,6 +313,7 @@
         currentViewController.view.frame = CGRectMake(60, 0,  SCREEN_WIDTH - 60,SCREEN_HEIGHT);
     }
     //添加到Tab上
+    NSLog(@"class = %@",[currentViewController childViewControllers]);
 	[self.view addSubview:currentViewController.view];
 	
     //把视图放到TabBar下面
