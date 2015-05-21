@@ -175,13 +175,13 @@
                     id list = [[object objectForKey:@"result"] objectForKey:@"terminalList"];
                     if ([list isKindOfClass:[NSArray class]] && [list count] > 0) {
                         //有数据
-                        _page++;
                         [hud hide:YES];
                     }
                     else {
                         //无数据
                         hud.labelText = @"没有更多数据了...";
                     }
+                    
                     [self parseMerchantDataWithDictionary:object];
                     NSLog(@"object:%@",object);
                 }
@@ -419,6 +419,8 @@
 
 //上拉加载
 - (void)pullUpToLoadData {
+    _page++;
+
     [self downloadDataWithPage:self.page isMore:YES];
     // [self downloadDataWithPage:_page isMore:NO];
     NSLog(@"上拉加载");

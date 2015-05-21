@@ -45,6 +45,7 @@
 @property (nonatomic, assign) int goodid;
 @property (nonatomic, strong) NSString *totalint;
 @property (nonatomic, strong) UILabel *name;
+@property (nonatomic, strong) UILabel *placeholderLB;
 
 @property (nonatomic, strong) NSString *POStitle;
 @property (nonatomic, assign) int channelsId;
@@ -188,6 +189,7 @@
     
     
     _terminalTV = [[UITextView alloc] init];
+
     _terminalTV.delegate = self;
     _terminalTV.clipsToBounds = YES;
     _terminalTV.layer.borderColor = [UIColor colorWithHexString:@"a8a8a8"].CGColor;
@@ -205,6 +207,19 @@
         make.height.equalTo(@80);
     }];
     
+    _placeholderLB = [[UILabel alloc] init];
+    _placeholderLB.backgroundColor = [UIColor clearColor];
+    _placeholderLB.textColor = kColor(146, 146, 146, 1);
+    _placeholderLB.font = [UIFont systemFontOfSize:15.f];
+    _placeholderLB.text = @"请输入终端号，终端号之间回车间隔";
+    [self.view addSubview:_placeholderLB];
+    [_placeholderLB makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(_terminalTV.left).offset(5);
+        make.top.equalTo(_terminalTV.top).offset(5);
+        make.right.equalTo(_terminalTV.right);
+        
+    }];
+
     UILabel *priceLB=[[UILabel alloc ] init];
     priceLB.font = FONT20;
 //    priceLB.text=@"价格";
@@ -382,7 +397,8 @@
     _tableView.headerPullToRefreshText = @"下拉可以刷新了";
     _tableView.headerReleaseToRefreshText = @"松开马上刷新了";
     _tableView.headerRefreshingText = @">.< 正在努力加载中!";
-    
+   
+
     _tableView.footerPullToRefreshText = @"上拉可以加载更多数据了";
     _tableView.footerReleaseToRefreshText = @"松开马上加载更多数据了";
     _tableView.footerRefreshingText = @">.< 正在努力加载中!";
@@ -466,6 +482,14 @@
     
     
 }
+- (void)textViewDidChange:(UITextView *)textView {
+    if ([textView.text length] == 0) {
+        _placeholderLB.text = @"请输入终端号，终端号之间回车间隔";
+    }
+    else {
+        _placeholderLB.text = @"";
+    }
+}
 
 -(void)searchBtnPressed:(id)sender
 {
@@ -497,29 +521,31 @@
 -(void)confirmBtnPressed:(id)sender
 {
   
-    if ([self isBlankString:_POSTV.text]) {
+    if ([self isBlankString:_terminalTV.text]) {
         MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
         hud.customView = [[UIImageView alloc] init];
         hud.mode = MBProgressHUDModeCustomView;
         [hud hide:YES afterDelay:1.f];
-        hud.labelText = @"请选择POS机";
+        hud.labelText = @"请输入终端号";
         return;
+    }
+    [_terminalFilter removeAllObjects];
+    if([self isBlankString:_terminalTV.text]==NO)
+    {
+//        NSString*headerDatadgdgfgf= [_terminalTV.text stringByReplacingOccurrencesOfString:@"\n" withString:@""];
+        NSArray *terminalArray = [_terminalTV.text componentsSeparatedByString:@"\n"];
+        for(int i=0;i<terminalArray.count;i++)
+        {
+        
+            [_terminalFilter addObject:[terminalArray objectAtIndex:i]];
+
+        }
+        
     }
 
-    if ([self isBlankString:_channelTV.text]) {
-        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
-        hud.customView = [[UIImageView alloc] init];
-        hud.mode = MBProgressHUDModeCustomView;
-        [hud hide:YES afterDelay:1.f];
-        hud.labelText = @"请选择支付通道";
-        return;
-    }
+    [self firstLoadData];
     
-
-    [_tableView addHeaderWithTarget:self action:@selector(loadNewStatuses:) dateKey:@"table"];
-    [_tableView headerBeginRefreshing];
-    //上拉
-    [_tableView addFooterWithTarget:self action:@selector(loadMoreStatuses)];
+    
     
     
 }
@@ -580,7 +606,23 @@
 -(void)loadNewStatuses:(UIRefreshControl *)refreshControl
 {
     
-    [self firstLoadData];
+    if( [self isBlankString: _POSTV.text]==NO||[self isBlankString:_channelTV.text]==NO||[self isBlankString:_terminalTV.text]==NO)
+    {
+    
+        [self firstLoadData];
+        [_tableView footerEndRefreshing];
+        [_tableView headerEndRefreshing];
+    
+    }
+    else
+    {
+        
+        [_tableView footerEndRefreshing];
+        [_tableView headerEndRefreshing];
+
+    
+    }
+    
     
     
     //上拉加载
@@ -594,9 +636,22 @@
 //上拉刷新加载更多微博数据
 -(void)loadMoreStatuses
 {
-    [self downloadDataWithPage:self.page isMore:YES];
+    if( [self isBlankString: _POSTV.text]==NO||[self isBlankString:_channelTV.text]==NO||[self isBlankString:_terminalTV.text]==NO)
+    {
+        NSLog(@"%@-%@-%@",_POSTV.text,_channelTV.text,_terminalTV.text);
+              
+        [self downloadDataWithPage:self.page isMore:YES];
+        [_tableView footerEndRefreshing];
+        [_tableView headerEndRefreshing];
+    }
+
     
+    else
+    {
+        [_tableView footerEndRefreshing];
+        [_tableView headerEndRefreshing];
     
+    }
     
     
     //    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
@@ -610,9 +665,15 @@
 
 - (void)getSearchKeyword:(NSString *)keyword
 {
+    
+    _POSTV.text=@"";
+    _channelTV.text=@"";
+
     [_terminalFilter removeAllObjects];
     if (keyword && ![keyword isEqualToString:@""]) {
-        [_terminalFilter addObject:keyword];
+        NSString*headerDatadgdgfgf= [keyword stringByReplacingOccurrencesOfString:@"\n" withString:@""];
+
+        [_terminalFilter addObject:headerDatadgdgfgf];
     }
    [self firstLoadData];
     
@@ -643,6 +704,11 @@
         hud.labelText = @"请至少选择一个终端";
         return;
     }
+    [_tableView addHeaderWithTarget:self action:@selector(loadNewStatuses:) dateKey:@"table"];
+    //上拉
+    [_tableView addFooterWithTarget:self action:@selector(loadMoreStatuses)];
+    [self firstLoadData];
+
     /*
      NSMutableArray *terminalList = [[NSMutableArray alloc] init];
      for (TerminalSelectModel *model in _terminalList) {
@@ -786,16 +852,12 @@
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
     hud.labelText = @"加载中...";
     AppDelegate *delegate = [AppDelegate shareAppDelegate];
-    [_terminalFilter removeAllObjects];
-    if([self isBlankString:_terminalTV.text]==NO)
-    {
-        [_terminalFilter addObject:_terminalTV.text];
-  
-    }
-
+    
     self.page = 1;
     NSString*idstring;
-    
+    NSString*_channelTVid;
+    NSString*_POSTVid;
+
     if([self isBlankString:self.posid])
     {
         
@@ -808,9 +870,31 @@
         
         
     }
+if( [self isBlankString: _channelTV.text])
+{
+    _channelTVid=@"";
+
+
+}else
+{
+    _channelTVid=[NSString stringWithFormat:@"%d",_channelsId];
 
     
-    [NetworkInterface getPrepareGoodTerminalListWithAgentID:idstring token:delegate.token channelID:[NSString stringWithFormat:@"%d",_channelsId] goodID:[NSString stringWithFormat:@"%d",_goodid] terminalNumbers:_terminalFilter page:page rows:kPageSize * 2 finished:^(BOOL success, NSData *response) {
+}
+    if( [self isBlankString: _POSTV.text])
+{
+    
+    _POSTVid=@"";
+
+
+}else
+{
+    _POSTVid=[NSString stringWithFormat:@"%d",_goodid];
+
+    
+}
+    
+    [NetworkInterface getPrepareGoodTerminalListWithAgentID:idstring token:delegate.token channelID:_channelTVid goodID:_POSTVid terminalNumbers:_terminalFilter page:page rows:kPageSize * 2 finished:^(BOOL success, NSData *response) {
     
     
         [_tableView footerEndRefreshing];
@@ -1011,6 +1095,8 @@
 
 -(void)modifyStatus:(id)sender
 {
+    [_terminalFilter removeAllObjects];
+
     if (pickerstatus==100) {
         NSInteger index = [_pickerView selectedRowInComponent:0];
         if(_POSArray.count>0)
@@ -1023,11 +1109,19 @@
             _POSTV.text=model.title;
             _goodid=[model.ID integerValue];
 
+        if(model.title)
+        {
+            [_tableView addHeaderWithTarget:self action:@selector(loadNewStatuses:) dateKey:@"table"];
+            //上拉
+            [_tableView addFooterWithTarget:self action:@selector(loadMoreStatuses)];
+            [self firstLoadData];
+            
+        
         
         }
+        }
         
-        
-        
+
     }
     else
     {
@@ -1043,7 +1137,8 @@
         if (secondIndex < [_pickerArray count]) {
             model = [_pickerArray objectAtIndex:secondIndex];
         }
-        if (model==nil) {
+        if (model==nil)
+        {
             if([self isBlankString:channel.channelName])
             {
                 _channelTV.text=@"";
@@ -1051,23 +1146,38 @@
             }else
             {
                 _channelTV.text=[NSString stringWithFormat:@"%@",channel.channelName];
+                [_tableView addHeaderWithTarget:self action:@selector(loadNewStatuses:) dateKey:@"table"];
+                //上拉
+                [_tableView addFooterWithTarget:self action:@selector(loadMoreStatuses)];
+                    [self firstLoadData];
+                    
+                    
+                    
 
             
             }
             
         }
         else
-        { if([self isBlankString:channel.channelName])
         {
+            if([self isBlankString:channel.channelName])
+        
+            {
             
             _channelTV.text=@"";
 
-        }
+       
+            }
             else
             {
                 _channelTV.text= [NSString stringWithFormat:@"%@ %@",channel.channelName,model.billName];
 
-            
+                _channelTV.text=[NSString stringWithFormat:@"%@",channel.channelName];
+                [_tableView addHeaderWithTarget:self action:@selector(loadNewStatuses:) dateKey:@"table"];
+                //上拉
+                [_tableView addFooterWithTarget:self action:@selector(loadMoreStatuses)];
+                [self firstLoadData];
+
             }
         }
         
