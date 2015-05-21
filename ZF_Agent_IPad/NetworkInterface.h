@@ -419,6 +419,8 @@ static NSString *s_push_method = @"agents/sendDeviceCode";
 
 
 
++ (void)beginVideoAuthWithTerminalID:(NSString *)terminalID
+                            finished:(requestDidFinished)finish;
 
 + (void)uploadPushInfoWithUserID:(NSString *)userID
                      channelInfo:(NSString *)channelInfo

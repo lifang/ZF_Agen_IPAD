@@ -17,7 +17,7 @@
 #import "RentDescriptionController.h"
 #import "POSAddressTableViewCell.h"
 #import "UserListViewController.h"
-@interface RentOrderViewController ()<UITextFieldDelegate,UIPickerViewDataSource,UIPickerViewDelegate,UIAlertViewDelegate,SelectedUserDelegate>
+@interface RentOrderViewController ()<UITextFieldDelegate,UIPickerViewDataSource,UIPickerViewDelegate,UIAlertViewDelegate,SelectedUserDelegatell>
 
 
 @property (nonatomic, strong) UITextView *nameTV;

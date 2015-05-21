@@ -531,13 +531,37 @@
         [alert show];
         return;
     }
+    [self beginVideoAuthWithTerminalID:[NSString stringWithFormat:@"%d",button.tag]];
+    
     VideoAuthViewController *videoAuthC = [[VideoAuthViewController alloc] init];
     videoAuthC.terminalID =[NSString stringWithFormat:@"%d",button.tag];
     videoAuthC.hidesBottomBarWhenPushed=YES;
     
-    [self.navigationController pushViewController:videoAuthC animated:YES];}
+    [self.navigationController pushViewController:videoAuthC animated:YES];
+}
 
+- (void)beginVideoAuthWithTerminalID:(NSString *)terminalID {
+    [NetworkInterface beginVideoAuthWithTerminalID:terminalID finished:^(BOOL success, NSData *response) {
+        NSLog(@"!!!!!!!!%@",[[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding]);
+        if (success) {
+            id object = [NSJSONSerialization JSONObjectWithData:response options:NSJSONReadingMutableLeaves error:nil];
+            if ([object isKindOfClass:[NSDictionary class]]) {
+                NSString *errorCode = [object objectForKey:@"code"];
+                if ([errorCode intValue] == RequestFail) {
+                    //返回错误代码
+                }
+                else if ([errorCode intValue] == RequestSuccess) {
+                }
+            }
+            else {
+                //返回错误数据
+            }
+        }
+        else {
+        }
+    }];
 
+}
 
 -(void)applicationClick:(UIButton *)button
 {

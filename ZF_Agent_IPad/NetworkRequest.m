@@ -25,7 +25,11 @@
     }
     return self;
 }
-
+- (void)setFormPostBody:(NSData *)postData {
+    [_request setHTTPMethod:@"POST"];
+    //    [_request setValue:@"application/json;charset=UTF-8" forHTTPHeaderField:@"Content-Type"];
+    [_request setHTTPBody:postData];
+}
 - (void)setPostBody:(NSData *)postData {
     [_request setHTTPMethod:@"POST"];
     NSString *postLength = [NSString stringWithFormat:@"%ld",[postData length]];

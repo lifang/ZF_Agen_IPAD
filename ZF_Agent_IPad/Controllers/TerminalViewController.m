@@ -1641,6 +1641,8 @@
             
         }
         else{
+            [self beginVideoAuthWithTerminalID:selectedID];
+
             VideoAuthViewController *videoAuthC = [[VideoAuthViewController alloc] init];
             videoAuthC.terminalID = selectedID;
             videoAuthC.hidesBottomBarWhenPushed=YES;
@@ -1676,6 +1678,8 @@
     }
     if (btnTag == 3001) {
         //部分开通视频认证
+        [self beginVideoAuthWithTerminalID:selectedID];
+
         VideoAuthViewController *videoAuthC = [[VideoAuthViewController alloc] init];
         videoAuthC.hidesBottomBarWhenPushed=YES;
         videoAuthC.terminalID = selectedID;
@@ -1698,6 +1702,8 @@
     }
     if (btnTag == 5000) {
         NSLog(@"点击了视频认证");
+        [self beginVideoAuthWithTerminalID:selectedID];
+
         VideoAuthViewController *videoAuthC = [[VideoAuthViewController alloc] init];
         videoAuthC.hidesBottomBarWhenPushed=YES;
         videoAuthC.terminalID = selectedID;
@@ -1713,6 +1719,28 @@
     }
 }
 
+- (void)beginVideoAuthWithTerminalID:(NSString *)terminalID {
+    [NetworkInterface beginVideoAuthWithTerminalID:terminalID finished:^(BOOL success, NSData *response) {
+        NSLog(@"!!!!!!!!%@",[[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding]);
+        if (success) {
+            id object = [NSJSONSerialization JSONObjectWithData:response options:NSJSONReadingMutableLeaves error:nil];
+            if ([object isKindOfClass:[NSDictionary class]]) {
+                NSString *errorCode = [object objectForKey:@"code"];
+                if ([errorCode intValue] == RequestFail) {
+                    //返回错误代码
+                }
+                else if ([errorCode intValue] == RequestSuccess) {
+                }
+            }
+            else {
+                //返回错误数据
+            }
+        }
+        else {
+        }
+    }];
+    
+}
 
 //找回POS密码
 -(void)initFindPosViewWithSelectedID:(NSString *)selectedID WithIndexNum:(int)indexP
@@ -1796,6 +1824,8 @@
 {
    
     TerminalManagerModel *model = [_terminalItems objectAtIndex:indexNum];
+    [self beginVideoAuthWithTerminalID: model.TM_ID];
+
     VideoAuthViewController *videoAuthVC = [[VideoAuthViewController alloc] init];
     videoAuthVC.terminalID = model.TM_ID;//终端记录id
     videoAuthVC.hidesBottomBarWhenPushed=YES;

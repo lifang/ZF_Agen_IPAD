@@ -10,7 +10,7 @@
 #import "UserModel.h"
 typedef void (^ReturnTextBlock)(NSMutableArray *showText);
 
-@protocol SelectedUserDelegate <NSObject>
+@protocol SelectedUserDelegatell <NSObject>
 
 - (void)selectedUser:(UserModel *)model;
 
@@ -19,6 +19,6 @@ typedef void (^ReturnTextBlock)(NSMutableArray *showText);
 @interface UserListViewController : RefreshViewController
 @property (nonatomic, copy) ReturnTextBlock returnTextBlock;
 
-@property (nonatomic, assign) id<SelectedUserDelegate>delegate;
+@property (nonatomic, assign) id<SelectedUserDelegatell>delegate;
 
 @end

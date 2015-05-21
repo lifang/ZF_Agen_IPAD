@@ -15,7 +15,8 @@
     
     UIView *view;
     
-    
+    NSMutableArray*picturearry;
+
     
 }
 @property (nonatomic, strong) NSArray *tradeRateItem;

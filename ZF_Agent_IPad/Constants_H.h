@@ -29,9 +29,9 @@
 //#define kServiceURL @"http://agent.ebank007.com/api"
 #define kAppChannel  7  //推送channel
 
-
 #define kImageName(name) [UIImage imageNamed:name]
 #define NavTitle_FONTSIZE  36
+#define kVideoServiceURL @"http://121.40.84.2:38080/ZFManager/notice/video"
 
 #define iOS7 ([UIDevice currentDevice].systemVersion.floatValue >= 7.0&&8.0>[UIDevice currentDevice].systemVersion.floatValue )
 #define iOS8 ([UIDevice currentDevice].systemVersion.floatValue >= 8.0)
@@ -46,6 +46,7 @@
 //#define kProcurementCallBackURL  @"http://agent.ebank007.com/app_notify_url.jsp"
 #define kWhalesaleCallBackURL   @"http://121.40.84.2:28080/ZFAgent/deposit_app_notify_url.jsp"
 #define kProcurementCallBackURL @"http://121.40.84.2:28080/ZFAgent/app_notify_url.jsp"
+#define kVideoAuthIP    @"121.40.84.2"
 
-#define kVideoAuthIP      @"121.40.64.120"   //线上
+//#define kVideoAuthIP      @"121.40.64.120"   //线上
 #define kVideoAuthPort  8906
