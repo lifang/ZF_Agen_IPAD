@@ -53,6 +53,14 @@
     [applyBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     self.applyBtn = applyBtn;
     [self addSubview:applyBtn];
+    
+    UIButton *safeBtn = [[UIButton alloc]init];
+    safeBtn.titleLabel.font = [UIFont systemFontOfSize:18];
+    [safeBtn setTitle:@"安全" forState:UIControlStateNormal];
+    [safeBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    self.safeBtn = safeBtn;
+    [self addSubview:safeBtn];
+    
     UIButton *exitBtn = [[UIButton alloc]init];
     exitBtn.titleLabel.font = [UIFont systemFontOfSize:18];
     [exitBtn setTitle:@"退出" forState:UIControlStateNormal];
@@ -101,9 +109,10 @@
     _shopBtn.frame = CGRectMake(mainX, CGRectGetMaxY(_messageBtn.frame) + margin, BtnWidth, BtnHeight);
     
     _applyBtn.frame = CGRectMake(mainX - 40.f, CGRectGetMaxY(_shopBtn.frame) + margin, BtnWidth * 2, BtnHeight);
-    _exitbtn.frame = CGRectMake(mainX - 40.f, CGRectGetMaxY(_applyBtn.frame) + margin, BtnWidth * 2, BtnHeight);
+    _safeBtn.frame = CGRectMake(mainX - 40.f, CGRectGetMaxY(_applyBtn.frame) + margin, BtnWidth * 2, BtnHeight);
+    _exitbtn.frame = CGRectMake(mainX - 40.f, CGRectGetMaxY(_safeBtn.frame) + margin, BtnWidth * 2, BtnHeight);
 
-    for (int i = 0; i < 5; i ++) {
+    for (int i = 0; i < 6; i ++) {
         UIView *line = [[UIView alloc]init];
         line.backgroundColor = kColor(98, 98, 98, 1.0);
         line.frame = CGRectMake(4, 90 + i * BtnHeight * 3, BtnWidth * 2 - 10, 1);
@@ -134,7 +143,11 @@
             [_applyBtn setTitleColor:kColor(103, 167, 236, 1.0) forState:UIControlStateNormal];
             _imageView.frame = CGRectMake(self.frame.size.width - 10, _applyBtn.frame.origin.y - 2, 10, 20);
             break;
-            
+        case ChooseViewSafe:
+            [_orderBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+            [_safeBtn setTitleColor:kColor(103, 167, 236, 1.0) forState:UIControlStateNormal];
+            _imageView.frame = CGRectMake(self.frame.size.width - 10, _safeBtn.frame.origin.y - 2, 10, 20);
+            break;
         case ChooseViewexit:
             [_orderBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
             [_exitbtn setTitleColor:kColor(103, 167, 236, 1.0) forState:UIControlStateNormal];

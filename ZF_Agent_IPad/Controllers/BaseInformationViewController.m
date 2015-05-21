@@ -233,7 +233,7 @@
     }
     
     UILabel *loginIDLabel = [[UILabel alloc]init];
-    loginIDLabel.text = @"登录ID";
+    loginIDLabel.text = @"用户名";
     [self setLabel:loginIDLabel withTopView:thirdLine middleSpace:40.f labelTag:0];
     
     UIView *fourthLine = [[UIView alloc]init];
@@ -401,7 +401,7 @@
   withTopView:(UIView *)topView
   middleSpace:(CGFloat)space
     buttonTag:(int)BtnTag{
-    CGFloat btnWidth = 100.f;
+    CGFloat btnWidth = 60.f;
     CGFloat btnHeight = 40.f;
     CGFloat leftSpace = 10.f;
     button.translatesAutoresizingMaskIntoConstraints = NO;

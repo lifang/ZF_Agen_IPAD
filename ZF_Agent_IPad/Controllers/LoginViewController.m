@@ -14,6 +14,7 @@
 #import "RegisterViewController.h"
 #import "ApplyViewController.h"
 #import "BPush.h"
+#import "ApplyViewController.h"
 
 @interface LoginViewController ()<UITextFieldDelegate>
 @property(nonatomic,strong)UITextField *userField;
@@ -42,7 +43,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = kColor(144, 144, 144, 0.7);
-    [NSThread sleepForTimeInterval:3.0]; //LaunchImage 延长3秒
+//    [NSThread sleepForTimeInterval:3.0]; //LaunchImage 延长3秒
     [self setLoginView];
     
     //判断是不是第一次启动应用
@@ -215,7 +216,7 @@
     applyBtn.layer.cornerRadius=8.0;
     applyBtn.layer.borderColor=[UIColor colorWithHexString:@"006fd5"].CGColor;
     [applyBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [applyBtn setTitle:@"申请成为代理商" forState:UIControlStateNormal];
+    [applyBtn setTitle:@"申请成为合作伙伴" forState:UIControlStateNormal];
     [applyBtn setBackgroundColor:[UIColor colorWithHexString:@"006fd5"]];
     [applyBtn addTarget:self action:@selector(applyBtnClick:) forControlEvents:UIControlEventTouchUpInside];
     [scrollView addSubview:applyBtn];
@@ -238,7 +239,7 @@
 
 -(void)gotoregister
 {
-    RegisterViewController *registerV = [[RegisterViewController alloc]init];
+    ApplyViewController *registerV = [[ApplyViewController alloc]init];
     [self.navigationController pushViewController:registerV animated:YES];
 }
 

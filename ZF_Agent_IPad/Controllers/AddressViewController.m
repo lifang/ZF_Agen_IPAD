@@ -68,7 +68,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self.swithView setSelectedBtnAtIndex:3];
+    [self.swithView setSelectedBtnAtIndex:2];
     NSLog(@"当前是~~~~~~~~~~~~%d",self.Index);
     [self.view addSubview:self.addressTableView];
     self.swithView.hidden = NO;
