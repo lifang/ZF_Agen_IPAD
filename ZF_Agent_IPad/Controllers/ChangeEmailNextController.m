@@ -316,6 +316,7 @@
 
 -(void)getAuthCodeClicked
 {
+    [_newsPhoneField resignFirstResponder];
     if (!_newsPhoneField.text || [_newsPhoneField.text isEqualToString:@""]) {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示信息"
                                                         message:@"新邮箱号不能为空!"

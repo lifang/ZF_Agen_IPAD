@@ -26,6 +26,7 @@
 #import "VideoAuthController.h"
 #import "VideoAuthViewController.h"
 #import "AgreenMentController.h"
+#import "FindPasswordSuccessController.h"
 
 
 @interface TerminalViewController ()<UITableViewDelegate,UITableViewDataSource,RefreshDelegate,terminalCellSendBtnClicked,UITextViewDelegate,UITextFieldDelegate,UIPickerViewDataSource,UIPickerViewDelegate,UIPopoverControllerDelegate,UIPopoverPresentationControllerDelegate,SelectedAddressDelegate,SelectedUserDelegate,SelectedTerminalDelegate,SearchDelegate>
@@ -691,6 +692,10 @@
 
 -(void)UserBtnclick:(id)sender
 {
+//    FindPasswordSuccessController *findV = [[FindPasswordSuccessController alloc]init];
+//    [_findPosView setHidden:YES];
+//    findV.hidesBottomBarWhenPushed = YES;
+//    [self.navigationController pushViewController:findV animated:YES];
 
     UserSelectViewController *UserSC=[[UserSelectViewController alloc] init];
     UserSC.hidesBottomBarWhenPushed=YES;
@@ -1356,8 +1361,12 @@
                     hud.labelText = [NSString stringWithFormat:@"%@",[object objectForKey:@"message"]];
                 }
                 else if ([errorCode intValue] == RequestSuccess) {
-                    [self removePOSView];
+                    
                      hud.labelText = @"提交申请成功";
+                    
+                    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.4 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                       [self removePOSView];
+                    });
             
                 }
             }
@@ -1390,10 +1399,14 @@
                 if ([errorCode intValue] == RequestFail) {
                     //返回错误代码
                     hud.labelText = [NSString stringWithFormat:@"%@",[object objectForKey:@"message"]];
+                    [hud hide:YES afterDelay:0.3f];
                 }
                 else if ([errorCode intValue] == RequestSuccess) {
                     hud.labelText = @"绑定终端成功";
-                    [self removePOSView];
+                    [hud hide:YES afterDelay:0.3f];
+                    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.4 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                        [self removePOSView];
+                    });
                     
                 }
             }
@@ -1433,10 +1446,12 @@
                     hud.labelText = [NSString stringWithFormat:@"%@",[object objectForKey:@"message"]];
                 }
                 else if ([errorCode intValue] == RequestSuccess) {
-                    [hud hide:YES];
                     hud.labelText = @"添加成功";
-                   [_secondView removeFromSuperview];
-                    
+                    [hud hide:YES afterDelay:0.5f];
+                    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.6 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                        
+                        [_secondView removeFromSuperview];
+                    });
                 }
             }
             else {
@@ -1641,6 +1656,8 @@
             
         }
         else{
+            [self beginVideoAuthWithTerminalID:selectedID];
+
             VideoAuthViewController *videoAuthC = [[VideoAuthViewController alloc] init];
             videoAuthC.terminalID = selectedID;
             videoAuthC.hidesBottomBarWhenPushed=YES;
@@ -1676,6 +1693,8 @@
     }
     if (btnTag == 3001) {
         //部分开通视频认证
+        [self beginVideoAuthWithTerminalID:selectedID];
+
         VideoAuthViewController *videoAuthC = [[VideoAuthViewController alloc] init];
         videoAuthC.hidesBottomBarWhenPushed=YES;
         videoAuthC.terminalID = selectedID;
@@ -1698,6 +1717,8 @@
     }
     if (btnTag == 5000) {
         NSLog(@"点击了视频认证");
+        [self beginVideoAuthWithTerminalID:selectedID];
+
         VideoAuthViewController *videoAuthC = [[VideoAuthViewController alloc] init];
         videoAuthC.hidesBottomBarWhenPushed=YES;
         videoAuthC.terminalID = selectedID;
@@ -1713,6 +1734,28 @@
     }
 }
 
+- (void)beginVideoAuthWithTerminalID:(NSString *)terminalID {
+    [NetworkInterface beginVideoAuthWithTerminalID:terminalID finished:^(BOOL success, NSData *response) {
+        NSLog(@"!!!!!!!!%@",[[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding]);
+        if (success) {
+            id object = [NSJSONSerialization JSONObjectWithData:response options:NSJSONReadingMutableLeaves error:nil];
+            if ([object isKindOfClass:[NSDictionary class]]) {
+                NSString *errorCode = [object objectForKey:@"code"];
+                if ([errorCode intValue] == RequestFail) {
+                    //返回错误代码
+                }
+                else if ([errorCode intValue] == RequestSuccess) {
+                }
+            }
+            else {
+                //返回错误数据
+            }
+        }
+        else {
+        }
+    }];
+    
+}
 
 //找回POS密码
 -(void)initFindPosViewWithSelectedID:(NSString *)selectedID WithIndexNum:(int)indexP
@@ -1796,6 +1839,8 @@
 {
    
     TerminalManagerModel *model = [_terminalItems objectAtIndex:indexNum];
+    [self beginVideoAuthWithTerminalID: model.TM_ID];
+
     VideoAuthViewController *videoAuthVC = [[VideoAuthViewController alloc] init];
     videoAuthVC.terminalID = model.TM_ID;//终端记录id
     videoAuthVC.hidesBottomBarWhenPushed=YES;

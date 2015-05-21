@@ -2541,9 +2541,8 @@ static NSString *HTTP_GET  = @"GET";
     [paramDict setObject:roles forKey:@"roles"];
 //    [paramDict setObject:loginID forKey:@"loginId"];
     if (password) {
-       NSString*encryptPassword = [EncryptHelper MD5_encryptWithString:password];
+        [paramDict setObject:[EncryptHelper MD5_encryptWithString:password] forKey:@"pwd"];
 
-        [paramDict setObject:encryptPassword forKey:@"pwd"];
     }
     [paramDict setObject:[NSNumber numberWithInt:[agentID intValue]] forKey:@"customerId"];
     //url
@@ -2802,6 +2801,17 @@ static NSString *HTTP_GET  = @"GET";
                           params:paramDict
                       httpMethod:HTTP_POST
                         finished:finish];
+}
++ (void)beginVideoAuthWithTerminalID:(NSString *)terminalID
+                            finished:(requestDidFinished)finish {
+    //参数
+    NSString *param = [NSString stringWithFormat:@"terminalId=%@",terminalID];
+    NSData *postData = [param dataUsingEncoding:NSUTF8StringEncoding];
+    NetworkRequest *request = [[NetworkRequest alloc] initWithRequestURL:kVideoServiceURL
+                                                              httpMethod:HTTP_POST
+                                                                finished:finish];
+    [request setFormPostBody:postData];
+    [request start];
 }
 
 @end

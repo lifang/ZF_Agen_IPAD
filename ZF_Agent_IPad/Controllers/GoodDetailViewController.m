@@ -102,7 +102,7 @@
     
     self.navigationItem.leftBarButtonItems = [NSArray arrayWithObjects:spaceItem,backItem,spaceItem,nil];
     [self downloadGoodDetail];
-    [self getGoodImageList];
+//    [self getGoodImageList];
 
 }
 -(void)popself
@@ -820,7 +820,7 @@
     goodedetal.goodDetail=_detailModel;
     goodedetal.channelData = _detailModel.defaultChannel;
     goodedetal.supplyType=self.supplyType;
-    goodedetal.pictureArry=picturearry;
+//    goodedetal.pictureArry=picturearry;
 
     goodedetal.tradeRateItem = _detailModel.defaultChannel.dateRateItem;
     goodedetal.isrent=_detailModel.canRent;
