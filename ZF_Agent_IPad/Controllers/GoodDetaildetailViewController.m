@@ -49,18 +49,18 @@
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+    picturearry=[[NSMutableArray alloc]init];
+
     _reviewItem = [[NSMutableArray alloc] init];
     [self downloadGoodDetail];
     self.view.backgroundColor=[UIColor whiteColor];
-    [self initpicture];
 
     [self initAndLayoutUIpp];
     [self initAndLayoutUIfl];
     [self initAndLayoutUIrent];
     [self initAndLayoutUImaterial];
 
-    [self firstLoadData];
+//    [self firstLoadData];
 
     self.title=@"商品详情";
     self.view.backgroundColor=[UIColor whiteColor];
@@ -918,7 +918,7 @@
     _tableView.hidden=YES;
     _scrollViewrent.hidden=YES;
     _scrollViewmaterial.hidden=YES;
-    _scrollViewPicture.hidden=YES;
+//    _scrollViewPicture.hidden=YES;
 
     _scrollView.hidden=YES;
     [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_scrollViewmaterial
@@ -1098,9 +1098,65 @@
 
 
 #pragma mark -商品图片
+- (void)getGoodImageList {
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+    hud.labelText = @"加载中...";
+    [NetworkInterface getGoodImageWithGoodID:_goodID finished:^(BOOL success, NSData *response) {
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:1.f];
+        if (success) {
+            NSLog(@"!!%@",[[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding]);
+            id object = [NSJSONSerialization JSONObjectWithData:response options:NSJSONReadingMutableLeaves error:nil];
+            if ([object isKindOfClass:[NSDictionary class]]) {
+                NSString *errorCode = [object objectForKey:@"code"];
+                if ([errorCode intValue] == RequestFail) {
+                    //返回错误代码
+                    hud.labelText = [NSString stringWithFormat:@"%@",[object objectForKey:@"message"]];
+                }
+                else if ([errorCode intValue] == RequestSuccess) {
+                    [hud hide:YES];
+                    [self parseDataWithDictionary:object];
+                }
+            }
+            else {
+                //返回错误数据
+                hud.labelText = kServiceReturnWrong;
+            }
+        }
+        else {
+            hud.labelText = kNetworkFailed;
+        }
+    }];
+}
+
+#pragma mark - Data
+
+- (void)parseDataWithDictionary:(NSDictionary *)dict {
+    if (![dict objectForKey:@"result"] || ![[dict objectForKey:@"result"] isKindOfClass:[NSArray class]]) {
+        return;
+    }
+    [picturearry removeAllObjects];
+    NSArray *list = [dict objectForKey:@"result"];
+    for (int i = 0; i < [list count]; i++) {
+        id imageDict = [list objectAtIndex:i];
+        if ([imageDict isKindOfClass:[NSDictionary class]]) {
+            PictureModel*pictureModel=[[PictureModel alloc]initWithParseDictionary:[list objectAtIndex:i]];
+            
+            [picturearry addObject:pictureModel];
+            
+        }
+    }
+    if(picturearry.count>0)
+    {
+        [self initpicture];
+}
+}
+
 - (void)initpicture
 
 {
+    
     CGFloat wide;
     CGFloat height;
     if(iOS7)
@@ -1113,7 +1169,7 @@
         height=SCREEN_HEIGHT;
     }
     
-    NSInteger count = [self.pictureArry count];
+    NSInteger count = [picturearry count];
     
     
     _scrollViewPicture = [[UIScrollView alloc] init];
@@ -1124,7 +1180,7 @@
     
     [self.view addSubview:_scrollViewPicture];
     for (int i = 0; i < count; i++) {
-        PictureModel*pictureModel=[self.pictureArry objectAtIndex:i];
+        PictureModel*pictureModel=[picturearry objectAtIndex:i];
         
         UIImageView *imageView = [[UIImageView alloc]initWithFrame:CGRectMake(wide/2-225, i*450, 450, 450)];
         [imageView sd_setImageWithURL:[NSURL URLWithString:pictureModel.pictureName]
@@ -1709,7 +1765,8 @@
             _scrollViewPicture.hidden=YES;
             
             _tableView.hidden=NO;
-            
+            [self firstLoadData];
+
             _mainScrollView.hidden=YES;
             
         }
@@ -1730,6 +1787,10 @@
         else if(aIndex==1029)
             
         {
+            [_scrollViewPicture removeFromSuperview];
+            
+            [self getGoodImageList];
+
             _scrollView.hidden=YES;
             _scrollViewrent.hidden=YES;
             
@@ -1738,8 +1799,8 @@
             _tableView.hidden=YES;
             
             _mainScrollView.hidden=YES;
-            _scrollViewPicture.hidden=NO;
-            
+
+
         }
         
         
@@ -1784,7 +1845,10 @@
         else if(aIndex==1028)
             
         {
-            
+            [_scrollViewPicture removeFromSuperview];
+
+            [self getGoodImageList];
+
             _scrollView.hidden=YES;
             _scrollViewrent.hidden=YES;
             
@@ -1793,7 +1857,10 @@
             _tableView.hidden=YES;
             
             _mainScrollView.hidden=YES;
-            _scrollViewPicture.hidden=NO;
+            
+
+//           _scrollViewPicture.hidden=NO;
+
         }
         else if(aIndex==1026)
             
@@ -1804,7 +1871,8 @@
             _scrollViewPicture.hidden=YES;
             
             _tableView.hidden=NO;
-            
+            [self firstLoadData];
+
             _mainScrollView.hidden=YES;
             
         }

@@ -18,7 +18,7 @@
 #import "POSAddressTableViewCell.h"
 #import "UserListViewController.h"
 #import "UserSelectViewController.h"
-@interface AgentRentViewController ()<UITextFieldDelegate,UIPickerViewDataSource,UIPickerViewDelegate,UIAlertViewDelegate,SelectedUserDelegate>
+@interface AgentRentViewController ()<UITextFieldDelegate,UIPickerViewDataSource,UIPickerViewDelegate,UIAlertViewDelegate,SelectedUserDelegatell>
 
 @property (nonatomic, strong) UIButton *typeBtn;
 
@@ -406,8 +406,7 @@
 //    _UserTF.text=model.userName;
 //    _userId=model.userID;
     _defaultUser = model;
-        agentUserIDs=model.agentID;
-    
+        agentUserIDs=model.userID;
         namestring=model.userName;
         [self getAddressLists];
     

@@ -377,10 +377,6 @@
         make.bottom.equalTo(self.view.bottom).offset(-60);
     }];
     
-    [_tableView addHeaderWithTarget:self action:@selector(loadNewStatuses:) dateKey:@"table"];
-    [_tableView headerBeginRefreshing];
-    //上拉
-    [_tableView addFooterWithTarget:self action:@selector(loadMoreStatuses)];
     
     // 设置文字(也可以不设置,默认的文字在MJRefreshConst中修改)
     _tableView.headerPullToRefreshText = @"下拉可以刷新了";
@@ -501,7 +497,29 @@
 -(void)confirmBtnPressed:(id)sender
 {
   
-    [self firstLoadData];
+    if ([self isBlankString:_POSTV.text]) {
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:1.f];
+        hud.labelText = @"请选择POS机";
+        return;
+    }
+
+    if ([self isBlankString:_channelTV.text]) {
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:1.f];
+        hud.labelText = @"请选择支付通道";
+        return;
+    }
+    
+
+    [_tableView addHeaderWithTarget:self action:@selector(loadNewStatuses:) dateKey:@"table"];
+    [_tableView headerBeginRefreshing];
+    //上拉
+    [_tableView addFooterWithTarget:self action:@selector(loadMoreStatuses)];
     
     
 }

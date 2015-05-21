@@ -259,7 +259,6 @@
         //找出对应索引的视图控制器
 		UIViewController *priviousViewController = [_viewControllers objectAtIndex:_seletedIndex];
         //移除掉
-         NSLog(@"aaaaaabbbb%lu", (unsigned long)_viewControllers.count);
 		[priviousViewController.view removeFromSuperview];
 		
         //找出对应的TabBar按钮

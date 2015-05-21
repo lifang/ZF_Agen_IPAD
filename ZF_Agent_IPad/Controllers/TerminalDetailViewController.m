@@ -1283,6 +1283,8 @@
             break;
         case 4445:
         {
+            [self beginVideoAuthWithTerminalID:self.tm_ID];
+
             VideoAuthViewController *videoAuthC = [[VideoAuthViewController alloc] init];
             videoAuthC.hidesBottomBarWhenPushed=YES;
             videoAuthC.terminalID = self.tm_ID;
@@ -1309,6 +1311,8 @@
                 
             }
             else{
+                [self beginVideoAuthWithTerminalID:self.tm_ID];
+
                 VideoAuthViewController *videoAuthC = [[VideoAuthViewController alloc] init];
                 videoAuthC.terminalID = _tm_ID;
                 videoAuthC.hidesBottomBarWhenPushed=YES;
@@ -1346,6 +1350,8 @@
         case 6666:
         {
             NSLog(@"点击了视频认证（已注销）");
+            [self beginVideoAuthWithTerminalID:self.tm_ID];
+
             VideoAuthViewController *videoAuthC = [[VideoAuthViewController alloc] init];
             videoAuthC.terminalID = _tm_ID;
             videoAuthC.hidesBottomBarWhenPushed=YES;
@@ -1372,12 +1378,35 @@
     }
 }
 
+- (void)beginVideoAuthWithTerminalID:(NSString *)terminalID {
+    [NetworkInterface beginVideoAuthWithTerminalID:terminalID finished:^(BOOL success, NSData *response) {
+        NSLog(@"!!!!!!!!%@",[[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding]);
+        if (success) {
+            id object = [NSJSONSerialization JSONObjectWithData:response options:NSJSONReadingMutableLeaves error:nil];
+            if ([object isKindOfClass:[NSDictionary class]]) {
+                NSString *errorCode = [object objectForKey:@"code"];
+                if ([errorCode intValue] == RequestFail) {
+                    //返回错误代码
+                }
+                else if ([errorCode intValue] == RequestSuccess) {
+                }
+            }
+            else {
+                //返回错误数据
+            }
+        }
+        else {
+        }
+    }];
+    
+}
 
 
 //视频认证
 -(void)VideoVCWithSelectedID:(NSString *)selectedID
 {
-    
+    [self beginVideoAuthWithTerminalID:selectedID];
+
     VideoAuthViewController *VideoVC = [[VideoAuthViewController alloc] init];
     VideoVC.terminalID=selectedID;
     VideoVC.hidesBottomBarWhenPushed = YES;
