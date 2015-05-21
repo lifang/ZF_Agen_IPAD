@@ -6,8 +6,8 @@
 //  Copyright (c) 2015年 LanTaiPro. All rights reserved.
 //
 
-#import "MyMessageViewController.h"
+#import "MineCommonController.h"
 
-@interface SafeViewController : MyMessageViewController
+@interface SafeViewController : MineCommonController
 
 @end

@@ -15,7 +15,8 @@ typedef enum{
     ChooseViewMyMessage = 3,//我得信息
     ChooseViewMyShop = 4,   //我得商户
     ChooseViewApplyplan = 5,//申请进度
-    ChooseViewexit = 6,//申请进度
+    ChooseViewexit = 6,//退出
+    ChooseViewSafe = 7,//安全
 
 }ChooseViewType;
 
@@ -35,6 +36,7 @@ typedef enum{
 
 @property(nonatomic,strong)UIButton *applyBtn;
 @property(nonatomic,strong)UIButton *exitbtn;
+@property(nonatomic,strong)UIButton *safeBtn;
 
 @property(nonatomic,strong)UIImageView *imageView;
 

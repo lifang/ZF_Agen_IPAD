@@ -639,12 +639,11 @@ static NSString *s_defaultTerminalNum = @"请选择终端号";
     
 }
 
+
 -(void)rightBtnClicked:(UIButton *)button
 {
     if (button.tag == 1050) {
         changeD=!changeD;
-        
-        
         NSLog(@"点击了终端号！");
         [self setupTerminalTableView];
     }

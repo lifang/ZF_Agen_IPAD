@@ -272,6 +272,7 @@
 
 -(void)authClick:(UIButton *)sender
 {
+    [_phoneField resignFirstResponder];
         if (_isMobile) {
             if ([RegularFormat isMobileNumber:_phoneField.text]) {
                 [self sendMobileValidate];
