@@ -207,7 +207,7 @@
     CGFloat leftSpace = 140.f;
     CGFloat mainMargin = 140.f;
     UILabel *loginIDLabel = [[UILabel alloc]init];
-    loginIDLabel.text = @"登录ID";
+    loginIDLabel.text = @"用户名";
     loginIDLabel.font = [UIFont systemFontOfSize:15.f];
     loginIDLabel.frame = CGRectMake(leftSpace, 0, 50, 30);
     [_headerView addSubview:loginIDLabel];

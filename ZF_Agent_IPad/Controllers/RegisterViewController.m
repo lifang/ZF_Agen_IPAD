@@ -300,7 +300,7 @@
     [self setLine:_thirdLine withTopView:_taxImgLabel middleSpace:40.f];
     
     UILabel *loginIDLabel = [[UILabel alloc]init];
-    loginIDLabel.text = @"登录ID";
+    loginIDLabel.text = @"用户名";
     [self setLabel:loginIDLabel withTopView:_thirdLine middleSpace:40.f labelTag:0];
     
     UILabel *loginPasswordLabel = [[UILabel alloc]init];

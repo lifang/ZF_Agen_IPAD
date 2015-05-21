@@ -1089,7 +1089,7 @@
     
     
     
-    NSArray*namesarry3=[NSArray arrayWithObjects:@"登录ID",@"登录密码",@"确认密码", nil];
+    NSArray*namesarry3=[NSArray arrayWithObjects:@"用户名",@"登录密码",@"确认密码", nil];
     for(int i=0;i<namesarry3.count;i++)
     {
         
