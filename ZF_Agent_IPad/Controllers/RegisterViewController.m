@@ -1071,7 +1071,8 @@
         imagePickerController.delegate = self;
         imagePickerController.allowsEditing = YES;
         imagePickerController.sourceType = sourceType;
-        
+        [imagePickerController.navigationBar setBackgroundImage:[UIImage imageNamed:@"numberbackss"] forBarMetrics:UIBarMetricsDefault];
+
         UIPopoverController *popover = [[UIPopoverController alloc] initWithContentViewController:imagePickerController];
         popover.delegate = self;
         self.popViewController = popover;

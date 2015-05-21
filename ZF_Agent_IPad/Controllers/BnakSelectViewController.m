@@ -230,6 +230,16 @@
 #pragma mark - Action
 
 - (void)searchBank:(id)sender {
+    [_bankField resignFirstResponder];
+    if (!_bankField.text || [_bankField.text isEqualToString:@""]) {
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:1.f];
+        hud.labelText = @"请输入银行名";
+        return;
+    }
+
     /*
     [_searchItem removeAllObjects];
     for (BankModel *model in _bankItems) {

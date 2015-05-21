@@ -558,7 +558,15 @@
     [_buyGoodButton addTarget:self action:@selector(buyNow:) forControlEvents:UIControlEventTouchUpInside];
     [_mainScrollView addSubview:_buyGoodButton];
     if (self.supplyType==2) {
-        [_buyGoodButton setTitle:@"立即采购" forState:UIControlStateNormal];
+        if(_rentButton.selected)
+        {
+            [_buyGoodButton setTitle:@"立即租赁" forState:UIControlStateNormal];
+        }else
+        {
+        
+            [_buyGoodButton setTitle:@"立即采购" forState:UIControlStateNormal];
+
+        }
 
            }
     else {

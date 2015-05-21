@@ -15,7 +15,7 @@
 #import "RegularFormat.h"
 
 #import "BenefitModel.h"
-@interface OpenProfitViewController ()<UITableViewDelegate,UITableViewDataSource,UIPickerViewDataSource,UIPickerViewDelegate>
+@interface OpenProfitViewController ()<UITableViewDelegate,UITextFieldDelegate,UITableViewDataSource,UIPickerViewDataSource,UIPickerViewDelegate>
 @property(nonatomic,strong)UITableView *tableView;
 @property(nonatomic,strong)NSMutableArray*allarry;
 @property (nonatomic, strong) UIScrollView *scrollView;
@@ -498,7 +498,7 @@
         
         neworiginaltextfield.placeholder=[NSString stringWithFormat:@"%.1f%%",tradeModel.percent];
         
-//        neworiginaltextfield.delegate=self;
+        neworiginaltextfield.delegate=self;
         
         neworiginaltextfield.tag=i+1056;
         neworiginaltextfield.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
@@ -540,7 +540,8 @@
     BenefitModel *model = [_dataItem objectAtIndex:numberint];
     
     //    NSArray*namesarry=[NSArray arrayWithObjects:@"消费",@"转账",@"还款",@"话费充值",@"生活充值",nil];
-    
+    NSString *stringss = nil;
+
     NSString *string = nil;
     NSString *lastString = @"";
     for(int i=0;i<model.tradeList.count;i++)
@@ -549,8 +550,19 @@
         TradeTypeModel *tradeModel = [model.tradeList objectAtIndex:i];
         UITextField*textfield=(UITextField*)[self.view viewWithTag:i+1056];
         
+        if( [self isBlankString:textfield.placeholder])
+        {
+            stringss=textfield.text;
+            
+        }
+        else
+        {
         
-        NSString *benefitString = [NSString stringWithFormat:@"%.1f_%@",[textfield.text floatValue],tradeModel.ID];
+            stringss=textfield.placeholder;
+            
+        
+        }
+        NSString *benefitString = [NSString stringWithFormat:@"%.1f_%@",[stringss floatValue],tradeModel.ID];
 
         
         string = [NSString stringWithFormat:@"%@%@|", lastString, benefitString];
@@ -601,29 +613,80 @@
         }
     }];
 }
+- (void)textFieldDidEndEditing:(UITextField *)textField
+{
+
+
+
+textField.placeholder=@"";
+    
+
+
+
+}
+
+- (BOOL) isBlankString:(NSString *)string {
+    if (string == nil || string == NULL) {
+        return YES;
+    }
+    if ([string isKindOfClass:[NSNull class]]) {
+        return YES;
+    }
+    if ([[string stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]] length]==0) {
+        return YES;
+    }
+    return NO;
+}
+
+// may be called if forced even if shouldEndEditing returns NO (e.g. view removed from window) or endEditing:YES called
 
 -(void)openprofitclick
 {
+    BenefitModel *model = [_dataItem objectAtIndex:numberint];
+    
+    //    NSArray*namesarry=[NSArray arrayWithObjects:@"消费",@"转账",@"还款",@"话费充值",@"生活充值",nil];
+    
+    
+    for(int i=0;i<model.tradeList.count;i++)
+    {
+        UITextField*textfield=(UITextField*)[self.view viewWithTag:i+1056];
+        
+        TradeTypeModel *tradeModel = [model.tradeList objectAtIndex:i];
+        NSLog(@"%@",textfield.placeholder);
+        
+        if( [self isBlankString:textfield.placeholder])
+        {
+            if (!textfield.text || [textfield.text isEqualToString:@""]) {
+                MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+                hud.customView = [[UIImageView alloc] init];
+                hud.mode = MBProgressHUDModeCustomView;
+                [hud hide:YES afterDelay:1.f];
+                hud.labelText =[NSString stringWithFormat:@"请输入%@分润比例",tradeModel.tradeName];
+                return;
+            }
+            
+            if (![RegularFormat isFloat:textfield.text] ||
+                [textfield.text floatValue] < 0 ||
+                [textfield.text floatValue] > 100) {
+                MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+                hud.customView = [[UIImageView alloc] init];
+                hud.mode = MBProgressHUDModeCustomView;
+                [hud hide:YES afterDelay:1.f];
+                hud.labelText =[NSString stringWithFormat:@"%@分润比例必须介于1-100之间",tradeModel.tradeName];
+                return;
+
+        
+        }else
+        {
+           
+        
+        }
+        
+        
+    }
 
     
-    if (!neworiginaltextfield.text || [neworiginaltextfield.text isEqualToString:@""]) {
-        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
-        hud.customView = [[UIImageView alloc] init];
-        hud.mode = MBProgressHUDModeCustomView;
-        [hud hide:YES afterDelay:1.f];
-        hud.labelText = @"请输入分润比例";
-        return;
-    }
-    if (![RegularFormat isFloat:neworiginaltextfield.text] ||
-        [neworiginaltextfield.text floatValue] < 0 ||
-        [neworiginaltextfield.text floatValue] > 100) {
-        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
-        hud.customView = [[UIImageView alloc] init];
-        hud.mode = MBProgressHUDModeCustomView;
-        [hud hide:YES afterDelay:1.f];
-        hud.labelText = @"分润比例必须介于1-100之间";
-        return;
-    }
+           }
 
     
     
@@ -639,7 +702,7 @@
 //
 //    }
     
-    [self modityBenefit];
+   [self modityBenefit];
     
        
 

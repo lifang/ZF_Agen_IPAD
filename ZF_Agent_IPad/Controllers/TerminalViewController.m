@@ -1399,6 +1399,7 @@
                 if ([errorCode intValue] == RequestFail) {
                     //返回错误代码
                     hud.labelText = [NSString stringWithFormat:@"%@",[object objectForKey:@"message"]];
+                    [hud hide:YES afterDelay:0.3f];
                 }
                 else if ([errorCode intValue] == RequestSuccess) {
                     hud.labelText = @"绑定终端成功";

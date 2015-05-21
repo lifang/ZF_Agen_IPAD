@@ -107,6 +107,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+
     self.view.backgroundColor=[UIColor whiteColor];
     _bankItems = [[NSMutableArray alloc] init];
     _channelItems = [[NSMutableArray alloc] init];
@@ -424,12 +425,12 @@
     [_scrollView addSubview: _channelLabel];
     
     
-    UILabel *accountnamelable=[[UILabel alloc]initWithFrame:CGRectMake(wide/2,topSpace + labelHeight * 2,140, 40)];
+    UILabel *accountnamelable=[[UILabel alloc]initWithFrame:CGRectMake(wide/2-20,topSpace + labelHeight * 2,160, 40)];
     [_scrollView addSubview:accountnamelable];
     accountnamelable.textAlignment = NSTextAlignmentCenter;
     accountnamelable.font=[UIFont systemFontOfSize:19];
     
-    accountnamelable.text=@"选择已有商户";
+    accountnamelable.text=@"可选择的常用商户";
     
     accountnamebutton= [UIButton buttonWithType:UIButtonTypeCustom];
     accountnamebutton.frame = CGRectMake(150+wide/2,  topSpace + labelHeight * 2,280, 40);
@@ -440,6 +441,7 @@
     
     [accountnamebutton setTitle:accountname forState:UIControlStateNormal];
     [accountnamebutton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    
     accountnamebutton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
     [accountnamebutton setImage:kImageName(@"arrow_line") forState:UIControlStateNormal];
     accountnamebutton.layer.masksToBounds=YES;
@@ -449,6 +451,7 @@
     accountnamebutton.imageEdgeInsets = UIEdgeInsetsMake(0,270,0,0);
     
     [accountnamebutton addTarget:self action:@selector(accountnamebuttonclick) forControlEvents:UIControlEventTouchUpInside];
+    
     [_scrollView addSubview:accountnamebutton];
     NSLog(@"applyData.brandName:%@",_applyData.brandName);
     if (_applyData.brandName==nil) {
@@ -519,7 +522,7 @@
             NSString *accountname=[NSString stringWithFormat:@"%@",[_infoDict objectForKey:[keynamesarry objectAtIndex:i]]];
             NSLog(@"accountname:%@",accountname);
             if (![accountname isEqualToString:@"(null)"]) {
-                nameTF.text=[NSString stringWithFormat:@"  %@",accountname];
+                nameTF.text=[NSString stringWithFormat:@"%@",accountname];
             }
             nameTF.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
             [_scrollView addSubview:nameTF];
@@ -543,7 +546,7 @@
             NSString *accountname=[NSString stringWithFormat:@"%@",[_infoDict objectForKey:[keynamesarry objectAtIndex:i]]];
             NSLog(@"accountname:%@",accountname);
             if (![accountname isEqualToString:@"(null)"]) {
-                merchantTF.text=[NSString stringWithFormat:@"  %@",accountname];
+                merchantTF.text=[NSString stringWithFormat:@"%@",accountname];
             }
             merchantTF.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
             [_scrollView addSubview:merchantTF];
@@ -646,7 +649,7 @@
             NSString *accountname=[NSString stringWithFormat:@"%@",[_infoDict objectForKey:@"key_merchantName"]];
             NSLog(@"accountname:%@",accountname);
             if (![accountname isEqualToString:@"(null)"]) {
-                accountBankNameTF.text=[NSString stringWithFormat:@"  %@",accountname];
+                accountBankNameTF.text=[NSString stringWithFormat:@"%@",accountname];
             }
             accountBankNameTF.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
             [_scrollView addSubview:accountBankNameTF];
@@ -664,7 +667,7 @@
             }
             else
             {
-            newLB.text=@"结算银行账户名需与店铺姓名一致";
+            newLB.text=@"结算银行账户名需与店铺名称一致";
             }
             
 
@@ -672,15 +675,36 @@
         
         else if(i==9)
         {
-            bankNameBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-            bankNameBtn.frame = CGRectMake(190+(wide/2-40)*row,  height*70+topSpace + labelHeight * 7,280, 40);
             
+            
+            UITextField *neworiginaltextfield=[[UITextField alloc]init];
+            neworiginaltextfield.frame = CGRectMake(190+(wide/2-40)*row,  height*70+topSpace + labelHeight * 7,280, 40);
+            UIView *leftView = [[UIView alloc]init];
+            leftView.frame = CGRectMake(0, 0, 10, 40);
+            neworiginaltextfield.leftView =leftView;
+            neworiginaltextfield.delegate=self;
+            neworiginaltextfield.leftViewMode = UITextFieldViewModeAlways;
+            neworiginaltextfield.rightViewMode = UITextFieldViewModeAlways;
+
+            neworiginaltextfield.clearButtonMode = UITextFieldViewModeWhileEditing;
+            neworiginaltextfield.tag=i+1056;
+           
+            [_scrollView addSubview:neworiginaltextfield];
+            neworiginaltextfield.layer.masksToBounds=YES;
+            neworiginaltextfield.layer.borderWidth=1.0;
+            neworiginaltextfield.layer.borderColor=[UIColor grayColor].CGColor;
+            
+            
+            bankNameBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+            bankNameBtn.frame = CGRectMake(0,0,50, 40);
+            neworiginaltextfield.rightView =bankNameBtn;
+
             if(_bankTitleName)
                 
             {
+                neworiginaltextfield.text=_bankTitleName;
                 
                 
-                [bankNameBtn setTitle:[NSString stringWithFormat:@"%@        ",_bankTitleName] forState:UIControlStateNormal];
                 
                 
                 
@@ -688,31 +712,62 @@
             [bankNameBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
             bankNameBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
             [bankNameBtn setImage:kImageName(@"arrow_line1") forState:UIControlStateNormal];
-            bankNameBtn.layer.masksToBounds=YES;
-            bankNameBtn.layer.borderWidth=1.0;
-            bankNameBtn.layer.borderColor=[UIColor grayColor].CGColor;
-            bankNameBtn.contentEdgeInsets = UIEdgeInsetsMake(0,-40, 0, 0);
-            bankNameBtn.imageEdgeInsets = UIEdgeInsetsMake(0,270,0,0);//设置image在button上的位置（上top，左left，下bottom，右right）这里可以写负值，对上写－5，那么image就象上移动5个像素
+//            bankNameBtn.layer.masksToBounds=YES;
+//            bankNameBtn.layer.borderWidth=1.0;
+//            bankNameBtn.layer.borderColor=[UIColor grayColor].CGColor;
+//            bankNameBtn.contentEdgeInsets = UIEdgeInsetsMake(0,-40, 0, 0);
+//            bankNameBtn.imageEdgeInsets = UIEdgeInsetsMake(0,270,0,0);//设置image在button上的位置（上top，左left，下bottom，右right）这里可以写负值，对上写－5，那么image就象上移动5个像素
             [bankNameBtn addTarget:self action:@selector(bankNameBtnclick) forControlEvents:UIControlEventTouchUpInside];
             [_scrollView addSubview:bankNameBtn];
         }
       
         else if(i==11)
         {
+            
+            
+            
+            UITextField *neworiginaltextfield=[[UITextField alloc]init];
+            neworiginaltextfield.frame = CGRectMake(190+(wide/2-40)*row,  height*70+topSpace + labelHeight * 7,280, 40);
+            UIView *leftView = [[UIView alloc]init];
+            leftView.frame = CGRectMake(0, 0, 10, 40);
+            neworiginaltextfield.leftView =leftView;
+            neworiginaltextfield.delegate=self;
+            neworiginaltextfield.leftViewMode = UITextFieldViewModeAlways;
+            neworiginaltextfield.rightViewMode = UITextFieldViewModeAlways;
+            
+            neworiginaltextfield.clearButtonMode = UITextFieldViewModeWhileEditing;
+            neworiginaltextfield.tag=i+1056;
+            
+            [_scrollView addSubview:neworiginaltextfield];
+            neworiginaltextfield.layer.masksToBounds=YES;
+            neworiginaltextfield.layer.borderWidth=1.0;
+            neworiginaltextfield.layer.borderColor=[UIColor grayColor].CGColor;
+
+            
+            
+            
             zhifubutton = [UIButton buttonWithType:UIButtonTypeCustom];
-            zhifubutton.frame = CGRectMake(190+(wide/2-40)*row,  height*70+topSpace + labelHeight * 7,280, 40);
+            zhifubutton.frame = CGRectMake(0,0,50, 40);
             NSString *accountname=[NSString stringWithFormat:@"%@",[_infoDict objectForKey:[keynamesarry objectAtIndex:i]]];
-            if (![accountname isEqualToString:@"(null)"]) {
-                [zhifubutton setTitle:accountname forState:UIControlStateNormal];
+            if ([self isBlankString:accountname])
+            {
+                neworiginaltextfield.text=@"";
             }
+            else
+            {
+                neworiginaltextfield.text=accountname;
+
+            
+            }
+            neworiginaltextfield.rightView =zhifubutton;
+
             [zhifubutton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-            zhifubutton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
             [zhifubutton setImage:kImageName(@"arrow_line") forState:UIControlStateNormal];
-            zhifubutton.layer.masksToBounds=YES;
-            zhifubutton.layer.borderWidth=1.0;
-            zhifubutton.layer.borderColor=[UIColor grayColor].CGColor;
-            zhifubutton.contentEdgeInsets = UIEdgeInsetsMake(0,-40, 0, 0);
-            zhifubutton.imageEdgeInsets = UIEdgeInsetsMake(0,270,0,0);
+//            zhifubutton.layer.masksToBounds=YES;
+//            zhifubutton.layer.borderWidth=1.0;
+//            zhifubutton.layer.borderColor=[UIColor grayColor].CGColor;
+//            zhifubutton.contentEdgeInsets = UIEdgeInsetsMake(0,-40, 0, 0);
+//            zhifubutton.imageEdgeInsets = UIEdgeInsetsMake(0,270,0,0);
             
             [zhifubutton addTarget:self action:@selector(zhifuclick) forControlEvents:UIControlEventTouchUpInside];
             [_scrollView addSubview:zhifubutton];
@@ -731,7 +786,7 @@
             NSString *accountname=[NSString stringWithFormat:@"%@",[_infoDict objectForKey:[keynamesarry objectAtIndex:i]]];
             NSLog(@"accountname:%@",accountname);
             if (![accountname isEqualToString:@"(null)"]) {
-                 neworiginaltextfield.text=[NSString stringWithFormat:@"  %@",accountname];
+                 neworiginaltextfield.text=[NSString stringWithFormat:@"%@",accountname];
             }
             neworiginaltextfield.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
             [_scrollView addSubview:neworiginaltextfield];
@@ -829,6 +884,10 @@
             textTF.frame=CGRectMake(190+(wide/2-40)*textrow, 80+710+ textheight*70,280, 40);
             textTF.tag=i+1056;
             [_scrollView addSubview:textTF];
+            textTF.leftViewMode = UITextFieldViewModeAlways;
+            UIView *leftView = [[UIView alloc]init];
+            leftView.frame = CGRectMake(0, 0, 10, 40);
+            textTF.leftView =leftView;
             textTF.delegate=self;
             textTF.layer.masksToBounds=YES;
             textTF.layer.borderWidth=1.0;
@@ -909,6 +968,22 @@
     
     
 }
+- (BOOL) isBlankString:(NSString *)string {
+    if (string == nil || string == NULL) {
+        return YES;
+    }
+    if ([string isEqualToString:@"(null)"]) {
+        return YES;
+    }
+    if ([string isKindOfClass:[NSNull class]]) {
+        return YES;
+    }
+    if ([[string stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]] length]==0) {
+        return YES;
+    }
+    return NO;
+}
+
 #pragma mark - UI
 #pragma mark - 点击事件
 
@@ -1419,17 +1494,20 @@
         imagePickerController.allowsEditing = YES;
         imagePickerController.sourceType = sourceType;
         
+       [imagePickerController.navigationBar setBackgroundImage:[UIImage imageNamed:@"numberbackss"] forBarMetrics:UIBarMetricsDefault];
+
         UIPopoverController *popover = [[UIPopoverController alloc] initWithContentViewController:imagePickerController];
         popover.delegate = self;
         self.popViewController = popover;//对局部UIPopoverController对象popover我们赋给了一个全局的UIPopoverController对象popoverController
         // popover.popoverContentSize = CGSizeMake(SCREEN_WIDTH, SCREEN_HEIGHT);
-        
+
         if([[[UIDevice currentDevice] systemVersion] floatValue]>=8.0)
         {
             
             [[NSOperationQueue mainQueue] addOperationWithBlock:^{
                 
                 [self.popViewController presentPopoverFromRect:CGRectMake(self.view.frame.size.width/2.0, 0, 0, 42) inView:self.view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+                
                 
             }];
             
@@ -1879,10 +1957,10 @@
         
     [_infoDict setObject:textField.text forKey:[keynamesarry objectAtIndex:textField.tag-1056]];
     }
-    if (nameTF==textField&&_applyType==OpenApplyPrivate) {
-        NSString *string=[NSString stringWithFormat:@"%@", nameTF.text];
-        accountBankNameTF.text=string;
-    }
+//    if (nameTF==textField&&_applyType==OpenApplyPrivate) {
+//        NSString *string=[NSString stringWithFormat:@"%@", nameTF.text];
+//        accountBankNameTF.text=string;
+//    }
     if (merchantTF==textField) {
         accountBankNameTF.text=[NSString stringWithFormat:@"%@",merchantTF.text];
     }
@@ -1949,7 +2027,7 @@
     if (model) {
          NSLog(@"model:%@",model);
         NSLog(@"model.bank:%@",model.bankName);
-    [bankNameBtn setTitle:[NSString stringWithFormat:@"%@",model.bankName] forState:UIControlStateNormal];
+    [bankNameBtn setTitle:[NSString stringWithFormat:@"%@        ",model.bankName] forState:UIControlStateNormal];
    // bankIdTF.text=model.bankCode;
         if([_selectedKey isEqualToString: @"key_bankID"])
         {

@@ -71,7 +71,7 @@
 
     
     // Do any additional setup after loading the view.
-    self.title = @"申请成为代理商";
+    self.title = @"创建下级代理商";
     _registerDict = [[NSMutableDictionary alloc] init];
     [self initAndLayoutUI];
     
@@ -391,7 +391,8 @@
     
     [self initPickerView];
 
-
+    [self.editingField resignFirstResponder];
+    
 
 
 }
@@ -789,7 +790,11 @@
 
             
             }
+            neworiginaltextfield.leftViewMode = UITextFieldViewModeAlways;
             
+            UIView *v = [[UIView alloc]init];
+            v.frame = CGRectMake(0, 0, 10, 40);
+            neworiginaltextfield.leftView = v;
             neworiginaltextfield.delegate=self;
             
             neworiginaltextfield.tag=i+1056;
@@ -932,7 +937,12 @@
                 
                 
             }
-           
+            neworiginaltextfield.leftViewMode = UITextFieldViewModeAlways;
+            
+            UIView *v = [[UIView alloc]init];
+            v.frame = CGRectMake(0, 0, 10, 40);
+            neworiginaltextfield.leftView = v;
+
             neworiginaltextfield.tag=i+10560;
             neworiginaltextfield.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
             [_scrollView addSubview:neworiginaltextfield];
@@ -1150,6 +1160,12 @@
 
             
         }
+        neworiginaltextfield.leftViewMode = UITextFieldViewModeAlways;
+        
+        UIView *v = [[UIView alloc]init];
+        v.frame = CGRectMake(0, 0, 10, 40);
+        neworiginaltextfield.leftView = v;
+
         neworiginaltextfield.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
         [_scrollView addSubview:neworiginaltextfield];
         //        neworiginaltextfield.delegate=self;
@@ -1270,8 +1286,13 @@
 
 
 #pragma mark - UITextField
-
+- (BOOL)textFieldShouldBeginEditing:(UITextField *)textField {
+    self.editingField = textField;
+    return YES;
+    
+}
 - (void)textFieldDidBeginEditing:(UITextField *)textField {
+
     
     if (textField.tag==1056 |textField.tag==1057|textField.tag==1058) {
        
@@ -1350,7 +1371,8 @@
         imagePickerController.delegate = self;
         imagePickerController.allowsEditing = YES;
         imagePickerController.sourceType = sourceType;
-        
+        [imagePickerController.navigationBar setBackgroundImage:[UIImage imageNamed:@"numberbackss"] forBarMetrics:UIBarMetricsDefault];
+
         UIPopoverController *popover = [[UIPopoverController alloc] initWithContentViewController:imagePickerController];
         popover.delegate = self;
         self.popViewController = popover;//对局部UIPopoverController对象popover我们赋给了一个全局的UIPopoverController对象popoverController

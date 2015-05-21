@@ -450,6 +450,27 @@ static NSString *HTTP_GET  = @"GET";
 
 //18.
 + (void)getMerchantListWithToken:(NSString *)token
+                      terminalID:(NSString *)terminalID
+                         keyword:(NSString *)merchantName
+                            page:(int)page rows:(int)rows
+                        finished:(requestDidFinished)finish{
+    //参数
+    NSMutableDictionary *paramDict = [[NSMutableDictionary alloc] init];
+    [paramDict setObject:[NSNumber numberWithInt:[terminalID intValue]] forKey:@"terminalId"];
+    if (merchantName) {
+        [paramDict setObject:merchantName forKey:@"title"];
+    }
+    [paramDict setObject:[NSNumber numberWithInt:page] forKey:@"page"];
+    [paramDict setObject:[NSNumber numberWithInt:rows] forKey:@"rows"];
+    //url
+    NSString *urlString = [NSString stringWithFormat:@"%@/%@",kServiceURL,s_merchantList_method];
+    [[self class] requestWithURL:urlString
+                          params:paramDict
+                      httpMethod:HTTP_POST
+                        finished:finish];
+}
+
++ (void)getMerchantListWithToken:(NSString *)token
                           terminalId:(NSString *)terminalId
                               page:(int)page
                               rows:(int)rows
@@ -2338,13 +2359,19 @@ static NSString *HTTP_GET  = @"GET";
         [paramDict setObject:[EncryptHelper MD5_encryptWithString:confirm] forKey:@"pwd1"];
     }
     [paramDict setObject:[NSNumber numberWithInt:agentType] forKey:@"agentType"];
+    if (companyName) {
+        [paramDict setObject:companyName forKey:@"companyName"];
+    }
+    else {
+        [paramDict setObject:@"" forKey:@"companyName"];
+    }
+    if (licenseID) {
+        [paramDict setObject:licenseID forKey:@"companyId"];
+    }
+    else {
+        [paramDict setObject:@"" forKey:@"companyId"];
+    }
     if (agentType == AgentTypeCompany) {
-        if (companyName) {
-            [paramDict setObject:companyName forKey:@"companyName"];
-        }
-        if (licenseID) {
-            [paramDict setObject:licenseID forKey:@"companyId"];
-        }
         if (taxID) {
             [paramDict setObject:taxID forKey:@"taxNumStr"];
         }
@@ -2375,7 +2402,10 @@ static NSString *HTTP_GET  = @"GET";
         [paramDict setObject:cardImagePath forKey:@"cardPhotoPath"];
     }
     [paramDict setObject:[NSNumber numberWithInt:hasProfit] forKey:@"isProfit"];
+    
+    //已加密传递
     [paramDict setObject:[NSNumber numberWithBool:YES] forKey:@"isEncrypt"];
+
 
     //url
     NSString *urlString = [NSString stringWithFormat:@"%@/%@",kServiceURL,s_subAgentCreate_method];

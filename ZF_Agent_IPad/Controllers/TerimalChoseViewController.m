@@ -748,6 +748,10 @@
     if (string == nil || string == NULL) {
         return YES;
     }
+    if ([string isEqualToString:@"(null)"])
+    {
+        return YES;
+    }
     if ([string isKindOfClass:[NSNull class]]) {
         return YES;
     }
@@ -772,8 +776,23 @@
     }
 
     self.page = 1;
+    NSString*idstring;
     
-    [NetworkInterface getPrepareGoodTerminalListWithAgentID:delegate.agentID token:delegate.token channelID:[NSString stringWithFormat:@"%d",_channelsId] goodID:[NSString stringWithFormat:@"%d",_goodid] terminalNumbers:_terminalFilter page:page rows:kPageSize * 2 finished:^(BOOL success, NSData *response) {
+    if([self isBlankString:self.posid])
+    {
+        
+        idstring=delegate.agentID;
+        
+    }else
+    {
+        
+        idstring=self.posid;
+        
+        
+    }
+
+    
+    [NetworkInterface getPrepareGoodTerminalListWithAgentID:idstring token:delegate.token channelID:[NSString stringWithFormat:@"%d",_channelsId] goodID:[NSString stringWithFormat:@"%d",_goodid] terminalNumbers:_terminalFilter page:page rows:kPageSize * 2 finished:^(BOOL success, NSData *response) {
     
     
         [_tableView footerEndRefreshing];
@@ -976,11 +995,18 @@
 {
     if (pickerstatus==100) {
         NSInteger index = [_pickerView selectedRowInComponent:0];
-        POSModel *model =[_POSArray objectAtIndex:index]  ;
+        if(_POSArray.count>0)
+        {
+        
+        
+            POSModel *model =[_POSArray objectAtIndex:index]  ;
+            
+            
+            _POSTV.text=model.title;
+            _goodid=[model.ID integerValue];
 
         
-        _POSTV.text=model.title;
-        _goodid=[model.ID integerValue];
+        }
         
         
         
@@ -1000,12 +1026,31 @@
             model = [_pickerArray objectAtIndex:secondIndex];
         }
         if (model==nil) {
-            _channelTV.text=[NSString stringWithFormat:@"%@",channel.channelName];
+            if([self isBlankString:channel.channelName])
+            {
+                _channelTV.text=@"";
+
+            }else
+            {
+                _channelTV.text=[NSString stringWithFormat:@"%@",channel.channelName];
+
+            
+            }
             
         }
         else
+        { if([self isBlankString:channel.channelName])
         {
-            _channelTV.text= [NSString stringWithFormat:@"%@ %@",channel.channelName,model.billName];
+            
+            _channelTV.text=@"";
+
+        }
+            else
+            {
+                _channelTV.text= [NSString stringWithFormat:@"%@ %@",channel.channelName,model.billName];
+
+            
+            }
         }
         
     }

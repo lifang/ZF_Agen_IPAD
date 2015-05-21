@@ -410,6 +410,12 @@ static NSString *s_goodImage_method = @"good/getGoodImgUrl";
 static NSString *s_AllUserList_method = @"terminal/getCustomer";
 
 @interface NetworkInterface : NSObject
++ (void)getMerchantListWithToken:(NSString *)token
+                      terminalID:(NSString *)terminalID
+                         keyword:(NSString *)merchantName
+                            page:(int)page
+                            rows:(int)rows
+                        finished:(requestDidFinished)finish;
 + (void)getGoodImageWithGoodID:(NSString *)goodID
                       finished:(requestDidFinished)finish;
 /*!
