@@ -2778,11 +2778,11 @@ static NSString *HTTP_GET  = @"GET";
 }
 
 
-+(void)getappVersionWithTypes:(NSString*)types finished:(requestDidFinished)finish
++ (void)checkVersionFinished:(requestDidFinished)finish
 {
     //参数
     NSMutableDictionary *paramDict=[[NSMutableDictionary alloc]init];
-    [paramDict setObject:[NSNumber numberWithInt:[types intValue]] forKey:@"types"];
+    [paramDict setObject:[NSNumber numberWithInt:kAppVersionType] forKey:@"types"];
     NSString *urlString=[NSString stringWithFormat:@"%@/%@",kServiceURL,s_appVersion_method];
     [[self class]requestWithURL:urlString params:paramDict httpMethod:HTTP_POST finished:finish];
 }
