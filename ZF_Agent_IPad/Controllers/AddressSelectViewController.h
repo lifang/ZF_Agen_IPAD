@@ -16,7 +16,7 @@
 
 @end
 
-@interface AddressSelectViewController : CommonViewController
+@interface AddressSelectViewController : UIViewController
 
 @property (nonatomic, assign) id<SelectedAddressDelegate>delegate;
 

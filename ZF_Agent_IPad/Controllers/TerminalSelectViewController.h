@@ -15,7 +15,7 @@
 
 @end
 
-@interface TerminalSelectViewController : CommonViewController
+@interface TerminalSelectViewController : UIViewController
 
 @property (nonatomic, assign) id<SelectedTerminalDelegate>delegate;
 
