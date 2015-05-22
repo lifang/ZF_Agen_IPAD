@@ -644,7 +644,9 @@
 }
 -(void)chosenewuser
 {
+    B=0;
     
+    self.ishaveaddress=NO;
     
     
     UserSelectViewController *UserSC=[[UserSelectViewController alloc] init];
@@ -702,18 +704,18 @@
         
         
     }
-    if([self isBlankString:addressID])
-    {
-        
-        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
-        hud.customView = [[UIImageView alloc] init];
-        hud.mode = MBProgressHUDModeCustomView;
-        [hud hide:YES afterDelay:1.f];
-        hud.labelText = @"请选择地址";
-        return;
-        
-        
-    }
+//    if([self isBlankString:addressID])
+//    {
+//        
+//        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+//        hud.customView = [[UIImageView alloc] init];
+//        hud.mode = MBProgressHUDModeCustomView;
+//        [hud hide:YES afterDelay:1.f];
+//        hud.labelText = @"请选择地址";
+//        return;
+//        
+//        
+//    }
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
     hud.labelText = @"加载中...";
     AppDelegate *delegate = [AppDelegate shareAppDelegate];
@@ -1957,33 +1959,52 @@
             
             
         }
-        if([model.addressID isEqualToString:@"1"])
+//        if([model.addressID isEqualToString:@"1"])
+//            
+//        {
+//            
+//            B=i+1;
+//            
+//            
+//            
+//            
+//            
+//            
+//            
+//        }
+//        else
+//        {
+//            
+//            
+//        }
+        
+        
+        
+        
+        if([model.isDefault isEqualToString:@"1"])
             
         {
             
-            B=i+1;
+            
+            self.ishaveaddress=YES;
             
             
-            
-            
+        
             
             
             
         }
-        else
-        {
-            
-            
-        }
+
         
         
     }
-    if(B==0)
-    {
-        B=1;
-        
-        
-    }
+    
+//    if(B==0)
+//    {
+//        B=1;
+//        
+//        
+//    }
 
     [self.tableView reloadData];
     
