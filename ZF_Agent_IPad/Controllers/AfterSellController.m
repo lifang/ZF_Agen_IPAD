@@ -719,7 +719,8 @@
             UpdateDetailController *updateVC = [[UpdateDetailController alloc]init];
             updateVC.hidesBottomBarWhenPushed = YES;
             updateVC.csID = model.csID;
-            if (model.status == 3) {
+            NSLog(@"~~~~%d",model.status);
+            if (model.status == 1) {
                 updateVC.operationBtnType = OperationBtnCancel;
             }
             updateVC.csType = CSTypeUpdate;

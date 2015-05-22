@@ -10,7 +10,7 @@
 #import "AppDelegate.h"
 #import "AfterSellController.h"
 
-@interface CsDetailController ()<UITextFieldDelegate>
+@interface CsDetailController ()<UITextFieldDelegate,UIAlertViewDelegate>
 
 @property(nonatomic,strong)UIImageView *logistView;
 @property(nonatomic,strong)UITextField *logistNameField;
@@ -114,6 +114,52 @@
                                                          multiplier:1.0
                                                            constant:labelHeight]];
 }
+
+- (void)setLabel:(UILabel *)label
+     withTopView:(UIView *)topView
+     middleSpace:(CGFloat)space
+         WithStr:(NSString *)str{
+    CGFloat leftSpace = 60.f;
+    CGFloat rightSpce = 20.f;
+    label.translatesAutoresizingMaskIntoConstraints = NO;
+    label.backgroundColor = [UIColor clearColor];
+    label.font = [UIFont systemFontOfSize:16.f];
+    label.textColor = kColor(108, 108, 108, 1);
+    CGSize size = CGSizeMake(self.view.frame.size.width - 300.f,MAXFLOAT); //设置一个行高上限
+    NSDictionary *attribute = @{NSFontAttributeName: label.font};
+    CGSize labelsize = [str boundingRectWithSize:size options: NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin |NSStringDrawingUsesFontLeading attributes:attribute context:nil].size;
+    label.numberOfLines = 0;
+    [_scrollView addSubview:label];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:label
+                                                          attribute:NSLayoutAttributeTop
+                                                          relatedBy:NSLayoutRelationEqual
+                                                             toItem:topView
+                                                          attribute:NSLayoutAttributeBottom
+                                                         multiplier:1.0
+                                                           constant:space]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:label
+                                                          attribute:NSLayoutAttributeLeft
+                                                          relatedBy:NSLayoutRelationEqual
+                                                             toItem:self.view
+                                                          attribute:NSLayoutAttributeLeft
+                                                         multiplier:1.0
+                                                           constant:leftSpace]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:label
+                                                          attribute:NSLayoutAttributeRight
+                                                          relatedBy:NSLayoutRelationEqual
+                                                             toItem:self.view
+                                                          attribute:NSLayoutAttributeRight
+                                                         multiplier:1.0
+                                                           constant:-rightSpce]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:label
+                                                          attribute:NSLayoutAttributeHeight
+                                                          relatedBy:NSLayoutRelationEqual
+                                                             toItem:nil
+                                                          attribute:NSLayoutAttributeNotAnAttribute
+                                                         multiplier:1.0
+                                                           constant:labelsize.height]];
+}
+
 - (void)layoutButton:(UIButton *)button position:(OperationBtnType)btnType
 {
     CGFloat topSpace = 30.f;
@@ -194,13 +240,38 @@
 //取消申请
 -(void)cancelClicked
 {
-    [self cancelApply];
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示信息"
+                                                    message:@"确定取消申请？"
+                                                   delegate:self
+                                          cancelButtonTitle:@"取消"
+                                          otherButtonTitles:@"确定", nil];
+    [alert show];
+    alert.tag = AlertViewCancelTag;
+}
+
+#pragma mark - AlertView
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if (buttonIndex != alertView.cancelButtonIndex) {
+        if (alertView.tag == AlertViewCancelTag) {
+            [self cancelApply];
+        }
+        else if (alertView.tag == AlertViewSubmitTag) {
+            [self submitCanncelApply];
+        }
+    }
 }
 
 //重新提交注销
 -(void)submitCancelClicked
 {
-    [self submitCanncelApply];
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示信息"
+                                                    message:@"确定重新提交注销？"
+                                                   delegate:self
+                                          cancelButtonTitle:@"取消"
+                                          otherButtonTitles:@"确定", nil];
+    [alert show];
+    alert.tag = AlertViewSubmitTag;
 }
 
 //提交物流信息

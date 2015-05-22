@@ -601,7 +601,7 @@
     [whiteView addSubview:_memoryLabel];
     UIButton *clearBtn = [[UIButton alloc]init];
     [clearBtn setBackgroundColor:[UIColor clearColor]];
-    clearBtn.frame = CGRectMake(CGRectGetMaxX(getNews.frame) + 50, CGRectGetMaxY(line3.frame) + 15, 85, 50);
+    clearBtn.frame = CGRectMake(0, CGRectGetMaxY(line3.frame) + 15, whiteView.frame.size.width, 50);
     [whiteView addSubview:clearBtn];
     [clearBtn addTarget:self action:@selector(clearImage) forControlEvents:UIControlEventTouchUpInside];
     
