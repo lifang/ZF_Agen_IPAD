@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "CommonViewController.h"
 #import "AddressSelectCell.h"
 
 @protocol SelectedAddressDelegate <NSObject>
@@ -15,7 +16,7 @@
 
 @end
 
-@interface AddressSelectViewController : UIViewController
+@interface AddressSelectViewController : CommonViewController
 
 @property (nonatomic, assign) id<SelectedAddressDelegate>delegate;
 

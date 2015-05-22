@@ -6,7 +6,7 @@
 //  Copyright (c) 2015年 LanTaiPro. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import "CommonViewController.h"
 @protocol ChangeEmailSuccessDelegate <NSObject>
 
 @optional
@@ -14,7 +14,7 @@
 
 @end
 
-@interface ChangeEmailController : UIViewController
+@interface ChangeEmailController : CommonViewController
 
 @property(nonatomic,strong)NSString *oldEmail;
 

@@ -15,7 +15,7 @@ typedef enum {
 }staffStatus;
 
 static NSString *RefreshStaffManagerDetailNotification = @"RefreshStaffManagerDetailNotification";
-@interface StaffManagerDetailController : UIViewController
+@interface StaffManagerDetailController : CommonViewController
 
 @property(nonatomic,strong)StaffManagerModel *staffModel;
 

@@ -17,6 +17,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.edgesForExtendedLayout = UIRectEdgeAll;
     self.view.backgroundColor = [UIColor whiteColor];
     self.title = @"修改手机";
     self.navigationController.navigationItem.leftBarButtonItem = nil;

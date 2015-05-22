@@ -6,7 +6,7 @@
 //  Copyright (c) 2015年 LanTaiPro. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import "CommonViewController.h"
 
 @protocol LoginSuccessDelegate <NSObject>
 
@@ -15,7 +15,7 @@
 
 @end
 
-@interface LoginViewController : UIViewController
+@interface LoginViewController : CommonViewController
 
 @property(nonatomic,weak)id LoginSuccessDelegate;
 

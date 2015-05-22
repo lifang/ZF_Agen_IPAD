@@ -11,7 +11,7 @@
 #import "LoginViewController.h"
 #import "BasicNagigationController.h"
 
-@interface RootViewController : UIViewController
+@interface RootViewController : CommonViewController
 
 @property (nonatomic, strong) BasicNagigationController *loginNav;
 

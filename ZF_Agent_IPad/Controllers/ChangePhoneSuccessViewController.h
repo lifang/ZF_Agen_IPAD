@@ -6,9 +6,9 @@
 //  Copyright (c) 2015年 LanTaiPro. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import "CommonViewController.h"
 
-@interface ChangePhoneSuccessViewController : UIViewController
+@interface ChangePhoneSuccessViewController : CommonViewController
 
 @property(nonatomic,strong)NSString *phone;
 

@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface VideoAuthViewController : UIViewController
+@interface VideoAuthViewController : CommonViewController
 
 //终端记录id，作为视频认证的room id
 @property (nonatomic, strong) NSString *terminalID;

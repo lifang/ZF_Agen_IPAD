@@ -6,10 +6,10 @@
 //  Copyright (c) 2015年 LanTaiPro. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import "CommonViewController.h"
 #import "NetworkInterface.h"
 
-@interface DealRoadChildController : UIViewController
+@interface DealRoadChildController : CommonViewController
 
 @property (nonatomic, strong) NSString *tradeID;
 @property (nonatomic, assign) TradeType tradeType;

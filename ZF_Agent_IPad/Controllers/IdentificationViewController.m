@@ -60,6 +60,7 @@
     self.title = @"开通认证";
     self.view.backgroundColor=[UIColor whiteColor];
     
+    self.edgesForExtendedLayout = UIRectEdgeAll;
     touchStatus=100;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(pushtoNewApply:) name:@"newApply" object:nil];
     UIButton *searchBtn = [UIButton buttonWithType:UIButtonTypeCustom];

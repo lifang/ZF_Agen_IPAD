@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ZYHomeViewController : UIViewController
+@interface ZYHomeViewController : CommonViewController
 
 {
     UIView*rootview;

@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface TerminalViewController : UIViewController
+@interface TerminalViewController : CommonViewController
 
 
 @end

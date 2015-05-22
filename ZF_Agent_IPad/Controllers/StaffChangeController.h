@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "StaffManagerModel.h"
 
-@interface StaffChangeController : UIViewController
+@interface StaffChangeController : CommonViewController
 
 @property(nonatomic,strong)NSString *name;
 @property(nonatomic,strong)NSString *loginID;

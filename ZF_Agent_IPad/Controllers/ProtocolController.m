@@ -19,6 +19,7 @@
     // Do any additional setup after loading the view.
     [self setupNavBar];
     [self initAndLayoutUI];
+    self.navigationController.navigationBarHidden = YES;
 }
 
 - (void)didReceiveMemoryWarning {
