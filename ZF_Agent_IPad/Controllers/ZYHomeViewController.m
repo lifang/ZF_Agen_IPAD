@@ -126,11 +126,11 @@
     
     if(iOS7)
     {
-        _pollingView = [[PollingView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_HEIGHT, SCREEN_WIDTH*0.4+65)];
+        _pollingView = [[PollingView alloc] initWithFrame:CGRectMake(-3, 0, SCREEN_HEIGHT, SCREEN_WIDTH*0.4+65)];
     }
     else
     {
-        _pollingView = [[PollingView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT*0.4+65)];
+        _pollingView = [[PollingView alloc] initWithFrame:CGRectMake(-3, 0, SCREEN_WIDTH, SCREEN_HEIGHT*0.4+65)];
     }
     [rootview addSubview:_pollingView];
 }

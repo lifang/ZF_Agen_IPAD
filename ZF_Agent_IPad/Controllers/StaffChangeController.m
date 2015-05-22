@@ -67,7 +67,7 @@
     CGFloat topSpaceLittle = 10.f;
     
     UILabel *loginIDLabel = [[UILabel alloc]init];
-    loginIDLabel.text = @"登录ID";
+    loginIDLabel.text = @"用户名";
     [self setLabel:loginIDLabel WithTopSapce:topSpaceBig * 4 WithTopView:self.view WithLabelTag:1];
     
     UILabel *nameLabel = [[UILabel alloc]init];
@@ -380,7 +380,7 @@
     NSLog(@"~~~~~~%@",_statusStr);
     if (!_loginIDField.text || [_loginIDField.text isEqualToString:@""]) {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示信息"
-                                                        message:@"登录ID不能为空!"
+                                                        message:@"用户名不能为空!"
                                                        delegate:nil
                                               cancelButtonTitle:@"确定"
                                               otherButtonTitles:nil];

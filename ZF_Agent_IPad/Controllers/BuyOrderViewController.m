@@ -1159,7 +1159,11 @@
         
         
         self.reviewField  = [[UITextField alloc] initWithFrame:CGRectMake(60, 5,wide-160, 40)];
-        self.reviewField .borderStyle = UITextBorderStyleLine;
+        self.reviewField.layer.cornerRadius=1.0f;
+        self.reviewField.layer.masksToBounds=YES;
+        self.reviewField.layer.borderColor=[[UIColor grayColor]CGColor];
+        self.reviewField.layer.borderWidth= 1.0f;
+        
         self.reviewField .delegate = self;
         self.reviewField .placeholder = @"留言";
         self.reviewField .font = [UIFont systemFontOfSize:14.f];

@@ -18,8 +18,18 @@
         if ([dict objectForKey:@"company_name"]) {
             _agentName = [NSString stringWithFormat:@"%@",[dict objectForKey:@"company_name"]];
         }
+        else
+        {
+        _agentName=@"";
+            
+        }
         if ([dict objectForKey:@"created_at"]) {
             _createTime = [NSString stringWithFormat:@"%@",[dict objectForKey:@"created_at"]];
+        }
+        else
+        {
+            _createTime=@"";
+ 
         }
         _count = [[dict objectForKey:@"quantity"] intValue];
     }

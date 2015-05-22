@@ -1956,6 +1956,13 @@
 }
 
 - (void)textFieldDidEndEditing:(UITextField *)textField {
+    if(textField.tag==1056+9)
+    {
+    
+    
+        _bankTitleName=textField.text;
+    }
+    
     if (textField.text && ![textField.text isEqualToString:@""]) {
         
     [_infoDict setObject:textField.text forKey:[keynamesarry objectAtIndex:textField.tag-1056]];
@@ -2215,11 +2222,13 @@
             _billID=model.billID;
             
         }
+        
         [zhifubutton setTitle:channelInfo forState:UIControlStateNormal];
         [_infoDict setObject:channelInfo forKey:key_channel];
                
     }
- 
+    [_tableView reloadData];
+    
     
 }
 

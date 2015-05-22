@@ -210,6 +210,9 @@
                                                            constant:40.f]];
     
     _searchField = [[UITextField alloc]init];
+    _searchField.placeholder=@"请输入售后编号";
+    
+    
     _searchField.translatesAutoresizingMaskIntoConstraints = NO;
     _searchField.userInteractionEnabled = YES;
     _searchField.textColor = kColor(119, 120, 120, 1.0);
