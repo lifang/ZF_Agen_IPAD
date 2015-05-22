@@ -254,7 +254,7 @@
     UILabel*idlable=[[UILabel alloc]initWithFrame:CGRectMake(60, 620,wide/2, 30)];
 //    idlable.textAlignment = NSTextAlignmentRight;
     
-    idlable.text=[NSString stringWithFormat:@"                       登录ID: %@", _agentDetail.loginName];
+    idlable.text=[NSString stringWithFormat:@"                       用户名: %@", _agentDetail.loginName];
     
     [_scrollView addSubview:idlable];
     
