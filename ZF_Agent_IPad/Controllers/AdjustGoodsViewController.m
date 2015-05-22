@@ -1170,8 +1170,15 @@ static NSString *s_defaultTerminalNum = @"请选择终端号";
         {
             cell = [[PrepareGoodCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
         }
-        TransferGoodModel *model = [_prepareList objectAtIndex:indexPath.row];
-        [cell setContentWithDatas:model];
+        if(_prepareList.count>0)
+        {
+        
+            TransferGoodModel *model = [_prepareList objectAtIndex:indexPath.row];
+            [cell setContentWithDatas:model];
+        
+        
+        }
+        
         
         _tableView.separatorStyle=UITableViewCellSeparatorStyleNone;
         
