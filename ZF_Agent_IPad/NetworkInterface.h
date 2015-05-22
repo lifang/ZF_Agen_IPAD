@@ -1983,6 +1983,7 @@ finished:(requestDidFinished)finish;
 + (void)sendFindValidateWithMobileNumber:(NSString *)mobileNumber
                                 finished:(requestDidFinished)finish;
 
-+(void)getappVersionWithTypes:(NSString*)types finished:(requestDidFinished)finish;
++ (void)checkVersionFinished:(requestDidFinished)finish;
+
 
 @end

@@ -29,6 +29,9 @@
 //#define kServiceURL @"http://agent.ebank007.com/api"
 #define kAppChannel  7  //推送channel
 
+#define kAppVersionType  6   //版本更新
+
+
 #define kImageName(name) [UIImage imageNamed:name]
 #define NavTitle_FONTSIZE  36
 #define kVideoServiceURL @"http://121.40.84.2:38080/ZFManager/notice/video"
