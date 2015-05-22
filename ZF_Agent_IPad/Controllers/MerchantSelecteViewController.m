@@ -36,6 +36,10 @@
 
 @implementation MerchantSelecteViewController
 
+- (void)dealloc {
+    NSLog(@"dealloc ");
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
@@ -49,12 +53,20 @@
     NSArray *rightArr = [NSArray arrayWithObjects:kongBar,rightBar, nil];
     self.navigationItem.rightBarButtonItems = rightArr;
     [self setupSearchBar];
+    if ([[[UIDevice currentDevice] systemVersion] floatValue ] >= 7.0) {
+        self.extendedLayoutIncludesOpaqueBars = NO;
+        self.edgesForExtendedLayout = UIRectEdgeNone;
+    }
 
     self.title=@"选择已有商户";
     self.view.backgroundColor=[UIColor whiteColor];
       _MerchantItems = [[NSMutableArray alloc] init];
     [self initAndLayoutUI];
    // [self firstLoadData];
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+
 }
 
 #pragma mark - UI
@@ -110,12 +122,12 @@
     
     if(iOS7)
     {
-        _tableView = [[UITableView alloc] initWithFrame:CGRectMake(20,60, SCREEN_HEIGHT-20*2, SCREEN_WIDTH-60)];
+        _tableView = [[UITableView alloc] initWithFrame:CGRectMake(20,0, SCREEN_HEIGHT-20*2, SCREEN_WIDTH-60)];
         
     }else
     {
         
-        _tableView = [[UITableView alloc] initWithFrame:CGRectMake(20, 60, SCREEN_WIDTH-20*2, SCREEN_HEIGHT-60)];
+        _tableView = [[UITableView alloc] initWithFrame:CGRectMake(20, 0, SCREEN_WIDTH-20*2, SCREEN_HEIGHT-60)];
         
     }
     

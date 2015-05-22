@@ -105,6 +105,10 @@
 
 @implementation ApplyDetailController
 
+- (void)viewWillAppear:(BOOL)animated {
+    NSLog(@"%@",self.navigationController.childViewControllers);
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
 
@@ -454,7 +458,7 @@
     
     [_scrollView addSubview:accountnamebutton];
     NSLog(@"applyData.brandName:%@",_applyData.brandName);
-    if (_applyData.brandName==nil) {
+    if (  _applyData.brandName==nil) {
         _brandLabel.text = @"POS品牌";
     }
     else
