@@ -16,7 +16,10 @@ typedef enum {
     OperationBtnSubmitLogist,
     OperationBtnSubmitCancel,
 }OperationBtnType; //详情是什么Btn
-
+typedef enum {
+    AlertViewCancelTag = 1,
+    AlertViewSubmitTag,
+}AlertViewTag;
 @interface CsDetailController : CommonViewController
 
 @property (nonatomic, assign) CSType csType;
@@ -48,5 +51,9 @@ typedef enum {
 
 //提交物流信息
 -(void)submitLogistApply;
-
+//根据文字布局高度
+- (void)setLabel:(UILabel *)label
+     withTopView:(UIView *)topView
+     middleSpace:(CGFloat)space
+         WithStr:(NSString *)str;
 @end

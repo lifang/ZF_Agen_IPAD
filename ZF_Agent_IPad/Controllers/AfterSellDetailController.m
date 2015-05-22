@@ -340,7 +340,7 @@
                                                          multiplier:0.0
                                                            constant:1.0]];
     UILabel *reasonLabel = [[UILabel alloc] init];
-    [self setLabel:reasonLabel withTopView:forthLine middleSpace:space];
+    [self setLabel:reasonLabel withTopView:forthLine middleSpace:space WithStr:_reason];
     
     CGFloat recordHeight = 0.f;
     //追踪记录

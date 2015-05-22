@@ -423,6 +423,7 @@
     channelLabel.text = [NSString stringWithFormat:@"支付平台  %@",_channelName];
     merchantNameLabel.text = [NSString stringWithFormat:@"商 户  名  %@",_merchantName];
     merchantPhoneLabel.text = [NSString stringWithFormat:@"商户电话  %@",_merchantPhone];
+
 }
 #pragma mark - 重写
 
