@@ -1191,12 +1191,12 @@
     
     if(_isPorS)
     {
-        savebutton.center=CGPointMake(wide/2, 1380);
+        savebutton.center=CGPointMake(wide/2, 1300);
         
     }else
     {
         
-        savebutton.center=CGPointMake(wide/2, 1140);
+        savebutton.center=CGPointMake(wide/2, 1030);
         
         
     }
@@ -1294,7 +1294,8 @@
 - (void)textFieldDidBeginEditing:(UITextField *)textField {
 
     
-    if (textField.tag==1056 |textField.tag==1057|textField.tag==1058) {
+    if (self.passwordField==textField||self.confirmField==textField||self.usernameField==textField )
+    {
        
         self.view.center=CGPointMake(self.view.center.x, self.view.center.y-130);
     }
@@ -1308,7 +1309,8 @@
 
 - (void)textFieldDidEndEditing:(RegisterTextField *)textField {
     
-    if (textField.tag==1056 |textField.tag==1057|textField.tag==1058) {
+    if (self.passwordField==textField||self.confirmField==textField||self.usernameField==textField )
+    {
         self.view.center=CGPointMake(self.view.center.x, self.view.center.y+130);
     }
     
