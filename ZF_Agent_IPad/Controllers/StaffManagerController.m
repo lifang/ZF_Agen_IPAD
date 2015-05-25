@@ -325,8 +325,12 @@
             [self deletedStaffWithStaffModel:_model];
         }
     }
+    if (alertView.tag == 8900 && buttonIndex == 0) {
+        AppDelegate *delegate = [AppDelegate shareAppDelegate];
+        [delegate clearLoginInfo];
+        [[AppDelegate shareRootViewController] showLoginViewController];
+    }
 }
-
 
 #pragma mark - Request
 

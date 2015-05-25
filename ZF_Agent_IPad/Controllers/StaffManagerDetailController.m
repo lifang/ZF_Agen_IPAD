@@ -51,11 +51,26 @@
 @end
 
 @implementation StaffManagerDetailController
+
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [self initAndLayoutUI];
+}
+
+-(void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    for (UIView *v in self.view.subviews) {
+        [v removeFromSuperview];
+    }
+}
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
+ 
     self.edgesForExtendedLayout = UIRectEdgeAll;
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(refreshStaffManagerDetail:)
@@ -63,7 +78,6 @@
                                                object:nil];
     _statusArray = [[NSMutableArray alloc]init];
     _statusStr = [[NSMutableString alloc]init];
-    [self initAndLayoutUI];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -439,6 +453,7 @@
 #pragma mark - staffBtn Delegate
 -(void)staffClickedWithButton:(UIButton *)button
 {
+    [_makeSureField resignFirstResponder];
     if (button.tag == 5001) {
         NSLog(@"点击了第一个空格 并且状态为%d",_firstBtn.isSelected);
         if (_firstBtn.isSelected) {
@@ -597,6 +612,7 @@
         NSString *str = [dicts objectForKey:@"rolesStr"];
         _statusDetailArray = [str componentsSeparatedByString:@","];
         
+        
         for (int i = 0; i < [_statusDetailArray count]; i++) {
             int statusNum = [[_statusDetailArray objectAtIndex:i] intValue];
             switch (statusNum) {
@@ -636,6 +652,7 @@
 #pragma mark - NSNotification
 
 - (void)refreshStaffManagerDetail:(NSNotification *)notification {
+  
     [self performSelector:@selector(loadDetail) withObject:nil afterDelay:0.1f];
 }
 @end

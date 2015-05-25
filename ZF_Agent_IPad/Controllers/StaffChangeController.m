@@ -369,6 +369,8 @@
 -(void)bottomClicked
 {
     NSLog(@"_statusArray 有%d个元素",_statusArray.count);
+    NSLog(@"_statusArray 有%@个元素",_statusArray);
+    _statusStr = [NSMutableString stringWithString:@""];
     for (int i = 0; i < _statusArray.count; i++) {
         NSString *str = [_statusArray objectAtIndex:i];
         NSString *statusStr = [NSString stringWithFormat:@",%@",str];
@@ -472,7 +474,7 @@
                     [hud hide:YES afterDelay:1.f];
                     hud.labelText = @"修改员工信息成功";
                     [[NSNotificationCenter defaultCenter] postNotificationName:RefreshStaffManagerDetailNotification object:nil];
-                    [[NSNotificationCenter defaultCenter] postNotificationName:RefreshStaffManagerListNotification object:nil];
+//                    [[NSNotificationCenter defaultCenter] postNotificationName:RefreshStaffManagerListNotification object:nil];
                     [self.navigationController popViewControllerAnimated:YES];
                 }
             }
