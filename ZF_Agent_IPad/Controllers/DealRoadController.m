@@ -1188,7 +1188,20 @@ else if (tableView== _terminalTableView)
         self.DealState = @"交易结果待确认";
     }
 }
-
+//-(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+//{
+//    UIView *v = [[UIView alloc]init];
+//    v.frame = CGRectMake(0, 0, SCREEN_WIDTH, 1);
+//    if (iOS7) {
+//        v.frame = CGRectMake(0, 0, SCREEN_HEIGHT, 1);
+//    }
+//    return v;
+//}
+//
+//-(CGFloat )tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+//{
+//    return 0.7;
+//}
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (tableView.tag == 1111) {

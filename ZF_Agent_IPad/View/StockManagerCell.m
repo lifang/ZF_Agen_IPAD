@@ -358,7 +358,7 @@
     _stockHistoryCountLabel.text = [NSString stringWithFormat:@"%d件",model.historyCount];
     _stockOpenCountLabel.text = [NSString stringWithFormat:@"%d件",model.openCount];
     _stockAgentCountLabel.text = [NSString stringWithFormat:@"%d件",model.agentCount];
-    _stockTotalCountLabel.text = [NSString stringWithFormat:@"%d件",model.totalCount];
+    _stockTotalCountLabel.text = [NSString stringWithFormat:@"%d件",model.agentCount];
     [_stockPictureView sd_setImageWithURL:[NSURL URLWithString:model.stockImagePath]];
 }
 

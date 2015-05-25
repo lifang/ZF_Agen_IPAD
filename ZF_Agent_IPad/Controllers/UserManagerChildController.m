@@ -195,7 +195,7 @@
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    return 25.f;
+    return 35.f;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {

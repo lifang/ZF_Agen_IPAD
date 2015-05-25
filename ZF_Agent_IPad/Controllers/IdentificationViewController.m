@@ -59,8 +59,6 @@
     [self.navigationController.navigationBar setTitleTextAttributes:attributes];
     self.title = @"开通认证";
     self.view.backgroundColor=[UIColor whiteColor];
-    
-    self.edgesForExtendedLayout = UIRectEdgeAll;
     touchStatus=100;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(pushtoNewApply:) name:@"newApply" object:nil];
     UIButton *searchBtn = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -86,9 +84,9 @@
     headerView.backgroundColor=[UIColor colorWithHexString:@"f2f1f1"];
     [self.view addSubview:headerView];
   
-    headerView.frame = CGRectMake(0, 60, SCREEN_WIDTH, 28);
+    headerView.frame = CGRectMake(0, 30, SCREEN_WIDTH, 28);
     if (iOS7) {
-        headerView.frame = CGRectMake(0, 60, SCREEN_HEIGHT, 28);
+        headerView.frame = CGRectMake(0, 30, SCREEN_HEIGHT, 28);
     }
 
     UIFont *mainFont = [UIFont systemFontOfSize:14];
@@ -129,12 +127,12 @@
     
     if(iOS7)
     {
-        _tableView = [[UITableView alloc] initWithFrame:CGRectMake(20, 28+60, SCREEN_HEIGHT-20*2, SCREEN_WIDTH-28)];
+        _tableView = [[UITableView alloc] initWithFrame:CGRectMake(20, 28+40, SCREEN_HEIGHT-20*2, SCREEN_WIDTH-28)];
         
     }else
     {
         
-        _tableView = [[UITableView alloc] initWithFrame:CGRectMake(20, 28+60, SCREEN_WIDTH-20*2, SCREEN_HEIGHT-28)];
+        _tableView = [[UITableView alloc] initWithFrame:CGRectMake(20, 28+40, SCREEN_WIDTH-20*2, SCREEN_HEIGHT-28)];
         
     }
     

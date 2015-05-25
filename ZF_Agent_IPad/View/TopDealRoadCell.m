@@ -25,10 +25,11 @@
         NSLog(@"创建的标示%@",reuseIdentifier);
         self.reuseIdentifierID = reuseIdentifier;
         UIView *topView = [[UIView alloc]init];
+        topView.hidden = YES;
         topView.backgroundColor = kColor(212, 212, 212, 1.0);
-        topView.frame = CGRectMake(0, 0, SCREEN_WIDTH, 0.7);
+        topView.frame = CGRectMake(0, 0, SCREEN_WIDTH, 1);
         if (iOS7) {
-            topView.frame = CGRectMake(0, 0, SCREEN_HEIGHT, 0.7);
+            topView.frame = CGRectMake(0, 0, SCREEN_HEIGHT, 1);
         }
         [self addSubview:topView];
         
@@ -43,9 +44,9 @@
         self.contentViews = contentView;
         [self setupContentView];
         contentView.backgroundColor = kColor(228, 228, 228, 1.0);
-        contentView.frame = CGRectMake(0, CGRectGetMaxY(dealLabel.frame) + 17, SCREEN_WIDTH,50 -  CGRectGetMaxY(dealLabel.frame) + 15);
+        contentView.frame = CGRectMake(0, CGRectGetMaxY(dealLabel.frame) + 15, SCREEN_WIDTH,50 -  CGRectGetMaxY(dealLabel.frame) + 15);
         if (iOS7) {
-            contentView.frame = CGRectMake(0, CGRectGetMaxY(dealLabel.frame) + 17, SCREEN_HEIGHT,50 -  CGRectGetMaxY(dealLabel.frame) + 15);
+            contentView.frame = CGRectMake(0, CGRectGetMaxY(dealLabel.frame) + 15, SCREEN_HEIGHT,50 -  CGRectGetMaxY(dealLabel.frame) + 15);
         }
         [self addSubview:contentView];
         
