@@ -97,6 +97,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(firstresfll) name:@"newrefsh" object:nil];
+
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(listRefresh) name:@"listRefresh" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(listRefreshs) name:@"listRefreshs" object:nil];
 //现在全部为代购
@@ -119,6 +121,76 @@
                                              selector:@selector(updateGoodList)
                                                  name:UpdateGoodListNotification
                                                object:nil];
+}
+-(void)firstresfll
+{
+ _searchBar.text=@"";
+    
+
+
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+    hud.labelText = @"加载中...";
+    AppDelegate *delegate = [AppDelegate shareAppDelegate];
+    //****************筛选条件***************
+  
+    [_dataItem removeAllObjects];
+
+    
+    NSLog(@"%@",delegate.agentID);
+    
+    
+    //***************************************
+    [NetworkInterface getGoodListWithCityID:delegate.cityID agentID:delegate.agentID supplyType:_supplyType sortType:_filterType brandID:nil category:nil channelID:nil payCardID:nil tradeID:nil slipID:nil date:nil maxPrice:0 minPrice:0 keyword:nil onlyRent:0 page:1 rows:kPageSize finished:^(BOOL success, NSData *response) {
+        
+        [_tableView footerEndRefreshing];
+        [_tableView headerEndRefreshing];
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:0.3f];
+        if (success) {
+            NSLog(@"!!%@",[[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding]);
+            id object = [NSJSONSerialization JSONObjectWithData:response options:NSJSONReadingMutableLeaves error:nil];
+            if ([object isKindOfClass:[NSDictionary class]]) {
+                NSString *errorCode = [object objectForKey:@"code"];
+                if ([errorCode intValue] == RequestFail) {
+                    //返回错误代码
+                    hud.labelText = [NSString stringWithFormat:@"%@",[object objectForKey:@"message"]];
+                }
+                else if ([errorCode intValue] == RequestSuccess) {
+                    if (!NO)
+                    {
+                        [_dataItem removeAllObjects];
+                    }
+                    id list = [[object objectForKey:@"result"] objectForKey:@"list"];
+                    if ([list isKindOfClass:[NSArray class]] && [list count] > 0) {
+                        //有数据
+                        [hud hide:YES];
+                    }
+                    else {
+                        //无数据
+                        hud.labelText = @"没有更多数据了...";
+                    }
+                    [self parseDataWithDictionary:object];
+                }
+            }
+            else {
+                //返回错误数据
+                hud.labelText = kServiceReturnWrong;
+            }
+        }
+        else {
+            hud.labelText = kNetworkFailed;
+        }
+        //        if (!isMore) {
+        //            [self refreshViewFinishedLoadingWithDirection:PullFromTop];
+        //        }
+        //        else {
+        //            [self refreshViewFinishedLoadingWithDirection:PullFromBottom];
+        //        }
+    }];
+    
+
+
 }
 
 - (void)didReceiveMemoryWarning {
@@ -532,10 +604,10 @@
 {
 
     [wholesalebutton setTitleColor:kColor(3, 112, 214, 1) forState:UIControlStateNormal];
-            [behalfbutton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [behalfbutton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     
     
-            self.supplyType=SupplyGoodsProcurement;
+    self.supplyType=SupplyGoodsProcurement;
 
     [self firstLoadData];
 

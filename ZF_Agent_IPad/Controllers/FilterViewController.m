@@ -1380,7 +1380,7 @@ else
             else
             {
                 
-                return 120;
+                return 140;
                 
                 
             }
@@ -1706,7 +1706,7 @@ else
     if(iOS7)
     {
         
-        _tableView.frame=CGRectMake(0, -160, SCREEN_HEIGHT, SCREEN_WIDTH);
+        _tableView.frame=CGRectMake(0, -220, SCREEN_HEIGHT, SCREEN_WIDTH-220);
         
     }
     
@@ -1714,7 +1714,7 @@ else
         
     {
         
-        _tableView.frame=CGRectMake(0, -160, SCREEN_WIDTH, SCREEN_HEIGHT);
+        _tableView.frame=CGRectMake(0, -220, SCREEN_WIDTH, SCREEN_HEIGHT-220);
         
         
         

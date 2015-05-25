@@ -210,7 +210,7 @@
     if(sexint==102)
     {
         
-        [_infoDict setObject:[NSString stringWithFormat:@"%ld",(long)indexPath.row] forKey:key_sex];
+        [_infoDict setObject:[NSNumber numberWithInt:indexPath.row] forKey:key_sex];
         NSString *accountname=[NSString stringWithFormat:@"%@",[_infoDict objectForKey:key_sex]];
         
         if([accountname isEqualToString:@"0"])
