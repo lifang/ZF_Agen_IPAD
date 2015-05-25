@@ -12,12 +12,40 @@
 #import "OrderDetailController.h"
 #import "OrderManagerController.h"
 
+#include <sys/socket.h>
+#include <sys/sysctl.h>
+#include <net/if.h>
+#include <net/if_dl.h>
+#import "UPPayPlugin.h"
+
+
+#define KBtn_width        200
+#define KBtn_height       80
+#define KXOffSet          (self.view.frame.size.width - KBtn_width) / 2
+#define KYOffSet          80
+#define kCellHeight_Normal  50
+#define kCellHeight_Manual  145
+
+#define kVCTitle          @"商户测试"
+#define kBtnFirstTitle    @"获取订单，开始测试"
+#define kWaiting          @"正在获取TN,请稍后..."
+#define kNote             @"提示"
+#define kConfirm          @"确定"
+#define kErrorNet         @"网络错误"
+#define kResult           @"支付结果：%@"
+
+
 
 @interface PayWayViewController ()<UIActionSheetDelegate>
+{
+ UIAlertView* _alertView;
+}
 @property (nonatomic, strong) NSString *payNumber;  //支付单号
 @property (nonatomic, assign) CGFloat remainPrice;  //剩余金额 批购付款用到
 
 @property (nonatomic, strong) UITableView *tableView;
+
+@property(nonatomic, copy)NSString *tnMode;//环境
 
 @end
 
@@ -291,11 +319,11 @@
     
     [yinlianbutton addTarget:self action:@selector(yinlianclick) forControlEvents:UIControlEventTouchUpInside];
     yinlianbutton.backgroundColor = [UIColor clearColor];
-//    [yinlianbutton setBackgroundImage:[UIImage imageNamed:@"yinlian"] forState:UIControlStateNormal];
+    [yinlianbutton setBackgroundImage:[UIImage imageNamed:@"yinlian"] forState:UIControlStateNormal];
     yinlianbutton.frame = CGRectMake(0,0,200,62);
     yinlianbutton.center=CGPointMake(wide/4*3, hearderHeight +40+80);
     
-    [headerView addSubview:yinlianbutton];
+    [self.view addSubview:yinlianbutton];
     headerView.userInteractionEnabled=YES;
     
 
@@ -354,9 +382,137 @@
 
 -(void)yinlianclick
 {
+    NSLog(@"UnionPay");
+    _tnMode = kMode_Production;
+    [self startUnionPayRequest];
+    
+}
+
+
+#pragma mark - Alert
+
+- (void)showAlertWait
+{
+    [self hideAlert];
+    _alertView = [[UIAlertView alloc] initWithTitle:kWaiting message:nil delegate:self cancelButtonTitle:nil otherButtonTitles: nil];
+    [_alertView show];
+    UIActivityIndicatorView* aiv = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
+    aiv.center = CGPointMake(_alertView.frame.size.width / 2.0f - 15, _alertView.frame.size.height / 2.0f + 10 );
+    [aiv startAnimating];
+    [_alertView addSubview:aiv];
+    
+}
+
+
+- (void)showAlertMessage:(NSString*)msg
+{
+    [self hideAlert];
+    _alertView = [[UIAlertView alloc] initWithTitle:kNote message:msg delegate:self cancelButtonTitle:kConfirm otherButtonTitles:nil, nil];
+    [_alertView show];
+    
+}
+
+- (void)hideAlert
+{
+    if (_alertView != nil)
+    {
+        [_alertView dismissWithClickedButtonIndex:0 animated:NO];
+        _alertView = nil;
+    }
+}
+
+
+#pragma mark UPPayPluginResult
+- (void)UPPayPluginResult:(NSString *)result
+{
+    
+    if ([result isEqualToString:@"success"]) {
+        [self UnionPaySucess];
+    }
+    if ([result isEqualToString:@"fail"]) {
+        [self showAlertMessage:@"支付失败"];
+    }
+    if ([result isEqualToString:@"cancel"]) {
+        [self showAlertMessage:@"取消支付"];
+    }
+}
+
+
+
+-(void)startUnionPayRequest
+{
+    [self showAlertWait];
+    
+    
+    NSURL *URL=[NSURL URLWithString:[NSString stringWithFormat:kUnionPayURL]];
+    
+    NSString *Price=[NSString stringWithFormat:@"%.0f", _totalPrice*100];
+    NSString *str = [NSString stringWithFormat:@"frontOrBack=back&orderId=%@&txnAmt=%@&wap=wap&txnType=01&android=android", _payNumber,Price];
+    NSLog(@"payNumner:%@",_payNumber);
+    //设置参数
+    NSData *postData = [str dataUsingEncoding:NSUTF8StringEncoding];
+    
+    NSMutableURLRequest *request=[NSMutableURLRequest requestWithURL:URL];
+    [request setHTTPMethod:@"POST"];
+    [request setHTTPBody:postData];
+    
+    
+    NSOperationQueue *queue=[NSOperationQueue mainQueue];
+    [NSURLConnection sendAsynchronousRequest:request queue:queue completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
+        //解析data
+        if (data) {//请求成功
+            [self hideAlert];
+            NSDictionary *dict=[NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:nil];
+            NSLog(@"dict:%@",dict);
+            
+            NSString *error=dict[@"error"];
+            if (error) {
+                [self showAlertMessage:kErrorNet];
+            }else
+            {
+                NSString* tn = [[NSMutableString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+                if (tn != nil && tn.length > 0)
+                {
+                    NSLog(@"tn=%@",tn);
+                    [UPPayPlugin startPay:tn mode:_tnMode viewController:self delegate:self];
+                }
+                
+            }
+        }else   //请求失败
+        {
+            [self showAlertMessage:kErrorNet];
+        }
+        
+    }];
     
     
 }
+
+
+-(void)UnionPaySucess
+{
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+    hud.customView = [[UIImageView alloc] init];
+    hud.mode = MBProgressHUDModeCustomView;
+    [hud hide:YES afterDelay:1.f];
+    hud.labelText = @"订单支付成功";
+    
+    [self performSelector:@selector(goDetail) withObject:nil afterDelay:5];
+    
+    
+}
+
+
+
+
+-(void)goDetail
+{
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:RefreshOrderListNotification object:nil];
+    [self showDetail];
+    
+}
+
 //- (void)initAndLauoutUI {
 //    _tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStyleGrouped];
 //    _tableView.translatesAutoresizingMaskIntoConstraints = NO;
