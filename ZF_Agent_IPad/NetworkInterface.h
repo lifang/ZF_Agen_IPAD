@@ -411,7 +411,8 @@ static NSString *s_AllUserList_method = @"terminal/getCustomer";
 //获取app版本
 static NSString *s_appVersion_method = @"index/getVersion";
 
-
+//61.交易流水——交易流水详情
+static NSString *s_tradeDetail_method = @"trade/getTradeRecord";
 
 //推送
 static NSString *s_push_method = @"agents/sendDeviceCode";
@@ -460,7 +461,11 @@ startTime:(NSString *)startTime
 endTime:(NSString *)endTime
 hasProfit:(int)profit
 finished:(requestDidFinished)finish;
-
++ (void)getTradeDetailWithAgentID:(NSString *)agentID
+                            token:(NSString *)token
+                          tradeID:(NSString *)tradeID
+                        hasProfit:(int)profit
+                         finished:(requestDidFinished)finish;
 + (void)hotget:(NSString *)tolen
       finished:(requestDidFinished)finish;
 + (void)addUserWithtoken:(NSString *)token
@@ -1337,7 +1342,8 @@ finished:(requestDidFinished)finish;
                               terminalNumbers:(NSArray *)terminalNumbers
                                          page:(int)page
                                          rows:(int)rows
-                                     finished:(requestDidFinished)finish;
+                                    serialNum:(NSString *)serialNum
+                                     finished:(requestDidFinished)finish ;
 
 /*!
  @abstract 53.配货

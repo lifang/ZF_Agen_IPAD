@@ -46,6 +46,7 @@
 @property (nonatomic, strong) NSString *totalint;
 @property (nonatomic, strong) UILabel *name;
 @property (nonatomic, strong) UILabel *placeholderLB;
+@property (nonatomic, strong) NSString *keword;
 
 @property (nonatomic, strong) NSString *POStitle;
 @property (nonatomic, assign) int channelsId;
@@ -79,7 +80,7 @@
     self.view.backgroundColor=[UIColor whiteColor];
     _terminalFilter=[[NSMutableArray alloc] init];
     
-    self.edgesForExtendedLayout = UIRectEdgeAll;
+//    self.edgesForExtendedLayout = UIRectEdgeAll;
     _terminalList=[[NSMutableArray alloc] init];
     _POSArray=[[NSMutableArray alloc] init];
     _channelItems=[[NSMutableArray alloc] init];
@@ -398,7 +399,10 @@
     _tableView.headerPullToRefreshText = @"下拉可以刷新了";
     _tableView.headerReleaseToRefreshText = @"松开马上刷新了";
     _tableView.headerRefreshingText = @">.< 正在努力加载中!";
-   
+    [_tableView addHeaderWithTarget:self action:@selector(loadNewStatuses:) dateKey:@"table"];
+    //上拉
+    [_tableView addFooterWithTarget:self action:@selector(loadMoreStatuses)];
+
 
     _tableView.footerPullToRefreshText = @"上拉可以加载更多数据了";
     _tableView.footerReleaseToRefreshText = @"松开马上加载更多数据了";
@@ -611,15 +615,15 @@
     {
     
         [self firstLoadData];
-        [_tableView footerEndRefreshing];
-        [_tableView headerEndRefreshing];
+//        [_tableView footerEndRefreshing];
+//        [_tableView headerEndRefreshing];
     
     }
     else
     {
         
         [_tableView footerEndRefreshing];
-        [_tableView headerEndRefreshing];
+       [_tableView headerEndRefreshing];
 
     
     }
@@ -642,8 +646,8 @@
         NSLog(@"%@-%@-%@",_POSTV.text,_channelTV.text,_terminalTV.text);
               
         [self downloadDataWithPage:self.page isMore:YES];
-        [_tableView footerEndRefreshing];
-        [_tableView headerEndRefreshing];
+//        [_tableView footerEndRefreshing];
+//        [_tableView headerEndRefreshing];
     }
 
     
@@ -667,15 +671,17 @@
 - (void)getSearchKeyword:(NSString *)keyword
 {
     
-    _POSTV.text=@"";
-    _channelTV.text=@"";
+//    _POSTV.text=@"";
+//    _channelTV.text=@"";
 
-    [_terminalFilter removeAllObjects];
-    if (keyword && ![keyword isEqualToString:@""]) {
-        NSString*headerDatadgdgfgf= [keyword stringByReplacingOccurrencesOfString:@"\n" withString:@""];
-
-        [_terminalFilter addObject:headerDatadgdgfgf];
-    }
+//    [_terminalFilter removeAllObjects];
+    _keword=keyword;
+    
+//    if (keyword && ![keyword isEqualToString:@""]) {
+//        NSString*headerDatadgdgfgf= [keyword stringByReplacingOccurrencesOfString:@"\n" withString:@""];
+//
+//        [_terminalFilter addObject:headerDatadgdgfgf];
+//    }
    [self firstLoadData];
     
     
@@ -705,10 +711,7 @@
         hud.labelText = @"请至少选择一个终端";
         return;
     }
-    [_tableView addHeaderWithTarget:self action:@selector(loadNewStatuses:) dateKey:@"table"];
-    //上拉
-    [_tableView addFooterWithTarget:self action:@selector(loadMoreStatuses)];
-    [self firstLoadData];
+       [self firstLoadData];
 
     /*
      NSMutableArray *terminalList = [[NSMutableArray alloc] init];
@@ -894,38 +897,47 @@ if( [self isBlankString: _channelTV.text])
 
     
 }
-    
-    [NetworkInterface getPrepareGoodTerminalListWithAgentID:idstring token:delegate.token channelID:_channelTVid goodID:_POSTVid terminalNumbers:_terminalFilter page:page rows:kPageSize * 2 finished:^(BOOL success, NSData *response) {
-    
+    [NetworkInterface getPrepareGoodTerminalListWithAgentID:idstring token:delegate.token channelID:_channelTVid goodID:_POSTVid terminalNumbers:_terminalFilter page:page rows:kPageSize * 2 serialNum:_keword finished:^(BOOL success, NSData *response) {
+   
     
         [_tableView footerEndRefreshing];
         [_tableView headerEndRefreshing];
-    
+        
 //    [NetworkInterface screeningTerminalNumWithtoken:delegate.token agentId:delegate.agentID POStitle:_POSTV.text channelsId:_channelsId minPrice:[_minPriceTV.text intValue] maxPrice:[_maxPriceTV.text intValue] finished:^(BOOL success, NSData *response)
 //     {
          NSLog(@"%@",[[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding]);
          hud.customView = [[UIImageView alloc] init];
          hud.mode = MBProgressHUDModeCustomView;
          [hud hide:YES afterDelay:0.5f];
-         if (success) {
+         if (success)
+         {
+             _keword=nil;
              id object = [NSJSONSerialization JSONObjectWithData:response options:NSJSONReadingMutableLeaves error:nil];
-             if ([object isKindOfClass:[NSDictionary class]]) {
+             if ([object isKindOfClass:[NSDictionary class]])
+             {
+                 
+
                  NSString *errorCode = [object objectForKey:@"code"];
-                 if ([errorCode intValue] == RequestFail) {
+                 if ([errorCode intValue] == RequestFail)
+                 {
                      //返回错误代码
                      hud.labelText = [NSString stringWithFormat:@"%@",[object objectForKey:@"message"]];
                  }
-                 else if ([errorCode intValue] == RequestSuccess) {
+                 else if ([errorCode intValue] == RequestSuccess)
+                 {
                      [hud hide:YES];
                      [self parseSearchListWithData:object];
                  }
              }
-             else {
+             else
+             {
                  //返回错误数据
                  hud.labelText = kServiceReturnWrong;
              }
          }
-         else {
+         else
+         {             _keword=nil;
+
              hud.labelText = kNetworkFailed;
          }
      }];
@@ -1112,9 +1124,9 @@ if( [self isBlankString: _channelTV.text])
 
         if(model.title)
         {
-            [_tableView addHeaderWithTarget:self action:@selector(loadNewStatuses:) dateKey:@"table"];
-            //上拉
-            [_tableView addFooterWithTarget:self action:@selector(loadMoreStatuses)];
+//            [_tableView addHeaderWithTarget:self action:@selector(loadNewStatuses:) dateKey:@"table"];
+//            //上拉
+//            [_tableView addFooterWithTarget:self action:@selector(loadMoreStatuses)];
             [self firstLoadData];
             
         
@@ -1147,9 +1159,9 @@ if( [self isBlankString: _channelTV.text])
             }else
             {
                 _channelTV.text=[NSString stringWithFormat:@"%@",channel.channelName];
-                [_tableView addHeaderWithTarget:self action:@selector(loadNewStatuses:) dateKey:@"table"];
-                //上拉
-                [_tableView addFooterWithTarget:self action:@selector(loadMoreStatuses)];
+//                [_tableView addHeaderWithTarget:self action:@selector(loadNewStatuses:) dateKey:@"table"];
+//                //上拉
+//                [_tableView addFooterWithTarget:self action:@selector(loadMoreStatuses)];
                     [self firstLoadData];
                     
                     
@@ -1174,9 +1186,9 @@ if( [self isBlankString: _channelTV.text])
                 _channelTV.text= [NSString stringWithFormat:@"%@ %@",channel.channelName,model.billName];
 
                 _channelTV.text=[NSString stringWithFormat:@"%@",channel.channelName];
-                [_tableView addHeaderWithTarget:self action:@selector(loadNewStatuses:) dateKey:@"table"];
-                //上拉
-                [_tableView addFooterWithTarget:self action:@selector(loadMoreStatuses)];
+//                [_tableView addHeaderWithTarget:self action:@selector(loadNewStatuses:) dateKey:@"table"];
+//                //上拉
+//                [_tableView addFooterWithTarget:self action:@selector(loadMoreStatuses)];
                 [self firstLoadData];
 
             }
