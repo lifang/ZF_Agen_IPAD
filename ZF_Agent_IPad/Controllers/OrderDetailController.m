@@ -765,7 +765,7 @@ typedef enum {
 
 
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"物流信息"
-                                                    message:[NSString stringWithFormat:@"物流公司:%@,物流单号%@",_orderDetail.logisticCompany,_orderDetail.logisticNumber]
+                                                    message:[NSString stringWithFormat:@"物流公司:%@,物流单号:%@",_orderDetail.logisticCompany,_orderDetail.logisticNumber]
                                                    delegate:self
                                           cancelButtonTitle:@"确定"
                                           otherButtonTitles:nil];

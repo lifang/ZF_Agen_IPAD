@@ -15,6 +15,8 @@
 @property (nonatomic, strong) UIScrollView *scrollView;
 
 //解析字段
+@property (nonatomic, assign) CGFloat  getProfitPrice;    //分润
+@property (nonatomic, assign) CGFloat  payProfitPrice;   //支付分润
 @property (nonatomic, strong) NSString *tradeStatus;    //状态
 @property (nonatomic, assign) CGFloat tradeAmount;    //交易金额
 @property (nonatomic, assign) CGFloat tradePoundage;  //手续费
@@ -398,9 +400,29 @@
 //    //分润金额
 //    UILabel *profitLabel = [[UILabel alloc] init];
 //    [self setLabel:profitLabel withTopView:channelLabel middleSpace:space labelTag:0];
+    AppDelegate *delegate = [AppDelegate shareAppDelegate];
+
     //交易金额
     UILabel *tradeMoneyLabel = [[UILabel alloc] init];
-    [self setLabel:tradeMoneyLabel withTopView:channelLabel middleSpace:space labelTag:0];
+    
+    UILabel *getProfitLabel = [[UILabel alloc] init];
+    UILabel *payProfitLabel = [[UILabel alloc] init];
+
+    
+    if (delegate.hasProfit) {
+
+        [self setLabel:getProfitLabel withTopView:channelLabel middleSpace:space labelTag:0];
+        [self setLabel:payProfitLabel withTopView:getProfitLabel middleSpace:space labelTag:0];
+        [self setLabel:tradeMoneyLabel withTopView:payProfitLabel middleSpace:space labelTag:0];
+
+    }
+    else {
+        [self setLabel:tradeMoneyLabel withTopView:channelLabel middleSpace:space labelTag:0];
+    }
+
+    
+    
+    
     //交易时间
     UILabel *timeLabel = [[UILabel alloc] init];
     [self setLabel:timeLabel withTopView:tradeMoneyLabel middleSpace:space labelTag:0];
@@ -468,6 +490,8 @@
         default:
             break;
     }
+    getProfitLabel.text = [NSString stringWithFormat:@"产 出 分 润   ￥%.2f",_getProfitPrice];
+    payProfitLabel.text = [NSString stringWithFormat:@"支 付 分 润   ￥%.2f",_payProfitPrice];
     channelLabel.text = [NSString stringWithFormat:@"支 付 通 道   %@",_channelName];
 //    profitLabel.text = [NSString stringWithFormat:@"分 润 金 额   %@",_profitPrice];
     tradeMoneyLabel.text = [NSString stringWithFormat:@"交 易 金 额   ￥%.2f",_tradeAmount];
@@ -649,9 +673,11 @@
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
     hud.labelText = @"加载中...";
     NSLog(@"%@",self.tradeID);
-    
-[NetworkInterface getTradeRecordid:@"1" agentID:delegate.agentID tradeRecordId:self.tradeID finished:^(BOOL success, NSData *response) {
- 
+    int hasPorfit = 1;
+    if (delegate.hasProfit) {
+        hasPorfit = 2;
+    }
+    [NetworkInterface getTradeDetailWithAgentID:delegate.agentID token:delegate.token tradeID:self.tradeID  hasProfit:hasPorfit finished:^(BOOL success, NSData *response) {
         hud.customView = [[UIImageView alloc] init];
         hud.mode = MBProgressHUDModeCustomView;
         [hud hide:YES afterDelay:0.5f];
@@ -784,6 +810,8 @@
         _phoneNumber = @"";
     }
     
+    _getProfitPrice = [[infoDict objectForKey:@"get"] floatValue] / 100;
+    _payProfitPrice = [[infoDict objectForKey:@"pay"] floatValue] / 100;
     [self initSubViews];
 }
 

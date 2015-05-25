@@ -70,7 +70,7 @@
     }
     
     
-    _headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 60, wide, 84)];
+    _headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, wide, 84)];
     _headerView.backgroundColor = [UIColor clearColor];
    // _tableView.tableHeaderView = headerView;
     [self.view addSubview:_headerView];
@@ -106,7 +106,7 @@
 - (void)initAndLayoutUI {
     _tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStyleGrouped];
     _tableView.translatesAutoresizingMaskIntoConstraints = NO;
-    _tableView.backgroundColor = kColor(244, 243, 243, 1);
+    _tableView.backgroundColor = [UIColor whiteColor];
     _tableView.delegate = self;
     _tableView.dataSource = self;
     _tableView.tableFooterView = [[UIView alloc]init];

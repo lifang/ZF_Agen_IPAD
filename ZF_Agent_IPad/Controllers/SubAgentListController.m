@@ -336,12 +336,12 @@
                     //返回错误代码
                 }
                 else if ([errorCode intValue] == RequestSuccess) {
-                    _defaultBenefit = 5.0;
+                    _defaultBenefit = [[object objectForKey:@"result"] floatValue];
                   
 
                     NSString*st=@"%";
                     
-                    namelable.text=[NSString stringWithFormat:@"默认分润比例:%.2f%@",_defaultBenefit,st];
+                    namelable.text=[NSString stringWithFormat:@"默认分润比例:%.1f%@",_defaultBenefit,st];
                 }
             }
             else {
@@ -375,9 +375,12 @@
                     
                     
                     [bigsview removeFromSuperview];
-                    NSString*st=@"%";
                     
-                    namelable.text=[NSString stringWithFormat:@"默认分润比例:%@%@",neworiginaltextfield.text,st];
+                    [self getDefaultBenefit];
+                    
+//                    NSString*st=@"%";
+//                    
+//                    namelable.text=[NSString stringWithFormat:@"默认分润比例:%@%@",neworiginaltextfield.text,st];
 
                 }
             }
