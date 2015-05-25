@@ -1400,8 +1400,7 @@
 #pragma mark - 上传图片
 
 - (void)uploadPictureWithImage:(UIImage *)image {
-    NSLog(@"terminalId:%@",_terminalID);
-    NSLog(@"%@",image);
+ 
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
     hud.labelText = @"上传中...";
     [NetworkInterface uploadImageWithImage:image terminalId:_terminalID finished:^(BOOL success, NSData *response) {

@@ -21,7 +21,7 @@
 
 
 
-@interface OrderManagerController ()<OrderCellDelegate>
+@interface OrderManagerController ()<OrderCellDelegate,UITextFieldDelegate>
 
 @property (nonatomic, strong) UISegmentedControl *segmentControl;
 @property(nonatomic,strong)UIButton *publickBtn;
@@ -390,7 +390,8 @@ headerView.backgroundColor = [UIColor whiteColor];
         _numberField.leftViewMode = UITextFieldViewModeAlways;
         _numberField.rightViewMode = UITextFieldViewModeAlways;
         _numberField.placeholder=@"请输入订单号";
-
+        _numberField.delegate=self;
+        
         _addButton = [UIButton buttonWithType:UIButtonTypeCustom];
         _addButton.frame = CGRectMake(0, 0, 50, 35);
         [_addButton setImage:kImageName(@"textsearch") forState:UIControlStateNormal];
@@ -408,8 +409,20 @@ headerView.backgroundColor = [UIColor whiteColor];
         [headerView addSubview:_statusLabel];
     }
 }
+- (BOOL)textFieldShouldReturn:(UITextField *)textField {
+    
+    
+    [_numberField resignFirstResponder];
+    
+    
+    
+   
+    return YES;
+
+    }
 -(void)searchclick
 {
+    [_numberField resignFirstResponder];
 
 
     [self firstLoadData];
