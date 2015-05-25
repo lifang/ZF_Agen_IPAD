@@ -76,6 +76,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.isAgreen = NO;
+    self.edgesForExtendedLayout = UIRectEdgeAll;
     self.cityId = @"1";
     self.agentType = AgentTypeNone;
     [self setupNavBar];

@@ -6,9 +6,9 @@
 //  Copyright (c) 2015年 comdo. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import "CommonViewController.h"
 
-@interface AddMessageController : UIViewController
+@interface AddMessageController : CommonViewController
 
 @property(nonatomic,assign)BOOL isPhone;
 

@@ -6,12 +6,12 @@
 //  Copyright (c) 2015年 LanTaiPro. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import "CommonViewController.h"
 #import "MessageModel.h"
 
 static NSString *RefreshMessageListNotification = @"RefreshMessageListNotification";
 
-@interface MessageChildViewController : UIViewController
+@interface MessageChildViewController : CommonViewController
 
 @property (nonatomic, strong) MessageModel *message;
 

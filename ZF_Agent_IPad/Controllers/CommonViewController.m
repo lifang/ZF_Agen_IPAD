@@ -26,7 +26,7 @@
     
     
     [super viewWillAppear:animated];
-    self.navigationController.navigationBarHidden = NO;
+//    self.navigationController.navigationBarHidden = NO;
     ZYCustomTabBarViewController *tarbar=[[ZYCustomTabBarViewController alloc] init];
     tarbar.tabBarController.tabBar.hidden=YES;
     [[NSNotificationCenter defaultCenter]addObserver:self

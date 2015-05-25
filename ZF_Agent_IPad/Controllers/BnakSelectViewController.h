@@ -6,7 +6,7 @@
 //  Copyright (c) 2015年 comdo. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import "CommonViewController.h"
 #import "BankModel.h"
 
 @protocol BankSelectedDelegate <NSObject>
@@ -15,7 +15,7 @@
 
 @end
 
-@interface BnakSelectViewController : UIViewController
+@interface BnakSelectViewController : CommonViewController
 
 @property (nonatomic, assign) id<BankSelectedDelegate>delegate;
 

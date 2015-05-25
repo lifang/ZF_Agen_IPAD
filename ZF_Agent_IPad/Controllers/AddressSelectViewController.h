@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "CommonViewController.h"
 #import "AddressSelectCell.h"
 
 @protocol SelectedAddressDelegate <NSObject>

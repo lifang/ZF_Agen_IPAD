@@ -78,7 +78,8 @@
     self.title=@"选择终端";
     self.view.backgroundColor=[UIColor whiteColor];
     _terminalFilter=[[NSMutableArray alloc] init];
-
+    
+    self.edgesForExtendedLayout = UIRectEdgeAll;
     _terminalList=[[NSMutableArray alloc] init];
     _POSArray=[[NSMutableArray alloc] init];
     _channelItems=[[NSMutableArray alloc] init];

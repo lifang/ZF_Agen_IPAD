@@ -71,7 +71,7 @@
     UILabel *phoneOrEmail = [[UILabel alloc]init];
     phoneOrEmail.font = [UIFont systemFontOfSize:20];
     phoneOrEmail.text = @"手机号/邮箱";
-    phoneOrEmail.frame = CGRectMake(280, 120, 140, 40);
+    phoneOrEmail.frame = CGRectMake(280, 60, 140, 40);
     [self.view addSubview:phoneOrEmail];
     
     _phoneField = [[UITextField alloc]init];

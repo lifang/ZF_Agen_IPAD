@@ -20,7 +20,7 @@
 
 @end
 
-@interface SearchTermianlViewController : UIViewController
+@interface SearchTermianlViewController : CommonViewController
 
 @property (nonatomic, assign) id<SearchDelegate>delegate;
 

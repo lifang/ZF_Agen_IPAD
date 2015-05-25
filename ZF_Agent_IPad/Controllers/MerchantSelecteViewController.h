@@ -6,7 +6,7 @@
 //  Copyright (c) 2015年 comdo. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import "CommonViewController.h"
 
 #import "MerchantDetailModel.h"
 #import "MerchantModel.h"
@@ -18,7 +18,7 @@
 
 @end
 
-@interface MerchantSelecteViewController : UIViewController
+@interface MerchantSelecteViewController : CommonViewController
 
 @property (nonatomic, assign) id<ApplyMerchantSelectedDelegate>delegate;
 

@@ -6,10 +6,10 @@
 //  Copyright (c) 2013年 sp. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import "CommonViewController.h"
 #import "MBProgressHUD.h"
 
-@interface FLViewController : UIViewController{
+@interface FLViewController : CommonViewController{
     MBProgressHUD *HUD;
 }
 

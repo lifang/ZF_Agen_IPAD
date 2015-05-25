@@ -121,6 +121,7 @@
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.edgesForExtendedLayout = UIRectEdgeAll;
     self.agentType = AgentTypeCompany;
     self.isMobile = YES;
     self.authCode = @"123";

@@ -56,6 +56,7 @@
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.edgesForExtendedLayout = UIRectEdgeAll;
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(refreshStaffManagerDetail:)
                                                  name:RefreshStaffManagerDetailNotification

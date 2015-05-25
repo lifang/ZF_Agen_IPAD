@@ -16,6 +16,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.edgesForExtendedLayout = UIRectEdgeAll;
     [self setupNavBar];
     [self initAndLayoutUI];
 }
@@ -31,7 +32,7 @@
     UIFont *mainFont = [UIFont systemFontOfSize:20];
     label1.text = @"重置密码邮件";
     label1.font = mainFont;
-    label1.frame = CGRectMake(450, 120, 120, 40);
+    label1.frame = CGRectMake(450, 60, 120, 40);
     [self.view addSubview:label1];
     UILabel *label2 = [[UILabel alloc]init];
     label2.font = mainFont;

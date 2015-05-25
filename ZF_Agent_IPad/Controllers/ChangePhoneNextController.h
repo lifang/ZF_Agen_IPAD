@@ -6,8 +6,8 @@
 //  Copyright (c) 2015年 LanTaiPro. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import "CommonViewController.h"
 
-@interface ChangePhoneNextController : UIViewController
+@interface ChangePhoneNextController : CommonViewController
 
 @end
