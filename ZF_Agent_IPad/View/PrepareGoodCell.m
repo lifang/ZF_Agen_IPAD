@@ -114,7 +114,8 @@
 }
 
 - (void)setContentWithData:(PrepareGoodModel *)model {
-    _agentLabel.text = [NSString stringWithFormat:@"%@",model.agentName];
+    _agentLabel.text = [NSString stringWithFormat:@"    %@",model.agentName];
+    
     _timeLabel.text = model.createTime;
     _countLabel.text = [NSString stringWithFormat:@"%d",model.count];
 }
