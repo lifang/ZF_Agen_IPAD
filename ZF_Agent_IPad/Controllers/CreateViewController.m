@@ -1297,7 +1297,7 @@
     if (self.passwordField==textField||self.confirmField==textField||self.usernameField==textField )
     {
        
-        self.view.center=CGPointMake(self.view.center.x, self.view.center.y-130);
+        self.view.center=CGPointMake(self.view.center.x, self.view.center.y-160);
     }
     
 }
@@ -1311,7 +1311,7 @@
     
     if (self.passwordField==textField||self.confirmField==textField||self.usernameField==textField )
     {
-        self.view.center=CGPointMake(self.view.center.x, self.view.center.y+130);
+        self.view.center=CGPointMake(self.view.center.x, self.view.center.y+160);
     }
     
 }

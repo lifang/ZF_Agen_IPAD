@@ -548,7 +548,21 @@ typedef enum {
                     [cell.contentView addSubview:receiverLabel];
                     //地址
                     UILabel *addressLabel = [[UILabel alloc] initWithFrame:CGRectMake(originX, 30, wide - originX * 2, 20.f)];
-                    [self setLabel:addressLabel withString:[NSString stringWithFormat:@"收件地址：%@",_orderDetail.address]];
+                    
+                    if([self isBlankString:_orderDetail.address])
+                    {
+                        [self setLabel:addressLabel withString:[NSString stringWithFormat:@"收件地址："]];
+                        
+                        
+                    }else
+                    {
+                        
+                        [self setLabel:addressLabel withString:[NSString stringWithFormat:@"收件地址：%@",_orderDetail.address]];
+                        
+                        
+                    }
+
+                    
                     [cell.contentView addSubview:addressLabel];
                 }
                     break;

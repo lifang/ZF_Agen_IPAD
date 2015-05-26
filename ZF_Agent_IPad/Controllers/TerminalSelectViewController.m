@@ -471,13 +471,35 @@
    
     
 }
+- (BOOL) isBlankString:(NSString *)string {
+    if (string == nil || string == NULL) {
+        return YES;
+    }
+    if ([string isEqualToString:@"(null)"])
+    {
+        return YES;
+    }
+    if ([string isKindOfClass:[NSNull class]]) {
+        return YES;
+    }
+    if ([[string stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]] length]==0) {
+        return YES;
+    }
+    return NO;
+}
 
 -(void)loadMoreData
+{    if( [self isBlankString: _POSTV.text]==NO||[self isBlankString:_channelTV.text]==NO||[self isBlankString:_terminalTV.text]==NO)
+
 {
 
     if (URLstatus==1000) {
         [self  FilterTerminalsWithPage:_page isMore:YES];
     }
+
+}
+
+   
     else
     {
        
@@ -727,23 +749,31 @@
 
 - (void)firstLoadData {
      _page = 1;
-    if(URLstatus==1000) {
-        [self FilterTerminalsWithPage:_page isMore:NO];
-        
-     }
-    else if(URLstatus==2000)
+    if( [self isBlankString: _POSTV.text]==NO||[self isBlankString:_channelTV.text]==NO||[self isBlankString:_terminalTV.text]==NO)
+
     {
-        
-        //[self searchTerminalWithArray:_terminalsArray];
-        [_tableView headerEndRefreshing];
-        //[_tableView footerEndRefreshing];
+    
+        if(URLstatus==1000) {
+            [self FilterTerminalsWithPage:_page isMore:NO];
+            
+        }
+        else if(URLstatus==2000)
+        {
+            
+            //[self searchTerminalWithArray:_terminalsArray];
+            [_tableView headerEndRefreshing];
+            //[_tableView footerEndRefreshing];
+            
+        }
+
+    
     
     }
-    else
+       else
     {
        // [self searchTerminalWithString:];
         [_tableView headerEndRefreshing];
-       // [_tableView footerEndRefreshing];
+        [_tableView footerEndRefreshing];
     
     }
    

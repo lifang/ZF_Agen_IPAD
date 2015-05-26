@@ -562,6 +562,14 @@
         hud.labelText = @"请输入售后原因";
         return;
     }
+    if (_reseasonTV.text.length >= 99) {
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:_whiteView animated:YES];
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:1.f];
+        hud.labelText = @"售后原因过长";
+        return;
+    }
     NSLog(@"count:%lu",(unsigned long)[_TerminalsArray count]);
     NSLog(@"array:%@",_TerminalsArray);
     NSLog(@"reciver:%@",_reciver);
@@ -1613,7 +1621,6 @@
         return;
     }
     NSArray *TM_List = [[dict objectForKey:@"result"] objectForKey:@"applyList"];
-    [_terminalItems removeAllObjects];
     for (int i = 0; i < [TM_List count]; i++) {
         TerminalManagerModel *tm_Model = [[TerminalManagerModel alloc] initWithParseDictionary:[TM_List objectAtIndex:i]];
         [_terminalItems addObject:tm_Model];
@@ -2123,6 +2130,7 @@
 
 //上拉加载
 - (void)pullUpToLoadData {
+    
     //[self downloadDataWithPage:self.page isMore:YES];
     if (_stringStatus==0) {
         [self downloadDataWithPage:_page isMore:YES];

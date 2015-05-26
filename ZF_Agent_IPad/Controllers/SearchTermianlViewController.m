@@ -81,6 +81,7 @@
 }
 
 - (void)initSearchBar {
+    
     CGFloat wide;
     CGFloat height;
     if(iOS7)
@@ -107,7 +108,8 @@
     _searchBar.delegate = self;
     _searchBar.text = _keyword;
     [_searchBar setPlaceholder:@"搜索终端"];
-    
+    _searchBar.enablesReturnKeyAutomatically=NO;
+
     for (UIView *subview in _searchBar.subviews)
     {
         if ([subview isKindOfClass:NSClassFromString(@"UISearchBarBackground")])
@@ -220,12 +222,14 @@
 #pragma mark - SearchBar
 
 - (BOOL)searchBarShouldBeginEditing:(UISearchBar *)searchBar {
-   
+    _searchBar.enablesReturnKeyAutomatically=NO;
+
     return YES;
 }
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
-   
+    _searchBar.enablesReturnKeyAutomatically=NO;
+
     [self saveSearchHistory];
     [self searchRequest];
    

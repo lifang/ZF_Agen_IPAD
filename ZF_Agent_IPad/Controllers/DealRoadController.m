@@ -36,7 +36,7 @@ typedef enum {
 
 static NSString *s_defaultTerminalNum = @"请选择终端号";
 
-@interface DealRoadController ()<UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate,LoginSuccessDelegate,RefreshDelegate>
+@interface DealRoadController ()<UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate,LoginSuccessDelegate>
 
 /** 顶部五个Button */
 @property(nonatomic,strong)UIButton *publickBtn;
@@ -490,7 +490,7 @@ static NSString *s_defaultTerminalNum = @"请选择终端号";
     lineView.backgroundColor = [UIColor colorWithWhite:0.7 alpha:0.8];
     [_contentView addSubview:lineView];
 
-    [self setRefreshView];
+//    [self setRefreshView];
     
 }
 

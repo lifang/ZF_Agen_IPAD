@@ -318,6 +318,8 @@
 		1AF15B691ACD065500D5C171 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AF15B681ACD065500D5C171 /* LoginViewController.m */; };
 		1AF15B6F1ACD068000D5C171 /* AccountTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AF15B6D1ACD068000D5C171 /* AccountTool.m */; };
 		1AF15B721ACD0A6D00D5C171 /* HomepageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AF15B711ACD0A6D00D5C171 /* HomepageViewController.m */; };
+		9396DB201B12B77B00D98468 /* MappingPlist.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9396DB1F1B12B77B00D98468 /* MappingPlist.plist */; };
+		9396DB581B12F79D00D98468 /* libMobClickLibrary.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9396DB561B12F79D00D98468 /* libMobClickLibrary.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -988,6 +990,9 @@
 		1AF15B6D1ACD068000D5C171 /* AccountTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AccountTool.m; sourceTree = "<group>"; };
 		1AF15B701ACD0A6D00D5C171 /* HomepageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomepageViewController.h; sourceTree = "<group>"; };
 		1AF15B711ACD0A6D00D5C171 /* HomepageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomepageViewController.m; sourceTree = "<group>"; };
+		9396DB1F1B12B77B00D98468 /* MappingPlist.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = MappingPlist.plist; sourceTree = "<group>"; };
+		9396DB561B12F79D00D98468 /* libMobClickLibrary.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libMobClickLibrary.a; sourceTree = "<group>"; };
+		9396DB571B12F79D00D98468 /* MobClick.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MobClick.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -995,10 +1000,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0ECEB58D1AEA184900CE217D /* QuartzCore.framework in Frameworks */,
 				0ED214291B0C7B2B005F4844 /* CoreTelephony.framework in Frameworks */,
 				0ED214271B0C7B11005F4844 /* libz.dylib in Frameworks */,
 				1AAA570D1B05A5A400196E03 /* CoreText.framework in Frameworks */,
-				0ECEB58D1AEA184900CE217D /* QuartzCore.framework in Frameworks */,
 				0ECEB5C01AEA19C700CE217D /* libaudio_processing.a in Frameworks */,
 				0ECEB58B1AEA183B00CE217D /* CoreVideo.framework in Frameworks */,
 				0ECEB5891AEA182E00CE217D /* CoreMedia.framework in Frameworks */,
@@ -1029,6 +1034,7 @@
 				0ECEB57F1AEA17A100CE217D /* libc++.dylib in Frameworks */,
 				0ECEB5AD1AEA19A800CE217D /* libmediautil.a in Frameworks */,
 				0ECEB5AB1AEA19A800CE217D /* libmediacore.a in Frameworks */,
+				9396DB581B12F79D00D98468 /* libMobClickLibrary.a in Frameworks */,
 				0ECEB5C11AEA19C700CE217D /* libaudio_processing_neon.a in Frameworks */,
 				0ED58A021AE7682F00EFD931 /* libssl.a in Frameworks */,
 				0ECEB5B61AEA19A900CE217D /* libyuv_neon.a in Frameworks */,
@@ -1793,6 +1799,7 @@
 				1AF15B421ACCE7C800D5C171 /* ZF_Agent_IPad-Prefix.pch */,
 				1AF15AB71ACCE34C00D5C171 /* city.js */,
 				1AF15A8A1ACCDB8C00D5C171 /* Info.plist */,
+				9396DB1F1B12B77B00D98468 /* MappingPlist.plist */,
 				1AF15A8B1ACCDB8C00D5C171 /* main.m */,
 			);
 			name = "Supporting Files";
@@ -1841,6 +1848,7 @@
 		1AF15AB21ACCE33300D5C171 /* Labrary */ = {
 			isa = PBXGroup;
 			children = (
+				9396DB551B12F79D00D98468 /* UM */,
 				0D4B60361B12EE77002C3ADC /* UnionPay */,
 				0ED214221B0C763A005F4844 /* LibBPush */,
 				0ECEB5921AEA196100CE217D /* AnyChat */,
@@ -2193,6 +2201,15 @@
 			name = Login;
 			sourceTree = "<group>";
 		};
+		9396DB551B12F79D00D98468 /* UM */ = {
+			isa = PBXGroup;
+			children = (
+				9396DB561B12F79D00D98468 /* libMobClickLibrary.a */,
+				9396DB571B12F79D00D98468 /* MobClick.h */,
+			);
+			path = UM;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -2279,6 +2296,7 @@
 				0D024F321AEF2A2F005BB925 /* pad4@2x.png in Resources */,
 				0D024F281AEF1F74005BB925 /* pad3.png in Resources */,
 				0D024F241AEF1F6A005BB925 /* pad1.png in Resources */,
+				9396DB201B12B77B00D98468 /* MappingPlist.plist in Resources */,
 				0EBB49ED1B0B2D8400D71902 /* numberbackss.png in Resources */,
 				0D024F261AEF1F6E005BB925 /* pad2.png in Resources */,
 				0D024F2A1AEF1F7A005BB925 /* pad4.png in Resources */,
@@ -2671,8 +2689,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: SHANGHAI EPALMPAY NETWORK TECHNOLOGY CO., LTD.";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: SHANGHAI EPALMPAY NETWORK TECHNOLOGY CO., LTD.";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Sen Ye (FE46ZS29LM)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Sen Ye (FE46ZS29LM)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/ZF_Agent_IPad/Labrary",
@@ -2693,10 +2711,11 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/ZF_Agent_IPad/Labrary",
 					"$(PROJECT_DIR)/ZF_Agent_IPad/Labrary/Alipay",
+					"$(PROJECT_DIR)/ZF_Agent_IPad/Labrary/UM",
 					"$(PROJECT_DIR)/ZF_Agent_IPad/Labrary/UnionPay",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "824c21c7-b090-4a45-b205-b69d5fb4fdbe";
+				PROVISIONING_PROFILE = "581e490b-dced-49f5-9ddc-6dcdc4bb4daa";
 				TARGETED_DEVICE_FAMILY = 2;
 			};
 			name = Debug;
@@ -2706,8 +2725,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: SHANGHAI EPALMPAY NETWORK TECHNOLOGY CO., LTD.";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: SHANGHAI EPALMPAY NETWORK TECHNOLOGY CO., LTD.";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Sen Ye (FE46ZS29LM)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Sen Ye (FE46ZS29LM)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/ZF_Agent_IPad/Labrary",
@@ -2728,10 +2747,11 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/ZF_Agent_IPad/Labrary",
 					"$(PROJECT_DIR)/ZF_Agent_IPad/Labrary/Alipay",
+					"$(PROJECT_DIR)/ZF_Agent_IPad/Labrary/UM",
 					"$(PROJECT_DIR)/ZF_Agent_IPad/Labrary/UnionPay",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "824c21c7-b090-4a45-b205-b69d5fb4fdbe";
+				PROVISIONING_PROFILE = "581e490b-dced-49f5-9ddc-6dcdc4bb4daa";
 				TARGETED_DEVICE_FAMILY = 2;
 			};
 			name = Release;

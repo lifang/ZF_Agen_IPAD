@@ -31,6 +31,7 @@
 
 #define kAppVersionType  6   //版本更新
 
+#define UMENG_APPKEY @"553deff867e58ed9fc000146" //友盟key
 
 #define kImageName(name) [UIImage imageNamed:name]
 #define NavTitle_FONTSIZE  36

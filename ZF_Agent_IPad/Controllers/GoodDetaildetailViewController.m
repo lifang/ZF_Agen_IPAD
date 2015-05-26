@@ -336,29 +336,29 @@
     openLabel.numberOfLines = 0;
     [self setLabels:openLabel withTitle:_detailModel.defaultChannel.openRequirement font:[UIFont systemFontOfSize:16.f]];
     
-    //商品详细说明
-    originY += openHeight + 20;
-    UILabel *descriptionTitleLabel = [[UILabel alloc] initWithFrame:CGRectMake(leftSpace, originY, wide - leftSpace - rightSpace, labelHeight)];
-    [self setLabels:descriptionTitleLabel withTitle:@"商品详细说明" font:[UIFont systemFontOfSize:16.f]];
-    
-    //划线
-    originY += labelHeight + vSpace;
-    UIView *fifthLine = [[UIView alloc] initWithFrame:CGRectMake(40, originY, wide - 80, 1)];
-    fifthLine.backgroundColor =kColor(3, 112, 214, 1);
-    [_mainScrollView addSubview:fifthLine];
-    
-    //说明
-    originY += vSpace + 1;
-    CGFloat descriptionHeight = [self heightWithString:_detailModel.goodDescription
-                                                 width:wide - leftSpace - rightSpace
-                                              fontSize:16.f];
-    descriptionHeight = descriptionHeight < labelHeight ? labelHeight : descriptionHeight;
-    UILabel *descriptionLabel = [[UILabel alloc] initWithFrame:CGRectMake(leftSpace, originY, wide - leftSpace - rightSpace, descriptionHeight)];
-    descriptionLabel.numberOfLines = 0;
-    [self setLabels:descriptionLabel withTitle:_detailModel.goodDescription font:[UIFont systemFontOfSize:13.f]];
+//    //商品详细说明
+//    originY += openHeight + 20;
+//    UILabel *descriptionTitleLabel = [[UILabel alloc] initWithFrame:CGRectMake(leftSpace, originY, wide - leftSpace - rightSpace, labelHeight)];
+//    [self setLabels:descriptionTitleLabel withTitle:@"商品详细说明" font:[UIFont systemFontOfSize:16.f]];
+//    
+//    //划线
+//    originY += labelHeight + vSpace;
+//    UIView *fifthLine = [[UIView alloc] initWithFrame:CGRectMake(40, originY, wide - 80, 1)];
+//    fifthLine.backgroundColor =kColor(3, 112, 214, 1);
+//    [_mainScrollView addSubview:fifthLine];
+//    
+//    //说明
+//    originY += vSpace + 1;
+//    CGFloat descriptionHeight = [self heightWithString:_detailModel.goodDescription
+//                                                 width:wide - leftSpace - rightSpace
+//                                              fontSize:16.f];
+//    descriptionHeight = descriptionHeight < labelHeight ? labelHeight : descriptionHeight;
+//    UILabel *descriptionLabel = [[UILabel alloc] initWithFrame:CGRectMake(leftSpace, originY, wide - leftSpace - rightSpace, descriptionHeight)];
+//    descriptionLabel.numberOfLines = 0;
+//    [self setLabels:descriptionLabel withTitle:_detailModel.goodDescription font:[UIFont systemFontOfSize:13.f]];
 
     //感兴趣的
-    originY += descriptionHeight + 20;
+    originY += openHeight + 20;
 //    UIView *sixthLine = [[UIView alloc] initWithFrame:CGRectMake(40, originY, wide-80, 1)];
 //    sixthLine.backgroundColor = kColor(200, 198, 199, 1);
 //    [_mainScrollView addSubview:sixthLine];
