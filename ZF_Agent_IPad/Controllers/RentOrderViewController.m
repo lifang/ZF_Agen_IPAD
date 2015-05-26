@@ -229,14 +229,32 @@
     NSString*addressID;
     if(B==0)
     {
-        for (int i = 0; i < [addressarry count]; i++) {
-            AddressModel *model =[addressarry objectAtIndex:i];
-
-            if ([model.isDefault intValue] == AddressDefault) {
-                addressID=model.addressID;
-
-                break;
+        if(self.ishaveaddress)
+        {
+            for (int i = 0; i < [addressarry count]; i++) {
+                AddressModel *model =[addressarry objectAtIndex:i];
+                
+                if ([model.isDefault intValue] == AddressDefault) {
+                    addressID=model.addressID;
+                    
+                    break;
+                }
             }
+            
+            
+        }
+        else
+        {
+            if(addressarry.count>0)
+            {
+                AddressModel *model =[addressarry objectAtIndex:0];
+                
+                addressID=model.addressID;
+            }
+            
+            
+            
+            
         }
 
         
