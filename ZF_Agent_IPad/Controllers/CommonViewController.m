@@ -8,6 +8,8 @@
 
 #import "CommonViewController.h"
 
+static NSDictionary *s_mappingPlist = nil;
+
 @interface CommonViewController ()
 
 @end
@@ -21,11 +23,28 @@
         self.edgesForExtendedLayout = UIRectEdgeNone;
     }
 }
+
+-(NSDictionary *)getMappingDictionary{
+    
+    
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        NSString *path =[[NSBundle mainBundle] pathForResource:@"MappingPlist" ofType:@"plist"];
+        NSDictionary *mappingDic=[NSDictionary dictionaryWithContentsOfFile:path];
+        s_mappingPlist=[mappingDic objectForKey:@"Mapping"];
+    });
+    return s_mappingPlist;
+}
 - (void)viewWillAppear:(BOOL)animated
 {
     
     
     [super viewWillAppear:animated];
+    
+    NSString *pageKey = [[self getMappingDictionary]objectForKey:NSStringFromClass(self.class)];
+    
+    
+    
 //    self.navigationController.navigationBarHidden = NO;
     ZYCustomTabBarViewController *tarbar=[[ZYCustomTabBarViewController alloc] init];
     tarbar.tabBarController.tabBar.hidden=YES;
