@@ -102,30 +102,6 @@ static NSString *s_defaultTerminalNum = @"请选择终端号";
 @end
 
 @implementation DealRoadController
--(void)ShowLoginVC
-{
-    AccountModel *account = [AccountTool userModel];
-    NSLog(@"%@",account);
-    
-    [self LoginSuccess];
-    self.tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
-    
-    
-}
-
--(void)LoginSuccess
-{
-    if (!_isPush) {
-        //创建头部View
-    }
-    self.tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
-}
-
--(void)viewDidAppear:(BOOL)animated
-{
-    [super viewDidAppear:animated];
-    [self ShowLoginVC];
-}
 //选择代理商tableView懒加载
 -(UITableView *)agentTableView
 {
@@ -209,7 +185,6 @@ static NSString *s_defaultTerminalNum = @"请选择终端号";
     self.view.backgroundColor = [UIColor whiteColor];
     NSDictionary *attributes = [NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor],NSForegroundColorAttributeName,[UIFont boldSystemFontOfSize:22],NSFontAttributeName, nil];
     [self.navigationController.navigationBar setTitleTextAttributes:attributes];
-    [self.navigationController.navigationBar setBackgroundImage:[UIImage resizedImage:@"blue"] forBarPosition:UIBarPositionTop barMetrics:UIBarMetricsDefault];
     
     UIView *footerView = [[UIView alloc]init];
     footerView.backgroundColor = kColor(210, 210, 210, 1.0);
