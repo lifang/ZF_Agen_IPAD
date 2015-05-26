@@ -1613,7 +1613,6 @@
         return;
     }
     NSArray *TM_List = [[dict objectForKey:@"result"] objectForKey:@"applyList"];
-    [_terminalItems removeAllObjects];
     for (int i = 0; i < [TM_List count]; i++) {
         TerminalManagerModel *tm_Model = [[TerminalManagerModel alloc] initWithParseDictionary:[TM_List objectAtIndex:i]];
         [_terminalItems addObject:tm_Model];
@@ -2123,6 +2122,7 @@
 
 //上拉加载
 - (void)pullUpToLoadData {
+    
     //[self downloadDataWithPage:self.page isMore:YES];
     if (_stringStatus==0) {
         [self downloadDataWithPage:_page isMore:YES];
