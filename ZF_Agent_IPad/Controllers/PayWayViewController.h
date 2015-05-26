@@ -7,6 +7,8 @@
 //
 
 #import "CommonViewController.h"
+#import "UPPayPluginDelegate.h"
+
 typedef enum {
     PayWayFromNone = 0,
     PayWayFromOrderWholesale,       //批购订单
@@ -18,7 +20,7 @@ typedef enum {
 
 //订单、购物车、商品详情、维修记录可跳转此类
 
-@interface PayWayViewController : CommonViewController
+@interface PayWayViewController : CommonViewController<UPPayPluginDelegate,UIAlertViewDelegate>
 {    CGFloat payMoney ;
 
 

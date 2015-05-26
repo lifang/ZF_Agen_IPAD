@@ -196,6 +196,9 @@
     account.userID = nil;
     account.password = nil;
     [AccountTool save:account];
+    for (int i = 1; i < 11; i++) {
+        [_authDict setObject:[NSNumber numberWithBool:NO] forKey:[NSNumber numberWithInt:i]];
+    }
 }
 - (void)saveLoginInfo:(NSDictionary *)dict {
     self.agentID = [NSString stringWithFormat:@"%@",[dict objectForKey:@"agentId"]];

@@ -54,3 +54,12 @@
 
 //#define kVideoAuthIP      @"121.40.64.120"   //线上
 #define kVideoAuthPort  8906
+
+//UnionPay
+#define kMode_Production             @"01" //测试
+#define kUnionPayURL  @"http://121.40.84.2:28080/ZFAgent/unionpay.do" //测试
+
+//#define kMode_Production             @"00"  //线上
+//#define kUnionPayURL  @"http://agent.ebank007.com/unionpay.do" //线上
+
+

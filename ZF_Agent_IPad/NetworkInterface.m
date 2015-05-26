@@ -1201,6 +1201,28 @@ static NSString *HTTP_GET  = @"GET";
                       httpMethod:HTTP_POST
                         finished:finish];
 }
++ (void)getTradeDetailWithAgentID:(NSString *)agentID
+                            token:(NSString *)token
+                          tradeID:(NSString *)tradeID
+                        hasProfit:(int)profit
+                         finished:(requestDidFinished)finish {
+    //参数
+    NSMutableDictionary *paramDict = [[NSMutableDictionary alloc] init];
+    if (agentID) {
+        [paramDict setObject:[NSNumber numberWithInt:[agentID intValue]] forKey:@"agentId"];
+    }
+    if (tradeID) {
+        [paramDict setObject:[NSNumber numberWithInt:[tradeID intValue]] forKey:@"id"];
+    }
+    [paramDict setObject:[NSNumber numberWithInt:profit] forKey:@"isHaveProfit"];
+    //url
+    NSString *urlString = [NSString stringWithFormat:@"%@/%@",kServiceURL,s_tradeDetail_method];
+    [[self class] requestWithURL:urlString
+                          params:paramDict
+                      httpMethod:HTTP_POST
+                        finished:finish];
+}
+
 //37.
 + (void)getTradeRecordid:(NSString *)isHaveProfit
                  agentID:(NSString *)agentID
@@ -1533,11 +1555,15 @@ static NSString *HTTP_GET  = @"GET";
                               terminalNumbers:(NSArray *)terminalNumbers
                                          page:(int)page
                                          rows:(int)rows
+                                       serialNum:(NSString *)serialNum
                                      finished:(requestDidFinished)finish {
     //参数
     NSMutableDictionary *paramDict = [[NSMutableDictionary alloc] init];
     if (agentID) {
         [paramDict setObject:[NSNumber numberWithInt:[agentID intValue]] forKey:@"agentId"];
+    }
+    if (serialNum) {
+        [paramDict setObject:serialNum forKey:@"serialNum"];
     }
     if (channelID) {
         [paramDict setObject:[NSNumber numberWithInt:[channelID intValue]] forKey:@"paychannelId"];

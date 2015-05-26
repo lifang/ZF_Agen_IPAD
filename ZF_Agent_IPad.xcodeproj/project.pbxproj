@@ -37,6 +37,7 @@
 		0D1C66DF1ADFE0E000CAC1B8 /* AddressSelectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D1C66DE1ADFE0E000CAC1B8 /* AddressSelectViewController.m */; };
 		0D1C66E21ADFE10A00CAC1B8 /* UserSelectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D1C66E11ADFE10A00CAC1B8 /* UserSelectViewController.m */; };
 		0D1C66E51ADFE15B00CAC1B8 /* AddressSelectCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D1C66E41ADFE15B00CAC1B8 /* AddressSelectCell.m */; };
+		0D4B603A1B12EE77002C3ADC /* libUPPayPlugin.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D4B60371B12EE77002C3ADC /* libUPPayPlugin.a */; };
 		0D6D01391AEDC5B00019E500 /* VideoAuthViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D6D01381AEDC5B00019E500 /* VideoAuthViewController.m */; };
 		0D885FA51AD7D34A002CDA15 /* IdentificationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D885FA41AD7D34A002CDA15 /* IdentificationViewController.m */; };
 		0D885FA81AD7D358002CDA15 /* ApplyDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D885FA71AD7D358002CDA15 /* ApplyDetailController.m */; };
@@ -385,6 +386,9 @@
 		0D1C66E11ADFE10A00CAC1B8 /* UserSelectViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserSelectViewController.m; sourceTree = "<group>"; };
 		0D1C66E31ADFE15500CAC1B8 /* AddressSelectCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddressSelectCell.h; sourceTree = "<group>"; };
 		0D1C66E41ADFE15B00CAC1B8 /* AddressSelectCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddressSelectCell.m; sourceTree = "<group>"; };
+		0D4B60371B12EE77002C3ADC /* libUPPayPlugin.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libUPPayPlugin.a; sourceTree = "<group>"; };
+		0D4B60381B12EE77002C3ADC /* UPPayPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UPPayPlugin.h; sourceTree = "<group>"; };
+		0D4B60391B12EE77002C3ADC /* UPPayPluginDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UPPayPluginDelegate.h; sourceTree = "<group>"; };
 		0D6D01371AEDC59F0019E500 /* VideoAuthViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoAuthViewController.h; sourceTree = "<group>"; };
 		0D6D01381AEDC5B00019E500 /* VideoAuthViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VideoAuthViewController.m; sourceTree = "<group>"; };
 		0D885FA31AD7D341002CDA15 /* IdentificationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IdentificationViewController.h; sourceTree = "<group>"; };
@@ -1006,6 +1010,7 @@
 				0ECEB5A81AEA19A800CE217D /* libavformat.a in Frameworks */,
 				0ECEB5B21AEA19A800CE217D /* libvo-amrwbenc.a in Frameworks */,
 				0ECEB5AA1AEA19A800CE217D /* libcelt0.a in Frameworks */,
+				0D4B603A1B12EE77002C3ADC /* libUPPayPlugin.a in Frameworks */,
 				0ECEB5B51AEA19A900CE217D /* libyuv.a in Frameworks */,
 				0ECEB5871AEA17EA00CE217D /* AudioToolbox.framework in Frameworks */,
 				0ECEB5AF1AEA19A800CE217D /* libopencore-amrwb.a in Frameworks */,
@@ -1153,6 +1158,16 @@
 				0DC0324D1AD68C6D000532EF /* RecordView.m */,
 			);
 			name = Terminal;
+			sourceTree = "<group>";
+		};
+		0D4B60361B12EE77002C3ADC /* UnionPay */ = {
+			isa = PBXGroup;
+			children = (
+				0D4B60371B12EE77002C3ADC /* libUPPayPlugin.a */,
+				0D4B60381B12EE77002C3ADC /* UPPayPlugin.h */,
+				0D4B60391B12EE77002C3ADC /* UPPayPluginDelegate.h */,
+			);
+			path = UnionPay;
 			sourceTree = "<group>";
 		};
 		0D885FA21AD7D326002CDA15 /* Identification */ = {
@@ -1834,6 +1849,7 @@
 			isa = PBXGroup;
 			children = (
 				9396DB551B12F79D00D98468 /* UM */,
+				0D4B60361B12EE77002C3ADC /* UnionPay */,
 				0ED214221B0C763A005F4844 /* LibBPush */,
 				0ECEB5921AEA196100CE217D /* AnyChat */,
 				0ED5899C1AE7682F00EFD931 /* Alipay */,
@@ -2622,6 +2638,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = "-ObjC";
 				PROVISIONING_PROFILE = "581e490b-dced-49f5-9ddc-6dcdc4bb4daa";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -2659,6 +2676,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
 				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_LDFLAGS = "-ObjC";
 				PROVISIONING_PROFILE = "581e490b-dced-49f5-9ddc-6dcdc4bb4daa";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -2694,6 +2712,7 @@
 					"$(PROJECT_DIR)/ZF_Agent_IPad/Labrary",
 					"$(PROJECT_DIR)/ZF_Agent_IPad/Labrary/Alipay",
 					"$(PROJECT_DIR)/ZF_Agent_IPad/Labrary/UM",
+					"$(PROJECT_DIR)/ZF_Agent_IPad/Labrary/UnionPay",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "581e490b-dced-49f5-9ddc-6dcdc4bb4daa";
@@ -2729,6 +2748,7 @@
 					"$(PROJECT_DIR)/ZF_Agent_IPad/Labrary",
 					"$(PROJECT_DIR)/ZF_Agent_IPad/Labrary/Alipay",
 					"$(PROJECT_DIR)/ZF_Agent_IPad/Labrary/UM",
+					"$(PROJECT_DIR)/ZF_Agent_IPad/Labrary/UnionPay",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "581e490b-dced-49f5-9ddc-6dcdc4bb4daa";

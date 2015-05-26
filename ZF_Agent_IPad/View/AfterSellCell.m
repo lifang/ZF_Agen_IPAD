@@ -386,7 +386,7 @@
             statusString = @"待处理";
             break;
         case CSStatusSecond:
-            statusString = @"退货中";
+            statusString = @"处理中";
             break;
         case CSStatusThird:
             statusString = @"处理完成";

@@ -210,7 +210,7 @@
     if(sexint==102)
     {
         
-        [_infoDict setObject:[NSString stringWithFormat:@"%ld",(long)indexPath.row] forKey:key_sex];
+        [_infoDict setObject:[NSNumber numberWithInt:indexPath.row] forKey:key_sex];
         NSString *accountname=[NSString stringWithFormat:@"%@",[_infoDict objectForKey:key_sex]];
         
         if([accountname isEqualToString:@"0"])
@@ -1400,8 +1400,7 @@
 #pragma mark - 上传图片
 
 - (void)uploadPictureWithImage:(UIImage *)image {
-    NSLog(@"terminalId:%@",_terminalID);
-    NSLog(@"%@",image);
+ 
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
     hud.labelText = @"上传中...";
     [NetworkInterface uploadImageWithImage:image terminalId:_terminalID finished:^(BOOL success, NSData *response) {
