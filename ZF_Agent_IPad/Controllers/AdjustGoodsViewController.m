@@ -176,8 +176,17 @@ static NSString *s_defaultTerminalNum = @"请选择终端号";
     
     TerminalSelectModel *model=[array objectAtIndex:0];
     
+    if(array.count>1)
+    {
+        [_agentnumberbutton setTitle:[NSString stringWithFormat:@"%@等",model.serial_num] forState:UIControlStateNormal];
+
+    }else
+    {
     
-    [_agentnumberbutton setTitle:[NSString stringWithFormat:@"%@等",model.serial_num] forState:UIControlStateNormal];
+    
+        [_agentnumberbutton setTitle:[NSString stringWithFormat:@"%@",model.serial_num] forState:UIControlStateNormal];
+
+    }
     
     
 }

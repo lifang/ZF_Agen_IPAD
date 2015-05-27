@@ -833,7 +833,6 @@
             cell.pricelable.hidden=NO;
             cell.salemorelable.hidden=NO;
 
-            NSLog(@"%f",cell.bigtitleLabel.frame.size.width);
             
 
         }
