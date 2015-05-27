@@ -562,6 +562,14 @@
         hud.labelText = @"请输入售后原因";
         return;
     }
+    if (_reseasonTV.text.length >= 99) {
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:_whiteView animated:YES];
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:1.f];
+        hud.labelText = @"售后原因过长";
+        return;
+    }
     NSLog(@"count:%lu",(unsigned long)[_TerminalsArray count]);
     NSLog(@"array:%@",_TerminalsArray);
     NSLog(@"reciver:%@",_reciver);

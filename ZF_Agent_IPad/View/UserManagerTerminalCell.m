@@ -35,7 +35,7 @@
     _terminalLabel.textAlignment = NSTextAlignmentCenter;
     _terminalLabel.backgroundColor = [UIColor clearColor];
     _terminalLabel.font = [UIFont systemFontOfSize:15];
-    _terminalLabel.frame = CGRectMake(40, -5, 180, 25);
+    _terminalLabel.frame = CGRectMake(40, 7, 180, 25);
     [self.contentView addSubview:_terminalLabel];
 }
 

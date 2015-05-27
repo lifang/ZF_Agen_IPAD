@@ -125,7 +125,7 @@
     label.backgroundColor = [UIColor clearColor];
     label.font = [UIFont systemFontOfSize:16.f];
     label.textColor = kColor(108, 108, 108, 1);
-    CGSize size = CGSizeMake(self.view.frame.size.width - 300.f,MAXFLOAT); //设置一个行高上限
+    CGSize size = CGSizeMake(SCREEN_WIDTH - 400.f,MAXFLOAT); //设置一个行高上限
     NSDictionary *attribute = @{NSFontAttributeName: label.font};
     CGSize labelsize = [str boundingRectWithSize:size options: NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin |NSStringDrawingUsesFontLeading attributes:attribute context:nil].size;
     label.numberOfLines = 0;
