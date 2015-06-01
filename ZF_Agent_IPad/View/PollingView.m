@@ -76,8 +76,8 @@
         imageView.userInteractionEnabled = YES;
         imageView.contentMode = UIViewContentModeScaleAspectFit;
         imageView.layer.masksToBounds = YES;
-//        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:target action:action];
-//        [imageView addGestureRecognizer:tap];
+        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:target action:action];
+        [imageView addGestureRecognizer:tap];
         //loading...
         NSString *urlString = [urlArray objectAtIndex:i];
         [imageView sd_setImageWithURL:[NSURL URLWithString:urlString]];

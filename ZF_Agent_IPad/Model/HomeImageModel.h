@@ -13,6 +13,7 @@
 @property (nonatomic, strong) NSString *ID;
 @property (nonatomic, strong) NSString *pictureURL;
 @property (nonatomic, strong) NSString *websiteURL;
+@property (nonatomic, strong) NSString *goodId;
 
 - (id)initWithParseDictionary:(NSDictionary *)dict;
 
