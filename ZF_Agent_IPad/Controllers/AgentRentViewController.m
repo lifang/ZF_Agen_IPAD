@@ -604,7 +604,9 @@
 - (void)sendPhoneCode {
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
     hud.labelText = @"加载中...";
-    [NetworkInterface sendValidateWithMobileNumber:_phoneTV.text finished:^(BOOL success, NSData *response) {
+    
+    [NetworkInterface sendBindingValidateWithMobileNumber:_phoneTV.text finished:^(BOOL success, NSData *response) {
+
         NSLog(@"%@",[[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding]);
         hud.customView = [[UIImageView alloc] init];
         hud.mode = MBProgressHUDModeCustomView;
@@ -620,7 +622,9 @@
                 else if ([errorCode intValue] == RequestSuccess) {
                     [hud hide:YES];
                     hud.labelText = @"验证码已发送到您的手机";
-                    [self TimeCountStart];
+                    timer1 = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(timerFireMethod:) userInfo:nil repeats:YES];
+                    _getcodeBtn.userInteractionEnabled =NO;
+                    count=0;
 
                     // if ([[object objectForKey:@"result"] isKindOfClass:[NSString class]]) {
                     //    _codeTV.text = [object objectForKey:@"result"];
@@ -637,10 +641,25 @@
         }
     }];
 }
+- (void)timerFireMethod:(NSTimer *)timer
+{
+    count++;
+    [_getcodeBtn setTitle:[NSString stringWithFormat:@"%ld秒",60-count] forState:UIControlStateNormal];
+    if (count>60) {
+        count=0;
+        
+        _getcodeBtn.userInteractionEnabled = YES;
+        [_getcodeBtn setTitleColor:[UIColor colorWithHexString:@"006fd5"] forState:UIControlStateNormal];
+        [_getcodeBtn setTitle:@"获取验证码" forState:UIControlStateNormal];
+        [timer1 invalidate];
+    }
+}
 
 -(void)leftBackClicked
 {
     [_findPosView removeFromSuperview];
+    [timer1 invalidate];
+
 }
 -(void)chosenewuser
 {
@@ -1732,7 +1751,8 @@
     
     [bigsview removeFromSuperview];
     
-    
+    [timer1 invalidate];
+
     
     
 }

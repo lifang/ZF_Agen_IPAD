@@ -14,7 +14,8 @@
 {
     NSString*namestring;
     UIButton *locationBtn;
-    
+    NSInteger count;
+
     UIButton *defaultbutton;
     BOOL defaultbool;
     UIButton*_cityField;
@@ -28,6 +29,7 @@
     NSString*textnsstring;
     NSString *agentUserIDs;  //代理商对应的用户id
     NSInteger resultint;
+    NSTimer * timer1;
 
     UIImageView*bigsview;
 }
