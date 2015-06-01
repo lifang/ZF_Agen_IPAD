@@ -13,6 +13,7 @@
 - (id)initWithRequestURL:(NSString *)urlString
               httpMethod:(NSString *)method
                 finished:(requestDidFinished)finish {
+
     if (self = [super init]) {
         NSURL *url = [NSURL URLWithString:urlString];
         _request = [[NSMutableURLRequest alloc] initWithURL:url
