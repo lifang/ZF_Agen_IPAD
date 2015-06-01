@@ -968,7 +968,7 @@ if( [self isBlankString: _channelTV.text])
                 
                 model.goodID=[NSString stringWithFormat:@"%d",_goodid];
                 model.channelID=[NSString stringWithFormat:@"%d",_channelsId];
-                model.price=[NSString stringWithFormat:@"%@",[TerminalDict objectForKey:@"money"]];
+                model.t_price=[[NSString stringWithFormat:@"%.2f",[[TerminalDict objectForKey:@"money"] floatValue]] floatValue];
                 
 
                 [_terminalList addObject:model];
@@ -1097,7 +1097,8 @@ if( [self isBlankString: _channelTV.text])
         cell = [[TerminalSelectCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:identifier];
     }
     [cell setTerminalSelectModel:model andTarget:self];
-    
+//    cell.priceLB.text=[NSString stringWithFormat:@"￥%@",model.retail_price];
+
     return cell;
 }
 
