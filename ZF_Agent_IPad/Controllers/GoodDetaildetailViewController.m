@@ -1174,8 +1174,8 @@
     
     _scrollViewPicture = [[UIScrollView alloc] init];
     
-    _scrollViewPicture.frame=CGRectMake(0, 64, wide, height-64);
-    _scrollViewPicture.contentSize=CGSizeMake(wide, 450*count+64);
+    _scrollViewPicture.frame=CGRectMake(0, 70, wide, height-70);
+    _scrollViewPicture.contentSize=CGSizeMake(wide, 450*count+70);
     
     
     [self.view addSubview:_scrollViewPicture];

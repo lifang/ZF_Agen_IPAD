@@ -12,6 +12,8 @@
 static NSString *RefreshMessageListNotification = @"RefreshMessageListNotification";
 
 @interface MessageChildViewController : CommonViewController
+@property (nonatomic, assign) NSString *messageID; //推送需要传的
+@property (nonatomic, assign) BOOL isFromPush;  //是否推送进来的
 
 @property (nonatomic, strong) MessageModel *message;
 
