@@ -34,6 +34,7 @@
 @property (nonatomic, assign) int needInvoice;
 
 @property (nonatomic, strong) NSString *createTime;  //订单日期
+@property (nonatomic, assign) CGFloat orderDeliveryFee;    //配送费
 
 @property (nonatomic, assign) int orderStatus;
 @property (nonatomic, strong) NSString *logisticCompany;

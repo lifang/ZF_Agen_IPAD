@@ -15,6 +15,9 @@
         if ([dict objectForKey:@"good_id"]) {
             _goodID = [NSString stringWithFormat:@"%@",[dict objectForKey:@"good_id"]];
         }
+        if ([dict objectForKey:@"good_opening_cost"]) {
+            _good_opening_cost = [[dict objectForKey:@"good_opening_cost"] floatValue] / 100;
+        }
         if ([dict objectForKey:@"good_name"]) {
             _goodName = [NSString stringWithFormat:@"%@",[dict objectForKey:@"good_name"]];
         }

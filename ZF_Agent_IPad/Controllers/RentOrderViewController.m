@@ -373,7 +373,7 @@
 
 - (void)updatPrice {
     self.payLabel.text = [NSString stringWithFormat:@"实付：￥%.2f",[self getSummaryPrice]];
-    self.deliveryLabel.text = [NSString stringWithFormat:@"(含配送费：￥%@)",@"0"];
+    self.deliveryLabel.text = [NSString stringWithFormat:@"(含开通费：￥%.2f)",_goodDetail.defaultChannel.openCost*_count];
 }
 
 //计算总价
@@ -2285,7 +2285,7 @@
             deliveryLabel.backgroundColor = [UIColor clearColor];
                      deliveryLabel.font = [UIFont systemFontOfSize:16.f];
             deliveryLabel.adjustsFontSizeToFitWidth = YES;
-            deliveryLabel.text = [NSString stringWithFormat:@"配送费：￥%@",@"0"];
+            deliveryLabel.text = [NSString stringWithFormat:@"开通费：￥%.2f",_goodDetail.defaultChannel.openCost*_count];
             [cell.contentView addSubview:deliveryLabel];
             
             
@@ -2339,13 +2339,21 @@
             
             
             
-            UILabel *actualPriceLabel = [[UILabel alloc] initWithFrame:CGRectMake(wide/2, 60, 130, 20)];
+            UILabel *actualPriceLabel = [[UILabel alloc] initWithFrame:CGRectMake(wide/2, 40, 130, 25)];
             actualPriceLabel.backgroundColor = [UIColor clearColor];
-            actualPriceLabel.font = [UIFont systemFontOfSize:14.f];
+            actualPriceLabel.font = [UIFont systemFontOfSize:16.f];
             actualPriceLabel.text =  [NSString stringWithFormat:@"￥%.2f",(_goodDetail.procurementPrice + _goodDetail.defaultChannel.openCost)];
             
             
             [cell.contentView addSubview:actualPriceLabel];
+            UILabel *openlable = [[UILabel alloc] initWithFrame:CGRectMake(wide/2-20, 65, 130, 20)];
+            openlable.backgroundColor = [UIColor clearColor];
+            openlable.font = [UIFont systemFontOfSize:14.f];
+            openlable.text = [NSString stringWithFormat:@"(含开通费￥%.2f)",_goodDetail.defaultChannel.openCost];
+            
+            
+            [cell.contentView addSubview:openlable];
+
             
             
                       if(iOS7)

@@ -55,6 +55,9 @@
             if ([goodInfo objectForKey:@"category"]) {
                 _goodCategory = [NSString stringWithFormat:@"%@",[goodInfo objectForKey:@"category"]];
             }
+            if ([goodInfo objectForKey:@"price"]) {
+                _oldPrice = [[goodInfo objectForKey:@"price"] floatValue] / 100;
+            }
             if ([goodInfo objectForKey:@"shell_material"]) {
                 _goodMaterial = [NSString stringWithFormat:@"%@",[goodInfo objectForKey:@"shell_material"]];
             }
@@ -93,8 +96,20 @@
             if ([goodInfo objectForKey:@"lease_time"]) {
                 _minTime = [NSString stringWithFormat:@"%@",[goodInfo objectForKey:@"lease_time"]];
             }
+            else
+            {
+                
+                _minTime=@"";
+                
+            }
             if ([goodInfo objectForKey:@"return_time"]) {
                 _maxTime = [NSString stringWithFormat:@"%@",[goodInfo objectForKey:@"return_time"]];
+            }
+            else
+            {
+                
+                _maxTime=@"";
+                
             }
             if ([goodInfo objectForKey:@"lease_price"]) {
                 _leasePrice = [[goodInfo objectForKey:@"lease_price"] floatValue] / 100;

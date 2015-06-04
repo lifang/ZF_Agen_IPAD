@@ -755,8 +755,20 @@
     topView = [self addRowsWithTitle:@"每月租金" content:[NSString stringWithFormat:@"￥%.2f",_goodDetail.leasePrice] topView:topView];
     topView = [self addRowsWithTitle:@"说明" content:_goodDetail.leaseDescription topView:topView];
     topView = [self addRowsWithTitle:@"租赁协议" content:_goodDetail.leaseProtocol topView:topView];
-    
-    _scrollView.contentSize = CGSizeMake(kScreenWidth, _viewHeight);
+    CGFloat width;
+    CGFloat height;
+    if(iOS7)
+    {
+        width = kScreenHeight;
+        height = kScreenWidth;
+    }
+    else
+    {
+        width = kScreenWidth;
+        height = kScreenHeight;
+    }
+
+    _scrollView.contentSize = CGSizeMake(width, _viewHeight);
 }
 
 - (UIView *)addRowsWithTitle:(NSString *)title
@@ -844,11 +856,25 @@
                                                           attribute:NSLayoutAttributeNotAnAttribute
                                                          multiplier:1.0
                                                            constant:kLineHeight]];
+    CGFloat width;
+    CGFloat height;
+    if(iOS7)
+    {
+        width = kScreenHeight;
+        height = kScreenWidth;
+    }
+    else
+    {
+        width = kScreenWidth;
+        height = kScreenHeight;
+    }
+    
+
     //内容
     UIFont *font = [UIFont systemFontOfSize:16.f];
     CGFloat contentHeight = [self heightForContent:content
                                           withFont:font
-                                             width:kScreenWidth - 2 * leftSpace];
+                                             width:width - 2 * leftSpace];
     UILabel *contentLabel = [[UILabel alloc] init];
     contentLabel.translatesAutoresizingMaskIntoConstraints = NO;
     contentLabel.backgroundColor = [UIColor clearColor];
@@ -957,8 +983,21 @@
     UIView *topView = nil;
     topView = [self addRowsWithTitlematel:@"开通申请材料" content:_channelData.openInfo topView:topView];
 //    topView = [self addRowsWithTitlematel:@"对公开通" content:_channelData.publicInfo topView:topView];
+    CGFloat width;
+    CGFloat height;
+    if(iOS7)
+    {
+        width = kScreenHeight;
+        height = kScreenWidth;
+    }
+    else
+    {
+        width = kScreenWidth;
+        height = kScreenHeight;
+    }
     
-    _scrollViewmaterial.contentSize = CGSizeMake(kScreenWidth, _viewHeightmatel);
+
+    _scrollViewmaterial.contentSize = CGSizeMake(width, _viewHeightmatel);
 }
 
 - (UIView *)addRowsWithTitlematel:(NSString *)title
@@ -1046,11 +1085,25 @@
                                                           attribute:NSLayoutAttributeNotAnAttribute
                                                          multiplier:1.0
                                                            constant:kLineHeight]];
+    CGFloat width;
+    CGFloat height;
+    if(iOS7)
+    {
+        width = kScreenHeight;
+        height = kScreenWidth;
+    }
+    else
+    {
+        width = kScreenWidth;
+        height = kScreenHeight;
+    }
+    
+
     //内容
     UIFont *font = [UIFont systemFontOfSize:16.f];
     CGFloat contentHeight = [self heightForContent:content
                                           withFont:font
-                                             width:kScreenWidth - 2 * leftSpace];
+                                             width:width - 2 * leftSpace];
     UILabel *contentLabel = [[UILabel alloc] init];
     contentLabel.translatesAutoresizingMaskIntoConstraints = NO;
     contentLabel.backgroundColor = [UIColor clearColor];
@@ -1388,7 +1441,8 @@
     yLine2.backgroundColor = kColor(204, 202, 203, 1);
     
     [_scrollView addSubview:yLine2];
-    _scrollView.contentSize = CGSizeMake(kScreenWidth, totalHeight);
+    
+    _scrollView.contentSize = CGSizeMake(wide, totalHeight);
 }
 
 - (UIView *)addRowsWithDate:(NSString *)date

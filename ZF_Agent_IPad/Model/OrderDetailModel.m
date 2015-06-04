@@ -16,6 +16,10 @@
         if ([dict objectForKey:@"order_id"]) {
             _orderID = [NSString stringWithFormat:@"%@",[dict objectForKey:@"order_id"]];
         }
+        if ([dict objectForKey:@"bd_cost"]) {
+            _orderDeliveryFee = [[dict objectForKey:@"bd_cost"] floatValue] / 100;
+        }
+
         if ([dict objectForKey:@"order_receiver"]) {
             _receiver = [NSString stringWithFormat:@"%@",[dict objectForKey:@"order_receiver"]];
         }

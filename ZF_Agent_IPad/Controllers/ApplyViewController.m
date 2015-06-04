@@ -1027,8 +1027,22 @@
 #pragma mark - 选择城市控件
 //选择城市
 - (void)initPickerView {
+    CGFloat width;
+    CGFloat height;
+    if(iOS7)
+    {
+        width = kScreenHeight;
+        height = kScreenWidth;
+    }
+    else
+    {
+        width = kScreenWidth;
+        height = kScreenHeight;
+    }
+    
+
     //pickerView
-    _toolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, kScreenHeight, kScreenWidth, 44)];
+    _toolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, height, width, 44)];
     UIBarButtonItem *cancelItem = [[UIBarButtonItem alloc] initWithTitle:@"取消"
                                                                    style:UIBarButtonItemStyleDone
                                                                   target:self
@@ -1043,7 +1057,7 @@
     spaceItem.width = 830.f;
     [_toolbar setItems:[NSArray arrayWithObjects:cancelItem,spaceItem,finishItem, nil]];
     [self.view addSubview:_toolbar];
-    _pickerView = [[UIPickerView alloc] initWithFrame:CGRectMake(0, kScreenHeight, kScreenWidth, 216)];
+    _pickerView = [[UIPickerView alloc] initWithFrame:CGRectMake(0, height, width, 216)];
     _pickerView.backgroundColor = kColor(244, 243, 243, 1);
     _pickerView.delegate = self;
     _pickerView.dataSource = self;
