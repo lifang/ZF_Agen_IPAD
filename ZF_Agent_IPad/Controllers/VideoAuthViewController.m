@@ -18,6 +18,12 @@
 
 
 @interface VideoAuthViewController ()<AnyChatNotifyMessageDelegate>
+{
+    float fheight;
+    float fwidth;
+
+
+}
 
 @property (nonatomic, strong) AnyChatPlatform *anyChat;
 
@@ -46,6 +52,24 @@
     
      self.title = @"视频认证";
     
+   
+   // float fheight;
+   // float fwidth;
+    
+    if(iOS7)
+    {
+        fheight=self.view.frame.size.width;
+        fwidth=self.view.frame.size.height;
+        
+    }else
+    {
+        
+        fheight=self.view.frame.size.height;
+        fwidth=self.view.frame.size.width;
+
+        
+    }
+    
     _onlineUserMArray=[[NSMutableArray alloc] init];
     
     _remoteVideoSurface = [[UIImageView alloc] init];
@@ -59,32 +83,31 @@
         make.bottom.equalTo(self.view.bottom);
     }];
     
-
-    _statusLB = [[UILabel alloc] init];
-    _statusLB.text=@"正在连接";
-    _statusLB.font=FONT20;
-   // _statusLB.backgroundColor = [UIColor whiteColor];
-    [self.view addSubview:_statusLB];
-    [_statusLB makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.view.top).offset(80);
-        make.right.equalTo(self.view.right).offset(30);
-        make.width.equalTo(@300);
-        
-    }];
-
-
-    
-    
     _theLocalView = [[UIImageView alloc] init];
     _theLocalView.translatesAutoresizingMaskIntoConstraints = NO;
     _theLocalView.backgroundColor = [UIColor blackColor];
     [self.view addSubview:_theLocalView];
     [_theLocalView makeConstraints:^(MASConstraintMaker *make) {
-        make.right.equalTo(self.view.right).offset(-5);
-        make.bottom.equalTo(self.view.bottom).offset(-60);
-        make.width.equalTo(@400);
-        make.height.equalTo(@400);
+   
+        make.centerX.equalTo(self.view.centerX);
+        make.centerY.equalTo(self.view.centerY);
+       // make.width.equalTo(@(self.view.frame.size.height));
+        make.height.equalTo(@(fwidth));
+        make.width.equalTo(@(fwidth));
     }];
+
+    _statusLB = [[UILabel alloc] init];
+    _statusLB.text=@"正在连接";
+    _statusLB.font=FONT20;
+    _statusLB.textAlignment=NSTextAlignmentCenter;
+    [self.view addSubview:_statusLB];
+    [_statusLB makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.view.top).offset(30);
+        make.centerX.equalTo(self.view.centerX);
+        make.width.equalTo(@300);
+        
+    }];
+
     
     _endBtn = [[UIButton alloc] init];
     _endBtn.clipsToBounds = YES;
@@ -103,6 +126,7 @@
         make.height.equalTo(@40);
     }];
 
+    
     _changeCameraBtn = [[UIButton alloc] init];
     _changeCameraBtn.clipsToBounds = YES;
     _changeCameraBtn.layer.masksToBounds=YES;
@@ -114,13 +138,12 @@
     [_changeCameraBtn addTarget:self action:@selector(changeCameraBtnPressed:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:_changeCameraBtn];
     [_changeCameraBtn makeConstraints:^(MASConstraintMaker *make) {
-       // make.right.equalTo(self.view.right).offset(-10);
-        make.centerX.equalTo(_theLocalView.centerX);
-        make.bottom.equalTo(self.view.bottom).offset(-2);
-        make.width.equalTo(@200);
+        make.top.equalTo(self.view.top).offset(30);
+        make.right.equalTo(self.view.right).offset(-20);
+        make.width.equalTo(@150);
         make.height.equalTo(@40);
     }];
-    
+
 
 }
 
@@ -191,11 +214,14 @@
     _localVideoSurface = [AVCaptureVideoPreviewLayer layerWithSession:(AVCaptureSession *)session];
    
     //视频显示层UI设置
-    _localVideoSurface.frame = CGRectMake(0, 0, 400, 400);
+   // _localVideoSurface.frame = CGRectMake(0, 0, 400, 400);
+    // _localVideoSurface.frame = CGRectMake(160, 0, self.view.frame.size.height, self.view.frame.size.width);
+     _localVideoSurface.frame = CGRectMake(160, 0, fheight, fwidth);
     
     _localVideoSurface.videoGravity = AVLayerVideoGravityResizeAspectFill;
     ///视频显示层添加到自定义的 theLocalView 界面显示视图中。
     [_theLocalView.layer addSublayer:_localVideoSurface];
+  
     //旋转
     _theLocalView.layer.transform = CATransform3DMakeRotation(-1.5707963267949, 0.0, 0.0, 1.0);
     
@@ -345,7 +371,7 @@
 // 网络断开消息
 - (void) OnAnyChatLinkClose:(int) dwErrorCode
 {
-
+     _statusLB.text=@"网络断开";
      NSLog(@"断开网络！");
 }
 
