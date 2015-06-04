@@ -35,6 +35,15 @@
         
     _authDict = [[NSMutableDictionary alloc] init];
 
+    
+    [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
+    self.isFirst = NO;
+    self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
+    self.window.backgroundColor = [UIColor whiteColor];
+    _rootViewController = [[RootViewController alloc] init];
+    self.window.rootViewController = _rootViewController;
+    [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
+    [self.window makeKeyAndVisible];
     // iOS8 下需要使⽤用新的 API
     if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 8.0) {
         UIUserNotificationType myTypes = UIUserNotificationTypeBadge | UIUserNotificationTypeSound
@@ -47,12 +56,12 @@
         UIRemoteNotificationType myTypes = UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeAlert | UIRemoteNotificationTypeSound;
         [[UIApplication sharedApplication] registerForRemoteNotificationTypes:myTypes];
     }
+
     // 在 App 启动时注册百度云推送服务,需要提供 Apikey
     [BPush registerChannel:launchOptions apiKey:@"7OqFwW72f3vKiAGzvqoMUOSc" pushMode:BPushModeDevelopment isDebug:NO];
     // 设置 BPush 的回调
     [BPush setDelegate:self];
     // App 是⽤用户点击推送消息启动
-    NSLog(@"!@#!#!%@",launchOptions);
     NSDictionary *userInfo = [launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
     if (userInfo) {
         NSLog(@"!!!!%@",userInfo);
@@ -60,15 +69,6 @@
         [self showNotificationViewWithInfo:userInfo pushLaunch:YES];
     }
 
-    [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
-    self.isFirst = NO;
-    self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
-    self.window.backgroundColor = [UIColor whiteColor];
-    _rootViewController = [[RootViewController alloc] init];
-    self.window.rootViewController = _rootViewController;
-    [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
-    [self.window makeKeyAndVisible];
-    
     [self umengTrack];
      
 //    _agentID = @"1";
@@ -156,8 +156,7 @@
 }
 
 - (void)onMethod:(NSString*)method response:(NSDictionary *)data {
-    NSLog(@"On method:%@", method);
-    NSLog(@"data:%@", [data description]);
+
     NSDictionary* res = [[NSDictionary alloc] initWithDictionary:data];
     if ([BPushRequestMethodBind isEqualToString:method]) {
         NSString *appid = [res valueForKey:BPushRequestAppIdKey];
@@ -172,14 +171,16 @@
     } else if ([BPushRequestMethodUnbind isEqualToString:method]) {
         
     }
+
     
 }
 
 //绑定成功向服务端提交信息
 - (void)uploadPushChannel:(NSString *)channel {
     NSString *appInfo = [NSString stringWithFormat:@"%d%@",kAppChannel,channel];
-    [NetworkInterface uploadPushInfoWithUserID:self.agentUserID channelInfo:appInfo finished:^(BOOL success, NSData *response) {
-        NSLog(@"!!%@",[[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding]);
+    [NetworkInterface uploadPushInfoWithUserID:self.agentUserID channelInfo:appInfo finished:^(BOOL success, NSData *response)
+     {
+        NSLog(@"766666!!%@",[[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding]);
     }];
 }
 
