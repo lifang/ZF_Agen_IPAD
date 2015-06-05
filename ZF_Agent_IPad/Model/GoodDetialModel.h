@@ -41,6 +41,7 @@
 
 @property (nonatomic, assign) CGFloat goodPrice;       //商品价格
 @property (nonatomic, assign) int minWholesaleNumber; //最小批购数
+@property (nonatomic, assign) int stockNumber;
 
 @property (nonatomic, strong) NSString *goodComment;   //评论数
 

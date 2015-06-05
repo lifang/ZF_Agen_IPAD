@@ -859,6 +859,21 @@
     [self.navigationController pushViewController:descC animated:YES];
 }
 - (IBAction)ensureOrder:(id)sender {
+        if([self isBlankString:blankbutton.titleLabel.text])
+        {
+    
+    
+            MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+            hud.customView = [[UIImageView alloc] init];
+            hud.mode = MBProgressHUDModeCustomView;
+            [hud hide:YES afterDelay:1.f];
+            hud.labelText = @"请选择已有用户";
+            return;
+    
+            
+            
+        }
+
     if (!isneedpp) {
         MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
         hud.customView = [[UIImageView alloc] init];

@@ -47,6 +47,7 @@
 @property (nonatomic, strong) UIButton *shopcartButton;  //购物车按钮
 @property (nonatomic, strong) UIButton *buyGoodButton;   //立刻购买
 @property (nonatomic, strong) UIScrollView *imagesScrollView;
+@property (nonatomic, strong) UIButton *noGoodButton;
 
 @property (nonatomic, strong) UIView *markView;
 @property (nonatomic, strong) UIView *scrollPanel;
@@ -60,6 +61,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+      [self.navigationController.navigationBar setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor], NSForegroundColorAttributeName, NavTitle_FONT(NavTitle_FONTSIZE),NSFontAttributeName,nil]];
     self.secletA=1024;
     self.isLogin = NO;
     // Do any additional setup after loading the view.
@@ -572,58 +574,77 @@
     _shopcartButton.titleLabel.font = [UIFont systemFontOfSize:16.f];
     [_shopcartButton addTarget:self action:@selector(addShoppingCart:) forControlEvents:UIControlEventTouchUpInside];
     
-    
-    //立即购买
-    _buyGoodButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    _buyGoodButton.frame = CGRectMake(_shopcartButton.frame.origin.x+_shopcartButton.frame.size.width+20, _buyButton.frame.origin.y + _buyButton.frame.size.height+20, wide/4, 40);
-    
-    
-    //    _buyGoodButton.layer.cornerRadius = 4.f;
-    _buyGoodButton.layer.masksToBounds = YES;
-    [_buyGoodButton setBackgroundImage:kImageName(@"blue") forState:UIControlStateNormal];
-    _buyGoodButton.titleLabel.font = [UIFont systemFontOfSize:16.f];
-    [_buyGoodButton addTarget:self action:@selector(buyNow:) forControlEvents:UIControlEventTouchUpInside];
-    [_mainScrollView addSubview:_buyGoodButton];
-    if (self.supplyType==2) {
-        if(_rentButton.selected)
-        {
-            [_buyGoodButton setTitle:@"立即租赁" forState:UIControlStateNormal];
-        }else
-        {
+    if (_detailModel.stockNumber <= 0) {
+        _noGoodButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    _noGoodButton.frame = CGRectMake(_shopcartButton.frame.origin.x+_shopcartButton.frame.size.width+20, _buyButton.frame.origin.y + _buyButton.frame.size.height+20, wide/4, 40);
+        _noGoodButton.layer.masksToBounds = YES;
+        [_noGoodButton setBackgroundImage:kImageName(@"blue") forState:UIControlStateNormal];
+        [_noGoodButton setTitle:@"缺货" forState:UIControlStateNormal];
+        _noGoodButton.titleLabel.font = [UIFont boldSystemFontOfSize:16.f];
+        [_noGoodButton addTarget:self action:@selector(noGoods:) forControlEvents:UIControlEventTouchUpInside];
+        _noGoodButton.center=CGPointMake(wide/4*3-20,  _buyButton.frame.origin.y + _buyButton.frame.size.height+60);
+
+        [_mainScrollView addSubview:_noGoodButton];
         
-            [_buyGoodButton setTitle:@"立即采购" forState:UIControlStateNormal];
-
-        }
-
-           }
-    else {
         
-        [_buyGoodButton setTitle:@"立即批购" forState:UIControlStateNormal];
-
     }
-    if (self.supplyType==2) {
-        if(_detailModel.canRent)
-        {
-           
-            _buyGoodButton.center=CGPointMake(wide/4*3-20,  _buyButton.frame.origin.y + _buyButton.frame.size.height+60);
-
+    
+    else
+    {
+        //立即购买
+        _buyGoodButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        _buyGoodButton.frame = CGRectMake(_shopcartButton.frame.origin.x+_shopcartButton.frame.size.width+20, _buyButton.frame.origin.y + _buyButton.frame.size.height+20, wide/4, 40);
         
+        
+        //    _buyGoodButton.layer.cornerRadius = 4.f;
+        _buyGoodButton.layer.masksToBounds = YES;
+        [_buyGoodButton setBackgroundImage:kImageName(@"blue") forState:UIControlStateNormal];
+        _buyGoodButton.titleLabel.font = [UIFont systemFontOfSize:16.f];
+        [_buyGoodButton addTarget:self action:@selector(buyNow:) forControlEvents:UIControlEventTouchUpInside];
+        [_mainScrollView addSubview:_buyGoodButton];
+        if (self.supplyType==2) {
+            if(_rentButton.selected)
+            {
+                [_buyGoodButton setTitle:@"立即租赁" forState:UIControlStateNormal];
+            }else
+            {
+                
+                [_buyGoodButton setTitle:@"立即采购" forState:UIControlStateNormal];
+                
+            }
+            
         }
-        else
-        {
+        else {
+            
+            [_buyGoodButton setTitle:@"立即批购" forState:UIControlStateNormal];
+            
+        }
+        if (self.supplyType==2) {
+            if(_detailModel.canRent)
+            {
+                
+                _buyGoodButton.center=CGPointMake(wide/4*3-20,  _buyButton.frame.origin.y + _buyButton.frame.size.height+60);
+                
+                
+            }
+            else
+            {
+                _buyGoodButton.center=CGPointMake(wide/4*3-20,  _buyButton.frame.origin.y + _buyButton.frame.size.height);
+                
+                
+                
+            }
+            
+            
+        }
+        else {
             _buyGoodButton.center=CGPointMake(wide/4*3-20,  _buyButton.frame.origin.y + _buyButton.frame.size.height);
-
-            
             
         }
-        
-        
-    }
-    else {
-        _buyGoodButton.center=CGPointMake(wide/4*3-20,  _buyButton.frame.origin.y + _buyButton.frame.size.height);
-
+ 
     }
 
+   
     UIView *handleView = [self handleViewWithOriginY:_topScorllView.frame.origin.y+_topScorllView.frame.size.height+60];
     [_mainScrollView addSubview:handleView];
     handleView.userInteractionEnabled=YES;
@@ -651,6 +672,14 @@
 //    originY += handleView.frame.size.height+handleView.frame.origin.y;
     
 }
+- (IBAction)noGoods:(id)sender {
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+    hud.customView = [[UIImageView alloc] init];
+    hud.mode = MBProgressHUDModeCustomView;
+    [hud hide:YES afterDelay:1.5f];
+    hud.labelText = @"很报歉，该商品正在加紧补货中";
+}
+
 - (IBAction)jumpForWebsite:(id)sender {
     ChannelWebsiteController *websiteC = [[ChannelWebsiteController alloc] init];
     websiteC.hidesBottomBarWhenPushed=YES;
