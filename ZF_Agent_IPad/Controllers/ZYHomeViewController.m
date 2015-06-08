@@ -115,6 +115,7 @@
     
     detailC.hidesBottomBarWhenPushed =  YES ;
     
+    detailC.supplyType=2;
     
     if (index >= 0 && index < [_pictureItem count]) {
         HomeImageModel *imageModel = [_pictureItem objectAtIndex:index];
