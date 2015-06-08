@@ -272,16 +272,16 @@
     
     //支持区域
     originY += vSpace + 1;
-    NSString *area = [_detailModel.defaultChannel.supportAreaItem componentsJoinedByString:@" "];
+    NSString *area = [_channelData.supportAreaItem componentsJoinedByString:@" "];
     NSString *titleString = @"支持支付区域";
-    if (!_detailModel.defaultChannel.supportType) {
+    if (!_channelData.supportType) {
         titleString = @"不支持支付区域";
     }
     CGFloat areaHeight=[self addLabelWithTitle:titleString content:area offsetY:originY];
     //注销
     originY += vSpace +areaHeight;
     NSString *cancelString = nil;
-    if (_detailModel.defaultChannel.canCanceled) {
+    if (_channelData.canCanceled) {
         cancelString = @"支持";
     }
     else {
@@ -332,13 +332,13 @@
     
     //申请开通条件内容
     originY += vSpace + 1;
-    CGFloat openHeight = [self heightWithString:_detailModel.defaultChannel.openRequirement
+    CGFloat openHeight = [self heightWithString:_channelData.openRequirement
                                           width:wide - leftSpace - rightSpace
                                        fontSize:16.f];
     openHeight = openHeight < labelHeight ? labelHeight : openHeight;
     UILabel *openLabel = [[UILabel alloc] initWithFrame:CGRectMake(leftSpace, originY, wide - leftSpace - rightSpace, openHeight)];
     openLabel.numberOfLines = 0;
-    [self setLabels:openLabel withTitle:_detailModel.defaultChannel.openRequirement font:[UIFont systemFontOfSize:16.f]];
+    [self setLabels:openLabel withTitle:_channelData.openRequirement font:[UIFont systemFontOfSize:16.f]];
     
 //    //商品详细说明
 //    originY += openHeight + 20;
