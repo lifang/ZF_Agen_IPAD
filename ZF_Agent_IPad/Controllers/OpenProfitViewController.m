@@ -351,7 +351,7 @@
                     [hud hide:YES];
                     hud.labelText = @"删除成功";
                     [self getBenefitList];
-                    [self createui];
+//                    [self createui];
                     
                 }
             }
@@ -421,10 +421,17 @@
     if(_dataItem.count>0)
     {
         [self createui];
-        [_tableView reloadData];
 
     
     }
+    else
+    {
+    
+        [_scrollView removeFromSuperview];
+
+    
+    }
+    [_tableView reloadData];
 
 }
 

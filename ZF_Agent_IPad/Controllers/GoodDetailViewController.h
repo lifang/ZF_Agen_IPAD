@@ -16,7 +16,8 @@
     UIImageView*bigsview;
     UIView*witeview;
     NSMutableArray*picturearry;
-
+    UILabel *allTitleLabel ;
+    UILabel *allmoneypeLabel;
 }
 @property (nonatomic, strong) NSString *goodID;
 @property (nonatomic, assign) NSInteger  secletA;

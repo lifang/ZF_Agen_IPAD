@@ -440,8 +440,12 @@ typedef enum {
                     else {
                         //实付
                         UILabel *payLabel = [[UILabel alloc] initWithFrame:CGRectMake(originX, 30, wide * 0.6 - originX, 20.f)];
-                        [self setLabel:payLabel withString:[NSString stringWithFormat:@"实付金额：￥%.2f",_orderDetail.actualPrice]];
+                        [self setLabel:payLabel withString:[NSString stringWithFormat:@"实付金额 ：￥%.2f",_orderDetail.actualPrice]];
                         [cell.contentView addSubview:payLabel];
+                        
+                        UILabel *openmoney = [[UILabel alloc] initWithFrame:CGRectMake(originX, 50, wide * 0.6 - originX, 20.f)];
+                        [self setLabel:openmoney withString:[NSString stringWithFormat:@"开  通  费：￥%.2f",_orderDetail.orderDeliveryFee]];
+                        [cell.contentView addSubview:openmoney];
                         
                         UIImageView *vLine = [[UIImageView alloc] initWithFrame:CGRectMake(wide * 0.4, 15, 1, 30)];
                         vLine.image = kImageName(@"gray.png");
@@ -747,6 +751,13 @@ typedef enum {
                 }
                 OrderGoodModel *model = [_orderDetail.goodList objectAtIndex:indexPath.row - 1];
                 [(OrderDetailCell *)cell setContentsWithData:model];
+                UILabel*_openlable = [[UILabel alloc] initWithFrame:CGRectMake(wide/2-40 ,45, 150, 30)];
+                //    _priceLabel.textColor = kColor(255, 102, 36, 1);
+                _openlable.font = [UIFont boldSystemFontOfSize:13.f];
+                _openlable.textAlignment = NSTextAlignmentCenter;
+                _openlable.text = [NSString stringWithFormat:@"(含开通费￥%.2f)",model.good_opening_cost];
+
+                [cell addSubview:_openlable];
             }
         }
             break;
@@ -824,7 +835,7 @@ typedef enum {
                 case 0: {
                     height = 100.f;
                     if (_supplyType == SupplyGoodsProcurement) {
-                        height = 60.f;
+                        height = 80.f;
                     }
                 }
                     break;

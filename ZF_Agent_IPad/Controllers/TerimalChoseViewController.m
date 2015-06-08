@@ -737,6 +737,8 @@
     
     NSString*idstring;
     
+    
+    
     if([self isBlankString:self.posid])
     {
         
@@ -968,7 +970,7 @@ if( [self isBlankString: _channelTV.text])
                 
                 model.goodID=[NSString stringWithFormat:@"%d",_goodid];
                 model.channelID=[NSString stringWithFormat:@"%d",_channelsId];
-                model.t_price=[[NSString stringWithFormat:@"%.2f",[[TerminalDict objectForKey:@"money"] floatValue]] floatValue];
+//                model.t_price=[[NSString stringWithFormat:@"%.2f",[[TerminalDict objectForKey:@"money"] floatValue]] floatValue];
                 
 
                 [_terminalList addObject:model];

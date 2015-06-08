@@ -49,6 +49,7 @@ static NSString *procurementThirdIdentifier = @"procurementThirdIdentifier";
 @interface OrderGoodModel : NSObject
 
 @property (nonatomic, strong) NSString *goodID;
+@property (nonatomic, assign) CGFloat good_opening_cost;
 
 @property (nonatomic, strong) NSString *goodName;
 

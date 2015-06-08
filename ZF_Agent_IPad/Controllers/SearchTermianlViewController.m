@@ -160,10 +160,24 @@
 
 - (void)setFooterView {
     if ([_historyItems count] > 0) {
-        UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 60)];
+        CGFloat width;
+        CGFloat height;
+        if(iOS7)
+        {
+            width = kScreenHeight;
+            height = kScreenWidth;
+        }
+        else
+        {
+            width = kScreenWidth;
+            height = kScreenHeight;
+        }
+        
+
+        UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, width, 60)];
         footerView.backgroundColor = [UIColor clearColor];
         UIButton *cleanButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        cleanButton.frame = CGRectMake((kScreenWidth - 120) / 2, 10, 120, 28);
+        cleanButton.frame = CGRectMake((width - 120) / 2, 10, 120, 28);
         cleanButton.layer.cornerRadius = 4;
         cleanButton.layer.masksToBounds = YES;
         cleanButton.layer.borderWidth = 1.f;

@@ -243,23 +243,23 @@
     //品牌型号
     originY += vSpace + 1;
     NSString *brandModel = [NSString stringWithFormat:@"%@%@",_detailModel.goodBrand,_detailModel.goodModel];
-    [self addLabelWithTitle:@"品   牌    型    号" content:brandModel offsetY:originY];
+    CGFloat brandHeight = [self addLabelWithTitle:@"品   牌    型    号" content:brandModel offsetY:originY];
     
     //外壳
-    originY += vSpace + labelHeight;
-    [self addLabelWithTitle:@"外   壳    类    型" content:_detailModel.goodMaterial offsetY:originY];
+    originY += vSpace + brandHeight;
+    CGFloat outTypeHeight =  [self addLabelWithTitle:@"外   壳    类    型" content:_detailModel.goodMaterial offsetY:originY];
     //电池
-    originY += vSpace + labelHeight;
-    [self addLabelWithTitle:@"电   池    信    息" content:_detailModel.goodBattery offsetY:originY];
+    originY += vSpace + outTypeHeight;
+    CGFloat batteyHeight=[self addLabelWithTitle:@"电   池    信    息" content:_detailModel.goodBattery offsetY:originY];
     //签购单
-    originY += vSpace +labelHeight;
-    [self addLabelWithTitle:@"签购单打印方式" content:_detailModel.goodSignWay offsetY:originY];
+    originY += vSpace +batteyHeight;
+    CGFloat signHeight = [self addLabelWithTitle:@"签购单打印方式" content:_detailModel.goodSignWay offsetY:originY];
     //加密卡
-    originY += vSpace + labelHeight;
-    [self addLabelWithTitle:@"加  密  卡  方 式" content:_detailModel.goodEncryptWay offsetY:originY];
+    originY += vSpace + signHeight;
+    CGFloat encryptHeight=[self addLabelWithTitle:@"加  密  卡  方 式" content:_detailModel.goodEncryptWay offsetY:originY];
     
     //支付通道信息
-    originY += labelHeight + 10;
+    originY += encryptHeight + 10;
     UILabel *cTitleLabel = [[UILabel alloc] initWithFrame:CGRectMake(leftSpace, originY, wide - leftSpace - rightSpace, labelHeight)];
     [self setLabels:cTitleLabel withTitle:@"支 付 通 道 信息" font:[UIFont systemFontOfSize:16.f]];
     [_mainScrollView addSubview:cTitleLabel];
@@ -273,9 +273,13 @@
     //支持区域
     originY += vSpace + 1;
     NSString *area = [_detailModel.defaultChannel.supportAreaItem componentsJoinedByString:@" "];
-    [self addLabelWithTitle:@"支持支付区域" content:area offsetY:originY];
+    NSString *titleString = @"支持支付区域";
+    if (!_detailModel.defaultChannel.supportType) {
+        titleString = @"不支持支付区域";
+    }
+    CGFloat areaHeight=[self addLabelWithTitle:titleString content:area offsetY:originY];
     //注销
-    originY += vSpace +labelHeight;
+    originY += vSpace +areaHeight;
     NSString *cancelString = nil;
     if (_detailModel.defaultChannel.canCanceled) {
         cancelString = @"支持";
@@ -287,36 +291,36 @@
     
     //标准手续费
     originY += labelHeight + 20;
-    CGFloat standFormHeight = [FormView heightWithRowCount:[_channelData.standRateItem count]
-                                                  hasTitle:YES];
-    FormView *standForm = [[FormView alloc] initWithFrame:CGRectMake(0, originY, wide, standFormHeight)];
-    [standForm setGoodDetailDataWithFormTitle:@"刷卡交易标准手续费"
-                                      content:_channelData.standRateItem
-                                   titleArray:[NSArray arrayWithObjects:@"商户类",@"费率",@"说明",nil]];
-    [_mainScrollView addSubview:standForm];
-    
-    //资金服务费
-    originY += standFormHeight + 10;
-    CGFloat dateFormHeight = [FormView heightWithRowCount:[_channelData.dateRateItem count]
-                                                 hasTitle:YES];
-    FormView *dateForm = [[FormView alloc] initWithFrame:CGRectMake(0, originY, wide, dateFormHeight)];
-    [dateForm setGoodDetailDataWithFormTitle:@"资金服务费"
-                                     content:_channelData.dateRateItem
-                                  titleArray:[NSArray arrayWithObjects:@"结算周",@"费率",@"说明", nil]];
-    [_mainScrollView addSubview:dateForm];
-    
-    //其它交易费率
-    originY += dateFormHeight + 10;
-    CGFloat otherFormHeight = [FormView heightWithRowCount:[_channelData.otherRateItem count]
-                                                  hasTitle:YES];
-    FormView *otherForm = [[FormView alloc] initWithFrame:CGRectMake(0, originY, wide-0, otherFormHeight)];
-    [otherForm setGoodDetailDataWithFormTitle:@"其它交易费率"
-                                      content:_channelData.otherRateItem
-                                   titleArray:[NSArray arrayWithObjects:@"交易类",@"费率",@"说明", nil]];
-    [_mainScrollView addSubview:otherForm];
-    
+//    CGFloat standFormHeight = [FormView heightWithRowCount:[_channelData.standRateItem count]
+//                                                  hasTitle:YES];
+//    FormView *standForm = [[FormView alloc] initWithFrame:CGRectMake(0, originY, wide, standFormHeight)];
+//    [standForm setGoodDetailDataWithFormTitle:@"刷卡交易标准手续费"
+//                                      content:_channelData.standRateItem
+//                                   titleArray:[NSArray arrayWithObjects:@"商户类",@"费率",@"说明",nil]];
+//    [_mainScrollView addSubview:standForm];
+//    
+//    //资金服务费
+//    originY += standFormHeight + 10;
+//    CGFloat dateFormHeight = [FormView heightWithRowCount:[_channelData.dateRateItem count]
+//                                                 hasTitle:YES];
+//    FormView *dateForm = [[FormView alloc] initWithFrame:CGRectMake(0, originY, wide, dateFormHeight)];
+//    [dateForm setGoodDetailDataWithFormTitle:@"资金服务费"
+//                                     content:_channelData.dateRateItem
+//                                  titleArray:[NSArray arrayWithObjects:@"结算周",@"费率",@"说明", nil]];
+//    [_mainScrollView addSubview:dateForm];
+//    
+//    //其它交易费率
+//    originY += dateFormHeight + 10;
+//    CGFloat otherFormHeight = [FormView heightWithRowCount:[_channelData.otherRateItem count]
+//                                                  hasTitle:YES];
+//    FormView *otherForm = [[FormView alloc] initWithFrame:CGRectMake(0, originY, wide-0, otherFormHeight)];
+//    [otherForm setGoodDetailDataWithFormTitle:@"其它交易费率"
+//                                      content:_channelData.otherRateItem
+//                                   titleArray:[NSArray arrayWithObjects:@"交易类",@"费率",@"说明", nil]];
+//    [_mainScrollView addSubview:otherForm];
+//    
     //申请开通条件
-    originY += otherFormHeight + 10;
+//    originY += otherFormHeight + 10;
     UILabel *openTitleLabel = [[UILabel alloc] initWithFrame:CGRectMake(leftSpace, originY, wide - leftSpace - rightSpace, labelHeight)];
     [self setLabels:openTitleLabel withTitle:@"申请开通条件" font:[UIFont systemFontOfSize:16.f]];
     
@@ -755,8 +759,20 @@
     topView = [self addRowsWithTitle:@"每月租金" content:[NSString stringWithFormat:@"￥%.2f",_goodDetail.leasePrice] topView:topView];
     topView = [self addRowsWithTitle:@"说明" content:_goodDetail.leaseDescription topView:topView];
     topView = [self addRowsWithTitle:@"租赁协议" content:_goodDetail.leaseProtocol topView:topView];
-    
-    _scrollView.contentSize = CGSizeMake(kScreenWidth, _viewHeight);
+    CGFloat width;
+    CGFloat height;
+    if(iOS7)
+    {
+        width = kScreenHeight;
+        height = kScreenWidth;
+    }
+    else
+    {
+        width = kScreenWidth;
+        height = kScreenHeight;
+    }
+
+    _scrollViewrent.contentSize = CGSizeMake(width, _viewHeight);
 }
 
 - (UIView *)addRowsWithTitle:(NSString *)title
@@ -844,11 +860,25 @@
                                                           attribute:NSLayoutAttributeNotAnAttribute
                                                          multiplier:1.0
                                                            constant:kLineHeight]];
+    CGFloat width;
+    CGFloat height;
+    if(iOS7)
+    {
+        width = kScreenHeight;
+        height = kScreenWidth;
+    }
+    else
+    {
+        width = kScreenWidth;
+        height = kScreenHeight;
+    }
+    
+
     //内容
     UIFont *font = [UIFont systemFontOfSize:16.f];
     CGFloat contentHeight = [self heightForContent:content
                                           withFont:font
-                                             width:kScreenWidth - 2 * leftSpace];
+                                             width:width - 2 * leftSpace];
     UILabel *contentLabel = [[UILabel alloc] init];
     contentLabel.translatesAutoresizingMaskIntoConstraints = NO;
     contentLabel.backgroundColor = [UIColor clearColor];
@@ -957,8 +987,21 @@
     UIView *topView = nil;
     topView = [self addRowsWithTitlematel:@"开通申请材料" content:_channelData.openInfo topView:topView];
 //    topView = [self addRowsWithTitlematel:@"对公开通" content:_channelData.publicInfo topView:topView];
+    CGFloat width;
+    CGFloat height;
+    if(iOS7)
+    {
+        width = kScreenHeight;
+        height = kScreenWidth;
+    }
+    else
+    {
+        width = kScreenWidth;
+        height = kScreenHeight;
+    }
     
-    _scrollViewmaterial.contentSize = CGSizeMake(kScreenWidth, _viewHeightmatel);
+
+    _scrollViewmaterial.contentSize = CGSizeMake(width, _viewHeightmatel);
 }
 
 - (UIView *)addRowsWithTitlematel:(NSString *)title
@@ -1046,11 +1089,25 @@
                                                           attribute:NSLayoutAttributeNotAnAttribute
                                                          multiplier:1.0
                                                            constant:kLineHeight]];
+    CGFloat width;
+    CGFloat height;
+    if(iOS7)
+    {
+        width = kScreenHeight;
+        height = kScreenWidth;
+    }
+    else
+    {
+        width = kScreenWidth;
+        height = kScreenHeight;
+    }
+    
+
     //内容
     UIFont *font = [UIFont systemFontOfSize:16.f];
     CGFloat contentHeight = [self heightForContent:content
                                           withFont:font
-                                             width:kScreenWidth - 2 * leftSpace];
+                                             width:width - 2 * leftSpace];
     UILabel *contentLabel = [[UILabel alloc] init];
     contentLabel.translatesAutoresizingMaskIntoConstraints = NO;
     contentLabel.backgroundColor = [UIColor clearColor];
@@ -1174,8 +1231,8 @@
     
     _scrollViewPicture = [[UIScrollView alloc] init];
     
-    _scrollViewPicture.frame=CGRectMake(0, 64, wide, height-64);
-    _scrollViewPicture.contentSize=CGSizeMake(wide, 450*count+64);
+    _scrollViewPicture.frame=CGRectMake(0, 70, wide, height-70);
+    _scrollViewPicture.contentSize=CGSizeMake(wide, 450*count+70);
     
     
     [self.view addSubview:_scrollViewPicture];
@@ -1201,10 +1258,27 @@
 
 #pragma mark - 交易费率
 - (void)initAndLayoutUIfl {
+    CGFloat wide;
+    CGFloat height;
+    if(iOS7)
+    {
+        wide=SCREEN_HEIGHT;
+        height=SCREEN_WIDTH;
+        
+        
+    }
+    else
+    {  wide=SCREEN_WIDTH;
+        height=SCREEN_HEIGHT;
+        
+    }
+    
+    
+
     _scrollView = [[UIScrollView alloc] init];
     _scrollView.translatesAutoresizingMaskIntoConstraints = NO;
-    _scrollView.backgroundColor = kColor(244, 243, 243, 1);
-    
+    _scrollView.backgroundColor = [UIColor whiteColor];
+//    _scrollView.frame=CGRectMake(0, 60, wide, height-80);
     [self.view addSubview:_scrollView];
     [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_scrollView
                                                           attribute:NSLayoutAttributeTop
@@ -1234,8 +1308,40 @@
                                                           attribute:NSLayoutAttributeBottom
                                                          multiplier:1.0
                                                            constant:0]];
-    [self initSubView];
+    CGFloat originY =10;
+
+    CGFloat standFormHeight = [FormView heightWithRowCount:[_channelData.standRateItem count]
+                                                  hasTitle:YES];
+    FormView *standForm = [[FormView alloc] initWithFrame:CGRectMake(0, 40, wide, standFormHeight)];
+    [standForm setGoodDetailDataWithFormTitle:@"刷卡交易标准手续费"
+                                      content:_channelData.standRateItem
+                                   titleArray:[NSArray arrayWithObjects:@"商户类",@"费率",@"说明",nil]];
+    [_scrollView addSubview:standForm];
     
+    //资金服务费
+    originY += standFormHeight + 50;
+    CGFloat dateFormHeight = [FormView heightWithRowCount:[_channelData.dateRateItem count]
+                                                 hasTitle:YES];
+    FormView *dateForm = [[FormView alloc] initWithFrame:CGRectMake(0, originY, wide, dateFormHeight)];
+    [dateForm setGoodDetailDataWithFormTitle:@"资金服务费"
+                                     content:_channelData.dateRateItem
+                                  titleArray:[NSArray arrayWithObjects:@"结算周",@"费率",@"说明", nil]];
+    [_scrollView addSubview:dateForm];
+    
+    //其它交易费率
+    originY += dateFormHeight + 10;
+    CGFloat otherFormHeight = [FormView heightWithRowCount:[_channelData.otherRateItem count]
+                                                  hasTitle:YES];
+    FormView *otherForm = [[FormView alloc] initWithFrame:CGRectMake(0, originY, wide-0, otherFormHeight)];
+    [otherForm setGoodDetailDataWithFormTitle:@"其它交易费率"
+                                      content:_channelData.otherRateItem
+                                   titleArray:[NSArray arrayWithObjects:@"交易类",@"费率",@"说明", nil]];
+    [_scrollView addSubview:otherForm];
+    originY += otherFormHeight + 10;
+    _scrollView.userInteractionEnabled=YES;
+
+    _scrollView.contentSize = CGSizeMake(wide, originY+80);
+
 }
 
 - (void)initSubView {
@@ -1388,7 +1494,8 @@
     yLine2.backgroundColor = kColor(204, 202, 203, 1);
     
     [_scrollView addSubview:yLine2];
-    _scrollView.contentSize = CGSizeMake(kScreenWidth, totalHeight);
+    
+    _scrollView.contentSize = CGSizeMake(wide, totalHeight);
 }
 
 - (UIView *)addRowsWithDate:(NSString *)date
@@ -1521,18 +1628,9 @@
     return rect.size.height > 20.f ? rect.size.height : 20.f;
 }
 
-- (void)addLabelWithTitle:(NSString *)title
-                  content:(NSString *)content
-                  offsetY:(CGFloat)offsetY {
-    CGFloat leftSpace = 40.f;
-    CGFloat titleLabelWidth = 120.f;
-    CGFloat labelHeight = 30.f;
-    CGFloat middleLeftSpace = leftSpace + titleLabelWidth + 5;
-    UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(leftSpace, offsetY, titleLabelWidth, labelHeight)];
-    [self setLabels:titleLabel withTitle:title font:[UIFont systemFontOfSize:16.f]];
-    titleLabel.textColor=[UIColor blackColor];
-    
-    [_mainScrollView addSubview:titleLabel];
+- (CGFloat)addLabelWithTitle:(NSString *)title
+                     content:(NSString *)content
+                     offsetY:(CGFloat)offsetY {
     CGFloat wide;
     CGFloat height;
     if(iOS7)
@@ -1548,10 +1646,28 @@
         
     }
 
+    CGFloat leftSpace = 40.f;
+    CGFloat titleLabelWidth = 120.f;
+    CGFloat labelHeight = 30.f;
+    CGFloat middleLeftSpace = leftSpace + titleLabelWidth + 5;
+    UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(leftSpace, offsetY, titleLabelWidth, labelHeight)];
+    [self setLabels:titleLabel withTitle:title font:[UIFont systemFontOfSize:16.f]];
+    titleLabel.textColor=[UIColor blackColor];
     
-    UILabel *contentLabel = [[UILabel alloc] initWithFrame:CGRectMake(middleLeftSpace, offsetY, wide - middleLeftSpace, labelHeight)];    contentLabel.textColor=[UIColor grayColor];
-
+    [_mainScrollView addSubview:titleLabel];
+    
+    CGFloat contentHeight = [self heightWithString:content
+                                             width:wide - middleLeftSpace
+                                          fontSize:16.f];
+    
+    
+    
+    UILabel *contentLabel = [[UILabel alloc] initWithFrame:CGRectMake(middleLeftSpace, offsetY+5, wide - middleLeftSpace-20, contentHeight)];
+    contentLabel.textColor=[UIColor grayColor];
+    contentLabel.numberOfLines = 0;
+    
     [self setLabels:contentLabel withTitle:content font:[UIFont systemFontOfSize:16.f]];
+    return contentHeight;
     
 }
 - (void)setLabels:(UILabel *)label withTitle:(NSString *)title font:(UIFont *)font{

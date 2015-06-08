@@ -756,9 +756,28 @@
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
     hud.labelText = @"加载中...";
     AppDelegate *delegate = [AppDelegate shareAppDelegate];
-        NSLog(@"%@-%@-%@-%d-%@-%@",delegate.userID,_goodDetail.goodID,_goodDetail.defaultChannel.channelID,_count,addressID,self.reviewField.text);
+    
+    
+    
+    NSString*idstring;
+    
+    
+    if([self isBlankString:agentUserIDs])
+    {
+        
+        idstring=delegate.agentUserID;
+        
+    }
+    else
+    {
+        
+        idstring=agentUserIDs;
+        
+        
+        
+    }
      int a=4;
-      [NetworkInterface createOrderFromGoodBuyWithAgentID:delegate.agentID token:delegate.token userID:delegate.agentUserID createUserID:delegate.userID belongID:delegate.agentUserID confirmType:a goodID:_goodDetail.goodID channelID:_goodDetail.defaultChannel.channelID count:_count addressID:addressID comment:self.reviewField.text needInvoice:0 invoiceType:0 invoiceInfo:nil finished:^(BOOL success, NSData *response) {
+      [NetworkInterface createOrderFromGoodBuyWithAgentID:delegate.agentID token:delegate.token userID:idstring createUserID:delegate.userID belongID:delegate.agentUserID confirmType:a goodID:_goodDetail.goodID channelID:_goodDetail.defaultChannel.channelID count:_count addressID:addressID comment:self.reviewField.text needInvoice:0 invoiceType:0 invoiceInfo:nil finished:^(BOOL success, NSData *response) {
             hud.customView = [[UIImageView alloc] init];
             hud.mode = MBProgressHUDModeCustomView;
             [hud hide:YES afterDelay:0.3f];
@@ -823,7 +842,7 @@
 
 - (void)updatPrice {
     self.payLabel.text = [NSString stringWithFormat:@"实付：￥%.2f",[self getSummaryPrice]];
-    self.deliveryLabel.text = [NSString stringWithFormat:@"(含配送费：￥%@)",@"0"];
+    self.deliveryLabel.text = [NSString stringWithFormat:@"(含开通费：￥%.2f)",_goodDetail.defaultChannel.openCost*_count];
 }
 
 //计算总价
@@ -840,6 +859,21 @@
     [self.navigationController pushViewController:descC animated:YES];
 }
 - (IBAction)ensureOrder:(id)sender {
+        if([self isBlankString:blankbutton.titleLabel.text])
+        {
+    
+    
+            MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+            hud.customView = [[UIImageView alloc] init];
+            hud.mode = MBProgressHUDModeCustomView;
+            [hud hide:YES afterDelay:1.f];
+            hud.labelText = @"请选择已有用户";
+            return;
+    
+            
+            
+        }
+
     if (!isneedpp) {
         MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
         hud.customView = [[UIImageView alloc] init];
@@ -2295,7 +2329,7 @@
             deliveryLabel.backgroundColor = [UIColor clearColor];
             deliveryLabel.font = [UIFont systemFontOfSize:16.f];
             deliveryLabel.adjustsFontSizeToFitWidth = YES;
-            deliveryLabel.text = [NSString stringWithFormat:@"配送费：￥%@",@"0"];
+            deliveryLabel.text = [NSString stringWithFormat:@"开通费：￥%.2f",_goodDetail.defaultChannel.openCost*_count];
             [cell.contentView addSubview:deliveryLabel];
             
             
@@ -2351,7 +2385,7 @@
             UILabel *actualPriceLabel = [[UILabel alloc] initWithFrame:CGRectMake(wide/2, 60, 130, 20)];
             actualPriceLabel.backgroundColor = [UIColor clearColor];
             actualPriceLabel.font = [UIFont systemFontOfSize:14.f];
-            actualPriceLabel.text =  [NSString stringWithFormat:@"￥%.2f",(_goodDetail.deposit*_count )];
+            actualPriceLabel.text =  [NSString stringWithFormat:@"￥%.2f",_goodDetail.deposit ];
             
             
             [cell.contentView addSubview:actualPriceLabel];

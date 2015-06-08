@@ -377,6 +377,20 @@
 
 -(void)initSubViews
 {
+    CGFloat width;
+    CGFloat height;
+    if(iOS7)
+    {
+        width = kScreenHeight;
+        height = kScreenWidth;
+    }
+    else
+    {
+        width = kScreenWidth;
+        height = kScreenHeight;
+    }
+    
+
     CGFloat topSpace = 30.f;
     CGFloat leftSpace = 70.f;
     CGFloat rightSpace = 70.f;
@@ -775,10 +789,10 @@
                                                              multiplier:1.0
                                                                constant:labelHeight * 2]];
 
-
+       
         
         RecordView *recordView = [[RecordView alloc] initWithRecords:self.records
-                                                               width:(kScreenWidth - leftSpace * 2)];
+                                                               width:(width - leftSpace * 2)];
         recordView.translatesAutoresizingMaskIntoConstraints = NO;
         _recordHeight = [recordView getHeight];
         [self.scrollView addSubview:recordView];
@@ -816,7 +830,7 @@
     }
     
   
-    self.scrollView.contentSize = CGSizeMake(kScreenWidth, 400 + rateHeight + openHeight + _recordHeight);
+    self.scrollView.contentSize = CGSizeMake(width, 400 + rateHeight + openHeight + _recordHeight);
     
     terminalTitleLabel.text = @"终端信息";
     openTitleLabel.text = @"开通详情";

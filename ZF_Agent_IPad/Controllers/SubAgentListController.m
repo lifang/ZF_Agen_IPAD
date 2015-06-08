@@ -263,7 +263,21 @@
 }
 
 - (void)setHeaderAndFooterView {
-    UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 5.f)];
+    CGFloat width;
+    CGFloat height;
+    if(iOS7)
+    {
+        width = kScreenHeight;
+        height = kScreenWidth;
+    }
+    else
+    {
+        width = kScreenWidth;
+        height = kScreenHeight;
+    }
+    
+
+    UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, width, 5.f)];
     headerView.backgroundColor = [UIColor clearColor];
     self.tableView.tableHeaderView = headerView;
 }
