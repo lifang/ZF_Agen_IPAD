@@ -1801,7 +1801,8 @@
         hud.labelText = @"请填写结算银行账号名";
         return;
     }
-    if (![_infoDict objectForKey:@"account_bank_num"]) {
+    if (![_infoDict objectForKey:@"account_bank_num"])
+    {
         MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
         hud.customView = [[UIImageView alloc] init];
         hud.mode = MBProgressHUDModeCustomView;
