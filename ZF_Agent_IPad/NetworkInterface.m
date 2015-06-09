@@ -34,8 +34,9 @@ static NSString *HTTP_GET  = @"GET";
     NetworkRequest *request = [[NetworkRequest alloc] initWithRequestURL:urlString
                                                               httpMethod:method
                                                                 finished:finish];
-    NSLog(@"url = %@,params = %@",urlString,params);
-    if ([method isEqualToString:HTTP_POST] && params) {
+//    NSLog(@"url = %@,params = %@",urlString,params);
+    if ([method isEqualToString:HTTP_POST] && params)
+    {
         NSData *postData = [NSJSONSerialization dataWithJSONObject:params
                                                            options:NSJSONWritingPrettyPrinted
                                                              error:nil];

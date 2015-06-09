@@ -1793,21 +1793,21 @@
         hud.labelText = @"请选择所在地";
         return;
     }
-    if (![_infoDict objectForKey:key_bank]) {
-        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
-        hud.customView = [[UIImageView alloc] init];
-        hud.mode = MBProgressHUDModeCustomView;
-        [hud hide:YES afterDelay:1.f];
-        hud.labelText = @"请填写结算银行账号名";
-        return;
-    }
+//    if (![_infoDict objectForKey:key_bank]) {
+//        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+//        hud.customView = [[UIImageView alloc] init];
+//        hud.mode = MBProgressHUDModeCustomView;
+//        [hud hide:YES afterDelay:1.f];
+//        hud.labelText = @"请填写结算银行账号名";
+//        return;
+//    }
     if (![_infoDict objectForKey:@"account_bank_num"])
     {
         MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
         hud.customView = [[UIImageView alloc] init];
         hud.mode = MBProgressHUDModeCustomView;
         [hud hide:YES afterDelay:1.f];
-        hud.labelText = @"请填写结算银行卡号";
+        hud.labelText = @"请填写结算银行账户";
         return;
     }
     if (![_infoDict objectForKey:key_bankAccount] || !_bankTitleName) {
