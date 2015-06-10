@@ -1810,7 +1810,7 @@
         hud.labelText = @"请填写结算银行账户";
         return;
     }
-    if (![_infoDict objectForKey:key_bankAccount] || !_bankTitleName) {
+    if ( [self isBlankString: _bankTitleName]) {
         MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
         hud.customView = [[UIImageView alloc] init];
         hud.mode = MBProgressHUDModeCustomView;
@@ -1897,8 +1897,18 @@
     [params setObject:[NSNumber numberWithInt:[[_infoDict objectForKey:key_location] intValue]] forKey:@"cityId"];
     [params setObject:[NSNumber numberWithInt:[_channelID intValue]] forKey:@"channel"];
     [params setObject:[NSNumber numberWithInt:[_billID intValue]] forKey:@"billingId"];
+    if( [self isBlankString:[_infoDict objectForKey:key_bankAccount]])
+    {
+        [params setObject:@"" forKey:@"bankCode"]; //银行代码
+
     
-    [params setObject:[_infoDict objectForKey:key_bankAccount] forKey:@"bankCode"]; //银行代码
+    }
+    else{
+    
+        [params setObject:[_infoDict objectForKey:key_bankAccount] forKey:@"bankCode"]; //银行代码
+
+    
+    }
     [params setObject:[_infoDict objectForKey:key_bank] forKey:@"bankName"];        //账户名
     [params setObject:[_infoDict objectForKey:@"account_bank_num"] forKey:@"bankNum"];       //卡号
     if (_bankTitleName) {
