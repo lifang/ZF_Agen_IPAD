@@ -531,8 +531,6 @@
         AddressSC.addressID=_addressId;
     }
     [self.navigationController pushViewController:AddressSC animated:YES];
-   
-
 }
 
 -(void)submitBtnClick:(id)sender
@@ -735,7 +733,6 @@
 
     [self bindingTerminals];
     //[self removePOSView];
-    
 }
 
 -(void)terminalBtnPressed:(id)sender
@@ -759,6 +756,7 @@
         width = SCREEN_WIDTH;
         height = SCREEN_HEIGHT;
     }
+    
     /*
     _findPosView = [[UIImageView alloc]init];
     _findPosView.frame = CGRectMake(0, 0, width, height);
@@ -2329,8 +2327,6 @@
             [UIView commitAnimations];
         }
     }
- 
-
 }
 
 -(void)textFieldDidEndEditing:(UITextField *)textField
@@ -2348,7 +2344,6 @@
         height = SCREEN_HEIGHT;
     }
     _findPosView.frame = CGRectMake(0, 0, width, height);
-
 }
 
 
@@ -2385,8 +2380,6 @@
         height = SCREEN_HEIGHT;
     }
     _findPosView.frame = CGRectMake(0, 0, width, height);
-
-
 }
 
 
@@ -2395,7 +2388,6 @@
 {
     [super viewDidAppear:animated];
     //[self firstLoadData];
-    
 }
 
 - (void)didReceiveMemoryWarning {
