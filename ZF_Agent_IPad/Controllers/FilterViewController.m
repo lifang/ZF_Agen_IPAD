@@ -382,14 +382,31 @@
     
     BOOL maxIsNumber = [RegularFormat isNumber:_highField.text];
     BOOL minIsNumber = [RegularFormat isNumber:_lowField.text];
-    if (!maxIsNumber || !minIsNumber) {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示信息"
-                                                        message:@"价格必须为正整数，可输入0查询所有数据"
-                                                       delegate:nil
-                                              cancelButtonTitle:@"确定"
-                                              otherButtonTitles:nil];
-        [alert show];
-        return;
+    
+    if(_highField.placeholder&&_lowField.placeholder)
+    {
+    
+    
+    }
+    else
+    
+    {
+    
+        if (!maxIsNumber || !minIsNumber)
+        {
+            
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示信息"
+                                                            message:@"价格必须为正整数，可输入0查询所有数据"
+                                                           delegate:nil
+                                                  cancelButtonTitle:@"确定"
+                                                  otherButtonTitles:nil];
+            [alert show];
+            return;
+
+    
+    
+        }
+       
     }
     if ([_highField.text intValue] < [_lowField.text intValue]) {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示信息"

@@ -513,7 +513,8 @@ static NSString *s_defaultTerminalNum = @"请选择终端号";
 #pragma mark 开始查询 开始统计
 -(void)startFind
 {
-    if ([_terminalField.text isEqualToString:s_defaultTerminalNum]) {
+    NSLog(@"!!!!!!!!%@",_terminalField.text);
+    if ([_terminalField.text isEqualToString:@""]) {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示信息"
                                                         message:@"请选择终端号"
                                                        delegate:nil
