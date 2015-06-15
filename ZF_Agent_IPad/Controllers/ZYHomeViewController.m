@@ -112,15 +112,11 @@
     UIImageView *imageView = (UIImageView *)[tap view];
     NSInteger index = imageView.tag - 1;
     GoodDetailViewController *detailC = [[GoodDetailViewController alloc] init];
-    
     detailC.hidesBottomBarWhenPushed =  YES ;
-    
     detailC.supplyType=2;
-    
     if (index >= 0 && index < [_pictureItem count]) {
         HomeImageModel *imageModel = [_pictureItem objectAtIndex:index];
         detailC.goodID = imageModel.goodId;
-        
         [self.navigationController pushViewController:detailC animated:YES];
     }
 }
@@ -206,12 +202,8 @@
         [button.imageView setContentMode:UIViewContentModeScaleAspectFit];
         [button setContentEdgeInsets:UIEdgeInsetsMake(0,0,10,0)];
         UILabel*lable=[[UILabel alloc]init];
-        
-        
         lable.text=[nameArray objectAtIndex:i];
         lable.textColor=[UIColor grayColor];
-        
-        
         
         if(i<4)
         {
@@ -275,14 +267,11 @@
 
             }
 
-            
-            
         }
         
         else
             
         {
-            
             
             if(iOS7)
             {
