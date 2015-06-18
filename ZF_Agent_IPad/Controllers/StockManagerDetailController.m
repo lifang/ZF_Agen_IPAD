@@ -485,6 +485,7 @@
 #pragma mark - 上下拉刷新重写
 
 - (void)pullDownToLoadData {
+    _searchAgentName = @"";
     [self firstLoadData];
 }
 

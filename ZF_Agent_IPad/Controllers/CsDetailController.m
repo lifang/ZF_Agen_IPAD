@@ -121,13 +121,16 @@
          WithStr:(NSString *)str{
     CGFloat leftSpace = 60.f;
     CGFloat rightSpce = 20.f;
+    NSString *str2 = @" 故障描述";
+    NSString *str3 = [[NSString alloc]init];
+    str3 = [str stringByAppendingString:str2];
     label.translatesAutoresizingMaskIntoConstraints = NO;
     label.backgroundColor = [UIColor clearColor];
     label.font = [UIFont systemFontOfSize:16.f];
     label.textColor = kColor(108, 108, 108, 1);
-    CGSize size = CGSizeMake(SCREEN_WIDTH - 400.f,MAXFLOAT); //设置一个行高上限
+    CGSize size = CGSizeMake(SCREEN_WIDTH - 80.f,MAXFLOAT); //设置一个行高上限
     NSDictionary *attribute = @{NSFontAttributeName: label.font};
-    CGSize labelsize = [str boundingRectWithSize:size options: NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin |NSStringDrawingUsesFontLeading attributes:attribute context:nil].size;
+    CGSize labelsize = [str3 boundingRectWithSize:size options:  NSStringDrawingUsesLineFragmentOrigin  attributes:attribute context:nil].size;
     label.numberOfLines = 0;
     [_scrollView addSubview:label];
     [self.view addConstraint:[NSLayoutConstraint constraintWithItem:label
@@ -157,7 +160,7 @@
                                                              toItem:nil
                                                           attribute:NSLayoutAttributeNotAnAttribute
                                                          multiplier:1.0
-                                                           constant:labelsize.height]];
+                                                           constant:labelsize.height + 1]];
 }
 
 - (void)layoutButton:(UIButton *)button position:(OperationBtnType)btnType
