@@ -671,7 +671,9 @@
 //    }
 //    firstLine.backgroundColor = [UIColor grayColor];
 //    [_mainScrollView addSubview:firstLine];
-//    
+//
+//    _mainScrollView.contentSize=CGSizeMake(wide, CGFloat height)
+    
 //    originY += handleView.frame.size.height+handleView.frame.origin.y;
     
 }

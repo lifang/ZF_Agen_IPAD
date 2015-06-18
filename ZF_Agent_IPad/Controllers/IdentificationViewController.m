@@ -127,12 +127,12 @@
     
     if(iOS7)
     {
-        _tableView = [[UITableView alloc] initWithFrame:CGRectMake(20, 28+40, SCREEN_HEIGHT-20*2, SCREEN_WIDTH-28)];
+        _tableView = [[UITableView alloc] initWithFrame:CGRectMake(20, 28+40, SCREEN_HEIGHT-20*2, SCREEN_WIDTH-28-100)];
         
     }else
     {
         
-        _tableView = [[UITableView alloc] initWithFrame:CGRectMake(20, 28+40, SCREEN_WIDTH-20*2, SCREEN_HEIGHT-28)];
+        _tableView = [[UITableView alloc] initWithFrame:CGRectMake(20, 28+40, SCREEN_WIDTH-20*2, SCREEN_HEIGHT-28-100)];
         
     }
     

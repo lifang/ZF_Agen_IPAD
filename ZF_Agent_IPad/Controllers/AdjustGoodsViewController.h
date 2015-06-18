@@ -20,7 +20,9 @@
     NSString*agentid;
     NSString*nextagentid;
     NSString*nextagentids;
-
+    UIDatePicker *datePicker;
+    NSInteger  numberint;
+    
     UIView*witeview;
     UIImageView*bigsview;
     NSInteger changeB;

@@ -20,6 +20,8 @@
     UIButton *cancelBtn;
     UIView*datepickviewend;
     UIButton *cancelBtnend;
+    NSInteger  numberint;
+    UIDatePicker *datePicker;
 
     BOOL changeD;
     BOOL changeagent;

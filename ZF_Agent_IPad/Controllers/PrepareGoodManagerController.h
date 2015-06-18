@@ -28,6 +28,8 @@
     NSInteger changeB;
     UIButton*nextagentbutton;
     BOOL changeagent;
+    NSInteger  numberint;
+    UIDatePicker *datePicker;
 
     UITextField*neworiginaltextfield;
     UILabel*namelable;
