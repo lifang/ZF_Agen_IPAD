@@ -161,7 +161,7 @@
     CGFloat mainBtnY = 60.f;
     if ([_dealStatus isEqualToString:@"1"]) {
         //已开通
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < 2; i++) {
             UIButton *button = [[UIButton alloc]init];
             button.titleLabel.font = [UIFont systemFontOfSize:17];
             [button setTitleColor:kMainColor forState:UIControlStateNormal];
@@ -173,19 +173,23 @@
             button.backgroundColor = [UIColor clearColor];
             button.tag = i + 3333;
             [button addTarget:self action:@selector(buttonClick:) forControlEvents:UIControlEventTouchUpInside];
-            button.frame = CGRectMake(mainBtnX - (i * 120), mainBtnY, mainBtnW, mainBtnH);
-            [self.scrollView addSubview:button];
-            if (i == 0) {
-                [button setTitle:@"找回POS密码" forState:UIControlStateNormal];
+            if (!_isHaveVideo) {
+                button.frame = CGRectMake(mainBtnX - ((i - 1) * 115), mainBtnY, mainBtnW, mainBtnH);
+            }else{
+                button.frame = CGRectMake(mainBtnX - (i * 115), mainBtnY, mainBtnW, mainBtnH);
             }
-            if (i == 1) {
+            [self.scrollView addSubview:button];
+//            if (i == 0) {
+//                [button setTitle:@"找回POS密码" forState:UIControlStateNormal];
+//            }
+            if (i == 0) {
                 if (_isHaveVideo) {
                     [button setTitle:@"视频认证" forState:UIControlStateNormal];
                 }else{
                     button.hidden = YES;
                 }
             }
-            if (i == 2) {
+            if (i == 1) {
                 if ([_appID isEqualToString:@""]) {
                     button.hidden = YES;
                 }else{
@@ -201,7 +205,7 @@
     }
     if ([_dealStatus isEqualToString:@"2"]) {
         //部分开通
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < 3; i++) {
             UIButton *button = [[UIButton alloc]init];
             button.titleLabel.font = [UIFont systemFontOfSize:17];
             [button setTitleColor:kMainColor forState:UIControlStateNormal];
@@ -223,24 +227,24 @@
                 button.frame = CGRectMake(mainBtnX - (i * 120), mainBtnY, mainBtnW, mainBtnH);
             }
             [self.scrollView addSubview:button];
+//            if (i == 0) {
+//                [button setTitle:@"找回POS密码" forState:UIControlStateNormal];
+//            }
             if (i == 0) {
-                [button setTitle:@"找回POS密码" forState:UIControlStateNormal];
-            }
-            if (i == 1) {
                 if (!_isHaveVideo) {
                     button.hidden = YES;
                 }else{
                     [button setTitle:@"视频认证" forState:UIControlStateNormal];
                 }
             }
-            if (i == 2) {
+            if (i == 1) {
                 if ([_appID isEqualToString:@""]) {
                     [button setTitle:@"申请开通" forState:UIControlStateNormal];
                 }else{
                     [button setTitle:@"重新申请开通" forState:UIControlStateNormal];
                 }
             }
-            if (i == 3) {
+            if (i == 2) {
                 if ([_appID isEqualToString:@""]) {
                     button.hidden = YES;
                 }else{
@@ -1276,26 +1280,28 @@
 -(void)buttonClick:(UIButton *)sender
 {
     switch (sender.tag) {
+//        case 3333:
+//            NSLog(@"点击了找回POS密码（已开通）");
+//            [self initFindPosViewWithSelectedID];
+//            break;
         case 3333:
-            NSLog(@"点击了找回POS密码（已开通）");
-            [self initFindPosViewWithSelectedID];
-            break;
-        case 3334:
         {
-            //            VideoAuthController *videoAuthC = [[VideoAuthController alloc] init];
-            //            videoAuthC.hidesBottomBarWhenPushed=YES;
-            //            videoAuthC.terminalID = self.tm_ID;
-            //            [self.navigationController pushViewController:videoAuthC animated:YES];
+            [self beginVideoAuthWithTerminalID:self.tm_ID];
+            
+            VideoAuthViewController *videoAuthC = [[VideoAuthViewController alloc] init];
+            videoAuthC.hidesBottomBarWhenPushed=YES;
+            videoAuthC.terminalID = self.tm_ID;
+            [self.navigationController pushViewController:videoAuthC animated:YES];
         }break;
-        case 3335:
+        case 3334:
         {
             [self getTerminalSynchronous:_tm_ID];
         }break;
+//        case 4444:
+//            NSLog(@"点击了找回POS密码（部分开通）");
+//            [self initFindPosViewWithSelectedID];
+//            break;
         case 4444:
-            NSLog(@"点击了找回POS密码（部分开通）");
-            [self initFindPosViewWithSelectedID];
-            break;
-        case 4445:
         {
             [self beginVideoAuthWithTerminalID:self.tm_ID];
 
@@ -1304,11 +1310,11 @@
             videoAuthC.terminalID = self.tm_ID;
             [self.navigationController pushViewController:videoAuthC animated:YES];
         }            break;
-        case 4446:
+        case 4445:
             NSLog(@"点击了重新申请通（部分开通）");
             [self pushApplyNewVCWithSelectedID:_tm_ID];
             break;
-        case 4447:
+        case 4446:
             NSLog(@"点击了同步（部分开通）");
             [self getTerminalSynchronous:_tm_ID];
             break;

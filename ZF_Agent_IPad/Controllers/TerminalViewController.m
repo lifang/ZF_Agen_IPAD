@@ -1634,19 +1634,22 @@
 #pragma mark terminalCell的代理
 -(void)terminalCellBtnClicked:(int)btnTag WithSelectedID:(NSString *)selectedID Withindex:(int)indexNum WithOpenstatus:(NSString *)openStatus WithAppid:(NSString *)appid
 {
+//    if (btnTag == 1000) {
+//        //已开通
+//        NSLog(@"点击了找回POS密码 信息ID为%@",selectedID);
+//        [self initFindPosViewWithSelectedID:selectedID WithIndexNum:indexNum];
+//    }
     if (btnTag == 1000) {
-        //已开通
-        NSLog(@"点击了找回POS密码 信息ID为%@",selectedID);
-        [self initFindPosViewWithSelectedID:selectedID WithIndexNum:indexNum];
+        //已开通视频认证
+        
+        [self beginVideoAuthWithTerminalID:selectedID];
+        
+                VideoAuthController *videoAuthC = [[VideoAuthController alloc] init];
+                videoAuthC.terminalID = selectedID;
+                videoAuthC.hidesBottomBarWhenPushed=YES;
+                [self.navigationController pushViewController:videoAuthC animated:YES];
     }
     if (btnTag == 1001) {
-        //已开通视频认证
-        //        VideoAuthController *videoAuthC = [[VideoAuthController alloc] init];
-        //        videoAuthC.terminalID = selectedID;
-        //        videoAuthC.hidesBottomBarWhenPushed=YES;
-        //        [self.navigationController pushViewController:videoAuthC animated:YES];
-    }
-    if (btnTag == 1002) {
         //同步
         [self getTerminalSynchronous:selectedID];
     }
@@ -1693,11 +1696,11 @@
         NSLog(@"点击了同步(未开通)");
         [self getTerminalSynchronous:selectedID];
     }
+//    if (btnTag == 3000) {
+//        NSLog(@"点击了找回POS密码（部分开通）");
+//        [self initFindPosViewWithSelectedID:selectedID WithIndexNum:indexNum];
+//    }
     if (btnTag == 3000) {
-        NSLog(@"点击了找回POS密码（部分开通）");
-        [self initFindPosViewWithSelectedID:selectedID WithIndexNum:indexNum];
-    }
-    if (btnTag == 3001) {
         //部分开通视频认证
         [self beginVideoAuthWithTerminalID:selectedID];
 
@@ -1705,12 +1708,12 @@
         videoAuthC.hidesBottomBarWhenPushed=YES;
         videoAuthC.terminalID = selectedID;
         [self.navigationController pushViewController:videoAuthC animated:YES];    }
-    if (btnTag == 3002) {
+    if (btnTag == 3001) {
         //部分开通重新申请开通
         NSLog(@"点击了重新申请开通");
         [self pushApplyNewVCWithSelectedID:selectedID];
     }
-    if (btnTag == 3003) {
+    if (btnTag == 3002) {
         NSLog(@"点击了同步（部分开通）");
         [self getTerminalSynchronous:selectedID];
     }

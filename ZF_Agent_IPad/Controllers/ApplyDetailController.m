@@ -1668,10 +1668,6 @@
     [_popViewController setPopoverContentSize:CGSizeMake(320, 300) animated:YES];
     [_popViewController presentPopoverFromRect:CGRectMake(120, 0, 0, 42) inView:birthdaybutton permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
     _popViewController.delegate = self;
-    
-
-
-    
 }
 
 -(void)chooseBirthday:(id)sender
