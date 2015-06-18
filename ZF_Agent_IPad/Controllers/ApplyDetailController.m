@@ -1253,6 +1253,8 @@
                 }
                 else if ([errorCode intValue] == RequestSuccess) {
                     hud.labelText = @"添加成功";
+                    [[NSNotificationCenter defaultCenter] postNotificationName:@"SQlist" object:nil userInfo:nil];
+
                     [self.navigationController popViewControllerAnimated:YES];
                 }
             }
