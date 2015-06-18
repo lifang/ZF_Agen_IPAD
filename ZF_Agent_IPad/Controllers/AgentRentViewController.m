@@ -18,9 +18,10 @@
 #import "POSAddressTableViewCell.h"
 #import "UserListViewController.h"
 #import "UserSelectViewController.h"
-@interface AgentRentViewController ()<UITextFieldDelegate,UIPickerViewDataSource,UIPickerViewDelegate,UIAlertViewDelegate,SelectedUserDelegatell>
+@interface AgentRentViewController ()<UITextFieldDelegate,UIPickerViewDataSource,UIPopoverPresentationControllerDelegate,UIPickerViewDelegate,UIAlertViewDelegate,UIActionSheetDelegate,UIPopoverControllerDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,SelectedUserDelegatell>
 
 @property (nonatomic, strong) UIButton *typeBtn;
+@property(nonatomic,strong) UIPopoverController *popViewController;
 
 @property (nonatomic, strong) UIView *detailFooterView;
 @property (nonatomic, strong) UIPickerView *pickerView;
@@ -1395,6 +1396,7 @@
         {
             _cityField = [UIButton buttonWithType:UIButtonTypeCustom];
             _cityField.frame = CGRectMake(140, i*50+60,280, 40);
+            _cityField.tag=10265;
             
             //            [_cityField setTitle:@"123" forState:UIControlStateNormal];
             [_cityField setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
@@ -1469,23 +1471,24 @@
 }
 -(void)cityclick:(UIButton*)send
 {    Okcityint=send.tag;
-    
-    if(send.tag==1023)
-    {
-        
-        locationBtn.userInteractionEnabled=NO;
-        
-    }else
-    {
-        _cityField.userInteractionEnabled=NO;
-        
-        
-    }
+//    
+//    if(send.tag==1023)
+//    {
+//        
+//        locationBtn.userInteractionEnabled=NO;
+//        
+//    }else
+//    {
+//        _cityField.userInteractionEnabled=NO;
+//        
+//        
+//    }
     [self.editingField resignFirstResponder];
 
     cityint=send.tag;
+    [self pickerDisplay:send];
 
-    [self initPickerView];
+//    [self initPickerView];
     
     
 }
@@ -1576,7 +1579,88 @@
     [self addAddress];
     
 }
+- (void)pickerDisplay:(UIButton*)sender {
+    //pickerView
+    CGFloat wide;
+    CGFloat height;
+    if(iOS7)
+    {
+        wide=SCREEN_HEIGHT;
+        height=SCREEN_WIDTH;
+        
+        
+    }
+    else
+    {  wide=SCREEN_WIDTH;
+        height=SCREEN_HEIGHT;
+        
+    }
+    UIViewController *sortViewController = [[UIViewController alloc] init];
+    UIView *theView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 276)];
+    
+    _toolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, 320, 60)];
+    UIBarButtonItem *cancelItem = [[UIBarButtonItem alloc] initWithTitle:@"取消" style:UIBarButtonItemStyleDone target:self action:@selector(pickerHide)];
+    UIBarButtonItem *finishItem = [[UIBarButtonItem alloc] initWithTitle:@"完成"
+                                                                   style:UIBarButtonItemStyleDone
+                                                                  target:self
+                                                                  action:@selector(modifyLocation:)];
+    UIBarButtonItem *spaceItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace
+                                                                               target:nil action:nil];
+    [_toolbar setItems:[NSArray arrayWithObjects:cancelItem,spaceItem,finishItem, nil]];
+    [theView addSubview:_toolbar];
+    
+    
+    //    _toolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, height - 340, wide, 44)];
+    //    UIBarButtonItem *cancelItem = [[UIBarButtonItem alloc] initWithTitle:@"取消"
+    //                                                                   style:UIBarButtonItemStyleDone
+    //                                                                  target:self
+    //                                                                  action:@selector(pickerScrollOut)];
+    //    UIBarButtonItem *finishItem = [[UIBarButtonItem alloc] initWithTitle:@"完成"
+    //                                                                   style:UIBarButtonItemStyleDone
+    //                                                                  target:self
+    //                                                                  action:@selector(modifyLocation:)];
+    //    UIBarButtonItem *spaceItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace
+    //                                                                               target:nil
+    //                                                                               action:nil];
+    //    [_toolbar setItems:[NSArray arrayWithObjects:cancelItem,spaceItem,finishItem, nil]];
+    //    [self.view addSubview:_toolbar];
+    _pickerView = [[UIPickerView alloc] initWithFrame:CGRectMake(0, 60, 320, 216)];
+    
+    //    _pickerView.backgroundColor = kColor(244, 243, 243, 1);
+    _pickerView.delegate = self;
+    _pickerView.dataSource = self;
+    
+    [theView addSubview:_pickerView];
+    
+    sortViewController.view = theView;
+    
+    _popViewController = [[UIPopoverController alloc] initWithContentViewController:sortViewController];
+    [_popViewController setPopoverContentSize:CGSizeMake(320, 300) animated:YES];
+    
+    
+    if(sender.tag==1023)
+    {
+        
+//        locationBtn.userInteractionEnabled=NO;
+        [_popViewController presentPopoverFromRect:CGRectMake(120, 0, 0, 42) inView:locationBtn permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
 
+    }else
+    {
+//        _cityField.userInteractionEnabled=NO;
+        [_popViewController presentPopoverFromRect:CGRectMake(120, 0, 0, 42) inView:_cityField permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+
+        
+    }
+
+    _popViewController.delegate = self;
+    
+}
+- (void)pickerHide
+{
+    
+    [_popViewController dismissPopoverAnimated:NO];
+    
+}
 - (void)initPickerView {
 
     //pickerView
@@ -1634,7 +1718,7 @@
     }
 }
 - (IBAction)modifyLocation:(id)sender {
-    [self pickerScrollOut];
+//    [self pickerScrollOut];
     NSInteger index = [_pickerView selectedRowInComponent:1];
     NSString *cityName = [[_cityArray objectAtIndex:index] objectForKey:@"name"];
     if(cityint==1023)
@@ -1651,6 +1735,7 @@
         
     }
 
+    [self pickerHide];
     
 }
 - (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component {
