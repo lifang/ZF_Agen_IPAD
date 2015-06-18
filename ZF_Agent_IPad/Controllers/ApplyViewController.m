@@ -15,6 +15,9 @@
 
 @interface ApplyViewController ()<UITextFieldDelegate,UITableViewDelegate,UITableViewDataSource,UIPickerViewDataSource,UIPickerViewDelegate>
 
+
+@property(nonatomic,strong)UIPopoverController *popViewController;
+
 @property(nonatomic,strong)UITextField *nameField;
 
 @property(nonatomic,strong)UITextField *phoneField;
@@ -81,7 +84,6 @@
     self.agentType = AgentTypeNone;
     [self setupNavBar];
     [self initAndLayoutUI];
-    [self initPickerView];
 }
 
 -(void)setupNavBar
@@ -765,7 +767,7 @@
         [self initAgentTableView];
     }else{
         //城市选择
-        [self pickerScrollIn];
+        [self initPickerView:_locationField];
     }
 }
 
@@ -1026,41 +1028,31 @@
 
 #pragma mark - 选择城市控件
 //选择城市
-- (void)initPickerView {
-    CGFloat width;
-    CGFloat height;
-    if(iOS7)
-    {
-        width = kScreenHeight;
-        height = kScreenWidth;
-    }
-    else
-    {
-        width = kScreenWidth;
-        height = kScreenHeight;
-    }
+- (void)pickerHide
+{
+    [_popViewController dismissPopoverAnimated:NO];
     
-
+}
+- (void)initPickerView:(id)sender {
+    UIViewController *sortViewController = [[UIViewController alloc] init];
+    UIView *theView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 276)];
+    
     //pickerView
-    _toolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, height, width, 44)];
-    UIBarButtonItem *cancelItem = [[UIBarButtonItem alloc] initWithTitle:@"取消"
-                                                                   style:UIBarButtonItemStyleDone
-                                                                  target:self
-                                                                  action:@selector(pickerScrollOut)];
+    _toolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, 320, 60)];
+    UIBarButtonItem *cancelItem = [[UIBarButtonItem alloc] initWithTitle:@"取消" style:UIBarButtonItemStyleDone target:self action:@selector(pickerHide)];
     UIBarButtonItem *finishItem = [[UIBarButtonItem alloc] initWithTitle:@"完成"
                                                                    style:UIBarButtonItemStyleDone
                                                                   target:self
                                                                   action:@selector(modifyLocation:)];
-    UIBarButtonItem *spaceItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace
-                                                                               target:nil
-                                                                               action:nil];
-    spaceItem.width = 830.f;
+    UIBarButtonItem *spaceItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace
+                                                                               target:nil action:nil];
     [_toolbar setItems:[NSArray arrayWithObjects:cancelItem,spaceItem,finishItem, nil]];
-    [self.view addSubview:_toolbar];
-    _pickerView = [[UIPickerView alloc] initWithFrame:CGRectMake(0, height, width, 216)];
-    _pickerView.backgroundColor = kColor(244, 243, 243, 1);
+    [theView addSubview:_toolbar];
+    
+    _pickerView = [[UIPickerView alloc] initWithFrame:CGRectMake(0, 60, 320, 216)];
     _pickerView.delegate = self;
     _pickerView.dataSource = self;
+    _pickerView.showsSelectionIndicator = YES;
     if (_isChange) {
         [_pickerView selectRow:[CityHandle getProvinceIndexWithCityID:_cityId] inComponent:0 animated:NO];
         [_pickerView reloadAllComponents];
@@ -1068,9 +1060,16 @@
     }else{
         
     }
+    [theView addSubview:_pickerView];
     
-    [self.view addSubview:_pickerView];
+    sortViewController.view = theView;
+    
+    _popViewController = [[UIPopoverController alloc] initWithContentViewController:sortViewController];
+    [_popViewController setPopoverContentSize:CGSizeMake(320, 300) animated:YES];
+    [_popViewController presentPopoverFromRect:CGRectMake(120, 0, 0, 42) inView:sender permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+    _popViewController.delegate = self;
 }
+
 - (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView {
     
     return 2;
@@ -1152,8 +1151,7 @@
 }
 
 - (void)modifyLocation:(id)sender {
-    
-    [self pickerScrollOut];
+    [_popViewController dismissPopoverAnimated:NO];
     [_locationField becomeFirstResponder];
     [_locationField resignFirstResponder];
     NSInteger index = [self.pickerView selectedRowInComponent:1];

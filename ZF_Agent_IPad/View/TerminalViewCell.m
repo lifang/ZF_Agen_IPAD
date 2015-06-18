@@ -95,7 +95,7 @@
     CGFloat mainBtnY = 20.f;
     
     if ([reuseIdentifier isEqualToString:@"cell-1"]) {
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < 2; i++) {
             UIButton *button = [[UIButton alloc]init];
             button.titleLabel.font = [UIFont systemFontOfSize:15];
             [button setTitleColor:kMainColor forState:UIControlStateNormal];
@@ -107,15 +107,23 @@
             button.backgroundColor = [UIColor clearColor];
             button.tag = i + 1000;
             [button addTarget:self action:@selector(buttonClick:) forControlEvents:UIControlEventTouchUpInside];
-            button.frame = CGRectMake(mainBtnX - (i * 115), mainBtnY, mainBtnW, mainBtnH);
+            if (!ishaveVideo) {
+                button.frame = CGRectMake(mainBtnX - ((i - 1) * 115), mainBtnY, mainBtnW, mainBtnH);
+            }else{
+                button.frame = CGRectMake(mainBtnX - (i * 115), mainBtnY, mainBtnW, mainBtnH);
+            }
             [self addSubview:button];
+//            if (i == 0) {
+//                [button setTitle:@"找回POS密码" forState:UIControlStateNormal];
+//            }
             if (i == 0) {
-                [button setTitle:@"找回POS密码" forState:UIControlStateNormal];
+                if (!ishaveVideo) {
+                    button.hidden = YES;
+                }else{
+                    [button setTitle:@"视频认证" forState:UIControlStateNormal];
+                }
             }
             if (i == 1) {
-                [button setTitle:@"视频认证" forState:UIControlStateNormal];
-            }
-            if (i == 2) {
                 if ([appid isEqualToString:@""]) {
                     button.hidden = YES;
                 }else{
@@ -174,7 +182,7 @@
         }
     }
     if ([reuseIdentifier isEqualToString:@"cell-2"]) {
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < 3; i++) {
             UIButton *button = [[UIButton alloc]init];
             button.titleLabel.font = [UIFont systemFontOfSize:15];
             [button setTitleColor:kMainColor forState:UIControlStateNormal];
@@ -196,24 +204,24 @@
                 button.frame = CGRectMake(mainBtnX - (i * 115), mainBtnY, mainBtnW, mainBtnH);
             }
             [self addSubview:button];
+//            if (i == 0) {
+//                [button setTitle:@"找回POS密码" forState:UIControlStateNormal];
+//            }
             if (i == 0) {
-                [button setTitle:@"找回POS密码" forState:UIControlStateNormal];
-            }
-            if (i == 1) {
                 if (!ishaveVideo) {
                     button.hidden = YES;
                 }else{
                     [button setTitle:@"视频认证" forState:UIControlStateNormal];
                 }
             }
-            if (i == 2) {
+            if (i == 1) {
                 if ([appid isEqualToString:@""]) {
                     [button setTitle:@"申请开通" forState:UIControlStateNormal];
                 }else{
                     [button setTitle:@"重新申请开通" forState:UIControlStateNormal];
                 }
             }
-            if (i == 3) {
+            if (i == 2) {
                 if ([appid isEqualToString:@""]) {
                     button.hidden = YES;
                 }else{
