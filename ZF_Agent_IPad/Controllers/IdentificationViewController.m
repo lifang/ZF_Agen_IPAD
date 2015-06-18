@@ -61,6 +61,8 @@
     self.view.backgroundColor=[UIColor whiteColor];
     touchStatus=100;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(pushtoNewApply:) name:@"newApply" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(SQresh) name:@"SQlist" object:nil];
+
     UIButton *searchBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     searchBtn.frame = CGRectMake(0, 0, 30, 30);
     [searchBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
@@ -77,6 +79,12 @@
     [self firstLoadData];
 }
 
+-(void)SQresh
+{
+    [self firstLoadData];
+    
+    
+}
 
 -(void)setupHeaderAndFooterView
 {
