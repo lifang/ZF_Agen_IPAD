@@ -441,7 +441,7 @@
 		0E5099961AE0AF48008CA305 /* NextAgentdetalViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NextAgentdetalViewController.m; sourceTree = "<group>"; };
 		0E5099981AE0D533008CA305 /* NextAgentpeopeleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NextAgentpeopeleViewController.h; sourceTree = "<group>"; };
 		0E5099991AE0D533008CA305 /* NextAgentpeopeleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NextAgentpeopeleViewController.m; sourceTree = "<group>"; };
-		0EBB49EC1B0B2D8400D71902 /* numberbackss.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = numberbackss.png; sourceTree = "<group>"; };
+		0EBB49EC1B0B2D8400D71902 /* numberbackss.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = numberbackss.png; path = Controllers/numberbackss.png; sourceTree = "<group>"; };
 		0EC65C071AD8B55400282C04 /* RecordModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RecordModel.h; sourceTree = "<group>"; };
 		0EC65C081AD8B55400282C04 /* RecordModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RecordModel.m; sourceTree = "<group>"; };
 		0EC65C0A1AD8B80800282C04 /* OrderModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderModel.h; sourceTree = "<group>"; };
@@ -1060,6 +1060,7 @@
 			isa = PBXGroup;
 			children = (
 				0D024F2B1AEF2A20005BB925 /* pad1@2x.png */,
+				0EBB49EC1B0B2D8400D71902 /* numberbackss.png */,
 				0D024F2D1AEF2A24005BB925 /* pad2@2x.png */,
 				0D024F2F1AEF2A29005BB925 /* pad3@2x.png */,
 				0D024F311AEF2A2F005BB925 /* pad4@2x.png */,
@@ -1174,7 +1175,6 @@
 			isa = PBXGroup;
 			children = (
 				1AABB8A11B06D70C001F5BCD /* AgreenMentController.h */,
-				0EBB49EC1B0B2D8400D71902 /* numberbackss.png */,
 				1AABB8A21B06D70C001F5BCD /* AgreenMentController.m */,
 				0D885FA31AD7D341002CDA15 /* IdentificationViewController.h */,
 				0D885FA41AD7D34A002CDA15 /* IdentificationViewController.m */,

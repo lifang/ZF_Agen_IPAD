@@ -7,6 +7,7 @@
 //
 
 #import "CommonViewController.h"
+#import "MobClick.h"
 
 static NSDictionary *s_mappingPlist = nil;
 
@@ -44,7 +45,11 @@ static NSDictionary *s_mappingPlist = nil;
     NSString *pageKey = [[self getMappingDictionary]objectForKey:NSStringFromClass(self.class)];
     
     
-    
+    NSLog(@"++++++++++++++++++++++++++++++++++++++++%@",pageKey);
+    if (pageKey) {
+        [MobClick beginLogPageView:pageKey];
+    }
+
 //    self.navigationController.navigationBarHidden = NO;
     ZYCustomTabBarViewController *tarbar=[[ZYCustomTabBarViewController alloc] init];
     tarbar.tabBarController.tabBar.hidden=YES;
@@ -67,6 +72,19 @@ static NSDictionary *s_mappingPlist = nil;
 
 - (void)handleKeyboardDidHidden {
     
+}
+- (void)viewDidDisappear:(BOOL)animated {
+    NSString *pageKey = [[self getMappingDictionary] objectForKey:NSStringFromClass(self.class)];
+    NSLog(@"========================================%@",pageKey);
+    if (pageKey) {
+        [MobClick endLogPageView:pageKey];
+    }
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:UIKeyboardDidShowNotification
+                                                  object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:UIKeyboardDidHideNotification
+                                                  object:nil];
 }
 
 - (void)didReceiveMemoryWarning {
