@@ -711,7 +711,7 @@
     if (sender.isOn) {
         [BPush bindChannel];
 
-        message = @"您已成功开启消息推送，请确保在iPhone的“设置”-“通知”中也开启推送通知！";
+        message = @"您已成功开启消息推送，请确保在iPad的“设置”-“通知”中也开启推送通知！";
     }
     else {
         [BPush unbindChannel];
