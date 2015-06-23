@@ -36,7 +36,28 @@
     // Do any additional setup after loading the view.
     self.title = @"选择银行";
     self.view.backgroundColor=[UIColor whiteColor];
+    shoppingButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    shoppingButton.frame = CGRectMake(0, 0, 30, 30);
+    [shoppingButton setImage:[UIImage imageNamed:@""] forState:UIControlStateNormal];
     
+    //    [shoppingButton setBackgroundImage:kImageName(@"good_right1.png") forState:UIControlStateNormal];
+    
+    
+    
+    //设置间距
+    shoppingButtons = [UIButton buttonWithType:UIButtonTypeCustom];
+    shoppingButtons.frame = CGRectMake(0, 0, 110, 30);
+    [shoppingButtons setTitle:@"使用我的输入" forState:UIControlStateNormal];
+    shoppingButtons.contentHorizontalAlignment=UIControlContentHorizontalAlignmentRight ;//设置文字位置，现设为居左，默认的是居中
+    
+    //    [shoppingButton setBackgroundImage:kImageName(@"good_right1.png") forState:UIControlStateNormal];
+    shoppingButtons.titleLabel.font=[UIFont systemFontOfSize:16.0];
+    
+    
+    UIBarButtonItem*shoppingItem = [[UIBarButtonItem alloc] initWithCustomView:shoppingButton];
+    UIBarButtonItem *shoppingItems= [[UIBarButtonItem alloc] initWithCustomView:shoppingButtons];
+    
+    self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:shoppingItem,shoppingItems,nil];
     //if (!_bankItems) {
     _bankItems = [[NSMutableArray alloc] init];
         //[self getBankList];
