@@ -118,7 +118,7 @@
     
     if([self isBlankString:urlString])
     {
-        urlString=@"http://g.hiphotos.baidu.com/image/w%3D2048/sign=b7641b0f6509c93d07f209f7ab05f9dc/d50735fae6cd7b89e0226b820d2442a7d9330e60.jpg";
+        urlString=@"";
 
     }
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];

@@ -1998,11 +1998,11 @@
 				0ED58EEA1AD4DA550081E8BC /* InterestView.m */,
 				0ED58EE61AD4DA480081E8BC /* PollingViews.h */,
 				0ED58EE71AD4DA480081E8BC /* PollingViews.m */,
-				0D1694381AD3C60800B50A17 /* TerminalViewCell.h */,
 				0D1694391AD3C60800B50A17 /* TerminalViewCell.m */,
 				0D885FA91AD7D4DB002CDA15 /* IdentificationViewCell.h */,
 				0D885FAA1AD7D4F6002CDA15 /* IdentificationViewCell.m */,
 				0D12AF881ADE063A00229D13 /* TerminalSelectCell.h */,
+				0D1694381AD3C60800B50A17 /* TerminalViewCell.h */,
 				0D12AF891ADE063A00229D13 /* TerminalSelectCell.m */,
 				0D1C66E31ADFE15500CAC1B8 /* AddressSelectCell.h */,
 				0D1C66E41ADFE15B00CAC1B8 /* AddressSelectCell.m */,
@@ -2688,8 +2688,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: SHANGHAI EPALMPAY NETWORK TECHNOLOGY CO., LTD.";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: SHANGHAI EPALMPAY NETWORK TECHNOLOGY CO., LTD.";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Sen Ye (FE46ZS29LM)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Sen Ye (FE46ZS29LM)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/ZF_Agent_IPad/Labrary",
@@ -2714,7 +2714,7 @@
 					"$(PROJECT_DIR)/ZF_Agent_IPad/Labrary/UnionPay",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "824c21c7-b090-4a45-b205-b69d5fb4fdbe";
+				PROVISIONING_PROFILE = "581e490b-dced-49f5-9ddc-6dcdc4bb4daa";
 				TARGETED_DEVICE_FAMILY = 2;
 			};
 			name = Debug;
@@ -2724,8 +2724,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: SHANGHAI EPALMPAY NETWORK TECHNOLOGY CO., LTD.";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: SHANGHAI EPALMPAY NETWORK TECHNOLOGY CO., LTD.";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Sen Ye (FE46ZS29LM)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Sen Ye (FE46ZS29LM)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/ZF_Agent_IPad/Labrary",
@@ -2750,7 +2750,7 @@
 					"$(PROJECT_DIR)/ZF_Agent_IPad/Labrary/UnionPay",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "824c21c7-b090-4a45-b205-b69d5fb4fdbe";
+				PROVISIONING_PROFILE = "581e490b-dced-49f5-9ddc-6dcdc4bb4daa";
 				TARGETED_DEVICE_FAMILY = 2;
 			};
 			name = Release;
