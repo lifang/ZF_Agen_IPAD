@@ -43,8 +43,14 @@
 - (void)uploadImageData:(NSData *)imageData
               imageName:(NSString *)imageName
                     key:(NSString *)key {
-    [_request setHTTPMethod:@"POST"];
     
+    NSLog(@"%f",(float)imageData.length / 1024 / 1024);
+    if ((float)imageData.length / 1024 / 1024 > 2) {
+        UIAlertView *alertV = [[UIAlertView alloc]initWithTitle:nil message:@"图片不能超过2M" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+        [alertV show];
+        return;
+    }
+    [_request setHTTPMethod:@"POST"];
     NSString *charset = (NSString *)CFStringConvertEncodingToIANACharSetName(CFStringConvertNSStringEncodingToEncoding(NSUTF8StringEncoding));
     CFUUIDRef uuid = CFUUIDCreate(nil);
     NSString *uuidString = (NSString*)CFBridgingRelease(CFUUIDCreateString(nil, uuid));
