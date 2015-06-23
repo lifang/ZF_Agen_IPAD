@@ -28,7 +28,7 @@
 @property(nonatomic,strong)NSString *cityName;
 @property(nonatomic,strong)NSString *cityId;
 @property (nonatomic, strong) NSMutableArray *pictureItem;
-
+@property (nonatomic, strong) NSString *downurl;
 
 @end
 
@@ -65,6 +65,7 @@
         rootview.backgroundColor=[UIColor whiteColor];
     }
     [self initNavigationView];
+    [self checkVersion];
 }
 //#pragma mark - Request
 
@@ -197,7 +198,7 @@
         button.tag=i+1000;
         
         [self.view addSubview:button];
-        [button setImage:[UIImage imageNamed:[NSString stringWithFormat:@"home%d",i+1]] forState:UIControlStateNormal];
+        [button setImage:[UIImage imageNamed:[NSString stringWithFormat:@"home%ld",i+1]] forState:UIControlStateNormal];
         [button addTarget:self action:@selector(tarbarClicked:) forControlEvents:UIControlEventTouchUpInside];
         [button.imageView setContentMode:UIViewContentModeScaleAspectFit];
         [button setContentEdgeInsets:UIEdgeInsetsMake(0,0,10,0)];
@@ -423,6 +424,59 @@
             break;
         default:
             break;
+    }
+}
+
+
+//检测版本
+-(void)checkVersion
+{
+    
+    [NetworkInterface checkVersionFinished:^(BOOL success, NSData *response) {
+        if (success) {
+            id object = [NSJSONSerialization JSONObjectWithData:response options:NSJSONReadingMutableLeaves error:nil];
+            NSLog(@"版本:%@",[[NSString alloc]initWithData:response encoding:NSUTF8StringEncoding]);
+            if ([object isKindOfClass:[NSDictionary class]])
+            {
+                
+              int errorCode = [[object objectForKey:@"code"] intValue];
+              if (errorCode == RequestSuccess)
+                {
+                    //成功
+                    [self parseappVersionWithDictionary:object];
+                }
+            }
+        }
+       
+    }];
+}
+
+-(void)parseappVersionWithDictionary:(NSDictionary*)dic
+{
+    if (![dic objectForKey:@"result"] || ![[dic objectForKey:@"result"]isKindOfClass:[NSDictionary class]])
+    {
+        return;
+    }
+    NSDictionary *info=[dic objectForKey:@"result"];
+    int versions=[[info objectForKey:@"versions"] intValue];
+    NSString *localVersion=[[[NSBundle mainBundle]infoDictionary]objectForKey:@"CFBundleVersion"];
+    _downurl=[info objectForKey:@"down_url"];
+    
+    if ([localVersion intValue] < versions)
+    {
+        // 有更新
+        UIAlertView *alertView=[[UIAlertView alloc]initWithTitle:@"提示信息" message:@"发现新版本,您确定要更新?" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+        
+        [alertView show];
+    }
+    
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (buttonIndex==!alertView.cancelButtonIndex)
+    {
+        [[UIApplication sharedApplication]openURL:[NSURL URLWithString:_downurl]];
     }
 }
 

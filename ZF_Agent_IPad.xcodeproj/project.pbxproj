@@ -441,7 +441,7 @@
 		0E5099961AE0AF48008CA305 /* NextAgentdetalViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NextAgentdetalViewController.m; sourceTree = "<group>"; };
 		0E5099981AE0D533008CA305 /* NextAgentpeopeleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NextAgentpeopeleViewController.h; sourceTree = "<group>"; };
 		0E5099991AE0D533008CA305 /* NextAgentpeopeleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NextAgentpeopeleViewController.m; sourceTree = "<group>"; };
-		0EBB49EC1B0B2D8400D71902 /* numberbackss.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = numberbackss.png; sourceTree = "<group>"; };
+		0EBB49EC1B0B2D8400D71902 /* numberbackss.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = numberbackss.png; path = Controllers/numberbackss.png; sourceTree = "<group>"; };
 		0EC65C071AD8B55400282C04 /* RecordModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RecordModel.h; sourceTree = "<group>"; };
 		0EC65C081AD8B55400282C04 /* RecordModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RecordModel.m; sourceTree = "<group>"; };
 		0EC65C0A1AD8B80800282C04 /* OrderModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderModel.h; sourceTree = "<group>"; };
@@ -1060,6 +1060,7 @@
 			isa = PBXGroup;
 			children = (
 				0D024F2B1AEF2A20005BB925 /* pad1@2x.png */,
+				0EBB49EC1B0B2D8400D71902 /* numberbackss.png */,
 				0D024F2D1AEF2A24005BB925 /* pad2@2x.png */,
 				0D024F2F1AEF2A29005BB925 /* pad3@2x.png */,
 				0D024F311AEF2A2F005BB925 /* pad4@2x.png */,
@@ -1174,7 +1175,6 @@
 			isa = PBXGroup;
 			children = (
 				1AABB8A11B06D70C001F5BCD /* AgreenMentController.h */,
-				0EBB49EC1B0B2D8400D71902 /* numberbackss.png */,
 				1AABB8A21B06D70C001F5BCD /* AgreenMentController.m */,
 				0D885FA31AD7D341002CDA15 /* IdentificationViewController.h */,
 				0D885FA41AD7D34A002CDA15 /* IdentificationViewController.m */,
@@ -1998,11 +1998,11 @@
 				0ED58EEA1AD4DA550081E8BC /* InterestView.m */,
 				0ED58EE61AD4DA480081E8BC /* PollingViews.h */,
 				0ED58EE71AD4DA480081E8BC /* PollingViews.m */,
-				0D1694381AD3C60800B50A17 /* TerminalViewCell.h */,
 				0D1694391AD3C60800B50A17 /* TerminalViewCell.m */,
 				0D885FA91AD7D4DB002CDA15 /* IdentificationViewCell.h */,
 				0D885FAA1AD7D4F6002CDA15 /* IdentificationViewCell.m */,
 				0D12AF881ADE063A00229D13 /* TerminalSelectCell.h */,
+				0D1694381AD3C60800B50A17 /* TerminalViewCell.h */,
 				0D12AF891ADE063A00229D13 /* TerminalSelectCell.m */,
 				0D1C66E31ADFE15500CAC1B8 /* AddressSelectCell.h */,
 				0D1C66E41ADFE15B00CAC1B8 /* AddressSelectCell.m */,
@@ -2688,8 +2688,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: SHANGHAI EPALMPAY NETWORK TECHNOLOGY CO., LTD.";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: SHANGHAI EPALMPAY NETWORK TECHNOLOGY CO., LTD.";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Sen Ye (FE46ZS29LM)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Sen Ye (FE46ZS29LM)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/ZF_Agent_IPad/Labrary",
@@ -2714,7 +2714,7 @@
 					"$(PROJECT_DIR)/ZF_Agent_IPad/Labrary/UnionPay",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "824c21c7-b090-4a45-b205-b69d5fb4fdbe";
+				PROVISIONING_PROFILE = "581e490b-dced-49f5-9ddc-6dcdc4bb4daa";
 				TARGETED_DEVICE_FAMILY = 2;
 			};
 			name = Debug;
@@ -2724,8 +2724,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: SHANGHAI EPALMPAY NETWORK TECHNOLOGY CO., LTD.";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: SHANGHAI EPALMPAY NETWORK TECHNOLOGY CO., LTD.";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Sen Ye (FE46ZS29LM)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Sen Ye (FE46ZS29LM)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/ZF_Agent_IPad/Labrary",
@@ -2750,7 +2750,7 @@
 					"$(PROJECT_DIR)/ZF_Agent_IPad/Labrary/UnionPay",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "824c21c7-b090-4a45-b205-b69d5fb4fdbe";
+				PROVISIONING_PROFILE = "581e490b-dced-49f5-9ddc-6dcdc4bb4daa";
 				TARGETED_DEVICE_FAMILY = 2;
 			};
 			name = Release;
