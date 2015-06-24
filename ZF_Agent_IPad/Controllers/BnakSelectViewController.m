@@ -52,7 +52,8 @@
     
     //    [shoppingButton setBackgroundImage:kImageName(@"good_right1.png") forState:UIControlStateNormal];
     shoppingButtons.titleLabel.font=[UIFont systemFontOfSize:16.0];
-    
+    [shoppingButtons addTarget:self action:@selector(goShoppingCart) forControlEvents:UIControlEventTouchUpInside];
+
     
     UIBarButtonItem*shoppingItem = [[UIBarButtonItem alloc] initWithCustomView:shoppingButton];
     UIBarButtonItem *shoppingItems= [[UIBarButtonItem alloc] initWithCustomView:shoppingButtons];
@@ -65,6 +66,46 @@
     
    // _searchItem = [[NSMutableArray alloc] init];
     [self initAndLayoutUI];
+}
+- (BOOL) isBlankString:(NSString *)string {
+    if (string == nil || string == NULL) {
+        return YES;
+    }
+    if ([string isKindOfClass:[NSNull class]]) {
+        return YES;
+    }
+    if ([[string stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]] length]==0) {
+        return YES;
+    }
+    return NO;
+}
+
+- (void)goShoppingCart
+{
+    if ([self isBlankString:_bankField.text])
+        
+    {
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:1.f];
+        hud.labelText = @"请输入银行名称";
+        return;
+    }
+
+    BankModel *model=[[BankModel alloc]init];
+    model.isSelected = YES;
+    model.bankName=_bankField.text;
+    model.bankCode=@"";
+
+    if (_delegate && [_delegate respondsToSelector:@selector(getSelectedBank:)])
+    {
+        [_delegate getSelectedBank:model];
+        
+    }
+    [self.navigationController popViewControllerAnimated:YES];
+    
+    
 }
 
 - (void)didReceiveMemoryWarning {

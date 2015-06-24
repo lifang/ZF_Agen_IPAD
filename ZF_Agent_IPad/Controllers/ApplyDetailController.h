@@ -30,7 +30,8 @@ typedef enum {
 }OpenStatus;
 
 @interface ApplyDetailController : ScanImageViewController
-{
+{    BOOL isopens;
+
     UIButton *accountnamebutton;
     NSInteger sexint;
     UIButton *sexBtn ;
