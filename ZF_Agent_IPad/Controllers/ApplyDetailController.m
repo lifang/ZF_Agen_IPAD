@@ -115,7 +115,8 @@
     self.view.backgroundColor=[UIColor whiteColor];
     _bankItems = [[NSMutableArray alloc] init];
     _channelItems = [[NSMutableArray alloc] init];
-    
+    _sexTableView = [[UITableView alloc]init];
+
    // keynamesarry=[NSArray arrayWithObjects:@"key_name",@"key_merchantName",@"key_sex",@"key_birth",@"key_cardID",@"key_phone",@"key_email",@"key_location",@"key_bank",@"key_bankID",@"key_bankAccount",@"key_taxID",@"key_organID",@"key_channel", nil];
     
      keynamesarry=[NSArray arrayWithObjects:@"key_name",@"key_merchantName",@"key_sex",@"key_birth",@"key_cardID",@"key_phone",@"key_email",@"key_location",@"key_bankAccountName",@"key_bank",@"account_bank_num",@"key_channel",@"key_taxID",@"key_organID", nil];
@@ -175,7 +176,6 @@
     if(sexint==102)
     {
        
-        _sexTableView = [[UITableView alloc]init];
         _sexTableView.tag = 1111;
         _sexTableView.delegate = self;
         _sexTableView.dataSource = self;
@@ -205,6 +205,18 @@
         [_sexTableView reloadData];
     }
 }
+//加密位数
+- (NSString *)serectString:(NSString *)string {
+    //倒数5-8位星号
+    NSInteger length = [string length];
+    if (length < 12) {
+        return string;
+    }
+    NSMutableString *encryptString = [NSMutableString stringWithString:string];
+    [encryptString replaceCharactersInRange:NSMakeRange(7, 5) withString:@"..."];
+    return encryptString;
+}
+
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if(sexint==102)
@@ -212,7 +224,8 @@
         
         [_infoDict setObject:[NSNumber numberWithInt:indexPath.row] forKey:key_sex];
         NSString *accountname=[NSString stringWithFormat:@"%@",[_infoDict objectForKey:key_sex]];
-        
+        isopens=!isopens;
+
         if([accountname isEqualToString:@"0"])
         {
             [sexBtn setTitle:@"女" forState:UIControlStateNormal];
@@ -681,34 +694,69 @@
         {
             
             
-            UITextField *neworiginaltextfield=[[UITextField alloc]init];
-            neworiginaltextfield.frame = CGRectMake(190+(wide/2-40)*row,  height*70+topSpace + labelHeight * 7,280, 40);
-            UIView *leftView = [[UIView alloc]init];
-            leftView.frame = CGRectMake(0, 0, 10, 40);
-            neworiginaltextfield.leftView =leftView;
-            neworiginaltextfield.delegate=self;
-            neworiginaltextfield.leftViewMode = UITextFieldViewModeAlways;
-            neworiginaltextfield.rightViewMode = UITextFieldViewModeAlways;
-
-            neworiginaltextfield.clearButtonMode = UITextFieldViewModeWhileEditing;
-            neworiginaltextfield.tag=i+1056;
-           
-            [_scrollView addSubview:neworiginaltextfield];
-            neworiginaltextfield.layer.masksToBounds=YES;
-            neworiginaltextfield.layer.borderWidth=1.0;
-            neworiginaltextfield.layer.borderColor=[UIColor grayColor].CGColor;
-            
-            
+//            UITextField *neworiginaltextfield=[[UITextField alloc]init];
+//            neworiginaltextfield.frame = CGRectMake(190+(wide/2-40)*row,  height*70+topSpace + labelHeight * 7,280, 40);
+//            
+//            
+//            
+//            UIView *leftView = [[UIView alloc]init];
+//            leftView.frame = CGRectMake(0, 0, 10, 40);
+//            neworiginaltextfield.leftView =leftView;
+//            neworiginaltextfield.delegate=self;
+//            neworiginaltextfield.leftViewMode = UITextFieldViewModeAlways;
+//            neworiginaltextfield.rightViewMode = UITextFieldViewModeAlways;
+////            neworiginaltextfield.enabled=NO;
+//
+//            neworiginaltextfield.clearButtonMode = UITextFieldViewModeWhileEditing;
+//            neworiginaltextfield.tag=i+1056;
+//           
+//            [_scrollView addSubview:neworiginaltextfield];
+//            neworiginaltextfield.layer.masksToBounds=YES;
+//            neworiginaltextfield.layer.borderWidth=1.0;
+//            neworiginaltextfield.layer.borderColor=[UIColor grayColor].CGColor;
+//            
+//            UIView *leftViews = [[UIView alloc]init];
+//
+//            leftViews.frame = CGRectMake(190+(wide/2-40)*row,  height*70+topSpace + labelHeight * 7,280-50, 40);
+//            [_scrollView addSubview:leftViews];
+////            leftViews.backgroundColor=[UIColor redColor];
+//            [neworiginaltextfield bringSubviewToFront:leftViews];
+//            
+////            leftViews.alpha=1;
+//            leftViews.userInteractionEnabled=NO;
             bankNameBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-            bankNameBtn.frame = CGRectMake(0,0,50, 40);
-            neworiginaltextfield.rightView =bankNameBtn;
+            bankNameBtn.frame = CGRectMake(190+(wide/2-40)*row,  height*70+topSpace + labelHeight * 7,280, 40);
+//            neworiginaltextfield.rightView =bankNameBtn;
+            
+            
+//            neworiginaltextfield.rightView.userInteractionEnabled=YES;
+            
+            
+//            bankNameBtn.userInteractionEnabled=YES;
 
             if(_bankTitleName)
                 
             {
-                neworiginaltextfield.text=_bankTitleName;
                 
-                
+                //                neworiginaltextfield.text=_bankTitleName;
+                NSDictionary *attr = [NSDictionary dictionaryWithObjectsAndKeys:
+                                      [UIFont systemFontOfSize:18.f],NSFontAttributeName,
+                                      nil];
+                CGRect rect = [_bankTitleName boundingRectWithSize:CGSizeMake(CGFLOAT_MAX, 40.0)
+                                                           options:NSStringDrawingUsesLineFragmentOrigin
+                                                        attributes:attr
+                                                           context:nil];
+                if(rect.size.width>280)
+                {
+                    
+                    
+                    [bankNameBtn setTitle:[NSString stringWithFormat:@"%@         ",_bankTitleName] forState:UIControlStateNormal];
+                    
+                }else
+                {
+                    [bankNameBtn setTitle:[self serectString:_bankTitleName] forState:UIControlStateNormal];
+                    
+                }
                 
                 
                 
@@ -716,13 +764,15 @@
             [bankNameBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
             bankNameBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
             [bankNameBtn setImage:kImageName(@"arrow_line1") forState:UIControlStateNormal];
-//            bankNameBtn.layer.masksToBounds=YES;
-//            bankNameBtn.layer.borderWidth=1.0;
-//            bankNameBtn.layer.borderColor=[UIColor grayColor].CGColor;
-//            bankNameBtn.contentEdgeInsets = UIEdgeInsetsMake(0,-40, 0, 0);
-//            bankNameBtn.imageEdgeInsets = UIEdgeInsetsMake(0,270,0,0);//设置image在button上的位置（上top，左left，下bottom，右right）这里可以写负值，对上写－5，那么image就象上移动5个像素
+            bankNameBtn.layer.masksToBounds=YES;
+            bankNameBtn.layer.borderWidth=1.0;
+            bankNameBtn.layer.borderColor=[UIColor grayColor].CGColor;
+            bankNameBtn.contentEdgeInsets = UIEdgeInsetsMake(0,-40, 0, 0);
+            bankNameBtn.imageEdgeInsets = UIEdgeInsetsMake(0,270,0,0);
             [bankNameBtn addTarget:self action:@selector(bankNameBtnclick) forControlEvents:UIControlEventTouchUpInside];
             [_scrollView addSubview:bankNameBtn];
+//                 bankNameBtn.userInteractionEnabled=YES;
+
         }
       
         else if(i==11)
@@ -1056,7 +1106,14 @@
    // [makeSureBtn removeFromSuperview];
     sexint=102;
     [self setupsexTableView];
+    isopens=!isopens;
     
+    if(!isopens)
+    {
+        [_sexTableView removeFromSuperview];
+        
+    }
+
 }
 
 
