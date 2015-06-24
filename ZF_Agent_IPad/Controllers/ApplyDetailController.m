@@ -1907,7 +1907,9 @@
 
     
     }
-    [params setObject:[_infoDict objectForKey:key_bank] forKey:@"bankName"];        //账户名
+    [params setObject:[_infoDict objectForKey:key_bank] forKey:@"bankName"];
+    
+    //账户名
     [params setObject:[_infoDict objectForKey:@"account_bank_num"] forKey:@"bankNum"];       //卡号
     if (_bankTitleName) {
         [params setObject:_bankTitleName forKey:@"bank_name"];
