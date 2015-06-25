@@ -41,6 +41,7 @@ typedef enum {
     UIButton  *locationbutton;
     NSArray  *keynamesarry;
     NSInteger pickint;
+    NSInteger  textint;
     
     UIButton *bankNameBtn ;
     //UITextField *bankIdTF;
