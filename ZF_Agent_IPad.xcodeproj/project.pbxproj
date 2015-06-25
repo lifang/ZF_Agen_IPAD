@@ -2714,7 +2714,7 @@
 					"$(PROJECT_DIR)/ZF_Agent_IPad/Labrary/UnionPay",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "824c21c7-b090-4a45-b205-b69d5fb4fdbe";
+				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = 2;
 			};
 			name = Debug;
@@ -2750,7 +2750,7 @@
 					"$(PROJECT_DIR)/ZF_Agent_IPad/Labrary/UnionPay",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "824c21c7-b090-4a45-b205-b69d5fb4fdbe";
+				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = 2;
 			};
 			name = Release;
