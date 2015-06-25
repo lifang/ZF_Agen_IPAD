@@ -66,6 +66,7 @@
 @property(nonatomic,strong)UIButton *privateBtn;
 @property (nonatomic, strong) UIView *scrollView;
 @property (nonatomic, strong) NSMutableArray *bankItems;//银行信息
+@property (nonatomic, strong) NSMutableArray *textarrys;//银行信息
 
 @property(nonatomic,assign)BOOL isChecked;
 @property(nonatomic,assign)CGFloat publicX;
@@ -116,6 +117,7 @@
     _bankItems = [[NSMutableArray alloc] init];
     _channelItems = [[NSMutableArray alloc] init];
     _sexTableView = [[UITableView alloc]init];
+    _textarrys = [[NSMutableArray alloc] init];
 
    // keynamesarry=[NSArray arrayWithObjects:@"key_name",@"key_merchantName",@"key_sex",@"key_birth",@"key_cardID",@"key_phone",@"key_email",@"key_location",@"key_bank",@"key_bankID",@"key_bankAccount",@"key_taxID",@"key_organID",@"key_channel", nil];
     
@@ -330,53 +332,69 @@
     privateBtn.frame = CGRectMake(CGRectGetMaxX(publicBtn.frame), 44, 120, 36);
     self.privateX = CGRectGetMaxX(publicBtn.frame);
     [headerView addSubview:privateBtn];
-    if (_applyData.openType==OpenTypePublic) {
-        [_publickBtn setBackgroundImage:[UIImage imageNamed:@"chose_Btn"] forState:UIControlStateNormal];
-        _publickBtn.titleLabel.font = [UIFont systemFontOfSize:22];
-        _publickBtn.frame = CGRectMake(_publicX, _privateY, 140, 40);
-        [_privateBtn setHidden:YES];
-        _publickBtn.center=CGPointMake(wide/2, _privateY);
+    
+    if (_applyData.openType == OpenTypeNone) {
 
-        _applyType=OpenApplyPublic;
+        [_privateBtn setHidden:YES];
+        [_publickBtn setHidden:YES];
+
         
     }
-    else if (_applyData.openType==OpenTypePrivate)
+    else
     {
     
-        [_privateBtn setBackgroundImage:[UIImage imageNamed:@"chose_Btn"] forState:UIControlStateNormal];
-        _privateBtn.titleLabel.font = [UIFont systemFontOfSize:22];
-        _privateBtn.frame = CGRectMake(_privateX, _privateY, 140, 40);
-        [_publickBtn setHidden:YES];
-        _privateBtn.center=CGPointMake(wide/2, _privateY);
-
-        _applyType=OpenApplyPrivate;
-
-    }
-    else if(_applyData.openType==OpenApplyAll)
-    {
-        if(_applyType==OpenApplyPublic)
-        {
+        if (_applyData.openType==OpenTypePublic) {
             [_publickBtn setBackgroundImage:[UIImage imageNamed:@"chose_Btn"] forState:UIControlStateNormal];
             _publickBtn.titleLabel.font = [UIFont systemFontOfSize:22];
             _publickBtn.frame = CGRectMake(_publicX, _privateY, 140, 40);
+            [_privateBtn setHidden:YES];
+            _publickBtn.center=CGPointMake(wide/2, _privateY);
             
-            [_privateBtn setBackgroundImage:nil forState:UIControlStateNormal];
-            _privateBtn.titleLabel.font = [UIFont systemFontOfSize:20];
-            _privateBtn.frame = CGRectMake(_privateX + 10, _privateY, 120, 36);
-        }else
+            _applyType=OpenApplyPublic;
+            
+        }
+        else if (_applyData.openType==OpenTypePrivate)
         {
+            
             [_privateBtn setBackgroundImage:[UIImage imageNamed:@"chose_Btn"] forState:UIControlStateNormal];
             _privateBtn.titleLabel.font = [UIFont systemFontOfSize:22];
             _privateBtn.frame = CGRectMake(_privateX, _privateY, 140, 40);
+            [_publickBtn setHidden:YES];
+            _privateBtn.center=CGPointMake(wide/2, _privateY);
             
-            [_publickBtn setBackgroundImage:nil forState:UIControlStateNormal];
-            _publickBtn.titleLabel.font = [UIFont systemFontOfSize:20];
-            _publickBtn.frame = CGRectMake(_publicX + 10, _privateY, 120, 36);
+            _applyType=OpenApplyPrivate;
             
         }
+        else if(_applyData.openType==OpenApplyAll)
+        {
+            if(_applyType==OpenApplyPublic)
+            {
+                [_publickBtn setBackgroundImage:[UIImage imageNamed:@"chose_Btn"] forState:UIControlStateNormal];
+                _publickBtn.titleLabel.font = [UIFont systemFontOfSize:22];
+                _publickBtn.frame = CGRectMake(_publicX, _privateY, 140, 40);
+                
+                [_privateBtn setBackgroundImage:nil forState:UIControlStateNormal];
+                _privateBtn.titleLabel.font = [UIFont systemFontOfSize:20];
+                _privateBtn.frame = CGRectMake(_privateX + 10, _privateY, 120, 36);
+            }else
+            {
+                [_privateBtn setBackgroundImage:[UIImage imageNamed:@"chose_Btn"] forState:UIControlStateNormal];
+                _privateBtn.titleLabel.font = [UIFont systemFontOfSize:22];
+                _privateBtn.frame = CGRectMake(_privateX, _privateY, 140, 40);
+                
+                [_publickBtn setBackgroundImage:nil forState:UIControlStateNormal];
+                _publickBtn.titleLabel.font = [UIFont systemFontOfSize:20];
+                _publickBtn.frame = CGRectMake(_publicX + 10, _privateY, 120, 36);
+                
+            }
+            
+        }
+
+    
+    
     
     }
-    /*
+       /*
     if(_applyType==OpenApplyPublic)
     {
         [_publickBtn setBackgroundImage:[UIImage imageNamed:@"chose_Btn"] forState:UIControlStateNormal];
@@ -779,52 +797,39 @@
         {
             
             
-            
-            UITextField *neworiginaltextfield=[[UITextField alloc]init];
-            neworiginaltextfield.frame = CGRectMake(190+(wide/2-40)*row,  height*70+topSpace + labelHeight * 7,280, 40);
-            UIView *leftView = [[UIView alloc]init];
-            leftView.frame = CGRectMake(0, 0, 10, 40);
-            neworiginaltextfield.leftView =leftView;
-            neworiginaltextfield.delegate=self;
-            neworiginaltextfield.leftViewMode = UITextFieldViewModeAlways;
-            neworiginaltextfield.rightViewMode = UITextFieldViewModeAlways;
-            
-            neworiginaltextfield.clearButtonMode = UITextFieldViewModeWhileEditing;
-            neworiginaltextfield.tag=i+1056;
-            
-            [_scrollView addSubview:neworiginaltextfield];
-            neworiginaltextfield.layer.masksToBounds=YES;
-            neworiginaltextfield.layer.borderWidth=1.0;
-            neworiginaltextfield.layer.borderColor=[UIColor grayColor].CGColor;
-
-            
-            
-            
             zhifubutton = [UIButton buttonWithType:UIButtonTypeCustom];
-            zhifubutton.frame = CGRectMake(0,0,50, 40);
-            NSString *accountname=[NSString stringWithFormat:@"%@",[_infoDict objectForKey:[keynamesarry objectAtIndex:i]]];
-            if ([self isBlankString:accountname])
-            {
-                neworiginaltextfield.text=@"";
-            }
-            else
-            {
-                neworiginaltextfield.text=accountname;
-
-            
-            }
-            neworiginaltextfield.rightView =zhifubutton;
-
             [zhifubutton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-            [zhifubutton setImage:kImageName(@"arrow_line") forState:UIControlStateNormal];
-//            zhifubutton.layer.masksToBounds=YES;
-//            zhifubutton.layer.borderWidth=1.0;
-//            zhifubutton.layer.borderColor=[UIColor grayColor].CGColor;
-//            zhifubutton.contentEdgeInsets = UIEdgeInsetsMake(0,-40, 0, 0);
-//            zhifubutton.imageEdgeInsets = UIEdgeInsetsMake(0,270,0,0);
+            zhifubutton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
+            [zhifubutton setImage:kImageName(@"arrow_line1") forState:UIControlStateNormal];
+            CALayer *layer=[zhifubutton  layer];
+            //是否设置边框以及是否可见
+            [layer setMasksToBounds:YES];
+            //设置边框圆角的弧度
+            
+            //设置边框线的宽
+            //
+            [layer setBorderWidth:1];
+            //设置边框线的颜色
+            [layer setBorderColor:[[UIColor grayColor] CGColor]];
+            zhifubutton.contentEdgeInsets = UIEdgeInsetsMake(0,-40, 0, 0);
+            zhifubutton.imageEdgeInsets = UIEdgeInsetsMake(0,270,0,0);//设置image在button上的位置（上top，左left，下bottom，右right）这里可以写负值，对上写－5，那么image就象上移动5个像素
+            
+            zhifubutton.frame = CGRectMake(190+(wide/2-40)*row,  height*70+topSpace + labelHeight * 6+20,280, 40);
+            
+            NSString*accountname=[NSString stringWithFormat:@"%@",[_infoDict objectForKey:@"key_channel"]];
+            if([self isBlankString:accountname])
+            {
+                [zhifubutton setTitle:@"" forState:UIControlStateNormal];
+                
+            }else
+            {
+                [zhifubutton setTitle:accountname forState:UIControlStateNormal];
+                
+            }
             
             [zhifubutton addTarget:self action:@selector(zhifuclick) forControlEvents:UIControlEventTouchUpInside];
             [_scrollView addSubview:zhifubutton];
+            
         }
    
         else
@@ -894,11 +899,14 @@
 
      }
     }
+    textint =0;
+    [_textarrys removeAllObjects];
     
     for(int i=0;i<textArray.count;i++)
     {
+    
         MaterialModel *model = [textArray objectAtIndex:i];
-       
+        
         textrow =i%2;
         textheight = i/2;
         
@@ -926,6 +934,9 @@
         }
         else if (model.materialType == MaterialText)
         {
+            textint++;
+            [_textarrys addObject:model.materialID];
+            
             //文本
             UILabel *textLB=[[UILabel alloc]initWithFrame:CGRectMake(40+(wide/2-40)*textrow,80+710+ textheight*70,140, 40)];
            
@@ -936,7 +947,11 @@
             
             UITextField *textTF=[[UITextField alloc] init];
             textTF.frame=CGRectMake(190+(wide/2-40)*textrow, 80+710+ textheight*70,280, 40);
-            textTF.tag=i+1056;
+            textTF.tag=[model.materialID integerValue]+999656;
+            if([_infoDict objectForKey:[_textarrys objectAtIndex:textint-1]])
+            {
+            textTF.text=[_infoDict objectForKey:[_textarrys objectAtIndex:textint-1]];
+            }
             [_scrollView addSubview:textTF];
             textTF.leftViewMode = UITextFieldViewModeAlways;
             UIView *leftView = [[UIView alloc]init];
@@ -1908,7 +1923,7 @@
         return;
     }
     for (MaterialModel *model in _applyData.materialList) {
-        if (![_infoDict objectForKey:model.materialID]) {
+        if ( [self isBlankString:[_infoDict objectForKey:model.materialID]]) {
             NSString *infoString = nil;
             if (model.materialType == MaterialText) {
                 infoString = [NSString stringWithFormat:@"请填写%@",model.materialName];
@@ -2011,8 +2026,29 @@
 
 
 #pragma mark - UITextFieldDelegate
+- (BOOL)textFieldShouldBeginEditing:(UITextField *)textField {
+    self.editingField = textField;
+
+//    CGRect keyboardRect = [[[paramNotification userInfo] objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
+    CGRect fieldRect = [[self.editingField superview] convertRect:self.editingField.frame toView:self.view];
+    CGFloat topHeight = self.navigationController.navigationBar.frame.size.height + [[UIApplication sharedApplication] statusBarFrame].size.height;
+    CGFloat offsetY = 400 - (kScreenHeight - topHeight - fieldRect.origin.y - fieldRect.size.height);
+    if (offsetY > 0 ) {
+        self.primaryPoint = self.tableView.contentOffset;
+        self.offset = offsetY;
+        [self.tableView setContentOffset:CGPointMake(0, self.primaryPoint.y + self.offset) animated:YES];
+    }
+
+    return YES;
+}
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
+    if (self.offset != 0) {
+        [self.tableView setContentOffset:CGPointMake(0, self.primaryPoint.y) animated:YES];
+        self.offset = 0;
+    }
+    self.editingField = nil;
+
     [textField resignFirstResponder];
     return YES;
 }
@@ -2034,11 +2070,28 @@
         _bankTitleName=textField.text;
     }
     
-    if (textField.text && ![textField.text isEqualToString:@""]) {
-        
-    [_infoDict setObject:textField.text forKey:[keynamesarry objectAtIndex:textField.tag-1056]];
+    if (textField.tag>=999656) {
+        for (int i=0; i<_textarrys.count; i++) {
+            if (textField.tag==[[_textarrys objectAtIndex:i] integerValue]+999656)
+            {
+                [_infoDict setObject:textField.text forKey:[_textarrys objectAtIndex:i]];
+                
+            }
+        }
+
     }
-//    if (nameTF==textField&&_applyType==OpenApplyPrivate) {
+    else
+    {
+    
+        if (textField.text && ![textField.text isEqualToString:@""]) {
+            
+            [_infoDict setObject:textField.text forKey:[keynamesarry objectAtIndex:textField.tag-1056]];
+        }
+
+    
+    }
+    
+    //    if (nameTF==textField&&_applyType==OpenApplyPrivate) {
 //        NSString *string=[NSString stringWithFormat:@"%@", nameTF.text];
 //        accountBankNameTF.text=string;
 //    }
@@ -2304,6 +2357,34 @@
 }
 
 
+#pragma mark - 键盘
+
+//- (void)handleKeyboardDidShow:(NSNotification *)paramNotification {
+//    //获取键盘高度
+//    CGRect keyboardRect = [[[paramNotification userInfo] objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
+//    CGRect fieldRect = [[self.editingField superview] convertRect:self.editingField.frame toView:self.view];
+//    CGFloat topHeight = self.navigationController.navigationBar.frame.size.height + [[UIApplication sharedApplication] statusBarFrame].size.height;
+//    CGFloat offsetY = keyboardRect.size.height - (kScreenHeight - topHeight - fieldRect.origin.y - fieldRect.size.height);
+//    if (offsetY > 0 && self.offset == 0) {
+//        self.primaryPoint = self.tableView.contentOffset;
+//        self.offset = offsetY;
+//        [self.tableView setContentOffset:CGPointMake(0, self.primaryPoint.y + self.offset) animated:YES];
+//    }
+//}
+//
+//- (void)handleKeyboardDidHidden {
+//    if (self.offset != 0) {
+//        [self.tableView setContentOffset:CGPointMake(0, self.primaryPoint.y) animated:YES];
+//        self.offset = 0;
+//    }
+//}
+
+- (void)scrollViewWillBeginDecelerating:(UIScrollView *)scrollView {
+    if (self.editingField) {
+        self.offset = 0;
+        [self.editingField resignFirstResponder];
+    }
+}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
