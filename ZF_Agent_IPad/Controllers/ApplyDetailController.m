@@ -1956,7 +1956,6 @@
 
     [params setObject:[NSString stringWithFormat:@"%@",[_infoDict objectForKey:key_merchantName]] forKey:@"merchantName"];
     
-    NSLog(@"%@",[_infoDict objectForKey:key_merchantName]);
     
     [params setObject:[_infoDict objectForKey:key_sex] forKey:@"sex"];
     [params setObject:[_infoDict objectForKey:key_birth] forKey:@"birthday"];
@@ -1967,7 +1966,7 @@
     [params setObject:[NSNumber numberWithInt:[[_infoDict objectForKey:key_location] intValue]] forKey:@"cityId"];
     [params setObject:[NSNumber numberWithInt:[_channelID intValue]] forKey:@"channel"];
     [params setObject:[NSNumber numberWithInt:[_billID intValue]] forKey:@"billingId"];
-    if( [self isBlankString:[_infoDict objectForKey:key_bankAccount]])
+    if( [self isBlankString:[_infoDict objectForKey:key_bankID]])
     {
         [params setObject:@"" forKey:@"bankCode"]; //银行代码
 
@@ -1975,7 +1974,7 @@
     }
     else{
     
-        [params setObject:[_infoDict objectForKey:key_bankAccount] forKey:@"bankCode"]; //银行代码
+        [params setObject:[_infoDict objectForKey:key_bankID] forKey:@"bankCode"]; //银行代码
 
     
     }
