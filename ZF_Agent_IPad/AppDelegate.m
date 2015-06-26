@@ -58,7 +58,7 @@
     }
 
     // 在 App 启动时注册百度云推送服务,需要提供 Apikey
-    [BPush registerChannel:launchOptions apiKey:@"7OqFwW72f3vKiAGzvqoMUOSc" pushMode:BPushModeProduction isDebug:NO];
+    [BPush registerChannel:launchOptions apiKey:@"7OqFwW72f3vKiAGzvqoMUOSc" pushMode:BPushModeDevelopment isDebug:NO];
     // 设置 BPush 的回调
     [BPush setDelegate:self];
     // App 是⽤用户点击推送消息启动
