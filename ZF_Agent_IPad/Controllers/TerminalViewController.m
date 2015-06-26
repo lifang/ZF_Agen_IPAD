@@ -14,7 +14,7 @@
 #import "NetworkInterface.h"
 #import "TerminalManagerModel.h"
 #import "TerminalDetailViewController.h"
-#import "ApplyDetailController.h"
+#import "ApplyDetailController.h" 
 #import "SearchTermianlViewController.h"
 #import "TerminalSelectViewController.h"
 #import "AddressSelectViewController.h"
@@ -2385,7 +2385,11 @@
     _findPosView.frame = CGRectMake(0, 0, width, height);
 }
 
+-(void)viewWillAppear:(BOOL)animated
+{
 
+    [self firstLoadData];
+}
 
 -(void)viewDidAppear:(BOOL)animated
 {
