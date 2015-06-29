@@ -81,6 +81,8 @@
 
 -(void)SQresh
 {
+    touchStatus=100;
+
     [self firstLoadData];
     
     

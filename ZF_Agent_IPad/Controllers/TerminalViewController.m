@@ -14,7 +14,7 @@
 #import "NetworkInterface.h"
 #import "TerminalManagerModel.h"
 #import "TerminalDetailViewController.h"
-#import "ApplyDetailController.h"
+#import "ApplyDetailController.h" 
 #import "SearchTermianlViewController.h"
 #import "TerminalSelectViewController.h"
 #import "AddressSelectViewController.h"
@@ -1143,7 +1143,17 @@
         //[_TerminalsArray addObject:model];
         [_TerminalsArray addObject:model.serial_num];
         if (i==0) {
-            _posTF.text=[NSString stringWithFormat:@"%@等",model.serial_num];
+            if (array.count>1) {
+                _posTF.text=[NSString stringWithFormat:@"%@等",model.serial_num];
+
+            }
+            else
+            {
+            
+                _posTF.text=[NSString stringWithFormat:@"%@",model.serial_num];
+
+            
+            }
         }
     }
     
@@ -2385,7 +2395,11 @@
     _findPosView.frame = CGRectMake(0, 0, width, height);
 }
 
+-(void)viewWillAppear:(BOOL)animated
+{
 
+    [self firstLoadData];
+}
 
 -(void)viewDidAppear:(BOOL)animated
 {

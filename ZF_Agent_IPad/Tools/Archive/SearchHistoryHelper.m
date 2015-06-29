@@ -17,6 +17,7 @@
     if (![fileManager fileExistsAtPath:historyDirectory]) {
         [fileManager createDirectoryAtPath:historyDirectory withIntermediateDirectories:YES attributes:nil error:nil];
     }
+
     return historyDirectory;
 }
 
