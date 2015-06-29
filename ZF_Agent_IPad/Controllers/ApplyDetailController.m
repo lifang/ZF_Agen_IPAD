@@ -2027,11 +2027,24 @@
 #pragma mark - UITextFieldDelegate
 - (BOOL)textFieldShouldBeginEditing:(UITextField *)textField {
     self.editingField = textField;
+    CGFloat wide;
+    CGFloat height;
+    if(iOS7)
+    {
+        wide=SCREEN_HEIGHT;
+        height=SCREEN_WIDTH;
+        
+    }
+    else
+    {  wide=SCREEN_WIDTH;
+        height=SCREEN_HEIGHT;
+        
+    }
 
 //    CGRect keyboardRect = [[[paramNotification userInfo] objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
     CGRect fieldRect = [[self.editingField superview] convertRect:self.editingField.frame toView:self.view];
     CGFloat topHeight = self.navigationController.navigationBar.frame.size.height + [[UIApplication sharedApplication] statusBarFrame].size.height;
-    CGFloat offsetY = 400 - (kScreenHeight - topHeight - fieldRect.origin.y - fieldRect.size.height);
+    CGFloat offsetY = 400 - (height - topHeight - fieldRect.origin.y - fieldRect.size.height);
     if (offsetY > 0 ) {
         self.primaryPoint = self.tableView.contentOffset;
         self.offset = offsetY;
