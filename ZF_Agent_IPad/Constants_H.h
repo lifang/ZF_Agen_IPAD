@@ -73,3 +73,8 @@
 
 //#define kMode_Production             @"00"  //YUFA
 //#define kUnionPayURL  @"http://121.40.224.25:9090/unionpay.do" //YUFA
+
+
+
+//#define kBaiduAPIKey  @"hOX57GFAtv3sbji8a4tmrzzb" //APPstore
+#define kBaiduAPIKey @"7OqFwW72f3vKiAGzvqoMUOSc" //zhangfu
