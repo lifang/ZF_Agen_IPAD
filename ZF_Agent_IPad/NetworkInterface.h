@@ -1662,6 +1662,7 @@ finished:(requestDidFinished)finish;
 + (void)getPersonModifyEmailValidateWithAgentID:(NSString *)agentID
                                           token:(NSString *)token
                                           email:(NSString *)email
+                                       userName:(NSString *)username
                                        finished:(requestDidFinished)finish;
 
 /*!
