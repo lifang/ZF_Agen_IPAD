@@ -383,7 +383,7 @@
     AppDelegate *delegate = [AppDelegate shareAppDelegate];
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
     hud.labelText = @"正在发送...";
-    [NetworkInterface getPersonModifyEmailValidateWithAgentID:delegate.agentUserID token:delegate.token email:_newsPhoneField.text finished:^(BOOL success, NSData *response) {
+    [NetworkInterface getPersonModifyEmailValidateWithAgentID:delegate.agentUserID token:delegate.token email:_newsPhoneField.text userName:_userName finished:^(BOOL success, NSData *response) {
         NSLog(@"%@",[[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding]);
         hud.customView = [[UIImageView alloc] init];
         hud.mode = MBProgressHUDModeCustomView;

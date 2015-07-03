@@ -20,5 +20,7 @@
 
 @property(nonatomic,strong)NSString *oldAuthCode;
 
+@property(nonatomic,strong)NSString *userName;
+
 @property(nonatomic,weak)id ChangeEmailSuccessDelegate;
 @end

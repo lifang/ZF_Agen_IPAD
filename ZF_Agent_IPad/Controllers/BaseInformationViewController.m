@@ -160,7 +160,12 @@
 #pragma mark - 创建label
     UILabel *agentTypeLable = [[UILabel alloc]init];
     self.secondLabel = agentTypeLable;
-    agentTypeLable.text = @"代理商类型:";
+   // AppDelegate *delegate = [AppDelegate shareAppDelegate];
+    //if (delegate.isFirstLevelAgent) {
+        agentTypeLable.text = @"合作伙伴类型:";
+    //}else{
+      //  agentTypeLable.text = @"代理商类型:";
+   // }
     [self setLabel:agentTypeLable withTopView:_mainScrollView middleSpace:100.f labelTag:1];
     
     UILabel *companyNameLabel = [[UILabel alloc]init];
@@ -770,11 +775,13 @@
 {
     if (_isEmialAdd) {
         AddMessageController *addVC = [[AddMessageController alloc]init];
+        addVC.userName = _principalNameField.text;
         addVC.hidesBottomBarWhenPushed = YES;
         addVC.isEmial = YES;
         [self.navigationController pushViewController:addVC animated:NO];
     }else{
         ChangeEmailController *changeEmailVC = [[ChangeEmailController alloc]init];
+        changeEmailVC.userName = _principalNameField.text;
         changeEmailVC.oldEmail = _authCodeField.text;
         changeEmailVC.hidesBottomBarWhenPushed = YES;
         [self.navigationController pushViewController:changeEmailVC animated:NO];

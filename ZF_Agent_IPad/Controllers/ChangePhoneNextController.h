@@ -10,4 +10,6 @@
 
 @interface ChangePhoneNextController : CommonViewController
 
+@property(nonatomic,strong)NSString *userName;
+
 @end

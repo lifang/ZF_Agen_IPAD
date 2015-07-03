@@ -10,4 +10,6 @@
 
 @interface ChangeEmailNextController : CommonViewController
 
+@property(nonatomic,strong)NSString *userName;
+
 @end
