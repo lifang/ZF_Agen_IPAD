@@ -127,6 +127,7 @@
                 if ([appid isEqualToString:@""]) {
                     button.hidden = YES;
                 }else{
+                    button.hidden = YES;
                     [button setTitle:@"同步" forState:UIControlStateNormal];
                 }
             }
@@ -173,6 +174,7 @@
                 if ([appid isEqualToString:@""]) {
                     button.hidden = YES;
                 }else{
+                    button.hidden = YES;
                     [button setTitle:@"同步" forState:UIControlStateNormal];
                 }
             }
@@ -225,6 +227,7 @@
                 if ([appid isEqualToString:@""]) {
                     button.hidden = YES;
                 }else{
+                    button.hidden = YES;
                     [button setTitle:@"同步" forState:UIControlStateNormal];
                 }
             }
@@ -297,6 +300,7 @@
                 if ([appid isEqualToString:@""]) {
                     button.hidden = YES;
                 }else{
+                    button.hidden = YES;
                     [button setTitle:@"同步" forState:UIControlStateNormal];
                 }
             }
