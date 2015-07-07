@@ -32,7 +32,7 @@
 #pragma mark - UI
 
 - (void)initAndLayoutUI {
-    CGFloat topSpace = 10.f;
+//    CGFloat topSpace = 10.f;
     CGFloat leftSpace = 20.f;
     CGFloat rightSpace = 20.f;
     CGFloat wide;

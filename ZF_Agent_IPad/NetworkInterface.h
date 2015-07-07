@@ -1267,15 +1267,15 @@ finished:(requestDidFinished)finish;
                                page:(int)page
                                rows:(int)rows
                            finished:(requestDidFinished)finish;
-/*!
- @abstract 45.地址列表
- @param token       登录返回
- @param userID   交易类型
- @result finish  请求回调结果
- */
-+ (void)getAddressListWithToken:(NSString *)token
-                         usedID:(NSString *)userID
-                       finished:(requestDidFinished)finish;
+///*!
+// @abstract 45.地址列表
+// @param token       登录返回
+// @param userID   交易类型
+// @result finish  请求回调结果
+// */
+//+ (void)getAddressListWithToken:(NSString *)token
+//                         usedID:(NSString *)userID
+//                       finished:(requestDidFinished)finish;
 /*!
  @abstract 47.选择代理商
  @param agentID     代理商ID

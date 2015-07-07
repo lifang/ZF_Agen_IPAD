@@ -13,7 +13,7 @@
 #import "ApplySuccessController.h"
 #import "ProtocolController.h"
 
-@interface ApplyViewController ()<UITextFieldDelegate,UITableViewDelegate,UITableViewDataSource,UIPickerViewDataSource,UIPickerViewDelegate>
+@interface ApplyViewController ()<UITextFieldDelegate,UITableViewDelegate,UITableViewDataSource,UIPickerViewDataSource,UIPopoverControllerDelegate,UIPickerViewDelegate>
 
 
 @property(nonatomic,strong)UIPopoverController *popViewController;

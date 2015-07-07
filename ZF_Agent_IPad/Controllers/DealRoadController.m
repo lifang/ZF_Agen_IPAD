@@ -501,16 +501,16 @@ static NSString *s_defaultTerminalNum = @"请选择终端号";
 
 -(void)setRefreshView
 {
-    _topRefreshView = [[RefreshView alloc] initWithFrame:CGRectMake(0, -80, self.view.bounds.size.width, 80)];
-    _topRefreshView.direction = PullFromTop;
-    _topRefreshView.delegate = self;
-    [self.tableView addSubview:_topRefreshView];
-    
-    _bottomRefreshView = [[RefreshView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 60)];
-    _bottomRefreshView.direction = PullFromBottom;
-    _bottomRefreshView.delegate = self;
-    _bottomRefreshView.hidden = YES;
-    [self.tableView addSubview:_bottomRefreshView];
+//    _topRefreshView = [[RefreshView alloc] initWithFrame:CGRectMake(0, -80, self.view.bounds.size.width, 80)];
+//    _topRefreshView.direction = PullFromTop;
+//    _topRefreshView.delegate = self;
+//    [self.tableView addSubview:_topRefreshView];
+//    
+//    _bottomRefreshView = [[RefreshView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 60)];
+//    _bottomRefreshView.direction = PullFromBottom;
+//    _bottomRefreshView.delegate = self;
+//    _bottomRefreshView.hidden = YES;
+//    [self.tableView addSubview:_bottomRefreshView];
 }
 
 #pragma mark 开始查询 开始统计

@@ -10,5 +10,9 @@
 
 @interface TerminalViewController : CommonViewController
 
+{    NSTimer * timer1;
+    NSInteger count;
+
+}
 
 @end

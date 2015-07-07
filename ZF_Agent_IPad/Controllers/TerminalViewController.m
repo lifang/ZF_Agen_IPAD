@@ -1040,6 +1040,8 @@
 
 -(void)leftBackClicked
 {
+    [timer1 invalidate];
+
    [_secondView removeFromSuperview];
 }
 
@@ -1503,7 +1505,11 @@
                 else if ([errorCode intValue] == RequestSuccess) {
                     [hud hide:YES];
                      hud.labelText = @"验证码已发送到您的手机";
-                    [self TimeCountStart];
+//                    [self TimeCountStart];
+                    timer1 = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(timerFireMethod:) userInfo:nil repeats:YES];
+                    count=0;
+                    _getcodeBtn.userInteractionEnabled = NO;
+
                 }
             }
             else {
@@ -1517,7 +1523,19 @@
     }];
 }
 
-
+- (void)timerFireMethod:(NSTimer *)timer
+{
+    count++;
+    [_getcodeBtn setTitle:[NSString stringWithFormat:@"%ld秒",60-count] forState:UIControlStateNormal];
+    if (count>60) {
+        count=0;
+        
+        _getcodeBtn.userInteractionEnabled = YES;
+        [_getcodeBtn setTitleColor:[UIColor colorWithHexString:@"006fd5"] forState:UIControlStateNormal];
+        [_getcodeBtn setTitle:@"获取验证码" forState:UIControlStateNormal];
+        [timer1 invalidate];
+    }
+}
 //同步
 - (void)getTerminalSynchronous:(NSString *)string {
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];

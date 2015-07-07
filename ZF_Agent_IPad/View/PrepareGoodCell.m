@@ -30,10 +30,10 @@
 #pragma mark - UI
 
 - (void)initAndLayoutUI {
-    CGFloat topSpace = 15;
-    CGFloat leftSpace = 20.f;
-    CGFloat rightSpace = 20.f;
-    CGFloat labelHeight = 30;
+//    CGFloat topSpace = 15;
+//    CGFloat leftSpace = 20.f;
+//    CGFloat rightSpace = 20.f;
+//    CGFloat labelHeight = 30;
     CGFloat wide;
     CGFloat height;
     if(iOS7)

@@ -26,7 +26,7 @@
 
 - (void)initAndLayoutUI {
     CGFloat leftSpace = 50.f;
-    CGFloat rightSpace = 10.f;
+//    CGFloat rightSpace = 10.f;
     CGFloat topSpace = 30.f;
     
     CGFloat hSpace = 20.f;   //距图片水平间距
@@ -34,10 +34,10 @@
     
     CGFloat pictureSize = 110.f;  //图片大小
     
-    CGFloat attrViewWidth = 30.f;
-    CGFloat attrViewHeight = 13.f;
-    
-    CGFloat priceWidth = 120.f;
+//    CGFloat attrViewWidth = 30.f;
+//    CGFloat attrViewHeight = 13.f;
+//    
+//    CGFloat priceWidth = 120.f;
     
     CGFloat wide;
     CGFloat height;
