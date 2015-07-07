@@ -14,7 +14,7 @@
 {
     NSString*namestring;
     UIButton *locationBtn;
-    NSInteger count;
+    NSInteger _countTime;
 
     UIButton *defaultbutton;
     BOOL defaultbool;

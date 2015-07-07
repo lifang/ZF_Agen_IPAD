@@ -18,7 +18,7 @@
 #import "POSAddressTableViewCell.h"
 #import "UserListViewController.h"
 #import "UserSelectViewController.h"
-@interface AgentRentViewController ()<UITextFieldDelegate,UIPickerViewDataSource,UIPopoverPresentationControllerDelegate,UIPickerViewDelegate,UIAlertViewDelegate,UIActionSheetDelegate,UIPopoverControllerDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,SelectedUserDelegatell>
+@interface AgentRentViewController ()<UITextFieldDelegate,UIPickerViewDataSource,UIPopoverPresentationControllerDelegate,UIPickerViewDelegate,UIAlertViewDelegate,UIActionSheetDelegate,UIPopoverControllerDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,SelectedUserDelegatell,SelectedUserDelegate>
 
 @property (nonatomic, strong) UIButton *typeBtn;
 @property(nonatomic,strong) UIPopoverController *popViewController;
@@ -625,7 +625,7 @@
                     hud.labelText = @"验证码已发送到您的手机";
                     timer1 = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(timerFireMethod:) userInfo:nil repeats:YES];
                     _getcodeBtn.userInteractionEnabled =NO;
-                    count=0;
+                    _countTime=0;
 
                     // if ([[object objectForKey:@"result"] isKindOfClass:[NSString class]]) {
                     //    _codeTV.text = [object objectForKey:@"result"];
@@ -644,10 +644,10 @@
 }
 - (void)timerFireMethod:(NSTimer *)timer
 {
-    count++;
-    [_getcodeBtn setTitle:[NSString stringWithFormat:@"%ld秒",60-count] forState:UIControlStateNormal];
-    if (count>60) {
-        count=0;
+    _countTime++;
+    [_getcodeBtn setTitle:[NSString stringWithFormat:@"%ld秒",60-_countTime] forState:UIControlStateNormal];
+    if (_countTime>60) {
+        _countTime=0;
         
         _getcodeBtn.userInteractionEnabled = YES;
         [_getcodeBtn setTitleColor:[UIColor colorWithHexString:@"006fd5"] forState:UIControlStateNormal];
